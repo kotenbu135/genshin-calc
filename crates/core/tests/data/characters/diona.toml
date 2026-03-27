@@ -1,0 +1,34 @@
+# Source: Cryo Bow support/shielder, Icy Paws Skill
+
+[character]
+name = "Diona"
+element = "Cryo"
+
+# Case 1: Icy Paws per paw (Skill Lv10: 75.46%) — no reaction
+[[cases]]
+type = "normal"
+name = "Icy Paws per paw Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.7546
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Cryo"
+
+[cases.stats]
+hp = 20000.0
+atk = 1200.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 597.371544
+crit = 1194.743088
+average = 896.057316

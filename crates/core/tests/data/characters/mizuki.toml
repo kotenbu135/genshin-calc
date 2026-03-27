@@ -1,0 +1,35 @@
+# Source: 5-star Anemo Catalyst, Aisa Utamakura Pilgrimage (Skill) at Talent Lv10
+# Wiki: Skill DMG = 106.66%
+
+[character]
+name = "Mizuki"
+element = "Anemo"
+
+# Case 1: Aisa Utamakura Pilgrimage (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Aisa Utamakura Pilgrimage Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 1.0666
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Anemo"
+
+[cases.stats]
+hp = 16000.0
+atk = 1800.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1266.544836
+crit = 2786.398639
+average = 2178.457118

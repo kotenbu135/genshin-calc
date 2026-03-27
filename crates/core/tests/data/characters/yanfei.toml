@@ -1,0 +1,67 @@
+# Source: 4-star Pyro Catalyst, Charged Attack with 3 Scarlet Seals at Talent Lv10
+# Wiki: 244.69% (3 seals)
+
+[character]
+name = "Yanfei"
+element = "Pyro"
+
+# Case 1: Charged Attack 3 seals — no reaction
+[[cases]]
+type = "normal"
+name = "Charged Attack 3 seals Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.4469
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Pyro"
+
+[cases.stats]
+hp = 15000.0
+atk = 1600.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2582.751888
+crit = 5682.054154
+average = 4442.333247
+
+# Case 2: Charged Attack 3 seals — Vaporize (Pyro trigger = 1.5x), EM 150
+[[cases]]
+type = "amplifying"
+name = "Charged Attack 3 seals Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 2.4469
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 1600.0
+def = 600.0
+elemental_mastery = 150.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4916.393191
+crit = 10816.065019
+average = 8456.196288

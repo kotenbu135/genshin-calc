@@ -1,0 +1,66 @@
+# Source: Hydro main DPS, ATK scaling melee stance, Vaporize synergy
+
+[character]
+name = "Tartaglia"
+element = "Hydro"
+
+# Case 1: Melee Stance Normal 1st Hit (Talent Lv10: 76.8%) — no reaction
+[[cases]]
+type = "normal"
+name = "Melee Stance NA 1st Hit Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.768
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Hydro"
+
+[cases.stats]
+hp = 18000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.65
+crit_dmg = 1.40
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 962.634240
+crit = 2310.322176
+average = 1838.631398
+
+# Case 2: Vaporize (Hydro trigger = 2.0x)
+[[cases]]
+type = "amplifying"
+name = "Melee Stance NA 1st Hit Lv10 — Vaporize (2.0x)"
+character_level = 90
+talent_multiplier = 0.768
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Hydro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.65
+crit_dmg = 1.40
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2282.084905
+crit = 5477.003772
+average = 4358.782168

@@ -1,0 +1,35 @@
+# Source: 4-star Geo Polearm, Turbo Twirly Mounted DMG (Skill) at Talent Lv10
+# Wiki: 208.43% DEF
+
+[character]
+name = "Kachina"
+element = "Geo"
+
+# Case 1: Turbo Twirly Mounted DMG (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Turbo Twirly Mounted Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.0843
+scaling_stat = "Def"
+damage_type = "Skill"
+element = "Geo"
+
+[cases.stats]
+hp = 16000.0
+atk = 800.0
+def = 2000.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2750.025420
+crit = 5500.050840
+average = 4262.539401

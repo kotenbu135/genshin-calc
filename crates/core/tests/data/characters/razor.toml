@@ -1,0 +1,32 @@
+# Source: Electro/Physical Claymore DPS, Normal Attack in Burst mode (PHYSICAL)
+
+[character]
+name = "Razor"
+
+# Case 1: Normal 1st (NA Lv10: 171.13%) — PHYSICAL, no element
+[[cases]]
+type = "normal"
+name = "Normal 1st — Physical"
+character_level = 90
+talent_multiplier = 1.7113
+scaling_stat = "Atk"
+damage_type = "Normal"
+
+[cases.stats]
+hp = 18000.0
+atk = 1600.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1806.311376
+crit = 3793.253890
+average = 2899.129758

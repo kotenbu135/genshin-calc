@@ -1,0 +1,35 @@
+# Source: 5-star Geo Sword, Tamoto Turret DMG (Skill) at Talent Lv10
+# Wiki: 155.952% ATK (+ 194.94% DEF, modelled as ATK-only)
+
+[character]
+name = "Chiori"
+element = "Geo"
+
+# Case 1: Tamoto Turret DMG (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Tamoto Turret DMG Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 1.55952
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Geo"
+
+[cases.stats]
+hp = 18000.0
+atk = 1900.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.65
+crit_dmg = 1.30
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1954.749154
+crit = 4495.923053
+average = 3606.512188

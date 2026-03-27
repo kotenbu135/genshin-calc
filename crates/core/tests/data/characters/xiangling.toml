@@ -1,0 +1,67 @@
+# Source: 4-star Pyro Polearm, Pyronado swing (Burst) at Talent Lv10
+# Wiki: 201.6%
+
+[character]
+name = "Xiangling"
+element = "Pyro"
+
+# Case 1: Pyronado swing (Burst) — no reaction
+[[cases]]
+type = "normal"
+name = "Pyronado swing Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.016
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Pyro"
+
+[cases.stats]
+hp = 16000.0
+atk = 1600.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.8
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2127.928320
+crit = 4468.649472
+average = 3415.324954
+
+# Case 2: Pyronado swing — Vaporize (Pyro trigger = 1.5x), EM 200
+[[cases]]
+type = "amplifying"
+name = "Pyronado swing Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 2.016
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 1600.0
+def = 700.0
+elemental_mastery = 200.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.8
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4301.075117
+crit = 9032.257745
+average = 6903.225562

@@ -1,0 +1,66 @@
+# Source: Cryo Bow DPS, Freeze Bomb Skill, Reverse Melt synergy
+
+[character]
+name = "Aloy"
+element = "Cryo"
+
+# Case 1: Freeze Bomb (Skill Lv10: 646.56%) — no reaction
+[[cases]]
+type = "normal"
+name = "Freeze Bomb Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 6.4656
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Cryo"
+
+[cases.stats]
+hp = 16000.0
+atk = 1800.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 7677.641376
+crit = 16890.811027
+average = 13205.543167
+
+# Case 2: Reverse Melt (Cryo trigger = 1.5x), EM 150
+[[cases]]
+type = "amplifying"
+name = "Freeze Bomb Lv10 — Melt (1.5x)"
+character_level = 90
+talent_multiplier = 6.4656
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Cryo"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 1800.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 14614.761858
+crit = 32152.476088
+average = 25137.390396

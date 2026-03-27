@@ -1,0 +1,66 @@
+# Source: Cryo Catalyst DPS, Normal Attack 1st hit, Reverse Melt synergy
+
+[character]
+name = "Wriothesley"
+element = "Cryo"
+
+# Case 1: Normal Attack 1st (Lv10: 105.48%) — no reaction
+[[cases]]
+type = "normal"
+name = "Normal Attack 1st Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 1.0548
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Cryo"
+
+[cases.stats]
+hp = 18000.0
+atk = 2000.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1391.703120
+crit = 3618.428112
+average = 2839.074365
+
+# Case 2: Reverse Melt (Cryo trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Normal Attack 1st Lv10 — Melt (1.5x)"
+character_level = 90
+talent_multiplier = 1.0548
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Cryo"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 2000.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2474.448147
+crit = 6433.565183
+average = 5047.874221

@@ -1,0 +1,35 @@
+# Source: 4-star Geo Claymore, Normal 1st Hit (Burst mode) at Talent Lv10
+# Wiki: Normal 1-Hit = 167.44%, Burst DEF bonus = 95% (modelled as DEF scaling)
+
+[character]
+name = "Noelle"
+element = "Geo"
+
+# Case 1: Normal 1st Hit Burst Mode (Normal) — DEF scaling, no reaction
+[[cases]]
+type = "normal"
+name = "Normal 1st Hit Burst Mode Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 1.6744
+scaling_stat = "Def"
+damage_type = "Normal"
+element = "Geo"
+
+[cases.stats]
+hp = 18000.0
+atk = 800.0
+def = 2200.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.00
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2430.123696
+crit = 4860.247392
+average = 3766.691729

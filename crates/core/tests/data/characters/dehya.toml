@@ -1,0 +1,67 @@
+# Source: 5-star Pyro Claymore, Incineration Drive kick (Skill) at Talent Lv10
+# Wiki: 250.74% ATK + 4.3% Max HP (ATK portion only for this test)
+
+[character]
+name = "Dehya"
+element = "Pyro"
+
+# Case 1: Incineration Drive kick (Skill, ATK scaling) — no reaction
+[[cases]]
+type = "normal"
+name = "Incineration Drive kick Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.5074
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Pyro"
+
+[cases.stats]
+hp = 20000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3142.850382
+crit = 6914.270840
+average = 5405.702657
+
+# Case 2: Incineration Drive kick — Vaporize (Pyro trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Incineration Drive kick Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 2.5074
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 20000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 5587.987979
+crit = 12293.573554
+average = 9611.339324

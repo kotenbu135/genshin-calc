@@ -1,0 +1,34 @@
+# Source: Cryo Catalyst support, Skill press Photo DMG
+
+[character]
+name = "Charlotte"
+element = "Cryo"
+
+# Case 1: Photo DMG press (Skill Lv10: 127.68%) — no reaction
+[[cases]]
+type = "normal"
+name = "Photo DMG press Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 1.2768
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Cryo"
+
+[cases.stats]
+hp = 15000.0
+atk = 1300.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1094.996448
+crit = 2189.992896
+average = 1642.494672

@@ -1,0 +1,66 @@
+# Source: Hydro main DPS, HP scaling, Vaporize synergy
+
+[character]
+name = "Mualani"
+element = "Hydro"
+
+# Case 1: Sharky's Surging Bite (Talent Lv10: 78.11% Max HP, 3 stacks) — no reaction
+[[cases]]
+type = "normal"
+name = "Sharky's Surging Bite Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.7811
+scaling_stat = "Hp"
+damage_type = "Normal"
+element = "Hydro"
+
+[cases.stats]
+hp = 35000.0
+atk = 900.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 18035.208450
+crit = 45088.021125
+average = 35619.536689
+
+# Case 2: Vaporize (Hydro trigger = 2.0x)
+[[cases]]
+type = "amplifying"
+name = "Sharky's Surging Bite Lv10 — Vaporize (2.0x)"
+character_level = 90
+talent_multiplier = 0.7811
+scaling_stat = "Hp"
+damage_type = "Normal"
+element = "Hydro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 35000.0
+atk = 900.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 45774.522608
+crit = 114436.306520
+average = 90404.682151

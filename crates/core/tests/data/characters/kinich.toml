@@ -1,0 +1,66 @@
+# Source: Dendro Skill DPS, Scalespiker Cannon, Spread synergy
+
+[character]
+name = "Kinich"
+element = "Dendro"
+
+# Case 1: Scalespiker Cannon Skill (no reaction)
+[[cases]]
+type = "normal"
+name = "Scalespiker Cannon Skill — no reaction"
+character_level = 90
+talent_multiplier = 12.3739
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+
+[cases.stats]
+hp = 18000.0
+atk = 2100.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 17142.429843
+crit = 44570.317592
+average = 34970.556880
+
+# Case 2: Spread
+[[cases]]
+type = "catalyze"
+name = "Scalespiker Cannon Skill — Spread"
+character_level = 90
+talent_multiplier = 12.3739
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 2100.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 18998.381170
+crit = 49395.791042
+average = 38756.697587

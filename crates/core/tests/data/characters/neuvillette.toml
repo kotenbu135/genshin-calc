@@ -1,0 +1,66 @@
+# Source: Hydro main DPS, HP scaling charged attack, Vaporize synergy
+
+[character]
+name = "Neuvillette"
+element = "Hydro"
+
+# Case 1: Equitable Judgment (Talent Lv10: 14.47% Max HP) — no reaction
+[[cases]]
+type = "normal"
+name = "Equitable Judgment Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.1447
+scaling_stat = "Hp"
+damage_type = "Charged"
+element = "Hydro"
+
+[cases.stats]
+hp = 40000.0
+atk = 900.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3818.343600
+crit = 8400.355920
+average = 6567.550992
+
+# Case 2: Vaporize (Hydro trigger = 2.0x)
+[[cases]]
+type = "amplifying"
+name = "Equitable Judgment Lv10 — Vaporize (2.0x)"
+character_level = 90
+talent_multiplier = 0.1447
+scaling_stat = "Hp"
+damage_type = "Charged"
+element = "Hydro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 40000.0
+atk = 900.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 9052.019894
+crit = 19914.443768
+average = 15569.474218

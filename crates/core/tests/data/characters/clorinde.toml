@@ -1,0 +1,37 @@
+# Source: Electro Sword DPS, Pistol Shot (Skill state Normal Attack)
+
+[character]
+name = "Clorinde"
+element = "Electro"
+
+# Case 1: Pistol Shot Normal 1 (Skill Lv10: 126%) — Aggravate
+[[cases]]
+type = "catalyze"
+name = "Pistol Shot Normal 1 — Aggravate"
+character_level = 90
+talent_multiplier = 1.26
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 2000.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3369.919221
+crit = 8424.798052
+average = 6655.590461

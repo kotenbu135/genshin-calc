@@ -1,0 +1,35 @@
+# Source: 4-star Geo Catalyst, Star Shatter per Gem (Burst) at Talent Lv10
+# Wiki: 206.53%
+
+[character]
+name = "Ningguang"
+element = "Geo"
+
+# Case 1: Star Shatter per Gem (Burst) — no reaction
+[[cases]]
+type = "normal"
+name = "Star Shatter per Gem Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.0653
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Geo"
+
+[cases.stats]
+hp = 14000.0
+atk = 1500.0
+def = 500.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2043.717615
+crit = 4087.435230
+average = 3065.576423

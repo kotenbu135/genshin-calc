@@ -1,0 +1,34 @@
+# Source: Electro Claymore support, Troubleshooter Cannon
+
+[character]
+name = "Dori"
+element = "Electro"
+
+# Case 1: Troubleshooter Shot (Skill Lv10: 279.832%) — no reaction
+[[cases]]
+type = "normal"
+name = "Troubleshooter Shot — no reaction"
+character_level = 90
+talent_multiplier = 2.79832
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Electro"
+
+[cases.stats]
+hp = 17000.0
+atk = 1300.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.8
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2399.867215
+crit = 4799.734430
+average = 3599.800823

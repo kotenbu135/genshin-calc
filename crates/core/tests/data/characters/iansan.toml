@@ -1,0 +1,34 @@
+# Source: Electro Polearm support/buffer, Thunderbolt Rush
+
+[character]
+name = "Iansan"
+element = "Electro"
+
+# Case 1: Thunderbolt Rush (Skill Lv10: 544.16%) — no reaction
+[[cases]]
+type = "normal"
+name = "Thunderbolt Rush — no reaction"
+character_level = 90
+talent_multiplier = 5.4416
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Electro"
+
+[cases.stats]
+hp = 17000.0
+atk = 1400.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 5025.752928
+crit = 10051.505856
+average = 7538.629392

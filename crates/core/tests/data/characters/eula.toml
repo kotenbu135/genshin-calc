@@ -1,0 +1,32 @@
+# Source: Physical Claymore DPS, Lightfall Sword explosion (PHYSICAL damage)
+
+[character]
+name = "Eula"
+
+# Case 1: Lightfall Sword explosion (Burst Lv10: 725.56%) — PHYSICAL
+[[cases]]
+type = "normal"
+name = "Lightfall Sword explosion Lv10 — Physical"
+character_level = 90
+talent_multiplier = 7.2556
+scaling_stat = "Atk"
+damage_type = "Burst"
+
+[cases.stats]
+hp = 20000.0
+atk = 2100.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.4
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 10051.690572
+crit = 26134.395487
+average = 20505.448767

@@ -1,0 +1,66 @@
+# Source: Cryo Polearm support, Frosty Parfait Skill, Reverse Melt synergy (v5.6)
+
+[character]
+name = "Escoffier"
+element = "Cryo"
+
+# Case 1: Frosty Parfait (Skill Lv10: 216%) — no reaction
+[[cases]]
+type = "normal"
+name = "Frosty Parfait Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.16
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Cryo"
+
+[cases.stats]
+hp = 18000.0
+atk = 1800.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2564.913600
+crit = 5642.809920
+average = 4411.651392
+
+# Case 2: Reverse Melt (Cryo trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Frosty Parfait Lv10 — Melt (1.5x)"
+character_level = 90
+talent_multiplier = 2.16
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Cryo"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 1800.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4560.416381
+crit = 10032.916038
+average = 7843.916175

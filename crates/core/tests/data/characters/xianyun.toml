@@ -1,0 +1,35 @@
+# Source: 5-star Anemo Catalyst, Driftcloud Wave (Skill plunge, base) at Talent Lv10
+# Wiki: White Clouds at Dawn Driftcloud Wave base = 220.4%
+
+[character]
+name = "Xianyun"
+element = "Anemo"
+
+# Case 1: Driftcloud Wave (Skill plunge) — no reaction
+[[cases]]
+type = "normal"
+name = "Driftcloud Wave Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.204
+scaling_stat = "Atk"
+damage_type = "Plunging"
+element = "Anemo"
+
+[cases.stats]
+hp = 16000.0
+atk = 1800.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2617.161840
+crit = 5757.756048
+average = 4501.518365

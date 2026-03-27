@@ -1,0 +1,66 @@
+# Source: Hydro sub-DPS, ATK scaling burst, Vaporize synergy
+
+[character]
+name = "Xingqiu"
+element = "Hydro"
+
+# Case 1: Raincutter Sword Rain (Talent Lv10: 97.7%) — no reaction
+[[cases]]
+type = "normal"
+name = "Raincutter Sword Rain Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.977
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Hydro"
+
+[cases.stats]
+hp = 16000.0
+atk = 1500.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 2.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 966.790350
+crit = 2030.259735
+average = 1551.698512
+
+# Case 2: Vaporize (Hydro trigger = 2.0x)
+[[cases]]
+type = "amplifying"
+name = "Raincutter Sword Rain Lv10 — Vaporize (2.0x)"
+character_level = 90
+talent_multiplier = 0.977
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Hydro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 1500.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 2.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2291.937656
+crit = 4813.069078
+average = 3678.559939

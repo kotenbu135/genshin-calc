@@ -1,0 +1,67 @@
+# Source: 5-star Dendro Sword, Razorgrass Blade (Skill) at Talent Lv10
+# Wiki: 414.72%
+
+[character]
+name = "Traveler (Dendro)"
+element = "Dendro"
+
+# Case 1: Razorgrass Blade (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Razorgrass Blade Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 4.1472
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+
+[cases.stats]
+hp = 16000.0
+atk = 1500.0
+def = 600.0
+elemental_mastery = 200.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4103.861760
+crit = 8618.109696
+average = 6586.698125
+
+# Case 2: Spread
+[[cases]]
+type = "catalyze"
+name = "Razorgrass Blade Lv10 — Spread"
+character_level = 90
+talent_multiplier = 4.1472
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 1500.0
+def = 600.0
+elemental_mastery = 200.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 6149.195876
+crit = 12913.311339
+average = 9869.459380

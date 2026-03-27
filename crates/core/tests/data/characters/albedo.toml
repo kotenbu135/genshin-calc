@@ -1,0 +1,35 @@
+# Source: 5-star Geo Sword, Transient Blossom (Skill) at Talent Lv10
+# Wiki: 136.8% DEF
+
+[character]
+name = "Albedo"
+element = "Geo"
+
+# Case 1: Transient Blossom (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Transient Blossom Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 1.368
+scaling_stat = "Def"
+damage_type = "Skill"
+element = "Geo"
+
+[cases.stats]
+hp = 20000.0
+atk = 1000.0
+def = 2300.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2075.680080
+crit = 4566.496176
+average = 3570.169738
