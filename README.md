@@ -1,0 +1,2 @@
+# genshin-calc
+genshin-calc
