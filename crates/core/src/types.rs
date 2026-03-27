@@ -19,3 +19,11 @@ pub enum DamageType {
     Skill,
     Burst,
 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
+pub enum ScalingStat {
+    #[default]
+    Atk,
+    Hp,
+    Def,
+}

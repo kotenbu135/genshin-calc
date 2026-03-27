@@ -6,13 +6,15 @@ use crate::error::CalcError;
 use crate::level_table::reaction_base_value;
 use crate::reaction::{Reaction, ReactionCategory, catalyze_coefficient};
 use crate::stats::Stats;
-use crate::types::{DamageType, Element};
+use crate::types::{DamageType, Element, ScalingStat};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct DamageInput {
     pub character_level: u32,
     pub stats: Stats,
     pub talent_multiplier: f64,
+    #[serde(default)]
+    pub scaling_stat: ScalingStat,
     pub damage_type: DamageType,
     pub element: Option<Element>,
     pub reaction: Option<Reaction>,
@@ -104,7 +106,12 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
         }
     }
 
-    let base = input.stats.atk * input.talent_multiplier + catalyze_flat;
+    let scaling_value = match input.scaling_stat {
+        ScalingStat::Atk => input.stats.atk,
+        ScalingStat::Hp => input.stats.hp,
+        ScalingStat::Def => input.stats.def,
+    };
+    let base = scaling_value * input.talent_multiplier + catalyze_flat;
     let non_crit = base
         * (1.0 + input.stats.dmg_bonus)
         * defense_multiplier(input.character_level, enemy)
@@ -138,6 +145,7 @@ mod tests {
                 ..Stats::default()
             },
             talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Skill,
             element: Some(Element::Pyro),
             reaction: None,
@@ -467,6 +475,7 @@ mod tests {
                 ..Stats::default()
             },
             talent_multiplier: 1.077,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Normal,
             element: None, // physical
             reaction: None,
@@ -497,6 +506,7 @@ mod tests {
                 ..Stats::default()
             },
             talent_multiplier: 1.5104,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Skill,
             element: Some(Element::Pyro),
             reaction: None,
@@ -526,6 +536,7 @@ mod tests {
                 ..Stats::default()
             },
             talent_multiplier: 3.9616,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Charged,
             element: Some(Element::Cryo),
             reaction: None,
@@ -556,6 +567,7 @@ mod tests {
                 ..Stats::default()
             },
             talent_multiplier: 6.4128,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Burst,
             element: Some(Element::Electro),
             reaction: None,
@@ -765,6 +777,7 @@ mod tests {
                 ..Stats::default()
             },
             talent_multiplier: 1.5104,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Skill,
             element: Some(Element::Pyro),
             reaction: Some(Reaction::Vaporize),
@@ -795,6 +808,7 @@ mod tests {
                 ..Stats::default()
             },
             talent_multiplier: 1.2,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Skill,
             element: Some(Element::Electro),
             reaction: Some(Reaction::Aggravate),
@@ -805,5 +819,100 @@ mod tests {
         assert!((result.non_crit - 2894.935).abs() < 0.1);
         assert!((result.crit - 6947.845).abs() < 0.1);
         assert_eq!(result.reaction, Some(Reaction::Aggravate));
+    }
+
+    // =====================================================================
+    // ScalingStat tests
+    // =====================================================================
+
+    #[test]
+    fn test_scaling_stat_atk_matches_default_behavior() {
+        let input = DamageInput {
+            scaling_stat: ScalingStat::Atk,
+            ..valid_input()
+        };
+        let result = calculate_damage(&input, &valid_enemy()).unwrap();
+        let expected_non_crit = 2000.0 * 1.76 * 1.466 * 0.5 * 0.9;
+        assert!((result.non_crit - expected_non_crit).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_scaling_stat_hp() {
+        let input = DamageInput {
+            stats: Stats {
+                hp: 30000.0,
+                atk: 1200.0,
+                crit_rate: 0.5,
+                crit_dmg: 1.0,
+                dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            talent_multiplier: 0.10,
+            scaling_stat: ScalingStat::Hp,
+            ..valid_input()
+        };
+        let result = calculate_damage(&input, &valid_enemy()).unwrap();
+        let expected_non_crit = 30000.0 * 0.10 * 1.466 * 0.5 * 0.9;
+        assert!((result.non_crit - expected_non_crit).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_scaling_stat_def() {
+        let input = DamageInput {
+            stats: Stats {
+                def: 2500.0,
+                atk: 1000.0,
+                crit_rate: 0.5,
+                crit_dmg: 1.0,
+                dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            talent_multiplier: 0.80,
+            scaling_stat: ScalingStat::Def,
+            ..valid_input()
+        };
+        let result = calculate_damage(&input, &valid_enemy()).unwrap();
+        let expected_non_crit = 2500.0 * 0.80 * 1.466 * 0.5 * 0.9;
+        assert!((result.non_crit - expected_non_crit).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_scaling_stat_hp_with_vaporize() {
+        let input = DamageInput {
+            stats: Stats {
+                hp: 30000.0,
+                atk: 1000.0,
+                elemental_mastery: 100.0,
+                crit_rate: 0.5,
+                crit_dmg: 1.0,
+                dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            talent_multiplier: 0.10,
+            scaling_stat: ScalingStat::Hp,
+            element: Some(Element::Hydro),
+            reaction: Some(crate::reaction::Reaction::Vaporize),
+            reaction_bonus: 0.0,
+            ..valid_input()
+        };
+        let result = calculate_damage(&input, &valid_enemy()).unwrap();
+        let expected_non_crit =
+            30000.0 * 0.10 * 1.466 * 0.5 * 0.9 * 2.0 * (1.0 + 2.78 * 100.0 / 1500.0);
+        assert!((result.non_crit - expected_non_crit).abs() < 0.1);
+    }
+
+    #[test]
+    fn test_scaling_stat_serde_default_backward_compat() {
+        let json = r#"{
+            "character_level": 90,
+            "stats": {"hp":0,"atk":2000,"def":0,"elemental_mastery":0,"crit_rate":0.5,"crit_dmg":1.0,"energy_recharge":0,"dmg_bonus":0.466},
+            "talent_multiplier": 1.76,
+            "damage_type": "Skill",
+            "element": "Pyro",
+            "reaction": null,
+            "reaction_bonus": 0.0
+        }"#;
+        let input: DamageInput = serde_json::from_str(json).unwrap();
+        assert_eq!(input.scaling_stat, ScalingStat::Atk);
     }
 }

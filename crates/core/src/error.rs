@@ -47,4 +47,22 @@ pub enum CalcError {
 
     #[error("character level must be 1..=100 for reaction calculations, got {0}")]
     InvalidReactionLevel(u32),
+
+    #[error("invalid base value: {0} (must be >= 0)")]
+    InvalidBaseValue(f64),
+
+    #[error("invalid percent bonus: {0} (must be >= -1.0)")]
+    InvalidPercentBonus(f64),
+
+    #[error("invalid flat bonus: {0} (must be >= 0)")]
+    InvalidFlatBonus(f64),
+
+    #[error("crit_dmg must be >= 0.0, got {0}")]
+    InvalidCritDmg(f64),
+
+    #[error("energy_recharge must be >= 0.0, got {0}")]
+    InvalidEnergyRecharge(f64),
+
+    #[error("dmg_bonus must be >= -1.0, got {0}")]
+    InvalidDmgBonus(f64),
 }
