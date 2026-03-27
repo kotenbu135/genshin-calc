@@ -3,7 +3,7 @@
 原神のダメージ・元素反応計算エンジン（Rust製ライブラリ）
 
 ## Project Structure
-- Cargoワークスペース構成: `crates/core`（計算エンジン）, `crates/data`（ゲームデータ、将来）
+- Cargoワークスペース構成: `crates/core`（計算エンジン）, `crates/data`（ゲームデータ v5.8）
 - MIT License
 
 ## Development Commands
@@ -45,13 +45,25 @@
 - `stat_profile.rs`: ステータス合算（StatProfile → Stats）
 - `DamageInput`変更時は全構築箇所（テスト含む）を一括修正すること（コンパイル不能防止）
 
+### Data Crate (`crates/data`)
+- v5.8全ゲームデータをRust定数として実装
+- `types.rs`: CharacterData, WeaponData, ArtifactSet, EnemyData等の型定義
+- `buff.rs`: BuffableStat, StatBuff, PassiveEffect（武器パッシブ・聖遺物バフ）
+- `characters/`: 元素別ファイル（pyro/hydro/electro/cryo/dendro/anemo/geo）— 102キャラ
+- `weapons/`: 武器種別ファイル（sword/claymore/polearm/bow/catalyst）— 230武器
+- `artifacts.rs`: 52聖遺物セット
+- `enemies.rs`: 12耐性テンプレート + 15敵データ + `to_enemy()`変換
+- `lib.rs`: 検索API（find_character/weapon/artifact_set/enemy + filter関数）
+- 数値単位: 全パーセンテージは小数形式（10.8% → 0.108）
+- `&'static`参照型はSerializeのみ（Deserializeなし）
+
 ## Testing
-- 127ユニットテスト + 1統合テスト（153ケース）
+- core: 127ユニットテスト + 1統合テスト（153ケース）
+- data: 39テスト（検索API、serde roundtrip、データ整合性、core統合）
 - v0.3.0でStatProfile合算 + ScalingStatテスト追加
 - ゲーム検証済みキャラ: Freminet（完全一致）、Diluc、Ganyu、Raiden、Yanfei蒸発
 - goldenテスト: 手計算値との照合（各モジュールに `test_golden_*` テスト）
 - データ駆動テスト: `tests/data/characters/*.toml` に102キャラ・153ケース（v5.8全キャラ対応）
   - `cargo test --test character_verification` で実行
   - 新キャラ追加: TOMLファイル1つ追加するだけ
-  - 期待値生成: `cargo test --test generate_expected -- --nocapture --ignored`
 - 許容誤差: 通常 `< 0.01`、ゲーム検証は `< 1.0`（floor丸め考慮）

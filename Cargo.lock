@@ -24,6 +24,9 @@ name = "genshin-calc-data"
 version = "0.1.0"
 dependencies = [
  "genshin-calc-core",
+ "glob",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
