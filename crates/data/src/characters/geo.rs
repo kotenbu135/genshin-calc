@@ -189,6 +189,7 @@ pub const ALBEDO: CharacterData = CharacterData {
             scalings: &[ALBEDO_BURST_DAMAGE, ALBEDO_BURST_FATAL_BLOSSOM],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -371,6 +372,7 @@ pub const CHIORI: CharacterData = CharacterData {
             scalings: &[CHIORI_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -539,6 +541,7 @@ pub const GOROU: CharacterData = CharacterData {
             scalings: &[GOROU_BURST_DAMAGE, GOROU_BURST_CRYSTAL],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -692,6 +695,7 @@ pub const ITTO: CharacterData = CharacterData {
             scalings: &[ITTO_BURST_ATK_BONUS],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -835,6 +839,7 @@ pub const KACHINA: CharacterData = CharacterData {
             scalings: &[KACHINA_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -1013,6 +1018,7 @@ pub const NAVIA: CharacterData = CharacterData {
             scalings: &[NAVIA_BURST_DAMAGE, NAVIA_BURST_CANNON],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1140,6 +1146,7 @@ pub const NINGGUANG: CharacterData = CharacterData {
             scalings: &[NINGGUANG_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1332,6 +1339,7 @@ pub const NOELLE: CharacterData = CharacterData {
             ],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1536,6 +1544,7 @@ pub const XILONEN: CharacterData = CharacterData {
             ],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -1751,6 +1760,7 @@ pub const YUN_JIN: CharacterData = CharacterData {
             scalings: &[YUN_JIN_BURST_DAMAGE, YUN_JIN_BURST_DMG_BONUS],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1945,4 +1955,5 @@ pub const ZHONGLI: CharacterData = CharacterData {
             scalings: &[ZHONGLI_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };

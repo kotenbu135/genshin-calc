@@ -196,6 +196,7 @@ pub const DILUC: CharacterData = CharacterData {
             scalings: &[DILUC_BURST_SLASH, DILUC_BURST_DOT, DILUC_BURST_EXPLOSION],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -375,6 +376,7 @@ pub const AMBER: CharacterData = CharacterData {
             scalings: &[AMBER_BURST_WAVE, AMBER_BURST_TOTAL],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -573,6 +575,7 @@ pub const ARLECCHINO: CharacterData = CharacterData {
             scalings: &[ARLECCHINO_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -777,6 +780,7 @@ pub const BENNETT: CharacterData = CharacterData {
             scalings: &[BENNETT_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -974,6 +978,7 @@ pub const CHEVREUSE: CharacterData = CharacterData {
             scalings: &[CHEVREUSE_BURST_GRENADE, CHEVREUSE_BURST_SECONDARY],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1152,6 +1157,7 @@ pub const DEHYA: CharacterData = CharacterData {
             scalings: &[DEHYA_BURST_FIST, DEHYA_BURST_KICK],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1310,6 +1316,7 @@ pub const GAMING: CharacterData = CharacterData {
             scalings: &[GAMING_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1501,6 +1508,7 @@ pub const HU_TAO: CharacterData = CharacterData {
             scalings: &[HU_TAO_BURST, HU_TAO_BURST_LOW_HP],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -1644,6 +1652,7 @@ pub const KLEE: CharacterData = CharacterData {
             scalings: &[KLEE_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1858,6 +1867,7 @@ pub const LYNEY: CharacterData = CharacterData {
             scalings: &[LYNEY_BURST, LYNEY_BURST_EXPLOSION],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -2074,6 +2084,7 @@ pub const MAVUIKA: CharacterData = CharacterData {
             scalings: &[MAVUIKA_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -2232,6 +2243,7 @@ pub const THOMA: CharacterData = CharacterData {
             scalings: &[THOMA_BURST, THOMA_BURST_FIERY],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -2441,6 +2453,7 @@ pub const XIANGLING: CharacterData = CharacterData {
             ],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -2619,6 +2632,7 @@ pub const XINYAN: CharacterData = CharacterData {
             scalings: &[XINYAN_BURST, XINYAN_BURST_DOT],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -2798,6 +2812,7 @@ pub const YANFEI: CharacterData = CharacterData {
             scalings: &[YANFEI_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -3000,4 +3015,5 @@ pub const YOIMIYA: CharacterData = CharacterData {
             scalings: &[YOIMIYA_BURST, YOIMIYA_BURST_EXPLOSION],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };

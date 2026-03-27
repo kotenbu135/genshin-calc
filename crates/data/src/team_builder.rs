@@ -1,4 +1,4 @@
-use genshin_calc_core::{BuffTarget, CalcError, ResolvedBuff, StatProfile, TeamMember};
+use genshin_calc_core::{BuffTarget, CalcError, DamageType, ResolvedBuff, StatProfile, TeamMember};
 
 use crate::moonsign_chars::is_moonsign_character;
 use crate::talent_buffs::find_talent_buffs;
@@ -145,12 +145,23 @@ impl TeamMemberBuilder {
                 // Get scaling value based on talent level
                 let raw_value = if def.scales_with_talent {
                     if let Some(scaling) = def.talent_scaling {
-                        let talent_idx = match def.source {
-                            crate::talent_buffs::TalentBuffSource::ElementalSkill => 1,
-                            crate::talent_buffs::TalentBuffSource::ElementalBurst => 2,
-                            _ => 0,
+                        let (talent_idx, damage_type) = match def.source {
+                            crate::talent_buffs::TalentBuffSource::ElementalSkill => {
+                                (1, DamageType::Skill)
+                            }
+                            crate::talent_buffs::TalentBuffSource::ElementalBurst => {
+                                (2, DamageType::Burst)
+                            }
+                            // AscensionPassive and Constellation(u8) map to Normal,
+                            // which is never boosted — these sources don't benefit from C3/C5.
+                            _ => (0, DamageType::Normal),
                         };
-                        let level = self.talent_levels[talent_idx];
+                        let base_level = self.talent_levels[talent_idx];
+                        let level = char_data.effective_talent_level(
+                            damage_type,
+                            base_level,
+                            self.constellation,
+                        );
                         scaling[(level - 1) as usize]
                     } else {
                         def.base_value
@@ -305,5 +316,51 @@ mod tests {
         let weapon = find_weapon("aquila_favonia").unwrap();
         let member = TeamMemberBuilder::new(bennett, weapon).build().unwrap();
         assert!(!member.is_moonsign);
+    }
+
+    #[test]
+    fn test_bennett_c5_burst_buff_boosted() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+
+        // C5 Bennett with burst Lv10 → effective Lv13
+        let member = TeamMemberBuilder::new(bennett, weapon)
+            .constellation(5)
+            .talent_levels([1, 1, 10])
+            .build()
+            .unwrap();
+
+        let burst_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Fantastic Voyage"))
+            .unwrap();
+
+        // Lv13 scaling = 1.19 (index 12 in the array)
+        let expected = member.stats.base_atk * 1.19;
+        assert!((burst_buff.value - expected).abs() < 1e-4);
+    }
+
+    #[test]
+    fn test_bennett_c0_burst_buff_no_boost() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+
+        // C0 Bennett with burst Lv10 → effective Lv10 (no boost)
+        let member = TeamMemberBuilder::new(bennett, weapon)
+            .constellation(0)
+            .talent_levels([1, 1, 10])
+            .build()
+            .unwrap();
+
+        let burst_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Fantastic Voyage"))
+            .unwrap();
+
+        // Lv10 scaling = 1.008 (index 9)
+        let expected = member.stats.base_atk * 1.008;
+        assert!((burst_buff.value - expected).abs() < 1e-4);
     }
 }
