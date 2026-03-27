@@ -32,6 +32,7 @@
 //!         ..Default::default()
 //!     },
 //!     buffs_provided: vec![],
+//!     is_moonsign: false,
 //! };
 //! let support = TeamMember {
 //!     element: Element::Pyro,
@@ -47,6 +48,7 @@
 //!         value: 1000.0,
 //!         target: BuffTarget::Team,
 //!     }],
+//!     is_moonsign: false,
 //! };
 //! let stats = resolve_team_stats(&[dps, support], 0).unwrap();
 //! assert!(stats.atk > 900.0); // DPS gets Bennett's ATK buff
@@ -89,6 +91,7 @@ pub mod enemy;
 pub mod error;
 pub mod level_table;
 pub mod lunar;
+pub mod moonsign;
 pub mod reaction;
 pub mod resonance;
 pub mod stat_profile;
@@ -97,22 +100,28 @@ pub mod team;
 pub mod transformative;
 pub mod types;
 
+pub use buff_types::BuffableStat;
 pub use damage::{DamageInput, DamageResult, calculate_damage};
 pub use em::{amplifying_em_bonus, catalyze_em_bonus, lunar_em_bonus, transformative_em_bonus};
 pub use enemy::Enemy;
 pub use error::CalcError;
 pub use level_table::reaction_base_value;
 pub use lunar::{LunarInput, LunarResult, calculate_lunar};
+pub use moonsign::{
+    LunarContribution, MoonsignBenediction, MoonsignContext, MoonsignLevel, MoonsignTalentEffect,
+    MoonsignTalentEnhancement, NonMoonsignLunarBuff, apply_moonsign_enhancements,
+    calculate_lunar_team, calculate_non_moonsign_bonus, determine_moonsign_level,
+    non_moonsign_scaling, resolve_moonsign_context, select_non_moonsign_buff,
+};
 pub use reaction::{Reaction, ReactionCategory, determine_reaction};
 pub use resonance::{ElementalResonance, determine_resonances, resonance_buffs};
 pub use stat_profile::{StatProfile, combine_stats};
 pub use stats::Stats;
-pub use transformative::{TransformativeInput, TransformativeResult, calculate_transformative};
-pub use buff_types::BuffableStat;
 pub use team::{
-    apply_buffs_to_profile, resolve_team_stats, resolve_team_stats_detailed, BuffTarget,
-    ResolvedBuff, TeamMember, TeamResolveResult,
+    BuffTarget, ResolvedBuff, TeamMember, TeamResolveResult, apply_buffs_to_profile,
+    resolve_team_stats, resolve_team_stats_detailed,
 };
+pub use transformative::{TransformativeInput, TransformativeResult, calculate_transformative};
 pub use types::{DamageType, Element, ScalingStat, WeaponType};
 
 #[cfg(test)]

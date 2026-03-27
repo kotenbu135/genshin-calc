@@ -1,7 +1,6 @@
-use genshin_calc_core::{
-    BuffTarget, CalcError, ResolvedBuff, StatProfile, TeamMember,
-};
+use genshin_calc_core::{BuffTarget, CalcError, ResolvedBuff, StatProfile, TeamMember};
 
+use crate::moonsign_chars::is_moonsign_character;
 use crate::talent_buffs::find_talent_buffs;
 use crate::types::{ArtifactSet, AscensionStat, CharacterData, WeaponData, WeaponSubStat};
 
@@ -166,6 +165,7 @@ impl TeamMemberBuilder {
                         genshin_calc_core::ScalingStat::Atk => profile.base_atk,
                         genshin_calc_core::ScalingStat::Hp => profile.base_hp,
                         genshin_calc_core::ScalingStat::Def => profile.base_def,
+                        genshin_calc_core::ScalingStat::Em => profile.elemental_mastery,
                     };
                     base * raw_value
                 } else {
@@ -186,6 +186,7 @@ impl TeamMemberBuilder {
             weapon_type: char_data.weapon_type,
             stats: profile,
             buffs_provided: buffs,
+            is_moonsign: is_moonsign_character(char_data.id),
         })
     }
 }
@@ -270,7 +271,10 @@ mod tests {
 
         // Should have weapon passive + noblesse 2pc/4pc buffs
         assert!(
-            member.buffs_provided.iter().any(|b| b.source.contains("2pc")),
+            member
+                .buffs_provided
+                .iter()
+                .any(|b| b.source.contains("2pc")),
             "Should have 2pc buff"
         );
     }
@@ -293,5 +297,13 @@ mod tests {
             .talent_levels([0, 1, 1])
             .build();
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_non_moonsign_character_detected() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let member = TeamMemberBuilder::new(bennett, weapon).build().unwrap();
+        assert!(!member.is_moonsign);
     }
 }

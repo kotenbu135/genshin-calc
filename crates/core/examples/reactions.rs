@@ -49,6 +49,7 @@ fn main() {
             reaction_bonus: 0.0,
             crit_rate: 0.60,
             crit_dmg: 1.20,
+            base_dmg_bonus: 0.0,
         },
         &enemy,
     )

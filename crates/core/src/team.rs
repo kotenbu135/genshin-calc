@@ -2,8 +2,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::buff_types::BuffableStat;
 use crate::error::CalcError;
-use crate::resonance::{determine_resonances, resonance_buffs, ElementalResonance};
-use crate::stat_profile::{combine_stats, StatProfile};
+use crate::resonance::{ElementalResonance, determine_resonances, resonance_buffs};
+use crate::stat_profile::{StatProfile, combine_stats};
 use crate::stats::Stats;
 use crate::types::{Element, WeaponType};
 
@@ -42,6 +42,8 @@ pub struct TeamMember {
     pub stats: StatProfile,
     /// Buffs this member provides to the team.
     pub buffs_provided: Vec<ResolvedBuff>,
+    /// Whether this character is a Moonsign (月兆) character from Nod-Krai.
+    pub is_moonsign: bool,
 }
 
 /// Detailed result of team buff resolution.
@@ -158,10 +160,7 @@ fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> 
 ///
 /// Returns [`CalcError::InvalidTeamSize`] if team is empty or has >4 members.
 /// Returns [`CalcError::InvalidTargetIndex`] if target_index is out of bounds.
-pub fn resolve_team_stats(
-    team: &[TeamMember],
-    target_index: usize,
-) -> Result<Stats, CalcError> {
+pub fn resolve_team_stats(team: &[TeamMember], target_index: usize) -> Result<Stats, CalcError> {
     let result = resolve_team_stats_detailed(team, target_index)?;
     Ok(result.final_stats)
 }
@@ -218,6 +217,7 @@ mod tests {
                 ..Default::default()
             },
             buffs_provided: vec![],
+            is_moonsign: false,
         }
     }
 
@@ -349,7 +349,11 @@ mod tests {
             make_member(Element::Cryo, 500.0),
         ];
         let result = resolve_team_stats_detailed(&team, 0).unwrap();
-        assert!(result.resonances.contains(&ElementalResonance::FerventFlames));
+        assert!(
+            result
+                .resonances
+                .contains(&ElementalResonance::FerventFlames)
+        );
         assert!(!result.applied_buffs.is_empty());
         assert!(result.final_stats.atk > result.base_stats.atk);
     }

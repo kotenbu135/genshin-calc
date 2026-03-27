@@ -91,6 +91,7 @@ fn run_lunar_case(character_name: &str, case: &LunarCase) {
         reaction_bonus: case.reaction_bonus,
         crit_rate: case.crit_rate,
         crit_dmg: case.crit_dmg,
+        base_dmg_bonus: 0.0,
     };
     let enemy = to_enemy(&case.enemy);
     let result = calculate_lunar(&input, &enemy).unwrap_or_else(|e| {

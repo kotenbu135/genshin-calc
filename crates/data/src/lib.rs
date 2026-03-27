@@ -24,12 +24,17 @@ pub mod artifacts;
 pub mod buff;
 pub mod characters;
 pub mod enemies;
+pub mod moonsign_chars;
 pub mod talent_buffs;
 pub mod team_builder;
 pub mod types;
 pub mod weapons;
 
-pub use talent_buffs::{find_talent_buffs, TalentBuffDef, TalentBuffSource};
+pub use moonsign_chars::{
+    ALL_MOONSIGN_BENEDICTIONS, MoonsignBenedictionDef, calculate_benediction_bonus,
+    find_moonsign_benediction, find_moonsign_talent_enhancements, is_moonsign_character,
+};
+pub use talent_buffs::{TalentBuffDef, TalentBuffSource, find_talent_buffs};
 pub use team_builder::TeamMemberBuilder;
 
 use genshin_calc_core::Element;

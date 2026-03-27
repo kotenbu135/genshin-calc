@@ -112,7 +112,12 @@ mod tests {
 
     #[test]
     fn test_four_unique_elements() {
-        let elements = [Element::Pyro, Element::Hydro, Element::Electro, Element::Cryo];
+        let elements = [
+            Element::Pyro,
+            Element::Hydro,
+            Element::Electro,
+            Element::Cryo,
+        ];
         let res = determine_resonances(&elements);
         assert_eq!(res, vec![ElementalResonance::ProtectiveCanopy]);
     }

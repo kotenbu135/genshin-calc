@@ -23,6 +23,8 @@ pub struct LunarInput {
     pub crit_rate: f64,
     /// Crit DMG in decimal form.
     pub crit_dmg: f64,
+    /// Base DMG Bonus from Moonsign Benediction passives (decimal form, default 0.0).
+    pub base_dmg_bonus: f64,
 }
 
 /// Result of lunar reaction damage calculation.
@@ -82,6 +84,7 @@ fn validate(input: &LunarInput, enemy: &Enemy) -> Result<(), CalcError> {
 ///     reaction_bonus: 0.0,
 ///     crit_rate: 0.60,
 ///     crit_dmg: 1.20,
+///     base_dmg_bonus: 0.0,
 /// };
 /// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
 /// let result = calculate_lunar(&input, &enemy).unwrap();
@@ -95,7 +98,11 @@ pub fn calculate_lunar(input: &LunarInput, enemy: &Enemy) -> Result<LunarResult,
     let em_bonus = lunar_em_bonus(input.elemental_mastery);
     let res_mult = resistance_multiplier(enemy);
 
-    let non_crit = level_base * reaction_mult * (1.0 + em_bonus + input.reaction_bonus) * res_mult;
+    let non_crit = level_base
+        * reaction_mult
+        * (1.0 + input.base_dmg_bonus)
+        * (1.0 + em_bonus + input.reaction_bonus)
+        * res_mult;
     let crit = non_crit * (1.0 + input.crit_dmg);
     let average = non_crit * (1.0 - input.crit_rate) + crit * input.crit_rate;
 
@@ -132,6 +139,7 @@ mod tests {
             reaction_bonus: 0.0,
             crit_rate: 0.5,
             crit_dmg: 1.0,
+            base_dmg_bonus: 0.0,
         };
         // 1446.8535 * 1.8 * 1.0 * 0.9 = 2343.9...
         let expected_non_crit = 1446.8535 * 1.8 * 0.9;
@@ -150,6 +158,7 @@ mod tests {
             reaction_bonus: 0.0,
             crit_rate: 0.0,
             crit_dmg: 0.0,
+            base_dmg_bonus: 0.0,
         };
         let expected = 1446.8535 * 1.0 * 0.9;
         let result = calculate_lunar(&input, &default_enemy()).unwrap();
@@ -166,6 +175,7 @@ mod tests {
             reaction_bonus: 0.0,
             crit_rate: 0.5,
             crit_dmg: 1.0,
+            base_dmg_bonus: 0.0,
         };
         let expected = 1446.8535 * 0.96 * 0.9;
         let result = calculate_lunar(&input, &default_enemy()).unwrap();
@@ -181,6 +191,7 @@ mod tests {
             reaction_bonus: 0.0,
             crit_rate: 1.0,
             crit_dmg: 1.0,
+            base_dmg_bonus: 0.0,
         };
         let result = calculate_lunar(&input, &default_enemy()).unwrap();
         assert!((result.average - result.crit).abs() < EPSILON);
@@ -205,6 +216,7 @@ mod tests {
             reaction_bonus: 0.0,
             crit_rate: 0.6,
             crit_dmg: 1.2,
+            base_dmg_bonus: 0.0,
         };
         let result = calculate_lunar(&input, &default_enemy()).unwrap();
         assert!((result.non_crit - 5156.586).abs() < 0.1);
@@ -222,6 +234,7 @@ mod tests {
             reaction_bonus: 0.0,
             crit_rate: 0.5,
             crit_dmg: 1.0,
+            base_dmg_bonus: 0.0,
         };
         assert!(matches!(
             calculate_lunar(&input, &default_enemy()),
@@ -238,6 +251,7 @@ mod tests {
             reaction_bonus: 0.0,
             crit_rate: 0.0,
             crit_dmg: 0.0,
+            base_dmg_bonus: 0.0,
         };
         let with_em = LunarInput {
             elemental_mastery: 300.0,
@@ -247,5 +261,44 @@ mod tests {
         let r2 = calculate_lunar(&with_em, &default_enemy()).unwrap();
         let em_bonus = 6.0 * 300.0 / (300.0 + 2000.0);
         assert!((r2.non_crit / r1.non_crit - (1.0 + em_bonus)).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_lunar_base_dmg_bonus_applied() {
+        let base = LunarInput {
+            character_level: 90,
+            elemental_mastery: 0.0,
+            reaction: Reaction::LunarElectroCharged,
+            reaction_bonus: 0.0,
+            crit_rate: 0.0,
+            crit_dmg: 0.0,
+            base_dmg_bonus: 0.0,
+        };
+        let with_bonus = LunarInput {
+            base_dmg_bonus: 0.21,
+            ..base.clone()
+        };
+        let r1 = calculate_lunar(&base, &default_enemy()).unwrap();
+        let r2 = calculate_lunar(&with_bonus, &default_enemy()).unwrap();
+        assert!((r2.non_crit / r1.non_crit - 1.21).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_golden_lunar_ec_with_base_dmg_bonus() {
+        // Lv90, EM 500, Lunar EC (1.8), base_dmg_bonus 0.14
+        // em_bonus = 6 * 500 / (500 + 2000) = 1.2
+        // non_crit = 1446.8535 * 1.8 * (1 + 0.14) * (1 + 1.2) * 0.9
+        //          = 2604.336 * 1.14 * 2.2 * 0.9 = 5878.508
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 500.0,
+            reaction: Reaction::LunarElectroCharged,
+            reaction_bonus: 0.0,
+            crit_rate: 0.6,
+            crit_dmg: 1.2,
+            base_dmg_bonus: 0.14,
+        };
+        let result = calculate_lunar(&input, &default_enemy()).unwrap();
+        assert!((result.non_crit - 5878.508).abs() < 0.1);
     }
 }

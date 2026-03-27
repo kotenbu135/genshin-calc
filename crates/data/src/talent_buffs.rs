@@ -44,8 +44,8 @@ pub struct TalentBuffDef {
 // ===== Bennett =====
 // Elemental Burst "Fantastic Voyage" ATK buff: 56%~119% of Base ATK (Lv1-15)
 static BENNETT_BURST_ATK_SCALING: [f64; 15] = [
-    0.56, 0.602, 0.644, 0.70, 0.742, 0.784, 0.84, 0.896, 0.952,
-    1.008, 1.064, 1.12, 1.19, 1.26, 1.33,
+    0.56, 0.602, 0.644, 0.70, 0.742, 0.784, 0.84, 0.896, 0.952, 1.008, 1.064, 1.12, 1.19, 1.26,
+    1.33,
 ];
 
 static BENNETT_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -94,8 +94,8 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // ===== Shenhe =====
 // Elemental Skill "Spring Spirit Summoning": flat Cryo DMG based on ATK (Lv1-15)
 static SHENHE_SKILL_SCALING: [f64; 15] = [
-    0.4566, 0.4909, 0.5251, 0.5708, 0.6050, 0.6393, 0.6849, 0.7306, 0.7763,
-    0.8219, 0.8676, 0.9132, 0.9703, 1.0274, 1.0844,
+    0.4566, 0.4909, 0.5251, 0.5708, 0.6050, 0.6393, 0.6849, 0.7306, 0.7763, 0.8219, 0.8676, 0.9132,
+    0.9703, 1.0274, 1.0844,
 ];
 
 static SHENHE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -114,8 +114,8 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // ===== Yun Jin =====
 // Elemental Burst "Cliffbreaker's Banner": flat Normal ATK DMG based on DEF (Lv1-15)
 static YUN_JIN_BURST_SCALING: [f64; 15] = [
-    0.3216, 0.3457, 0.3699, 0.4020, 0.4262, 0.4503, 0.4824, 0.5145, 0.5466,
-    0.5789, 0.6110, 0.6431, 0.6833, 0.7234, 0.7636,
+    0.3216, 0.3457, 0.3699, 0.4020, 0.4262, 0.4503, 0.4824, 0.5145, 0.5466, 0.5789, 0.6110, 0.6431,
+    0.6833, 0.7234, 0.7636,
 ];
 
 static YUN_JIN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -134,8 +134,7 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // ===== Mona =====
 // Elemental Burst "Stellaris Phantasm": DMG bonus from Omen (Lv1-15)
 static MONA_BURST_DMG_SCALING: [f64; 15] = [
-    0.42, 0.44, 0.46, 0.50, 0.52, 0.54, 0.58, 0.62, 0.66,
-    0.70, 0.74, 0.78, 0.82, 0.86, 0.90,
+    0.42, 0.44, 0.46, 0.50, 0.52, 0.54, 0.58, 0.62, 0.66, 0.70, 0.74, 0.78, 0.82, 0.86, 0.90,
 ];
 
 static MONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -154,8 +153,8 @@ static MONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // ===== Sara =====
 // Elemental Skill/Burst "Tengu Juurai": ATK bonus based on Sara's Base ATK (Lv1-15)
 static SARA_ATK_SCALING: [f64; 15] = [
-    0.4296, 0.4618, 0.4940, 0.5370, 0.5692, 0.6014, 0.6444, 0.6874, 0.7304,
-    0.7734, 0.8164, 0.8594, 0.9131, 0.9668, 1.0206,
+    0.4296, 0.4618, 0.4940, 0.5370, 0.5692, 0.6014, 0.6444, 0.6874, 0.7304, 0.7734, 0.8164, 0.8594,
+    0.9131, 0.9668, 1.0206,
 ];
 
 static SARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -189,8 +188,7 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // ===== Furina =====
 // Elemental Burst "Let the People Rejoice": Fanfare stacks grant DMG bonus (max per Lv)
 static FURINA_BURST_DMG_SCALING: [f64; 15] = [
-    0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25,
-    0.27, 0.29, 0.31, 0.33, 0.35, 0.37,
+    0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25, 0.27, 0.29, 0.31, 0.33, 0.35, 0.37,
 ];
 
 static FURINA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -266,10 +264,7 @@ mod tests {
     fn test_all_talent_buffs_have_unique_ids() {
         let ids: Vec<&str> = ALL_TALENT_BUFFS.iter().map(|(id, _)| *id).collect();
         for (i, id) in ids.iter().enumerate() {
-            assert!(
-                !ids[i + 1..].contains(id),
-                "Duplicate talent buff ID: {id}"
-            );
+            assert!(!ids[i + 1..].contains(id), "Duplicate talent buff ID: {id}");
         }
     }
 }
