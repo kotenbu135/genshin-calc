@@ -24,8 +24,13 @@ pub mod artifacts;
 pub mod buff;
 pub mod characters;
 pub mod enemies;
+pub mod talent_buffs;
+pub mod team_builder;
 pub mod types;
 pub mod weapons;
+
+pub use talent_buffs::{find_talent_buffs, TalentBuffDef, TalentBuffSource};
+pub use team_builder::TeamMemberBuilder;
 
 use genshin_calc_core::Element;
 use types::{ArtifactSet, CharacterData, EnemyData, WeaponData, WeaponType};

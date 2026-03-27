@@ -30,7 +30,7 @@
 - 公開APIは最小限に保つ
 - `stats.rs`: 最終ステータス構造体（HP/ATK/DEF/会心等）
 - `error.rs`: CalcError列挙型（バリデーションエラー等）
-- `types.rs`: Element, ScalingStat等の共有型定義
+- `types.rs`: Element, ScalingStat, WeaponType等の共有型定義
 - `enemy.rs`: 敵パラメータ（レベル、耐性、防御減少）
 - 3つの計算パイプライン:
   - `calculate_damage`: 通常ダメージ + 増幅反応(蒸発/溶解) + 激化反応(超激化/草激化)
@@ -43,12 +43,17 @@
 - `transformative.rs`: 固定反応ダメージ計算
 - `lunar.rs`: 月反応ダメージ計算
 - `stat_profile.rs`: ステータス合算（StatProfile → Stats）
+- `buff_types.rs`: BuffableStat（バフ対象ステータス型 — data crateから移動）
+- `team.rs`: チームバフ解決（BuffTarget, ResolvedBuff, TeamMember, resolve_team_stats）
+- `resonance.rs`: 元素共鳴判定・バフ生成（ElementalResonance, determine_resonances）
 - `DamageInput`変更時は全構築箇所（テスト含む）を一括修正すること（コンパイル不能防止）
 
 ### Data Crate (`crates/data`)
 - v5.8全ゲームデータをRust定数として実装
 - `types.rs`: CharacterData, WeaponData, ArtifactSet, EnemyData等の型定義
-- `buff.rs`: BuffableStat, StatBuff, PassiveEffect（武器パッシブ・聖遺物バフ）
+- `buff.rs`: BuffableStat(core re-export), StatBuff, PassiveEffect（武器パッシブ・聖遺物バフ）
+- `talent_buffs.rs`: 天賦バフ定義（TalentBuffDef, find_talent_buffs — 9キャラ分）
+- `team_builder.rs`: TeamMemberBuilder（キャラ+武器+聖遺物→TeamMember構築）
 - `characters/`: 元素別ファイル（pyro/hydro/electro/cryo/dendro/anemo/geo）— 102キャラ
 - `weapons/`: 武器種別ファイル（sword/claymore/polearm/bow/catalyst）— 230武器
 - `artifacts.rs`: 52聖遺物セット

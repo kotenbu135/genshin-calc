@@ -1,30 +1,6 @@
-use genshin_calc_core::Element;
 use serde::{Deserialize, Serialize};
 
-/// Stat that can be buffed by weapons or artifacts.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub enum BuffableStat {
-    HpPercent,
-    AtkPercent,
-    DefPercent,
-    HpFlat,
-    AtkFlat,
-    DefFlat,
-    CritRate,
-    CritDmg,
-    ElementalMastery,
-    EnergyRecharge,
-    DmgBonus,
-    ElementalDmgBonus(Element),
-    PhysicalDmgBonus,
-    NormalAtkDmgBonus,
-    ChargedAtkDmgBonus,
-    PlungingAtkDmgBonus,
-    SkillDmgBonus,
-    BurstDmgBonus,
-    HealingBonus,
-    ShieldStrength,
-}
+pub use genshin_calc_core::BuffableStat;
 
 /// A stat buff with a value and optional refinement scaling.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]

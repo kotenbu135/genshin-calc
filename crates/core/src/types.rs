@@ -33,3 +33,13 @@ pub enum ScalingStat {
     Hp,
     Def,
 }
+
+/// Weapon type classification.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum WeaponType {
+    Sword,
+    Claymore,
+    Polearm,
+    Bow,
+    Catalyst,
+}
