@@ -1,0 +1,66 @@
+# Source: Hydro sub-DPS, HP scaling, Vaporize synergy
+
+[character]
+name = "Yelan"
+element = "Hydro"
+
+# Case 1: Normal (HP scaling)
+[[cases]]
+type = "normal"
+name = "Breakthrough Barb Skill — no reaction"
+character_level = 90
+talent_multiplier = 0.2
+scaling_stat = "Hp"
+damage_type = "Skill"
+element = "Hydro"
+
+[cases.stats]
+hp = 30000.0
+atk = 1000.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.70
+crit_dmg = 2.00
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3958.200000
+crit = 11874.600000
+average = 9499.680000
+
+# Case 2: Vaporize (Hydro trigger = 2.0x)
+[[cases]]
+type = "amplifying"
+name = "Breakthrough Barb Skill — Vaporize (2.0x)"
+character_level = 90
+talent_multiplier = 0.2
+scaling_stat = "Hp"
+damage_type = "Skill"
+element = "Hydro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 30000.0
+atk = 1000.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.70
+crit_dmg = 2.00
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 7916.400000
+crit = 23749.200000
+average = 18999.360000

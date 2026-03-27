@@ -1,0 +1,66 @@
+# Source: Dendro Charged Attack DPS, Spread synergy
+
+[character]
+name = "Tighnari"
+element = "Dendro"
+
+# Case 1: Charged Attack (no reaction)
+[[cases]]
+type = "normal"
+name = "Wreath Arrow Charged — no reaction"
+character_level = 90
+talent_multiplier = 1.5618
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Dendro"
+
+[cases.stats]
+hp = 17000.0
+atk = 1600.0
+def = 600.0
+elemental_mastery = 300.0
+crit_rate = 0.60
+crit_dmg = 1.50
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1648.511136
+crit = 4121.277840
+average = 3132.171158
+
+# Case 2: Spread
+[[cases]]
+type = "catalyze"
+name = "Wreath Arrow Charged — Spread"
+character_level = 90
+talent_multiplier = 1.5618
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 17000.0
+atk = 1600.0
+def = 600.0
+elemental_mastery = 300.0
+crit_rate = 0.60
+crit_dmg = 1.50
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4034.734271
+crit = 10086.835677
+average = 7665.995115

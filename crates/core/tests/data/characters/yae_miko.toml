@@ -1,0 +1,58 @@
+# Source: Electro sub-DPS, Aggravate + Lunar EC
+
+[character]
+name = "Yae Miko"
+element = "Electro"
+
+# Case 1: Aggravate
+[[cases]]
+type = "catalyze"
+name = "Sesshou Sakura Skill — Aggravate"
+character_level = 90
+talent_multiplier = 1.7014
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 17000.0
+atk = 1800.0
+def = 600.0
+elemental_mastery = 200.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.3
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3902.051830
+crit = 10145.334759
+average = 7960.185734
+
+# Case 2: Lunar Electro-Charged
+[[cases]]
+type = "lunar"
+name = "Lunar Electro-Charged EM200"
+character_level = 90
+elemental_mastery = 200.0
+reaction = "LunarElectroCharged"
+reaction_bonus = 0.0
+crit_rate = 0.65
+crit_dmg = 1.60
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3622.395035
+crit = 9418.227092
+average = 7389.685872

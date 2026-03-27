@@ -46,8 +46,12 @@
 - `DamageInput`変更時は全構築箇所（テスト含む）を一括修正すること（コンパイル不能防止）
 
 ## Testing
-- 116テスト（v0.3.0時点）
+- 127ユニットテスト + 1統合テスト（31ケース）
 - v0.3.0でStatProfile合算 + ScalingStatテスト追加
 - ゲーム検証済みキャラ: Freminet（完全一致）、Diluc、Ganyu、Raiden、Yanfei蒸発
 - goldenテスト: 手計算値との照合（各モジュールに `test_golden_*` テスト）
+- データ駆動テスト: `tests/data/characters/*.toml` に15キャラ・31ケース
+  - `cargo test --test character_verification` で実行
+  - 新キャラ追加: TOMLファイル1つ追加するだけ
+  - 期待値生成: `cargo test --test generate_expected -- --nocapture --ignored`
 - 許容誤差: 通常 `< 0.01`、ゲーム検証は `< 1.0`（floor丸め考慮）

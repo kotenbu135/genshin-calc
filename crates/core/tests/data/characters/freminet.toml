@@ -1,0 +1,33 @@
+# Source: Physical Normal Attack, Lv20 vs Lv85 enemy (game-verified)
+
+[character]
+name = "Freminet"
+
+# Case 1: Physical Normal Attack Lv20 vs Lv85 enemy
+[[cases]]
+type = "normal"
+name = "Normal Attack Lv20 — Physical vs Lv85"
+character_level = 20
+talent_multiplier = 1.077
+scaling_stat = "Atk"
+damage_type = "Normal"
+tolerance = 1.0
+
+[cases.stats]
+hp = 3000.0
+atk = 94.0
+def = 200.0
+elemental_mastery = 0.0
+crit_rate = 0.05
+crit_dmg = 0.50
+energy_recharge = 1.0
+dmg_bonus = 0.0
+
+[cases.enemy]
+level = 85
+resistance = 0.10
+
+[cases.expected]
+non_crit = 35.848210
+crit = 53.772315
+average = 36.744415

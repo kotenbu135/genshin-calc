@@ -1,0 +1,66 @@
+# Source: Electro Burst DPS, Aggravate synergy
+
+[character]
+name = "Raiden Shogun"
+element = "Electro"
+
+# Case 1: Burst (no reaction) — enemy Lv100
+[[cases]]
+type = "normal"
+name = "Musou Isshin Burst — no reaction"
+character_level = 90
+talent_multiplier = 6.4128
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Electro"
+
+[cases.stats]
+hp = 20000.0
+atk = 2000.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 2.5
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 100
+resistance = 0.10
+
+[cases.expected]
+non_crit = 8244.098363
+crit = 17312.606562
+average = 13231.777873
+
+# Case 2: Aggravate (EM150) — enemy Lv100
+[[cases]]
+type = "catalyze"
+name = "Musou Isshin Burst — Aggravate EM150"
+character_level = 90
+talent_multiplier = 6.4128
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 20000.0
+atk = 2000.0
+def = 800.0
+elemental_mastery = 150.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 2.5
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 100
+resistance = 0.10
+
+[cases.expected]
+non_crit = 9907.792168
+crit = 20806.363553
+average = 15902.006430
