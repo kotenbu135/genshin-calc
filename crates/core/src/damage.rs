@@ -8,24 +8,38 @@ use crate::reaction::{Reaction, ReactionCategory, catalyze_coefficient};
 use crate::stats::Stats;
 use crate::types::{DamageType, Element, ScalingStat};
 
+/// Input parameters for standard damage calculation.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct DamageInput {
+    /// Character level (1-90).
     pub character_level: u32,
+    /// Final character stats.
     pub stats: Stats,
+    /// Talent multiplier in decimal form (e.g. 176% = `1.76`).
     pub talent_multiplier: f64,
+    /// Stat used for scaling (ATK, HP, or DEF).
     #[serde(default)]
     pub scaling_stat: ScalingStat,
+    /// Attack type (normal, charged, skill, burst, plunging).
     pub damage_type: DamageType,
+    /// Damage element. `None` for physical damage.
     pub element: Option<Element>,
+    /// Elemental reaction. `None` for no reaction.
     pub reaction: Option<Reaction>,
+    /// Reaction DMG bonus from artifacts/buffs in decimal form.
     pub reaction_bonus: f64,
 }
 
+/// Result of standard damage calculation.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct DamageResult {
+    /// Damage without critical hit.
     pub non_crit: f64,
+    /// Damage with critical hit.
     pub crit: f64,
+    /// Average damage (weighted by crit rate).
     pub average: f64,
+    /// Applied reaction, if any.
     pub reaction: Option<Reaction>,
 }
 
@@ -51,6 +65,11 @@ fn validate(input: &DamageInput, enemy: &Enemy) -> Result<(), CalcError> {
     Ok(())
 }
 
+/// Calculates the resistance multiplier for an enemy.
+///
+/// If resistance >= 0.75: `1 / (4 * res + 1)`
+/// If 0 <= resistance < 0.75: `1 - res`
+/// If resistance < 0: `1 - res / 2`
 pub(crate) fn resistance_multiplier(enemy: &Enemy) -> f64 {
     let res = enemy.resistance;
     if res < 0.0 {
@@ -68,6 +87,42 @@ fn defense_multiplier(char_level: u32, enemy: &Enemy) -> f64 {
     char_part / (char_part + enemy_part)
 }
 
+/// Calculates standard damage for attacks and skills.
+///
+/// Supports amplifying reactions (vaporize/melt) and catalyze reactions
+/// (spread/aggravate) via the `reaction` field. For transformative reactions
+/// use [`calculate_transformative`](crate::calculate_transformative).
+/// For lunar reactions use [`calculate_lunar`](crate::calculate_lunar).
+///
+/// # Errors
+///
+/// Returns [`CalcError`] if any input parameter is out of valid range.
+///
+/// # Examples
+///
+/// ```
+/// use genshin_calc_core::*;
+///
+/// let input = DamageInput {
+///     character_level: 90,
+///     stats: Stats {
+///         atk: 2000.0,
+///         crit_rate: 0.75,
+///         crit_dmg: 1.50,
+///         dmg_bonus: 0.466,
+///         ..Default::default()
+///     },
+///     talent_multiplier: 1.76,
+///     scaling_stat: ScalingStat::Atk,
+///     damage_type: DamageType::Skill,
+///     element: Some(Element::Pyro),
+///     reaction: None,
+///     reaction_bonus: 0.0,
+/// };
+/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+/// let result = calculate_damage(&input, &enemy).unwrap();
+/// assert!(result.crit > result.non_crit);
+/// ```
 pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResult, CalcError> {
     validate(input, enemy)?;
 

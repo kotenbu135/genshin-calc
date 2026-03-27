@@ -4,6 +4,12 @@ version = "0.1.0"
 edition = "2024"
 description = "Genshin Impact damage calculation engine"
 license = "MIT"
+authors = ["kotenbu"]
+repository = "https://github.com/kotenbu/genshin-calc"
+keywords = ["genshin-impact", "damage-calculator", "game", "wasm"]
+categories = ["game-engines", "algorithms"]
+rust-version = "1.85"
+readme = "README.md"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

@@ -4,9 +4,15 @@ version = "0.1.0"
 edition = "2024"
 description = "Genshin Impact game data for genshin-calc"
 license = "MIT"
+authors = ["kotenbu"]
+repository = "https://github.com/kotenbu/genshin-calc"
+keywords = ["genshin-impact", "game-data", "damage-calculator", "wasm"]
+categories = ["game-engines", "data-structures"]
+rust-version = "1.85"
+readme = "README.md"
 
 [dependencies]
-genshin-calc-core = { path = "../core" }
+genshin-calc-core = { version = "0.1.0", path = "../core" }
 serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]

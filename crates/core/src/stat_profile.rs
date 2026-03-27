@@ -3,24 +3,52 @@ use serde::{Deserialize, Serialize};
 use crate::error::CalcError;
 use crate::stats::Stats;
 
+/// Input for stat calculation with base/percent/flat breakdown.
+///
+/// Represents character base stats, weapon bonuses, artifact substats, etc.
+/// Use [`combine_stats`] to compute final [`Stats`].
+///
+/// All percentage fields use decimal form (e.g. 46.6% ATK = `0.466`).
 #[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 pub struct StatProfile {
+    /// Base HP (character + weapon at current ascension).
     pub base_hp: f64,
+    /// Base ATK (character + weapon at current ascension).
     pub base_atk: f64,
+    /// Base DEF (character at current ascension).
     pub base_def: f64,
+    /// HP% bonus (artifacts, buffs).
     pub hp_percent: f64,
+    /// ATK% bonus (artifacts, buffs).
     pub atk_percent: f64,
+    /// DEF% bonus (artifacts, buffs).
     pub def_percent: f64,
+    /// Flat HP bonus (artifacts, buffs).
     pub hp_flat: f64,
+    /// Flat ATK bonus (artifacts, feather).
     pub atk_flat: f64,
+    /// Flat DEF bonus (artifacts, buffs).
     pub def_flat: f64,
+    /// Elemental mastery.
     pub elemental_mastery: f64,
+    /// Crit rate in decimal form.
     pub crit_rate: f64,
+    /// Crit DMG in decimal form.
     pub crit_dmg: f64,
+    /// Energy recharge in decimal form.
     pub energy_recharge: f64,
+    /// DMG bonus in decimal form.
     pub dmg_bonus: f64,
 }
 
+/// Combines a [`StatProfile`] into final [`Stats`].
+///
+/// Formula: `final = base * (1 + percent) + flat`
+///
+/// # Errors
+///
+/// Returns [`CalcError`] if any input value is out of valid range
+/// (e.g. negative base values, percent bonus below -1.0).
 pub fn combine_stats(profile: &StatProfile) -> Result<Stats, CalcError> {
     validate(profile)?;
 

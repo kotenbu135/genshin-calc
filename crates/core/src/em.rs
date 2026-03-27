@@ -1,15 +1,27 @@
+/// Elemental mastery bonus for amplifying reactions (vaporize/melt).
+///
+/// Formula: `2.78 * EM / (EM + 1400)`
 pub fn amplifying_em_bonus(em: f64) -> f64 {
     2.78 * em / (em + 1400.0)
 }
 
+/// Elemental mastery bonus for catalyze reactions (spread/aggravate).
+///
+/// Formula: `5.0 * EM / (EM + 1200)`
 pub fn catalyze_em_bonus(em: f64) -> f64 {
     5.0 * em / (em + 1200.0)
 }
 
+/// Elemental mastery bonus for transformative reactions.
+///
+/// Formula: `16.0 * EM / (EM + 2000)`
 pub fn transformative_em_bonus(em: f64) -> f64 {
     16.0 * em / (em + 2000.0)
 }
 
+/// Elemental mastery bonus for lunar reactions.
+///
+/// Formula: `6.0 * EM / (EM + 2000)`
 pub fn lunar_em_bonus(em: f64) -> f64 {
     6.0 * em / (em + 2000.0)
 }

@@ -1,6 +1,9 @@
 use crate::reaction::Reaction;
 use crate::types::Element;
 
+/// Errors returned by calculation functions.
+///
+/// Each variant includes the invalid value for debugging.
 #[derive(Debug, Clone, PartialEq, thiserror::Error)]
 pub enum CalcError {
     #[error("character level must be 1..=90, got {0}")]

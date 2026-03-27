@@ -2,6 +2,11 @@ use serde::{Deserialize, Serialize};
 
 use crate::types::Element;
 
+/// Elemental reactions in Genshin Impact.
+///
+/// Reactions are grouped into four categories: amplifying, catalyze,
+/// transformative, and lunar. Use [`Reaction::category`] to check
+/// which category a reaction belongs to.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Reaction {
     // Amplifying
@@ -27,6 +32,7 @@ pub enum Reaction {
     LunarCrystallizeSecondary,
 }
 
+/// Reaction category classification.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ReactionCategory {
     Amplifying,
@@ -36,6 +42,7 @@ pub enum ReactionCategory {
 }
 
 impl Reaction {
+    /// Returns the category of this reaction.
     pub fn category(&self) -> ReactionCategory {
         match self {
             Reaction::Vaporize | Reaction::Melt => ReactionCategory::Amplifying,
@@ -57,6 +64,10 @@ impl Reaction {
     }
 }
 
+/// Determines the elemental reaction from a trigger and aura element.
+///
+/// Returns `None` if no reaction occurs (e.g. same element,
+/// or Geo/Anemo as aura).
 pub fn determine_reaction(trigger: Element, aura: Element) -> Option<Reaction> {
     match (trigger, aura) {
         // Vaporize
@@ -98,6 +109,10 @@ pub fn determine_reaction(trigger: Element, aura: Element) -> Option<Reaction> {
     }
 }
 
+/// Returns the amplifying reaction multiplier.
+///
+/// Vaporize (Hydro→Pyro) = 2.0, Vaporize (Pyro→Hydro) = 1.5,
+/// Melt (Pyro→Cryo) = 2.0, Melt (Cryo→Pyro) = 1.5.
 pub fn amplifying_multiplier(trigger: Element, aura: Element) -> Option<f64> {
     match (trigger, aura) {
         (Element::Pyro, Element::Hydro) => Some(1.5), // Reverse Vaporize
@@ -108,6 +123,9 @@ pub fn amplifying_multiplier(trigger: Element, aura: Element) -> Option<f64> {
     }
 }
 
+/// Returns the catalyze flat damage coefficient.
+///
+/// Aggravate = 1.15, Spread = 1.25.
 pub fn catalyze_coefficient(reaction: Reaction) -> Option<f64> {
     match reaction {
         Reaction::Aggravate => Some(1.15),
@@ -116,6 +134,7 @@ pub fn catalyze_coefficient(reaction: Reaction) -> Option<f64> {
     }
 }
 
+/// Returns the transformative reaction damage multiplier.
 pub fn transformative_multiplier(reaction: Reaction) -> Option<f64> {
     match reaction {
         Reaction::Overloaded => Some(2.75),
@@ -131,6 +150,7 @@ pub fn transformative_multiplier(reaction: Reaction) -> Option<f64> {
     }
 }
 
+/// Returns the lunar reaction damage multiplier.
 pub fn lunar_multiplier(reaction: Reaction) -> Option<f64> {
     match reaction {
         Reaction::LunarElectroCharged => Some(1.8),
@@ -141,6 +161,10 @@ pub fn lunar_multiplier(reaction: Reaction) -> Option<f64> {
     }
 }
 
+/// Returns the damage element of a transformative reaction.
+///
+/// Returns `None` if the reaction is not transformative.
+/// Returns `Some(None)` for physical damage (e.g. shattered).
 pub fn transformative_element(reaction: Reaction) -> Option<Option<Element>> {
     match reaction {
         Reaction::Overloaded => Some(Some(Element::Pyro)),
@@ -154,6 +178,7 @@ pub fn transformative_element(reaction: Reaction) -> Option<Option<Element>> {
     }
 }
 
+/// Returns the damage element of a lunar reaction.
 pub fn lunar_element(reaction: Reaction) -> Option<Option<Element>> {
     match reaction {
         Reaction::LunarElectroCharged => Some(Some(Element::Electro)),
