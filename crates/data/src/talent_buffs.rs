@@ -98,18 +98,44 @@ static SHENHE_SKILL_SCALING: [f64; 15] = [
     0.9703, 1.0274, 1.0844,
 ];
 
-static SHENHE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Spring Spirit Summoning Quill DMG",
-    description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Cryo attacks",
-    stat: BuffableStat::AtkFlat, // treated as flat bonus scaled from ATK
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&SHENHE_SKILL_SCALING),
-    scales_on: Some(ScalingStat::Atk),
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalSkill,
-    min_constellation: 0,
-}];
+static SHENHE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Spring Spirit Summoning Quill DMG",
+        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Cryo attacks",
+        stat: BuffableStat::AtkFlat, // treated as flat bonus scaled from ATK
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SHENHE_SKILL_SCALING),
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Deific Embrace Press - Skill DMG",
+        description: "After press E, party Skill DMG +15% for 10s",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Deific Embrace Press - Burst DMG",
+        description: "After press E, party Burst DMG +15% for 10s",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+];
 
 // ===== Yun Jin =====
 // Elemental Burst "Cliffbreaker's Banner": flat Normal ATK DMG based on DEF (Lv1-15)
@@ -369,6 +395,47 @@ static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 2,
 }];
 
+// ===== Thoma =====
+// C6 "Burning Heart": Normal/Charged/Plunging +15% after burst
+static THOMA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Burning Heart - Normal ATK",
+        description: "After burst, party Normal ATK DMG +15%",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+    },
+    TalentBuffDef {
+        name: "Burning Heart - Charged ATK",
+        description: "After burst, party Charged ATK DMG +15%",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+    },
+    TalentBuffDef {
+        name: "Burning Heart - Plunging ATK",
+        description: "After burst, party Plunging ATK DMG +15%",
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+    },
+];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
@@ -391,6 +458,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("diona", DIONA_BUFFS),
     ("amber", AMBER_BUFFS),
     ("barbara", BARBARA_BUFFS),
+    ("thoma", THOMA_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.
@@ -549,5 +617,49 @@ mod tests {
             .unwrap();
         assert!((c6.base_value - 0.60).abs() < 1e-6);
         assert_eq!(c6.min_constellation, 6);
+    }
+
+    #[test]
+    fn test_shenhe_a1_press_buffs() {
+        let buffs = find_talent_buffs("shenhe").unwrap();
+        // Existing: Spring Spirit Summoning (skill scaling)
+        // New: Deific Embrace press = SkillDmgBonus + BurstDmgBonus
+        let skill_dmg = buffs.iter().find(|b| b.stat == BuffableStat::SkillDmgBonus);
+        let burst_dmg = buffs.iter().find(|b| b.stat == BuffableStat::BurstDmgBonus);
+        assert!(
+            skill_dmg.is_some(),
+            "Should have SkillDmgBonus from A1 press"
+        );
+        assert!(
+            burst_dmg.is_some(),
+            "Should have BurstDmgBonus from A1 press"
+        );
+        assert!((skill_dmg.unwrap().base_value - 0.15).abs() < 1e-6);
+        assert!((burst_dmg.unwrap().base_value - 0.15).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_thoma_c6_buffs() {
+        let buffs = find_talent_buffs("thoma").unwrap();
+        assert_eq!(buffs.len(), 3);
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::NormalAtkDmgBonus)
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ChargedAtkDmgBonus)
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::PlungingAtkDmgBonus)
+        );
+        for b in buffs {
+            assert!((b.base_value - 0.15).abs() < 1e-6);
+            assert_eq!(b.min_constellation, 6);
+        }
     }
 }
