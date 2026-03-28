@@ -161,7 +161,7 @@ In `crates/data/src/buff.rs`, add after `refinement_values` field:
 Add import at top of `crates/data/src/buff.rs`:
 
 ```rust
-use genshin_calc_core::BuffTarget;
+pub use genshin_calc_core::BuffTarget;
 ```
 
 - [ ] **Step 2: Fix compilation — migrate existing ConditionalBuff consts**
@@ -178,11 +178,7 @@ Also add `BuffTarget` to imports at top of artifacts.rs:
 use genshin_calc_core::{BuffTarget, Element, WeaponType};
 ```
 
-Search all weapon files for ConditionalBuff usages and migrate them too:
-
-Run: `grep -rn "ConditionalBuff {" crates/data/src/weapons/`
-
-Add `stack_values: None, target: BuffTarget::OnlySelf,` to each.
+Note: 武器ファイルには現時点で ConditionalBuff 定義は存在しない（artifacts.rs の3箇所のみ）。
 
 - [ ] **Step 3: Run full test suite — verify everything compiles and passes**
 
@@ -212,7 +208,8 @@ Add to `crates/data/src/team_builder.rs` tests module:
     #[test]
     fn test_eval_auto_team_same_element_count_pass() {
         let profile = StatProfile::default();
-        // Character is Pyro, team has 2 Pyro members
+        // team_elements includes self. Character is Pyro.
+        // Team: [Pyro(self), Pyro, Hydro, Dendro] → same-element teammates = 2-1(self) = 1
         let team = vec![Element::Pyro, Element::Pyro, Element::Hydro, Element::Dendro];
         let cond = AutoCondition::TeamSameElementCount { min_count: 1 };
         let result = eval_auto(&cond, 0.14, &profile, WeaponType::Sword, Element::Pyro, &team);
@@ -223,20 +220,20 @@ Add to `crates/data/src/team_builder.rs` tests module:
     #[test]
     fn test_eval_auto_team_same_element_count_fail() {
         let profile = StatProfile::default();
-        // Character is Pyro, team has 0 other Pyro members (only self)
+        // team_elements includes self. Character is Pyro.
+        // Team: [Pyro(self), Hydro, Dendro, Cryo] → same-element teammates = 1-1(self) = 0
+        // min_count: 2 requires 2 same-element teammates → fail
         let team = vec![Element::Pyro, Element::Hydro, Element::Dendro, Element::Cryo];
         let cond = AutoCondition::TeamSameElementCount { min_count: 2 };
         let result = eval_auto(&cond, 0.14, &profile, WeaponType::Sword, Element::Pyro, &team);
-        // Only 1 Pyro (self counts), need 2 → depends on whether self is included
-        // Gilded Dreams counts teammates excluding self, so team_elements should exclude self
-        // With team_elements = [Hydro, Dendro, Cryo], same-element count = 0
         assert!(result.is_none());
     }
 
     #[test]
     fn test_eval_auto_team_diff_element_count_pass() {
         let profile = StatProfile::default();
-        // Character is Pyro, team has 3 non-Pyro members
+        // team_elements includes self. Character is Pyro.
+        // Team: [Pyro(self), Hydro, Dendro, Cryo] → diff-element members = 3
         let team = vec![Element::Pyro, Element::Hydro, Element::Dendro, Element::Cryo];
         let cond = AutoCondition::TeamDiffElementCount { min_count: 2 };
         let result = eval_auto(&cond, 50.0, &profile, WeaponType::Sword, Element::Pyro, &team);
@@ -374,6 +371,8 @@ Run: `cargo test -p genshin-calc-data test_eval_manual_stack_values -v`
 Expected: FAIL (signature mismatch)
 
 - [ ] **Step 3: Change eval_manual signature and implement stack_values**
+
+**挙動変更注意:** 旧実装では `Stacks(0)` で `Some(0.0)` を返していたが、新実装では `None` を返す（ゼロスタック＝バフ未発動）。全テストを実行して回帰がないことを確認すること。
 
 Replace the `eval_manual` function in `crates/data/src/team_builder.rs`:
 
@@ -733,8 +732,9 @@ fn test_auto_condition_sets() {
 - [ ] **Step 3: Implement**
 
 - `wanderers_troupe`: ChargedAtkDmgBonus +0.35, Auto(WeaponTypeRequired(&[Catalyst, Bow]))
-- `chronicled_sands_and_water`: SkillDmgBonus + BurstDmgBonus, Auto(StatScaling{stat: EnergyRecharge, cap: ...})
-  - Need to determine the cap value from game data. The 4pc description says "ER based Skill/Burst bonus" — check the actual formula and cap.
+- `chronicled_sands_and_water`: 2つの ConditionalBuff、各 `value: 0.40, Auto(StatScaling{stat: EnergyRecharge, cap: Some(0.80)})` — Emblem と同パターン
+  - SkillDmgBonus: `value: 0.40`, `cap: Some(0.80)`
+  - BurstDmgBonus: `value: 0.40`, `cap: Some(0.80)`
 
 - [ ] **Step 4: Run test — verify it passes**
 
@@ -851,7 +851,7 @@ git commit -m "feat: add 4pc ConditionalBuff for Nymph's Dream (non-linear) and 
 
 ---
 
-## Task 11: 聖遺物4pc — Base + Toggle/Stacks セット (5セット)
+## Task 11: 聖遺物4pc — Base + Toggle/Stacks セット (4セット)
 
 **Files:**
 - Modify: `crates/data/src/artifacts.rs`

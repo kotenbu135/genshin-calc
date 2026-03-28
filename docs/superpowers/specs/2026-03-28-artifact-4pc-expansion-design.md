@@ -344,15 +344,15 @@ conditional_buffs: &[
 | 実装済み（バフ追加） | 1 |
 | Auto条件 | 2 |
 | Toggle | 18 |
-| Stacks | 6 |
+| Stacks | 5 |
 | Stacks+Toggle複合 | 1 |
 | ベース(StatBuff)+Toggle | 1 |
-| ベース(StatBuff)+Stacks | 2 |
+| ベース(StatBuff)+Stacks | 1 |
 | ベース(Toggle)+Stacks | 2 |
 | Auto+Team条件 | 2 |
 | 耐性減少 | 2 |
-| **ConditionalBuff 小計** | **36** |
-| Description のみ | 13 |
+| **ConditionalBuff 小計** | **37** |
+| Description のみ | 11 |
 | 4pc効果なし | 4 |
 | **合計** | **52** |
 
