@@ -2,7 +2,7 @@ use crate::buff::{
     Activation, AutoCondition, BuffableStat, ConditionalBuff, ManualCondition, StatBuff,
 };
 use crate::types::{ArtifactRarity, ArtifactSet, SetEffect};
-use genshin_calc_core::{Element, WeaponType};
+use genshin_calc_core::{BuffTarget, Element, WeaponType};
 
 // =============================================================================
 // 5-star Artifact Sets
@@ -24,14 +24,38 @@ pub const CRIMSON_WITCH: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "過負荷、燃焼、烈開花反応ダメージ+40%。蒸発、溶解反応倍率+15%。元素スキル使用後2セット効果+50%、最大3スタック",
         buffs: &[],
-        conditional_buffs: &[ConditionalBuff {
-            name: "cwof_pyro_stacks",
-            description: "Using Skill increases Pyro DMG by 7.5%, max 3 stacks",
-            stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
-            value: 0.075,
-            refinement_values: None,
-            activation: Activation::Manual(ManualCondition::Stacks(3)),
-        }],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "cwof_pyro_stacks",
+                description: "Using Skill increases Pyro DMG by 7.5%, max 3 stacks",
+                stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+                value: 0.075,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            },
+            ConditionalBuff {
+                name: "cw_amplifying",
+                description: "Vaporize/Melt reaction bonus +15%",
+                stat: BuffableStat::AmplifyingBonus,
+                value: 0.15,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "cw_transformative",
+                description: "Overloaded/Burning/Burgeon reaction DMG +40%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -57,6 +81,8 @@ pub const GLADIATORS_FINALE: ArtifactSet = ArtifactSet {
             stat: BuffableStat::NormalAtkDmgBonus,
             value: 0.35,
             refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
             activation: Activation::Auto(AutoCondition::WeaponTypeRequired(&[
                 WeaponType::Sword,
                 WeaponType::Claymore,
@@ -82,7 +108,19 @@ pub const WANDERERS_TROUPE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "該当キャラクターが法器、弓キャラの場合、重撃ダメージ+35%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "wanderers_charged_bonus",
+            description: "Charged Attack DMG +35% for Catalyst/Bow users",
+            stat: BuffableStat::ChargedAtkDmgBonus,
+            value: 0.35,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Auto(AutoCondition::WeaponTypeRequired(&[
+                WeaponType::Catalyst,
+                WeaponType::Bow,
+            ])),
+        }],
     },
 };
 
@@ -102,7 +140,16 @@ pub const NOBLESSE_OBLIGE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素爆発を発動すると、チーム全員の攻撃力+20%、継続時間12秒、重ねがけ不可",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "noblesse_atk_bonus",
+            description: "After using Elemental Burst, team ATK +20%",
+            stat: BuffableStat::AtkPercent,
+            value: 0.20,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::Team,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -122,7 +169,16 @@ pub const BLOODSTAINED_CHIVALRY: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "敵を倒した10秒以内に、重撃のスタミナ消費-0、ダメージ+50%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "bloodstained_charged_bonus",
+            description: "After defeating enemy, Charged Attack DMG +50%",
+            stat: BuffableStat::ChargedAtkDmgBonus,
+            value: 0.50,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -142,7 +198,28 @@ pub const THUNDERING_FURY: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "過負荷、感電、超電導、超激化反応ダメージ+40%。超開花反応ダメージ+20%。上記反応発生後、元素スキルのクールタイム-1秒。0.8秒ごとに1回のみ発動可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "tf_transformative",
+                description: "Electro reaction DMG (Overloaded/Superconduct/Electro-Charged/Hyperbloom) +40%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "tf_additive",
+                description: "Quicken reaction DMG (Aggravate/Spread) +20%",
+                stat: BuffableStat::AdditiveBonus,
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -158,7 +235,16 @@ pub const THUNDERSOOTHER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "雷元素の影響を受けた敵に対するダメージ+35%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "thundersoother_dmg_bonus",
+            description: "DMG +35% against enemies affected by Electro",
+            stat: BuffableStat::DmgBonus,
+            value: 0.35,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -178,7 +264,58 @@ pub const VIRIDESCENT_VENERER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "拡散反応ダメージ+60%。拡散反応に対応する元素の敵耐性-40%、継続時間10秒",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "vv_swirl_bonus",
+                description: "Swirl DMG +60%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.60,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vv_res_shred_pyro",
+                description: "Enemy Pyro RES -40%",
+                stat: BuffableStat::ElementalResReduction(Element::Pyro),
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vv_res_shred_hydro",
+                description: "Enemy Hydro RES -40%",
+                stat: BuffableStat::ElementalResReduction(Element::Hydro),
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vv_res_shred_electro",
+                description: "Enemy Electro RES -40%",
+                stat: BuffableStat::ElementalResReduction(Element::Electro),
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vv_res_shred_cryo",
+                description: "Enemy Cryo RES -40%",
+                stat: BuffableStat::ElementalResReduction(Element::Cryo),
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -238,7 +375,28 @@ pub const RETRACING_BOLIDE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "シールド状態の時、通常攻撃と重撃ダメージ+40%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "bolide_normal_charged_bonus",
+                description: "While shielded, Normal and Charged Attack DMG +40%",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "bolide_charged_bonus",
+                description: "While shielded, Charged Attack DMG +40%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -254,7 +412,16 @@ pub const LAVAWALKER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "炎元素の影響を受けた敵に対するダメージ+35%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "lavawalker_dmg_bonus",
+            description: "DMG +35% against enemies affected by Pyro",
+            stat: BuffableStat::DmgBonus,
+            value: 0.35,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -274,7 +441,28 @@ pub const BLIZZARD_STRAYER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "氷元素の影響を受けた敵を攻撃した場合、会心率+20%。敵が凍結状態の場合、会心率は更に+20%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "blizzard_crit_cryo",
+                description: "Crit Rate +20% vs Cryo-affected enemies (1 stack)",
+                stat: BuffableStat::CritRate,
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "blizzard_crit_frozen",
+                description: "Crit Rate +20% vs Frozen enemies (additional, 2nd stack)",
+                stat: BuffableStat::CritRate,
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -294,7 +482,28 @@ pub const HEART_OF_DEPTH: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素スキル発動後15秒間、通常攻撃と重撃のダメージ+30%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "hod_normal_bonus",
+                description: "After using Elemental Skill, Normal Attack DMG +30%",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.30,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "hod_charged_bonus",
+                description: "After using Elemental Skill, Charged Attack DMG +30%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.30,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -314,7 +523,28 @@ pub const TENACITY_OF_THE_MILLELITH: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素スキルが敵に命中すると、周囲のチーム全員の攻撃力+20%、シールド強化+30%、継続時間3秒。0.5秒ごとに1回のみ発動可能。この効果はキャラクターが待機中でも発動可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "millelith_atk_bonus",
+                description: "After Skill hits, team ATK +20%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "millelith_shield_bonus",
+                description: "After Skill hits, team Shield Strength +30%",
+                stat: BuffableStat::ShieldStrength,
+                value: 0.30,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -334,7 +564,28 @@ pub const PALE_FLAME: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素スキルが敵に命中すると、攻撃力+9%、継続時間7秒、最大2スタック。2スタック時に2セットの効果+100%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "pale_flame_atk_stacks",
+                description: "Skill hit: ATK +9% per stack, max 2",
+                stat: BuffableStat::AtkPercent,
+                value: 0.09,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(2)),
+            },
+            ConditionalBuff {
+                name: "pale_flame_phys_bonus",
+                description: "At 2 stacks, Physical DMG +25% (2pc effect doubled)",
+                stat: BuffableStat::PhysicalDmgBonus,
+                value: 0.25,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -354,7 +605,38 @@ pub const SHIMENAWAS_REMINISCENCE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素スキルを発動した時、元素エネルギーが15以上の場合、元素エネルギーを15消費し、通常攻撃、重撃、落下攻撃ダメージ+50%、継続時間10秒。この効果は継続時間中に再発動不可",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "shimenawa_normal_bonus",
+                description: "After Skill use (15 energy consumed), Normal Attack DMG +50%",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.50,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "shimenawa_charged_bonus",
+                description: "After Skill use (15 energy consumed), Charged Attack DMG +50%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.50,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "shimenawa_plunging_bonus",
+                description: "After Skill use (15 energy consumed), Plunging Attack DMG +50%",
+                stat: BuffableStat::PlungingAtkDmgBonus,
+                value: 0.50,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -380,6 +662,8 @@ pub const EMBLEM_OF_SEVERED_FATE: ArtifactSet = ArtifactSet {
             stat: BuffableStat::BurstDmgBonus,
             value: 0.25,
             refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
             activation: Activation::Auto(AutoCondition::StatScaling {
                 stat: BuffableStat::EnergyRecharge,
                 cap: Some(0.75),
@@ -404,7 +688,28 @@ pub const HUSK_OF_OPULENT_DREAMS: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "装備キャラクターがフィールドにいる時、岩元素ダメージを与えた0.3秒後に「問答」スタックを1獲得、最大4スタック。1スタックにつき防御力+6%と岩元素ダメージ+6%。6秒ごとに「問答」スタックを獲得できない場合、スタック-1。装備キャラクターが待機中の場合、3秒ごとに「問答」スタック+1",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "husk_def_stacks",
+                description: "Curiosity stack: DEF +6% per stack, max 4",
+                stat: BuffableStat::DefPercent,
+                value: 0.06,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            },
+            ConditionalBuff {
+                name: "husk_geo_stacks",
+                description: "Curiosity stack: Geo DMG +6% per stack, max 4",
+                stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+                value: 0.06,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            },
+        ],
     },
 };
 
@@ -444,7 +749,28 @@ pub const VERMILLION_HEREAFTER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素爆発を発動した後、攻撃力+8%。さらにHPが減少するたびに攻撃力+10%、最大4スタック。この効果は継続時間16秒。HPが増加した場合もスタック解除されない。スタック数は0.8秒に最大1回のみ変動",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "vermillion_atk_base",
+                description: "After Elemental Burst, ATK +8%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.08,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vermillion_atk_stacks",
+                description: "HP decreases: ATK +10% per stack, max 4",
+                stat: BuffableStat::AtkPercent,
+                value: 0.10,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            },
+        ],
     },
 };
 
@@ -484,7 +810,16 @@ pub const DEEPWOOD_MEMORIES: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素スキルまたは元素爆発が敵に命中した後、敵の草元素耐性-30%、継続時間8秒。装備キャラクターが待機中でも効果を発動可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "deepwood_dendro_res_shred",
+            description: "After Skill/Burst hit, enemy Dendro RES -30%",
+            stat: BuffableStat::ElementalResReduction(Element::Dendro),
+            value: 0.30,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::Team,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -504,7 +839,68 @@ pub const GILDED_DREAMS: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素反応を起こした後8秒間、チーム内の自身以外のキャラクターの元素タイプに応じてバフを獲得。自身と同じ元素タイプのキャラ1人につき攻撃力+14%、異なる元素タイプのキャラ1人につき元素熟知+50。上記効果は最大3人分まで。0.8秒ごとに1回のみ発動可能。待機中でも効果を発動可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "gilded_same1_atk",
+                description: "1 same-element teammate: ATK +14%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.14,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::TeamSameElementCount { min_count: 1 }),
+            },
+            ConditionalBuff {
+                name: "gilded_same2_atk",
+                description: "2 same-element teammates: ATK +14%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.14,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::TeamSameElementCount { min_count: 2 }),
+            },
+            ConditionalBuff {
+                name: "gilded_same3_atk",
+                description: "3 same-element teammates: ATK +14%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.14,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::TeamSameElementCount { min_count: 3 }),
+            },
+            ConditionalBuff {
+                name: "gilded_diff1_em",
+                description: "1 different-element teammate: EM +50",
+                stat: BuffableStat::ElementalMastery,
+                value: 50.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::TeamDiffElementCount { min_count: 1 }),
+            },
+            ConditionalBuff {
+                name: "gilded_diff2_em",
+                description: "2 different-element teammates: EM +50",
+                stat: BuffableStat::ElementalMastery,
+                value: 50.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::TeamDiffElementCount { min_count: 2 }),
+            },
+            ConditionalBuff {
+                name: "gilded_diff3_em",
+                description: "3 different-element teammates: EM +50",
+                stat: BuffableStat::ElementalMastery,
+                value: 50.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::TeamDiffElementCount { min_count: 3 }),
+            },
+        ],
     },
 };
 
@@ -524,7 +920,38 @@ pub const DESERT_PAVILION_CHRONICLE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "重撃が敵に命中すると、通常攻撃の攻撃速度+10%、通常攻撃、重撃、落下攻撃のダメージ+40%、継続時間15秒",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "desert_pavilion_normal_bonus",
+                description: "After Charged Attack hits, Normal Attack DMG +40%",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "desert_pavilion_charged_bonus",
+                description: "After Charged Attack hits, Charged Attack DMG +40%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "desert_pavilion_plunging_bonus",
+                description: "After Charged Attack hits, Plunging Attack DMG +40%",
+                stat: BuffableStat::PlungingAtkDmgBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -544,7 +971,28 @@ pub const FLOWER_OF_PARADISE_LOST: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "開花、超開花、烈開花反応ダメージ+40%。さらに装備キャラクターが開花、超開花、烈開花反応を起こした後、上記効果+25%、最大4スタック、継続時間10秒。0.8秒ごとに1回のみスタック獲得可能。待機中でも効果を発動可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "fopl_bloom_base",
+                description: "Bloom/Hyperbloom/Burgeon DMG +40%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "fopl_bloom_stacks",
+                description: "After triggering Bloom reaction, +10% per stack, max 4",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.10,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            },
+        ],
     },
 };
 
@@ -564,7 +1012,28 @@ pub const NYMPHS_DREAM: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "通常攻撃、重撃、元素スキル、元素爆発が命中した後、1/2/3スタックでそれぞれ水元素ダメージ+7%/16%/25%、攻撃力+4%/9%/15%。各攻撃が命中するたびに、他種類のスタックの持続時間をリセット。各種類のスタックは0.8秒に1回のみ獲得可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "nymphs_dream_atk_stacks",
+                description: "Attack hits: ATK +4%/9%/15% at 1/2/3 stacks",
+                stat: BuffableStat::AtkPercent,
+                value: 0.04,
+                refinement_values: None,
+                stack_values: Some(&[0.04, 0.09, 0.15]),
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            },
+            ConditionalBuff {
+                name: "nymphs_dream_hydro_stacks",
+                description: "Attack hits: Hydro DMG +7%/16%/25% at 1/2/3 stacks",
+                stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+                value: 0.07,
+                refinement_values: None,
+                stack_values: Some(&[0.07, 0.16, 0.25]),
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            },
+        ],
     },
 };
 
@@ -583,8 +1052,40 @@ pub const VOURUKASHAS_GLOW: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: "元素スキルと元素爆発のダメージ+10%。装備キャラクターがダメージを受けた後、上記効果+80%、継続時間5秒、最大5スタック。各スタックの持続時間は独立。待機中でも効果を発動可能",
-        buffs: &[],
-        conditional_buffs: &[],
+        buffs: &[
+            StatBuff {
+                stat: BuffableStat::SkillDmgBonus,
+                value: 0.10,
+                refinement_values: None,
+            },
+            StatBuff {
+                stat: BuffableStat::BurstDmgBonus,
+                value: 0.10,
+                refinement_values: None,
+            },
+        ],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "vourukasha_skill_stacks",
+                description: "After taking DMG: Skill DMG +8% per stack, max 5",
+                stat: BuffableStat::SkillDmgBonus,
+                value: 0.08,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            },
+            ConditionalBuff {
+                name: "vourukasha_burst_stacks",
+                description: "After taking DMG: Burst DMG +8% per stack, max 5",
+                stat: BuffableStat::BurstDmgBonus,
+                value: 0.08,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            },
+        ],
     },
 };
 
@@ -611,7 +1112,16 @@ pub const MARECHAUSSEE_HUNTER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "現在のHPが変動した後、会心率+12%、継続時間5秒、最大3スタック",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "marechaussee_crit_stacks",
+            description: "HP changes: Crit Rate +12% per stack, max 3",
+            stat: BuffableStat::CritRate,
+            value: 0.12,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Stacks(3)),
+        }],
     },
 };
 
@@ -630,8 +1140,21 @@ pub const GOLDEN_TROUPE: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: "元素スキルのダメージ+25%。さらにキャラクターが待機中の場合、元素スキルのダメージ+25%",
-        buffs: &[],
-        conditional_buffs: &[],
+        buffs: &[StatBuff {
+            stat: BuffableStat::SkillDmgBonus,
+            value: 0.25,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[ConditionalBuff {
+            name: "golden_troupe_off_field_bonus",
+            description: "While off-field, Skill DMG +25%",
+            stat: BuffableStat::SkillDmgBonus,
+            value: 0.25,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -671,7 +1194,28 @@ pub const NIGHTTIME_WHISPERS_IN_THE_ECHOING_WOODS: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素スキルを使用した後、岩元素ダメージ+20%。夜魂ポイントを消費したとき、岩元素ダメージがさらに+20%、継続時間20秒",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "nighttime_geo_base",
+                description: "After using Elemental Skill, Geo DMG +20%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "nighttime_geo_nightsoul",
+                description: "While consuming Nightsoul points, Geo DMG +20% extra",
+                stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -691,7 +1235,16 @@ pub const FRAGMENT_OF_HARMONIC_WHIMSY: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "キャラクターのHPが変動した時、与えるダメージ+18%、継続時間6秒、最大3スタック。0.2秒ごとに1回のみ発動可能。待機中でも効果を発動可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "harmonic_whimsy_dmg_stacks",
+            description: "HP changes: DMG +18% per stack, max 3",
+            stat: BuffableStat::DmgBonus,
+            value: 0.18,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Stacks(3)),
+        }],
     },
 };
 
@@ -711,7 +1264,16 @@ pub const UNFINISHED_REVERIE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "燃焼反応または烈開花反応を起こした後、与えるダメージ+50%、継続時間10秒。上記の効果の継続中にフィールド上にいる場合、3秒後に効果が消える",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "unfinished_reverie_dmg_bonus",
+            description: "After Burning/Burgeon reaction, DMG +50%",
+            stat: BuffableStat::DmgBonus,
+            value: 0.50,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -731,7 +1293,88 @@ pub const SCROLL_OF_THE_HERO_OF_CINDER_CITY: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "装備キャラクターが夜魂バースト状態にある、または燃焼、超電導等の元素反応を起こした後、チーム全員の対応する元素ダメージ+12%。同時に最大2種類の元素に効果。待機中でも発動可能。持続時間12秒",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "scroll_em_bonus",
+                description: "After triggering reaction, team EM +40",
+                stat: BuffableStat::ElementalMastery,
+                value: 40.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "scroll_pyro_dmg",
+                description: "Team Pyro DMG +12%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+                value: 0.12,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "scroll_hydro_dmg",
+                description: "Team Hydro DMG +12%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+                value: 0.12,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "scroll_electro_dmg",
+                description: "Team Electro DMG +12%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+                value: 0.12,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "scroll_cryo_dmg",
+                description: "Team Cryo DMG +12%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+                value: 0.12,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "scroll_anemo_dmg",
+                description: "Team Anemo DMG +12%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
+                value: 0.12,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "scroll_geo_dmg",
+                description: "Team Geo DMG +12%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+                value: 0.12,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "scroll_dendro_dmg",
+                description: "Team Dendro DMG +12%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+                value: 0.12,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -758,7 +1401,28 @@ pub const OBSIDIAN_CODEX: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "キャラクターが夜魂バースト状態にある時、与えるダメージ+25%。さらにナイトソウルポイントが50%以下の場合、会心率+40%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "obsidian_nightsoul_dmg",
+                description: "While in Nightsoul's Blessing state, DMG +25%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.25,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "obsidian_low_ns_crit",
+                description: "When Nightsoul points below 50%, Crit Rate +40%",
+                stat: BuffableStat::CritRate,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -778,7 +1442,16 @@ pub const RESOLUTION_OF_SOJOURNER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "重撃の会心率+30%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "sojourner_charged_crit",
+            description: "Charged Attack Crit Rate +30%",
+            stat: BuffableStat::CritRate,
+            value: 0.30,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -814,7 +1487,16 @@ pub const BERSERKER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "HPが70%以下になると、会心率+24%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "berserker_low_hp_crit",
+            description: "When HP below 70%, Crit Rate +24%",
+            stat: BuffableStat::CritRate,
+            value: 0.24,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -834,7 +1516,16 @@ pub const INSTRUCTOR: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素反応を起こした後、チーム全員の元素熟知+120、継続時間8秒",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "instructor_em_bonus",
+            description: "After triggering reaction, team EM +120",
+            stat: BuffableStat::ElementalMastery,
+            value: 120.0,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::Team,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -881,7 +1572,28 @@ pub const MARTIAL_ARTIST: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素スキルまたは元素爆発を発動した後、通常攻撃と重撃のダメージ+25%、継続時間8秒",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "martial_artist_normal_bonus",
+                description: "After Skill/Burst use, Normal Attack DMG +25%",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.25,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "martial_artist_charged_bonus",
+                description: "After Skill/Burst use, Charged Attack DMG +25%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.25,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -921,7 +1633,16 @@ pub const BRAVE_HEART: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "HPが50%以上の敵に対するダメージ+30%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "brave_heart_dmg_bonus",
+            description: "DMG +30% vs enemies with HP above 50%",
+            stat: BuffableStat::DmgBonus,
+            value: 0.30,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Toggle),
+        }],
     },
 };
 
@@ -1069,7 +1790,34 @@ pub const CHRONICLED_SANDS_AND_WATER: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素チャージ効率の40%に基づいて、元素スキルと元素爆発のダメージアップ。この方式でアップできるダメージは最大80%まで",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "chronicled_skill_bonus",
+                description: "Skill DMG: 40% of ER, max 80%",
+                stat: BuffableStat::SkillDmgBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::EnergyRecharge,
+                    cap: Some(0.80),
+                }),
+            },
+            ConditionalBuff {
+                name: "chronicled_burst_bonus",
+                description: "Burst DMG: 40% of ER, max 80%",
+                stat: BuffableStat::BurstDmgBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::EnergyRecharge,
+                    cap: Some(0.80),
+                }),
+            },
+        ],
     },
 };
 

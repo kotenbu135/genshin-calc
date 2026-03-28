@@ -24,4 +24,11 @@ pub enum BuffableStat {
     BurstDmgBonus,
     HealingBonus,
     ShieldStrength,
+    // Reaction bonus stats (consumed by damage calculation, not applied to StatProfile)
+    AmplifyingBonus,
+    TransformativeBonus,
+    AdditiveBonus,
+    // Enemy resistance reduction (consumed by damage calculation, not applied to StatProfile)
+    ElementalResReduction(Element),
+    PhysicalResReduction,
 }

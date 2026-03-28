@@ -1,6 +1,6 @@
 use crate::buff::{
-    Activation, AutoCondition, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect,
-    StatBuff,
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -243,6 +243,8 @@ pub const PRIMORDIAL_JADE_CUTTER: WeaponData = WeaponData {
                 stat: BuffableStat::AtkFlat,
                 value: 0.012,
                 refinement_values: Some([0.012, 0.015, 0.018, 0.021, 0.024]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Auto(AutoCondition::StatScaling {
                     stat: BuffableStat::HpPercent,
                     cap: None,
@@ -515,6 +517,8 @@ pub const IRON_STING: WeaponData = WeaponData {
                 stat: BuffableStat::DmgBonus,
                 value: 0.06,
                 refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Stacks(2)),
             }],
         },
@@ -556,6 +560,8 @@ pub const LIONS_ROAR: WeaponData = WeaponData {
                 stat: BuffableStat::DmgBonus,
                 value: 0.20,
                 refinement_values: Some([0.20, 0.24, 0.28, 0.32, 0.36]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Toggle),
             }],
         },

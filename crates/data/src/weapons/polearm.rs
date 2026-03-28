@@ -1,6 +1,6 @@
 use crate::buff::{
-    Activation, AutoCondition, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect,
-    StatBuff,
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -179,6 +179,8 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     stat: BuffableStat::AtkFlat,
                     value: 0.008,
                     refinement_values: Some([0.008, 0.010, 0.012, 0.014, 0.016]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
                     activation: Activation::Auto(AutoCondition::StatScaling {
                         stat: BuffableStat::HpPercent,
                         cap: None,
@@ -190,6 +192,8 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     stat: BuffableStat::AtkFlat,
                     value: 0.010,
                     refinement_values: Some([0.010, 0.012, 0.014, 0.016, 0.018]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
                     activation: Activation::Both(
                         AutoCondition::StatScaling {
                             stat: BuffableStat::HpPercent,
@@ -313,6 +317,8 @@ pub const DEATHMATCH: WeaponData = WeaponData {
                     stat: BuffableStat::AtkPercent,
                     value: 0.16,
                     refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
                     activation: Activation::Manual(ManualCondition::Toggle),
                 },
                 ConditionalBuff {
@@ -321,6 +327,8 @@ pub const DEATHMATCH: WeaponData = WeaponData {
                     stat: BuffableStat::DefPercent,
                     value: 0.16,
                     refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
                     activation: Activation::Manual(ManualCondition::Toggle),
                 },
                 ConditionalBuff {
@@ -329,6 +337,8 @@ pub const DEATHMATCH: WeaponData = WeaponData {
                     stat: BuffableStat::AtkPercent,
                     value: 0.24,
                     refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
                     activation: Activation::Manual(ManualCondition::Toggle),
                 },
             ],
@@ -371,6 +381,8 @@ pub const DRAGONS_BANE: WeaponData = WeaponData {
                 stat: BuffableStat::DmgBonus,
                 value: 0.20,
                 refinement_values: Some([0.20, 0.24, 0.28, 0.32, 0.36]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Toggle),
             }],
         },

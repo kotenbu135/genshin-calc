@@ -1,5 +1,5 @@
 use crate::buff::{
-    Activation, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -57,6 +57,8 @@ pub const AQUA_SIMULACRA: WeaponData = WeaponData {
                 stat: BuffableStat::DmgBonus,
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Toggle),
             }],
         },
