@@ -436,6 +436,80 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Faruzan =====
+// Burst "The Wind's Secret Ways": Anemo DMG bonus per level (Lv1-15)
+// Values from Genshin Wiki (Prayerful Wind's Benefit)
+static FARUZAN_BURST_ANEMO_SCALING: [f64; 15] = [
+    0.182, 0.196, 0.209, 0.228, 0.241, 0.255, 0.273, 0.291, 0.310, 0.328, 0.346, 0.364, 0.387,
+    0.410, 0.432,
+];
+
+static FARUZAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Prayerful Wind's Benefit",
+    description: "Anemo DMG Bonus based on burst talent level",
+    stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
+    base_value: 0.0,
+    scales_with_talent: true,
+    talent_scaling: Some(&FARUZAN_BURST_ANEMO_SCALING),
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::ElementalBurst,
+    min_constellation: 0,
+}];
+
+// ===== Candace =====
+// Burst "Sacred Rite: Heron's Sanctum": Normal ATK DMG bonus per level (Lv1-15)
+static CANDACE_BURST_NORMAL_SCALING: [f64; 15] = [
+    0.20, 0.215, 0.23, 0.25, 0.265, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38, 0.40, 0.425, 0.45, 0.475,
+];
+
+static CANDACE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Sacred Rite: Heron's Sanctum",
+    description: "Normal ATK DMG Bonus based on burst talent level",
+    stat: BuffableStat::NormalAtkDmgBonus,
+    base_value: 0.0,
+    scales_with_talent: true,
+    talent_scaling: Some(&CANDACE_BURST_NORMAL_SCALING),
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::ElementalBurst,
+    min_constellation: 0,
+}];
+
+// ===== Gorou =====
+// Skill "Inuzaka All-Round Defense": DEF flat per level (Lv1-15) + Geo DMG+15% (3 Geo)
+static GOROU_SKILL_DEF_SCALING: [f64; 15] = [
+    206.16, 221.62, 237.08, 257.70, 273.16, 288.62, 309.24, 329.86, 350.48, 371.10, 391.72, 412.34,
+    438.11, 463.88, 489.65,
+];
+
+static GOROU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Inuzaka All-Round Defense",
+        description: "DEF increase based on skill talent level",
+        stat: BuffableStat::DefFlat,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&GOROU_SKILL_DEF_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Inuzaka All-Round Defense - Geo DMG",
+        description: "With 3 Geo members, Geo DMG Bonus +15% (approximation: always registered)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
@@ -459,6 +533,9 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("amber", AMBER_BUFFS),
     ("barbara", BARBARA_BUFFS),
     ("thoma", THOMA_BUFFS),
+    ("faruzan", FARUZAN_BUFFS),
+    ("candace", CANDACE_BUFFS),
+    ("gorou", GOROU_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.
@@ -661,5 +738,55 @@ mod tests {
             assert!((b.base_value - 0.15).abs() < 1e-6);
             assert_eq!(b.min_constellation, 6);
         }
+    }
+
+    #[test]
+    fn test_find_faruzan_buffs() {
+        let buffs = find_talent_buffs("faruzan").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(
+            buffs[0].stat,
+            BuffableStat::ElementalDmgBonus(Element::Anemo)
+        );
+        assert!(buffs[0].scales_with_talent);
+        assert!(buffs[0].talent_scaling.is_some());
+        assert_eq!(buffs[0].source, TalentBuffSource::ElementalBurst);
+    }
+
+    #[test]
+    fn test_faruzan_burst_scaling_lv13() {
+        let buffs = find_talent_buffs("faruzan").unwrap();
+        let scaling = buffs[0].talent_scaling.unwrap();
+        // Verify Lv13 value is positive
+        assert!(scaling[12] > 0.0, "Lv13 scaling should be positive");
+    }
+
+    #[test]
+    fn test_find_candace_buffs() {
+        let buffs = find_talent_buffs("candace").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
+        assert!(buffs[0].scales_with_talent);
+        assert_eq!(buffs[0].source, TalentBuffSource::ElementalBurst);
+    }
+
+    #[test]
+    fn test_find_gorou_buffs() {
+        let buffs = find_talent_buffs("gorou").unwrap();
+        assert_eq!(buffs.len(), 2);
+        // DefFlat scaling entry
+        let def_buff = buffs
+            .iter()
+            .find(|b| b.stat == BuffableStat::DefFlat)
+            .unwrap();
+        assert!(def_buff.scales_with_talent);
+        assert_eq!(def_buff.source, TalentBuffSource::ElementalSkill);
+        // Geo DMG fixed entry
+        let geo_buff = buffs
+            .iter()
+            .find(|b| b.stat == BuffableStat::ElementalDmgBonus(Element::Geo))
+            .unwrap();
+        assert!((geo_buff.base_value - 0.15).abs() < 1e-6);
+        assert!(!geo_buff.scales_with_talent);
     }
 }
