@@ -8,7 +8,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 |----------|-----:|--------:|-------:|-----------:|
 | 武器パッシブ (StatBuff) | 220 | 37 | 174 | 17% |
 | 聖遺物セット効果 (StatBuff) | 104 | 42 | 59 | 40% |
-| 天賦バフ (TalentBuffDef) | ~30対象 | 9 | ~21 | ~30% |
+| 天賦バフ (TalentBuffDef) | ~30対象 | 27 | ~3 | ~90% |
 | 敵データ | 多数 | 40 | 多数 | - |
 | 武器精錬値 (R1-R5) | 220 | ほぼ0 | 220 | ~0% |
 
@@ -47,13 +47,29 @@ P2/P3/P4/P6のアンロックキー。
 
 ### P1で即追加可能 (条件なし or builder側計算)
 
-- [ ] Sucrose — EM共有 (A4: チームにEM×20%, base_value方式)
-- [ ] Faruzan — 風ダメバフ部分のみ (風耐性シュレッドはP6)
+- [x] Sucrose — EM共有 (A1: +50 EM固定, A4: チームにEM×20%, base_value方式)
+- [x] Faruzan — 風ダメバフ部分のみ (風耐性シュレッドはP6)
+- [x] Ganyu — 氷ダメ+20% (C4)
+- [x] Albedo — EM+125 (A4)
+- [x] Ningguang — 岩ダメ+12% (A4)
+- [x] Traveler Dendro — EM+60 (C1)
+- [x] Yoimiya — チームATK+20% (A4)
+- [x] Chevreuse — ATK+20% (A1固定バフ部分のみ)
+- [x] Diona — EM+200 (C6)
+- [x] Amber — チームATK% (C6)
+- [x] Barbara — 水ダメ (C2)
+- [x] Shenhe — 氷ダメ倍率 (A1 press: SkillDmgBonus+BurstDmgBonus+15%)
+- [x] Thoma — 通常/重撃/落下+15% (C6)
+- [x] Candace — 通常攻撃ダメ+スケーリング (爆発)
+- [x] Gorou — DEFフラット+Geo DMG+15% (スキル+岩3体)
+- [x] Yelan — DMGボーナス (base_value方式)
+- [x] Ineffa — EM (base_value方式)
+- [x] Jahoda — EM+100 (スキル)
+- [x] Aino — EM+80 (C1)
 
 ### P0完了後に追加可能
 
 - [ ] Nilou — 開花反応ボーナス (水草限定条件)
-- [ ] Gorou — DEFバフ (スキル: 岩キャラ数依存)
 - [ ] Lisa — DEF-15%デバフ (A4, 敵側デバフ → P6)
 - [ ] Zhongli — 全耐性-20% (シールド, 敵側デバフ → P6)
 - [ ] Chevreuse — 過負荷後に炎/雷耐性-40% (条件付き + 敵側)
