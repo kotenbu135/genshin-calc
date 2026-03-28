@@ -1,5 +1,5 @@
 use crate::buff::{
-    Activation, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -146,6 +146,8 @@ pub const LOST_PRAYER_TO_THE_SACRED_WINDS: WeaponData = WeaponData {
                 stat: BuffableStat::DmgBonus,
                 value: 0.08,
                 refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Stacks(4)),
             }],
         },
@@ -605,6 +607,8 @@ pub const MAPPA_MARE: WeaponData = WeaponData {
                 stat: BuffableStat::DmgBonus,
                 value: 0.08,
                 refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Stacks(2)),
             }],
         },

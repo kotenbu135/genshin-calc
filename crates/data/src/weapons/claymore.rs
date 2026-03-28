@@ -1,5 +1,5 @@
 use crate::buff::{
-    Activation, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -211,6 +211,8 @@ pub const WOLFS_GRAVESTONE: WeaponData = WeaponData {
                 stat: BuffableStat::AtkPercent,
                 value: 0.40,
                 refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Toggle),
             }],
         },
@@ -553,6 +555,8 @@ pub const SERPENT_SPINE: WeaponData = WeaponData {
                 stat: BuffableStat::DmgBonus,
                 value: 0.06,
                 refinement_values: Some([0.06, 0.07, 0.08, 0.09, 0.10]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Stacks(5)),
             }],
         },
@@ -665,6 +669,8 @@ pub const WHITEBLIND: WeaponData = WeaponData {
                     stat: BuffableStat::AtkPercent,
                     value: 0.06,
                     refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
                     activation: Activation::Manual(ManualCondition::Stacks(4)),
                 },
                 ConditionalBuff {
@@ -673,6 +679,8 @@ pub const WHITEBLIND: WeaponData = WeaponData {
                     stat: BuffableStat::DefPercent,
                     value: 0.06,
                     refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
                     activation: Activation::Manual(ManualCondition::Stacks(4)),
                 },
             ],

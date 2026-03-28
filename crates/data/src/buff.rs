@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+pub use genshin_calc_core::BuffTarget;
 pub use genshin_calc_core::BuffableStat;
 use genshin_calc_core::{Element, WeaponType};
 
@@ -48,6 +49,10 @@ pub enum AutoCondition {
     TeamElementCount { element: Element, min_count: u8 },
     /// Team must consist only of specified elements (e.g. Nilou: Hydro+Dendro).
     TeamElementsOnly(&'static [Element]),
+    /// Buff active when N+ team members share the same element as the wearer (e.g. Gilded Dreams).
+    TeamSameElementCount { min_count: u8 },
+    /// Buff active when N+ team members have a different element from the wearer (e.g. Gilded Dreams).
+    TeamDiffElementCount { min_count: u8 },
 }
 
 /// Condition requiring user input (game state the builder cannot determine).
@@ -83,6 +88,10 @@ pub struct ConditionalBuff {
     pub value: f64,
     /// Values at refinements 1-5. None for non-weapon / fixed buffs.
     pub refinement_values: Option<[f64; 5]>,
+    /// Non-linear stack values. If Some, stack_values[n-1] is used for n stacks instead of value*n.
+    pub stack_values: Option<&'static [f64]>,
+    /// Who receives this buff when resolved.
+    pub target: BuffTarget,
     /// Activation condition.
     pub activation: Activation,
 }
