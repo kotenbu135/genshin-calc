@@ -33,13 +33,12 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 武器・聖遺物・天賦の条件付き効果を統一的に表現できるデータ構造を設計する。
 P2/P3/P4/P6のアンロックキー。
 
-- [ ] 条件付きバフ型の設計 (`ConditionalBuff` or enum-based条件)
-  - 設計選択肢: (a) enum-based `BuffCondition::HpBelow(0.5)` 等, (b) タグベース, (c) ユーザー側判定+data crateは最大値のみ
-- [ ] 条件の種類を網羅: HP閾値、元素反応後、スタック数、武器種限定、キャラ元素限定
-- [ ] core/data crateの責務分離を維持した設計
-- [ ] WASM互換性の維持（動的ディスパッチ最小化）
-- [ ] イミュータブル設計の維持
-- [ ] 影響範囲の実装: core (`buff_types.rs`, `team.rs`), data (`buff.rs`, 全武器/聖遺物/天賦)
+- [x] 条件付きバフ型の設計 (`ConditionalBuff` + `AutoCondition`/`ManualCondition`/`Activation` enum)
+- [x] 条件の種類を網羅: `WeaponTypeRequired`, `ElementRequired`, `StatScaling`, `TeamElementCount`, `TeamElementsOnly`, `Toggle`, `Stacks`
+- [x] core/data crateの責務分離を維持した設計
+- [x] WASM互換性の維持（動的ディスパッチ最小化）
+- [x] イミュータブル設計の維持
+- [x] 影響範囲の実装: data (`buff.rs`, `artifacts.rs`, `team_builder.rs`)
 
 ## P1: 天賦バフ拡充 (既存枠内)
 
@@ -49,10 +48,10 @@ P2/P3/P4/P6のアンロックキー。
 
 - [x] Sucrose — EM共有 (A1: +50 EM固定, A4: チームにEM×20%, base_value方式)
 - [x] Faruzan — 風ダメバフ部分のみ (風耐性シュレッドはP6)
-- [x] Ganyu — 氷ダメ+20% (C4)
+- [x] Ganyu — 氷ダメ+20% (A4)
 - [x] Albedo — EM+125 (A4)
 - [x] Ningguang — 岩ダメ+12% (A4)
-- [x] Traveler Dendro — EM+60 (C1)
+- [x] Traveler Dendro — EM+60 (A4)
 - [x] Yoimiya — チームATK+20% (A4)
 - [x] Chevreuse — ATK+20% (A1固定バフ部分のみ)
 - [x] Diona — EM+200 (C6)
