@@ -172,15 +172,15 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.issue.number || github.run_id }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   claude:
     if: |
       (github.event_name == 'pull_request') ||
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude') && !endsWith(github.event.comment.user.login, '[bot]')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude') && !endsWith(github.event.comment.user.login, '[bot]')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude') && !endsWith(github.event.review.user.login, '[bot]')) ||
       (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || github.event.action == 'assigned'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -188,6 +188,7 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
+      id-token: write
       actions: read
     steps:
       - name: Checkout repository
@@ -217,8 +218,9 @@ jobs:
 ```
 
 **設計判断:**
-- `id-token: write` を削除 — OAuth トークン方式では不要（OIDC は Bedrock/Vertex 用）
-- `concurrency` でPR単位の同時実行を制御（二重起動防止）
+- `id-token: write` が必要 — claude-code-action が GitHub App トークン交換に OIDC を使用するため
+- `concurrency` でPR単位の同時実行を制御（`cancel-in-progress: false` — Claude応答コメントによる自己キャンセル防止）
+- ボットコメント除外 — `!endsWith(github.event.comment.user.login, '[bot]')` で Claude 自身のコメントによる再トリガーを防止
 - `timeout-minutes: 30` でランナウェイ防止
 - `if` 条件で `@claude` メンション時のみ起動（PR イベントは常時）
 - `--allowedTools` から `EnterPlanMode`/`ExitPlanMode`/`NotebookEdit` を削除（CI の非対話モードでは不要）
