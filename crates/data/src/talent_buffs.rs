@@ -1,4 +1,4 @@
-use genshin_calc_core::{BuffTarget, BuffableStat, ScalingStat};
+use genshin_calc_core::{BuffTarget, BuffableStat, Element, ScalingStat};
 use serde::{Deserialize, Serialize};
 
 /// Source of a talent buff.
@@ -204,6 +204,112 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Sucrose =====
+// A1 passive "Catalyst Conversion": Swirl triggers EM+50 for team 8s
+// NOTE: A4 "Mollis Favonius" will be added in Task 6 (builder pattern)
+static SUCROSE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Catalyst Conversion",
+    description: "After triggering Swirl, grants EM+50 to party members with matching element",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 50.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Ganyu =====
+// A4 passive "Harmony between Heaven and Earth": Cryo DMG+20% in burst field
+static GANYU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Harmony between Heaven and Earth",
+    description: "Cryo DMG Bonus +20% for party members in burst field",
+    stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+    base_value: 0.20,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Albedo =====
+// A4 passive "Homuncular Nature": EM+125 for team after burst
+static ALBEDO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Homuncular Nature",
+    description: "After burst, grants EM+125 to nearby party members for 10s",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 125.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Ningguang =====
+// A4 passive "Strategic Reserve": Geo DMG+12% when passing through Jade Screen
+static NINGGUANG_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Strategic Reserve",
+    description: "Characters passing through Jade Screen gain Geo DMG Bonus +12%",
+    stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+    base_value: 0.12,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Dendro Traveler =====
+// A4 passive "Verdant Luxury": EM+60 in Lea Lotus Lamp field
+static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Verdant Luxury",
+    description: "Characters within Lea Lotus Lamp field gain EM+60",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 60.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Yoimiya =====
+// A4 passive "Summer Night's Dawn": ATK+20% to party (excl. self) after burst
+static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Summer Night's Dawn",
+    description: "After burst, party members (excluding Yoimiya) gain ATK+20% (max assumption)",
+    stat: BuffableStat::AtkPercent,
+    base_value: 0.20,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::TeamExcludeSelf,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Chevreuse =====
+// A1 passive "Vanguard's Coordinated Tactics": ATK+20% after Overloaded (Pyro+Electro team)
+static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Vanguard's Coordinated Tactics",
+    description: "After Overloaded, ATK+20% for party (Pyro+Electro teams only, approximation)",
+    stat: BuffableStat::AtkPercent,
+    base_value: 0.20,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
@@ -216,6 +322,13 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("rosaria", ROSARIA_BUFFS),
     ("furina", FURINA_BUFFS),
     // Zhongli provides resistance shred (Enemy-side), not a stat buff — excluded here
+    ("sucrose", SUCROSE_BUFFS),
+    ("ganyu", GANYU_BUFFS),
+    ("albedo", ALBEDO_BUFFS),
+    ("ningguang", NINGGUANG_BUFFS),
+    ("traveler_dendro", TRAVELER_DENDRO_BUFFS),
+    ("yoimiya", YOIMIYA_BUFFS),
+    ("chevreuse", CHEVREUSE_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.
@@ -274,5 +387,67 @@ mod tests {
         for (i, id) in ids.iter().enumerate() {
             assert!(!ids[i + 1..].contains(id), "Duplicate talent buff ID: {id}");
         }
+    }
+
+    #[test]
+    fn test_find_sucrose_buffs() {
+        let buffs = find_talent_buffs("sucrose").unwrap();
+        // A1 (EM+50) — at least 1 fixed entry
+        assert!(buffs.iter().any(
+            |b| b.stat == BuffableStat::ElementalMastery && (b.base_value - 50.0).abs() < 1e-6
+        ));
+    }
+
+    #[test]
+    fn test_find_ganyu_buffs() {
+        let buffs = find_talent_buffs("ganyu").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(
+            buffs[0].stat,
+            BuffableStat::ElementalDmgBonus(Element::Cryo)
+        );
+        assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[0].target, BuffTarget::Team);
+    }
+
+    #[test]
+    fn test_find_albedo_buffs() {
+        let buffs = find_talent_buffs("albedo").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((buffs[0].base_value - 125.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_ningguang_buffs() {
+        let buffs = find_talent_buffs("ningguang").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalDmgBonus(Element::Geo));
+        assert!((buffs[0].base_value - 0.12).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_traveler_dendro_buffs() {
+        let buffs = find_talent_buffs("traveler_dendro").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((buffs[0].base_value - 60.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_yoimiya_buffs() {
+        let buffs = find_talent_buffs("yoimiya").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[0].target, BuffTarget::TeamExcludeSelf);
+    }
+
+    #[test]
+    fn test_find_chevreuse_buffs() {
+        let buffs = find_talent_buffs("chevreuse").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
     }
 }
