@@ -1,4 +1,5 @@
 use genshin_calc_data::artifacts::ALL_ARTIFACT_SETS;
+use genshin_calc_data::buff::{Activation, ConditionalBuff, ManualCondition};
 use genshin_calc_data::characters::ALL_CHARACTERS;
 use genshin_calc_data::enemies::ALL_ENEMIES;
 use genshin_calc_data::weapons::ALL_WEAPONS;
@@ -158,4 +159,55 @@ fn all_enemies_have_unique_ids() {
     ids.sort();
     ids.dedup();
     assert_eq!(ids.len(), ALL_ENEMIES.len());
+}
+
+#[test]
+fn test_all_conditional_buff_names_unique() {
+    let mut names: Vec<&str> = Vec::new();
+    // Check artifacts
+    for set in ALL_ARTIFACT_SETS {
+        for buff in set.two_piece.conditional_buffs {
+            assert!(!names.contains(&buff.name), "Duplicate: {}", buff.name);
+            names.push(buff.name);
+        }
+        for buff in set.four_piece.conditional_buffs {
+            assert!(!names.contains(&buff.name), "Duplicate: {}", buff.name);
+            names.push(buff.name);
+        }
+    }
+    // Check weapons
+    for weapon in ALL_WEAPONS {
+        if let Some(passive) = &weapon.passive {
+            for buff in passive.effect.conditional_buffs {
+                assert!(!names.contains(&buff.name), "Duplicate: {}", buff.name);
+                names.push(buff.name);
+            }
+        }
+    }
+}
+
+#[test]
+fn test_all_stacks_max_positive() {
+    let check_buffs = |buffs: &[ConditionalBuff]| {
+        for buff in buffs {
+            match &buff.activation {
+                Activation::Manual(ManualCondition::Stacks(max)) => {
+                    assert!(*max > 0, "Stacks max must be > 0 for {}", buff.name);
+                }
+                Activation::Both(_, ManualCondition::Stacks(max)) => {
+                    assert!(*max > 0, "Stacks max must be > 0 for {}", buff.name);
+                }
+                _ => {}
+            }
+        }
+    };
+    for set in ALL_ARTIFACT_SETS {
+        check_buffs(set.two_piece.conditional_buffs);
+        check_buffs(set.four_piece.conditional_buffs);
+    }
+    for weapon in ALL_WEAPONS {
+        if let Some(passive) = &weapon.passive {
+            check_buffs(passive.effect.conditional_buffs);
+        }
+    }
 }

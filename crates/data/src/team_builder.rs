@@ -1014,4 +1014,123 @@ mod conditional_tests {
         let builder = TeamMemberBuilder::new(char, weapon);
         assert!(builder.available_conditionals().is_empty());
     }
+
+    // --- Integration tests: Gladiator, Emblem, CW ---
+
+    #[test]
+    fn test_gladiator_4pc_sword_gets_normal_bonus() {
+        let char = find_character("bennett").unwrap(); // Sword
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let glad = find_artifact_set("gladiators_finale").unwrap();
+        let member = TeamMemberBuilder::new(char, weapon)
+            .artifact_set(glad)
+            .build()
+            .unwrap();
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.stat == BuffableStat::NormalAtkDmgBonus);
+        assert!(buff.is_some());
+        assert!((buff.unwrap().value - 0.35).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_gladiator_4pc_catalyst_no_bonus() {
+        let char = find_character("nahida").unwrap(); // Catalyst
+        let weapon = find_weapon("a_thousand_floating_dreams").unwrap();
+        let glad = find_artifact_set("gladiators_finale").unwrap();
+        let member = TeamMemberBuilder::new(char, weapon)
+            .artifact_set(glad)
+            .build()
+            .unwrap();
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.stat == BuffableStat::NormalAtkDmgBonus);
+        assert!(buff.is_none());
+    }
+
+    #[test]
+    fn test_emblem_4pc_burst_bonus_from_er() {
+        let char = find_character("raiden_shogun").unwrap();
+        let weapon = find_weapon("engulfing_lightning").unwrap();
+        let emblem = find_artifact_set("emblem_of_severed_fate").unwrap();
+        let member = TeamMemberBuilder::new(char, weapon)
+            .artifact_stats(StatProfile {
+                energy_recharge: 0.518,
+                ..Default::default()
+            })
+            .artifact_set(emblem)
+            .build()
+            .unwrap();
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.stat == BuffableStat::BurstDmgBonus && b.source.contains("emblem"));
+        assert!(buff.is_some());
+        let val = buff.unwrap().value;
+        assert!(val > 0.0 && val <= 0.75);
+    }
+
+    #[test]
+    fn test_cw_4pc_pyro_stacks_activated() {
+        let char = find_character("hu_tao").unwrap();
+        let weapon = find_weapon("staff_of_homa").unwrap();
+        let cw = find_artifact_set("crimson_witch").unwrap();
+        let member = TeamMemberBuilder::new(char, weapon)
+            .artifact_set(cw)
+            .activate_with_stacks("cwof_pyro_stacks", 1)
+            .build()
+            .unwrap();
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("cwof_pyro_stacks"));
+        assert!(buff.is_some());
+        assert!((buff.unwrap().value - 0.075).abs() < EPSILON); // 1 stack
+    }
+
+    #[test]
+    fn test_cw_4pc_no_activation_no_buff() {
+        let char = find_character("hu_tao").unwrap();
+        let weapon = find_weapon("staff_of_homa").unwrap();
+        let cw = find_artifact_set("crimson_witch").unwrap();
+        let member = TeamMemberBuilder::new(char, weapon)
+            .artifact_set(cw)
+            .build()
+            .unwrap();
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("cwof_pyro_stacks"));
+        assert!(buff.is_none());
+    }
+
+    #[test]
+    fn test_available_conditionals_with_gladiator() {
+        let char = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let glad = find_artifact_set("gladiators_finale").unwrap();
+        let builder = TeamMemberBuilder::new(char, weapon).artifact_set(glad);
+        let conditionals = builder.available_conditionals();
+        assert_eq!(conditionals.len(), 1);
+        assert_eq!(conditionals[0].buff.name, "gladiator_normal_bonus");
+    }
+
+    #[test]
+    fn test_existing_bennett_burst_unchanged() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let member = TeamMemberBuilder::new(bennett, weapon)
+            .talent_levels([1, 1, 13])
+            .build()
+            .unwrap();
+        let burst_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Fantastic Voyage"))
+            .unwrap();
+        let expected = member.stats.base_atk * 1.19;
+        assert!((burst_buff.value - expected).abs() < 1e-4);
+    }
 }

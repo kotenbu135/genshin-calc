@@ -1,6 +1,8 @@
-use crate::buff::{BuffableStat, StatBuff};
+use crate::buff::{
+    Activation, AutoCondition, BuffableStat, ConditionalBuff, ManualCondition, StatBuff,
+};
 use crate::types::{ArtifactRarity, ArtifactSet, SetEffect};
-use genshin_calc_core::Element;
+use genshin_calc_core::{Element, WeaponType};
 
 // =============================================================================
 // 5-star Artifact Sets
@@ -22,7 +24,14 @@ pub const CRIMSON_WITCH: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "過負荷、燃焼、烈開花反応ダメージ+40%。蒸発、溶解反応倍率+15%。元素スキル使用後2セット効果+50%、最大3スタック",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "cwof_pyro_stacks",
+            description: "Using Skill increases Pyro DMG by 7.5%, max 3 stacks",
+            stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+            value: 0.075,
+            refinement_values: None,
+            activation: Activation::Manual(ManualCondition::Stacks(3)),
+        }],
     },
 };
 
@@ -42,7 +51,18 @@ pub const GLADIATORS_FINALE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "該当キャラクターが片手剣、両手剣、長柄武器キャラの場合、通常攻撃ダメージ+35%",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "gladiator_normal_bonus",
+            description: "Normal Attack DMG +35% for sword/claymore/polearm",
+            stat: BuffableStat::NormalAtkDmgBonus,
+            value: 0.35,
+            refinement_values: None,
+            activation: Activation::Auto(AutoCondition::WeaponTypeRequired(&[
+                WeaponType::Sword,
+                WeaponType::Claymore,
+                WeaponType::Polearm,
+            ])),
+        }],
     },
 };
 
@@ -354,7 +374,17 @@ pub const EMBLEM_OF_SEVERED_FATE: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "元素チャージ効率の25%を基準に、元素爆発のダメージがアップする。この方式でアップできるダメージは最大75%まで",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "emblem_burst_bonus",
+            description: "Burst DMG +25% of Energy Recharge, max 75%",
+            stat: BuffableStat::BurstDmgBonus,
+            value: 0.25,
+            refinement_values: None,
+            activation: Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::EnergyRecharge,
+                cap: Some(0.75),
+            }),
+        }],
     },
 };
 
