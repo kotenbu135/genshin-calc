@@ -554,6 +554,107 @@ static INEFFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Zhongli =====
+// Jade Shield "Dominus Lapidis": All RES -20% for nearby enemies while shield is active
+static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Jade Shield Pyro RES Shred",
+        description: "Nearby enemies' Pyro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Hydro RES Shred",
+        description: "Nearby enemies' Hydro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Electro RES Shred",
+        description: "Nearby enemies' Electro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Electro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Cryo RES Shred",
+        description: "Nearby enemies' Cryo RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Cryo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Dendro RES Shred",
+        description: "Nearby enemies' Dendro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Dendro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Anemo RES Shred",
+        description: "Nearby enemies' Anemo RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Anemo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Geo RES Shred",
+        description: "Nearby enemies' Geo RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Geo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Physical RES Shred",
+        description: "Nearby enemies' Physical RES -20%",
+        stat: BuffableStat::PhysicalResReduction,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+];
+
 // ===== Jahoda =====
 // A4 passive: EM+100 when Burst robots heal characters with HP>70%
 static JAHODA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -596,7 +697,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("kujou_sara", SARA_BUFFS),
     ("rosaria", ROSARIA_BUFFS),
     ("furina", FURINA_BUFFS),
-    // Zhongli provides resistance shred (Enemy-side), not a stat buff — excluded here
+    ("zhongli", ZHONGLI_BUFFS),
     ("sucrose", SUCROSE_BUFFS),
     ("ganyu", GANYU_BUFFS),
     ("albedo", ALBEDO_BUFFS),
@@ -646,7 +747,7 @@ mod tests {
 
     #[test]
     fn test_find_nonexistent_character() {
-        assert!(find_talent_buffs("zhongli").is_none());
+        assert!(find_talent_buffs("diluc").is_none());
         assert!(find_talent_buffs("unknown").is_none());
     }
 
@@ -909,5 +1010,55 @@ mod tests {
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 100.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_zhongli_debuffs() {
+        let buffs = find_talent_buffs("zhongli").unwrap();
+        assert_eq!(buffs.len(), 8); // 7 elemental + 1 physical
+        for b in buffs {
+            assert!((b.base_value - 0.20).abs() < 1e-6);
+            assert_eq!(b.target, BuffTarget::Team);
+        }
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Pyro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Hydro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Electro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Cryo))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Dendro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Anemo))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Geo))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::PhysicalResReduction)
+        );
     }
 }
