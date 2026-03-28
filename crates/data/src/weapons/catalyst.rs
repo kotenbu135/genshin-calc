@@ -1,4 +1,6 @@
-use crate::buff::{BuffableStat, PassiveEffect, StatBuff};
+use crate::buff::{
+    Activation, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+};
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
@@ -136,9 +138,16 @@ pub const LOST_PRAYER_TO_THE_SACRED_WINDS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Lost Prayer to the Sacred Winds",
         effect: PassiveEffect {
-            description: "Conditional: フィールド上で4秒毎に元素DMG+8%、最大4スタック",
+            description: "フィールド上で4秒毎に元素DMG+8-16%スタック（最大4スタック）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "lost_prayer_dmg",
+                description: "フィールド上で4秒毎に元素DMG+8-16%（1スタック）、最大4スタック",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            }],
         },
     }),
 };
@@ -588,9 +597,16 @@ pub const MAPPA_MARE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Mappa Mare",
         effect: PassiveEffect {
-            description: "Conditional: 元素反応で元素DMG+8%スタック",
+            description: "元素反応発動後に元素DMG+8-16%スタック（最大2スタック、10秒）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "mappa_mare_dmg",
+                description: "元素反応後に元素DMG+8-16%（1スタック）、最大2スタック",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                activation: Activation::Manual(ManualCondition::Stacks(2)),
+            }],
         },
     }),
 };

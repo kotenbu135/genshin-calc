@@ -1,4 +1,7 @@
-use crate::buff::{BuffableStat, PassiveEffect, StatBuff};
+use crate::buff::{
+    Activation, AutoCondition, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect,
+    StatBuff,
+};
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
@@ -163,13 +166,39 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "護摩の杖",
         effect: PassiveEffect {
-            description: "HP+20-40%。HP上限に基づきATKアップ、HP50%以下でさらにアップ",
+            description: "HP+20-40%。HP上限の0.8-1.6%分ATKアップ。HP50%以下でさらに1.0-1.8%分アップ",
             buffs: &[StatBuff {
                 stat: BuffableStat::HpPercent,
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "homa_hp_atk",
+                    description: "HP上限の0.8%分ATKアップ（常時）",
+                    stat: BuffableStat::AtkFlat,
+                    value: 0.008,
+                    refinement_values: Some([0.008, 0.010, 0.012, 0.014, 0.016]),
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::HpPercent,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "homa_low_hp_atk",
+                    description: "HP50%以下の時、さらにHP上限の1.0%分ATKアップ",
+                    stat: BuffableStat::AtkFlat,
+                    value: 0.010,
+                    refinement_values: Some([0.010, 0.012, 0.014, 0.016, 0.018]),
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::HpPercent,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+            ],
         },
     }),
 };
@@ -275,9 +304,34 @@ pub const DEATHMATCH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "闘志",
         effect: PassiveEffect {
-            description: "Conditional: 敵2体以上でATK/DEF+16-32%、敵1体以下でATK+24-48%",
+            description: "敵2体以上: ATK/DEF+16-32%。敵1体以下: ATK+24-48%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "deathmatch_atk_multi",
+                    description: "敵2体以上でATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "deathmatch_def_multi",
+                    description: "敵2体以上でDEF+16-32%",
+                    stat: BuffableStat::DefPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "deathmatch_atk_1enemy",
+                    description: "敵1体以下でATK+24-48%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.24,
+                    refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -309,9 +363,16 @@ pub const DRAGONS_BANE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "炎と水の滅竜",
         effect: PassiveEffect {
-            description: "Conditional: 水/炎元素影響下の敵へのDMG+20-36%",
+            description: "水/炎元素影響下の敵へのDMG+20-36%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "dragons_bane_dmg",
+                description: "水/炎元素の影響下の敵へのDMG+20-36%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.24, 0.28, 0.32, 0.36]),
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
