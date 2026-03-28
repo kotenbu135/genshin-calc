@@ -278,6 +278,8 @@ pub struct SetEffect {
     pub description: &'static str,
     /// Stat buffs provided.
     pub buffs: &'static [crate::buff::StatBuff],
+    /// Conditional buffs that require activation.
+    pub conditional_buffs: &'static [crate::buff::ConditionalBuff],
 }
 
 /// Artifact set data.

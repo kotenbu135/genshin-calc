@@ -30,6 +30,10 @@ pub mod team_builder;
 pub mod types;
 pub mod weapons;
 
+pub use buff::{
+    Activation, AutoCondition, AvailableConditional, ConditionalBuff, ManualActivation,
+    ManualCondition,
+};
 pub use moonsign_chars::{
     ALL_MOONSIGN_BENEDICTIONS, MoonsignBenedictionDef, calculate_benediction_bonus,
     find_moonsign_benediction, find_moonsign_talent_enhancements, is_moonsign_character,
