@@ -335,6 +335,7 @@ pub const DENDRO_IMMUNE_PHYS_0_REST_10: ResistanceTemplate = ResistanceTemplate 
 
 /// 全耐性の一覧
 pub const ALL_TEMPLATES: &[&ResistanceTemplate] = &[
+    // 既存12
     &ALL_10,
     &PHYS_50_ELEM_10,
     &PHYS_70_ELEM_10,
@@ -347,6 +348,20 @@ pub const ALL_TEMPLATES: &[&ResistanceTemplate] = &[
     &DENDRO_70_REST_10,
     &GEO_70_REST_10,
     &ANEMO_70_REST_10,
+    // 新規13
+    &HYDRO_50_REST_0,
+    &ELECTRO_50_REST_0,
+    &HYDRO_70_ELECTRO_70_REST_0,
+    &GEO_70_PHYS_40_REST_10,
+    &CRYO_50_REST_10,
+    &PYRO_70_CRYO_50_REST_10,
+    &ELECTRO_50_REST_10,
+    &ELECTRO_90_REST_30,
+    &DENDRO_50_REST_10,
+    &ELECTRO_70_PHYS_30_REST_10,
+    &CRYO_IMMUNE_PHYS_0_REST_10,
+    &ELECTRO_IMMUNE_PHYS_0_REST_10,
+    &DENDRO_IMMUNE_PHYS_0_REST_10,
 ];
 
 // ---------------------------------------------------------------------------
@@ -607,6 +622,7 @@ pub const EREMITE_ELITE: EnemyData = EnemyData {
 
 /// 全敵データの一覧
 pub const ALL_ENEMIES: &[&EnemyData] = &[
+    // 既存15
     &HILICHURL,
     &MITACHURL,
     &LAWACHURL,
@@ -622,6 +638,34 @@ pub const ALL_ENEMIES: &[&EnemyData] = &[
     &HYDRO_HYPOSTASIS,
     &GEO_HYPOSTASIS,
     &ANEMO_HYPOSTASIS,
+    // 週ボス
+    &DVALIN,
+    &CHILDE_PHASE1,
+    &CHILDE_PHASE2,
+    &CHILDE_PHASE3,
+    &AZHDAHA,
+    &SIGNORA_PHASE1,
+    &SIGNORA_PHASE2,
+    &RAIDEN_SHOGUN_WEEKLY,
+    &SCARAMOUCHE_PHASE1,
+    &SCARAMOUCHE_PHASE2,
+    &APEP_PHASE1,
+    &APEP_PHASE2,
+    &APEP_PHASE3,
+    &NARWHAL_PHASE1,
+    &NARWHAL_PHASE2,
+    // フィールドボス
+    &ELECTRO_REGISVINE,
+    &MAGUU_KENKI,
+    &CRYO_HYPOSTASIS,
+    &ELECTRO_HYPOSTASIS,
+    &DENDRO_HYPOSTASIS,
+    // 精鋭
+    &ABYSS_HERALD,
+    &ABYSS_LECTOR,
+    &RUIN_DRAKE_SKYWATCH,
+    &RUIN_DRAKE_EARTHGUARD,
+    &EREMITE_ELITE,
 ];
 
 #[cfg(test)]
@@ -683,12 +727,12 @@ mod tests {
 
     #[test]
     fn test_all_templates_count() {
-        assert_eq!(ALL_TEMPLATES.len(), 12);
+        assert_eq!(ALL_TEMPLATES.len(), 25);
     }
 
     #[test]
     fn test_all_enemies_count() {
-        assert_eq!(ALL_ENEMIES.len(), 15);
+        assert_eq!(ALL_ENEMIES.len(), 40);
     }
 
     #[test]
