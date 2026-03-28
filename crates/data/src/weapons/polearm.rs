@@ -17,6 +17,7 @@ pub const BLOODSOAKED_RUINS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -37,6 +38,7 @@ pub const CALAMITY_QUELLER: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -53,6 +55,7 @@ pub const CRIMSON_MOONS_SEMBLANCE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -69,6 +72,7 @@ pub const ENGULFING_LIGHTNING: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ERに基づきATKアップ。元素爆発後にER+30%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -85,6 +89,7 @@ pub const FRACTURED_HALO: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -105,6 +110,7 @@ pub const LUMIDOUCE_ELEGY: WeaponData = WeaponData {
                 value: 0.15,
                 refinement_values: Some([0.15, 0.19, 0.23, 0.27, 0.31]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -121,6 +127,7 @@ pub const PRIMORDIAL_JADE_WINGED_SPEAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 命中時にATK+3.2-6%、6スタックまで。フルスタックでDMG+12-24%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -141,6 +148,7 @@ pub const SKYWARD_SPINE: WeaponData = WeaponData {
                 value: 0.08,
                 refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -161,6 +169,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -177,6 +186,7 @@ pub const STAFF_OF_THE_SCARLET_SANDS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EMに基づきATKアップ。スキル命中でさらにATKアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -193,6 +203,7 @@ pub const SYMPHONIST_OF_SCENTS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -209,6 +220,7 @@ pub const VORTEX_VANQUISHER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: シールド強化+20-40%。攻撃命中でATKアップ、シールド時は2倍",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -229,6 +241,7 @@ pub const BALLAD_OF_THE_FJORDS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チーム内の元素タイプ数に応じてEMアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -247,6 +260,7 @@ pub const CRESCENT_PIKE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素粒子取得後に通常/重撃で追加ATKダメージ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -263,6 +277,7 @@ pub const DEATHMATCH: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵2体以上でATK/DEF+16-32%、敵1体以下でATK+24-48%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -279,6 +294,7 @@ pub const DIALOGUES_OF_THE_DESERT_SAGES: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -295,6 +311,7 @@ pub const DRAGONS_BANE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 水/炎元素影響下の敵へのDMG+20-36%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -313,6 +330,7 @@ pub const DRAGONSPINE_SPEAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 通常/重撃命中時に氷柱落下、氷元素影響下の敵には追加ダメージ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -329,6 +347,7 @@ pub const FAVONIUS_LANCE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 会心命中時に元素粒子を生成、12-6秒に1回",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -345,6 +364,7 @@ pub const FOOTPRINT_OF_THE_RAINBOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -365,6 +385,7 @@ pub const KITAIN_CROSS_SPEAR: WeaponData = WeaponData {
                 value: 0.06,
                 refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -381,6 +402,7 @@ pub const LITHIC_SPEAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チーム内の璃月キャラ人数に応じてATK/CRIT Rateアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -397,6 +419,7 @@ pub const MISSIVE_WINDSPEAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応を起こすとATK/EMアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -413,6 +436,7 @@ pub const MOONPIERCER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 草元素反応でATK付与の種を生成",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -429,6 +453,7 @@ pub const MOUNTAIN_BRACING_BOLT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -445,6 +470,7 @@ pub const PROSPECTORS_DRILL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -461,6 +487,7 @@ pub const PROSPECTORS_SHOVEL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -477,6 +504,7 @@ pub const PROTOTYPE_STARGLITTER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル使用後に通常/重撃DMG+8-16%、12秒、2スタックまで",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -493,6 +521,7 @@ pub const RIGHTFUL_REWARD: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル命中でHP回復",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -509,6 +538,7 @@ pub const ROYAL_SPEAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ダメージを与えるとCRIT Rate+8-16%、5スタックまで。会心発生でリセット",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -525,6 +555,7 @@ pub const SACRIFICERS_STAFF: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -541,6 +572,7 @@ pub const TAMAYURATEI_NO_OHANASHI: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 条件付きバフ効果",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -568,6 +600,7 @@ pub const THE_CATCH: WeaponData = WeaponData {
                     refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
                 },
             ],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -584,6 +617,7 @@ pub const WAVEBREAKERS_FIN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チーム全員の元素エネルギー上限に応じて元素爆発DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -604,6 +638,7 @@ pub const BLACK_TASSEL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: スライムへのDMG+40-80%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -620,6 +655,7 @@ pub const HALBERD: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 通常攻撃命中時に追加ATKダメージ、10秒に1回",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -640,6 +676,7 @@ pub const WHITE_TASSEL: WeaponData = WeaponData {
                 value: 0.24,
                 refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };

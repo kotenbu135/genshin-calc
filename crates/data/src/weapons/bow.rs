@@ -28,6 +28,7 @@ pub const AMOS_BOW: WeaponData = WeaponData {
                     refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
                 },
             ],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -48,6 +49,7 @@ pub const AQUA_SIMULACRA: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -64,6 +66,7 @@ pub const ASTRAL_VULTURES_CRIMSON_PLUMAGE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夜魂のスタック蓄積でATKとDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -80,6 +83,7 @@ pub const ELEGY_FOR_THE_END: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EM+60。追憶の印蓄積でチーム全員にEM+100/ATK+20%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -100,6 +104,7 @@ pub const HUNTERS_PATH: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -127,6 +132,7 @@ pub const POLAR_STAR: WeaponData = WeaponData {
                     refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
                 },
             ],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -143,6 +149,7 @@ pub const SILVERSHOWER_HEARTSTRINGS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル使用でHP上限アップ。3スタックでHydro DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -163,6 +170,7 @@ pub const SKYWARD_HARP: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -179,6 +187,7 @@ pub const THE_DAYBREAK_CHRONICLES: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 物語のスタック蓄積でDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -199,6 +208,7 @@ pub const THE_FIRST_GREAT_MAGIC: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -219,6 +229,7 @@ pub const THUNDERING_PULSE: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -239,6 +250,7 @@ pub const ALLEY_HUNTER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 待機時にDMGアップ、戦闘中にDMGダウン",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -255,6 +267,7 @@ pub const BLACKCLIFF_WARBOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵撃破時にATKアップ、最大3スタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -271,6 +284,7 @@ pub const CHAIN_BREAKER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チームの元素タイプに応じてEM/ATKアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -287,6 +301,7 @@ pub const CLOUDFORGED: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素エネルギー消費後にチーム全員のEMアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -305,6 +320,7 @@ pub const COMPOUND_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA/CA命中時にATK+4%/NA速度+1.2%、最大4スタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -321,6 +337,7 @@ pub const END_OF_THE_LINE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素エネルギー獲得でフグ蓄積、Skill/Burst命中時に爆発ダメージ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -337,6 +354,7 @@ pub const FADING_TWILIGHT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夕暮・流明・朝暉の状態を循環してDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -353,6 +371,7 @@ pub const FAVONIUS_WARBOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 会心時に元素粒子を生成、12秒に1回",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -369,6 +388,7 @@ pub const FLOWER_WREATHED_FEATHERS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応後にDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -385,6 +405,7 @@ pub const HAMAYUMI: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA DMG+16%/CA DMG+12%。エネルギー満タンでさらにアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -401,6 +422,7 @@ pub const IBIS_PIERCER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: CA命中時にEMアップ、最大2スタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -417,6 +439,7 @@ pub const KINGS_SQUIRE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: スキル/バースト使用時にEMアップ。矢を放って追加ダメージ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -435,6 +458,7 @@ pub const MITTERNACHTS_WALTZ: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA命中でSkill DMG+20%、Skill命中でNA DMG+20%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -451,6 +475,7 @@ pub const MOUUNS_MOON: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チーム全員のBurstエネルギーの合計に基づきBurst DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -467,6 +492,7 @@ pub const PREDATOR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: Cryo命中でNA/CA DMGアップ。アーロイ装備時にATK+66",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -483,6 +509,7 @@ pub const PROTOTYPE_CRESCENT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 弱点命中時にATK+36%、10秒",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -499,6 +526,7 @@ pub const RAINBOW_SERPENTS_RAIN_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チームメンバーの元素タイプに応じてDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -515,6 +543,7 @@ pub const RANGE_GAUGE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: CA命中時にスタック蓄積でATKアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -531,6 +560,7 @@ pub const ROYAL_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ダメージ時にCRIT Rate+8%、最大5スタック。会心でリセット",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -551,6 +581,7 @@ pub const RUST: WeaponData = WeaponData {
                 value: 0.40,
                 refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -567,6 +598,7 @@ pub const SACRIFICIAL_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキルがダメージを与えた時にCD終了、30秒に1回",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -583,6 +615,7 @@ pub const SCION_OF_THE_BLAZING_SUN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: CA命中でCA DMGアップ。チームがDendro反応を起こすとさらにアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -599,6 +632,7 @@ pub const SEQUENCE_OF_SOLITUDE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP変動時にSkill/Burst DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -615,6 +649,7 @@ pub const SNARE_HOOK: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル命中でDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -631,6 +666,7 @@ pub const SONG_OF_STILLNESS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP回復後にDMGアップ、8秒",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -658,6 +694,7 @@ pub const THE_STRINGLESS: WeaponData = WeaponData {
                     refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
                 },
             ],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -674,6 +711,7 @@ pub const THE_VIRIDESCENT_HUNT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA/CA命中時に風の渦を発生、14秒に1回",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -690,6 +728,7 @@ pub const WINDBLUME_ODE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル使用後にATK+16%、6秒",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -710,6 +749,7 @@ pub const MESSENGER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: CA弱点命中時に追加ATKダメージ100%、10秒に1回",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -726,6 +766,7 @@ pub const RAVEN_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: Hydro/Pyro影響を受けた敵へのDMG+12%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -742,6 +783,7 @@ pub const RECURVE_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵撃破時にHP回復8%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -758,6 +800,7 @@ pub const SHARPSHOOTERS_OATH: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 弱点命中時にDMG+24%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -774,6 +817,7 @@ pub const SLINGSHOT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 矢が0.3秒以内に命中でDMG+36%、それ以上でDMG-10%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };

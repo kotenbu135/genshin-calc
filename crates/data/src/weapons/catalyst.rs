@@ -17,6 +17,7 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チームの元素タイプに応じてEM/DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -44,6 +45,7 @@ pub const CASHFLOW_SUPERVISION: WeaponData = WeaponData {
                     refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
                 },
             ],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -64,6 +66,7 @@ pub const CRANES_ECHOING_CALL: WeaponData = WeaponData {
                 value: 0.28,
                 refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -84,6 +87,7 @@ pub const EVERLASTING_MOONGLOW: WeaponData = WeaponData {
                 value: 0.10,
                 refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -100,6 +104,7 @@ pub const JADEFALLS_SPLENDOR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素エネルギー消費後にEM獲得",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -116,6 +121,7 @@ pub const KAGURAS_VERITY: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル使用でスキルDMGスタック、3スタックで元素DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -132,6 +138,7 @@ pub const LOST_PRAYER_TO_THE_SACRED_WINDS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: フィールド上で4秒毎に元素DMG+8%、最大4スタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -148,6 +155,7 @@ pub const MEMORY_OF_DUST: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 命中時にATK%スタック、シールド時に効果2倍",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -164,6 +172,7 @@ pub const NIGHTWEAVERS_LOOKING_GLASS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夜魂を消耗して通常/重撃ダメージアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -180,6 +189,7 @@ pub const NOCTURNES_CURTAIN_CALL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル/爆発命中でスタック獲得、DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -196,6 +206,7 @@ pub const RELIQUARY_OF_TRUTH: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応でDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -216,6 +227,7 @@ pub const SKYWARD_ATLAS: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -232,6 +244,7 @@ pub const STARCALLERS_WATCH: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チームの元素反応でDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -248,6 +261,7 @@ pub const SUNNY_MORNING_SLEEP_IN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応時にバフ獲得",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -268,6 +282,7 @@ pub const SURFS_UP: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -288,6 +303,7 @@ pub const TOME_OF_THE_ETERNAL_FLOW: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -304,6 +320,7 @@ pub const TULAYTULLAHS_REMEMBRANCE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 通常攻撃速度アップ、NA DMGスタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -320,6 +337,7 @@ pub const VIVID_NOTIONS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夜魂バースト時にDMGアップスタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -340,6 +358,7 @@ pub const ASH_GRAVEN_DRINKING_HORN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夜魂バースト時にHP基準でDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -367,6 +386,7 @@ pub const BALLAD_OF_THE_BOUNDLESS_BLUE: WeaponData = WeaponData {
                     refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
                 },
             ],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -383,6 +403,7 @@ pub const BLACKCLIFF_AGATE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵撃破時にATK%スタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -399,6 +420,7 @@ pub const BLACKMARROW_LANTERN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夜魂ポイント消費でDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -415,6 +437,7 @@ pub const DAWNING_FROST: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル命中でDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -431,6 +454,7 @@ pub const DODOCO_TALES: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 通常攻撃命中でCA DMGアップ、CA命中でATKアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -447,6 +471,7 @@ pub const ETHERLIGHT_SPINDLELUTE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素爆発後にDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -463,6 +488,7 @@ pub const EYE_OF_PERCEPTION: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 通常/重撃命中時に追加ダメージ弾発射",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -479,6 +505,7 @@ pub const FAVONIUS_CODEX: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 会心命中時に元素粒子生成",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -495,6 +522,7 @@ pub const FLOWING_PURITY: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP消費時にDMGアップ、治療効果でバフ延長",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -511,6 +539,7 @@ pub const FROSTBEARER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 通常/重撃命中時に氷柱ダメージ、氷/凍結時にダメージ増加",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -527,6 +556,7 @@ pub const FRUIT_OF_FULFILLMENT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応時にEM獲得/ATK減少スタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -543,6 +573,7 @@ pub const HAKUSHIN_RING: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 雷元素反応時に関連元素のDMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -559,6 +590,7 @@ pub const MAPPA_MARE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応で元素DMG+8%スタック",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -575,6 +607,7 @@ pub const OATHSWORN_EYE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル使用後にER+24%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -591,6 +624,7 @@ pub const PROTOTYPE_AMBER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素爆発使用後にHP回復とエネルギー回復",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -607,6 +641,7 @@ pub const RING_OF_YAXCHE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夜魂バースト時にHP基準でNA DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -623,6 +658,7 @@ pub const ROYAL_GRIMOIRE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ダメージ時にCRIT Rate+8%スタック、会心時リセット",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -639,6 +675,7 @@ pub const SACRIFICIAL_FRAGMENTS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル命中時にCD即リセット",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -655,6 +692,7 @@ pub const SACRIFICIAL_JADE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: フィールドに出た時にHP%/EM獲得",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -671,6 +709,7 @@ pub const SOLAR_PEARL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA命中でSkill/Burst DMGアップ、Skill/Burst命中でNA DMGアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -687,6 +726,7 @@ pub const THE_WIDSITH: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: フィールドに出た時にランダムバフ（ATK%/元素DMG/EM）",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -703,6 +743,7 @@ pub const WANDERING_EVENSTAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EM基準でATKアップ、チームにも付与",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -719,6 +760,7 @@ pub const WAVERIDING_WHIRL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応時にEMアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -735,6 +777,7 @@ pub const WINE_AND_SONG: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ダッシュ後にATKアップ",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -755,6 +798,7 @@ pub const EMERALD_ORB: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 水元素反応時にATK+20%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -771,6 +815,7 @@ pub const MAGIC_GUIDE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 水/雷の影響を受けた敵にDMG+12%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -787,6 +832,7 @@ pub const OTHERWORLDLY_STORY: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素オーブ/粒子獲得時にHP回復",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -803,6 +849,7 @@ pub const THRILLING_TALES_OF_DRAGON_SLAYERS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: キャラ交代時に次のキャラのATK+24%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
@@ -819,6 +866,7 @@ pub const TWIN_NEPHRITE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵撃破時に移動速度とATK+12%",
             buffs: &[],
+            conditional_buffs: &[],
         },
     }),
 };
