@@ -32,6 +32,14 @@ pub enum BuffableStat {
     ElementalResReduction(Element),
     PhysicalResReduction,
     DefReduction,
+    // Flat damage added to base (ATK*multiplier + flat_dmg), used by weapon passives
+    NormalAtkFlatDmg,
+    ChargedAtkFlatDmg,
+    PlungingAtkFlatDmg,
+    SkillFlatDmg,
+    BurstFlatDmg,
+    // Raw def_percent value (not total DEF), for weapons scaling on "DEF increase"
+    DefPercentRaw,
 }
 
 #[cfg(test)]
@@ -44,5 +52,21 @@ mod tests {
         let json = serde_json::to_string(&stat).unwrap();
         let deser: BuffableStat = serde_json::from_str(&json).unwrap();
         assert_eq!(stat, deser);
+    }
+
+    #[test]
+    fn test_flat_dmg_variants_serde_roundtrip() {
+        for stat in [
+            BuffableStat::NormalAtkFlatDmg,
+            BuffableStat::ChargedAtkFlatDmg,
+            BuffableStat::PlungingAtkFlatDmg,
+            BuffableStat::SkillFlatDmg,
+            BuffableStat::BurstFlatDmg,
+            BuffableStat::DefPercentRaw,
+        ] {
+            let json = serde_json::to_string(&stat).unwrap();
+            let deser: BuffableStat = serde_json::from_str(&json).unwrap();
+            assert_eq!(stat, deser);
+        }
     }
 }
