@@ -247,6 +247,7 @@ pub const PRIMORDIAL_JADE_CUTTER: WeaponData = WeaponData {
                 target: BuffTarget::OnlySelf,
                 activation: Activation::Auto(AutoCondition::StatScaling {
                     stat: BuffableStat::HpPercent,
+                    offset: None,
                     cap: None,
                 }),
             }],

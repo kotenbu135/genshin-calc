@@ -183,6 +183,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     target: BuffTarget::OnlySelf,
                     activation: Activation::Auto(AutoCondition::StatScaling {
                         stat: BuffableStat::HpPercent,
+                        offset: None,
                         cap: None,
                     }),
                 },
@@ -197,6 +198,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     activation: Activation::Both(
                         AutoCondition::StatScaling {
                             stat: BuffableStat::HpPercent,
+                            offset: None,
                             cap: None,
                         },
                         ManualCondition::Toggle,

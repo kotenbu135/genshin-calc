@@ -34,16 +34,15 @@ pub enum AutoCondition {
     /// Buff only applies to characters of specific elements.
     ElementRequired(&'static [Element]),
     /// Buff value computed from a stat. Multiplier comes from ConditionalBuff.value.
-    /// Final = stat_value * multiplier, capped at `cap` if set.
-    /// The BuffableStat here indicates which "stat family" to read the total value from:
-    /// - HpPercent → total HP (base_hp * (1 + hp_percent) + hp_flat)
-    /// - AtkPercent → total ATK (base_atk * (1 + atk_percent) + atk_flat)
-    /// - DefPercent → total DEF (base_def * (1 + def_percent) + def_flat)
-    /// - ElementalMastery → elemental_mastery
-    /// - EnergyRecharge → energy_recharge
+    /// Final = ((stat_value - offset).max(0.0)) * multiplier, capped if set.
+    /// - HpPercent → total HP, AtkPercent → total ATK, DefPercent → total DEF
+    /// - DefPercentRaw → raw def_percent value, ElementalMastery → EM, EnergyRecharge → ER
     StatScaling {
         stat: BuffableStat,
-        cap: Option<f64>,
+        /// Subtracted from stat value before scaling (e.g. 1.0 for ER excess).
+        offset: Option<f64>,
+        /// Per-refinement cap values [R1..R5]. None = no cap.
+        cap: Option<[f64; 5]>,
     },
     /// Requires N+ team members of a specific element (e.g. Gorou).
     TeamElementCount { element: Element, min_count: u8 },
