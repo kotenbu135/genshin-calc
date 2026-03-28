@@ -537,6 +537,74 @@ pub const NARWHAL_PHASE2: EnemyData = EnemyData {
     resistance: &ELECTRO_70_REST_10,
 };
 
+// ---------------------------------------------------------------------------
+// フィールドボス
+// ---------------------------------------------------------------------------
+
+pub const ELECTRO_REGISVINE: EnemyData = EnemyData {
+    id: "electro_regisvine",
+    name: "雷レジスヴァイン",
+    resistance: &ELECTRO_70_PHYS_30_REST_10,
+};
+
+pub const MAGUU_KENKI: EnemyData = EnemyData {
+    id: "maguu_kenki",
+    name: "魔偶剣鬼",
+    resistance: &ALL_10,
+};
+
+pub const CRYO_HYPOSTASIS: EnemyData = EnemyData {
+    id: "cryo_hypostasis",
+    name: "無相の氷",
+    resistance: &CRYO_IMMUNE_PHYS_0_REST_10,
+};
+
+pub const ELECTRO_HYPOSTASIS: EnemyData = EnemyData {
+    id: "electro_hypostasis",
+    name: "無相の雷",
+    resistance: &ELECTRO_IMMUNE_PHYS_0_REST_10,
+};
+
+pub const DENDRO_HYPOSTASIS: EnemyData = EnemyData {
+    id: "dendro_hypostasis",
+    name: "無相の草",
+    resistance: &DENDRO_IMMUNE_PHYS_0_REST_10,
+};
+
+// ---------------------------------------------------------------------------
+// 精鋭
+// ---------------------------------------------------------------------------
+
+pub const ABYSS_HERALD: EnemyData = EnemyData {
+    id: "abyss_herald",
+    name: "アビスの使徒",
+    resistance: &ALL_10,
+};
+
+pub const ABYSS_LECTOR: EnemyData = EnemyData {
+    id: "abyss_lector",
+    name: "アビスの詠唱者",
+    resistance: &ALL_10,
+};
+
+pub const RUIN_DRAKE_SKYWATCH: EnemyData = EnemyData {
+    id: "ruin_drake_skywatch",
+    name: "遺跡ドレイク・飛空",
+    resistance: &PHYS_50_ELEM_10,
+};
+
+pub const RUIN_DRAKE_EARTHGUARD: EnemyData = EnemyData {
+    id: "ruin_drake_earthguard",
+    name: "遺跡ドレイク・陸行",
+    resistance: &PHYS_50_ELEM_10,
+};
+
+pub const EREMITE_ELITE: EnemyData = EnemyData {
+    id: "eremite_elite",
+    name: "エルマイト旅団・精鋭",
+    resistance: &PHYS_MINUS20_ELEM_10,
+};
+
 /// 全敵データの一覧
 pub const ALL_ENEMIES: &[&EnemyData] = &[
     &HILICHURL,
@@ -729,5 +797,50 @@ mod tests {
         assert!((enemy.resistance - 0.90).abs() < eps);
         let enemy = SCARAMOUCHE_PHASE2.to_enemy(Some(Element::Pyro), 90, 0.0);
         assert!((enemy.resistance - 0.30).abs() < eps);
+    }
+
+    #[test]
+    fn test_cryo_hypostasis_immune() {
+        let eps = 1e-10;
+        let enemy = CRYO_HYPOSTASIS.to_enemy(Some(Element::Cryo), 90, 0.0);
+        assert!((enemy.resistance - 10.0).abs() < eps);
+        // Non-immune element
+        let enemy = CRYO_HYPOSTASIS.to_enemy(Some(Element::Pyro), 90, 0.0);
+        assert!((enemy.resistance - 0.10).abs() < eps);
+        // Physical
+        let enemy = CRYO_HYPOSTASIS.to_enemy(None, 90, 0.0);
+        assert!((enemy.resistance - 0.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_electro_hypostasis_immune() {
+        let eps = 1e-10;
+        let enemy = ELECTRO_HYPOSTASIS.to_enemy(Some(Element::Electro), 90, 0.0);
+        assert!((enemy.resistance - 10.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_dendro_hypostasis_immune() {
+        let eps = 1e-10;
+        let enemy = DENDRO_HYPOSTASIS.to_enemy(Some(Element::Dendro), 90, 0.0);
+        assert!((enemy.resistance - 10.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_electro_regisvine_resistances() {
+        let eps = 1e-10;
+        let enemy = ELECTRO_REGISVINE.to_enemy(Some(Element::Electro), 90, 0.0);
+        assert!((enemy.resistance - 0.70).abs() < eps);
+        let enemy = ELECTRO_REGISVINE.to_enemy(None, 90, 0.0);
+        assert!((enemy.resistance - 0.30).abs() < eps);
+    }
+
+    #[test]
+    fn test_eremite_negative_physical() {
+        let eps = 1e-10;
+        let enemy = EREMITE_ELITE.to_enemy(None, 90, 0.0);
+        assert!((enemy.resistance - (-0.20)).abs() < eps);
+        let enemy = EREMITE_ELITE.to_enemy(Some(Element::Pyro), 90, 0.0);
+        assert!((enemy.resistance - 0.10).abs() < eps);
     }
 }
