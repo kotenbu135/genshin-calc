@@ -32,6 +32,7 @@ fn diluc_normal_attack_with_data_crate() {
         element: hit1.damage_element,
         reaction: None,
         reaction_bonus: 0.0,
+        flat_dmg: 0.0,
     };
 
     let result = calculate_damage(&input, &enemy).unwrap();
@@ -70,6 +71,7 @@ fn diluc_skill_pyro_damage() {
         element: skill_hit.damage_element,
         reaction: None,
         reaction_bonus: 0.0,
+        flat_dmg: 0.0,
     };
 
     let result = calculate_damage(&input, &enemy).unwrap();

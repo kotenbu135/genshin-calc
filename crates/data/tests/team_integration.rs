@@ -60,6 +60,7 @@ fn test_bennett_kazuha_team_damage() {
             element: Some(Element::Pyro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         },
         &Enemy {
             level: 90,

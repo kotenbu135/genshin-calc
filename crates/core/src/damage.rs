@@ -6,6 +6,7 @@ use crate::error::CalcError;
 use crate::level_table::reaction_base_value;
 use crate::reaction::{Reaction, ReactionCategory, catalyze_coefficient};
 use crate::stats::Stats;
+use crate::team::ResolvedBuff;
 use crate::types::{DamageType, Element, ScalingStat};
 
 /// Input parameters for standard damage calculation.
@@ -28,6 +29,10 @@ pub struct DamageInput {
     pub reaction: Option<Reaction>,
     /// Reaction DMG bonus from artifacts/buffs in decimal form.
     pub reaction_bonus: f64,
+    /// Flat damage added to base (e.g. Shenhe quill, weapon flat DMG scaling).
+    /// Added after ATK * talent_multiplier in the damage formula.
+    #[serde(default)]
+    pub flat_dmg: f64,
 }
 
 /// Result of standard damage calculation.
@@ -118,6 +123,7 @@ fn defense_multiplier(char_level: u32, enemy: &Enemy) -> f64 {
 ///     element: Some(Element::Pyro),
 ///     reaction: None,
 ///     reaction_bonus: 0.0,
+///     flat_dmg: 0.0,
 /// };
 /// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
 /// let result = calculate_damage(&input, &enemy).unwrap();
@@ -167,7 +173,7 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
         ScalingStat::Def => input.stats.def,
         ScalingStat::Em => input.stats.elemental_mastery,
     };
-    let base = scaling_value * input.talent_multiplier + catalyze_flat;
+    let base = scaling_value * input.talent_multiplier + catalyze_flat + input.flat_dmg;
     let non_crit = base
         * (1.0 + input.stats.dmg_bonus)
         * defense_multiplier(input.character_level, enemy)
@@ -182,6 +188,26 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
         average,
         reaction: reaction_result,
     })
+}
+
+/// Collects flat damage bonus from resolved buffs for a specific damage type.
+///
+/// Matches `NormalAtkFlatDmg`, `ChargedAtkFlatDmg`, `PlungingAtkFlatDmg`,
+/// `SkillFlatDmg`, or `BurstFlatDmg` against the damage type and sums values.
+pub fn collect_flat_dmg(buffs: &[ResolvedBuff], damage_type: DamageType) -> f64 {
+    use crate::buff_types::BuffableStat;
+    let target_stat = match damage_type {
+        DamageType::Normal => BuffableStat::NormalAtkFlatDmg,
+        DamageType::Charged => BuffableStat::ChargedAtkFlatDmg,
+        DamageType::Plunging => BuffableStat::PlungingAtkFlatDmg,
+        DamageType::Skill => BuffableStat::SkillFlatDmg,
+        DamageType::Burst => BuffableStat::BurstFlatDmg,
+    };
+    buffs
+        .iter()
+        .filter(|b| b.stat == target_stat)
+        .map(|b| b.value)
+        .sum()
 }
 
 #[cfg(test)]
@@ -206,6 +232,7 @@ mod tests {
             element: Some(Element::Pyro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         }
     }
 
@@ -536,6 +563,7 @@ mod tests {
             element: None, // physical
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = Enemy {
             level: 85,
@@ -567,6 +595,7 @@ mod tests {
             element: Some(Element::Pyro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = Enemy {
             level: 90,
@@ -597,6 +626,7 @@ mod tests {
             element: Some(Element::Cryo),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = Enemy {
             level: 90,
@@ -628,6 +658,7 @@ mod tests {
             element: Some(Element::Electro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = Enemy {
             level: 100,
@@ -838,6 +869,7 @@ mod tests {
             element: Some(Element::Pyro),
             reaction: Some(Reaction::Vaporize),
             reaction_bonus: 0.15,
+            flat_dmg: 0.0,
         };
         let enemy = valid_enemy();
         let result = calculate_damage(&input, &enemy).unwrap();
@@ -869,6 +901,7 @@ mod tests {
             element: Some(Element::Electro),
             reaction: Some(Reaction::Aggravate),
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = valid_enemy();
         let result = calculate_damage(&input, &enemy).unwrap();
@@ -901,6 +934,7 @@ mod tests {
             element: Some(Element::Cryo),
             reaction: Some(Reaction::Melt),
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = valid_enemy();
         let result = calculate_damage(&input, &enemy).unwrap();
@@ -932,6 +966,7 @@ mod tests {
             element: Some(Element::Dendro),
             reaction: Some(Reaction::Spread),
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = valid_enemy();
         let result = calculate_damage(&input, &enemy).unwrap();
@@ -963,6 +998,7 @@ mod tests {
             element: Some(Element::Hydro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = valid_enemy();
         let result = calculate_damage(&input, &enemy).unwrap();
@@ -994,6 +1030,7 @@ mod tests {
             element: Some(Element::Geo),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = valid_enemy();
         let result = calculate_damage(&input, &enemy).unwrap();
@@ -1022,6 +1059,7 @@ mod tests {
             element: Some(Element::Pyro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = Enemy {
             level: 90,
@@ -1054,6 +1092,7 @@ mod tests {
             element: Some(Element::Electro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
         let enemy = Enemy {
             level: 90,
@@ -1142,6 +1181,75 @@ mod tests {
         let expected_non_crit =
             30000.0 * 0.10 * 1.466 * 0.5 * 0.9 * 2.0 * (1.0 + 2.78 * 100.0 / 1500.0);
         assert!((result.non_crit - expected_non_crit).abs() < 0.1);
+    }
+
+    #[test]
+    fn test_flat_dmg_added_to_base() {
+        let mut input = valid_input();
+        input.flat_dmg = 500.0;
+        input.stats.crit_rate = 0.0;
+        input.stats.crit_dmg = 0.0;
+        input.stats.dmg_bonus = 0.0;
+        input.talent_multiplier = 1.0;
+        input.reaction = None;
+
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.0,
+            def_reduction: 0.0,
+        };
+        let result = calculate_damage(&input, &enemy).unwrap();
+
+        // base = atk * 1.0 + flat_dmg = 2000 + 500 = 2500
+        // non_crit = 2500 * 1.0 * 0.5 * 1.0 = 1250
+        let expected = (2000.0 + 500.0) * 0.5;
+        assert!((result.non_crit - expected).abs() < 1.0);
+    }
+
+    #[test]
+    fn test_flat_dmg_zero_unchanged() {
+        let input = valid_input();
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let result = calculate_damage(&input, &enemy).unwrap();
+
+        let mut input_zero = valid_input();
+        input_zero.flat_dmg = 0.0;
+        let result_zero = calculate_damage(&input_zero, &enemy).unwrap();
+        assert!((result.non_crit - result_zero.non_crit).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_collect_flat_dmg() {
+        use crate::buff_types::BuffableStat;
+        use crate::team::{BuffTarget, ResolvedBuff};
+
+        let buffs = vec![
+            ResolvedBuff {
+                source: "Weapon".into(),
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 200.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Weapon2".into(),
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 100.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Other".into(),
+                stat: BuffableStat::SkillFlatDmg,
+                value: 500.0,
+                target: BuffTarget::Team,
+            },
+        ];
+        assert!((collect_flat_dmg(&buffs, DamageType::Normal) - 300.0).abs() < 1e-6);
+        assert!((collect_flat_dmg(&buffs, DamageType::Skill) - 500.0).abs() < 1e-6);
+        assert!((collect_flat_dmg(&buffs, DamageType::Charged) - 0.0).abs() < 1e-6);
     }
 
     #[test]

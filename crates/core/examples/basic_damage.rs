@@ -33,6 +33,7 @@ fn main() {
             element: None,
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         },
         &enemy,
     )
@@ -53,6 +54,7 @@ fn main() {
             element: Some(Element::Pyro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         },
         &enemy,
     )
@@ -73,6 +75,7 @@ fn main() {
             element: Some(Element::Pyro),
             reaction: Some(Reaction::Vaporize),
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         },
         &enemy,
     )
