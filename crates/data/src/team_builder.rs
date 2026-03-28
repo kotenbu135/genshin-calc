@@ -1,5 +1,12 @@
-use genshin_calc_core::{BuffTarget, CalcError, DamageType, ResolvedBuff, StatProfile, TeamMember};
+use genshin_calc_core::{
+    BuffTarget, BuffableStat, CalcError, DamageType, Element, ResolvedBuff, StatProfile,
+    TeamMember, WeaponType,
+};
 
+use crate::buff::{
+    Activation, AutoCondition, AvailableConditional, ConditionalBuff, ManualActivation,
+    ManualCondition,
+};
 use crate::moonsign_chars::is_moonsign_character;
 use crate::talent_buffs::find_talent_buffs;
 use crate::types::{ArtifactSet, AscensionStat, CharacterData, WeaponData, WeaponSubStat};
@@ -12,6 +19,8 @@ pub struct TeamMemberBuilder {
     artifact_stats: StatProfile,
     constellation: u8,
     talent_levels: [u8; 3],
+    manual_activations: Vec<(&'static str, ManualActivation)>,
+    team_elements: Vec<Element>,
 }
 
 impl TeamMemberBuilder {
@@ -26,6 +35,8 @@ impl TeamMemberBuilder {
             artifact_stats: StatProfile::default(),
             constellation: 0,
             talent_levels: [1, 1, 1],
+            manual_activations: Vec::new(),
+            team_elements: Vec::new(),
         }
     }
 
@@ -51,6 +62,54 @@ impl TeamMemberBuilder {
     pub fn talent_levels(mut self, levels: [u8; 3]) -> Self {
         self.talent_levels = levels;
         self
+    }
+
+    /// Activate a manual conditional buff by name.
+    pub fn activate(mut self, name: &'static str) -> Self {
+        self.manual_activations
+            .push((name, ManualActivation::Active));
+        self
+    }
+
+    /// Activate a stackable conditional buff with stack count.
+    pub fn activate_with_stacks(mut self, name: &'static str, stacks: u8) -> Self {
+        self.manual_activations
+            .push((name, ManualActivation::Stacks(stacks)));
+        self
+    }
+
+    /// Set team element composition for Auto team-based conditions.
+    pub fn team_elements(mut self, elements: Vec<Element>) -> Self {
+        self.team_elements = elements;
+        self
+    }
+
+    /// Returns available conditional buffs with source context.
+    pub fn available_conditionals(&self) -> Vec<AvailableConditional> {
+        let mut result = Vec::new();
+        if let Some(passive) = &self.weapon.passive {
+            for buff in passive.effect.conditional_buffs {
+                result.push(AvailableConditional {
+                    source: self.weapon.name,
+                    buff,
+                });
+            }
+        }
+        if let Some(set) = self.artifact_set {
+            for buff in set.two_piece.conditional_buffs {
+                result.push(AvailableConditional {
+                    source: set.name,
+                    buff,
+                });
+            }
+            for buff in set.four_piece.conditional_buffs {
+                result.push(AvailableConditional {
+                    source: set.name,
+                    buff,
+                });
+            }
+        }
+        result
     }
 
     /// Builds the [`TeamMember`].
@@ -192,6 +251,84 @@ impl TeamMemberBuilder {
             }
         }
 
+        // 9. Resolve conditional buffs
+        // TODO(P4): use refinement_values[r] when refinement level is available
+        let resolve_conditionals =
+            |conditional_buffs: &'static [ConditionalBuff],
+             source_name: &str,
+             target: BuffTarget,
+             buffs: &mut Vec<ResolvedBuff>| {
+                for cond_buff in conditional_buffs {
+                    let resolved_value = match &cond_buff.activation {
+                        Activation::Auto(auto) => eval_auto(
+                            auto,
+                            cond_buff.value,
+                            &profile,
+                            char_data.weapon_type,
+                            char_data.element,
+                            &self.team_elements,
+                        ),
+                        Activation::Manual(manual) => eval_manual(
+                            manual,
+                            cond_buff.name,
+                            cond_buff.value,
+                            &self.manual_activations,
+                        ),
+                        Activation::Both(auto, manual) => eval_auto(
+                            auto,
+                            cond_buff.value,
+                            &profile,
+                            char_data.weapon_type,
+                            char_data.element,
+                            &self.team_elements,
+                        )
+                        .and_then(|auto_value| {
+                            eval_manual(
+                                manual,
+                                cond_buff.name,
+                                auto_value,
+                                &self.manual_activations,
+                            )
+                        }),
+                    };
+
+                    if let Some(value) = resolved_value {
+                        buffs.push(ResolvedBuff {
+                            source: format!("{} ({})", cond_buff.name, source_name),
+                            stat: cond_buff.stat,
+                            value,
+                            target,
+                        });
+                    }
+                }
+            };
+
+        // Weapon conditional buffs
+        if let Some(passive) = &weapon.passive {
+            resolve_conditionals(
+                passive.effect.conditional_buffs,
+                weapon.name,
+                BuffTarget::OnlySelf,
+                &mut buffs,
+            );
+        }
+
+        // Artifact conditional buffs
+        if let Some(set) = self.artifact_set {
+            resolve_conditionals(
+                set.two_piece.conditional_buffs,
+                &format!("{} 2pc", set.name),
+                BuffTarget::OnlySelf,
+                &mut buffs,
+            );
+            resolve_conditionals(
+                set.four_piece.conditional_buffs,
+                &format!("{} 4pc", set.name),
+                BuffTarget::OnlySelf,
+                &mut buffs,
+            );
+        }
+
         Ok(TeamMember {
             element: char_data.element,
             weapon_type: char_data.weapon_type,
@@ -214,6 +351,105 @@ fn apply_ascension_stat(profile: &mut StatProfile, stat: &AscensionStat) {
         AscensionStat::ElementalDmgBonus(_, v) => profile.dmg_bonus += v,
         AscensionStat::PhysicalDmgBonus(v) => profile.dmg_bonus += v,
         AscensionStat::HealingBonus(_) => {} // No effect on damage calculation
+    }
+}
+
+/// Reads the relevant stat value from a profile for StatScaling.
+/// BuffableStat here indicates the "stat family" — see AutoCondition::StatScaling doc.
+fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
+    match stat {
+        BuffableStat::HpPercent => profile.base_hp * (1.0 + profile.hp_percent) + profile.hp_flat,
+        BuffableStat::AtkPercent => {
+            profile.base_atk * (1.0 + profile.atk_percent) + profile.atk_flat
+        }
+        BuffableStat::DefPercent => {
+            profile.base_def * (1.0 + profile.def_percent) + profile.def_flat
+        }
+        BuffableStat::ElementalMastery => profile.elemental_mastery,
+        BuffableStat::EnergyRecharge => profile.energy_recharge,
+        _ => 0.0,
+    }
+}
+
+/// Evaluates an Auto condition. Returns Some(value) if condition is met.
+fn eval_auto(
+    cond: &AutoCondition,
+    multiplier: f64,
+    profile: &StatProfile,
+    weapon_type: WeaponType,
+    element: Element,
+    team_elements: &[Element],
+) -> Option<f64> {
+    match cond {
+        AutoCondition::WeaponTypeRequired(types) => {
+            if types.contains(&weapon_type) {
+                Some(multiplier)
+            } else {
+                None
+            }
+        }
+        AutoCondition::ElementRequired(elements) => {
+            if elements.contains(&element) {
+                Some(multiplier)
+            } else {
+                None
+            }
+        }
+        AutoCondition::StatScaling { stat, cap } => {
+            let stat_val = read_stat_for_scaling(stat, profile);
+            let raw = stat_val * multiplier;
+            Some(cap.map_or(raw, |c| raw.min(c)))
+        }
+        AutoCondition::TeamElementCount {
+            element: elem,
+            min_count,
+        } => {
+            if team_elements.is_empty() {
+                return None;
+            }
+            let count = team_elements.iter().filter(|e| *e == elem).count() as u8;
+            if count >= *min_count {
+                Some(multiplier)
+            } else {
+                None
+            }
+        }
+        AutoCondition::TeamElementsOnly(allowed) => {
+            if team_elements.is_empty() {
+                return None;
+            }
+            if team_elements.iter().all(|e| allowed.contains(e)) {
+                Some(multiplier)
+            } else {
+                None
+            }
+        }
+    }
+}
+
+/// Evaluates a Manual condition. Returns Some(value) if user activated it.
+fn eval_manual(
+    cond: &ManualCondition,
+    buff_name: &str,
+    value: f64,
+    activations: &[(&str, ManualActivation)],
+) -> Option<f64> {
+    let activation = activations.iter().find(|(name, _)| *name == buff_name);
+    match cond {
+        ManualCondition::Toggle => match activation {
+            Some((_, ManualActivation::Active)) => Some(value),
+            _ => None, // Stacks mismatch or not present
+        },
+        ManualCondition::Stacks(max) => match activation {
+            Some((_, ManualActivation::Stacks(n))) => {
+                let effective = (*n).min(*max);
+                Some(value * f64::from(effective))
+            }
+            Some((_, ManualActivation::Active)) => {
+                Some(value * f64::from(*max)) // Active on Stacks → max stacks
+            }
+            _ => None,
+        },
     }
 }
 
@@ -362,5 +598,420 @@ mod tests {
         // Lv10 scaling = 1.008 (index 9)
         let expected = member.stats.base_atk * 1.008;
         assert!((burst_buff.value - expected).abs() < 1e-4);
+    }
+}
+
+#[cfg(test)]
+mod conditional_tests {
+    use super::*;
+    use crate::buff::*;
+    use crate::{find_artifact_set, find_character, find_weapon};
+
+    const EPSILON: f64 = 1e-6;
+
+    // --- eval_auto tests ---
+
+    #[test]
+    fn test_eval_auto_weapon_type_match() {
+        let cond = AutoCondition::WeaponTypeRequired(&[WeaponType::Sword, WeaponType::Claymore]);
+        let result = eval_auto(
+            &cond,
+            0.35,
+            &StatProfile::default(),
+            WeaponType::Sword,
+            Element::Pyro,
+            &[],
+        );
+        assert!((result.unwrap() - 0.35).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_weapon_type_mismatch() {
+        let cond = AutoCondition::WeaponTypeRequired(&[WeaponType::Sword, WeaponType::Claymore]);
+        let result = eval_auto(
+            &cond,
+            0.35,
+            &StatProfile::default(),
+            WeaponType::Catalyst,
+            Element::Pyro,
+            &[],
+        );
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_auto_element_match() {
+        let cond = AutoCondition::ElementRequired(&[Element::Pyro, Element::Hydro]);
+        let result = eval_auto(
+            &cond,
+            0.20,
+            &StatProfile::default(),
+            WeaponType::Sword,
+            Element::Pyro,
+            &[],
+        );
+        assert!((result.unwrap() - 0.20).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_element_mismatch() {
+        let cond = AutoCondition::ElementRequired(&[Element::Pyro]);
+        let result = eval_auto(
+            &cond,
+            0.20,
+            &StatProfile::default(),
+            WeaponType::Sword,
+            Element::Cryo,
+            &[],
+        );
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_normal() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::EnergyRecharge,
+            cap: Some(0.75),
+        };
+        let profile = StatProfile {
+            energy_recharge: 1.80,
+            ..Default::default()
+        };
+        // 1.80 * 0.25 = 0.45 (below cap)
+        let result = eval_auto(&cond, 0.25, &profile, WeaponType::Sword, Element::Pyro, &[]);
+        assert!((result.unwrap() - 0.45).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_capped() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::EnergyRecharge,
+            cap: Some(0.75),
+        };
+        let profile = StatProfile {
+            energy_recharge: 4.00,
+            ..Default::default()
+        };
+        // 4.00 * 0.25 = 1.00 → capped at 0.75
+        let result = eval_auto(&cond, 0.25, &profile, WeaponType::Sword, Element::Pyro, &[]);
+        assert!((result.unwrap() - 0.75).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_hp() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            cap: None,
+        };
+        let profile = StatProfile {
+            base_hp: 15000.0,
+            hp_percent: 0.466,
+            hp_flat: 4780.0,
+            ..Default::default()
+        };
+        // total_hp = 15000 * 1.466 + 4780 = 26770.0; 26770.0 * 0.008 = 214.16
+        let result = eval_auto(
+            &cond,
+            0.008,
+            &profile,
+            WeaponType::Polearm,
+            Element::Pyro,
+            &[],
+        );
+        assert!((result.unwrap() - 214.16).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_eval_auto_team_element_count_pass() {
+        let cond = AutoCondition::TeamElementCount {
+            element: Element::Geo,
+            min_count: 3,
+        };
+        let team = vec![Element::Geo, Element::Geo, Element::Geo, Element::Pyro];
+        let result = eval_auto(
+            &cond,
+            0.25,
+            &StatProfile::default(),
+            WeaponType::Bow,
+            Element::Geo,
+            &team,
+        );
+        assert!((result.unwrap() - 0.25).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_team_element_count_fail() {
+        let cond = AutoCondition::TeamElementCount {
+            element: Element::Geo,
+            min_count: 3,
+        };
+        let team = vec![Element::Geo, Element::Geo, Element::Pyro, Element::Hydro];
+        let result = eval_auto(
+            &cond,
+            0.25,
+            &StatProfile::default(),
+            WeaponType::Bow,
+            Element::Geo,
+            &team,
+        );
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_auto_team_element_count_empty_skips() {
+        let cond = AutoCondition::TeamElementCount {
+            element: Element::Geo,
+            min_count: 3,
+        };
+        let result = eval_auto(
+            &cond,
+            0.25,
+            &StatProfile::default(),
+            WeaponType::Bow,
+            Element::Geo,
+            &[],
+        );
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_auto_team_elements_only_pass() {
+        let cond = AutoCondition::TeamElementsOnly(&[Element::Hydro, Element::Dendro]);
+        let team = vec![
+            Element::Hydro,
+            Element::Dendro,
+            Element::Hydro,
+            Element::Dendro,
+        ];
+        let result = eval_auto(
+            &cond,
+            0.10,
+            &StatProfile::default(),
+            WeaponType::Sword,
+            Element::Hydro,
+            &team,
+        );
+        assert!((result.unwrap() - 0.10).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_team_elements_only_fail() {
+        let cond = AutoCondition::TeamElementsOnly(&[Element::Hydro, Element::Dendro]);
+        let team = vec![
+            Element::Hydro,
+            Element::Dendro,
+            Element::Pyro,
+            Element::Dendro,
+        ];
+        let result = eval_auto(
+            &cond,
+            0.10,
+            &StatProfile::default(),
+            WeaponType::Sword,
+            Element::Hydro,
+            &team,
+        );
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_auto_team_elements_only_empty_skips() {
+        let cond = AutoCondition::TeamElementsOnly(&[Element::Hydro, Element::Dendro]);
+        let result = eval_auto(
+            &cond,
+            0.10,
+            &StatProfile::default(),
+            WeaponType::Sword,
+            Element::Hydro,
+            &[],
+        );
+        assert!(result.is_none());
+    }
+
+    // --- eval_manual tests ---
+
+    #[test]
+    fn test_eval_manual_toggle_active() {
+        let result = eval_manual(
+            &ManualCondition::Toggle,
+            "test_buff",
+            0.15,
+            &[("test_buff", ManualActivation::Active)],
+        );
+        assert!((result.unwrap() - 0.15).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_manual_toggle_not_present() {
+        let result = eval_manual(&ManualCondition::Toggle, "test_buff", 0.15, &[]);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_manual_toggle_stacks_mismatch() {
+        let result = eval_manual(
+            &ManualCondition::Toggle,
+            "test_buff",
+            0.15,
+            &[("test_buff", ManualActivation::Stacks(2))],
+        );
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_manual_stacks_normal() {
+        let result = eval_manual(
+            &ManualCondition::Stacks(3),
+            "test_buff",
+            0.075,
+            &[("test_buff", ManualActivation::Stacks(2))],
+        );
+        assert!((result.unwrap() - 0.15).abs() < EPSILON); // 0.075 * 2
+    }
+
+    #[test]
+    fn test_eval_manual_stacks_exceeds_max() {
+        let result = eval_manual(
+            &ManualCondition::Stacks(3),
+            "test_buff",
+            0.075,
+            &[("test_buff", ManualActivation::Stacks(5))],
+        );
+        assert!((result.unwrap() - 0.225).abs() < EPSILON); // 0.075 * 3 (capped)
+    }
+
+    #[test]
+    fn test_eval_manual_stacks_not_present() {
+        let result = eval_manual(&ManualCondition::Stacks(3), "test_buff", 0.075, &[]);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_manual_stacks_with_active_treated_as_max() {
+        let result = eval_manual(
+            &ManualCondition::Stacks(3),
+            "test_buff",
+            0.075,
+            &[("test_buff", ManualActivation::Active)],
+        );
+        assert!((result.unwrap() - 0.225).abs() < EPSILON); // 0.075 * 3 (max)
+    }
+
+    // --- Activation::Both tests (unit level) ---
+
+    #[test]
+    fn test_both_auto_pass_manual_pass() {
+        let auto = AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            cap: None,
+        };
+        let manual = ManualCondition::Toggle;
+        let profile = StatProfile {
+            base_hp: 20000.0,
+            hp_percent: 0.0,
+            ..Default::default()
+        };
+        // eval_auto: 20000 * 0.01 = 200.0
+        let auto_result = eval_auto(
+            &auto,
+            0.01,
+            &profile,
+            WeaponType::Polearm,
+            Element::Pyro,
+            &[],
+        );
+        assert!(auto_result.is_some());
+        // eval_manual with auto_value as input
+        let result = auto_result.and_then(|auto_value| {
+            eval_manual(
+                &manual,
+                "test",
+                auto_value,
+                &[("test", ManualActivation::Active)],
+            )
+        });
+        assert!((result.unwrap() - 200.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_both_auto_fail_manual_pass() {
+        let auto = AutoCondition::WeaponTypeRequired(&[WeaponType::Sword]);
+        let manual = ManualCondition::Toggle;
+        let auto_result = eval_auto(
+            &auto,
+            0.35,
+            &StatProfile::default(),
+            WeaponType::Catalyst,
+            Element::Pyro,
+            &[],
+        );
+        assert!(auto_result.is_none());
+        let result = auto_result
+            .and_then(|v| eval_manual(&manual, "test", v, &[("test", ManualActivation::Active)]));
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_both_auto_pass_manual_fail() {
+        let auto = AutoCondition::WeaponTypeRequired(&[WeaponType::Sword]);
+        let manual = ManualCondition::Toggle;
+        let auto_result = eval_auto(
+            &auto,
+            0.35,
+            &StatProfile::default(),
+            WeaponType::Sword,
+            Element::Pyro,
+            &[],
+        );
+        assert!(auto_result.is_some());
+        let result = auto_result.and_then(|v| {
+            eval_manual(&manual, "test", v, &[]) // not activated
+        });
+        assert!(result.is_none());
+    }
+
+    // --- Builder API tests ---
+
+    #[test]
+    fn test_builder_activate_noop_for_unknown_name() {
+        let char = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let _member = TeamMemberBuilder::new(char, weapon)
+            .activate("nonexistent_buff")
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn test_builder_activate_with_stacks_noop_for_unknown_name() {
+        let char = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let _member = TeamMemberBuilder::new(char, weapon)
+            .activate_with_stacks("nonexistent_buff", 2)
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn test_builder_team_elements() {
+        let char = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let _member = TeamMemberBuilder::new(char, weapon)
+            .team_elements(vec![
+                Element::Pyro,
+                Element::Hydro,
+                Element::Cryo,
+                Element::Dendro,
+            ])
+            .build()
+            .unwrap();
+    }
+
+    #[test]
+    fn test_builder_available_conditionals_empty() {
+        let char = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let builder = TeamMemberBuilder::new(char, weapon);
+        assert!(builder.available_conditionals().is_empty());
     }
 }
