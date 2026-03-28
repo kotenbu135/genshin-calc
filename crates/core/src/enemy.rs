@@ -310,4 +310,142 @@ mod tests {
         let mult = crate::damage::resistance_multiplier(&result);
         assert!((mult - 0.70).abs() < EPSILON);
     }
+
+    #[test]
+    fn test_integration_vv_zhongli_stacked_damage() {
+        // VV (-40%) + Zhongli (-20%) on 10% RES enemy
+        // 0.10 - 0.40 - 0.20 = -0.50 → res_mult 1.25
+        // original res_mult = 1 - 0.10 = 0.90
+        use crate::damage::{DamageInput, calculate_damage};
+        use crate::stats::Stats;
+        use crate::types::{DamageType, ScalingStat};
+
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let buffs = vec![
+            res_reduction_buff(Element::Pyro, 0.40), // VV
+            res_reduction_buff(Element::Pyro, 0.20), // Zhongli
+        ];
+        let debuffed = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
+
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.0,
+                crit_dmg: 0.0,
+                dmg_bonus: 0.0,
+                ..Default::default()
+            },
+            talent_multiplier: 1.0,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Normal,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+        };
+
+        let result_no_debuff = calculate_damage(&input, &enemy).unwrap();
+        let result_debuffed = calculate_damage(&input, &debuffed).unwrap();
+
+        assert!(result_debuffed.non_crit > result_no_debuff.non_crit);
+
+        // Ratio: 1.25 / 0.90 = 1.3888...
+        let ratio = result_debuffed.non_crit / result_no_debuff.non_crit;
+        let expected_ratio = 1.25 / 0.90;
+        assert!((ratio - expected_ratio).abs() < 0.001);
+    }
+
+    #[test]
+    fn test_integration_superconduct_physical() {
+        use crate::damage::{DamageInput, calculate_damage};
+        use crate::stats::Stats;
+        use crate::types::{DamageType, ScalingStat};
+
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let buffs = vec![superconduct_debuff()]; // -40% phys
+        let debuffed = apply_enemy_debuffs(&enemy, &buffs, None); // physical
+
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.0,
+                crit_dmg: 0.0,
+                dmg_bonus: 0.0,
+                ..Default::default()
+            },
+            talent_multiplier: 1.0,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Normal,
+            element: None, // physical
+            reaction: None,
+            reaction_bonus: 0.0,
+        };
+
+        let result_no_debuff = calculate_damage(&input, &enemy).unwrap();
+        let result_debuffed = calculate_damage(&input, &debuffed).unwrap();
+
+        // 0.10 - 0.40 = -0.30 → mult 1.15 vs original 0.90
+        let ratio = result_debuffed.non_crit / result_no_debuff.non_crit;
+        let expected_ratio = 1.15 / 0.90;
+        assert!((ratio - expected_ratio).abs() < 0.001);
+    }
+
+    #[test]
+    fn test_integration_lisa_def_reduction() {
+        use crate::damage::{DamageInput, calculate_damage};
+        use crate::stats::Stats;
+        use crate::types::{DamageType, ScalingStat};
+
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let buffs = vec![ResolvedBuff {
+            source: "Lisa A4".into(),
+            stat: BuffableStat::DefReduction,
+            value: 0.15,
+            target: BuffTarget::Team,
+        }];
+        let debuffed = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Electro));
+
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.0,
+                crit_dmg: 0.0,
+                dmg_bonus: 0.0,
+                ..Default::default()
+            },
+            talent_multiplier: 1.0,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Normal,
+            element: Some(Element::Electro),
+            reaction: None,
+            reaction_bonus: 0.0,
+        };
+
+        let result_no_debuff = calculate_damage(&input, &enemy).unwrap();
+        let result_debuffed = calculate_damage(&input, &debuffed).unwrap();
+
+        assert!(result_debuffed.non_crit > result_no_debuff.non_crit);
+
+        // def_mult_debuffed = 190 / (190 + 190*0.85) = 190/351.5
+        // def_mult_original = 190 / (190 + 190) = 0.5
+        let def_mult_debuffed = 190.0 / (190.0 + 190.0 * 0.85);
+        let def_mult_original = 0.5;
+        let expected_ratio = def_mult_debuffed / def_mult_original;
+        let ratio = result_debuffed.non_crit / result_no_debuff.non_crit;
+        assert!((ratio - expected_ratio).abs() < 0.001);
+    }
 }
