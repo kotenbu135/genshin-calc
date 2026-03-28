@@ -103,7 +103,7 @@ pub mod types;
 pub use buff_types::BuffableStat;
 pub use damage::{DamageInput, DamageResult, calculate_damage};
 pub use em::{amplifying_em_bonus, catalyze_em_bonus, lunar_em_bonus, transformative_em_bonus};
-pub use enemy::Enemy;
+pub use enemy::{Enemy, apply_enemy_debuffs, superconduct_debuff};
 pub use error::CalcError;
 pub use level_table::reaction_base_value;
 pub use lunar::{LunarInput, LunarResult, calculate_lunar};

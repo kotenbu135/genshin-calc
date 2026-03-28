@@ -31,4 +31,18 @@ pub enum BuffableStat {
     // Enemy resistance reduction (consumed by damage calculation, not applied to StatProfile)
     ElementalResReduction(Element),
     PhysicalResReduction,
+    DefReduction,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_def_reduction_serde_roundtrip() {
+        let stat = BuffableStat::DefReduction;
+        let json = serde_json::to_string(&stat).unwrap();
+        let deser: BuffableStat = serde_json::from_str(&json).unwrap();
+        assert_eq!(stat, deser);
+    }
 }
