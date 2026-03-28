@@ -212,7 +212,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("shenhe", SHENHE_BUFFS),
     ("yun_jin", YUN_JIN_BUFFS),
     ("mona", MONA_BUFFS),
-    ("sara", SARA_BUFFS),
+    ("kujou_sara", SARA_BUFFS),
     ("rosaria", ROSARIA_BUFFS),
     ("furina", FURINA_BUFFS),
     // Zhongli provides resistance shred (Enemy-side), not a stat buff — excluded here
@@ -250,6 +250,14 @@ mod tests {
     fn test_find_nonexistent_character() {
         assert!(find_talent_buffs("zhongli").is_none());
         assert!(find_talent_buffs("unknown").is_none());
+    }
+
+    #[test]
+    fn test_find_sara_buffs_by_character_id() {
+        // Sara's CharacterData uses id "kujou_sara", talent_buffs must match
+        let buffs = find_talent_buffs("kujou_sara").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
     }
 
     #[test]
