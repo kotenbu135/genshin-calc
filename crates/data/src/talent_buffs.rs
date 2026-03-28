@@ -246,19 +246,33 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 
 // ===== Sucrose =====
 // A1 passive "Catalyst Conversion": Swirl triggers EM+50 for team 8s
-// NOTE: A4 "Mollis Favonius" will be added in Task 6 (builder pattern)
-static SUCROSE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Catalyst Conversion",
-    description: "After triggering Swirl, grants EM+50 to party members with matching element",
-    stat: BuffableStat::ElementalMastery,
-    base_value: 50.0,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
-    min_constellation: 0,
-}];
+// A4 passive "Mollis Favonius": shares 20% of Sucrose's EM to party (builder computes EM * 0.20)
+static SUCROSE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Catalyst Conversion",
+        description: "After triggering Swirl, grants EM+50 to party members with matching element",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 50.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Mollis Favonius",
+        description: "Shares 20% of Sucrose's EM to party (builder computes EM * 0.20)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+];
 
 // ===== Ganyu =====
 // A4 passive "Harmony between Heaven and Earth": Cryo DMG+20% in burst field
@@ -510,6 +524,36 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Yelan =====
+// A4 passive "Adapt With Ease": DMG bonus ramp 1-50% (builder sets desired value)
+static YELAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Adapt With Ease",
+    description: "DMG Bonus ramps 1-50% over time (builder sets value, max 0.50)",
+    stat: BuffableStat::DmgBonus,
+    base_value: 0.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Ineffa =====
+// A4 passive: EM share based on ATK (builder computes ATK * 0.06)
+static INEFFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Ineffa A4 EM Share",
+    description: "Grants EM equal to 6% of Ineffa's ATK (builder computes ATK * 0.06)",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 0.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
@@ -536,6 +580,8 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("faruzan", FARUZAN_BUFFS),
     ("candace", CANDACE_BUFFS),
     ("gorou", GOROU_BUFFS),
+    ("yelan", YELAN_BUFFS),
+    ("ineffa", INEFFA_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.
@@ -788,5 +834,31 @@ mod tests {
             .unwrap();
         assert!((geo_buff.base_value - 0.15).abs() < 1e-6);
         assert!(!geo_buff.scales_with_talent);
+    }
+
+    #[test]
+    fn test_sucrose_a4_builder_pattern() {
+        let buffs = find_talent_buffs("sucrose").unwrap();
+        assert_eq!(buffs.len(), 2); // A1 + A4
+        let a4 = buffs.iter().find(|b| b.name == "Mollis Favonius").unwrap();
+        assert_eq!(a4.stat, BuffableStat::ElementalMastery);
+        assert!((a4.base_value - 0.0).abs() < 1e-6); // builder sets value
+        assert_eq!(a4.target, BuffTarget::TeamExcludeSelf);
+    }
+
+    #[test]
+    fn test_find_yelan_buffs() {
+        let buffs = find_talent_buffs("yelan").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::DmgBonus);
+        assert!((buffs[0].base_value - 0.0).abs() < 1e-6); // builder sets value
+    }
+
+    #[test]
+    fn test_find_ineffa_talent_buffs() {
+        let buffs = find_talent_buffs("ineffa").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((buffs[0].base_value - 0.0).abs() < 1e-6); // builder sets value
     }
 }
