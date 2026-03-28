@@ -110,3 +110,27 @@ pub fn weapons_by_type(weapon_type: WeaponType) -> Vec<&'static WeaponData> {
         .copied()
         .collect()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use genshin_calc_core::WeaponType;
+
+    #[test]
+    fn test_find_jahoda_character() {
+        let jahoda = find_character("jahoda").unwrap();
+        assert_eq!(jahoda.element, Element::Anemo);
+        assert_eq!(jahoda.weapon_type, WeaponType::Bow);
+        assert!(jahoda.base_hp[3] > 0.0);
+        assert!(jahoda.base_atk[3] > 0.0);
+        assert!(jahoda.base_def[3] > 0.0);
+    }
+
+    #[test]
+    fn test_find_aino_character() {
+        let aino = find_character("aino").unwrap();
+        assert_eq!(aino.element, Element::Hydro);
+        assert_eq!(aino.weapon_type, WeaponType::Claymore);
+        assert!(aino.base_hp[3] > 0.0);
+    }
+}
