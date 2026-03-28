@@ -58,6 +58,18 @@ pub fn apply_enemy_debuffs(
     }
 }
 
+/// Creates a ResolvedBuff for Superconduct's physical resistance reduction (-40%).
+///
+/// Consumer adds this to the buff list when Superconduct reaction is active.
+pub fn superconduct_debuff() -> ResolvedBuff {
+    ResolvedBuff {
+        source: "Superconduct".to_string(),
+        stat: BuffableStat::PhysicalResReduction,
+        value: 0.40,
+        target: crate::team::BuffTarget::Team,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -241,5 +253,61 @@ mod tests {
         ];
         let result = apply_enemy_debuffs(&enemy, &buffs, None);
         assert!((result.resistance - (-0.10)).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_superconduct_debuff_values() {
+        let debuff = superconduct_debuff();
+        assert_eq!(debuff.stat, BuffableStat::PhysicalResReduction);
+        assert!((debuff.value - 0.40).abs() < EPSILON);
+    }
+
+    // Golden tests: hand-calculated resistance multiplier after shred
+    #[test]
+    fn test_golden_res_10_shred_20() {
+        // 10% base - 20% shred = -10% → multiplier = 1 - (-0.10)/2 = 1.05
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let buffs = vec![res_reduction_buff(Element::Pyro, 0.20)];
+        let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
+        assert!((result.resistance - (-0.10)).abs() < EPSILON);
+        let mult = crate::damage::resistance_multiplier(&result);
+        assert!((mult - 1.05).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_golden_res_10_shred_60() {
+        // 10% base - 60% shred = -50% → multiplier = 1 - (-0.50)/2 = 1.25
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let buffs = vec![
+            res_reduction_buff(Element::Pyro, 0.40),
+            res_reduction_buff(Element::Pyro, 0.20),
+        ];
+        let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
+        assert!((result.resistance - (-0.50)).abs() < EPSILON);
+        let mult = crate::damage::resistance_multiplier(&result);
+        assert!((mult - 1.25).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_golden_res_70_shred_40() {
+        // 70% base - 40% shred = 30% → multiplier = 1 - 0.30 = 0.70
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.70,
+            def_reduction: 0.0,
+        };
+        let buffs = vec![res_reduction_buff(Element::Pyro, 0.40)];
+        let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
+        assert!((result.resistance - 0.30).abs() < EPSILON);
+        let mult = crate::damage::resistance_multiplier(&result);
+        assert!((mult - 0.70).abs() < EPSILON);
     }
 }
