@@ -443,6 +443,100 @@ pub const ANEMO_HYPOSTASIS: EnemyData = EnemyData {
     resistance: &ANEMO_70_REST_10,
 };
 
+// ---------------------------------------------------------------------------
+// 週ボス
+// ---------------------------------------------------------------------------
+
+pub const DVALIN: EnemyData = EnemyData {
+    id: "dvalin",
+    name: "風魔龍トワリン",
+    resistance: &ALL_10,
+};
+
+pub const CHILDE_PHASE1: EnemyData = EnemyData {
+    id: "childe_phase1",
+    name: "タルタリヤ・第1段階",
+    resistance: &HYDRO_50_REST_0,
+};
+
+pub const CHILDE_PHASE2: EnemyData = EnemyData {
+    id: "childe_phase2",
+    name: "タルタリヤ・第2段階",
+    resistance: &ELECTRO_50_REST_0,
+};
+
+pub const CHILDE_PHASE3: EnemyData = EnemyData {
+    id: "childe_phase3",
+    name: "タルタリヤ・第3段階",
+    resistance: &HYDRO_70_ELECTRO_70_REST_0,
+};
+
+pub const AZHDAHA: EnemyData = EnemyData {
+    id: "azhdaha",
+    name: "若陀龍王",
+    resistance: &GEO_70_PHYS_40_REST_10,
+};
+
+pub const SIGNORA_PHASE1: EnemyData = EnemyData {
+    id: "signora_phase1",
+    name: "シニョーラ・第1段階",
+    resistance: &CRYO_50_REST_10,
+};
+
+pub const SIGNORA_PHASE2: EnemyData = EnemyData {
+    id: "signora_phase2",
+    name: "シニョーラ・第2段階",
+    resistance: &PYRO_70_CRYO_50_REST_10,
+};
+
+pub const RAIDEN_SHOGUN_WEEKLY: EnemyData = EnemyData {
+    id: "raiden_shogun_weekly",
+    name: "禍津御建鳴神命",
+    resistance: &ALL_10,
+};
+
+pub const SCARAMOUCHE_PHASE1: EnemyData = EnemyData {
+    id: "scaramouche_phase1",
+    name: "正機の神・第1段階",
+    resistance: &ELECTRO_50_REST_10,
+};
+
+pub const SCARAMOUCHE_PHASE2: EnemyData = EnemyData {
+    id: "scaramouche_phase2",
+    name: "正機の神・第2段階",
+    resistance: &ELECTRO_90_REST_30,
+};
+
+pub const APEP_PHASE1: EnemyData = EnemyData {
+    id: "apep_phase1",
+    name: "アペプ・第1段階",
+    resistance: &DENDRO_70_REST_10,
+};
+
+pub const APEP_PHASE2: EnemyData = EnemyData {
+    id: "apep_phase2",
+    name: "アペプ・第2段階",
+    resistance: &DENDRO_50_REST_10,
+};
+
+pub const APEP_PHASE3: EnemyData = EnemyData {
+    id: "apep_phase3",
+    name: "アペプ・第3段階",
+    resistance: &DENDRO_70_REST_10,
+};
+
+pub const NARWHAL_PHASE1: EnemyData = EnemyData {
+    id: "narwhal_phase1",
+    name: "呑星の鯨・第1段階",
+    resistance: &HYDRO_70_REST_10,
+};
+
+pub const NARWHAL_PHASE2: EnemyData = EnemyData {
+    id: "narwhal_phase2",
+    name: "呑星の鯨・第2段階",
+    resistance: &ELECTRO_70_REST_10,
+};
+
 /// 全敵データの一覧
 pub const ALL_ENEMIES: &[&EnemyData] = &[
     &HILICHURL,
@@ -583,5 +677,57 @@ mod tests {
 
         assert!((DENDRO_IMMUNE_PHYS_0_REST_10.dendro - 10.0).abs() < eps);
         assert!((DENDRO_IMMUNE_PHYS_0_REST_10.physical - 0.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_childe_phase1_hydro_resistance() {
+        let eps = 1e-10;
+        let enemy = CHILDE_PHASE1.to_enemy(Some(Element::Hydro), 90, 0.0);
+        assert!((enemy.resistance - 0.50).abs() < eps);
+    }
+
+    #[test]
+    fn test_childe_phase1_non_hydro_resistance() {
+        let eps = 1e-10;
+        let enemy = CHILDE_PHASE1.to_enemy(Some(Element::Pyro), 90, 0.0);
+        assert!((enemy.resistance - 0.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_childe_phase3_dual_resistance() {
+        let eps = 1e-10;
+        let enemy = CHILDE_PHASE3.to_enemy(Some(Element::Hydro), 90, 0.0);
+        assert!((enemy.resistance - 0.70).abs() < eps);
+        let enemy = CHILDE_PHASE3.to_enemy(Some(Element::Electro), 90, 0.0);
+        assert!((enemy.resistance - 0.70).abs() < eps);
+        let enemy = CHILDE_PHASE3.to_enemy(Some(Element::Pyro), 90, 0.0);
+        assert!((enemy.resistance - 0.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_azhdaha_geo_and_physical() {
+        let eps = 1e-10;
+        let enemy = AZHDAHA.to_enemy(Some(Element::Geo), 90, 0.0);
+        assert!((enemy.resistance - 0.70).abs() < eps);
+        let enemy = AZHDAHA.to_enemy(None, 90, 0.0);
+        assert!((enemy.resistance - 0.40).abs() < eps);
+    }
+
+    #[test]
+    fn test_signora_phase2_dual_element() {
+        let eps = 1e-10;
+        let enemy = SIGNORA_PHASE2.to_enemy(Some(Element::Pyro), 90, 0.0);
+        assert!((enemy.resistance - 0.70).abs() < eps);
+        let enemy = SIGNORA_PHASE2.to_enemy(Some(Element::Cryo), 90, 0.0);
+        assert!((enemy.resistance - 0.50).abs() < eps);
+    }
+
+    #[test]
+    fn test_scaramouche_phase2_high_electro() {
+        let eps = 1e-10;
+        let enemy = SCARAMOUCHE_PHASE2.to_enemy(Some(Element::Electro), 90, 0.0);
+        assert!((enemy.resistance - 0.90).abs() < eps);
+        let enemy = SCARAMOUCHE_PHASE2.to_enemy(Some(Element::Pyro), 90, 0.0);
+        assert!((enemy.resistance - 0.30).abs() < eps);
     }
 }
