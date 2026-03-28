@@ -7,7 +7,7 @@
 ## 現状
 
 - 220武器中37本のみパッシブ実装済み（17%カバレッジ）
-- ConditionalBuff使用: 0本（P0で型定義済みだが未使用）
+- 武器のConditionalBuff使用: 0本（P0で型定義済みだが武器では未使用。聖遺物では3件使用中）
 - TeamMemberBuilderに精錬レベルフィールドなし（TODOコメント2箇所）
 - 実装済み37本は全て`refinement_values: Some([r1..r5])`を持つ
 
@@ -45,14 +45,32 @@ fn resolve_value(value: f64, refinement_values: Option<[f64; 5]>, refinement: u8
 }
 ```
 
-適用箇所（計4箇所）:
+適用箇所（計6箇所）:
 1. 武器パッシブStatBuff
-2. 武器パッシブConditionalBuff
-3. 聖遺物2pcのConditionalBuff（将来用、現在は`refinement_values: None`）
-4. 聖遺物4pcのConditionalBuff（同上）
+2. 武器パッシブConditionalBuff（`cond_buff.value`を`resolve_value()`で置換してからeval関数に渡す）
+3. 聖遺物2pc StatBuff
+4. 聖遺物4pc StatBuff
+5. 聖遺物2pc ConditionalBuff
+6. 聖遺物4pc ConditionalBuff
 
 注: 聖遺物のStatBuff/ConditionalBuffは`refinement_values: None`なので常にフォールバック。
 ロジックを統一しておくことで、将来的な拡張に対応。
+`refinement`パラメータは武器精錬レベルとして意味的に武器に属するが、
+`resolve_value()`を全ソースに統一適用することでソース別の分岐を避ける。
+
+#### ConditionalBuff精錬値解決の適用ポイント
+
+`resolve_conditionals`クロージャ内で、`cond_buff.value`を各eval関数に渡す**前に**精錬値解決する:
+
+```rust
+let base_value = resolve_value(cond_buff.value, cond_buff.refinement_values, self.refinement);
+// base_valueをeval_auto/eval_manualのmultiplierとして渡す
+// StatScaling: stat_total * base_value（精錬済み倍率）
+// Stacks: base_value * stack_count
+// Both: base_valueがeval_auto→eval_manualに順に流れる
+```
+
+これにより、StatScaling/Stacks/Both全パターンで正しい精錬値が使われる。
 
 #### PR1 テスト
 
@@ -64,6 +82,7 @@ fn resolve_value(value: f64, refinement_values: Option<[f64; 5]>, refinement: u8
 - ConditionalBuffでの精錬値反映（テスト用モックデータ）
 - R0 → `CalcError::InvalidRefinement(0)`
 - R6 → `CalcError::InvalidRefinement(6)`
+- 既存37武器の`refinement_values[0] == value`不変条件を回帰テストで検証（PR2前にデータ整合性を保証）
 
 ### PR2: 武器パッシブデータ拡張
 
@@ -110,7 +129,7 @@ fn resolve_value(value: f64, refinement_values: Option<[f64; 5]>, refinement: u8
 
 **データ整合性テスト**:
 - 全武器の`refinement_values`がSomeなら`values[0] == value`（R1一致保証）
-- `refinement_values`の5要素が単調増加（ゲーム仕様: 精錬でバフは下がらない）
+- `refinement_values`の5要素が単調非減少（`<=`）（ゲーム仕様: 精錬でバフは下がらない。等間隔が一般的だがR間で同値もありうる）
 - ConditionalBuff付き武器のActivation型の妥当性
 
 **回帰確認**:
