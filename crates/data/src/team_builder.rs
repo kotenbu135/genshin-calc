@@ -599,6 +599,153 @@ mod tests {
         let expected = member.stats.base_atk * 1.008;
         assert!((burst_buff.value - expected).abs() < 1e-4);
     }
+
+    #[test]
+    fn test_faruzan_burst_buff_at_lv13() {
+        let faruzan = find_character("faruzan").unwrap();
+        let weapon = find_weapon("favonius_warbow").unwrap();
+        let member = TeamMemberBuilder::new(faruzan, weapon)
+            .talent_levels([1, 1, 13])
+            .build()
+            .unwrap();
+
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Prayerful Wind"))
+            .expect("Should have Faruzan burst buff");
+        assert_eq!(
+            buff.stat,
+            genshin_calc_core::BuffableStat::ElementalDmgBonus(genshin_calc_core::Element::Anemo)
+        );
+        assert!(buff.value > 0.0, "Buff value should be positive");
+    }
+
+    #[test]
+    fn test_diona_c6_constellation_gate() {
+        let diona = find_character("diona").unwrap();
+        let weapon = find_weapon("favonius_warbow").unwrap();
+
+        // C0: no EM buff
+        let c0 = TeamMemberBuilder::new(diona, weapon)
+            .constellation(0)
+            .build()
+            .unwrap();
+        assert!(
+            !c0.buffs_provided
+                .iter()
+                .any(|b| b.source.contains("Cat's Tail")),
+            "C0 Diona should not have C6 buff"
+        );
+
+        // C6: EM+200 buff present
+        let c6 = TeamMemberBuilder::new(diona, weapon)
+            .constellation(6)
+            .build()
+            .unwrap();
+        let buff = c6
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Cat's Tail"))
+            .expect("C6 Diona should have EM buff");
+        assert!((buff.value - 200.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_shenhe_a1_press_in_buffs_provided() {
+        let shenhe = find_character("shenhe").unwrap();
+        let weapon = find_weapon("calamity_queller").unwrap();
+        let member = TeamMemberBuilder::new(shenhe, weapon).build().unwrap();
+
+        assert!(
+            member
+                .buffs_provided
+                .iter()
+                .any(|b| b.stat == genshin_calc_core::BuffableStat::SkillDmgBonus),
+            "Should have SkillDmgBonus from A1"
+        );
+        assert!(
+            member
+                .buffs_provided
+                .iter()
+                .any(|b| b.stat == genshin_calc_core::BuffableStat::BurstDmgBonus),
+            "Should have BurstDmgBonus from A1"
+        );
+    }
+
+    #[test]
+    fn test_sara_c6_crit_dmg_gate() {
+        let sara = find_character("kujou_sara").unwrap();
+        let weapon = find_weapon("favonius_warbow").unwrap();
+
+        // C0: only ATK buff, no CritDmg
+        let c0 = TeamMemberBuilder::new(sara, weapon)
+            .constellation(0)
+            .build()
+            .unwrap();
+        assert!(
+            !c0.buffs_provided
+                .iter()
+                .any(|b| b.stat == genshin_calc_core::BuffableStat::CritDmg),
+            "C0 Sara should not have C6 CritDmg buff"
+        );
+
+        // C6: CritDmg present
+        let c6 = TeamMemberBuilder::new(sara, weapon)
+            .constellation(6)
+            .build()
+            .unwrap();
+        let buff = c6
+            .buffs_provided
+            .iter()
+            .find(|b| b.stat == genshin_calc_core::BuffableStat::CritDmg)
+            .expect("C6 Sara should have CritDmg buff");
+        assert!((buff.value - 0.60).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_jahoda_builds_with_talent_buff() {
+        let jahoda = find_character("jahoda").unwrap();
+        let weapon = find_weapon("favonius_warbow").unwrap();
+        let member = TeamMemberBuilder::new(jahoda, weapon).build().unwrap();
+        assert!(
+            member
+                .buffs_provided
+                .iter()
+                .any(|b| b.source.contains("Jahoda A4")),
+            "Should have Jahoda A4 EM buff"
+        );
+    }
+
+    #[test]
+    fn test_aino_c1_builds_with_talent_buff() {
+        let aino = find_character("aino").unwrap();
+        let weapon = find_weapon("favonius_greatsword").unwrap();
+
+        // C0: no C1 buff
+        let c0 = TeamMemberBuilder::new(aino, weapon)
+            .constellation(0)
+            .build()
+            .unwrap();
+        assert!(
+            !c0.buffs_provided
+                .iter()
+                .any(|b| b.source.contains("Aino C1")),
+            "C0 Aino should not have C1 buff"
+        );
+
+        // C1: EM+80 present
+        let c1 = TeamMemberBuilder::new(aino, weapon)
+            .constellation(1)
+            .build()
+            .unwrap();
+        let buff = c1
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Aino C1"))
+            .expect("C1 Aino should have EM buff");
+        assert!((buff.value - 80.0).abs() < EPSILON);
+    }
 }
 
 #[cfg(test)]
