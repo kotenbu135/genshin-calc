@@ -90,11 +90,12 @@ pub const ALL_CHARACTERS: &[&CharacterData] = &[
     &dendro::TIGHNARI,
     &dendro::TRAVELER_DENDRO,
     &dendro::YAOYAO,
-    // Anemo (15)
+    // Anemo (16)
     &anemo::CHASCA,
     &anemo::FARUZAN,
     &anemo::HEIZOU,
     &anemo::IFA,
+    &anemo::JAHODA,
     &anemo::JEAN,
     &anemo::KAZUHA,
     &anemo::LAN_YAN,

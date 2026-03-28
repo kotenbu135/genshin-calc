@@ -554,6 +554,21 @@ static INEFFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Jahoda =====
+// A4 passive: EM+100 when Burst robots heal characters with HP>70%
+static JAHODA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Jahoda A4 EM Buff",
+    description: "When burst heal target has HP>70%, EM+100 for 6s (assumes active)",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 100.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
@@ -582,6 +597,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("gorou", GOROU_BUFFS),
     ("yelan", YELAN_BUFFS),
     ("ineffa", INEFFA_BUFFS),
+    ("jahoda", JAHODA_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.
@@ -860,5 +876,13 @@ mod tests {
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 0.0).abs() < 1e-6); // builder sets value
+    }
+
+    #[test]
+    fn test_find_jahoda_buffs() {
+        let buffs = find_talent_buffs("jahoda").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((buffs[0].base_value - 100.0).abs() < 1e-6);
     }
 }
