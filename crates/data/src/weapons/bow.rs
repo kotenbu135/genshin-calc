@@ -1,4 +1,6 @@
-use crate::buff::{BuffableStat, PassiveEffect, StatBuff};
+use crate::buff::{
+    Activation, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+};
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
@@ -43,13 +45,20 @@ pub const AQUA_SIMULACRA: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "幽水のワルツ",
         effect: PassiveEffect {
-            description: "HP+16-32%。近くに敵がいるとDMGアップ",
+            description: "HP+16-32%。付近に敵がいる時DMG+20-40%",
             buffs: &[StatBuff {
                 stat: BuffableStat::HpPercent,
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "aqua_simulacra_dmg",
+                description: "付近に敵が存在する時、DMG+20-40%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };

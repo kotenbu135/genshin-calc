@@ -1447,4 +1447,134 @@ mod conditional_tests {
         let expected = member.stats.base_atk * 1.19;
         assert!((burst_buff.value - expected).abs() < 1e-4);
     }
+
+    // --- Task 11: Data integrity tests ---
+
+    #[test]
+    fn test_all_weapon_refinement_values_non_decreasing() {
+        for weapon in crate::weapons::ALL_WEAPONS {
+            if let Some(passive) = &weapon.passive {
+                for (i, stat_buff) in passive.effect.buffs.iter().enumerate() {
+                    if let Some(rv) = stat_buff.refinement_values {
+                        for w in rv.windows(2) {
+                            assert!(
+                                w[0] <= w[1],
+                                "Weapon '{}' StatBuff[{}]: refinement values not non-decreasing: {:?}",
+                                weapon.name,
+                                i,
+                                rv
+                            );
+                        }
+                    }
+                }
+                for (i, cond_buff) in passive.effect.conditional_buffs.iter().enumerate() {
+                    if let Some(rv) = cond_buff.refinement_values {
+                        for w in rv.windows(2) {
+                            assert!(
+                                w[0] <= w[1],
+                                "Weapon '{}' ConditionalBuff[{}] '{}': refinement values not non-decreasing: {:?}",
+                                weapon.name,
+                                i,
+                                cond_buff.name,
+                                rv
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_all_weapon_refinement_values_r1_invariant() {
+        for weapon in crate::weapons::ALL_WEAPONS {
+            if let Some(passive) = &weapon.passive {
+                for (i, stat_buff) in passive.effect.buffs.iter().enumerate() {
+                    if let Some(rv) = stat_buff.refinement_values {
+                        assert!(
+                            (rv[0] - stat_buff.value).abs() < 1e-10,
+                            "Weapon '{}' StatBuff[{}]: refinement_values[0]={} != value={}",
+                            weapon.name,
+                            i,
+                            rv[0],
+                            stat_buff.value
+                        );
+                    }
+                }
+                for (i, cond_buff) in passive.effect.conditional_buffs.iter().enumerate() {
+                    if let Some(rv) = cond_buff.refinement_values {
+                        assert!(
+                            (rv[0] - cond_buff.value).abs() < 1e-10,
+                            "Weapon '{}' ConditionalBuff[{}] '{}': refinement_values[0]={} != value={}",
+                            weapon.name,
+                            i,
+                            cond_buff.name,
+                            rv[0],
+                            cond_buff.value
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_jade_cutter_hp_atk_conditional_refinement() {
+        let keqing = find_character("keqing").unwrap();
+        let weapon = find_weapon("primordial_jade_cutter").unwrap();
+
+        // R1: jade_cutter_hp_atk multiplier = 0.012
+        let r1 = TeamMemberBuilder::new(keqing, weapon)
+            .refinement(1)
+            .build()
+            .unwrap();
+
+        // R5: jade_cutter_hp_atk multiplier = 0.024
+        let r5 = TeamMemberBuilder::new(keqing, weapon)
+            .refinement(5)
+            .build()
+            .unwrap();
+
+        // HP% StatBuff should scale: R1=0.20, R5=0.40
+        let r1_hp = r1
+            .buffs_provided
+            .iter()
+            .find(|b| {
+                b.stat == crate::buff::BuffableStat::HpPercent && b.source.contains("Jade Cutter")
+            })
+            .unwrap();
+        let r5_hp = r5
+            .buffs_provided
+            .iter()
+            .find(|b| {
+                b.stat == crate::buff::BuffableStat::HpPercent && b.source.contains("Jade Cutter")
+            })
+            .unwrap();
+        assert!((r1_hp.value - 0.20).abs() < EPSILON);
+        assert!((r5_hp.value - 0.40).abs() < EPSILON);
+
+        // HP->ATK ConditionalBuff should yield higher value at R5 than R1
+        // (multiplier is larger, same total_hp, so r5_atk > r1_atk)
+        let r1_atk = r1
+            .buffs_provided
+            .iter()
+            .find(|b| {
+                b.stat == crate::buff::BuffableStat::AtkFlat
+                    && b.source.contains("jade_cutter_hp_atk")
+            })
+            .unwrap();
+        let r5_atk = r5
+            .buffs_provided
+            .iter()
+            .find(|b| {
+                b.stat == crate::buff::BuffableStat::AtkFlat
+                    && b.source.contains("jade_cutter_hp_atk")
+            })
+            .unwrap();
+        assert!(
+            r5_atk.value > r1_atk.value,
+            "R5 should give more ATK than R1"
+        );
+        assert!(r1_atk.value > 0.0, "ATK buff should be positive");
+    }
 }
