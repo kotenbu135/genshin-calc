@@ -60,6 +60,7 @@
       "Bash(true:*)",
       "Bash(false:*)",
       "Bash(test:*)",
+      "Bash(python3:*)",
       "Bash([[:*)",
       "Read",
       "Edit",
