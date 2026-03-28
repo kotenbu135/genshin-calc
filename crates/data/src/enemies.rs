@@ -160,6 +160,179 @@ pub const ANEMO_70_REST_10: ResistanceTemplate = ResistanceTemplate {
     physical: 0.10,
 };
 
+// ---------------------------------------------------------------------------
+// 追加テンプレート: 週ボス・フィールドボス用
+// ---------------------------------------------------------------------------
+
+/// 水50% 他0% (タルタリヤ・第1段階)
+pub const HYDRO_50_REST_0: ResistanceTemplate = ResistanceTemplate {
+    name: "水50% 他0%",
+    pyro: 0.0,
+    hydro: 0.50,
+    electro: 0.0,
+    cryo: 0.0,
+    dendro: 0.0,
+    anemo: 0.0,
+    geo: 0.0,
+    physical: 0.0,
+};
+
+/// 雷50% 他0% (タルタリヤ・第2段階)
+pub const ELECTRO_50_REST_0: ResistanceTemplate = ResistanceTemplate {
+    name: "雷50% 他0%",
+    pyro: 0.0,
+    hydro: 0.0,
+    electro: 0.50,
+    cryo: 0.0,
+    dendro: 0.0,
+    anemo: 0.0,
+    geo: 0.0,
+    physical: 0.0,
+};
+
+/// 水70% 雷70% 他0% (タルタリヤ・第3段階)
+pub const HYDRO_70_ELECTRO_70_REST_0: ResistanceTemplate = ResistanceTemplate {
+    name: "水70% 雷70% 他0%",
+    pyro: 0.0,
+    hydro: 0.70,
+    electro: 0.70,
+    cryo: 0.0,
+    dendro: 0.0,
+    anemo: 0.0,
+    geo: 0.0,
+    physical: 0.0,
+};
+
+/// 岩70% 物理40% 他10% (若陀龍王)
+pub const GEO_70_PHYS_40_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "岩70% 物理40% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 0.10,
+    cryo: 0.10,
+    dendro: 0.10,
+    anemo: 0.10,
+    geo: 0.70,
+    physical: 0.40,
+};
+
+/// 氷50% 他10% (シニョーラ・第1段階)
+pub const CRYO_50_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "氷50% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 0.10,
+    cryo: 0.50,
+    dendro: 0.10,
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.10,
+};
+
+/// 炎70% 氷50% 他10% (シニョーラ・第2段階)
+pub const PYRO_70_CRYO_50_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "炎70% 氷50% 他10%",
+    pyro: 0.70,
+    hydro: 0.10,
+    electro: 0.10,
+    cryo: 0.50,
+    dendro: 0.10,
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.10,
+};
+
+/// 雷50% 他10% (散兵・第1段階)
+pub const ELECTRO_50_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "雷50% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 0.50,
+    cryo: 0.10,
+    dendro: 0.10,
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.10,
+};
+
+/// 雷90% 他30% (散兵・第2段階)
+pub const ELECTRO_90_REST_30: ResistanceTemplate = ResistanceTemplate {
+    name: "雷90% 他30%",
+    pyro: 0.30,
+    hydro: 0.30,
+    electro: 0.90,
+    cryo: 0.30,
+    dendro: 0.30,
+    anemo: 0.30,
+    geo: 0.30,
+    physical: 0.30,
+};
+
+/// 草50% 他10% (アペプ・第2段階)
+pub const DENDRO_50_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "草50% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 0.10,
+    cryo: 0.10,
+    dendro: 0.50,
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.10,
+};
+
+/// 雷70% 物理30% 他10% (雷レジスヴァイン)
+pub const ELECTRO_70_PHYS_30_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "雷70% 物理30% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 0.70,
+    cryo: 0.10,
+    dendro: 0.10,
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.30,
+};
+
+/// 氷免疫 物理0% 他10% (無相の氷) — Immune: cryo = 10.0
+pub const CRYO_IMMUNE_PHYS_0_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "氷免疫 物理0% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 0.10,
+    cryo: 10.0, // Immune
+    dendro: 0.10,
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.0,
+};
+
+/// 雷免疫 物理0% 他10% (無相の雷) — Immune: electro = 10.0
+pub const ELECTRO_IMMUNE_PHYS_0_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "雷免疫 物理0% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 10.0, // Immune
+    cryo: 0.10,
+    dendro: 0.10,
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.0,
+};
+
+/// 草免疫 物理0% 他10% (無相の草) — Immune: dendro = 10.0
+pub const DENDRO_IMMUNE_PHYS_0_REST_10: ResistanceTemplate = ResistanceTemplate {
+    name: "草免疫 物理0% 他10%",
+    pyro: 0.10,
+    hydro: 0.10,
+    electro: 0.10,
+    cryo: 0.10,
+    dendro: 10.0, // Immune
+    anemo: 0.10,
+    geo: 0.10,
+    physical: 0.0,
+};
+
 /// 全耐性の一覧
 pub const ALL_TEMPLATES: &[&ResistanceTemplate] = &[
     &ALL_10,
@@ -354,5 +527,61 @@ mod tests {
     #[test]
     fn test_all_enemies_count() {
         assert_eq!(ALL_ENEMIES.len(), 15);
+    }
+
+    #[test]
+    fn test_hydro_50_rest_0_template() {
+        let eps = 1e-10;
+        assert!((HYDRO_50_REST_0.hydro - 0.50).abs() < eps);
+        assert!((HYDRO_50_REST_0.physical - 0.0).abs() < eps);
+        assert!((HYDRO_50_REST_0.pyro - 0.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_hydro_70_electro_70_rest_0_template() {
+        let eps = 1e-10;
+        assert!((HYDRO_70_ELECTRO_70_REST_0.hydro - 0.70).abs() < eps);
+        assert!((HYDRO_70_ELECTRO_70_REST_0.electro - 0.70).abs() < eps);
+        assert!((HYDRO_70_ELECTRO_70_REST_0.physical - 0.0).abs() < eps);
+        assert!((HYDRO_70_ELECTRO_70_REST_0.pyro - 0.0).abs() < eps);
+    }
+
+    #[test]
+    fn test_geo_70_phys_40_rest_10_template() {
+        let eps = 1e-10;
+        assert!((GEO_70_PHYS_40_REST_10.geo - 0.70).abs() < eps);
+        assert!((GEO_70_PHYS_40_REST_10.physical - 0.40).abs() < eps);
+        assert!((GEO_70_PHYS_40_REST_10.pyro - 0.10).abs() < eps);
+    }
+
+    #[test]
+    fn test_pyro_70_cryo_50_rest_10_template() {
+        let eps = 1e-10;
+        assert!((PYRO_70_CRYO_50_REST_10.pyro - 0.70).abs() < eps);
+        assert!((PYRO_70_CRYO_50_REST_10.cryo - 0.50).abs() < eps);
+        assert!((PYRO_70_CRYO_50_REST_10.hydro - 0.10).abs() < eps);
+    }
+
+    #[test]
+    fn test_electro_90_rest_30_template() {
+        let eps = 1e-10;
+        assert!((ELECTRO_90_REST_30.electro - 0.90).abs() < eps);
+        assert!((ELECTRO_90_REST_30.physical - 0.30).abs() < eps);
+        assert!((ELECTRO_90_REST_30.pyro - 0.30).abs() < eps);
+    }
+
+    #[test]
+    fn test_immune_templates() {
+        let eps = 1e-10;
+        // Immune = 10.0 (1000% resistance)
+        assert!((CRYO_IMMUNE_PHYS_0_REST_10.cryo - 10.0).abs() < eps);
+        assert!((CRYO_IMMUNE_PHYS_0_REST_10.physical - 0.0).abs() < eps);
+        assert!((CRYO_IMMUNE_PHYS_0_REST_10.pyro - 0.10).abs() < eps);
+
+        assert!((ELECTRO_IMMUNE_PHYS_0_REST_10.electro - 10.0).abs() < eps);
+        assert!((ELECTRO_IMMUNE_PHYS_0_REST_10.physical - 0.0).abs() < eps);
+
+        assert!((DENDRO_IMMUNE_PHYS_0_REST_10.dendro - 10.0).abs() < eps);
+        assert!((DENDRO_IMMUNE_PHYS_0_REST_10.physical - 0.0).abs() < eps);
     }
 }
