@@ -55,20 +55,20 @@
 - v5.8全ゲームデータをRust定数として実装
 - `types.rs`: CharacterData, WeaponData, ArtifactSet, EnemyData等の型定義
 - `buff.rs`: BuffableStat(core re-export), StatBuff, PassiveEffect（武器パッシブ・聖遺物バフ）
-- `talent_buffs.rs`: 天賦バフ定義（TalentBuffDef, find_talent_buffs — 9キャラ分）
+- `talent_buffs.rs`: 天賦バフ定義（TalentBuffDef, find_talent_buffs — 29キャラ・47定義）
 - `team_builder.rs`: TeamMemberBuilder（キャラ+武器+聖遺物→TeamMember構築）
 - `moonsign_chars.rs`: 月兆キャラデータ（9キャラの月光の祝福パッシブ + Laumaタレント強化）
 - `characters/`: 元素別ファイル（pyro/hydro/electro/cryo/dendro/anemo/geo）— 102キャラ
 - `weapons/`: 武器種別ファイル（sword/claymore/polearm/bow/catalyst）— 230武器
 - `artifacts.rs`: 52聖遺物セット
-- `enemies.rs`: 12耐性テンプレート + 15敵データ + `to_enemy()`変換
+- `enemies.rs`: 12耐性テンプレート + 40敵データ + `to_enemy()`変換
 - `lib.rs`: 検索API（find_character/weapon/artifact_set/enemy + filter関数）
 - 数値単位: 全パーセンテージは小数形式（10.8% → 0.108）
 - `&'static`参照型はSerializeのみ（Deserializeなし）
 
 ## Testing
-- core: 173ユニットテスト + 統合テスト2種（character_verification 153ケース + moonsign_integration 4テスト）
-- data: 61テスト（検索API、serde roundtrip、データ整合性、core統合、チーム統合）
+- core: 203ユニットテスト + 統合テスト2種（character_verification 153ケース + moonsign_integration 4テスト）
+- data: 185テスト（検索API、serde roundtrip、データ整合性、core統合、チーム統合、聖遺物・武器ConditionalBuff）
 - v0.3.0でStatProfile合算 + ScalingStatテスト追加
 - ゲーム検証済みキャラ: Freminet（完全一致）、Diluc、Ganyu、Raiden、Yanfei蒸発
 - goldenテスト: 手計算値との照合（各モジュールに `test_golden_*` テスト）
