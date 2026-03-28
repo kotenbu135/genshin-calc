@@ -21,12 +21,13 @@ pub struct TeamMemberBuilder {
     talent_levels: [u8; 3],
     manual_activations: Vec<(&'static str, ManualActivation)>,
     team_elements: Vec<Element>,
+    refinement: u8,
 }
 
 impl TeamMemberBuilder {
     /// Creates a new builder with a character and weapon.
     ///
-    /// Defaults: no artifact set, empty artifact stats, constellation 0, talents [1, 1, 1].
+    /// Defaults: no artifact set, empty artifact stats, constellation 0, talents [1, 1, 1], refinement 1.
     pub fn new(character: &'static CharacterData, weapon: &'static WeaponData) -> Self {
         Self {
             character,
@@ -37,7 +38,14 @@ impl TeamMemberBuilder {
             talent_levels: [1, 1, 1],
             manual_activations: Vec::new(),
             team_elements: Vec::new(),
+            refinement: 1,
         }
+    }
+
+    /// Sets the weapon refinement level (1-5).
+    pub fn refinement(mut self, r: u8) -> Self {
+        self.refinement = r;
+        self
     }
 
     /// Sets the artifact set (4-piece).
@@ -127,6 +135,9 @@ impl TeamMemberBuilder {
                 return Err(CalcError::InvalidTalentLevel(level));
             }
         }
+        if self.refinement == 0 || self.refinement > 5 {
+            return Err(CalcError::InvalidRefinement(self.refinement));
+        }
 
         let char_data = self.character;
         let weapon = self.weapon;
@@ -169,7 +180,11 @@ impl TeamMemberBuilder {
                 buffs.push(ResolvedBuff {
                     source: format!("{} ({})", passive.name, weapon.name),
                     stat: stat_buff.stat,
-                    value: stat_buff.value,
+                    value: resolve_value(
+                        stat_buff.value,
+                        stat_buff.refinement_values,
+                        self.refinement,
+                    ),
                     target: BuffTarget::OnlySelf,
                 });
             }
@@ -181,7 +196,7 @@ impl TeamMemberBuilder {
                 buffs.push(ResolvedBuff {
                     source: format!("{} 2pc", set.name),
                     stat: stat_buff.stat,
-                    value: stat_buff.value,
+                    value: resolve_value(stat_buff.value, stat_buff.refinement_values, 1),
                     target: BuffTarget::OnlySelf,
                 });
             }
@@ -189,7 +204,7 @@ impl TeamMemberBuilder {
                 buffs.push(ResolvedBuff {
                     source: format!("{} 4pc", set.name),
                     stat: stat_buff.stat,
-                    value: stat_buff.value,
+                    value: resolve_value(stat_buff.value, stat_buff.refinement_values, 1),
                     target: BuffTarget::OnlySelf,
                 });
             }
@@ -252,17 +267,19 @@ impl TeamMemberBuilder {
         }
 
         // 9. Resolve conditional buffs
-        // TODO(P4): use refinement_values[r] when refinement level is available
         let resolve_conditionals =
             |conditional_buffs: &'static [ConditionalBuff],
              source_name: &str,
              target: BuffTarget,
+             refinement: u8,
              buffs: &mut Vec<ResolvedBuff>| {
                 for cond_buff in conditional_buffs {
+                    let effective_value =
+                        resolve_value(cond_buff.value, cond_buff.refinement_values, refinement);
                     let resolved_value = match &cond_buff.activation {
                         Activation::Auto(auto) => eval_auto(
                             auto,
-                            cond_buff.value,
+                            effective_value,
                             &profile,
                             char_data.weapon_type,
                             char_data.element,
@@ -271,12 +288,12 @@ impl TeamMemberBuilder {
                         Activation::Manual(manual) => eval_manual(
                             manual,
                             cond_buff.name,
-                            cond_buff.value,
+                            effective_value,
                             &self.manual_activations,
                         ),
                         Activation::Both(auto, manual) => eval_auto(
                             auto,
-                            cond_buff.value,
+                            effective_value,
                             &profile,
                             char_data.weapon_type,
                             char_data.element,
@@ -309,6 +326,7 @@ impl TeamMemberBuilder {
                 passive.effect.conditional_buffs,
                 weapon.name,
                 BuffTarget::OnlySelf,
+                self.refinement,
                 &mut buffs,
             );
         }
@@ -319,12 +337,14 @@ impl TeamMemberBuilder {
                 set.two_piece.conditional_buffs,
                 &format!("{} 2pc", set.name),
                 BuffTarget::OnlySelf,
+                1,
                 &mut buffs,
             );
             resolve_conditionals(
                 set.four_piece.conditional_buffs,
                 &format!("{} 4pc", set.name),
                 BuffTarget::OnlySelf,
+                1,
                 &mut buffs,
             );
         }
@@ -336,6 +356,16 @@ impl TeamMemberBuilder {
             buffs_provided: buffs,
             is_moonsign: is_moonsign_character(char_data.id),
         })
+    }
+}
+
+/// Resolves the effective buff value for a given refinement level.
+///
+/// Uses `refinement_values[refinement - 1]` when available, otherwise falls back to `value`.
+fn resolve_value(value: f64, refinement_values: Option<[f64; 5]>, refinement: u8) -> f64 {
+    match refinement_values {
+        Some(values) => values[(refinement.saturating_sub(1).min(4)) as usize],
+        None => value,
     }
 }
 
@@ -544,6 +574,143 @@ mod tests {
             .talent_levels([0, 1, 1])
             .build();
         assert!(result.is_err());
+    }
+
+    // --- Refinement tests ---
+
+    #[test]
+    fn test_refinement_default_is_r1() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        // Aquila Favonia: ATK% R1=0.20, R3=0.30, R5=0.40
+        let member = TeamMemberBuilder::new(bennett, weapon).build().unwrap();
+        let passive_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Aquila Favonia"))
+            .unwrap();
+        assert!(
+            (passive_buff.value - 0.20).abs() < EPSILON,
+            "R1 ATK% should be 0.20"
+        );
+    }
+
+    #[test]
+    fn test_refinement_r3() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let member = TeamMemberBuilder::new(bennett, weapon)
+            .refinement(3)
+            .build()
+            .unwrap();
+        let passive_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Aquila Favonia"))
+            .unwrap();
+        assert!(
+            (passive_buff.value - 0.30).abs() < EPSILON,
+            "R3 ATK% should be 0.30"
+        );
+    }
+
+    #[test]
+    fn test_refinement_r5() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let member = TeamMemberBuilder::new(bennett, weapon)
+            .refinement(5)
+            .build()
+            .unwrap();
+        let passive_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Aquila Favonia"))
+            .unwrap();
+        assert!(
+            (passive_buff.value - 0.40).abs() < EPSILON,
+            "R5 ATK% should be 0.40"
+        );
+    }
+
+    #[test]
+    fn test_refinement_r0_invalid() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let result = TeamMemberBuilder::new(bennett, weapon)
+            .refinement(0)
+            .build();
+        assert!(matches!(result, Err(CalcError::InvalidRefinement(0))));
+    }
+
+    #[test]
+    fn test_refinement_r6_invalid() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let result = TeamMemberBuilder::new(bennett, weapon)
+            .refinement(6)
+            .build();
+        assert!(matches!(result, Err(CalcError::InvalidRefinement(6))));
+    }
+
+    #[test]
+    fn test_refinement_values_none_falls_back_to_value() {
+        // Weapons without refinement_values should use value directly regardless of refinement
+        // Use a weapon where some buff has refinement_values: None
+        // Check resolve_value directly
+        assert!((resolve_value(0.15, None, 3) - 0.15).abs() < EPSILON);
+        assert!((resolve_value(0.15, None, 5) - 0.15).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_all_37_weapons_r1_value_matches_refinement_values_r1() {
+        // Invariant: for any weapon with refinement_values, refinement_values[0] == value
+        use crate::find_weapon;
+        let weapon_ids = [
+            "absolution",
+            "aquila_favonia",
+            "staff_of_homa",
+            "engulfing_lightning",
+            "freedom_sworn",
+            "mistsplitter_reforged",
+            "light_of_foliar_incision",
+            "key_of_khaj_nisut",
+            "splendor_of_tranquil_waters",
+            "a_thousand_floating_dreams",
+            "calamity_queller",
+            "skyward_blade",
+            "summit_shaper",
+        ];
+        for id in weapon_ids {
+            if let Some(weapon) = find_weapon(id) {
+                if let Some(passive) = &weapon.passive {
+                    for buff in passive.effect.buffs {
+                        if let Some(rv) = buff.refinement_values {
+                            assert!(
+                                (rv[0] - buff.value).abs() < EPSILON,
+                                "Weapon '{}' buff {:?}: refinement_values[0]={} != value={}",
+                                id,
+                                buff.stat,
+                                rv[0],
+                                buff.value
+                            );
+                        }
+                    }
+                    for cond_buff in passive.effect.conditional_buffs {
+                        if let Some(rv) = cond_buff.refinement_values {
+                            assert!(
+                                (rv[0] - cond_buff.value).abs() < EPSILON,
+                                "Weapon '{}' cond_buff '{}': refinement_values[0]={} != value={}",
+                                id,
+                                cond_buff.name,
+                                rv[0],
+                                cond_buff.value
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     #[test]

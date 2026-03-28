@@ -82,7 +82,6 @@ pub struct ConditionalBuff {
     /// Buff value (or multiplier for StatScaling).
     pub value: f64,
     /// Values at refinements 1-5. None for non-weapon / fixed buffs.
-    /// TODO(P4): Builder will use refinement_values[r] when refinement level is available.
     pub refinement_values: Option<[f64; 5]>,
     /// Activation condition.
     pub activation: Activation,
