@@ -157,18 +157,32 @@ static SARA_ATK_SCALING: [f64; 15] = [
     0.9131, 0.9668, 1.0206,
 ];
 
-static SARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Tengu Juurai ATK Bonus",
-    description: "ATK bonus based on Sara's Base ATK",
-    stat: BuffableStat::AtkFlat,
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&SARA_ATK_SCALING),
-    scales_on: Some(ScalingStat::Atk),
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalSkill,
-    min_constellation: 0,
-}];
+static SARA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Tengu Juurai ATK Bonus",
+        description: "ATK bonus based on Sara's Base ATK",
+        stat: BuffableStat::AtkFlat,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SARA_ATK_SCALING),
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Sin of Pride",
+        description: "Electro CRIT DMG +60% (approximated as generic CritDmg; Electro-only in game)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+    },
+];
 
 // ===== Rosaria =====
 // A4 passive "Shadow Samaritan": grants 15% of Rosaria's CRIT Rate to party after burst
@@ -310,6 +324,51 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Diona =====
+// C6 "Cat's Tail Closing Time": EM+200 in burst field
+static DIONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Cat's Tail Closing Time",
+    description: "Characters within burst field gain EM+200",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 200.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(6),
+    min_constellation: 6,
+}];
+
+// ===== Amber =====
+// C6 "Wildfire": ATK+15% for party during burst
+static AMBER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Wildfire",
+    description: "During burst, party members gain ATK+15%",
+    stat: BuffableStat::AtkPercent,
+    base_value: 0.15,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(6),
+    min_constellation: 6,
+}];
+
+// ===== Barbara =====
+// C2 "Vitality Burst": Hydro DMG+15% during skill
+static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Vitality Burst",
+    description: "During skill, active character gains Hydro DMG Bonus +15%",
+    stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+    base_value: 0.15,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(2),
+    min_constellation: 2,
+}];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
@@ -329,6 +388,9 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("traveler_dendro", TRAVELER_DENDRO_BUFFS),
     ("yoimiya", YOIMIYA_BUFFS),
     ("chevreuse", CHEVREUSE_BUFFS),
+    ("diona", DIONA_BUFFS),
+    ("amber", AMBER_BUFFS),
+    ("barbara", BARBARA_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.
@@ -369,7 +431,7 @@ mod tests {
     fn test_find_sara_buffs_by_character_id() {
         // Sara's CharacterData uses id "kujou_sara", talent_buffs must match
         let buffs = find_talent_buffs("kujou_sara").unwrap();
-        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs.len(), 2);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
     }
 
@@ -449,5 +511,43 @@ mod tests {
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
         assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_diona_buffs() {
+        let buffs = find_talent_buffs("diona").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((buffs[0].base_value - 200.0).abs() < 1e-6);
+        assert_eq!(buffs[0].min_constellation, 6);
+    }
+
+    #[test]
+    fn test_find_amber_buffs() {
+        let buffs = find_talent_buffs("amber").unwrap();
+        assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
+        assert_eq!(buffs[0].min_constellation, 6);
+    }
+
+    #[test]
+    fn test_find_barbara_buffs() {
+        let buffs = find_talent_buffs("barbara").unwrap();
+        assert_eq!(
+            buffs[0].stat,
+            BuffableStat::ElementalDmgBonus(Element::Hydro)
+        );
+        assert_eq!(buffs[0].min_constellation, 2);
+    }
+
+    #[test]
+    fn test_find_sara_c6_buff() {
+        let buffs = find_talent_buffs("kujou_sara").unwrap();
+        // Original skill buff + C6 CritDmg
+        let c6 = buffs
+            .iter()
+            .find(|b| b.stat == BuffableStat::CritDmg)
+            .unwrap();
+        assert!((c6.base_value - 0.60).abs() < 1e-6);
+        assert_eq!(c6.min_constellation, 6);
     }
 }
