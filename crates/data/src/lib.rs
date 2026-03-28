@@ -125,4 +125,12 @@ mod tests {
         assert!(jahoda.base_atk[3] > 0.0);
         assert!(jahoda.base_def[3] > 0.0);
     }
+
+    #[test]
+    fn test_find_aino_character() {
+        let aino = find_character("aino").unwrap();
+        assert_eq!(aino.element, Element::Hydro);
+        assert_eq!(aino.weapon_type, WeaponType::Claymore);
+        assert!(aino.base_hp[3] > 0.0);
+    }
 }

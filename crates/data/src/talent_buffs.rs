@@ -569,8 +569,24 @@ static JAHODA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Aino =====
+// C1: EM+80 to Aino and active party member after skill/burst for 15s
+static AINO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Aino C1 EM Share",
+    description: "After Skill or Burst, Aino and active character gain EM+80 for 15s",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 80.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(1),
+    min_constellation: 1,
+}];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
+    ("aino", AINO_BUFFS),
     ("bennett", BENNETT_BUFFS),
     ("kazuha", KAZUHA_BUFFS),
     ("nahida", NAHIDA_BUFFS),
@@ -701,6 +717,15 @@ mod tests {
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 60.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_aino_buffs() {
+        let buffs = find_talent_buffs("aino").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((buffs[0].base_value - 80.0).abs() < 1e-6);
+        assert_eq!(buffs[0].min_constellation, 1);
     }
 
     #[test]

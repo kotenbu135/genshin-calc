@@ -26,7 +26,8 @@ pub const ALL_CHARACTERS: &[&CharacterData] = &[
     &pyro::XINYAN,
     &pyro::YANFEI,
     &pyro::YOIMIYA,
-    // Hydro (14)
+    // Hydro (15)
+    &hydro::AINO,
     &hydro::AYATO,
     &hydro::BARBARA,
     &hydro::CANDACE,
