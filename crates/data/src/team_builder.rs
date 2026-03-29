@@ -387,6 +387,7 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         BuffableStat::DefPercent => {
             profile.base_def * (1.0 + profile.def_percent) + profile.def_flat
         }
+        BuffableStat::DefPercentRaw => profile.def_percent,
         BuffableStat::ElementalMastery => profile.elemental_mastery,
         BuffableStat::EnergyRecharge => profile.energy_recharge,
         _ => 0.0,
@@ -1167,6 +1168,31 @@ mod conditional_tests {
             5,
         );
         assert!((result_r5.unwrap() - 1.20).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_def_percent_raw() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::DefPercentRaw,
+            offset: None,
+            cap: None,
+        };
+        let profile = StatProfile {
+            base_def: 800.0,
+            def_percent: 0.50,
+            ..Default::default()
+        };
+        // DefPercentRaw reads 0.50 directly: 0.50 * 0.18 = 0.09
+        let result = eval_auto(
+            &cond,
+            0.18,
+            &profile,
+            WeaponType::Sword,
+            Element::Geo,
+            &[],
+            1,
+        );
+        assert!((result.unwrap() - 0.09).abs() < EPSILON);
     }
 
     #[test]
