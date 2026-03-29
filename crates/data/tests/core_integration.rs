@@ -32,6 +32,7 @@ fn diluc_normal_attack_with_data_crate() {
         element: hit1.damage_element,
         reaction: None,
         reaction_bonus: 0.0,
+        flat_dmg: 0.0,
     };
 
     let result = calculate_damage(&input, &enemy).unwrap();
@@ -70,8 +71,64 @@ fn diluc_skill_pyro_damage() {
         element: skill_hit.damage_element,
         reaction: None,
         reaction_bonus: 0.0,
+        flat_dmg: 0.0,
     };
 
     let result = calculate_damage(&input, &enemy).unwrap();
     assert!(result.non_crit > 0.0);
+}
+
+#[test]
+fn test_engulfing_lightning_er_scaling_resolved() {
+    let char = genshin_calc_data::find_character("raiden_shogun").unwrap();
+    let weapon = genshin_calc_data::find_weapon("engulfing_lightning").unwrap();
+    let member = genshin_calc_data::TeamMemberBuilder::new(char, weapon)
+        .build()
+        .unwrap();
+
+    // Should have an AtkPercent buff from ER scaling
+    let atk_buff = member.buffs_provided.iter().find(|b| {
+        b.stat == genshin_calc_core::BuffableStat::AtkPercent && b.source.contains("engulfing")
+    });
+    assert!(
+        atk_buff.is_some(),
+        "Engulfing Lightning should resolve AtkPercent StatScaling buff"
+    );
+}
+
+#[test]
+fn test_redhorn_def_flat_damage_resolved() {
+    let char = genshin_calc_data::find_character("itto").unwrap();
+    let weapon = genshin_calc_data::find_weapon("redhorn_stonethresher").unwrap();
+    let member = genshin_calc_data::TeamMemberBuilder::new(char, weapon)
+        .build()
+        .unwrap();
+
+    let has_normal_flat = member
+        .buffs_provided
+        .iter()
+        .any(|b| b.stat == genshin_calc_core::BuffableStat::NormalAtkFlatDmg);
+    let has_charged_flat = member
+        .buffs_provided
+        .iter()
+        .any(|b| b.stat == genshin_calc_core::BuffableStat::ChargedAtkFlatDmg);
+    assert!(has_normal_flat, "Redhorn should resolve NormalAtkFlatDmg");
+    assert!(has_charged_flat, "Redhorn should resolve ChargedAtkFlatDmg");
+}
+
+#[test]
+fn test_staff_of_scarlet_sands_em_atk_resolved() {
+    let char = genshin_calc_data::find_character("cyno").unwrap();
+    let weapon = genshin_calc_data::find_weapon("staff_of_the_scarlet_sands").unwrap();
+    let member = genshin_calc_data::TeamMemberBuilder::new(char, weapon)
+        .build()
+        .unwrap();
+
+    let atk_flat_buff = member.buffs_provided.iter().find(|b| {
+        b.stat == genshin_calc_core::BuffableStat::AtkFlat && b.source.contains("scarlet_sands")
+    });
+    assert!(
+        atk_flat_buff.is_some(),
+        "Staff of Scarlet Sands should resolve AtkFlat StatScaling buff"
+    );
 }

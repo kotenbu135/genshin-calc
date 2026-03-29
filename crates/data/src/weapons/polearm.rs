@@ -75,7 +75,20 @@ pub const ENGULFING_LIGHTNING: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ERに基づきATKアップ。元素爆発後にER+30%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "engulfing_er_atk",
+                description: "ER超過分の28-56%をATK%に変換 (cap: 80-120%)",
+                stat: BuffableStat::AtkPercent,
+                value: 0.28,
+                refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::EnergyRecharge,
+                    offset: Some(1.0),
+                    cap: Some([0.80, 0.90, 1.00, 1.10, 1.20]),
+                }),
+            }],
         },
     }),
 };
@@ -183,6 +196,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     target: BuffTarget::OnlySelf,
                     activation: Activation::Auto(AutoCondition::StatScaling {
                         stat: BuffableStat::HpPercent,
+                        offset: None,
                         cap: None,
                     }),
                 },
@@ -197,6 +211,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     activation: Activation::Both(
                         AutoCondition::StatScaling {
                             stat: BuffableStat::HpPercent,
+                            offset: None,
                             cap: None,
                         },
                         ManualCondition::Toggle,
@@ -219,7 +234,20 @@ pub const STAFF_OF_THE_SCARLET_SANDS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EMに基づきATKアップ。スキル命中でさらにATKアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "scarlet_sands_em_atk",
+                description: "EM×52-104%分をATKフラットに加算",
+                stat: BuffableStat::AtkFlat,
+                value: 0.52,
+                refinement_values: Some([0.52, 0.65, 0.78, 0.91, 1.04]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -824,3 +852,47 @@ pub const ALL_POLEARMS: &[&WeaponData] = &[
     &BEGINNERS_PROTECTOR,
     &IRON_POINT,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn engulfing_lightning_has_er_atk_conditional() {
+        let passive = ENGULFING_LIGHTNING.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "engulfing_er_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.28).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::EnergyRecharge,
+                offset: Some(_),
+                cap: Some(_),
+            })
+        ));
+    }
+
+    #[test]
+    fn staff_of_scarlet_sands_has_em_atk_conditional() {
+        let passive = STAFF_OF_THE_SCARLET_SANDS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "scarlet_sands_em_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkFlat);
+        assert!((buff.value - 0.52).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::ElementalMastery,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+}

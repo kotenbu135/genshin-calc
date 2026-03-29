@@ -74,6 +74,7 @@
 //!     element: Some(Element::Pyro),
 //!     reaction: None,
 //!     reaction_bonus: 0.0,
+//!     flat_dmg: 0.0,
 //! };
 //! let enemy = Enemy {
 //!     level: 90,
@@ -101,7 +102,7 @@ pub mod transformative;
 pub mod types;
 
 pub use buff_types::BuffableStat;
-pub use damage::{DamageInput, DamageResult, calculate_damage};
+pub use damage::{DamageInput, DamageResult, calculate_damage, collect_flat_dmg};
 pub use em::{amplifying_em_bonus, catalyze_em_bonus, lunar_em_bonus, transformative_em_bonus};
 pub use enemy::{Enemy, apply_enemy_debuffs, superconduct_debuff};
 pub use error::CalcError;
@@ -150,6 +151,7 @@ mod tests {
             element: Some(Element::Pyro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
 
         let enemy = Enemy {
