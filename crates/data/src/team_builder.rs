@@ -311,13 +311,8 @@ impl TeamMemberBuilder {
                                 &self.team_regions,
                                 refinement,
                             );
-                            auto_result.and_then(|_| {
-                                eval_manual(
-                                    manual,
-                                    cond_buff,
-                                    &self.manual_activations,
-                                    effective_value,
-                                )
+                            auto_result.and_then(|av| {
+                                eval_manual(manual, cond_buff, &self.manual_activations, av)
                             })
                         }
                     };
@@ -1538,6 +1533,7 @@ mod conditional_tests {
 
     #[test]
     fn test_both_auto_pass_manual_pass() {
+        // Both should pass auto_val to eval_manual as base_value
         let auto = AutoCondition::StatScaling {
             stat: BuffableStat::HpPercent,
             offset: None,
@@ -1560,18 +1556,46 @@ mod conditional_tests {
             &[],
             1,
         );
-        assert!(auto_result.is_some());
-        // eval_manual: toggle activated → returns buff.value (0.01)
+        let auto_val = auto_result.unwrap();
+        assert!((auto_val - 200.0).abs() < EPSILON);
+        // Both passes auto_val (200.0) as base_value to eval_manual
         let buff = make_test_buff("test", 0.01, ManualCondition::Toggle);
-        let result = auto_result.and_then(|_| {
-            eval_manual(
-                &manual,
-                &buff,
-                &[("test", ManualActivation::Active)],
-                buff.value,
-            )
+        let result = auto_result
+            .and_then(|av| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)], av));
+        assert!((result.unwrap() - 200.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_both_stat_scaling_with_stacks() {
+        let auto = AutoCondition::StatScaling {
+            stat: BuffableStat::ElementalMastery,
+            offset: None,
+            cap: None,
+        };
+        let manual = ManualCondition::Stacks(2);
+        let profile = StatProfile {
+            elemental_mastery: 200.0,
+            ..Default::default()
+        };
+        // eval_auto: 200 * 0.28 = 56.0
+        let auto_result = eval_auto(
+            &auto,
+            0.28,
+            &profile,
+            WeaponType::Polearm,
+            Element::Pyro,
+            &[],
+            &[],
+            1,
+        );
+        let auto_val = auto_result.unwrap();
+        assert!((auto_val - 56.0).abs() < EPSILON);
+        // Both: auto_val * 2 stacks = 112.0
+        let buff = make_test_buff("test", 0.28, ManualCondition::Stacks(2));
+        let result = auto_result.and_then(|av| {
+            eval_manual(&manual, &buff, &[("test", ManualActivation::Stacks(2))], av)
         });
-        assert!((result.unwrap() - 0.01).abs() < EPSILON);
+        assert!((result.unwrap() - 112.0).abs() < EPSILON);
     }
 
     #[test]
