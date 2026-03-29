@@ -10,7 +10,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 | 武器パッシブ (ConditionalBuff) | 220 | 77 | 143 | 35% |
 | 聖遺物2pc (StatBuff) | 52 | 48 | 4 | 92% |
 | 聖遺物4pc効果 | 52 | 52 | 0 | 100% |
-| 天賦バフ/デバフ (TalentBuffDef) | 29キャラ | 47定義 | 1(Nilou) | ~97% |
+| 天賦バフ/デバフ (TalentBuffDef) | 30キャラ | 48定義 | 0 | 100% |
 | 敵データ | 多数 | 40 | 多数 | - |
 | 武器精錬値 (R1-R5) | 220 | 220 | 0 | 100% |
 | 敵側デバフ (P6) | 5種 | 5種 | 0 | 100% |
@@ -71,7 +71,7 @@ P2/P3/P4/P6のアンロックキー。
 
 ### P0完了後に追加可能
 
-- [ ] Nilou — 開花反応ボーナス (水草限定条件)
+- [x] Nilou — 開花反応ボーナス (base_value方式、consumer側でHP計算)
 - [x] Lisa — DEF-15%デバフ (A4) → P6で実装済み
 - [x] Zhongli — 全耐性-20% (シールド) → P6で実装済み (8 TalentBuffDef)
 - [x] Chevreuse — 炎/雷耐性-40% → P6で実装済み (2 TalentBuffDef追加)
