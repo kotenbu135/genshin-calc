@@ -1,0 +1,185 @@
+use serde::{Deserialize, Serialize};
+
+use crate::damage::resistance_multiplier;
+use crate::em::lunar_em_bonus;
+use crate::enemy::Enemy;
+use crate::error::CalcError;
+use crate::level_table::reaction_base_value;
+use crate::reaction::{Reaction, ReactionCategory, lunar_element, lunar_multiplier};
+use crate::types::Element;
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct LunarInput {
+    pub character_level: u32,
+    pub elemental_mastery: f64,
+    pub reaction: Reaction,
+    pub reaction_bonus: f64,
+    pub crit_rate: f64,
+    pub crit_dmg: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct LunarResult {
+    pub non_crit: f64,
+    pub crit: f64,
+    pub average: f64,
+    pub damage_element: Option<Element>,
+}
+
+fn validate(input: &LunarInput, enemy: &Enemy) -> Result<(), CalcError> {
+    if !(1..=100).contains(&input.character_level) {
+        return Err(CalcError::InvalidReactionLevel(input.character_level));
+    }
+    if !(1..=100).contains(&enemy.level) {
+        return Err(CalcError::InvalidEnemyLevel(enemy.level));
+    }
+    if input.elemental_mastery < 0.0 {
+        return Err(CalcError::InvalidElementalMastery(input.elemental_mastery));
+    }
+    if input.reaction_bonus < 0.0 {
+        return Err(CalcError::InvalidReactionBonus(input.reaction_bonus));
+    }
+    if !(0.0..=1.0).contains(&input.crit_rate) {
+        return Err(CalcError::InvalidCritRate(input.crit_rate));
+    }
+    if input.reaction.category() != ReactionCategory::Lunar {
+        return Err(CalcError::NotLunar(input.reaction));
+    }
+    Ok(())
+}
+
+pub fn calculate_lunar(input: &LunarInput, enemy: &Enemy) -> Result<LunarResult, CalcError> {
+    validate(input, enemy)?;
+
+    let level_base = reaction_base_value(input.character_level).unwrap();
+    let reaction_mult = lunar_multiplier(input.reaction).unwrap();
+    let em_bonus = lunar_em_bonus(input.elemental_mastery);
+    let res_mult = resistance_multiplier(enemy);
+
+    let non_crit = level_base * reaction_mult * (1.0 + em_bonus + input.reaction_bonus) * res_mult;
+    let crit = non_crit * (1.0 + input.crit_dmg);
+    let average = non_crit * (1.0 - input.crit_rate) + crit * input.crit_rate;
+
+    let damage_element = lunar_element(input.reaction).unwrap();
+
+    Ok(LunarResult {
+        non_crit,
+        crit,
+        average,
+        damage_element,
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const EPSILON: f64 = 1e-6;
+
+    fn default_enemy() -> Enemy {
+        Enemy {
+            level: 90,
+            resistance: 0.1,
+            def_reduction: 0.0,
+        }
+    }
+
+    #[test]
+    fn test_lunar_electro_charged_no_em() {
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 0.0,
+            reaction: Reaction::LunarElectroCharged,
+            reaction_bonus: 0.0,
+            crit_rate: 0.5,
+            crit_dmg: 1.0,
+        };
+        // 1446.8535 * 1.8 * 1.0 * 0.9 = 2343.9...
+        let expected_non_crit = 1446.8535 * 1.8 * 0.9;
+        let result = calculate_lunar(&input, &default_enemy()).unwrap();
+        assert!((result.non_crit - expected_non_crit).abs() < 0.01);
+        assert!((result.crit - expected_non_crit * 2.0).abs() < 0.01);
+        assert_eq!(result.damage_element, Some(Element::Electro));
+    }
+
+    #[test]
+    fn test_lunar_bloom() {
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 0.0,
+            reaction: Reaction::LunarBloom,
+            reaction_bonus: 0.0,
+            crit_rate: 0.0,
+            crit_dmg: 0.0,
+        };
+        let expected = 1446.8535 * 1.0 * 0.9;
+        let result = calculate_lunar(&input, &default_enemy()).unwrap();
+        assert!((result.non_crit - expected).abs() < 0.01);
+        assert!((result.average - result.non_crit).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_lunar_crystallize() {
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 0.0,
+            reaction: Reaction::LunarCrystallize,
+            reaction_bonus: 0.0,
+            crit_rate: 0.5,
+            crit_dmg: 1.0,
+        };
+        let expected = 1446.8535 * 0.96 * 0.9;
+        let result = calculate_lunar(&input, &default_enemy()).unwrap();
+        assert!((result.non_crit - expected).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_lunar_crit_applied() {
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 0.0,
+            reaction: Reaction::LunarElectroCharged,
+            reaction_bonus: 0.0,
+            crit_rate: 1.0,
+            crit_dmg: 1.0,
+        };
+        let result = calculate_lunar(&input, &default_enemy()).unwrap();
+        assert!((result.average - result.crit).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_lunar_not_lunar_error() {
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 0.0,
+            reaction: Reaction::Overloaded,
+            reaction_bonus: 0.0,
+            crit_rate: 0.5,
+            crit_dmg: 1.0,
+        };
+        assert!(matches!(
+            calculate_lunar(&input, &default_enemy()),
+            Err(CalcError::NotLunar(_))
+        ));
+    }
+
+    #[test]
+    fn test_lunar_em_applied() {
+        let base = LunarInput {
+            character_level: 90,
+            elemental_mastery: 0.0,
+            reaction: Reaction::LunarElectroCharged,
+            reaction_bonus: 0.0,
+            crit_rate: 0.0,
+            crit_dmg: 0.0,
+        };
+        let with_em = LunarInput {
+            elemental_mastery: 300.0,
+            ..base.clone()
+        };
+        let r1 = calculate_lunar(&base, &default_enemy()).unwrap();
+        let r2 = calculate_lunar(&with_em, &default_enemy()).unwrap();
+        let em_bonus = 6.0 * 300.0 / (300.0 + 2000.0);
+        assert!((r2.non_crit / r1.non_crit - (1.0 + em_bonus)).abs() < EPSILON);
+    }
+}
