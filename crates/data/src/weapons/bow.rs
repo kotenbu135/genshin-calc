@@ -3,6 +3,7 @@ use crate::buff::{
     PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
+use genshin_calc_core::Element;
 
 // =============================================================================
 // 5-Star Bows
@@ -76,9 +77,30 @@ pub const ASTRAL_VULTURES_CRIMSON_PLUMAGE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Astral Vulture's Crimson Plumage",
         effect: PassiveEffect {
-            description: "Conditional: 夜魂のスタック蓄積でATKとDMGアップ",
+            description: "夜魂スタック蓄積でATK+12-24%（最大3スタック）、フルスタックでDMG+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "astral_vulture_atk_stacks",
+                    description: "夜魂スタックでATK+12-24%（1スタック）、最大3スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(3)),
+                },
+                ConditionalBuff {
+                    name: "astral_vulture_full_stack_dmg",
+                    description: "フルスタック時にDMG+12-24%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -172,9 +194,30 @@ pub const SILVERSHOWER_HEARTSTRINGS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Silvershower Heartstrings",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル使用でHP上限アップ。3スタックでHydro DMGアップ",
+            description: "元素スキル使用でHP+12-24%スタック（最大3）、3スタックでHydro DMG+28-56%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "silvershower_hp_stacks",
+                    description: "元素スキル使用でHP+12-24%（1スタック）、最大3スタック",
+                    stat: BuffableStat::HpPercent,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(3)),
+                },
+                ConditionalBuff {
+                    name: "silvershower_full_stack_hydro_dmg",
+                    description: "3スタック時にHydro DMG+28-56%",
+                    stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+                    value: 0.28,
+                    refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -210,9 +253,18 @@ pub const THE_DAYBREAK_CHRONICLES: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "The Daybreak Chronicles",
         effect: PassiveEffect {
-            description: "Conditional: 物語のスタック蓄積でDMGアップ",
+            description: "物語のスタック蓄積でDMG+8-16%（最大3スタック）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "the_daybreak_chronicles_dmg_stacks",
+                description: "物語のスタックでDMG+8-16%（1スタック）、最大3スタック",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -947,5 +999,74 @@ mod tests {
                 cap: None,
             })
         ));
+    }
+
+    #[test]
+    fn astral_vulture_has_atk_stacks_and_full_stack_dmg() {
+        let passive = ASTRAL_VULTURES_CRIMSON_PLUMAGE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let stacks_buff = &cond_buffs[0];
+        assert_eq!(stacks_buff.name, "astral_vulture_atk_stacks");
+        assert_eq!(stacks_buff.stat, BuffableStat::AtkPercent);
+        assert!((stacks_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            stacks_buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+
+        let full_buff = &cond_buffs[1];
+        assert_eq!(full_buff.name, "astral_vulture_full_stack_dmg");
+        assert_eq!(full_buff.stat, BuffableStat::DmgBonus);
+        assert!((full_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            full_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn silvershower_has_hp_stacks_and_hydro_dmg() {
+        let passive = SILVERSHOWER_HEARTSTRINGS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let stacks_buff = &cond_buffs[0];
+        assert_eq!(stacks_buff.name, "silvershower_hp_stacks");
+        assert_eq!(stacks_buff.stat, BuffableStat::HpPercent);
+        assert!((stacks_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            stacks_buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+
+        let full_buff = &cond_buffs[1];
+        assert_eq!(full_buff.name, "silvershower_full_stack_hydro_dmg");
+        assert_eq!(
+            full_buff.stat,
+            BuffableStat::ElementalDmgBonus(genshin_calc_core::Element::Hydro)
+        );
+        assert!((full_buff.value - 0.28).abs() < 1e-6);
+        assert!(matches!(
+            full_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn daybreak_chronicles_has_dmg_stacks() {
+        let passive = THE_DAYBREAK_CHRONICLES.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "the_daybreak_chronicles_dmg_stacks");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        assert!(buff.refinement_values.is_some());
     }
 }
