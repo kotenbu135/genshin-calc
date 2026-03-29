@@ -67,8 +67,8 @@
 - `&'static`参照型はSerializeのみ（Deserializeなし）
 
 ## Testing
-- core: 203ユニットテスト + 統合テスト2種（character_verification 153ケース + moonsign_integration 4テスト）
-- data: 185テスト（検索API、serde roundtrip、データ整合性、core統合、チーム統合、聖遺物・武器ConditionalBuff）
+- core: 207ユニットテスト + 統合テスト2種（character_verification 153ケース + moonsign_integration 4テスト）
+- data: 200テスト（検索API、serde roundtrip、データ整合性、core統合、チーム統合、聖遺物・武器ConditionalBuff）
 - v0.3.0でStatProfile合算 + ScalingStatテスト追加
 - ゲーム検証済みキャラ: Freminet（完全一致）、Diluc、Ganyu、Raiden、Yanfei蒸発
 - goldenテスト: 手計算値との照合（各モジュールに `test_golden_*` テスト）
