@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cargo:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(python3:*)",
+      "WebSearch",
+      "WebFetch(domain:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/rust-fmt.sh",
+            "statusMessage": "Running cargo fmt..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/rust-check.sh",
+            "statusMessage": "Running cargo check..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/quality-gate.sh",
+            "statusMessage": "Running quality gate (test + clippy)..."
+          }
+        ]
+      }
+    ]
+  }
+}

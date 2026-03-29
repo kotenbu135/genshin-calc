@@ -76,3 +76,16 @@
   - `cargo test --test character_verification` で実行
   - 新キャラ追加: TOMLファイル1つ追加するだけ
 - 許容誤差: 通常 `< 0.01`、ゲーム検証は `< 1.0`（floor丸め考慮）
+
+## Superpowers:Brainstorming Preferences
+
+Superpowers:brainstormingスキルは以下について質問せず、記載の通り進めること:
+
+- **Visual companion**: 常にYES（提案メッセージ不要、即座に使用開始）
+- **SubAgent Driven Development**: 常にYES（実装は常にsubagent-driven-developmentスキルを使用）
+- **Spec review loop**: 常に実行（確認不要）
+- 選択肢形式を優先（A/B/C で回答できる形式）
+- 推奨選択肢を提示する
+- 1メッセージ1質問の制約は守るが、コンテキストから自明な質問はスキップ
+- CLAUDE.mdに回答が書いてある質問は聞かない
+- ブレインストーミング終了時にこの項目に追加したほうが良い質問内容を提案する
