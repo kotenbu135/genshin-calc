@@ -21,6 +21,7 @@ pub struct TeamMemberBuilder {
     talent_levels: [u8; 3],
     manual_activations: Vec<(&'static str, ManualActivation)>,
     team_elements: Vec<Element>,
+    team_regions: Vec<crate::types::Region>,
     refinement: u8,
 }
 
@@ -38,6 +39,7 @@ impl TeamMemberBuilder {
             talent_levels: [1, 1, 1],
             manual_activations: Vec::new(),
             team_elements: Vec::new(),
+            team_regions: Vec::new(),
             refinement: 1,
         }
     }
@@ -89,6 +91,12 @@ impl TeamMemberBuilder {
     /// Set team element composition for Auto team-based conditions.
     pub fn team_elements(mut self, elements: Vec<Element>) -> Self {
         self.team_elements = elements;
+        self
+    }
+
+    /// Set team region composition for Auto region-based conditions.
+    pub fn team_regions(mut self, regions: Vec<crate::types::Region>) -> Self {
+        self.team_regions = regions;
         self
     }
 
@@ -283,6 +291,7 @@ impl TeamMemberBuilder {
                             char_data.weapon_type,
                             char_data.element,
                             &self.team_elements,
+                            &self.team_regions,
                             refinement,
                         ),
                         Activation::Manual(manual) => {
@@ -296,6 +305,7 @@ impl TeamMemberBuilder {
                                 char_data.weapon_type,
                                 char_data.element,
                                 &self.team_elements,
+                                &self.team_regions,
                                 refinement,
                             );
                             auto_result.and_then(|_| {
@@ -395,6 +405,7 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
 }
 
 /// Evaluates an Auto condition. Returns Some(value) if condition is met.
+#[allow(clippy::too_many_arguments)]
 fn eval_auto(
     cond: &AutoCondition,
     multiplier: f64,
@@ -402,6 +413,7 @@ fn eval_auto(
     weapon_type: WeaponType,
     element: Element,
     team_elements: &[Element],
+    team_regions: &[crate::types::Region],
     refinement: u8, // 1-based: 1=R1, 5=R5
 ) -> Option<f64> {
     match cond {
@@ -468,6 +480,17 @@ fn eval_auto(
             let count = team_elements.iter().filter(|e| **e != element).count() as u8;
             if count >= *min_count {
                 Some(multiplier)
+            } else {
+                None
+            }
+        }
+        AutoCondition::TeamRegionCount { region } => {
+            if team_regions.is_empty() {
+                return None;
+            }
+            let count = team_regions.iter().filter(|r| **r == *region).count();
+            if count > 0 {
+                Some(multiplier * count as f64)
             } else {
                 None
             }
@@ -962,6 +985,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Pyro,
             &[],
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.35).abs() < EPSILON);
@@ -976,6 +1000,7 @@ mod conditional_tests {
             &StatProfile::default(),
             WeaponType::Catalyst,
             Element::Pyro,
+            &[],
             &[],
             1,
         );
@@ -992,6 +1017,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Pyro,
             &[],
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.20).abs() < EPSILON);
@@ -1006,6 +1032,7 @@ mod conditional_tests {
             &StatProfile::default(),
             WeaponType::Sword,
             Element::Cryo,
+            &[],
             &[],
             1,
         );
@@ -1031,6 +1058,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Pyro,
             &[],
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.45).abs() < EPSILON);
@@ -1054,6 +1082,7 @@ mod conditional_tests {
             &profile,
             WeaponType::Sword,
             Element::Pyro,
+            &[],
             &[],
             1,
         );
@@ -1081,6 +1110,7 @@ mod conditional_tests {
             WeaponType::Polearm,
             Element::Pyro,
             &[],
+            &[],
             1,
         );
         assert!((result.unwrap() - 214.16).abs() < 0.01);
@@ -1104,6 +1134,7 @@ mod conditional_tests {
             &profile,
             WeaponType::Polearm,
             Element::Electro,
+            &[],
             &[],
             1,
         );
@@ -1129,6 +1160,7 @@ mod conditional_tests {
             WeaponType::Polearm,
             Element::Electro,
             &[],
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.0).abs() < EPSILON);
@@ -1153,6 +1185,7 @@ mod conditional_tests {
             WeaponType::Polearm,
             Element::Electro,
             &[],
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.80).abs() < EPSILON);
@@ -1164,6 +1197,7 @@ mod conditional_tests {
             &profile,
             WeaponType::Polearm,
             Element::Electro,
+            &[],
             &[],
             5,
         );
@@ -1190,6 +1224,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Geo,
             &[],
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.09).abs() < EPSILON);
@@ -1209,6 +1244,7 @@ mod conditional_tests {
             WeaponType::Bow,
             Element::Geo,
             &team,
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.25).abs() < EPSILON);
@@ -1228,6 +1264,7 @@ mod conditional_tests {
             WeaponType::Bow,
             Element::Geo,
             &team,
+            &[],
             1,
         );
         assert!(result.is_none());
@@ -1245,6 +1282,7 @@ mod conditional_tests {
             &StatProfile::default(),
             WeaponType::Bow,
             Element::Geo,
+            &[],
             &[],
             1,
         );
@@ -1267,6 +1305,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Hydro,
             &team,
+            &[],
             1,
         );
         assert!((result.unwrap() - 0.10).abs() < EPSILON);
@@ -1288,6 +1327,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Hydro,
             &team,
+            &[],
             1,
         );
         assert!(result.is_none());
@@ -1302,6 +1342,69 @@ mod conditional_tests {
             &StatProfile::default(),
             WeaponType::Sword,
             Element::Hydro,
+            &[],
+            &[],
+            1,
+        );
+        assert!(result.is_none());
+    }
+
+    // --- eval_auto TeamRegionCount tests ---
+
+    #[test]
+    fn test_eval_auto_team_region_count_liyue_2() {
+        let cond = AutoCondition::TeamRegionCount {
+            region: crate::types::Region::Liyue,
+        };
+        let regions = vec![
+            crate::types::Region::Liyue,
+            crate::types::Region::Mondstadt,
+            crate::types::Region::Liyue,
+        ];
+        let result = eval_auto(
+            &cond,
+            0.07,
+            &StatProfile::default(),
+            WeaponType::Claymore,
+            Element::Pyro,
+            &[],
+            &regions,
+            1,
+        );
+        assert!((result.unwrap() - 0.14).abs() < EPSILON); // 0.07 * 2
+    }
+
+    #[test]
+    fn test_eval_auto_team_region_count_zero() {
+        let cond = AutoCondition::TeamRegionCount {
+            region: crate::types::Region::Liyue,
+        };
+        let regions = vec![crate::types::Region::Mondstadt];
+        let result = eval_auto(
+            &cond,
+            0.07,
+            &StatProfile::default(),
+            WeaponType::Claymore,
+            Element::Pyro,
+            &[],
+            &regions,
+            1,
+        );
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_auto_team_region_count_empty() {
+        let cond = AutoCondition::TeamRegionCount {
+            region: crate::types::Region::Liyue,
+        };
+        let result = eval_auto(
+            &cond,
+            0.07,
+            &StatProfile::default(),
+            WeaponType::Claymore,
+            Element::Pyro,
+            &[],
             &[],
             1,
         );
@@ -1415,6 +1518,7 @@ mod conditional_tests {
             WeaponType::Polearm,
             Element::Pyro,
             &[],
+            &[],
             1,
         );
         assert!(auto_result.is_some());
@@ -1436,6 +1540,7 @@ mod conditional_tests {
             WeaponType::Catalyst,
             Element::Pyro,
             &[],
+            &[],
             1,
         );
         assert!(auto_result.is_none());
@@ -1455,6 +1560,7 @@ mod conditional_tests {
             &StatProfile::default(),
             WeaponType::Sword,
             Element::Pyro,
+            &[],
             &[],
             1,
         );
