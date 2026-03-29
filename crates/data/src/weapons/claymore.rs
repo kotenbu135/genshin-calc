@@ -1,5 +1,6 @@
 use crate::buff::{
-    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -102,7 +103,36 @@ pub const REDHORN_STONETHRESHER: WeaponData = WeaponData {
                 value: 0.28,
                 refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "redhorn_def_normal_flat",
+                    description: "DEF×40-80%分を通常攻撃フラットダメージに加算",
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 0.40,
+                    refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::DefPercent,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "redhorn_def_charged_flat",
+                    description: "DEF×40-80%分を重撃フラットダメージに加算",
+                    stat: BuffableStat::ChargedAtkFlatDmg,
+                    value: 0.40,
+                    refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::DefPercent,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -852,3 +882,32 @@ pub const ALL_CLAYMORES: &[&WeaponData] = &[
     &WASTER_GREATSWORD,
     &OLD_MERCS_PAL,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn redhorn_stonethresher_has_def_flatdmg_conditionals() {
+        let passive = REDHORN_STONETHRESHER.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "redhorn_def_normal_flat");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((cond_buffs[0].value - 0.40).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "redhorn_def_charged_flat");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::ChargedAtkFlatDmg);
+        assert!((cond_buffs[1].value - 0.40).abs() < 1e-6);
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: None,
+                })
+            ));
+        }
+    }
+}

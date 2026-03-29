@@ -1,5 +1,6 @@
 use crate::buff::{
-    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -115,7 +116,20 @@ pub const HUNTERS_PATH: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "hunters_path_em_ca_flat",
+                description: "EM×160-320%分を重撃フラットダメージに加算",
+                stat: BuffableStat::ChargedAtkFlatDmg,
+                value: 1.60,
+                refinement_values: Some([1.60, 2.00, 2.40, 2.80, 3.20]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -910,3 +924,28 @@ pub const ALL_BOWS: &[&WeaponData] = &[
     &HUNTERS_BOW,
     &SEASONED_HUNTERS_BOW,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn hunters_path_has_em_ca_flat_conditional() {
+        let passive = HUNTERS_PATH.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "hunters_path_em_ca_flat");
+        assert_eq!(buff.stat, BuffableStat::ChargedAtkFlatDmg);
+        assert!((buff.value - 1.60).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::ElementalMastery,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+}
