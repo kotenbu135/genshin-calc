@@ -758,6 +758,61 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Varka =====
+// A1: Dawn Wind's March — Anemo DMG Bonus (ATK1000あたり+10%、最大25%)
+// A4: Wind's Vanguard — Normal/Charged ATK DMG (拡散反応時+7.5%/stack、最大4stack=30%)
+// C4: Freedom of Song — Team Anemo DMG (拡散反応時+20%)
+static VARKA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Dawn Wind's March Anemo DMG",
+        description: "ATK1000あたり風元素/対応元素DMG+10%、最大25%。Toggle=25%想定",
+        stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Wind's Vanguard Normal ATK DMG",
+        description: "拡散反応時+7.5%/stack、最大4stack=30%。Toggle=4stack想定",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Wind's Vanguard Charged ATK DMG",
+        description: "拡散反応時+7.5%/stack、最大4stack=30%。Toggle=4stack想定",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Freedom of Song Anemo DMG",
+        description: "拡散反応時、チーム全員にAnemo DMG+20%＋対応元素DMG+20%(対応元素は手動設定)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+    },
+];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("aino", AINO_BUFFS),
@@ -790,6 +845,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("ineffa", INEFFA_BUFFS),
     ("jahoda", JAHODA_BUFFS),
     ("nilou", NILOU_BUFFS),
+    ("varka", VARKA_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.

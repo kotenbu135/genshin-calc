@@ -91,7 +91,7 @@ pub const ALL_CHARACTERS: &[&CharacterData] = &[
     &dendro::TIGHNARI,
     &dendro::TRAVELER_DENDRO,
     &dendro::YAOYAO,
-    // Anemo (16)
+    // Anemo (17)
     &anemo::CHASCA,
     &anemo::FARUZAN,
     &anemo::HEIZOU,
@@ -104,6 +104,7 @@ pub const ALL_CHARACTERS: &[&CharacterData] = &[
     &anemo::MIZUKI,
     &anemo::SAYU,
     &anemo::SUCROSE,
+    &anemo::VARKA,
     &anemo::VENTI,
     &anemo::WANDERER,
     &anemo::XIANYUN,

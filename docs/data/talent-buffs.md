@@ -72,3 +72,9 @@
 | Character | Buff Name | Stat | Source | Target |
 |-----------|-----------|------|--------|--------|
 | Chevreuse | Golden Era ATK% | AtkPercent | A1 | Team |
+
+### Varka
+| Dawn Wind's March Anemo DMG | ElementalDmgBonus(Anemo) | 0.25 | Self | A1: ATK1000あたり+10%, 最大25% |
+| Wind's Vanguard Normal ATK DMG | NormalAtkDmgBonus | 0.30 | Self | A4: 拡散反応時+7.5%/stack, 最大4stack |
+| Wind's Vanguard Charged ATK DMG | ChargedAtkDmgBonus | 0.30 | Self | A4: 拡散反応時+7.5%/stack, 最大4stack |
+| Freedom of Song Anemo DMG | ElementalDmgBonus(Anemo) | 0.20 | Team | C4: 拡散反応時Anemo DMG+20% |

@@ -66,6 +66,7 @@
 | 純水精霊 | hydro_hypostasis | HYDRO_70_REST_10 |
 | 岩キューブ | geo_hypostasis | GEO_70_REST_10 |
 | 風キューブ | anemo_hypostasis | ANEMO_70_REST_10 |
+| Radiant Moongecko | radiant_moongecko | Geo 70% / 他 10% |
 
 ## 週ボス (16体)
 

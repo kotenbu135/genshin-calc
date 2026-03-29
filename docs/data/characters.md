@@ -120,6 +120,7 @@
 | Mizuki | Catalyst | 5 | Inazuma | Hp | C3Burst/C5Skill |
 | Sayu | Claymore | 4 | Inazuma | ElementalMastery | C3Burst/C5Skill |
 | Sucrose | Catalyst | 4 | Mondstadt | ElementalDmgBonus(Anemo) | C3Burst/C5Skill |
+| Varka | Anemo | Claymore | ★5 | Mondstadt | CritDmg 38.4% |
 | Venti | Bow | 5 | Mondstadt | EnergyRecharge | C3Burst/C5Skill |
 | Wanderer | Catalyst | 5 | Sumeru | CritRate | C3Burst/C5Skill |
 | Xianyun | Catalyst | 5 | Liyue | Atk | C3Burst/C5Skill |

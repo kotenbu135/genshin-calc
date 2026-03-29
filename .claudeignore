@@ -1,0 +1,8 @@
+# Build artifacts
+target/
+
+# Git worktrees
+.worktrees/
+
+# Cargo mutation testing
+**/mutants.out*/

@@ -25,6 +25,7 @@ pub enum Region {
     Fontaine,
     Natlan,
     Snezhnaya,
+    NodKrai,
     Other,
 }
 

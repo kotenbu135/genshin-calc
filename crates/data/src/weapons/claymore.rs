@@ -125,33 +125,34 @@ pub const GEST_OF_THE_MIGHTY_WOLF: WeaponData = WeaponData {
     name: "Gest of the Mighty Wolf",
     weapon_type: WeaponType::Claymore,
     rarity: Rarity::Star5,
-    base_atk: [46.0, 532.0, 563.0, 608.0],
-    sub_stat: Some(WeaponSubStat::CritRate([0.072, 0.302, 0.302, 0.331])),
+    base_atk: [45.94, 121.73, 532.23, 608.07],
+    sub_stat: Some(WeaponSubStat::CritRate([0.072, 0.1272, 0.3017, 0.3308])),
     passive: Some(WeaponPassive {
-        name: "Gest of the Mighty Wolf",
+        name: "不屈の騎士道",
         effect: PassiveEffect {
-            description: "狼の力でDMG+16-32%/ATK+16-32%",
+            description: "ATK SPD+10%。通常/スキル/重撃でFour Winds' Hymnスタック獲得(最大4)。\
+                スタックごとにDMG+7.5-15.5%。Hexerei: Secret Rite時、スタックごとにCRIT DMGも同値増加",
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
-                    name: "gest_wolf_dmg",
-                    description: "狼の力発動時にDMG+16-32%",
+                    name: "gest_mighty_wolf_hymn_dmg",
+                    description: "Four Winds' Hymn: スタックごとにDMG+7.5-15.5%（最大4スタック）",
                     stat: BuffableStat::DmgBonus,
-                    value: 0.16,
-                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    value: 0.075,
+                    refinement_values: Some([0.075, 0.095, 0.115, 0.135, 0.155]),
                     stack_values: None,
                     target: BuffTarget::OnlySelf,
-                    activation: Activation::Manual(ManualCondition::Toggle),
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
                 },
                 ConditionalBuff {
-                    name: "gest_wolf_atk",
-                    description: "狼の力発動時にATK+16-32%",
-                    stat: BuffableStat::AtkPercent,
-                    value: 0.16,
-                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    name: "gest_mighty_wolf_hymn_hexerei_crit",
+                    description: "Hexerei: Secret Rite時、Four Winds' HymnスタックごとにCRIT DMG+7.5-15.5%",
+                    stat: BuffableStat::CritDmg,
+                    value: 0.075,
+                    refinement_values: Some([0.075, 0.095, 0.115, 0.135, 0.155]),
                     stack_values: None,
                     target: BuffTarget::OnlySelf,
-                    activation: Activation::Manual(ManualCondition::Toggle),
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
                 },
             ],
         },
@@ -1328,18 +1329,18 @@ mod tests {
         let cond_buffs = passive.effect.conditional_buffs;
         assert_eq!(cond_buffs.len(), 2);
 
-        assert_eq!(cond_buffs[0].name, "gest_wolf_dmg");
+        assert_eq!(cond_buffs[0].name, "gest_mighty_wolf_hymn_dmg");
         assert_eq!(cond_buffs[0].stat, BuffableStat::DmgBonus);
-        assert!((cond_buffs[0].value - 0.16).abs() < 1e-6);
+        assert!((cond_buffs[0].value - 0.075).abs() < 1e-6);
 
-        assert_eq!(cond_buffs[1].name, "gest_wolf_atk");
-        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
-        assert!((cond_buffs[1].value - 0.16).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "gest_mighty_wolf_hymn_hexerei_crit");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::CritDmg);
+        assert!((cond_buffs[1].value - 0.075).abs() < 1e-6);
 
         for buff in cond_buffs {
             assert!(matches!(
                 buff.activation,
-                Activation::Manual(ManualCondition::Toggle)
+                Activation::Manual(ManualCondition::Stacks(4))
             ));
         }
     }

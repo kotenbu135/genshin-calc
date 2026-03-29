@@ -620,6 +620,12 @@ pub const EREMITE_ELITE: EnemyData = EnemyData {
     resistance: &PHYS_MINUS20_ELEM_10,
 };
 
+pub const RADIANT_MOONGECKO: EnemyData = EnemyData {
+    id: "radiant_moongecko",
+    name: "Radiant Moongecko",
+    resistance: &GEO_70_REST_10,
+};
+
 /// 全敵データの一覧
 pub const ALL_ENEMIES: &[&EnemyData] = &[
     // 既存15
@@ -660,6 +666,7 @@ pub const ALL_ENEMIES: &[&EnemyData] = &[
     &CRYO_HYPOSTASIS,
     &ELECTRO_HYPOSTASIS,
     &DENDRO_HYPOSTASIS,
+    &RADIANT_MOONGECKO,
     // 精鋭
     &ABYSS_HERALD,
     &ABYSS_LECTOR,
@@ -732,7 +739,7 @@ mod tests {
 
     #[test]
     fn test_all_enemies_count() {
-        assert_eq!(ALL_ENEMIES.len(), 40);
+        assert_eq!(ALL_ENEMIES.len(), 41);
     }
 
     #[test]
