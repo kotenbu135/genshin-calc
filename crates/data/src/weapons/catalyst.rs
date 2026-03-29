@@ -497,7 +497,16 @@ pub const SURFS_UP: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "surfs_up_na_stacks",
+                description: "夜魂バースト時にNA DMG+10-20%（1スタック/1000HP基準）、最大5スタック",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.10,
+                refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            }],
         },
     }),
 };
@@ -518,7 +527,16 @@ pub const TOME_OF_THE_ETERNAL_FLOW: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "tome_eternal_flow_ca",
+                description: "HP変動時にCA DMG+14-28%スタック、最大3スタック",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.14,
+                refinement_values: Some([0.14, 0.175, 0.21, 0.245, 0.28]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -636,7 +654,16 @@ pub const BLACKCLIFF_AGATE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵撃破時にATK%スタック",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "blackcliff_agate_atk",
+                description: "敵撃破後にATK+12-24%、最大3スタック",
+                stat: BuffableStat::AtkPercent,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -846,7 +873,16 @@ pub const FRUIT_OF_FULFILLMENT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応時にEM獲得/ATK減少スタック",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "fruit_of_fulfillment_em",
+                description: "元素反応発動時にEM+24-48スタック（最大5スタック）。ATK減少は非対応",
+                stat: BuffableStat::ElementalMastery,
+                value: 24.0,
+                refinement_values: Some([24.0, 30.0, 36.0, 42.0, 48.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            }],
         },
     }),
 };
@@ -863,7 +899,16 @@ pub const HAKUSHIN_RING: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 雷元素反応時に関連元素のDMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "hakushin_ring_elem_dmg",
+                description: "雷元素反応発動後、関連元素DMG+10-20%（チームメンバーも対象）",
+                stat: BuffableStat::DmgBonus,
+                value: 0.10,
+                refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -906,7 +951,16 @@ pub const OATHSWORN_EYE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル使用後にER+24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "oathsworn_eye_er",
+                description: "元素スキル使用後にER+24-48%",
+                stat: BuffableStat::EnergyRecharge,
+                value: 0.24,
+                refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -957,7 +1011,16 @@ pub const ROYAL_GRIMOIRE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ダメージ時にCRIT Rate+8%スタック、会心時リセット",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "royal_grimoire_cr",
+                description: "ダメージ時にCRIT Rate+8-16%、最大5スタック（会心命中でリセット）",
+                stat: BuffableStat::CritRate,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            }],
         },
     }),
 };
@@ -1125,7 +1188,36 @@ pub const WANDERING_EVENSTAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EM基準でATKアップ、チームにも付与",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "wandering_evenstar_atk",
+                    description: "スキル使用後: EM×0.24-0.48分をATKフラットに加算",
+                    stat: BuffableStat::AtkFlat,
+                    value: 0.24,
+                    refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "wandering_evenstar_team_atk",
+                    description: "スキル使用後: EM×0.072-0.144分をチームメンバーのATKフラットに加算（30%）",
+                    stat: BuffableStat::AtkFlat,
+                    value: 0.072,
+                    refinement_values: Some([0.072, 0.090, 0.108, 0.126, 0.144]),
+                    stack_values: None,
+                    target: BuffTarget::TeamExcludeSelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -1142,7 +1234,16 @@ pub const WAVERIDING_WHIRL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応時にEMアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "waveriding_whirl_em",
+                description: "元素反応発動時にEM+24-48",
+                stat: BuffableStat::ElementalMastery,
+                value: 24.0,
+                refinement_values: Some([24.0, 30.0, 36.0, 42.0, 48.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1206,7 +1307,16 @@ pub const MAGIC_GUIDE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 水/雷の影響を受けた敵にDMG+12%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "magic_guide_dmg",
+                description: "水/雷の影響を受けた敵へのDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1240,7 +1350,16 @@ pub const THRILLING_TALES_OF_DRAGON_SLAYERS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: キャラ交代時に次のキャラのATK+24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "ttds_team_atk",
+                description: "キャラ交代時、次の出場キャラATK+24-48%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.24,
+                refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                stack_values: None,
+                target: BuffTarget::TeamExcludeSelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
