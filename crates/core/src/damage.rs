@@ -1,7 +1,10 @@
 use serde::{Deserialize, Serialize};
 
+use crate::em::{amplifying_em_bonus, catalyze_em_bonus};
 use crate::enemy::Enemy;
 use crate::error::CalcError;
+use crate::level_table::reaction_base_value;
+use crate::reaction::{Reaction, ReactionCategory, catalyze_coefficient};
 use crate::stats::Stats;
 use crate::types::{DamageType, Element};
 
@@ -12,6 +15,8 @@ pub struct DamageInput {
     pub talent_multiplier: f64,
     pub damage_type: DamageType,
     pub element: Option<Element>,
+    pub reaction: Option<Reaction>,
+    pub reaction_bonus: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -19,6 +24,7 @@ pub struct DamageResult {
     pub non_crit: f64,
     pub crit: f64,
     pub average: f64,
+    pub reaction: Option<Reaction>,
 }
 
 fn validate(input: &DamageInput, enemy: &Enemy) -> Result<(), CalcError> {
@@ -37,10 +43,13 @@ fn validate(input: &DamageInput, enemy: &Enemy) -> Result<(), CalcError> {
     if input.talent_multiplier <= 0.0 {
         return Err(CalcError::InvalidTalentMultiplier(input.talent_multiplier));
     }
+    if input.reaction.is_some() && input.reaction_bonus < 0.0 {
+        return Err(CalcError::InvalidReactionBonus(input.reaction_bonus));
+    }
     Ok(())
 }
 
-fn resistance_multiplier(enemy: &Enemy) -> f64 {
+pub(crate) fn resistance_multiplier(enemy: &Enemy) -> f64 {
     let res = enemy.resistance;
     if res < 0.0 {
         1.0 - res / 2.0
@@ -57,18 +66,50 @@ fn defense_multiplier(char_level: u32, enemy: &Enemy) -> f64 {
     char_part / (char_part + enemy_part)
 }
 
-fn base_damage(input: &DamageInput) -> f64 {
-    input.stats.atk * input.talent_multiplier * (1.0 + input.stats.dmg_bonus)
-}
-
 pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResult, CalcError> {
     validate(input, enemy)?;
 
-    let base = base_damage(input);
-    let def_mult = defense_multiplier(input.character_level, enemy);
-    let res_mult = resistance_multiplier(enemy);
+    let mut catalyze_flat = 0.0;
+    let mut amplify_mult = 1.0;
+    let mut reaction_result = None;
 
-    let non_crit = base * def_mult * res_mult;
+    if let Some(reaction) = input.reaction {
+        match reaction.category() {
+            ReactionCategory::Amplifying => {
+                let trigger = input.element.ok_or(CalcError::AmplifyingRequiresElement)?;
+                let base_mult = match (reaction, trigger) {
+                    (Reaction::Vaporize, Element::Pyro) => 1.5,
+                    (Reaction::Vaporize, Element::Hydro) => 2.0,
+                    (Reaction::Melt, Element::Pyro) => 2.0,
+                    (Reaction::Melt, Element::Cryo) => 1.5,
+                    _ => return Err(CalcError::InvalidAmplifyingCombination(reaction, trigger)),
+                };
+                let em_bonus = amplifying_em_bonus(input.stats.elemental_mastery);
+                amplify_mult = base_mult * (1.0 + em_bonus + input.reaction_bonus);
+                reaction_result = Some(reaction);
+            }
+            ReactionCategory::Catalyze => {
+                let coeff = catalyze_coefficient(reaction).unwrap();
+                let em_bonus = catalyze_em_bonus(input.stats.elemental_mastery);
+                let level_base = reaction_base_value(input.character_level).unwrap();
+                catalyze_flat = coeff * level_base * (1.0 + em_bonus + input.reaction_bonus);
+                reaction_result = Some(reaction);
+            }
+            ReactionCategory::Transformative => {
+                return Err(CalcError::UseTransformativeFunction(reaction));
+            }
+            ReactionCategory::Lunar => {
+                return Err(CalcError::UseLunarFunction(reaction));
+            }
+        }
+    }
+
+    let base = input.stats.atk * input.talent_multiplier + catalyze_flat;
+    let non_crit = base
+        * (1.0 + input.stats.dmg_bonus)
+        * defense_multiplier(input.character_level, enemy)
+        * resistance_multiplier(enemy)
+        * amplify_mult;
     let crit = non_crit * (1.0 + input.stats.crit_dmg);
     let average = non_crit * (1.0 - input.stats.crit_rate) + crit * input.stats.crit_rate;
 
@@ -76,6 +117,7 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
         non_crit,
         crit,
         average,
+        reaction: reaction_result,
     })
 }
 
@@ -98,6 +140,8 @@ mod tests {
             talent_multiplier: 1.76,
             damage_type: DamageType::Skill,
             element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
         }
     }
 
@@ -320,23 +364,16 @@ mod tests {
     }
 
     #[test]
-    fn test_base_damage() {
-        let input = valid_input();
-        let result = base_damage(&input);
-        assert!((result - 2000.0 * 1.76 * 1.466).abs() < EPSILON);
-    }
-
-    #[test]
     fn test_calculate_damage_golden() {
-        // base = 2000 * 1.76 * (1 + 0.466) = 2000 * 1.76 * 1.466 = 5160.32
-        // def = 0.5, res = 1.0 - 0.10 = 0.9
-        // non_crit = 5160.32 * 0.5 * 0.9 = 2322.144
+        // base = 2000 * 1.76 + 0 (no catalyze) = 3520
+        // non_crit = 3520 * (1 + 0.466) * 0.5 * 0.9 = 3520 * 1.466 * 0.5 * 0.9 = 2322.144
         // crit = 2322.144 * (1 + 1.0) = 4644.288
         // avg = 2322.144 * 0.5 + 4644.288 * 0.5 = 3483.216
         let result = calculate_damage(&valid_input(), &valid_enemy()).unwrap();
         assert!((result.non_crit - 2322.144).abs() < 0.01);
         assert!((result.crit - 4644.288).abs() < 0.01);
         assert!((result.average - 3483.216).abs() < 0.01);
+        assert_eq!(result.reaction, None);
     }
 
     #[test]
@@ -401,6 +438,7 @@ mod tests {
         assert!((result.non_crit - deserialized.non_crit).abs() < EPSILON);
         assert!((result.crit - deserialized.crit).abs() < EPSILON);
         assert!((result.average - deserialized.average).abs() < EPSILON);
+        assert_eq!(result.reaction, deserialized.reaction);
     }
 
     #[test]
@@ -431,6 +469,8 @@ mod tests {
             talent_multiplier: 1.077,
             damage_type: DamageType::Normal,
             element: None, // physical
+            reaction: None,
+            reaction_bonus: 0.0,
         };
         let enemy = Enemy {
             level: 85,
@@ -459,6 +499,8 @@ mod tests {
             talent_multiplier: 1.5104,
             damage_type: DamageType::Skill,
             element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
         };
         let enemy = Enemy {
             level: 90,
@@ -486,6 +528,8 @@ mod tests {
             talent_multiplier: 3.9616,
             damage_type: DamageType::Charged,
             element: Some(Element::Cryo),
+            reaction: None,
+            reaction_bonus: 0.0,
         };
         let enemy = Enemy {
             level: 90,
@@ -514,6 +558,8 @@ mod tests {
             talent_multiplier: 6.4128,
             damage_type: DamageType::Burst,
             element: Some(Element::Electro),
+            reaction: None,
+            reaction_bonus: 0.0,
         };
         let enemy = Enemy {
             level: 100,
@@ -524,5 +570,240 @@ mod tests {
         // DEF mult = 190/390 = 0.48718 (not 0.5)
         assert!((result.non_crit - 8244.098363).abs() < 0.01);
         assert!((result.crit - 17312.606562).abs() < 0.01);
+    }
+
+    // =====================================================================
+    // Amplifying reaction tests
+    // =====================================================================
+
+    #[test]
+    fn test_vaporize_pyro_on_hydro() {
+        // Pyro trigger = 1.5x, EM=200 → em_bonus = 0.3475, reaction_bonus = 0.15
+        // amplify = 1.5 * (1 + 0.3475 + 0.15) = 1.5 * 1.4975 = 2.24625
+        let input = DamageInput {
+            stats: Stats {
+                atk: 1800.0,
+                crit_rate: 0.6,
+                crit_dmg: 1.2,
+                dmg_bonus: 0.466,
+                elemental_mastery: 200.0,
+                ..Stats::default()
+            },
+            talent_multiplier: 1.5104,
+            element: Some(Element::Pyro),
+            reaction: Some(Reaction::Vaporize),
+            reaction_bonus: 0.15,
+            ..valid_input()
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert_eq!(result.reaction, Some(Reaction::Vaporize));
+        // Verify amplified damage > non-amplified
+        let no_reaction = calculate_damage(
+            &DamageInput {
+                reaction: None,
+                reaction_bonus: 0.0,
+                ..input.clone()
+            },
+            &enemy,
+        )
+        .unwrap();
+        assert!(result.non_crit > no_reaction.non_crit * 1.4);
+    }
+
+    #[test]
+    fn test_vaporize_hydro_on_pyro() {
+        // Hydro trigger = 2.0x
+        let input = DamageInput {
+            element: Some(Element::Hydro),
+            reaction: Some(Reaction::Vaporize),
+            reaction_bonus: 0.0,
+            ..valid_input()
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        let no_reaction = calculate_damage(
+            &DamageInput {
+                reaction: None,
+                ..input.clone()
+            },
+            &enemy,
+        )
+        .unwrap();
+        assert!((result.non_crit / no_reaction.non_crit - 2.0).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_melt_pyro_on_cryo() {
+        // Pyro trigger Melt = 2.0x
+        let input = DamageInput {
+            element: Some(Element::Pyro),
+            reaction: Some(Reaction::Melt),
+            reaction_bonus: 0.0,
+            ..valid_input()
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        let no_reaction = calculate_damage(
+            &DamageInput {
+                reaction: None,
+                ..input.clone()
+            },
+            &enemy,
+        )
+        .unwrap();
+        assert!((result.non_crit / no_reaction.non_crit - 2.0).abs() < 0.01);
+    }
+
+    // =====================================================================
+    // Catalyze reaction tests
+    // =====================================================================
+
+    #[test]
+    fn test_aggravate_adds_flat_damage() {
+        let input = DamageInput {
+            element: Some(Element::Electro),
+            reaction: Some(Reaction::Aggravate),
+            reaction_bonus: 0.0,
+            ..valid_input()
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        let no_reaction = calculate_damage(
+            &DamageInput {
+                reaction: None,
+                ..input.clone()
+            },
+            &enemy,
+        )
+        .unwrap();
+        // Aggravate should add flat damage, making result higher
+        assert!(result.non_crit > no_reaction.non_crit);
+        assert_eq!(result.reaction, Some(Reaction::Aggravate));
+    }
+
+    #[test]
+    fn test_spread_adds_flat_damage() {
+        let input = DamageInput {
+            element: Some(Element::Dendro),
+            reaction: Some(Reaction::Spread),
+            reaction_bonus: 0.0,
+            ..valid_input()
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        let no_reaction = calculate_damage(
+            &DamageInput {
+                reaction: None,
+                ..input.clone()
+            },
+            &enemy,
+        )
+        .unwrap();
+        assert!(result.non_crit > no_reaction.non_crit);
+    }
+
+    // =====================================================================
+    // Error case tests
+    // =====================================================================
+
+    #[test]
+    fn test_transformative_in_calculate_damage_errors() {
+        let input = DamageInput {
+            reaction: Some(Reaction::Overloaded),
+            ..valid_input()
+        };
+        let result = calculate_damage(&input, &valid_enemy());
+        assert!(matches!(
+            result,
+            Err(CalcError::UseTransformativeFunction(_))
+        ));
+    }
+
+    #[test]
+    fn test_lunar_in_calculate_damage_errors() {
+        let input = DamageInput {
+            reaction: Some(Reaction::LunarElectroCharged),
+            ..valid_input()
+        };
+        let result = calculate_damage(&input, &valid_enemy());
+        assert!(matches!(result, Err(CalcError::UseLunarFunction(_))));
+    }
+
+    #[test]
+    fn test_amplifying_without_element_errors() {
+        let input = DamageInput {
+            element: None,
+            reaction: Some(Reaction::Vaporize),
+            ..valid_input()
+        };
+        let result = calculate_damage(&input, &valid_enemy());
+        assert!(matches!(result, Err(CalcError::AmplifyingRequiresElement)));
+    }
+
+    // =====================================================================
+    // Golden tests: hand-calculated reaction values
+    // =====================================================================
+
+    #[test]
+    fn test_golden_vaporize_pyro_trigger() {
+        // Diluc-like: ATK 1800, talent 1.5104, Pyro DMG 46.6%, EM 200
+        // Vaporize (Pyro on Hydro) = 1.5x, reaction_bonus = 0.15 (Crimson Witch)
+        // em_bonus = 2.78 * 200 / (200 + 1400) = 0.3475
+        // amplify = 1.5 * (1 + 0.3475 + 0.15) = 2.24625
+        // base = 1800 * 1.5104 = 2718.72
+        // non_crit = 2718.72 * 1.466 * 0.5 * 0.9 * 2.24625
+        //          = 1793.5396 * 2.24625 = 4028.738
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 1800.0,
+                crit_rate: 0.6,
+                crit_dmg: 1.2,
+                dmg_bonus: 0.466,
+                elemental_mastery: 200.0,
+                ..Stats::default()
+            },
+            talent_multiplier: 1.5104,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Pyro),
+            reaction: Some(Reaction::Vaporize),
+            reaction_bonus: 0.15,
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 4028.738).abs() < 0.1);
+        assert!((result.crit - 8863.224).abs() < 0.1);
+        assert_eq!(result.reaction, Some(Reaction::Vaporize));
+    }
+
+    #[test]
+    fn test_golden_aggravate() {
+        // Electro trigger, ATK 1500, talent 1.2, Electro DMG 46.6%, EM 150
+        // catalyze_flat = 1.15 * 1446.8535 * (1 + 5*150/(150+1200))
+        //               = 1.15 * 1446.8535 * 1.5556 = 2588.260
+        // base = 1500 * 1.2 + 2588.260 = 4388.260
+        // non_crit = 4388.260 * 1.466 * 0.5 * 0.9 = 2894.935
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 1500.0,
+                crit_rate: 0.7,
+                crit_dmg: 1.4,
+                dmg_bonus: 0.466,
+                elemental_mastery: 150.0,
+                ..Stats::default()
+            },
+            talent_multiplier: 1.2,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Electro),
+            reaction: Some(Reaction::Aggravate),
+            reaction_bonus: 0.0,
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 2894.935).abs() < 0.1);
+        assert!((result.crit - 6947.845).abs() < 0.1);
+        assert_eq!(result.reaction, Some(Reaction::Aggravate));
     }
 }

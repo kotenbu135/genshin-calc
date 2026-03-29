@@ -1,13 +1,23 @@
 pub mod damage;
+pub mod em;
 pub mod enemy;
 pub mod error;
+pub mod level_table;
+pub mod lunar;
+pub mod reaction;
 pub mod stats;
+pub mod transformative;
 pub mod types;
 
 pub use damage::{DamageInput, DamageResult, calculate_damage};
+pub use em::{amplifying_em_bonus, catalyze_em_bonus, lunar_em_bonus, transformative_em_bonus};
 pub use enemy::Enemy;
 pub use error::CalcError;
+pub use level_table::reaction_base_value;
+pub use lunar::{LunarInput, LunarResult, calculate_lunar};
+pub use reaction::{Reaction, ReactionCategory, determine_reaction};
 pub use stats::Stats;
+pub use transformative::{TransformativeInput, TransformativeResult, calculate_transformative};
 pub use types::{DamageType, Element};
 
 #[cfg(test)]
@@ -33,6 +43,8 @@ mod tests {
             talent_multiplier: 1.76,
             damage_type: DamageType::Skill,
             element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
         };
 
         let enemy = Enemy {
