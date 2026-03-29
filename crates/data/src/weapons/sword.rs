@@ -140,7 +140,20 @@ pub const KEY_OF_KHAJ_NISUT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP上限に基づき元素熟知アップ。フルスタックでチーム全員にEM付与",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "khaj_nisut_hp_em",
+                description: "HP上限×0.12-0.24%分をEMに加算",
+                stat: BuffableStat::ElementalMastery,
+                value: 0.0012,
+                refinement_values: Some([0.0012, 0.0015, 0.0018, 0.0021, 0.0024]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -161,7 +174,36 @@ pub const LIGHT_OF_FOLIAR_INCISION: WeaponData = WeaponData {
                 value: 0.04,
                 refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "foliar_em_normal_flat",
+                    description: "EM×120-240%分を通常攻撃フラットダメージに加算",
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 1.20,
+                    refinement_values: Some([1.20, 1.50, 1.80, 2.10, 2.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "foliar_em_skill_flat",
+                    description: "EM×120-240%分をスキルフラットダメージに加算",
+                    stat: BuffableStat::SkillFlatDmg,
+                    value: 1.20,
+                    refinement_values: Some([1.20, 1.50, 1.80, 2.10, 2.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -216,7 +258,20 @@ pub const PEAK_PATROL_SONG: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: DEFに基づき元素DMGアップ。フルスタックでチームにDEF%/元素DMG付与",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "peak_patrol_def_dmg",
+                description: "DEF×8-16%分を元素DMGボーナスに加算",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -330,7 +385,20 @@ pub const URAKU_MISUGIRI: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "uraku_def_skill",
+                description: "DEF増加分×18-36%分をスキルDMGボーナスに加算",
+                stat: BuffableStat::SkillDmgBonus,
+                value: 0.18,
+                refinement_values: Some([0.18, 0.225, 0.27, 0.315, 0.36]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercentRaw,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -1076,3 +1144,89 @@ pub const ALL_SWORDS: &[&WeaponData] = &[
     &DULL_BLADE,
     &SILVER_SWORD,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn key_of_khaj_nisut_has_hp_em_conditional() {
+        let passive = KEY_OF_KHAJ_NISUT.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "khaj_nisut_hp_em");
+        assert_eq!(buff.stat, BuffableStat::ElementalMastery);
+        assert!((buff.value - 0.0012).abs() < 1e-7);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::HpPercent,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn light_of_foliar_incision_has_em_flatdmg_conditionals() {
+        let passive = LIGHT_OF_FOLIAR_INCISION.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "foliar_em_normal_flat");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((cond_buffs[0].value - 1.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "foliar_em_skill_flat");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::SkillFlatDmg);
+        assert!((cond_buffs[1].value - 1.20).abs() < 1e-6);
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                })
+            ));
+        }
+    }
+
+    #[test]
+    fn peak_patrol_song_has_def_dmgbonus_conditional() {
+        let passive = PEAK_PATROL_SONG.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "peak_patrol_def_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::DefPercent,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn uraku_misugiri_has_def_skill_conditional() {
+        let passive = URAKU_MISUGIRI.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "uraku_def_skill");
+        assert_eq!(buff.stat, BuffableStat::SkillDmgBonus);
+        assert!((buff.value - 0.18).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::DefPercentRaw,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+}
