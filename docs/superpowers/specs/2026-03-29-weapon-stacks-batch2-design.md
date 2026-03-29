@@ -1,7 +1,7 @@
 # P3 Batch 2: 5-Star Weapon Stacks ConditionalBuff Design
 
 **Date**: 2026-03-29
-**Status**: Draft
+**Status**: Reviewed (v2)
 **Depends on**: P0 (ConditionalBuff -- complete), P3 Batch 1 (StatScaling -- complete)
 **Scope**: 9 five-star weapons with Stacks-type ConditionalBuff (data-only, no core changes)
 
@@ -23,7 +23,7 @@ ConditionalBuff {
     value: <per_stack_r1>,
     refinement_values: Some([R1, R2, R3, R4, R5]),
     stack_values: None,  // linear: value * stacks
-    target: BuffTarget::Myself,
+    target: BuffTarget::OnlySelf,
     activation: Activation::Manual(ManualCondition::Stacks(<max>)),
 }
 ```
@@ -42,7 +42,7 @@ ConditionalBuff {
     value: <bonus_r1>,
     refinement_values: Some([R1, R2, R3, R4, R5]),
     stack_values: None,
-    target: BuffTarget::Myself,
+    target: BuffTarget::OnlySelf,
     activation: Activation::Manual(ManualCondition::Toggle),
 }
 ```
@@ -57,7 +57,7 @@ Consumer activates both when at full stacks. The Toggle is separate because the 
 Stacks buff:
   name: "pjws_atk_stacks"
   stat: AtkPercent
-  max_stacks: 7
+  max_stacks: 6
   R1-R5: [0.032, 0.039, 0.046, 0.053, 0.060]
 
 Full-stack bonus:
@@ -66,7 +66,7 @@ Full-stack bonus:
   R1-R5: [0.12, 0.15, 0.18, 0.21, 0.24]
 ```
 
-Note: Max stacks is 7 (6 from hits + 1 bonus at full, per game data). Per-stack ATK% with full-stack DMG% bonus.
+6 stacks max from hits. Full-stack DMG bonus modeled as separate Toggle.
 
 ### 2. Fang of the Mountain King (Pattern A) -- Claymore
 
@@ -78,7 +78,7 @@ Stacks buff:
   R1-R5: [0.10, 0.125, 0.15, 0.175, 0.20]
 ```
 
-Elemental Skill hit grants stacks, each increasing all Elemental DMG. Uses DmgBonus (applies to all damage types including elemental).
+Elemental Skill hit grants stacks, each increasing all Elemental DMG. Note: `DmgBonus` used as approximation; actual game effect is "All Elemental DMG" (excludes Physical). Physical damage calculations will slightly over-count.
 
 ### 3. Astral Vulture's Crimson Plumage (Pattern B) -- Bow
 
@@ -118,7 +118,7 @@ Elemental Skill use grants HP% stacks. At 3 stacks, Hydro DMG bonus.
 
 ```
 Stacks buff:
-  name: "daybreak_chronicles_dmg_stacks"
+  name: "the_daybreak_chronicles_dmg_stacks"
   stat: DmgBonus
   max_stacks: 3
   R1-R5: [0.08, 0.10, 0.12, 0.14, 0.16] (TBV)
@@ -141,7 +141,7 @@ Full-stack bonus:
   R1-R5: [0.12, 0.15, 0.18, 0.21, 0.24]
 ```
 
-Elemental Skill use grants Skill DMG% stacks. At 3 stacks, all Elemental DMG bonus.
+Elemental Skill use grants Skill DMG% stacks. At 3 stacks, all Elemental DMG bonus. Note: Full-stack bonus uses `DmgBonus` as approximation; actual game effect is "All Elemental DMG" (excludes Physical).
 
 ### 7. Tulaytullah's Remembrance (Pattern A) -- Catalyst
 
@@ -153,7 +153,7 @@ Stacks buff:
   R1-R5: [0.048, 0.06, 0.072, 0.084, 0.096]
 ```
 
-Normal Attack DMG% increases per stack (1 stack per second on-field). Attack Speed buff is not modelable and excluded from scope.
+Normal Attack DMG% increases per stack (1 stack per second on-field, linear). Attack Speed buff is not modelable and excluded from scope. Verify linearity of per-stack value during implementation -- if non-linear, use `stack_values: Some(...)` instead.
 
 ### 8. Nocturne's Curtain Call (Pattern A) -- Catalyst
 
@@ -184,7 +184,8 @@ Nightsoul Burst grants DMG% stacks.
 - **(TBV)** = To Be Verified. R1-R5 values marked TBV should be verified against HoneyhunterWorld/Ambr.top during implementation. The R1 value is from the weapon description; R2-R5 follow standard 5-star scaling (R1 * [1.0, 1.25, 1.5, 1.75, 2.0]).
 - All percentage values in decimal form (10% = 0.10) per project convention.
 - `stack_values: None` for all weapons (linear scaling).
-- `target: BuffTarget::Myself` for all buffs (no team-wide effects in this batch).
+- `target: BuffTarget::OnlySelf` for all buffs (no team-wide effects in this batch).
+- Description fields to be written during implementation following existing codebase style.
 - Weapons with non-modelable effects (attack speed) only implement the modelable portion.
 
 ## Impact
