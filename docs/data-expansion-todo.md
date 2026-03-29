@@ -7,7 +7,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 | カテゴリ | 総数 | 実装済み | 未実装 | カバレッジ |
 |----------|-----:|--------:|-------:|-----------:|
 | 武器パッシブ (StatBuff) | 220 | 220 | 0 | 100% |
-| 武器パッシブ (ConditionalBuff) | 220 | 46 | 174 | 21% |
+| 武器パッシブ (ConditionalBuff) | 220 | 74 | 146 | 34% |
 | 聖遺物2pc (StatBuff) | 52 | 45 | 7 | 87% |
 | 聖遺物4pc効果 | 52 | 52 | 0 | 100% |
 | 天賦バフ/デバフ (TalentBuffDef) | 29キャラ | 47定義 | 1(Nilou) | ~97% |
@@ -18,7 +18,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 ## ボトルネック: 条件付き効果の表現力不足
 
 P0で `ConditionalBuff` システムを導入済み。
-聖遺物4pc効果は全52セット実装完了。武器パッシブは46本にConditionalBuff実装済み（5星武器はP3 Batch 1-4で大幅拡充）、残り174本が未対応。4星武器のConditionalBuff計画策定中。
+聖遺物4pc効果は全52セット実装完了。武器パッシブは74本にConditionalBuff実装済み（5星武器Batch 1-4 + 4星武器28本）、残り146本が未対応。
 
 ### 表現できない効果の例
 
@@ -103,7 +103,7 @@ P2/P3/P4/P6のアンロックキー。
 
 ## P3: 武器パッシブの充実
 
-StatBuffは全220本実装完了。ConditionalBuffは46/220本実装済み（21%）。
+StatBuffは全220本実装完了。ConditionalBuffは74/220本実装済み（34%）。
 
 ### 無条件パッシブ (StatBuff)
 
@@ -131,9 +131,9 @@ StatBuffは全220本実装完了。ConditionalBuffは46/220本実装済み（21%
 - [x] **Batch 3** (Toggle/TeamComp) — 5星武器13本 (#17)
 - [x] **Batch 4** (Shield Series) — 4本 (#19)
 
-### 条件付きパッシブ — P3 4星武器 (計画中)
+### 条件付きパッシブ — P3 4星武器 ✅
 
-- [ ] 4星武器28本のConditionalBuff実装 (設計spec・実装plan策定済み、未着手)
+- [x] 4星武器28本のConditionalBuff実装完了
   - Pattern A: Toggle (single buff) — 17本
   - Pattern B: Toggle (multiple buffs) — 7本
   - Pattern C: Auto(StatScaling) — 2本
@@ -206,8 +206,8 @@ core crateに `apply_enemy_debuffs(enemy, buffs, element) -> Enemy` 関数を実
 
 ```
 影響度 高 │  ✅ P0 条件付き効果   ✅ P2 聖遺物4pc
-          │  ✅ P1 天賦バフ        P3 武器パッシブ (進行中)
-          │                        → 4星28本が残タスク
+          │  ✅ P1 天賦バフ        P3 武器パッシブ (74/220)
+          │                        → 複雑な武器4本が残タスク
           │
 影響度 低 │  ✅ P5 敵データ        ✅ P4 精錬値
           │                        ✅ P6 敵側デバフ
@@ -221,13 +221,12 @@ core crateに `apply_enemy_debuffs(enemy, buffs, element) -> Enemy` 関数を実
 2. ~~**P1 天賦バフ**~~ ✅ 完了 (29キャラ・47定義)
 3. ~~**P0 条件付き効果**~~ ✅ 完了 (ConditionalBuff + AutoCondition/ManualCondition)
 4. ~~**P2 聖遺物4pc**~~ ✅ 完了 (全52セット)
-5. **P3 武器パッシブ** — 5星武器バッチ完了、**4星武器28本が次の対象** (計画策定済み)
+5. **P3 武器パッシブ** — 5星Batch 1-4 + 4星28本完了 (74/220、残りは複雑な武器4本)
 6. ~~**P4 精錬値**~~ ✅ 完了 (全220本R1-R5)
 7. ~~**P6 敵側デバフ**~~ ✅ 完了 (超電導/Zhongli/Chevreuse/Lisa/Faruzan)
 
 ### 残タスク
 
-- **P3 4星武器ConditionalBuff** — 28本 (設計spec・実装plan策定済み、feat/p3-4star-toggle-conditional-buffs ブランチ)
+- **P3 複雑な武器** — 霧切の廻光、千岩シリーズ、赤砂の杖、草薙の稲光 (4本)
 - **P1 Nilou** — 開花反応ボーナス (水草限定条件、特殊実装が必要)
 - **P2 2pc効果** — 残り7セットのStatBuff
-- **P3 複雑な武器** — 霧切の廻光、千岩シリーズ、赤砂の杖、草薙の稲光
