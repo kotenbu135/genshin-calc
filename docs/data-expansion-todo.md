@@ -8,7 +8,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 |----------|-----:|--------:|-------:|-----------:|
 | 武器パッシブ (StatBuff) | 220 | 220 | 0 | 100% |
 | 武器パッシブ (ConditionalBuff) | 220 | 77 | 143 | 35% |
-| 聖遺物2pc (StatBuff) | 52 | 45 | 7 | 87% |
+| 聖遺物2pc (StatBuff) | 52 | 48 | 4 | 92% |
 | 聖遺物4pc効果 | 52 | 52 | 0 | 100% |
 | 天賦バフ/デバフ (TalentBuffDef) | 29キャラ | 47定義 | 1(Nilou) | ~97% |
 | 敵データ | 多数 | 40 | 多数 | - |
@@ -84,11 +84,14 @@ P2/P3/P4/P6のアンロックキー。
 
 ## P2: 聖遺物セット効果の充実 ✅
 
-4pc効果は全52セット実装完了。2pcは45/52実装済み。
+4pc効果は全52セット実装完了。2pcは48/52実装済み。
 
 ### 2pc効果 (単純バフ)
 
 - [ ] 未実装の2pc効果を洗い出して埋める (大半は無条件バフ、既に高カバレッジ)
+- [x] 雷を鎮める尊者 (Thundersoother) — 雷元素耐性+40% (ElementalRes(Electro))
+- [x] 烈火を渡る賢者 (Lavawalker) — 炎元素耐性+40% (ElementalRes(Pyro))
+- [x] 奇跡 (Tiny Miracle) — 全元素耐性+20% (ElementalRes × 7元素)
 
 ### 4pc効果 (条件付き — P0依存)
 
@@ -228,4 +231,4 @@ core crateに `apply_enemy_debuffs(enemy, buffs, element) -> Enemy` 関数を実
 ### 残タスク
 
 - **P1 Nilou** — 開花反応ボーナス (水草限定条件、特殊実装が必要)
-- **P2 2pc効果** — 残り7セットのStatBuff
+- **P2 2pc効果** — 残り4セットのStatBuff

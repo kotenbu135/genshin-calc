@@ -229,7 +229,11 @@ pub const THUNDERSOOTHER: ArtifactSet = ArtifactSet {
     rarity: ArtifactRarity::Star5,
     two_piece: SetEffect {
         description: "雷元素耐性+40%",
-        buffs: &[],
+        buffs: &[StatBuff {
+            stat: BuffableStat::ElementalRes(Element::Electro),
+            value: 0.40,
+            refinement_values: None,
+        }],
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
@@ -406,7 +410,11 @@ pub const LAVAWALKER: ArtifactSet = ArtifactSet {
     rarity: ArtifactRarity::Star5,
     two_piece: SetEffect {
         description: "炎元素耐性+40%",
-        buffs: &[],
+        buffs: &[StatBuff {
+            stat: BuffableStat::ElementalRes(Element::Pyro),
+            value: 0.40,
+            refinement_values: None,
+        }],
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
@@ -1462,7 +1470,43 @@ pub const TINY_MIRACLE: ArtifactSet = ArtifactSet {
     rarity: ArtifactRarity::Star4And5,
     two_piece: SetEffect {
         description: "全元素耐性+20%",
-        buffs: &[],
+        buffs: &[
+            StatBuff {
+                stat: BuffableStat::ElementalRes(Element::Pyro),
+                value: 0.20,
+                refinement_values: None,
+            },
+            StatBuff {
+                stat: BuffableStat::ElementalRes(Element::Hydro),
+                value: 0.20,
+                refinement_values: None,
+            },
+            StatBuff {
+                stat: BuffableStat::ElementalRes(Element::Electro),
+                value: 0.20,
+                refinement_values: None,
+            },
+            StatBuff {
+                stat: BuffableStat::ElementalRes(Element::Cryo),
+                value: 0.20,
+                refinement_values: None,
+            },
+            StatBuff {
+                stat: BuffableStat::ElementalRes(Element::Dendro),
+                value: 0.20,
+                refinement_values: None,
+            },
+            StatBuff {
+                stat: BuffableStat::ElementalRes(Element::Anemo),
+                value: 0.20,
+                refinement_values: None,
+            },
+            StatBuff {
+                stat: BuffableStat::ElementalRes(Element::Geo),
+                value: 0.20,
+                refinement_values: None,
+            },
+        ],
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
