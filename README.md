@@ -122,6 +122,7 @@ let input = LunarInput {
     reaction_bonus: 0.0,
     crit_rate: 0.5,
     crit_dmg: 1.0,
+    base_dmg_bonus: 0.0,
 };
 
 let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };

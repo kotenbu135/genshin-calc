@@ -1,17 +1,9 @@
 use genshin_calc_core::{Element, ScalingStat};
 use serde::{Deserialize, Serialize};
 
-// -- Core Enums --
+pub use genshin_calc_core::WeaponType;
 
-/// Weapon type classification.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub enum WeaponType {
-    Sword,
-    Claymore,
-    Polearm,
-    Bow,
-    Catalyst,
-}
+// -- Core Enums --
 
 /// Character or weapon rarity.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]

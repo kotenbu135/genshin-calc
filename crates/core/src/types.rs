@@ -25,11 +25,22 @@ pub enum DamageType {
 /// Stat used for damage scaling.
 ///
 /// Most characters scale on ATK. Some scale on HP (e.g. Hu Tao)
-/// or DEF (e.g. Albedo, Noelle).
+/// or DEF (e.g. Albedo, Noelle). Some Moonsign passives scale on EM.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
 pub enum ScalingStat {
     #[default]
     Atk,
     Hp,
     Def,
+    Em,
+}
+
+/// Weapon type classification.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum WeaponType {
+    Sword,
+    Claymore,
+    Polearm,
+    Bow,
+    Catalyst,
 }

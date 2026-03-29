@@ -68,4 +68,16 @@ pub enum CalcError {
 
     #[error("dmg_bonus must be >= -1.0, got {0}")]
     InvalidDmgBonus(f64),
+
+    #[error("team must have 1..=4 members, got {0}")]
+    InvalidTeamSize(usize),
+
+    #[error("target index {index} out of bounds for team of size {team_size}")]
+    InvalidTargetIndex { index: usize, team_size: usize },
+
+    #[error("constellation must be 0..=6, got {0}")]
+    InvalidConstellation(u8),
+
+    #[error("talent level must be 1..=15, got {0}")]
+    InvalidTalentLevel(u8),
 }
