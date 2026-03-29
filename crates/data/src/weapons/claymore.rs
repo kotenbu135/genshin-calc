@@ -381,7 +381,16 @@ pub const EARTH_SHAKER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル命中で元素爆発ダメージアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "earth_shaker_burst_dmg",
+                description: "元素スキル命中後にBurst DMG+16-32%",
+                stat: BuffableStat::BurstDmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -559,7 +568,16 @@ pub const MASTER_KEY: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル使用後にEMアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "master_key_em",
+                description: "元素スキル命中後にEM+36-72",
+                stat: BuffableStat::ElementalMastery,
+                value: 36.0,
+                refinement_values: Some([36.0, 45.0, 54.0, 63.0, 72.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1075,5 +1093,43 @@ mod tests {
             ));
             assert!(buff.refinement_values.is_some());
         }
+    }
+
+    #[test]
+    fn earth_shaker_has_burst_dmg_toggle() {
+        let passive = EARTH_SHAKER.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "earth_shaker_burst_dmg");
+        assert_eq!(buff.stat, BuffableStat::BurstDmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.16).abs() < 1e-6);
+        assert!((rv[4] - 0.32).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn master_key_has_em_toggle() {
+        let passive = MASTER_KEY.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "master_key_em");
+        assert_eq!(buff.stat, BuffableStat::ElementalMastery);
+        assert!((buff.value - 36.0).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 36.0).abs() < 1e-6);
+        assert!((rv[4] - 72.0).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
     }
 }

@@ -547,9 +547,22 @@ pub const CINNABAR_SPINDLE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "辰砂の紡錘",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキルのDMGがDEFの40%分アップ",
+            description: "元素スキルのDMGにDEFの40-80%分を加算",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "cinnabar_skill_def_flat",
+                description: "元素スキルのDMGにDEFの40-80%分を加算",
+                stat: BuffableStat::SkillFlatDmg,
+                value: 0.40,
+                refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -587,7 +600,16 @@ pub const FESTERING_DESIRE: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "festering_skill_cr",
+                description: "元素スキルのCRIT Rate+6-12%",
+                stat: BuffableStat::CritRate,
+                value: 0.06,
+                refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -640,9 +662,22 @@ pub const FLUTE_OF_EZPITZAL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Flute of Ezpitzal",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル発動時にDEFに基づきダメージバフ獲得",
+            description: "夜魂の加護状態で通常攻撃DMGにDEFの24-48%分を加算",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "flute_ezpitzal_def_flat",
+                description: "夜魂の加護状態で通常攻撃DMGにDEFの24-48%分を加算",
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 0.24,
+                refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -743,9 +778,18 @@ pub const PRIZED_ISSHIN_BLADE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "名刀一心",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル命中時にATKアップ",
+            description: "元素スキル命中後にATK+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "prized_isshin_atk",
+                description: "元素スキル命中後にATK+12-24%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -779,9 +823,18 @@ pub const ROYAL_LONGSWORD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "集中",
         effect: PassiveEffect {
-            description: "Conditional: ダメージ命中で会心でなければCRIT Rate+8%、会心発生でリセット",
+            description: "ダメージ命中で会心でなければCRIT Rate+8%×5スタック（最大40-80%）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "royal_longsword_cr",
+                description: "ダメージ命中で会心でなければCRIT Rate+8%×5スタック（最大40-80%）",
+                stat: BuffableStat::CritRate,
+                value: 0.40,
+                refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -830,9 +883,18 @@ pub const SERENITYS_CALL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Serenity's Call",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル発動時にDMGバフ獲得",
+            description: "元素スキル命中後にDMG+8-16%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "serenitys_call_dmg",
+                description: "元素スキル命中後にDMG+8-16%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -847,9 +909,18 @@ pub const STURDY_BONE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Sturdy Bone",
         effect: PassiveEffect {
-            description: "Conditional: スプリント後にNA DMGアップ",
+            description: "スプリント後にNA DMG+16-32%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "sturdy_bone_na_dmg",
+                description: "スプリント後にNA DMG+16-32%",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -981,9 +1052,18 @@ pub const TOUKABOU_SHIGURE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "唐笠の時雨",
         effect: PassiveEffect {
-            description: "Conditional: 落下攻撃命中後にDMG+16%、8秒",
+            description: "落下攻撃命中後にDMG+16-32%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "toukabou_dmg",
+                description: "落下攻撃命中後にDMG+16-32%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1395,5 +1475,184 @@ mod tests {
             ));
             assert!(buff.refinement_values.is_some());
         }
+    }
+
+    #[test]
+    fn cinnabar_spindle_has_def_scaling_skill_flat() {
+        let passive = CINNABAR_SPINDLE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "cinnabar_skill_def_flat");
+        assert_eq!(buff.stat, BuffableStat::SkillFlatDmg);
+        assert!((buff.value - 0.40).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.40).abs() < 1e-6);
+        assert!((rv[4] - 0.80).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::DefPercent,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn flute_of_ezpitzal_has_def_scaling_normal_flat() {
+        let passive = FLUTE_OF_EZPITZAL.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "flute_ezpitzal_def_flat");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((buff.value - 0.24).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.24).abs() < 1e-6);
+        assert!((rv[4] - 0.48).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::DefPercent,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn festering_desire_has_skill_cr_toggle() {
+        let passive = FESTERING_DESIRE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "festering_skill_cr");
+        assert_eq!(buff.stat, BuffableStat::CritRate);
+        assert!((buff.value - 0.06).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.06).abs() < 1e-6);
+        assert!((rv[4] - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        // Also verify the existing StatBuff is still present
+        let buffs = passive.effect.buffs;
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::SkillDmgBonus);
+    }
+
+    #[test]
+    fn lions_roar_has_dmg_toggle() {
+        let passive = LIONS_ROAR.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "lions_roar_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.20).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn prized_isshin_blade_has_atk_toggle() {
+        let passive = PRIZED_ISSHIN_BLADE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "prized_isshin_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.12).abs() < 1e-6);
+        assert!((rv[4] - 0.24).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn royal_longsword_has_crit_rate_toggle() {
+        let passive = ROYAL_LONGSWORD.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "royal_longsword_cr");
+        assert_eq!(buff.stat, BuffableStat::CritRate);
+        assert!((buff.value - 0.40).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.40).abs() < 1e-6);
+        assert!((rv[4] - 0.80).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn serenitys_call_has_dmg_toggle() {
+        let passive = SERENITYS_CALL.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "serenitys_call_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.08).abs() < 1e-6);
+        assert!((rv[4] - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn sturdy_bone_has_na_dmg_toggle() {
+        let passive = STURDY_BONE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "sturdy_bone_na_dmg");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.16).abs() < 1e-6);
+        assert!((rv[4] - 0.32).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn toukabou_shigure_has_dmg_toggle() {
+        let passive = TOUKABOU_SHIGURE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "toukabou_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(buff.refinement_values.is_some());
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.16).abs() < 1e-6);
+        assert!((rv[4] - 0.32).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
     }
 }

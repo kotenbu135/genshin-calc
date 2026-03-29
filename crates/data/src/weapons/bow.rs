@@ -491,9 +491,18 @@ pub const FADING_TWILIGHT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "暮色の薄明",
         effect: PassiveEffect {
-            description: "Conditional: 夕暮・流明・朝暉の状態を循環してDMGアップ",
+            description: "夕暮(6%)/流明(10%)/朝暉(14%)の3状態を循環してDMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "fading_twilight_dmg",
+                description: "夕暮(6%)/流明(10%)/朝暉(14%)の3状態を循環してDMGアップ",
+                stat: BuffableStat::DmgBonus,
+                value: 0.06,
+                refinement_values: None,
+                stack_values: Some(&[0.06, 0.10, 0.14]),
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -542,9 +551,41 @@ pub const HAMAYUMI: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "待ち伏せの矢",
         effect: PassiveEffect {
-            description: "Conditional: NA DMG+16%/CA DMG+12%。エネルギー満タンでさらにアップ",
-            buffs: &[],
-            conditional_buffs: &[],
+            description: "NA DMG+16-32%/CA DMG+12-24%。エネルギー満タンでさらにNA DMG+16-32%/CA DMG+12-24%",
+            buffs: &[
+                StatBuff {
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                },
+                StatBuff {
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                },
+            ],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "hamayumi_full_energy_na",
+                    description: "エネルギー満タン時にNA DMG+16-32%",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "hamayumi_full_energy_ca",
+                    description: "エネルギー満タン時にCA DMG+12-24%",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -595,9 +636,30 @@ pub const MITTERNACHTS_WALTZ: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "影の弾幕",
         effect: PassiveEffect {
-            description: "Conditional: NA命中でSkill DMG+20%、Skill命中でNA DMG+20%",
+            description: "通常攻撃命中時にSkill DMG+20-40%、元素スキル命中時にNA DMG+20-40%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "mitternachts_skill_dmg",
+                    description: "通常攻撃命中時にSkill DMG+20-40%",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "mitternachts_na_dmg",
+                    description: "元素スキル命中時にNA DMG+20-40%",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -629,9 +691,30 @@ pub const PREDATOR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Predator",
         effect: PassiveEffect {
-            description: "Conditional: Cryo命中でNA/CA DMGアップ。アーロイ装備時にATK+66",
+            description: "Cryo命中後にNA DMG+10%/CA DMG+10%（精錬固定）。アーロイ装備時にATK+66",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "predator_na_dmg",
+                    description: "Cryo命中後にNA DMG+10%（精錬固定）",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.10,
+                    refinement_values: Some([0.10, 0.10, 0.10, 0.10, 0.10]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "predator_ca_dmg",
+                    description: "Cryo命中後にCA DMG+10%（精錬固定）",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.10,
+                    refinement_values: Some([0.10, 0.10, 0.10, 0.10, 0.10]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -646,9 +729,18 @@ pub const PROTOTYPE_CRESCENT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "月影の矢",
         effect: PassiveEffect {
-            description: "Conditional: 弱点命中時にATK+36%、10秒",
+            description: "弱点命中時にATK+36-72%、10秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "prototype_crescent_atk",
+                description: "弱点命中時にATK+36-72%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.36,
+                refinement_values: Some([0.36, 0.45, 0.54, 0.63, 0.72]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -769,9 +861,30 @@ pub const SEQUENCE_OF_SOLITUDE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Sequence of Solitude",
         effect: PassiveEffect {
-            description: "Conditional: HP変動時にSkill/Burst DMGアップ",
+            description: "HP変動時にSkill DMG+14-28%/Burst DMG+14-28%、6秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "sequence_skill_dmg",
+                    description: "HP変動時にSkill DMG+14-28%",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.14,
+                    refinement_values: Some([0.14, 0.175, 0.21, 0.245, 0.28]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "sequence_burst_dmg",
+                    description: "HP変動時にBurst DMG+14-28%",
+                    stat: BuffableStat::BurstDmgBonus,
+                    value: 0.14,
+                    refinement_values: Some([0.14, 0.175, 0.21, 0.245, 0.28]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -786,9 +899,18 @@ pub const SNARE_HOOK: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Snare Hook",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル命中でDMGアップ",
+            description: "元素スキル命中後にDMG+16-32%、10秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "snare_hook_dmg",
+                description: "元素スキル命中後にDMG+16-32%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -865,9 +987,18 @@ pub const WINDBLUME_ODE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "風花の願い",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル使用後にATK+16%、6秒",
+            description: "元素スキル使用後にATK+16-32%、6秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "windblume_atk",
+                description: "元素スキル使用後にATK+16-32%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1186,5 +1317,151 @@ mod tests {
                 if min_count == expected_min_counts[i]
             ));
         }
+    }
+
+    #[test]
+    fn fading_twilight_has_dmg_stacks() {
+        let passive = FADING_TWILIGHT.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "fading_twilight_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.06).abs() < 1e-6);
+        assert!(buff.refinement_values.is_none());
+        assert!(buff.stack_values.is_some());
+        let sv = buff.stack_values.unwrap();
+        assert_eq!(sv.len(), 3);
+        assert!((sv[0] - 0.06).abs() < 1e-6);
+        assert!((sv[1] - 0.10).abs() < 1e-6);
+        assert!((sv[2] - 0.14).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+    }
+
+    #[test]
+    fn hamayumi_has_statbuffs_and_energy_toggle() {
+        let passive = HAMAYUMI.passive.unwrap();
+        assert_eq!(passive.effect.buffs.len(), 2);
+        assert_eq!(
+            passive.effect.buffs[0].stat,
+            BuffableStat::NormalAtkDmgBonus
+        );
+        assert!((passive.effect.buffs[0].value - 0.16).abs() < 1e-6);
+        assert_eq!(
+            passive.effect.buffs[1].stat,
+            BuffableStat::ChargedAtkDmgBonus
+        );
+        assert!((passive.effect.buffs[1].value - 0.12).abs() < 1e-6);
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "hamayumi_full_energy_na");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((cond_buffs[0].value - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            cond_buffs[0].activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        assert_eq!(cond_buffs[1].name, "hamayumi_full_energy_ca");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::ChargedAtkDmgBonus);
+        assert!((cond_buffs[1].value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            cond_buffs[1].activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn mitternachts_waltz_has_cross_buff_toggle() {
+        let passive = MITTERNACHTS_WALTZ.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "mitternachts_skill_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::SkillDmgBonus);
+        assert!((cond_buffs[0].value - 0.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "mitternachts_na_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+    }
+
+    #[test]
+    fn predator_has_fixed_na_ca_toggle() {
+        let passive = PREDATOR.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "predator_na_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((cond_buffs[0].value - 0.10).abs() < 1e-6);
+        let rv = cond_buffs[0].refinement_values.unwrap();
+        for v in &rv {
+            assert!((*v - 0.10).abs() < 1e-6);
+        }
+        assert_eq!(cond_buffs[1].name, "predator_ca_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::ChargedAtkDmgBonus);
+        assert!((cond_buffs[1].value - 0.10).abs() < 1e-6);
+    }
+
+    #[test]
+    fn sequence_of_solitude_has_skill_burst_toggle() {
+        let passive = SEQUENCE_OF_SOLITUDE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "sequence_skill_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::SkillDmgBonus);
+        assert!((cond_buffs[0].value - 0.14).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "sequence_burst_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::BurstDmgBonus);
+        assert!((cond_buffs[1].value - 0.14).abs() < 1e-6);
+    }
+
+    #[test]
+    fn prototype_crescent_has_atk_toggle() {
+        let passive = PROTOTYPE_CRESCENT.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "prototype_crescent_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.36).abs() < 1e-6);
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.72).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn snare_hook_has_dmg_toggle() {
+        let passive = SNARE_HOOK.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "snare_hook_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn windblume_ode_has_atk_toggle() {
+        let passive = WINDBLUME_ODE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "windblume_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.32).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
     }
 }

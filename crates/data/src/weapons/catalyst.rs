@@ -653,7 +653,16 @@ pub const BLACKMARROW_LANTERN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 夜魂ポイント消費でDMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "blackmarrow_dmg",
+                description: "夜魂ポイント消費時にDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -670,7 +679,16 @@ pub const DAWNING_FROST: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキル命中でDMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "dawning_frost_dmg",
+                description: "元素スキル命中後にDMG+16-32%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -687,7 +705,28 @@ pub const DODOCO_TALES: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 通常攻撃命中でCA DMGアップ、CA命中でATKアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "dodoco_ca_dmg",
+                    description: "通常攻撃命中時にCA DMG+16-32%",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "dodoco_atk",
+                    description: "重撃命中時にATK+8-16%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.08,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -704,7 +743,16 @@ pub const ETHERLIGHT_SPINDLELUTE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素爆発後にDMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "etherlight_dmg",
+                description: "元素爆発命中後にDMG+16-32%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -755,7 +803,16 @@ pub const FLOWING_PURITY: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP消費時にDMGアップ、治療効果でバフ延長",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "flowing_purity_dmg",
+                description: "HP増減時にDMG+8-16%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -934,7 +991,28 @@ pub const SACRIFICIAL_JADE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: フィールドに出た時にHP%/EM獲得",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "sacrificial_jade_hp",
+                    description: "フィールドに出た時にHP+32-64%",
+                    stat: BuffableStat::HpPercent,
+                    value: 0.32,
+                    refinement_values: Some([0.32, 0.40, 0.48, 0.56, 0.64]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "sacrificial_jade_em",
+                    description: "フィールドに出た時にEM+40-80",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 40.0,
+                    refinement_values: Some([40.0, 50.0, 60.0, 70.0, 80.0]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -951,7 +1029,38 @@ pub const SOLAR_PEARL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA命中でSkill/Burst DMGアップ、Skill/Burst命中でNA DMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "solar_pearl_skill_dmg",
+                    description: "通常攻撃命中後にSkill DMG+20-40%",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "solar_pearl_burst_dmg",
+                    description: "通常攻撃命中後にBurst DMG+20-40%",
+                    stat: BuffableStat::BurstDmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "solar_pearl_na_dmg",
+                    description: "元素スキル/爆発命中後にNA DMG+20-40%",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -968,7 +1077,38 @@ pub const THE_WIDSITH: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: フィールドに出た時にランダムバフ（ATK%/元素DMG/EM）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "widsith_atk",
+                    description: "登場時にランダム: ATK+60-120%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.60,
+                    refinement_values: Some([0.60, 0.75, 0.90, 1.05, 1.20]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "widsith_dmg",
+                    description: "登場時にランダム: 全元素DMG+48-96%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.48,
+                    refinement_values: Some([0.48, 0.60, 0.72, 0.84, 0.96]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "widsith_em",
+                    description: "登場時にランダム: EM+240-480",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 240.0,
+                    refinement_values: Some([240.0, 300.0, 360.0, 420.0, 480.0]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -1019,7 +1159,16 @@ pub const WINE_AND_SONG: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ダッシュ後にATKアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "wine_and_song_atk",
+                description: "ダッシュ後にATK+20-40%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1409,5 +1558,146 @@ mod tests {
             ));
             assert!(buff.refinement_values.is_some());
         }
+    }
+
+    #[test]
+    fn dodoco_tales_has_ca_dmg_and_atk_toggle() {
+        let passive = DODOCO_TALES.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "dodoco_ca_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::ChargedAtkDmgBonus);
+        assert!((cond_buffs[0].value - 0.16).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "dodoco_atk");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[1].value - 0.08).abs() < 1e-6);
+    }
+
+    #[test]
+    fn sacrificial_jade_has_hp_and_em_toggle() {
+        let passive = SACRIFICIAL_JADE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "sacrificial_jade_hp");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::HpPercent);
+        assert!((cond_buffs[0].value - 0.32).abs() < 1e-6);
+        let rv = cond_buffs[0].refinement_values.unwrap();
+        assert!((rv[4] - 0.64).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "sacrificial_jade_em");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::ElementalMastery);
+        assert!((cond_buffs[1].value - 40.0).abs() < 1e-6);
+        let rv2 = cond_buffs[1].refinement_values.unwrap();
+        assert!((rv2[4] - 80.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn solar_pearl_has_skill_burst_na_toggle() {
+        let passive = SOLAR_PEARL.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 3);
+        assert_eq!(cond_buffs[0].name, "solar_pearl_skill_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::SkillDmgBonus);
+        assert!((cond_buffs[0].value - 0.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "solar_pearl_burst_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::BurstDmgBonus);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[2].name, "solar_pearl_na_dmg");
+        assert_eq!(cond_buffs[2].stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((cond_buffs[2].value - 0.20).abs() < 1e-6);
+    }
+
+    #[test]
+    fn widsith_has_three_random_toggles() {
+        let passive = THE_WIDSITH.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 3);
+        assert_eq!(cond_buffs[0].name, "widsith_atk");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[0].value - 0.60).abs() < 1e-6);
+        let rv = cond_buffs[0].refinement_values.unwrap();
+        assert!((rv[4] - 1.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "widsith_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[1].value - 0.48).abs() < 1e-6);
+        assert_eq!(cond_buffs[2].name, "widsith_em");
+        assert_eq!(cond_buffs[2].stat, BuffableStat::ElementalMastery);
+        assert!((cond_buffs[2].value - 240.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn blackmarrow_lantern_has_dmg_toggle() {
+        let passive = BLACKMARROW_LANTERN.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "blackmarrow_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn dawning_frost_has_dmg_toggle() {
+        let passive = DAWNING_FROST.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "dawning_frost_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn etherlight_spindlelute_has_dmg_toggle() {
+        let passive = ETHERLIGHT_SPINDLELUTE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "etherlight_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn flowing_purity_has_dmg_toggle() {
+        let passive = FLOWING_PURITY.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "flowing_purity_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn wine_and_song_has_atk_toggle() {
+        let passive = WINE_AND_SONG.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "wine_and_song_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.20).abs() < 1e-6);
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.40).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
     }
 }
