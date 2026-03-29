@@ -1,0 +1,67 @@
+# Source: 4-star Pyro Claymore, Man Chai plunge (Skill plunge) at Talent Lv10
+# Wiki: 414.72% (Charmed Cloudstrider)
+
+[character]
+name = "Gaming"
+element = "Pyro"
+
+# Case 1: Man Chai plunge (Skill plunge) — no reaction
+[[cases]]
+type = "normal"
+name = "Man Chai plunge Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 4.1472
+scaling_stat = "Atk"
+damage_type = "Plunging"
+element = "Pyro"
+
+[cases.stats]
+hp = 16000.0
+atk = 1600.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4377.452544
+crit = 9630.395597
+average = 7529.218376
+
+# Case 2: Man Chai plunge — Vaporize (Pyro trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Man Chai plunge Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 4.1472
+scaling_stat = "Atk"
+damage_type = "Plunging"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 1600.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 7783.110623
+crit = 17122.843371
+average = 13386.950272

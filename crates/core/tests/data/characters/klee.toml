@@ -1,0 +1,67 @@
+# Source: 5-star Pyro Catalyst, Charged Attack at Talent Lv10
+# Wiki: 283.25%
+
+[character]
+name = "Klee"
+element = "Pyro"
+
+# Case 1: Charged Attack — no reaction
+[[cases]]
+type = "normal"
+name = "Charged Attack Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.8325
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Pyro"
+
+[cases.stats]
+hp = 16000.0
+atk = 1900.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3550.340475
+crit = 8875.851188
+average = 7011.922438
+
+# Case 2: Charged Attack — Vaporize (Pyro trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Charged Attack Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 2.8325
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 1900.0
+def = 600.0
+elemental_mastery = 100.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 6312.505365
+crit = 15781.263411
+average = 12467.198095

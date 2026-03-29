@@ -1,0 +1,37 @@
+# Source: Electro Sword DPS, Charged Attack (2-hit total)
+
+[character]
+name = "Keqing"
+element = "Electro"
+
+# Case 1: Charged Attack 2-hit total (NA Lv10: 151.81% + 170% = 321.81%) — Aggravate
+[[cases]]
+type = "catalyze"
+name = "Charged Attack — Aggravate"
+character_level = 90
+talent_multiplier = 3.2181
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 17000.0
+atk = 2000.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 5953.436361
+crit = 14883.590902
+average = 11758.036813

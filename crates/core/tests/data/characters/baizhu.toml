@@ -1,0 +1,66 @@
+# Source: Dendro Support Burst, Spread synergy
+
+[character]
+name = "Baizhu"
+element = "Dendro"
+
+# Case 1: Spiritvein DMG (Burst, no reaction)
+[[cases]]
+type = "normal"
+name = "Spiritvein Burst — no reaction"
+character_level = 90
+talent_multiplier = 1.7472
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Dendro"
+
+[cases.stats]
+hp = 30000.0
+atk = 1200.0
+def = 600.0
+elemental_mastery = 200.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.4
+dmg_bonus = 0.15
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1085.011200
+crit = 2170.022400
+average = 1627.516800
+
+# Case 2: Spread
+[[cases]]
+type = "catalyze"
+name = "Spiritvein Burst — Spread"
+character_level = 90
+talent_multiplier = 1.7472
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 30000.0
+atk = 1200.0
+def = 600.0
+elemental_mastery = 200.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.4
+dmg_bonus = 0.15
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2689.468385
+crit = 5378.936770
+average = 4034.202577

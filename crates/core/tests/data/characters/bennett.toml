@@ -1,0 +1,67 @@
+# Source: 4-star Pyro Sword support, Passion Overload press (Skill) at Talent Lv10
+# Wiki: 247.68%
+
+[character]
+name = "Bennett"
+element = "Pyro"
+
+# Case 1: Passion Overload press (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Passion Overload press Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.4768
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Pyro"
+
+[cases.stats]
+hp = 15000.0
+atk = 1300.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.8
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2124.128448
+crit = 4248.256896
+average = 3186.192672
+
+# Case 2: Passion Overload press — Forward Melt (Pyro trigger = 2.0x), EM 150
+[[cases]]
+type = "amplifying"
+name = "Passion Overload press Lv10 — Melt (2.0x)"
+character_level = 90
+talent_multiplier = 2.4768
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Pyro"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 1300.0
+def = 700.0
+elemental_mastery = 150.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.8
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 5391.175042
+crit = 10782.350083
+average = 8086.762562

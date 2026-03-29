@@ -1,0 +1,66 @@
+# Source: Dendro Healer/Support, White Jade Radish, Spread synergy
+
+[character]
+name = "Yaoyao"
+element = "Dendro"
+
+# Case 1: White Jade Radish Skill (no reaction)
+[[cases]]
+type = "normal"
+name = "White Jade Radish Skill — no reaction"
+character_level = 90
+talent_multiplier = 0.56848
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+
+[cases.stats]
+hp = 25000.0
+atk = 1200.0
+def = 600.0
+elemental_mastery = 150.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.4
+dmg_bonus = 0.15
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 353.026080
+crit = 706.052160
+average = 529.539120
+
+# Case 2: Spread
+[[cases]]
+type = "catalyze"
+name = "White Jade Radish Skill — Spread"
+character_level = 90
+talent_multiplier = 0.56848
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 25000.0
+atk = 1200.0
+def = 600.0
+elemental_mastery = 150.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.4
+dmg_bonus = 0.15
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1808.922414
+crit = 3617.844829
+average = 2713.383622

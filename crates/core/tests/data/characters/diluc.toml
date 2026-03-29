@@ -1,0 +1,101 @@
+[character]
+name = "Diluc"
+element = "Pyro"
+
+# Case 1: Searing Onslaught 1st Hit (Talent Lv8), no reaction
+# Source: game-verified values from damage.rs golden test
+[[cases]]
+type = "normal"
+name = "Searing Onslaught 1st Hit Lv8 — no reaction"
+character_level = 90
+talent_multiplier = 1.5104
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Pyro"
+
+[cases.stats]
+hp = 12000.0
+atk = 1800.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1793.539584
+crit = 3945.787085
+average = 3084.888084
+
+# Case 2: Searing Onslaught 1st Hit (Talent Lv8), Vaporize (Pyro on Hydro = 1.5x)
+# EM 200, Crimson Witch 4pc reaction_bonus = 0.15
+# Source: damage.rs golden test (test_golden_vaporize_pyro_trigger)
+[[cases]]
+type = "amplifying"
+name = "Searing Onslaught 1st Hit Lv8 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 1.5104
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.15
+tolerance = 0.1
+
+[cases.stats]
+hp = 12000.0
+atk = 1800.0
+def = 800.0
+elemental_mastery = 200.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4028.738291
+crit = 8863.224239
+average = 6929.429860
+
+# Case 3: Searing Onslaught 1st Hit (Talent Lv8), Forward Melt (Pyro on Cryo = 2.0x)
+# EM 200, no reaction bonus
+# Source: computed via engine
+[[cases]]
+type = "amplifying"
+name = "Searing Onslaught 1st Hit Lv8 — Forward Melt (2.0x)"
+character_level = 90
+talent_multiplier = 1.5104
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Pyro"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 12000.0
+atk = 1800.0
+def = 800.0
+elemental_mastery = 200.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4833.589179
+crit = 10633.896194
+average = 8313.773388

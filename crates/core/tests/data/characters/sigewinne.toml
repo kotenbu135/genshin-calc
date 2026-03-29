@@ -1,0 +1,66 @@
+# Source: Hydro healer/support, HP scaling skill, Vaporize synergy
+
+[character]
+name = "Sigewinne"
+element = "Hydro"
+
+# Case 1: Bouncing Bubblebalm (Talent Lv10: 4.10% Max HP) — no reaction
+[[cases]]
+type = "normal"
+name = "Bouncing Bubblebalm Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.041
+scaling_stat = "Hp"
+damage_type = "Skill"
+element = "Hydro"
+
+[cases.stats]
+hp = 40000.0
+atk = 800.0
+def = 600.0
+elemental_mastery = 100.0
+crit_rate = 0.55
+crit_dmg = 1.20
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1081.908000
+crit = 2380.197600
+average = 1795.967280
+
+# Case 2: Vaporize (Hydro trigger = 2.0x)
+[[cases]]
+type = "amplifying"
+name = "Bouncing Bubblebalm Lv10 — Vaporize (2.0x)"
+character_level = 90
+talent_multiplier = 0.041
+scaling_stat = "Hp"
+damage_type = "Skill"
+element = "Hydro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 40000.0
+atk = 800.0
+def = 600.0
+elemental_mastery = 100.0
+crit_rate = 0.55
+crit_dmg = 1.20
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2564.843232
+crit = 5642.655110
+average = 4257.639765

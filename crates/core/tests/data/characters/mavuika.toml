@@ -1,0 +1,67 @@
+# Source: 5-star Pyro Claymore, Flamestrider Normal 1st at Talent Lv10
+# Wiki: 113.2%
+
+[character]
+name = "Mavuika"
+element = "Pyro"
+
+# Case 1: Flamestrider Normal 1st — no reaction
+[[cases]]
+type = "normal"
+name = "Flamestrider Normal 1st Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 1.132
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Pyro"
+
+[cases.stats]
+hp = 18000.0
+atk = 2200.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.70
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1642.916880
+crit = 4600.167264
+average = 3712.992149
+
+# Case 2: Flamestrider Normal 1st — Vaporize (Pyro trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Flamestrider Normal 1st Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 1.132
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 2200.0
+def = 800.0
+elemental_mastery = 100.0
+crit_rate = 0.70
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2921.106213
+crit = 8179.097395
+average = 6601.700041

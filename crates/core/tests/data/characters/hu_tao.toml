@@ -1,0 +1,66 @@
+# Source: HP-scaling Pyro DPS, Vaporize synergy
+
+[character]
+name = "Hu Tao"
+element = "Pyro"
+
+# Case 1: Normal Attack (HP scaling)
+[[cases]]
+type = "normal"
+name = "Normal Attack (HP scaling)"
+character_level = 90
+talent_multiplier = 0.8389
+scaling_stat = "Hp"
+damage_type = "Normal"
+element = "Pyro"
+
+[cases.stats]
+hp = 36000.0
+atk = 1200.0
+def = 800.0
+elemental_mastery = 100.0
+crit_rate = 0.70
+crit_dmg = 2.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 19923.203880
+crit = 63754.252416
+average = 50604.937855
+
+# Case 2: Vaporize (Pyro trigger = 1.5x)
+[[cases]]
+type = "amplifying"
+name = "Vaporize (Pyro 1.5x)"
+character_level = 90
+talent_multiplier = 0.8389
+scaling_stat = "Hp"
+damage_type = "Normal"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 36000.0
+atk = 1200.0
+def = 800.0
+elemental_mastery = 100.0
+crit_rate = 0.70
+crit_dmg = 2.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 35423.456499
+crit = 113355.060796
+average = 89975.579507

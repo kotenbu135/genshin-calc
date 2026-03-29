@@ -1,0 +1,67 @@
+# Source: 4-star Pyro Bow, Fiery Rain (Burst) total at Talent Lv10
+# Wiki: 909.79% total (18 waves x 50.54%)
+
+[character]
+name = "Amber"
+element = "Pyro"
+
+# Case 1: Fiery Rain total (Burst) — no reaction
+[[cases]]
+type = "normal"
+name = "Fiery Rain total Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 9.0979
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Pyro"
+
+[cases.stats]
+hp = 15000.0
+atk = 1500.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 9002.826945
+crit = 18905.936584
+average = 14449.537247
+
+# Case 2: Fiery Rain total — Vaporize (Pyro trigger = 1.5x), EM 150
+[[cases]]
+type = "amplifying"
+name = "Fiery Rain total Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 9.0979
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 1500.0
+def = 600.0
+elemental_mastery = 150.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 17137.316710
+crit = 35988.365092
+average = 27505.393320

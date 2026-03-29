@@ -1,0 +1,67 @@
+# Source: 5-star Pyro Bow, Prop Arrow Lv2 (Charged) at Talent Lv10
+# Wiki: 328.32%
+
+[character]
+name = "Lyney"
+element = "Pyro"
+
+# Case 1: Prop Arrow Lv2 (Charged) — no reaction
+[[cases]]
+type = "normal"
+name = "Prop Arrow Lv2 Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 3.2832
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Pyro"
+
+[cases.stats]
+hp = 16000.0
+atk = 2100.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.70
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4548.446784
+crit = 12735.650995
+average = 10279.489732
+
+# Case 2: Prop Arrow Lv2 — Vaporize (Pyro trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Prop Arrow Lv2 Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 3.2832
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 2100.0
+def = 600.0
+elemental_mastery = 100.0
+crit_rate = 0.70
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 8087.138382
+crit = 22643.987469
+average = 18276.932743

@@ -1,0 +1,35 @@
+# Source: 5-star Geo Claymore, Rosula Shardshot Base DMG (Skill) at Talent Lv10
+# Wiki: 710.64%
+
+[character]
+name = "Navia"
+element = "Geo"
+
+# Case 1: Rosula Shardshot Base DMG (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Rosula Shardshot Base DMG Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 7.1064
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Geo"
+
+[cases.stats]
+hp = 18000.0
+atk = 2000.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 9376.184160
+crit = 23440.460400
+average = 17814.749904

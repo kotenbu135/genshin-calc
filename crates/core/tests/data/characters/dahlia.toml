@@ -1,0 +1,34 @@
+# Source: Hydro support/shielder, ATK scaling skill (4-star, v5.7)
+
+[character]
+name = "Dahlia"
+element = "Hydro"
+
+# Case 1: Immersive Ordinance Skill (Talent Lv10: 419.0%)
+[[cases]]
+type = "normal"
+name = "Immersive Ordinance Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 4.19
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Hydro"
+
+[cases.stats]
+hp = 20000.0
+atk = 1300.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3593.385900
+crit = 7186.771800
+average = 5390.078850

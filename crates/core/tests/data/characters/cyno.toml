@@ -1,0 +1,37 @@
+# Source: Electro Polearm DPS, Pactsworn Pathclearer (Burst mode Normal)
+
+[character]
+name = "Cyno"
+element = "Electro"
+
+# Case 1: Pactsworn Normal 1st (Burst Lv10: 154.75%) — Aggravate
+[[cases]]
+type = "catalyze"
+name = "Pactsworn Normal 1st — Aggravate"
+character_level = 90
+talent_multiplier = 1.5475
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 200.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3821.390311
+crit = 9553.475778
+average = 7547.245865

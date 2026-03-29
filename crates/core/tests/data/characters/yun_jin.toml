@@ -1,0 +1,35 @@
+# Source: 4-star Geo Polearm, Opening Flourish Press (Skill) at Talent Lv10
+# Wiki: 285.6% DEF
+
+[character]
+name = "Yun Jin"
+element = "Geo"
+
+# Case 1: Opening Flourish Press (Skill) — DEF scaling, no reaction
+[[cases]]
+type = "normal"
+name = "Opening Flourish Press Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.856
+scaling_stat = "Def"
+damage_type = "Skill"
+element = "Geo"
+
+[cases.stats]
+hp = 16000.0
+atk = 800.0
+def = 2100.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.00
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3956.616720
+crit = 7913.233440
+average = 6132.755916

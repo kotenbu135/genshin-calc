@@ -1,0 +1,66 @@
+# Source: Cryo Polearm sub-DPS, Rites of Termination Burst, Reverse Melt synergy
+
+[character]
+name = "Rosaria"
+element = "Cryo"
+
+# Case 1: Rites of Termination per slash (Burst Lv10: 237.6%) — no reaction
+[[cases]]
+type = "normal"
+name = "Rites of Termination per slash Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.376
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Cryo"
+
+[cases.stats]
+hp = 15000.0
+atk = 1500.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2351.170800
+crit = 5172.575760
+average = 4044.013776
+
+# Case 2: Reverse Melt (Cryo trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Rites of Termination per slash Lv10 — Melt (1.5x)"
+character_level = 90
+talent_multiplier = 2.376
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Cryo"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 1500.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4180.381682
+crit = 9196.839701
+average = 7190.256494

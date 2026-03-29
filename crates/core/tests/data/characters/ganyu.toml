@@ -1,0 +1,98 @@
+# Source: Cryo Charged Attack DPS, Reverse Melt synergy
+
+[character]
+name = "Ganyu"
+element = "Cryo"
+
+# Case 1: Charged Attack (no reaction)
+[[cases]]
+type = "normal"
+name = "Frostflake Arrow Bloom — no reaction"
+character_level = 90
+talent_multiplier = 3.9616
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Cryo"
+
+[cases.stats]
+hp = 15000.0
+atk = 2200.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.45
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.616
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 6337.926144
+crit = 17746.193203
+average = 11471.646321
+
+# Case 2: Reverse Melt EM0 (Cryo trigger = 1.5x)
+[[cases]]
+type = "amplifying"
+name = "Reverse Melt EM0 (Cryo 1.5x)"
+character_level = 90
+talent_multiplier = 3.9616
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Cryo"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 2200.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.45
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.616
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 9506.889216
+crit = 26619.289805
+average = 17207.469481
+
+# Case 3: Reverse Melt EM200 (Cryo trigger = 1.5x)
+[[cases]]
+type = "amplifying"
+name = "Reverse Melt EM200 (Cryo 1.5x)"
+character_level = 90
+talent_multiplier = 3.9616
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Cryo"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 2200.0
+def = 700.0
+elemental_mastery = 200.0
+crit_rate = 0.45
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.616
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 12810.533219
+crit = 35869.493012
+average = 23187.065126

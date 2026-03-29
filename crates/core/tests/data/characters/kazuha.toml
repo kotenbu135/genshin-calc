@@ -1,0 +1,73 @@
+# Source: Anemo support, EM-stacking Swirl specialist with VV 4pc
+
+[character]
+name = "Kazuha"
+element = "Anemo"
+
+# Case 1: Swirl Pyro (EM960, VV 4pc reaction_bonus=0.60)
+[[cases]]
+type = "transformative"
+name = "Swirl Pyro — EM960 VV4pc"
+character_level = 90
+elemental_mastery = 960.0
+reaction = "SwirlPyro"
+reaction_bonus = 0.60
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+damage = 5304.399556
+
+# Case 2: Swirl Hydro
+[[cases]]
+type = "transformative"
+name = "Swirl Hydro — EM960 VV4pc"
+character_level = 90
+elemental_mastery = 960.0
+reaction = "SwirlHydro"
+reaction_bonus = 0.60
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+damage = 5304.399556
+
+# Case 3: Swirl Electro
+[[cases]]
+type = "transformative"
+name = "Swirl Electro — EM960 VV4pc"
+character_level = 90
+elemental_mastery = 960.0
+reaction = "SwirlElectro"
+reaction_bonus = 0.60
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+damage = 5304.399556
+
+# Case 4: Swirl Cryo
+[[cases]]
+type = "transformative"
+name = "Swirl Cryo — EM960 VV4pc"
+character_level = 90
+elemental_mastery = 960.0
+reaction = "SwirlCryo"
+reaction_bonus = 0.60
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+damage = 5304.399556

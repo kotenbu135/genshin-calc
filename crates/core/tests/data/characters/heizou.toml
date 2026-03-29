@@ -1,0 +1,35 @@
+# Source: 4-star Anemo Catalyst, Heartstopper Strike (Skill) at Talent Lv10
+# Wiki: 409.54%
+
+[character]
+name = "Heizou"
+element = "Anemo"
+
+# Case 1: Heartstopper Strike (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Heartstopper Strike Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 4.0954
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Anemo"
+
+[cases.stats]
+hp = 15000.0
+atk = 1500.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4052.603070
+crit = 8510.466447
+average = 6504.427927

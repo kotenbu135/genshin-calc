@@ -1,0 +1,35 @@
+# Source: 5-star Geo Sword, Blade Roller 1-Hit (Normal) at Talent Lv10
+# Wiki: 59.6% DEF (Nightsoul's Blessing Blade Roller mode)
+
+[character]
+name = "Xilonen"
+element = "Geo"
+
+# Case 1: Blade Roller 1-Hit (Normal) — DEF scaling, no reaction
+[[cases]]
+type = "normal"
+name = "Blade Roller 1-Hit Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.596
+scaling_stat = "Def"
+damage_type = "Normal"
+element = "Geo"
+
+[cases.stats]
+hp = 20000.0
+atk = 800.0
+def = 2400.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 943.634880
+crit = 2075.996736
+average = 1623.051994

@@ -1,0 +1,35 @@
+# Source: 4-star Anemo Claymore, Fuufuu Whirlwind Kick (Skill press) at Talent Lv10
+# Wiki: 300.96%
+
+[character]
+name = "Sayu"
+element = "Anemo"
+
+# Case 1: Fuufuu Whirlwind Kick (Skill press) — no reaction
+[[cases]]
+type = "normal"
+name = "Fuufuu Whirlwind Kick Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 3.0096
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Anemo"
+
+[cases.stats]
+hp = 15000.0
+atk = 1300.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2581.063056
+crit = 5162.126112
+average = 3871.594584

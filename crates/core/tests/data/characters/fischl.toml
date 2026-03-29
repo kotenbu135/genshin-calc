@@ -1,0 +1,37 @@
+# Source: Electro sub-DPS, Aggravate synergy
+
+[character]
+name = "Fischl"
+element = "Electro"
+
+# Case 1: Aggravate
+[[cases]]
+type = "catalyze"
+name = "Oz Skill Hit — Aggravate"
+character_level = 90
+talent_multiplier = 2.0988
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 1800.0
+def = 600.0
+elemental_mastery = 150.0
+crit_rate = 0.60
+crit_dmg = 1.40
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4199.716269
+crit = 10079.319045
+average = 7727.477935

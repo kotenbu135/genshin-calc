@@ -1,0 +1,34 @@
+# Source: Cryo Sword shielder, Shooting Star HP scaling Skill
+
+[character]
+name = "Layla"
+element = "Cryo"
+
+# Case 1: Shooting Star (Skill Lv10: 26.5% Max HP) — no reaction
+[[cases]]
+type = "normal"
+name = "Shooting Star Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.265
+scaling_stat = "Hp"
+damage_type = "Skill"
+element = "Cryo"
+
+[cases.stats]
+hp = 35000.0
+atk = 1000.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.4
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 6118.717500
+crit = 12237.435000
+average = 9178.076250

@@ -1,0 +1,67 @@
+# Source: 5-star Pyro Bow, Niwabi Normal 1st hit at Talent Lv10
+# Wiki: 63.59%x2 base Normal x 161.74% Niwabi = 205.67% effective
+
+[character]
+name = "Yoimiya"
+element = "Pyro"
+
+# Case 1: Niwabi Normal 1st hit — no reaction
+[[cases]]
+type = "normal"
+name = "Niwabi Normal 1st hit Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.0567
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Pyro"
+
+[cases.stats]
+hp = 16000.0
+atk = 2000.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2713.609980
+crit = 7055.385948
+average = 5535.764359
+
+# Case 2: Niwabi Normal 1st hit — Vaporize (Pyro trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Niwabi Normal 1st hit Lv10 — Vaporize (1.5x)"
+character_level = 90
+talent_multiplier = 2.0567
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Pyro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 16000.0
+atk = 2000.0
+def = 600.0
+elemental_mastery = 100.0
+crit_rate = 0.65
+crit_dmg = 1.60
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4824.798544
+crit = 12544.476216
+average = 9842.589031

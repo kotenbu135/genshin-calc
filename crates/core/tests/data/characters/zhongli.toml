@@ -1,0 +1,35 @@
+# Source: 5-star Geo Polearm, Planet Befall (Burst) at Talent Lv10
+# Wiki: 899.72%
+
+[character]
+name = "Zhongli"
+element = "Geo"
+
+# Case 1: Planet Befall (Burst) — no reaction
+[[cases]]
+type = "normal"
+name = "Planet Befall Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 8.9972
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Geo"
+
+[cases.stats]
+hp = 25000.0
+atk = 1800.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 10683.815112
+crit = 23504.393246
+average = 18376.161993

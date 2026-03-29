@@ -1,0 +1,35 @@
+# Source: 5-star Anemo Bow, Skyward Sonnet press (Skill) at Talent Lv10
+# Wiki: 496.8%
+
+[character]
+name = "Venti"
+element = "Anemo"
+
+# Case 1: Skyward Sonnet press (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Skyward Sonnet press Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 4.968
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Anemo"
+
+[cases.stats]
+hp = 16000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 6227.040240
+crit = 13699.488528
+average = 10710.509213

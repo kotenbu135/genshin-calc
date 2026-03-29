@@ -1,0 +1,66 @@
+# Source: Dendro Skill DPS, Lumidouce Case Lv1 Attack, Spread synergy
+
+[character]
+name = "Emilie"
+element = "Dendro"
+
+# Case 1: Lumidouce Case Lv1 Attack (no reaction)
+[[cases]]
+type = "normal"
+name = "Lumidouce Case Lv1 Skill — no reaction"
+character_level = 90
+talent_multiplier = 0.7524
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+
+[cases.stats]
+hp = 17000.0
+atk = 1900.0
+def = 650.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.40
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 943.080732
+crit = 2263.393757
+average = 1801.284198
+
+# Case 2: Spread
+[[cases]]
+type = "catalyze"
+name = "Lumidouce Case Lv1 Skill — Spread"
+character_level = 90
+talent_multiplier = 0.7524
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 17000.0
+atk = 1900.0
+def = 650.0
+elemental_mastery = 150.0
+crit_rate = 0.65
+crit_dmg = 1.40
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2799.032059
+crit = 6717.676942
+average = 5346.151233

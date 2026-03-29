@@ -1,0 +1,72 @@
+# Source: Hydro HP-scaling support, Bloom/Lunar Bloom specialist
+
+[character]
+name = "Nilou"
+element = "Hydro"
+
+# Case 1: Normal (HP scaling, Skill)
+[[cases]]
+type = "normal"
+name = "Dance of Haftkarsvar Skill — no reaction"
+character_level = 90
+talent_multiplier = 0.0534
+scaling_stat = "Hp"
+damage_type = "Skill"
+element = "Hydro"
+
+[cases.stats]
+hp = 60000.0
+atk = 800.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2113.678800
+crit = 4227.357600
+average = 3170.518200
+
+# Case 2: Bloom (transformative, EM800)
+[[cases]]
+type = "transformative"
+name = "Bloom EM800"
+character_level = 90
+elemental_mastery = 800.0
+reaction = "Bloom"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+damage = 14509.873671
+
+# Case 3: Lunar Bloom (EM800)
+[[cases]]
+type = "lunar"
+name = "Lunar Bloom EM800"
+character_level = 90
+elemental_mastery = 800.0
+reaction = "LunarBloom"
+reaction_bonus = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3534.456407
+crit = 7068.912814
+average = 5301.684611

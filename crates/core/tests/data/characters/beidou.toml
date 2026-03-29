@@ -1,0 +1,37 @@
+# Source: Electro Claymore sub-DPS, Stormbreaker discharge
+
+[character]
+name = "Beidou"
+element = "Electro"
+
+# Case 1: Stormbreaker lightning discharge (Burst Lv10: 172.8%) — Aggravate
+[[cases]]
+type = "catalyze"
+name = "Stormbreaker discharge — Aggravate"
+character_level = 90
+talent_multiplier = 1.728
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 1500.0
+def = 700.0
+elemental_mastery = 160.0
+crit_rate = 0.55
+crit_dmg = 1.10
+energy_recharge = 1.6
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3453.288949
+crit = 7251.906793
+average = 5542.528763

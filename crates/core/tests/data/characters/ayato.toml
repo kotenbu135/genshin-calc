@@ -1,0 +1,66 @@
+# Source: Hydro Normal Attack DPS, Vaporize synergy
+
+[character]
+name = "Ayato"
+element = "Hydro"
+
+# Case 1: Normal Attack (no reaction)
+[[cases]]
+type = "normal"
+name = "Shunsuiken Normal — no reaction"
+character_level = 90
+talent_multiplier = 1.3154
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Hydro"
+
+[cases.stats]
+hp = 20000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.3
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1648.761822
+crit = 4121.904555
+average = 3256.304598
+
+# Case 2: Vaporize EM100 (Hydro trigger = 2.0x)
+[[cases]]
+type = "amplifying"
+name = "Shunsuiken Normal — Vaporize EM100 (2.0x)"
+character_level = 90
+talent_multiplier = 1.3154
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Hydro"
+reaction = "Vaporize"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 20000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.3
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3908.664693
+crit = 9771.661732
+average = 7719.612768

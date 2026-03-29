@@ -1,0 +1,36 @@
+# Source: 5-star Anemo Catalyst, Normal Attack 1st (Windfavored) at Talent Lv10
+# NA 1st Hit Lv10 = 135.83%, Kuugo: Fushoudan Lv10 = 153.72% of NA DMG
+# Effective multiplier = 1.3583 * 1.5372 = 208.78%
+
+[character]
+name = "Wanderer"
+element = "Anemo"
+
+# Case 1: Kuugo Fushoudan 1st hit (Normal, Windfavored) — no reaction
+[[cases]]
+type = "normal"
+name = "Kuugo Fushoudan 1st Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.0878
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Anemo"
+
+[cases.stats]
+hp = 16000.0
+atk = 2000.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2754.643320
+crit = 6886.608300
+average = 5440.420557

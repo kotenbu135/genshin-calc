@@ -1,0 +1,66 @@
+# Source: Cryo Sword DPS, Seven-Phase Flash Normal Attack, Reverse Melt synergy (v5.7)
+
+[character]
+name = "Skirk"
+element = "Cryo"
+
+# Case 1: Seven-Phase Flash Normal 1st (Skill Lv10: 262.56%) — no reaction
+[[cases]]
+type = "normal"
+name = "Seven-Phase Flash NA 1st Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 2.6256
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Cryo"
+
+[cases.stats]
+hp = 18000.0
+atk = 2100.0
+def = 700.0
+elemental_mastery = 0.0
+crit_rate = 0.70
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3637.427472
+crit = 10184.796922
+average = 8220.586087
+
+# Case 2: Reverse Melt (Cryo trigger = 1.5x), EM 100
+[[cases]]
+type = "amplifying"
+name = "Seven-Phase Flash NA 1st Lv10 — Melt (1.5x)"
+character_level = 90
+talent_multiplier = 2.6256
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Cryo"
+reaction = "Melt"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 2100.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.70
+crit_dmg = 1.80
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 6467.346045
+crit = 18108.568927
+average = 14616.202062

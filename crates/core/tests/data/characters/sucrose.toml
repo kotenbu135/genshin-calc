@@ -1,0 +1,35 @@
+# Source: 4-star Anemo Catalyst, Astable Anemohypostasis Creation (Skill) at Talent Lv10
+# Wiki: 380.16%
+
+[character]
+name = "Sucrose"
+element = "Anemo"
+
+# Case 1: Astable Anemohypostasis (Skill) — no reaction
+[[cases]]
+type = "normal"
+name = "Astable Anemohypostasis Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 3.8016
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Anemo"
+
+[cases.stats]
+hp = 15000.0
+atk = 1400.0
+def = 600.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3511.081728
+crit = 7022.163456
+average = 5266.622592

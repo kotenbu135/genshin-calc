@@ -1,0 +1,37 @@
+# Source: Electro Polearm DPS/support, Burst nuke + Lunar EC
+
+[character]
+name = "Ineffa"
+element = "Electro"
+
+# Case 1: Cyclonic Exterminator Burst (Burst Lv10: 1607.4%) — Aggravate
+[[cases]]
+type = "catalyze"
+name = "Cyclonic Exterminator Burst — Aggravate"
+character_level = 90
+talent_multiplier = 16.074
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 17000.0
+atk = 1900.0
+def = 700.0
+elemental_mastery = 200.0
+crit_rate = 0.65
+crit_dmg = 1.50
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 22029.341206
+crit = 55073.353016
+average = 43507.948883

@@ -1,0 +1,66 @@
+# Source: Dendro EM-stacking Skill DPS, Spread synergy
+
+[character]
+name = "Nahida"
+element = "Dendro"
+
+# Case 1: Skill (no reaction)
+[[cases]]
+type = "normal"
+name = "Tri-Karma Purification Skill — no reaction"
+character_level = 90
+talent_multiplier = 1.8576
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+
+[cases.stats]
+hp = 18000.0
+atk = 1200.0
+def = 600.0
+elemental_mastery = 800.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.2
+dmg_bonus = 0.15
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1153.569600
+crit = 2307.139200
+average = 1730.354400
+
+# Case 2: Spread
+[[cases]]
+type = "catalyze"
+name = "Tri-Karma Purification Skill — Spread"
+character_level = 90
+talent_multiplier = 1.8576
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 18000.0
+atk = 1200.0
+def = 600.0
+elemental_mastery = 800.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.2
+dmg_bonus = 0.15
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3961.369673
+crit = 7922.739347
+average = 5942.054510

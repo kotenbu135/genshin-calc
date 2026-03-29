@@ -1,0 +1,39 @@
+# Source: Electro Bow charged-attack DPS, Shadowpiercing Shot
+
+[character]
+name = "Sethos"
+element = "Electro"
+
+# Case 1: Shadowpiercing Shot ATK portion (NA Lv10: 111.35%) — Aggravate
+# Note: Full Shadowpiercing Shot also scales with EM, but the engine
+# uses single-stat scaling, so only the ATK portion is tested here.
+[[cases]]
+type = "catalyze"
+name = "Shadowpiercing Shot — Aggravate"
+character_level = 90
+talent_multiplier = 1.1135
+scaling_stat = "Atk"
+damage_type = "Charged"
+element = "Electro"
+reaction = "Aggravate"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 15000.0
+atk = 1500.0
+def = 600.0
+elemental_mastery = 300.0
+crit_rate = 0.55
+crit_dmg = 1.20
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 3297.189209
+crit = 7253.816260
+average = 5473.334087
