@@ -141,9 +141,30 @@ pub const PRIMORDIAL_JADE_WINGED_SPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "昭理の鳶",
         effect: PassiveEffect {
-            description: "Conditional: 命中時にATK+3.2-6%、6スタックまで。フルスタックでDMG+12-24%",
+            description: "命中時にATK+3.2-6%、6スタックまで。フルスタックでDMG+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "pjws_atk_stacks",
+                    description: "命中時にATK+3.2-6%（1スタック）、最大6スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.032,
+                    refinement_values: Some([0.032, 0.039, 0.046, 0.053, 0.060]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(6)),
+                },
+                ConditionalBuff {
+                    name: "pjws_full_stack_dmg",
+                    description: "フルスタック時にDMG+12-24%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -893,6 +914,32 @@ mod tests {
                 offset: None,
                 cap: None,
             })
+        ));
+    }
+
+    #[test]
+    fn pjws_has_atk_stacks_and_full_stack_dmg() {
+        let passive = PRIMORDIAL_JADE_WINGED_SPEAR.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let stacks_buff = &cond_buffs[0];
+        assert_eq!(stacks_buff.name, "pjws_atk_stacks");
+        assert_eq!(stacks_buff.stat, BuffableStat::AtkPercent);
+        assert!((stacks_buff.value - 0.032).abs() < 1e-6);
+        assert!(matches!(
+            stacks_buff.activation,
+            Activation::Manual(ManualCondition::Stacks(6))
+        ));
+        assert!(stacks_buff.refinement_values.is_some());
+
+        let full_buff = &cond_buffs[1];
+        assert_eq!(full_buff.name, "pjws_full_stack_dmg");
+        assert_eq!(full_buff.stat, BuffableStat::DmgBonus);
+        assert!((full_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            full_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
         ));
     }
 }

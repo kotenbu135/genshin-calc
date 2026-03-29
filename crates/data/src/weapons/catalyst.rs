@@ -121,9 +121,30 @@ pub const KAGURAS_VERITY: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Kagura's Verity",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル使用でスキルDMGスタック、3スタックで元素DMGアップ",
+            description: "元素スキル使用でスキルDMG+12-24%スタック（最大3）、3スタックで元素DMG+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "kagura_skill_dmg_stacks",
+                    description: "元素スキル使用でスキルDMG+12-24%（1スタック）、最大3スタック",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(3)),
+                },
+                ConditionalBuff {
+                    name: "kagura_full_stack_elemental_dmg",
+                    description: "3スタック時に元素DMG+12-24%（DmgBonus近似値、物理除外）",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -198,9 +219,18 @@ pub const NOCTURNES_CURTAIN_CALL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Nocturne's Curtain Call",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル/爆発命中でスタック獲得、DMGアップ",
+            description: "元素スキル/爆発命中でDMG+8-16%スタック（最大5スタック）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "nocturne_dmg_stacks",
+                description: "元素スキル/爆発命中でDMG+8-16%（1スタック）、最大5スタック",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            }],
         },
     }),
 };
@@ -329,9 +359,18 @@ pub const TULAYTULLAHS_REMEMBRANCE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Tulaytullah's Remembrance",
         effect: PassiveEffect {
-            description: "Conditional: 通常攻撃速度アップ、NA DMGスタック",
+            description: "通常攻撃DMG+4.8-9.6%スタック（最大10スタック、1秒毎）。攻撃速度バフは非対応",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "tulaytullah_na_dmg_stacks",
+                description: "通常攻撃DMG+4.8-9.6%（1スタック）、最大10スタック",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.048,
+                refinement_values: Some([0.048, 0.06, 0.072, 0.084, 0.096]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(10)),
+            }],
         },
     }),
 };
@@ -346,9 +385,18 @@ pub const VIVID_NOTIONS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Vivid Notions",
         effect: PassiveEffect {
-            description: "Conditional: 夜魂バースト時にDMGアップスタック",
+            description: "夜魂バースト時にDMG+8-16%スタック（最大3スタック）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "vivid_notions_dmg_stacks",
+                description: "夜魂バースト時にDMG+8-16%（1スタック）、最大3スタック",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -972,3 +1020,81 @@ pub const ALL_CATALYSTS: &[&WeaponData] = &[
     &APPRENTICES_NOTES,
     &POCKET_GRIMOIRE,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn kagura_has_skill_dmg_stacks_and_full_stack_bonus() {
+        let passive = KAGURAS_VERITY.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let stacks_buff = &cond_buffs[0];
+        assert_eq!(stacks_buff.name, "kagura_skill_dmg_stacks");
+        assert_eq!(stacks_buff.stat, BuffableStat::SkillDmgBonus);
+        assert!((stacks_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            stacks_buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+
+        let full_buff = &cond_buffs[1];
+        assert_eq!(full_buff.name, "kagura_full_stack_elemental_dmg");
+        assert_eq!(full_buff.stat, BuffableStat::DmgBonus);
+        assert!((full_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            full_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn tulaytullah_has_na_dmg_stacks() {
+        let passive = TULAYTULLAHS_REMEMBRANCE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "tulaytullah_na_dmg_stacks");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((buff.value - 0.048).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(10))
+        ));
+        assert!(buff.refinement_values.is_some());
+    }
+
+    #[test]
+    fn nocturne_has_dmg_stacks() {
+        let passive = NOCTURNES_CURTAIN_CALL.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "nocturne_dmg_stacks");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(5))
+        ));
+        assert!(buff.refinement_values.is_some());
+    }
+
+    #[test]
+    fn vivid_notions_has_dmg_stacks() {
+        let passive = VIVID_NOTIONS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "vivid_notions_dmg_stacks");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        assert!(buff.refinement_values.is_some());
+    }
+}

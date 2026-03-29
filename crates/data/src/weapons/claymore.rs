@@ -63,9 +63,18 @@ pub const FANG_OF_THE_MOUNTAIN_KING: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Fang of the Mountain King",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル命中でスタック獲得、スタック数に応じて元素ダメージアップ",
+            description: "元素スキル命中でDMG+10-20%スタック（最大3スタック）。DmgBonus近似値（実際は全元素DMG、物理除外）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "fang_mountain_king_elemental_dmg_stacks",
+                description: "元素スキル命中でDMG+10-20%（1スタック）、最大3スタック（DmgBonus近似値、物理除外）",
+                stat: BuffableStat::DmgBonus,
+                value: 0.10,
+                refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -909,5 +918,21 @@ mod tests {
                 })
             ));
         }
+    }
+
+    #[test]
+    fn fang_of_mountain_king_has_dmg_stacks() {
+        let passive = FANG_OF_THE_MOUNTAIN_KING.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "fang_mountain_king_elemental_dmg_stacks");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.10).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        assert!(buff.refinement_values.is_some());
     }
 }
