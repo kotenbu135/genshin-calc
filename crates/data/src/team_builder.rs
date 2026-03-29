@@ -294,9 +294,12 @@ impl TeamMemberBuilder {
                             &self.team_regions,
                             refinement,
                         ),
-                        Activation::Manual(manual) => {
-                            eval_manual(manual, cond_buff, &self.manual_activations)
-                        }
+                        Activation::Manual(manual) => eval_manual(
+                            manual,
+                            cond_buff,
+                            &self.manual_activations,
+                            effective_value,
+                        ),
                         Activation::Both(auto, manual) => {
                             let auto_result = eval_auto(
                                 auto,
@@ -309,7 +312,12 @@ impl TeamMemberBuilder {
                                 refinement,
                             );
                             auto_result.and_then(|_| {
-                                eval_manual(manual, cond_buff, &self.manual_activations)
+                                eval_manual(
+                                    manual,
+                                    cond_buff,
+                                    &self.manual_activations,
+                                    effective_value,
+                                )
                             })
                         }
                     };
@@ -503,11 +511,12 @@ fn eval_manual(
     cond: &ManualCondition,
     buff: &ConditionalBuff,
     activations: &[(&str, ManualActivation)],
+    base_value: f64,
 ) -> Option<f64> {
     let activation = activations.iter().find(|(name, _)| *name == buff.name);
     match cond {
         ManualCondition::Toggle => match activation {
-            Some((_, ManualActivation::Active)) => Some(buff.value),
+            Some((_, ManualActivation::Active)) => Some(base_value),
             _ => None,
         },
         ManualCondition::Stacks(max) => match activation {
@@ -518,14 +527,14 @@ fn eval_manual(
                 }
                 match buff.stack_values {
                     Some(values) => Some(values[(effective as usize).min(values.len()) - 1]),
-                    None => Some(buff.value * f64::from(effective)),
+                    None => Some(base_value * f64::from(effective)),
                 }
             }
             Some((_, ManualActivation::Active)) => {
                 let effective = *max;
                 match buff.stack_values {
                     Some(values) => Some(values[(effective as usize).min(values.len()) - 1]),
-                    None => Some(buff.value * f64::from(effective)),
+                    None => Some(base_value * f64::from(effective)),
                 }
             }
             _ => None,
@@ -1433,6 +1442,7 @@ mod conditional_tests {
             &ManualCondition::Toggle,
             &buff,
             &[("test_buff", ManualActivation::Active)],
+            buff.value,
         );
         assert!((result.unwrap() - 0.15).abs() < EPSILON);
     }
@@ -1440,7 +1450,7 @@ mod conditional_tests {
     #[test]
     fn test_eval_manual_toggle_not_present() {
         let buff = make_test_buff("test_buff", 0.15, ManualCondition::Toggle);
-        let result = eval_manual(&ManualCondition::Toggle, &buff, &[]);
+        let result = eval_manual(&ManualCondition::Toggle, &buff, &[], buff.value);
         assert!(result.is_none());
     }
 
@@ -1451,6 +1461,7 @@ mod conditional_tests {
             &ManualCondition::Toggle,
             &buff,
             &[("test_buff", ManualActivation::Stacks(2))],
+            buff.value,
         );
         assert!(result.is_none());
     }
@@ -1462,6 +1473,7 @@ mod conditional_tests {
             &ManualCondition::Stacks(3),
             &buff,
             &[("test_buff", ManualActivation::Stacks(2))],
+            buff.value,
         );
         assert!((result.unwrap() - 0.15).abs() < EPSILON); // 0.075 * 2
     }
@@ -1473,6 +1485,7 @@ mod conditional_tests {
             &ManualCondition::Stacks(3),
             &buff,
             &[("test_buff", ManualActivation::Stacks(5))],
+            buff.value,
         );
         assert!((result.unwrap() - 0.225).abs() < EPSILON); // 0.075 * 3 (capped)
     }
@@ -1480,7 +1493,7 @@ mod conditional_tests {
     #[test]
     fn test_eval_manual_stacks_not_present() {
         let buff = make_test_buff("test_buff", 0.075, ManualCondition::Stacks(3));
-        let result = eval_manual(&ManualCondition::Stacks(3), &buff, &[]);
+        let result = eval_manual(&ManualCondition::Stacks(3), &buff, &[], buff.value);
         assert!(result.is_none());
     }
 
@@ -1491,8 +1504,34 @@ mod conditional_tests {
             &ManualCondition::Stacks(3),
             &buff,
             &[("test_buff", ManualActivation::Active)],
+            buff.value,
         );
         assert!((result.unwrap() - 0.225).abs() < EPSILON); // 0.075 * 3 (max)
+    }
+
+    #[test]
+    fn test_eval_manual_toggle_uses_base_value() {
+        let buff = make_test_buff("test_buff", 0.15, ManualCondition::Toggle);
+        // base_value differs from buff.value — should return base_value
+        let result = eval_manual(
+            &ManualCondition::Toggle,
+            &buff,
+            &[("test_buff", ManualActivation::Active)],
+            0.30,
+        );
+        assert!((result.unwrap() - 0.30).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_manual_stacks_uses_base_value() {
+        let buff = make_test_buff("test_buff", 0.05, ManualCondition::Stacks(3));
+        let result = eval_manual(
+            &ManualCondition::Stacks(3),
+            &buff,
+            &[("test_buff", ManualActivation::Stacks(2))],
+            0.09,
+        );
+        assert!((result.unwrap() - 0.18).abs() < EPSILON); // 0.09 * 2
     }
 
     // --- Activation::Both tests (unit level) ---
@@ -1524,8 +1563,14 @@ mod conditional_tests {
         assert!(auto_result.is_some());
         // eval_manual: toggle activated → returns buff.value (0.01)
         let buff = make_test_buff("test", 0.01, ManualCondition::Toggle);
-        let result = auto_result
-            .and_then(|_| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)]));
+        let result = auto_result.and_then(|_| {
+            eval_manual(
+                &manual,
+                &buff,
+                &[("test", ManualActivation::Active)],
+                buff.value,
+            )
+        });
         assert!((result.unwrap() - 0.01).abs() < EPSILON);
     }
 
@@ -1546,7 +1591,7 @@ mod conditional_tests {
         assert!(auto_result.is_none());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);
         let result = auto_result
-            .and_then(|_| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)]));
+            .and_then(|av| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)], av));
         assert!(result.is_none());
     }
 
@@ -1566,8 +1611,8 @@ mod conditional_tests {
         );
         assert!(auto_result.is_some());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);
-        let result = auto_result.and_then(|_| {
-            eval_manual(&manual, &buff, &[]) // not activated
+        let result = auto_result.and_then(|av| {
+            eval_manual(&manual, &buff, &[], av) // not activated
         });
         assert!(result.is_none());
     }
