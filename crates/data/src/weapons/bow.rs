@@ -32,7 +32,28 @@ pub const AMOS_BOW: WeaponData = WeaponData {
                     refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
                 },
             ],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "amos_bow_flight_na",
+                    description: "矢の飛行時間0.1秒毎にNA DMG+8-16%、最大5スタック",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.08,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+                ConditionalBuff {
+                    name: "amos_bow_flight_ca",
+                    description: "矢の飛行時間0.1秒毎にCA DMG+8-16%、最大5スタック",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.08,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+            ],
         },
     }),
 };
@@ -204,7 +225,16 @@ pub const POLAR_STAR: WeaponData = WeaponData {
                     refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
                 },
             ],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "polar_star_atk_stacks",
+                description: "白極の紋スタックでATKアップ（非線形: 10%/20%/30%/48%）",
+                stat: BuffableStat::AtkPercent,
+                value: 0.10,
+                refinement_values: None,
+                stack_values: Some(&[0.10, 0.20, 0.30, 0.48]),
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            }],
         },
     }),
 };
@@ -368,7 +398,16 @@ pub const THUNDERING_PULSE: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "thundering_pulse_na_stacks",
+                description: "雷の巴紋スタックでNA DMGアップ（非線形: 12%/24%/40%）",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.12,
+                refinement_values: None,
+                stack_values: Some(&[0.12, 0.24, 0.40]),
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -389,7 +428,16 @@ pub const ALLEY_HUNTER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 待機時にDMGアップ、戦闘中にDMGダウン",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "alley_hunter_dmg",
+                description: "待機中1秒毎にDMG+2-4%、最大10スタック（4秒出場で解除）",
+                stat: BuffableStat::DmgBonus,
+                value: 0.02,
+                refinement_values: Some([0.02, 0.025, 0.03, 0.035, 0.04]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(10)),
+            }],
         },
     }),
 };
@@ -406,7 +454,16 @@ pub const BLACKCLIFF_WARBOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵撃破時にATKアップ、最大3スタック",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "blackcliff_warbow_atk",
+                description: "敵撃破後にATK+12-24%、最大3スタック",
+                stat: BuffableStat::AtkPercent,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -423,7 +480,28 @@ pub const CHAIN_BREAKER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チームの元素タイプに応じてEM/ATKアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "chain_breaker_em",
+                    description: "チーム元素種類数に応じてEM+36-60-84-100（スタック数=元素種類数）",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 36.0,
+                    refinement_values: None,
+                    stack_values: Some(&[36.0, 60.0, 84.0, 100.0]),
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
+                },
+                ConditionalBuff {
+                    name: "chain_breaker_atk",
+                    description: "チーム元素種類数に応じてATK+8-9-10-11%（スタック数=元素種類数）",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.08,
+                    refinement_values: None,
+                    stack_values: Some(&[0.08, 0.09, 0.10, 0.11]),
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
+                },
+            ],
         },
     }),
 };
@@ -440,7 +518,16 @@ pub const CLOUDFORGED: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素エネルギー消費後にチーム全員のEMアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "cloudforged_team_em",
+                description: "元素エネルギー消費後にチーム全員EM+40-80",
+                stat: BuffableStat::ElementalMastery,
+                value: 40.0,
+                refinement_values: Some([40.0, 50.0, 60.0, 70.0, 80.0]),
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -459,7 +546,16 @@ pub const COMPOUND_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA/CA命中時にATK+4%/NA速度+1.2%、最大4スタック",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "compound_bow_atk",
+                description: "NA/CA命中時にATK+4-8%、最大4スタック（攻撃速度バフは非対応）",
+                stat: BuffableStat::AtkPercent,
+                value: 0.04,
+                refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            }],
         },
     }),
 };
@@ -536,7 +632,16 @@ pub const FLOWER_WREATHED_FEATHERS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応後にDMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "flower_wreathed_dmg",
+                description: "元素反応発動後にDMG+16-32%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -602,7 +707,16 @@ pub const IBIS_PIERCER: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: CA命中時にEMアップ、最大2スタック",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "ibis_piercer_em",
+                description: "CA命中時にEM+20-40、最大2スタック",
+                stat: BuffableStat::ElementalMastery,
+                value: 20.0,
+                refinement_values: Some([20.0, 25.0, 30.0, 35.0, 40.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(2)),
+            }],
         },
     }),
 };
@@ -619,7 +733,16 @@ pub const KINGS_SQUIRE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: スキル/バースト使用時にEMアップ。矢を放って追加ダメージ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "kings_squire_em",
+                description: "スキル/バースト使用後にEM+60-120",
+                stat: BuffableStat::ElementalMastery,
+                value: 60.0,
+                refinement_values: Some([60.0, 75.0, 90.0, 105.0, 120.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -757,7 +880,16 @@ pub const RAINBOW_SERPENTS_RAIN_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チームメンバーの元素タイプに応じてDMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "rainbow_serpent_dmg",
+                description: "チームの元素種類数分DMG+5-10%（スタック数=チーム元素種類数）",
+                stat: BuffableStat::DmgBonus,
+                value: 0.05,
+                refinement_values: Some([0.05, 0.0625, 0.075, 0.0875, 0.10]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            }],
         },
     }),
 };
@@ -774,7 +906,16 @@ pub const RANGE_GAUGE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: CA命中時にスタック蓄積でATKアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "range_gauge_atk",
+                description: "CA命中時にATK+4-8%スタック蓄積、最大4スタック",
+                stat: BuffableStat::AtkPercent,
+                value: 0.04,
+                refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            }],
         },
     }),
 };
@@ -791,7 +932,16 @@ pub const ROYAL_BOW: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ダメージ時にCRIT Rate+8%、最大5スタック。会心でリセット",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "royal_bow_cr",
+                description: "ダメージ時にCRIT Rate+8-16%、最大5スタック（会心命中でリセット）",
+                stat: BuffableStat::CritRate,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            }],
         },
     }),
 };
@@ -846,7 +996,16 @@ pub const SCION_OF_THE_BLAZING_SUN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: CA命中でCA DMGアップ。チームがDendro反応を起こすとさらにアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "scion_blazing_sun_ca",
+                description: "CA命中後にCA DMG+28-56%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.28,
+                refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -927,7 +1086,16 @@ pub const SONG_OF_STILLNESS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP回復後にDMGアップ、8秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "song_of_stillness_dmg",
+                description: "HP回復後にDMG+16-32%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };

@@ -7,10 +7,10 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 | カテゴリ | 総数 | 実装済み | 未実装 | カバレッジ |
 |----------|-----:|--------:|-------:|-----------:|
 | 武器パッシブ (StatBuff) | 220 | 220 | 0 | 100% |
-| 武器パッシブ (ConditionalBuff) | 220 | 77 | 143 | 35% |
-| 聖遺物2pc (StatBuff) | 52 | 45 | 7 | 87% |
+| 武器パッシブ (ConditionalBuff) | 220 | 103 | 117 | 47% |
+| 聖遺物2pc (StatBuff) | 52 | 48 | 4 | 92%→実質100% |
 | 聖遺物4pc効果 | 52 | 52 | 0 | 100% |
-| 天賦バフ/デバフ (TalentBuffDef) | 29キャラ | 47定義 | 1(Nilou) | ~97% |
+| 天賦バフ/デバフ (TalentBuffDef) | 30キャラ | 49定義 | 0 | 100% |
 | 敵データ | 多数 | 40 | 多数 | - |
 | 武器精錬値 (R1-R5) | 220 | 220 | 0 | 100% |
 | 敵側デバフ (P6) | 5種 | 5種 | 0 | 100% |
@@ -18,7 +18,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 ## ボトルネック: 条件付き効果の表現力不足
 
 P0で `ConditionalBuff` システムを導入済み。
-聖遺物4pc効果は全52セット実装完了。武器パッシブは74本にConditionalBuff実装済み（5星武器Batch 1-4 + 4星武器28本）、残り146本が未対応。
+聖遺物4pc効果は全52セット実装完了。武器パッシブは103本にConditionalBuff実装済み（5星Batch 1-4 + 4星28本 + sword/claymore/polearm/bow/catalyst一括）、残り117本が未対応。
 
 ### 表現できない効果の例
 
@@ -71,7 +71,7 @@ P2/P3/P4/P6のアンロックキー。
 
 ### P0完了後に追加可能
 
-- [ ] Nilou — 開花反応ボーナス (水草限定条件)
+- [x] Nilou — 開花反応ボーナス (base_value方式、consumer側でHP計算)
 - [x] Lisa — DEF-15%デバフ (A4) → P6で実装済み
 - [x] Zhongli — 全耐性-20% (シールド) → P6で実装済み (8 TalentBuffDef)
 - [x] Chevreuse — 炎/雷耐性-40% → P6で実装済み (2 TalentBuffDef追加)
@@ -84,11 +84,14 @@ P2/P3/P4/P6のアンロックキー。
 
 ## P2: 聖遺物セット効果の充実 ✅
 
-4pc効果は全52セット実装完了。2pcは45/52実装済み。
+4pc効果は全52セット実装完了。2pcは48/52実装済み。
 
 ### 2pc効果 (単純バフ)
 
 - [ ] 未実装の2pc効果を洗い出して埋める (大半は無条件バフ、既に高カバレッジ)
+- [x] 雷を鎮める尊者 (Thundersoother) — 雷元素耐性+40% (ElementalRes(Electro))
+- [x] 烈火を渡る賢者 (Lavawalker) — 炎元素耐性+40% (ElementalRes(Pyro))
+- [x] 奇跡 (Tiny Miracle) — 全元素耐性+20% (ElementalRes × 7元素)
 
 ### 4pc効果 (条件付き — P0依存)
 
@@ -103,7 +106,7 @@ P2/P3/P4/P6のアンロックキー。
 
 ## P3: 武器パッシブの充実
 
-StatBuffは全220本実装完了。ConditionalBuffは77/220本実装済み（35%）。
+StatBuffは全220本実装完了。ConditionalBuffは103/220本実装済み（47%）。
 
 ### 無条件パッシブ (StatBuff)
 
@@ -139,6 +142,14 @@ StatBuffは全220本実装完了。ConditionalBuffは77/220本実装済み（35%
   - Pattern C: Auto(StatScaling) — 2本
   - Pattern D: Stacks (non-linear) — 1本
   - Pattern E: StatBuff + Toggle hybrid — 1本
+
+### 条件付きパッシブ — P3 武器種別一括完了 ✅
+
+- [x] **sword.rs** — 14武器のConditionalBuff実装完了（issue #23 Task 1）
+- [x] **claymore.rs** — 14武器のConditionalBuff実装完了（issue #23 Task 2）
+- [x] **polearm.rs** — 9武器のConditionalBuff実装完了（issue #23 Task 3）
+- [x] **bow.rs** — 16武器のConditionalBuff実装完了（issue #23 Task 4）
+- [x] **catalyst.rs** — 11武器のConditionalBuff実装完了（issue #23 Task 5）
 
 ### 複雑な武器 ✅
 
@@ -221,11 +232,12 @@ core crateに `apply_enemy_debuffs(enemy, buffs, element) -> Enemy` 関数を実
 2. ~~**P1 天賦バフ**~~ ✅ 完了 (29キャラ・47定義)
 3. ~~**P0 条件付き効果**~~ ✅ 完了 (ConditionalBuff + AutoCondition/ManualCondition)
 4. ~~**P2 聖遺物4pc**~~ ✅ 完了 (全52セット)
-5. **P3 武器パッシブ** — 5星Batch 1-4 + 4星28本 + 複雑武器4本完了 (77/220)
+5. **P3 武器パッシブ** — 5星Batch 1-4 + 4星28本 + 複雑武器4本 + sword/claymore/polearm/bow/catalyst一括完了 (103/220)
 6. ~~**P4 精錬値**~~ ✅ 完了 (全220本R1-R5)
 7. ~~**P6 敵側デバフ**~~ ✅ 完了 (超電導/Zhongli/Chevreuse/Lisa/Faruzan)
 
 ### 残タスク
 
-- **P1 Nilou** — 開花反応ボーナス (水草限定条件、特殊実装が必要)
-- **P2 2pc効果** — 残り7セットのStatBuff
+- ~~**P1 Nilou**~~ ✅ 完了 (A2 開花DMGボーナス TalentBuffDef)
+- ~~**P2 2pc効果**~~ ✅ 完了 (48/52実装、残り4セットはPrayers系=元素影響時間短縮で表現不可、意図的スキップ)
+- **P3 武器ConditionalBuff残り ~117本** — 未実装（主に1-3星武器、proc系、HP依存フラット、DescriptionOnly）
