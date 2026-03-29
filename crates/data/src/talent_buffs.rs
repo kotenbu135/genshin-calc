@@ -741,6 +741,23 @@ static AINO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 1,
 }];
 
+// ===== Nilou =====
+// A2 passive "Dreaming Dance of the Lotuslight":
+// For every 1000 HP above 30000, Bloom DMG +9%, max +400%
+// Formula: min(floor((total_hp - 30000) / 1000) * 0.09, 4.0)
+static NILOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Dreaming Dance of the Lotuslight",
+    description: "HP30000超過1000ごとにBloom DMG+9%、最大+400%",
+    stat: BuffableStat::TransformativeBonus,
+    base_value: 0.0, // HP-dependent — consumer computes value
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("aino", AINO_BUFFS),
@@ -772,6 +789,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("yelan", YELAN_BUFFS),
     ("ineffa", INEFFA_BUFFS),
     ("jahoda", JAHODA_BUFFS),
+    ("nilou", NILOU_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.
@@ -1067,6 +1085,19 @@ mod tests {
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 100.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_nilou_buffs() {
+        let buffs = find_talent_buffs("nilou").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::TransformativeBonus);
+        assert!((buffs[0].base_value - 0.0).abs() < 1e-6); // HP-dependent — consumer computes value
+        assert!(!buffs[0].scales_with_talent);
+        assert!(buffs[0].talent_scaling.is_none());
+        assert_eq!(buffs[0].target, BuffTarget::OnlySelf);
+        assert_eq!(buffs[0].source, TalentBuffSource::AscensionPassive);
+        assert_eq!(buffs[0].min_constellation, 0);
     }
 
     #[test]
