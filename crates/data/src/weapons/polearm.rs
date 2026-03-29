@@ -300,9 +300,30 @@ pub const VORTEX_VANQUISHER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "金璋の槍",
         effect: PassiveEffect {
-            description: "Conditional: シールド強化+20-40%。攻撃命中でATKアップ、シールド時は2倍",
+            description: "攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "vortex_vanquisher_atk_stacks",
+                    description: "攻撃命中でATK+4-8%（1スタック）、最大5スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+                ConditionalBuff {
+                    name: "vortex_vanquisher_shield_atk_stacks",
+                    description: "シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+            ],
         },
     }),
 };
@@ -941,5 +962,25 @@ mod tests {
             full_buff.activation,
             Activation::Manual(ManualCondition::Toggle)
         ));
+    }
+
+    #[test]
+    fn vortex_vanquisher_has_atk_stacks_and_shield_stacks() {
+        let passive = VORTEX_VANQUISHER.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "vortex_vanquisher_atk_stacks");
+        assert_eq!(cond_buffs[1].name, "vortex_vanquisher_shield_atk_stacks");
+
+        for buff in cond_buffs {
+            assert_eq!(buff.stat, BuffableStat::AtkPercent);
+            assert!((buff.value - 0.04).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Stacks(5))
+            ));
+            assert!(buff.refinement_values.is_some());
+        }
     }
 }
