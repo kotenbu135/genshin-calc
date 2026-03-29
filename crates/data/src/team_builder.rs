@@ -1934,4 +1934,91 @@ mod conditional_tests {
         );
         assert!(r1_atk.value > 0.0, "ATK buff should be positive");
     }
+
+    #[test]
+    fn test_lithic_blade_with_liyue_team() {
+        use crate::types::Region;
+        let beidou = find_character("beidou").unwrap();
+        let lithic = find_weapon("lithic_blade").unwrap();
+        let member = TeamMemberBuilder::new(beidou, lithic)
+            .team_regions(vec![Region::Liyue, Region::Mondstadt, Region::Liyue])
+            .build()
+            .unwrap();
+
+        let atk_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("lithic_blade_atk"))
+            .expect("Should have lithic_blade_atk buff");
+        // R1: 0.07 * 2 Liyue members = 0.14
+        assert!(
+            (atk_buff.value - 0.14).abs() < EPSILON,
+            "ATK% should be 0.14, got {}",
+            atk_buff.value
+        );
+
+        let crit_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("lithic_blade_crit"))
+            .expect("Should have lithic_blade_crit buff");
+        // R1: 0.03 * 2 = 0.06
+        assert!(
+            (crit_buff.value - 0.06).abs() < EPSILON,
+            "CR should be 0.06, got {}",
+            crit_buff.value
+        );
+    }
+
+    #[test]
+    fn test_scarlet_sands_with_em_and_stacks() {
+        let cyno = find_character("cyno").unwrap();
+        let weapon = find_weapon("staff_of_the_scarlet_sands").unwrap();
+        let em_stats = StatProfile {
+            elemental_mastery: 100.0,
+            ..Default::default()
+        };
+        let member = TeamMemberBuilder::new(cyno, weapon)
+            .artifact_stats(em_stats)
+            .activate_with_stacks("scarlet_sands_skill_stacks", 2)
+            .build()
+            .unwrap();
+
+        // Primary: Auto(StatScaling EM) should exist
+        let primary = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("scarlet_sands_em_atk"))
+            .expect("Should have primary EM ATK buff");
+        assert!(primary.value > 0.0, "Primary buff should be positive");
+
+        // Secondary: Both(StatScaling EM, Stacks(2)) should exist
+        let secondary = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("scarlet_sands_skill_stacks"))
+            .expect("Should have skill stacks buff");
+        assert!(secondary.value > 0.0, "Secondary buff should be positive");
+    }
+
+    #[test]
+    fn test_engulfing_burst_er_toggle() {
+        let raiden = find_character("raiden_shogun").unwrap();
+        let weapon = find_weapon("engulfing_lightning").unwrap();
+        let member = TeamMemberBuilder::new(raiden, weapon)
+            .activate("engulfing_burst_er")
+            .build()
+            .unwrap();
+
+        let er_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("engulfing_burst_er"))
+            .expect("Should have burst ER buff");
+        assert!(
+            (er_buff.value - 0.30).abs() < EPSILON,
+            "ER should be 0.30, got {}",
+            er_buff.value
+        );
+    }
 }
