@@ -222,6 +222,7 @@ impl CharacterData {
             element: scaling.damage_element,
             reaction,
             reaction_bonus,
+            flat_dmg: 0.0,
         })
     }
 }

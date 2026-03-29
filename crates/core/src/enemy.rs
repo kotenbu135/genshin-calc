@@ -346,6 +346,7 @@ mod tests {
             element: Some(Element::Pyro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
 
         let result_no_debuff = calculate_damage(&input, &enemy).unwrap();
@@ -388,6 +389,7 @@ mod tests {
             element: None, // physical
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
 
         let result_no_debuff = calculate_damage(&input, &enemy).unwrap();
@@ -433,6 +435,7 @@ mod tests {
             element: Some(Element::Electro),
             reaction: None,
             reaction_bonus: 0.0,
+            flat_dmg: 0.0,
         };
 
         let result_no_debuff = calculate_damage(&input, &enemy).unwrap();

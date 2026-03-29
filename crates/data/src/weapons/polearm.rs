@@ -75,7 +75,20 @@ pub const ENGULFING_LIGHTNING: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ERに基づきATKアップ。元素爆発後にER+30%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "engulfing_er_atk",
+                description: "ER超過分の28-56%をATK%に変換 (cap: 80-120%)",
+                stat: BuffableStat::AtkPercent,
+                value: 0.28,
+                refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::EnergyRecharge,
+                    offset: Some(1.0),
+                    cap: Some([0.80, 0.90, 1.00, 1.10, 1.20]),
+                }),
+            }],
         },
     }),
 };
@@ -128,9 +141,30 @@ pub const PRIMORDIAL_JADE_WINGED_SPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "昭理の鳶",
         effect: PassiveEffect {
-            description: "Conditional: 命中時にATK+3.2-6%、6スタックまで。フルスタックでDMG+12-24%",
+            description: "命中時にATK+3.2-6%、6スタックまで。フルスタックでDMG+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "pjws_atk_stacks",
+                    description: "命中時にATK+3.2-6%（1スタック）、最大6スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.032,
+                    refinement_values: Some([0.032, 0.039, 0.046, 0.053, 0.060]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(6)),
+                },
+                ConditionalBuff {
+                    name: "pjws_full_stack_dmg",
+                    description: "フルスタック時にDMG+12-24%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -183,6 +217,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     target: BuffTarget::OnlySelf,
                     activation: Activation::Auto(AutoCondition::StatScaling {
                         stat: BuffableStat::HpPercent,
+                        offset: None,
                         cap: None,
                     }),
                 },
@@ -197,6 +232,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                     activation: Activation::Both(
                         AutoCondition::StatScaling {
                             stat: BuffableStat::HpPercent,
+                            offset: None,
                             cap: None,
                         },
                         ManualCondition::Toggle,
@@ -219,7 +255,20 @@ pub const STAFF_OF_THE_SCARLET_SANDS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EMに基づきATKアップ。スキル命中でさらにATKアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "scarlet_sands_em_atk",
+                description: "EM×52-104%分をATKフラットに加算",
+                stat: BuffableStat::AtkFlat,
+                value: 0.52,
+                refinement_values: Some([0.52, 0.65, 0.78, 0.91, 1.04]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -251,9 +300,30 @@ pub const VORTEX_VANQUISHER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "金璋の槍",
         effect: PassiveEffect {
-            description: "Conditional: シールド強化+20-40%。攻撃命中でATKアップ、シールド時は2倍",
+            description: "攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "vortex_vanquisher_atk_stacks",
+                    description: "攻撃命中でATK+4-8%（1スタック）、最大5スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+                ConditionalBuff {
+                    name: "vortex_vanquisher_shield_atk_stacks",
+                    description: "シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+            ],
         },
     }),
 };
@@ -824,3 +894,93 @@ pub const ALL_POLEARMS: &[&WeaponData] = &[
     &BEGINNERS_PROTECTOR,
     &IRON_POINT,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn engulfing_lightning_has_er_atk_conditional() {
+        let passive = ENGULFING_LIGHTNING.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "engulfing_er_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.28).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::EnergyRecharge,
+                offset: Some(_),
+                cap: Some(_),
+            })
+        ));
+    }
+
+    #[test]
+    fn staff_of_scarlet_sands_has_em_atk_conditional() {
+        let passive = STAFF_OF_THE_SCARLET_SANDS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "scarlet_sands_em_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkFlat);
+        assert!((buff.value - 0.52).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::ElementalMastery,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn pjws_has_atk_stacks_and_full_stack_dmg() {
+        let passive = PRIMORDIAL_JADE_WINGED_SPEAR.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let stacks_buff = &cond_buffs[0];
+        assert_eq!(stacks_buff.name, "pjws_atk_stacks");
+        assert_eq!(stacks_buff.stat, BuffableStat::AtkPercent);
+        assert!((stacks_buff.value - 0.032).abs() < 1e-6);
+        assert!(matches!(
+            stacks_buff.activation,
+            Activation::Manual(ManualCondition::Stacks(6))
+        ));
+        assert!(stacks_buff.refinement_values.is_some());
+
+        let full_buff = &cond_buffs[1];
+        assert_eq!(full_buff.name, "pjws_full_stack_dmg");
+        assert_eq!(full_buff.stat, BuffableStat::DmgBonus);
+        assert!((full_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            full_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn vortex_vanquisher_has_atk_stacks_and_shield_stacks() {
+        let passive = VORTEX_VANQUISHER.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "vortex_vanquisher_atk_stacks");
+        assert_eq!(cond_buffs[1].name, "vortex_vanquisher_shield_atk_stacks");
+
+        for buff in cond_buffs {
+            assert_eq!(buff.stat, BuffableStat::AtkPercent);
+            assert!((buff.value - 0.04).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Stacks(5))
+            ));
+            assert!(buff.refinement_values.is_some());
+        }
+    }
+}

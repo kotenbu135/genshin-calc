@@ -666,7 +666,8 @@ pub const EMBLEM_OF_SEVERED_FATE: ArtifactSet = ArtifactSet {
             target: BuffTarget::OnlySelf,
             activation: Activation::Auto(AutoCondition::StatScaling {
                 stat: BuffableStat::EnergyRecharge,
-                cap: Some(0.75),
+                offset: None,
+                cap: Some([0.75; 5]),
             }),
         }],
     },
@@ -1801,7 +1802,8 @@ pub const CHRONICLED_SANDS_AND_WATER: ArtifactSet = ArtifactSet {
                 target: BuffTarget::OnlySelf,
                 activation: Activation::Auto(AutoCondition::StatScaling {
                     stat: BuffableStat::EnergyRecharge,
-                    cap: Some(0.80),
+                    offset: None,
+                    cap: Some([0.80; 5]),
                 }),
             },
             ConditionalBuff {
@@ -1814,7 +1816,8 @@ pub const CHRONICLED_SANDS_AND_WATER: ArtifactSet = ArtifactSet {
                 target: BuffTarget::OnlySelf,
                 activation: Activation::Auto(AutoCondition::StatScaling {
                     stat: BuffableStat::EnergyRecharge,
-                    cap: Some(0.80),
+                    offset: None,
+                    cap: Some([0.80; 5]),
                 }),
             },
         ],

@@ -1,7 +1,9 @@
 use crate::buff::{
-    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
+use genshin_calc_core::Element;
 
 // =============================================================================
 // 5-Star Bows
@@ -75,9 +77,30 @@ pub const ASTRAL_VULTURES_CRIMSON_PLUMAGE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Astral Vulture's Crimson Plumage",
         effect: PassiveEffect {
-            description: "Conditional: 夜魂のスタック蓄積でATKとDMGアップ",
+            description: "夜魂スタック蓄積でATK+12-24%（最大3スタック）、フルスタックでDMG+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "astral_vulture_atk_stacks",
+                    description: "夜魂スタックでATK+12-24%（1スタック）、最大3スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(3)),
+                },
+                ConditionalBuff {
+                    name: "astral_vulture_full_stack_dmg",
+                    description: "フルスタック時にDMG+12-24%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -92,9 +115,34 @@ pub const ELEGY_FOR_THE_END: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "別離の哀歌",
         effect: PassiveEffect {
-            description: "Conditional: EM+60。追憶の印蓄積でチーム全員にEM+100/ATK+20%",
-            buffs: &[],
-            conditional_buffs: &[],
+            description: "EM+60-120。追憶の印蓄積でチーム全員にEM+100-200/ATK+20-40%",
+            buffs: &[StatBuff {
+                stat: BuffableStat::ElementalMastery,
+                value: 60.0,
+                refinement_values: Some([60.0, 75.0, 90.0, 105.0, 120.0]),
+            }],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "elegy_team_em",
+                    description: "追憶の印フルスタック時にチーム全員EM+100-200",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 100.0,
+                    refinement_values: Some([100.0, 125.0, 150.0, 175.0, 200.0]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "elegy_team_atk",
+                    description: "追憶の印フルスタック時にチーム全員ATK+20-40%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -115,7 +163,20 @@ pub const HUNTERS_PATH: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "hunters_path_em_ca_flat",
+                description: "EM×160-320%分を重撃フラットダメージに加算",
+                stat: BuffableStat::ChargedAtkFlatDmg,
+                value: 1.60,
+                refinement_values: Some([1.60, 2.00, 2.40, 2.80, 3.20]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -158,9 +219,30 @@ pub const SILVERSHOWER_HEARTSTRINGS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Silvershower Heartstrings",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル使用でHP上限アップ。3スタックでHydro DMGアップ",
+            description: "元素スキル使用でHP+12-24%スタック（最大3）、3スタックでHydro DMG+28-56%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "silvershower_hp_stacks",
+                    description: "元素スキル使用でHP+12-24%（1スタック）、最大3スタック",
+                    stat: BuffableStat::HpPercent,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(3)),
+                },
+                ConditionalBuff {
+                    name: "silvershower_full_stack_hydro_dmg",
+                    description: "3スタック時にHydro DMG+28-56%",
+                    stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+                    value: 0.28,
+                    refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -196,9 +278,18 @@ pub const THE_DAYBREAK_CHRONICLES: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "The Daybreak Chronicles",
         effect: PassiveEffect {
-            description: "Conditional: 物語のスタック蓄積でDMGアップ",
+            description: "物語のスタック蓄積でDMG+8-16%（最大3スタック）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "the_daybreak_chronicles_dmg_stacks",
+                description: "物語のスタックでDMG+8-16%（1スタック）、最大3スタック",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -219,7 +310,44 @@ pub const THE_FIRST_GREAT_MAGIC: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "first_great_magic_atk_1",
+                    description: "1+異元素チームメンバーでATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 1,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "first_great_magic_atk_2",
+                    description: "2+異元素チームメンバーでATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 2,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "first_great_magic_atk_3",
+                    description: "3+異元素チームメンバーでATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 3,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -910,3 +1038,153 @@ pub const ALL_BOWS: &[&WeaponData] = &[
     &HUNTERS_BOW,
     &SEASONED_HUNTERS_BOW,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn hunters_path_has_em_ca_flat_conditional() {
+        let passive = HUNTERS_PATH.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "hunters_path_em_ca_flat");
+        assert_eq!(buff.stat, BuffableStat::ChargedAtkFlatDmg);
+        assert!((buff.value - 1.60).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::ElementalMastery,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn astral_vulture_has_atk_stacks_and_full_stack_dmg() {
+        let passive = ASTRAL_VULTURES_CRIMSON_PLUMAGE.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let stacks_buff = &cond_buffs[0];
+        assert_eq!(stacks_buff.name, "astral_vulture_atk_stacks");
+        assert_eq!(stacks_buff.stat, BuffableStat::AtkPercent);
+        assert!((stacks_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            stacks_buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+
+        let full_buff = &cond_buffs[1];
+        assert_eq!(full_buff.name, "astral_vulture_full_stack_dmg");
+        assert_eq!(full_buff.stat, BuffableStat::DmgBonus);
+        assert!((full_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            full_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn silvershower_has_hp_stacks_and_hydro_dmg() {
+        let passive = SILVERSHOWER_HEARTSTRINGS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let stacks_buff = &cond_buffs[0];
+        assert_eq!(stacks_buff.name, "silvershower_hp_stacks");
+        assert_eq!(stacks_buff.stat, BuffableStat::HpPercent);
+        assert!((stacks_buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            stacks_buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+
+        let full_buff = &cond_buffs[1];
+        assert_eq!(full_buff.name, "silvershower_full_stack_hydro_dmg");
+        assert_eq!(
+            full_buff.stat,
+            BuffableStat::ElementalDmgBonus(genshin_calc_core::Element::Hydro)
+        );
+        assert!((full_buff.value - 0.28).abs() < 1e-6);
+        assert!(matches!(
+            full_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn daybreak_chronicles_has_dmg_stacks() {
+        let passive = THE_DAYBREAK_CHRONICLES.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "the_daybreak_chronicles_dmg_stacks");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        assert!(buff.refinement_values.is_some());
+    }
+
+    #[test]
+    fn elegy_has_em_statbuff_and_team_conditionals() {
+        let passive = ELEGY_FOR_THE_END.passive.unwrap();
+
+        assert_eq!(passive.effect.buffs.len(), 1);
+        assert_eq!(passive.effect.buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((passive.effect.buffs[0].value - 60.0).abs() < 1e-6);
+
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "elegy_team_em");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((cond_buffs[0].value - 100.0).abs() < 1e-6);
+        assert_eq!(cond_buffs[0].target, BuffTarget::Team);
+
+        assert_eq!(cond_buffs[1].name, "elegy_team_atk");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].target, BuffTarget::Team);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn first_great_magic_has_team_diff_atk_conditionals() {
+        let passive = THE_FIRST_GREAT_MAGIC.passive.unwrap();
+
+        assert_eq!(passive.effect.buffs.len(), 1);
+        assert_eq!(
+            passive.effect.buffs[0].stat,
+            BuffableStat::ChargedAtkDmgBonus
+        );
+
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 3);
+
+        let expected_min_counts = [1u8, 2, 3];
+        for (i, buff) in cond_buffs.iter().enumerate() {
+            let expected_name = format!("first_great_magic_atk_{}", i + 1);
+            assert_eq!(buff.name, expected_name.as_str());
+            assert_eq!(buff.stat, BuffableStat::AtkPercent);
+            assert!((buff.value - 0.16).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Auto(AutoCondition::TeamDiffElementCount { min_count })
+                if min_count == expected_min_counts[i]
+            ));
+        }
+    }
+}

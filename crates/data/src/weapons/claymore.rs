@@ -1,5 +1,6 @@
 use crate::buff::{
-    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -45,9 +46,40 @@ pub const BEACON_OF_THE_REED_SEA: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Beacon of the Reed Sea",
         effect: PassiveEffect {
-            description: "Conditional: スキル命中後ATKアップ、ダメージ受けるとATKアップ、シールド時HP%アップ",
+            description: "スキル命中後ATK+20-40%、被弾後ATK+20-40%、シールド時HP+32-64%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "beacon_skill_atk",
+                    description: "元素スキル命中後にATK+20-40%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "beacon_dmg_taken_atk",
+                    description: "ダメージを受けた後にATK+20-40%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "beacon_shield_hp",
+                    description: "シールド保護時にHP+32-64%",
+                    stat: BuffableStat::HpPercent,
+                    value: 0.32,
+                    refinement_values: Some([0.32, 0.40, 0.48, 0.56, 0.64]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -62,9 +94,18 @@ pub const FANG_OF_THE_MOUNTAIN_KING: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Fang of the Mountain King",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル命中でスタック獲得、スタック数に応じて元素ダメージアップ",
+            description: "元素スキル命中でDMG+10-20%スタック（最大3スタック）。DmgBonus近似値（実際は全元素DMG、物理除外）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "fang_mountain_king_elemental_dmg_stacks",
+                description: "元素スキル命中でDMG+10-20%（1スタック）、最大3スタック（DmgBonus近似値、物理除外）",
+                stat: BuffableStat::DmgBonus,
+                value: 0.10,
+                refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -79,9 +120,30 @@ pub const GEST_OF_THE_MIGHTY_WOLF: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Gest of the Mighty Wolf",
         effect: PassiveEffect {
-            description: "Conditional: 狼の力でダメージとバフがアップ",
+            description: "狼の力でDMG+16-32%/ATK+16-32%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "gest_wolf_dmg",
+                    description: "狼の力発動時にDMG+16-32%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "gest_wolf_atk",
+                    description: "狼の力発動時にATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -102,7 +164,36 @@ pub const REDHORN_STONETHRESHER: WeaponData = WeaponData {
                 value: 0.28,
                 refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "redhorn_def_normal_flat",
+                    description: "DEF×40-80%分を通常攻撃フラットダメージに加算",
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 0.40,
+                    refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::DefPercent,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "redhorn_def_charged_flat",
+                    description: "DEF×40-80%分を重撃フラットダメージに加算",
+                    stat: BuffableStat::ChargedAtkFlatDmg,
+                    value: 0.40,
+                    refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::DefPercent,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -161,9 +252,30 @@ pub const THE_UNFORGED: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "金璋の剣",
         effect: PassiveEffect {
-            description: "Conditional: シールド強化+20-40%。命中時ATKアップ、シールド時さらにATKアップ",
+            description: "攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "the_unforged_atk_stacks",
+                    description: "攻撃命中でATK+4-8%（1スタック）、最大5スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+                ConditionalBuff {
+                    name: "the_unforged_shield_atk_stacks",
+                    description: "シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+            ],
         },
     }),
 };
@@ -852,3 +964,116 @@ pub const ALL_CLAYMORES: &[&WeaponData] = &[
     &WASTER_GREATSWORD,
     &OLD_MERCS_PAL,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn redhorn_stonethresher_has_def_flatdmg_conditionals() {
+        let passive = REDHORN_STONETHRESHER.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "redhorn_def_normal_flat");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((cond_buffs[0].value - 0.40).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "redhorn_def_charged_flat");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::ChargedAtkFlatDmg);
+        assert!((cond_buffs[1].value - 0.40).abs() < 1e-6);
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: None,
+                })
+            ));
+        }
+    }
+
+    #[test]
+    fn fang_of_mountain_king_has_dmg_stacks() {
+        let passive = FANG_OF_THE_MOUNTAIN_KING.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "fang_mountain_king_elemental_dmg_stacks");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.10).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        assert!(buff.refinement_values.is_some());
+    }
+
+    #[test]
+    fn beacon_reed_sea_has_three_toggles() {
+        let passive = BEACON_OF_THE_REED_SEA.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 3);
+
+        assert_eq!(cond_buffs[0].name, "beacon_skill_atk");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[0].value - 0.20).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[1].name, "beacon_dmg_taken_atk");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[2].name, "beacon_shield_hp");
+        assert_eq!(cond_buffs[2].stat, BuffableStat::HpPercent);
+        assert!((cond_buffs[2].value - 0.32).abs() < 1e-6);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn gest_mighty_wolf_has_dmg_and_atk_toggle() {
+        let passive = GEST_OF_THE_MIGHTY_WOLF.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "gest_wolf_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[0].value - 0.16).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[1].name, "gest_wolf_atk");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[1].value - 0.16).abs() < 1e-6);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn the_unforged_has_atk_stacks_and_shield_stacks() {
+        let passive = THE_UNFORGED.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "the_unforged_atk_stacks");
+        assert_eq!(cond_buffs[1].name, "the_unforged_shield_atk_stacks");
+
+        for buff in cond_buffs {
+            assert_eq!(buff.stat, BuffableStat::AtkPercent);
+            assert!((buff.value - 0.04).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Stacks(5))
+            ));
+            assert!(buff.refinement_values.is_some());
+        }
+    }
+}

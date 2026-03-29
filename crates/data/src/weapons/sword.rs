@@ -62,9 +62,30 @@ pub const ATHAME_ARTIS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Athame Artis",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキルの会心率と元素ダメージがアップ",
+            description: "元素スキル使用後にスキルCR+10-20%/スキルDMG+8-16%（CritRate近似値）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "athame_artis_skill_cr",
+                    description: "元素スキル使用後にCR+10-20%（スキルのみ。CritRate近似値）",
+                    stat: BuffableStat::CritRate,
+                    value: 0.10,
+                    refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "athame_artis_skill_dmg",
+                    description: "元素スキル使用後にスキルDMG+8-16%",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.08,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -79,9 +100,25 @@ pub const AZURELIGHT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Azurelight",
         effect: PassiveEffect {
-            description: "Conditional: HP上限を基にした通常攻撃ダメージアップ",
+            description: "HP上限×0.16-0.32%分をNA DMGボーナスに加算（条件付き、上限40-80%）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "azurelight_hp_na_dmg",
+                description: "HP上限×0.16-0.32%分をNA DMGに加算",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.0016,
+                refinement_values: Some([0.0016, 0.002, 0.0024, 0.0028, 0.0032]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Both(
+                    AutoCondition::StatScaling {
+                        stat: BuffableStat::HpPercent,
+                        offset: None,
+                        cap: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                    },
+                    ManualCondition::Toggle,
+                ),
+            }],
         },
     }),
 };
@@ -140,7 +177,20 @@ pub const KEY_OF_KHAJ_NISUT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP上限に基づき元素熟知アップ。フルスタックでチーム全員にEM付与",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "khaj_nisut_hp_em",
+                description: "HP上限×0.12-0.24%分をEMに加算",
+                stat: BuffableStat::ElementalMastery,
+                value: 0.0012,
+                refinement_values: Some([0.0012, 0.0015, 0.0018, 0.0021, 0.0024]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -161,7 +211,36 @@ pub const LIGHT_OF_FOLIAR_INCISION: WeaponData = WeaponData {
                 value: 0.04,
                 refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "foliar_em_normal_flat",
+                    description: "EM×120-240%分を通常攻撃フラットダメージに加算",
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 1.20,
+                    refinement_values: Some([1.20, 1.50, 1.80, 2.10, 2.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "foliar_em_skill_flat",
+                    description: "EM×120-240%分をスキルフラットダメージに加算",
+                    stat: BuffableStat::SkillFlatDmg,
+                    value: 1.20,
+                    refinement_values: Some([1.20, 1.50, 1.80, 2.10, 2.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -176,9 +255,30 @@ pub const LIGHTBEARING_MOONSHARD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Lightbearing Moonshard",
         effect: PassiveEffect {
-            description: "Conditional: 月光の力で攻撃力とダメージがアップ",
+            description: "月光の力でATK+24-48%/DMG+20-40%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "lightbearing_atk",
+                    description: "月光発動時にATK+24-48%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.24,
+                    refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "lightbearing_dmg",
+                    description: "月光発動時にDMG+20-40%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -216,7 +316,20 @@ pub const PEAK_PATROL_SONG: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: DEFに基づき元素DMGアップ。フルスタックでチームにDEF%/元素DMG付与",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "peak_patrol_def_dmg",
+                description: "DEF×8-16%分を元素DMGボーナスに加算",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -247,6 +360,7 @@ pub const PRIMORDIAL_JADE_CUTTER: WeaponData = WeaponData {
                 target: BuffTarget::OnlySelf,
                 activation: Activation::Auto(AutoCondition::StatScaling {
                     stat: BuffableStat::HpPercent,
+                    offset: None,
                     cap: None,
                 }),
             }],
@@ -306,9 +420,30 @@ pub const SUMMIT_SHAPER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "金璋の頂に登る",
         effect: PassiveEffect {
-            description: "Conditional: シールド強化+20-40%。攻撃命中でATK+4-8%、シールド時は2倍",
+            description: "攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "summit_shaper_atk_stacks",
+                    description: "攻撃命中でATK+4-8%（1スタック）、最大5スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+                ConditionalBuff {
+                    name: "summit_shaper_shield_atk_stacks",
+                    description: "シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(5)),
+                },
+            ],
         },
     }),
 };
@@ -329,7 +464,20 @@ pub const URAKU_MISUGIRI: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "uraku_def_skill",
+                description: "DEF増加分×18-36%分をスキルDMGボーナスに加算",
+                stat: BuffableStat::SkillDmgBonus,
+                value: 0.18,
+                refinement_values: Some([0.18, 0.225, 0.27, 0.315, 0.36]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercentRaw,
+                    offset: None,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -1075,3 +1223,177 @@ pub const ALL_SWORDS: &[&WeaponData] = &[
     &DULL_BLADE,
     &SILVER_SWORD,
 ];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::buff::AutoCondition;
+
+    #[test]
+    fn key_of_khaj_nisut_has_hp_em_conditional() {
+        let passive = KEY_OF_KHAJ_NISUT.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "khaj_nisut_hp_em");
+        assert_eq!(buff.stat, BuffableStat::ElementalMastery);
+        assert!((buff.value - 0.0012).abs() < 1e-7);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::HpPercent,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn light_of_foliar_incision_has_em_flatdmg_conditionals() {
+        let passive = LIGHT_OF_FOLIAR_INCISION.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "foliar_em_normal_flat");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((cond_buffs[0].value - 1.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "foliar_em_skill_flat");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::SkillFlatDmg);
+        assert!((cond_buffs[1].value - 1.20).abs() < 1e-6);
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                })
+            ));
+        }
+    }
+
+    #[test]
+    fn peak_patrol_song_has_def_dmgbonus_conditional() {
+        let passive = PEAK_PATROL_SONG.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "peak_patrol_def_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::DefPercent,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn uraku_misugiri_has_def_skill_conditional() {
+        let passive = URAKU_MISUGIRI.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "uraku_def_skill");
+        assert_eq!(buff.stat, BuffableStat::SkillDmgBonus);
+        assert!((buff.value - 0.18).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::DefPercentRaw,
+                offset: None,
+                cap: None,
+            })
+        ));
+    }
+
+    #[test]
+    fn athame_artis_has_skill_cr_and_skill_dmg() {
+        let passive = ATHAME_ARTIS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let cr_buff = &cond_buffs[0];
+        assert_eq!(cr_buff.name, "athame_artis_skill_cr");
+        assert_eq!(cr_buff.stat, BuffableStat::CritRate);
+        assert!((cr_buff.value - 0.10).abs() < 1e-6);
+        assert!(matches!(
+            cr_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+
+        let dmg_buff = &cond_buffs[1];
+        assert_eq!(dmg_buff.name, "athame_artis_skill_dmg");
+        assert_eq!(dmg_buff.stat, BuffableStat::SkillDmgBonus);
+        assert!((dmg_buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            dmg_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn azurelight_has_hp_na_dmg_both() {
+        let passive = AZURELIGHT.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "azurelight_hp_na_dmg");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((buff.value - 0.0016).abs() < 1e-7);
+        assert!(matches!(
+            buff.activation,
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    ..
+                },
+                ManualCondition::Toggle
+            )
+        ));
+    }
+
+    #[test]
+    fn lightbearing_moonshard_has_atk_and_dmg_toggle() {
+        let passive = LIGHTBEARING_MOONSHARD.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "lightbearing_atk");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[0].value - 0.24).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[1].name, "lightbearing_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn summit_shaper_has_atk_stacks_and_shield_stacks() {
+        let passive = SUMMIT_SHAPER.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "summit_shaper_atk_stacks");
+        assert_eq!(cond_buffs[1].name, "summit_shaper_shield_atk_stacks");
+
+        for buff in cond_buffs {
+            assert_eq!(buff.stat, BuffableStat::AtkPercent);
+            assert!((buff.value - 0.04).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Stacks(5))
+            ));
+            assert!(buff.refinement_values.is_some());
+        }
+    }
+}

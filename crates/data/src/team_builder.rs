@@ -283,6 +283,7 @@ impl TeamMemberBuilder {
                             char_data.weapon_type,
                             char_data.element,
                             &self.team_elements,
+                            refinement,
                         ),
                         Activation::Manual(manual) => {
                             eval_manual(manual, cond_buff, &self.manual_activations)
@@ -295,6 +296,7 @@ impl TeamMemberBuilder {
                                 char_data.weapon_type,
                                 char_data.element,
                                 &self.team_elements,
+                                refinement,
                             );
                             auto_result.and_then(|_| {
                                 eval_manual(manual, cond_buff, &self.manual_activations)
@@ -385,6 +387,7 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         BuffableStat::DefPercent => {
             profile.base_def * (1.0 + profile.def_percent) + profile.def_flat
         }
+        BuffableStat::DefPercentRaw => profile.def_percent,
         BuffableStat::ElementalMastery => profile.elemental_mastery,
         BuffableStat::EnergyRecharge => profile.energy_recharge,
         _ => 0.0,
@@ -399,6 +402,7 @@ fn eval_auto(
     weapon_type: WeaponType,
     element: Element,
     team_elements: &[Element],
+    refinement: u8, // 1-based: 1=R1, 5=R5
 ) -> Option<f64> {
     match cond {
         AutoCondition::WeaponTypeRequired(types) => {
@@ -415,10 +419,12 @@ fn eval_auto(
                 None
             }
         }
-        AutoCondition::StatScaling { stat, cap } => {
+        AutoCondition::StatScaling { stat, offset, cap } => {
             let stat_val = read_stat_for_scaling(stat, profile);
-            let raw = stat_val * multiplier;
-            Some(cap.map_or(raw, |c| raw.min(c)))
+            let effective = (stat_val - offset.unwrap_or(0.0)).max(0.0);
+            let raw = effective * multiplier;
+            let idx = refinement.saturating_sub(1).min(4) as usize;
+            Some(cap.map_or(raw, |caps| raw.min(caps[idx])))
         }
         AutoCondition::TeamElementCount {
             element: elem,
@@ -956,6 +962,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Pyro,
             &[],
+            1,
         );
         assert!((result.unwrap() - 0.35).abs() < EPSILON);
     }
@@ -970,6 +977,7 @@ mod conditional_tests {
             WeaponType::Catalyst,
             Element::Pyro,
             &[],
+            1,
         );
         assert!(result.is_none());
     }
@@ -984,6 +992,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Pyro,
             &[],
+            1,
         );
         assert!((result.unwrap() - 0.20).abs() < EPSILON);
     }
@@ -998,6 +1007,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Cryo,
             &[],
+            1,
         );
         assert!(result.is_none());
     }
@@ -1006,14 +1016,23 @@ mod conditional_tests {
     fn test_eval_auto_stat_scaling_normal() {
         let cond = AutoCondition::StatScaling {
             stat: BuffableStat::EnergyRecharge,
-            cap: Some(0.75),
+            offset: None,
+            cap: Some([0.75; 5]),
         };
         let profile = StatProfile {
             energy_recharge: 1.80,
             ..Default::default()
         };
         // 1.80 * 0.25 = 0.45 (below cap)
-        let result = eval_auto(&cond, 0.25, &profile, WeaponType::Sword, Element::Pyro, &[]);
+        let result = eval_auto(
+            &cond,
+            0.25,
+            &profile,
+            WeaponType::Sword,
+            Element::Pyro,
+            &[],
+            1,
+        );
         assert!((result.unwrap() - 0.45).abs() < EPSILON);
     }
 
@@ -1021,14 +1040,23 @@ mod conditional_tests {
     fn test_eval_auto_stat_scaling_capped() {
         let cond = AutoCondition::StatScaling {
             stat: BuffableStat::EnergyRecharge,
-            cap: Some(0.75),
+            offset: None,
+            cap: Some([0.75; 5]),
         };
         let profile = StatProfile {
             energy_recharge: 4.00,
             ..Default::default()
         };
         // 4.00 * 0.25 = 1.00 → capped at 0.75
-        let result = eval_auto(&cond, 0.25, &profile, WeaponType::Sword, Element::Pyro, &[]);
+        let result = eval_auto(
+            &cond,
+            0.25,
+            &profile,
+            WeaponType::Sword,
+            Element::Pyro,
+            &[],
+            1,
+        );
         assert!((result.unwrap() - 0.75).abs() < EPSILON);
     }
 
@@ -1036,6 +1064,7 @@ mod conditional_tests {
     fn test_eval_auto_stat_scaling_hp() {
         let cond = AutoCondition::StatScaling {
             stat: BuffableStat::HpPercent,
+            offset: None,
             cap: None,
         };
         let profile = StatProfile {
@@ -1052,8 +1081,118 @@ mod conditional_tests {
             WeaponType::Polearm,
             Element::Pyro,
             &[],
+            1,
         );
         assert!((result.unwrap() - 214.16).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_with_offset() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::EnergyRecharge,
+            offset: Some(1.0),
+            cap: None,
+        };
+        let profile = StatProfile {
+            energy_recharge: 1.80,
+            ..Default::default()
+        };
+        // (1.80 - 1.0) * 0.28 = 0.224
+        let result = eval_auto(
+            &cond,
+            0.28,
+            &profile,
+            WeaponType::Polearm,
+            Element::Electro,
+            &[],
+            1,
+        );
+        assert!((result.unwrap() - 0.224).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_offset_clamps_negative() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::EnergyRecharge,
+            offset: Some(1.0),
+            cap: None,
+        };
+        let profile = StatProfile {
+            energy_recharge: 0.80,
+            ..Default::default()
+        };
+        // (0.80 - 1.0).max(0.0) * 0.28 = 0.0
+        let result = eval_auto(
+            &cond,
+            0.28,
+            &profile,
+            WeaponType::Polearm,
+            Element::Electro,
+            &[],
+            1,
+        );
+        assert!((result.unwrap() - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_refinement_cap() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::EnergyRecharge,
+            offset: Some(1.0),
+            cap: Some([0.80, 0.90, 1.00, 1.10, 1.20]),
+        };
+        let profile = StatProfile {
+            energy_recharge: 5.00,
+            ..Default::default()
+        };
+        // R1: (5.00 - 1.0) * 0.28 = 1.12 → capped at 0.80
+        let result = eval_auto(
+            &cond,
+            0.28,
+            &profile,
+            WeaponType::Polearm,
+            Element::Electro,
+            &[],
+            1,
+        );
+        assert!((result.unwrap() - 0.80).abs() < EPSILON);
+
+        // R5: (5.00 - 1.0) * 0.56 = 2.24 → capped at 1.20
+        let result_r5 = eval_auto(
+            &cond,
+            0.56,
+            &profile,
+            WeaponType::Polearm,
+            Element::Electro,
+            &[],
+            5,
+        );
+        assert!((result_r5.unwrap() - 1.20).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_auto_stat_scaling_def_percent_raw() {
+        let cond = AutoCondition::StatScaling {
+            stat: BuffableStat::DefPercentRaw,
+            offset: None,
+            cap: None,
+        };
+        let profile = StatProfile {
+            base_def: 800.0,
+            def_percent: 0.50,
+            ..Default::default()
+        };
+        // DefPercentRaw reads 0.50 directly: 0.50 * 0.18 = 0.09
+        let result = eval_auto(
+            &cond,
+            0.18,
+            &profile,
+            WeaponType::Sword,
+            Element::Geo,
+            &[],
+            1,
+        );
+        assert!((result.unwrap() - 0.09).abs() < EPSILON);
     }
 
     #[test]
@@ -1070,6 +1209,7 @@ mod conditional_tests {
             WeaponType::Bow,
             Element::Geo,
             &team,
+            1,
         );
         assert!((result.unwrap() - 0.25).abs() < EPSILON);
     }
@@ -1088,6 +1228,7 @@ mod conditional_tests {
             WeaponType::Bow,
             Element::Geo,
             &team,
+            1,
         );
         assert!(result.is_none());
     }
@@ -1105,6 +1246,7 @@ mod conditional_tests {
             WeaponType::Bow,
             Element::Geo,
             &[],
+            1,
         );
         assert!(result.is_none());
     }
@@ -1125,6 +1267,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Hydro,
             &team,
+            1,
         );
         assert!((result.unwrap() - 0.10).abs() < EPSILON);
     }
@@ -1145,6 +1288,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Hydro,
             &team,
+            1,
         );
         assert!(result.is_none());
     }
@@ -1159,6 +1303,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Hydro,
             &[],
+            1,
         );
         assert!(result.is_none());
     }
@@ -1253,6 +1398,7 @@ mod conditional_tests {
     fn test_both_auto_pass_manual_pass() {
         let auto = AutoCondition::StatScaling {
             stat: BuffableStat::HpPercent,
+            offset: None,
             cap: None,
         };
         let manual = ManualCondition::Toggle;
@@ -1269,6 +1415,7 @@ mod conditional_tests {
             WeaponType::Polearm,
             Element::Pyro,
             &[],
+            1,
         );
         assert!(auto_result.is_some());
         // eval_manual: toggle activated → returns buff.value (0.01)
@@ -1289,6 +1436,7 @@ mod conditional_tests {
             WeaponType::Catalyst,
             Element::Pyro,
             &[],
+            1,
         );
         assert!(auto_result.is_none());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);
@@ -1308,6 +1456,7 @@ mod conditional_tests {
             WeaponType::Sword,
             Element::Pyro,
             &[],
+            1,
         );
         assert!(auto_result.is_some());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);

@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(*)",
       "Bash(cargo:*)",
       "Bash(git:*)",
       "Bash(gh:*)",
@@ -60,6 +61,7 @@
       "Bash(true:*)",
       "Bash(false:*)",
       "Bash(test:*)",
+      "Bash(python3:*)",
       "Bash([[:*)",
       "Read",
       "Edit",
