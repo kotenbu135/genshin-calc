@@ -1,7 +1,7 @@
 # P3 Batch 3: 5-Star Weapon Toggle/TeamComp ConditionalBuff Design
 
 **Date**: 2026-03-29
-**Status**: Draft
+**Status**: Reviewed (v2)
 **Depends on**: P0 (ConditionalBuff), P3 Batch 1 (StatScaling), P3 Batch 2 (Stacks)
 **Scope**: 13 five-star weapons with Toggle/TeamComp/Both ConditionalBuff (data-only, no core changes)
 
@@ -16,19 +16,18 @@ Add ConditionalBuff definitions to 13 five-star weapons using existing `ManualCo
 ```
 ConditionalBuff 1:
   name: "athame_artis_skill_cr"
-  stat: SkillCritRate
+  stat: CritRate
   R1-R5: [0.10, 0.125, 0.15, 0.175, 0.20] (TBV)
   activation: Manual(Toggle)
 
 ConditionalBuff 2:
-  name: "athame_artis_elemental_dmg"
-  stat: DmgBonus
+  name: "athame_artis_skill_dmg"
+  stat: SkillDmgBonus
   R1-R5: [0.08, 0.10, 0.12, 0.14, 0.16] (TBV)
   activation: Manual(Toggle)
 ```
 
-Elemental Skill CR and Elemental DMG up after using Skill.
-Note: `SkillCritRate` — verify this BuffableStat exists. If not, use `CritRate` as approximation (over-buffs non-skill attacks).
+Elemental Skill CritRate and Skill DMG up after using Skill. `CritRate` used as approximation for Skill-only CR (no `SkillCritRate` variant exists; over-buffs non-skill attacks). `SkillDmgBonus` is exact match for Skill DMG portion.
 
 ### 2. Azurelight (Sword) — Both(StatScaling, Toggle)
 
@@ -129,6 +128,7 @@ ConditionalBuff 2:
 ```
 
 Always-on EM+60 as StatBuff. Sigil accumulation trigger activates team-wide EM+100 and ATK+20%.
+Update weapon description from "Conditional: EM+60。追憶の印蓄積でチーム全員にEM+100/ATK+20%" to "EM+60-120。追憶の印蓄積でチーム全員にEM+100-200/ATK+20-40%".
 
 ### 7. The First Great Magic (Bow) — TeamComp
 
@@ -157,21 +157,27 @@ CA DMG+16-32% is already in StatBuff. ATK% scales with number of different-eleme
 ### 8. A Thousand Floating Dreams (Catalyst) — TeamComp
 
 ```
-ConditionalBuff 1 (same element bonus):
-  name: "thousand_dreams_same_em"
+ConditionalBuff 1-3 (same element EM, overlapping):
+  name: "thousand_dreams_same1_em" / "thousand_dreams_same2_em" / "thousand_dreams_same3_em"
   stat: ElementalMastery
   R1-R5: [32.0, 40.0, 48.0, 56.0, 64.0]
-  activation: Auto(TeamSameElementCount { min_count: 1 })
+  activation: Auto(TeamSameElementCount { min_count: 1 / 2 / 3 })
 
-ConditionalBuff 2 (different element bonus):
-  name: "thousand_dreams_diff_dmg"
+ConditionalBuff 4-6 (different element DMG%, overlapping):
+  name: "thousand_dreams_diff1_dmg" / "thousand_dreams_diff2_dmg" / "thousand_dreams_diff3_dmg"
   stat: DmgBonus
-  R1-R5: [0.10, 0.14, 0.18, 0.22, 0.26] (TBV — per different-element member)
-  activation: Auto(TeamDiffElementCount { min_count: 1 })
+  R1-R5: [0.10, 0.14, 0.18, 0.22, 0.26] (TBV)
+  activation: Auto(TeamDiffElementCount { min_count: 1 / 2 / 3 })
+
+ConditionalBuff 7 (team EM buff):
+  name: "thousand_dreams_team_em"
+  stat: ElementalMastery
+  R1-R5: [40.0, 44.0, 48.0, 52.0, 56.0] (TBV)
+  target: BuffTarget::TeamExcludeSelf
+  activation: Manual(Toggle)
 ```
 
-Per same-element team member: EM+32. Per different-element: DMG+10%. Max 3 members counted.
-Note: The per-member scaling may need multiple ConditionalBuffs (1/2/3 members) similar to First Great Magic. Verify during implementation whether `TeamSameElementCount { min_count: 1 }` gives per-member count or just activates once.
+Per same-element team member: EM+32. Per different-element: DMG+10%. Max 3 members counted. Uses overlapping AutoCondition pattern (same as Gilded Dreams in artifacts.rs). Team EM buff to other party members modeled as Toggle with TeamExcludeSelf target.
 
 ### 9. Jadefall's Splendor (Catalyst) — Toggle
 
@@ -183,7 +189,7 @@ ConditionalBuff:
   activation: Manual(Toggle)
 ```
 
-After consuming Elemental Energy, grants EM. Single Toggle.
+After consuming Elemental Energy, grants EM. Single Toggle. Note: actual game mechanic may vary EM by element count in party — verify during TBV pass. If so, expand to multiple overlapping AutoCondition buffs.
 
 ### 10. Nightweaver's Looking Glass (Catalyst) — Toggle
 
@@ -264,7 +270,7 @@ Elemental reaction grants ATK% and DMG%.
 | `crates/data/src/weapons/sword.rs` | Athame (2), Azurelight (1), Lightbearing (2) ConditionalBuffs |
 | `crates/data/src/weapons/claymore.rs` | Beacon (3), Gest (2) ConditionalBuffs |
 | `crates/data/src/weapons/bow.rs` | Elegy (2 + StatBuff change), First Great Magic (3) ConditionalBuffs |
-| `crates/data/src/weapons/catalyst.rs` | Thousand Dreams (2), Jadefall (1), Nightweaver (2), Reliquary (1), Starcaller (1), Sunny (2) ConditionalBuffs |
+| `crates/data/src/weapons/catalyst.rs` | Thousand Dreams (7), Jadefall (1), Nightweaver (2), Reliquary (1), Starcaller (1), Sunny (2) ConditionalBuffs |
 
 ### Core Crate
 
