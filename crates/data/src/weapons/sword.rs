@@ -1,4 +1,7 @@
-use crate::buff::{BuffableStat, PassiveEffect, StatBuff};
+use crate::buff::{
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
+};
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
@@ -228,13 +231,25 @@ pub const PRIMORDIAL_JADE_CUTTER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "護国の無垢",
         effect: PassiveEffect {
-            description: "HP+20-40%。HP上限に基づきATKアップ",
+            description: "HP+20-40%。HP上限の1.2-2.4%分ATKアップ",
             buffs: &[StatBuff {
                 stat: BuffableStat::HpPercent,
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "jade_cutter_hp_atk",
+                description: "HP上限の1.2%分ATKアップ（HP%に比例）",
+                stat: BuffableStat::AtkFlat,
+                value: 0.012,
+                refinement_values: Some([0.012, 0.015, 0.018, 0.021, 0.024]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    cap: None,
+                }),
+            }],
         },
     }),
 };
@@ -494,9 +509,18 @@ pub const IRON_STING: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "注入の刺突",
         effect: PassiveEffect {
-            description: "Conditional: 元素ダメージ命中時にDMG+6%、6秒、2スタックまで",
+            description: "元素ダメージ命中時にDMG+6-12%、6秒、2スタックまで",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "iron_sting_dmg",
+                description: "元素ダメージ命中後、全DMG+6-12%（最大2スタック）",
+                stat: BuffableStat::DmgBonus,
+                value: 0.06,
+                refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(2)),
+            }],
         },
     }),
 };
@@ -528,9 +552,18 @@ pub const LIONS_ROAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "獅子の咆哮",
         effect: PassiveEffect {
-            description: "Conditional: 炎/雷の影響を受けた敵にDMG+20%",
+            description: "炎/雷の影響を受けた敵にDMG+20-36%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "lions_roar_dmg",
+                description: "炎/雷元素の影響下の敵へのDMG+20-36%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.24, 0.28, 0.32, 0.36]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };

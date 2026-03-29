@@ -1,4 +1,6 @@
-use crate::buff::{BuffableStat, PassiveEffect, StatBuff};
+use crate::buff::{
+    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+};
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
@@ -203,7 +205,16 @@ pub const WOLFS_GRAVESTONE: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "wolfs_gravestone_team_atk",
+                description: "HP30%以下の敵に命中時、チーム全員ATK+40-80%（12秒）",
+                stat: BuffableStat::AtkPercent,
+                value: 0.40,
+                refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -536,9 +547,18 @@ pub const SERPENT_SPINE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "波乱",
         effect: PassiveEffect {
-            description: "Conditional: 4秒毎にDMG+6-10%、5スタックまで。ダメージ受けるとスタック減少",
+            description: "4秒毎にDMG+6-10%スタック（最大5スタック）。ダメージを受けるとスタック減少",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "serpent_spine_dmg",
+                description: "フィールド上で4秒毎にDMG+6-10%（1スタック分）、最大5スタック",
+                stat: BuffableStat::DmgBonus,
+                value: 0.06,
+                refinement_values: Some([0.06, 0.07, 0.08, 0.09, 0.10]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(5)),
+            }],
         },
     }),
 };
@@ -640,9 +660,30 @@ pub const WHITEBLIND: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "精錬の極み",
         effect: PassiveEffect {
-            description: "Conditional: 通常/重撃命中でATK+6-12%/DEF+6-12%、4スタックまで",
+            description: "通常/重撃命中でATK+6-12%/DEF+6-12%（1スタック分）、最大4スタック",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "whiteblind_atk",
+                    description: "通常/重撃命中でATK+6-12%（1スタック）、最大4スタック",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.06,
+                    refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
+                },
+                ConditionalBuff {
+                    name: "whiteblind_def",
+                    description: "通常/重撃命中でDEF+6-12%（1スタック）、最大4スタック",
+                    stat: BuffableStat::DefPercent,
+                    value: 0.06,
+                    refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
+                },
+            ],
         },
     }),
 };

@@ -80,4 +80,7 @@ pub enum CalcError {
 
     #[error("talent level must be 1..=15, got {0}")]
     InvalidTalentLevel(u8),
+
+    #[error("weapon refinement must be 1..=5, got {0}")]
+    InvalidRefinement(u8),
 }
