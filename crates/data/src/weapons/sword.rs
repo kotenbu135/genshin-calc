@@ -299,7 +299,16 @@ pub const MISTSPLITTER_REFORGED: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "mistsplitter_emblem",
+                description: "霧切の巴紋: 1/2/3スタックで元素DMG+8%/16%/28% (R1)",
+                stat: BuffableStat::DmgBonus,
+                value: 0.08,
+                refinement_values: None,
+                stack_values: Some(&[0.08, 0.16, 0.28]),
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -1654,5 +1663,26 @@ mod tests {
             buff.activation,
             Activation::Manual(ManualCondition::Toggle)
         ));
+    }
+
+    #[test]
+    fn mistsplitter_has_emblem_stacks() {
+        let passive = MISTSPLITTER_REFORGED.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "mistsplitter_emblem");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        // Non-linear stack values
+        let sv = buff.stack_values.unwrap();
+        assert_eq!(sv.len(), 3);
+        assert!((sv[0] - 0.08).abs() < 1e-6);
+        assert!((sv[1] - 0.16).abs() < 1e-6);
+        assert!((sv[2] - 0.28).abs() < 1e-6);
     }
 }

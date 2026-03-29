@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use crate::types::Region;
 pub use genshin_calc_core::BuffTarget;
 pub use genshin_calc_core::BuffableStat;
 use genshin_calc_core::{Element, WeaponType};
@@ -52,6 +53,9 @@ pub enum AutoCondition {
     TeamSameElementCount { min_count: u8 },
     /// Buff active when N+ team members have a different element from the wearer (e.g. Gilded Dreams).
     TeamDiffElementCount { min_count: u8 },
+    /// Buff scales with count of team members from a specific region.
+    /// Returns effective_value * count. 0 members → None.
+    TeamRegionCount { region: Region },
 }
 
 /// Condition requiring user input (game state the builder cannot determine).
