@@ -46,9 +46,40 @@ pub const BEACON_OF_THE_REED_SEA: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Beacon of the Reed Sea",
         effect: PassiveEffect {
-            description: "Conditional: スキル命中後ATKアップ、ダメージ受けるとATKアップ、シールド時HP%アップ",
+            description: "スキル命中後ATK+20-40%、被弾後ATK+20-40%、シールド時HP+32-64%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "beacon_skill_atk",
+                    description: "元素スキル命中後にATK+20-40%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "beacon_dmg_taken_atk",
+                    description: "ダメージを受けた後にATK+20-40%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "beacon_shield_hp",
+                    description: "シールド保護時にHP+32-64%",
+                    stat: BuffableStat::HpPercent,
+                    value: 0.32,
+                    refinement_values: Some([0.32, 0.40, 0.48, 0.56, 0.64]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -89,9 +120,30 @@ pub const GEST_OF_THE_MIGHTY_WOLF: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Gest of the Mighty Wolf",
         effect: PassiveEffect {
-            description: "Conditional: 狼の力でダメージとバフがアップ",
+            description: "狼の力でDMG+16-32%/ATK+16-32%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "gest_wolf_dmg",
+                    description: "狼の力発動時にDMG+16-32%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "gest_wolf_atk",
+                    description: "狼の力発動時にATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -934,5 +986,53 @@ mod tests {
             Activation::Manual(ManualCondition::Stacks(3))
         ));
         assert!(buff.refinement_values.is_some());
+    }
+
+    #[test]
+    fn beacon_reed_sea_has_three_toggles() {
+        let passive = BEACON_OF_THE_REED_SEA.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 3);
+
+        assert_eq!(cond_buffs[0].name, "beacon_skill_atk");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[0].value - 0.20).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[1].name, "beacon_dmg_taken_atk");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[2].name, "beacon_shield_hp");
+        assert_eq!(cond_buffs[2].stat, BuffableStat::HpPercent);
+        assert!((cond_buffs[2].value - 0.32).abs() < 1e-6);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn gest_mighty_wolf_has_dmg_and_atk_toggle() {
+        let passive = GEST_OF_THE_MIGHTY_WOLF.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "gest_wolf_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[0].value - 0.16).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[1].name, "gest_wolf_atk");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[1].value - 0.16).abs() < 1e-6);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
     }
 }

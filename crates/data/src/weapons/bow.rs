@@ -115,9 +115,34 @@ pub const ELEGY_FOR_THE_END: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "別離の哀歌",
         effect: PassiveEffect {
-            description: "Conditional: EM+60。追憶の印蓄積でチーム全員にEM+100/ATK+20%",
-            buffs: &[],
-            conditional_buffs: &[],
+            description: "EM+60-120。追憶の印蓄積でチーム全員にEM+100-200/ATK+20-40%",
+            buffs: &[StatBuff {
+                stat: BuffableStat::ElementalMastery,
+                value: 60.0,
+                refinement_values: Some([60.0, 75.0, 90.0, 105.0, 120.0]),
+            }],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "elegy_team_em",
+                    description: "追憶の印フルスタック時にチーム全員EM+100-200",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 100.0,
+                    refinement_values: Some([100.0, 125.0, 150.0, 175.0, 200.0]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "elegy_team_atk",
+                    description: "追憶の印フルスタック時にチーム全員ATK+20-40%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -285,7 +310,44 @@ pub const THE_FIRST_GREAT_MAGIC: WeaponData = WeaponData {
                 value: 0.16,
                 refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "first_great_magic_atk_1",
+                    description: "1+異元素チームメンバーでATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 1,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "first_great_magic_atk_2",
+                    description: "2+異元素チームメンバーでATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 2,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "first_great_magic_atk_3",
+                    description: "3+異元素チームメンバーでATK+16-32%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 3,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -1068,5 +1130,61 @@ mod tests {
             Activation::Manual(ManualCondition::Stacks(3))
         ));
         assert!(buff.refinement_values.is_some());
+    }
+
+    #[test]
+    fn elegy_has_em_statbuff_and_team_conditionals() {
+        let passive = ELEGY_FOR_THE_END.passive.unwrap();
+
+        assert_eq!(passive.effect.buffs.len(), 1);
+        assert_eq!(passive.effect.buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((passive.effect.buffs[0].value - 60.0).abs() < 1e-6);
+
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "elegy_team_em");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((cond_buffs[0].value - 100.0).abs() < 1e-6);
+        assert_eq!(cond_buffs[0].target, BuffTarget::Team);
+
+        assert_eq!(cond_buffs[1].name, "elegy_team_atk");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].target, BuffTarget::Team);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn first_great_magic_has_team_diff_atk_conditionals() {
+        let passive = THE_FIRST_GREAT_MAGIC.passive.unwrap();
+
+        assert_eq!(passive.effect.buffs.len(), 1);
+        assert_eq!(
+            passive.effect.buffs[0].stat,
+            BuffableStat::ChargedAtkDmgBonus
+        );
+
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 3);
+
+        let expected_min_counts = [1u8, 2, 3];
+        for (i, buff) in cond_buffs.iter().enumerate() {
+            let expected_name = format!("first_great_magic_atk_{}", i + 1);
+            assert_eq!(buff.name, expected_name.as_str());
+            assert_eq!(buff.stat, BuffableStat::AtkPercent);
+            assert!((buff.value - 0.16).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Auto(AutoCondition::TeamDiffElementCount { min_count })
+                if min_count == expected_min_counts[i]
+            ));
+        }
     }
 }
