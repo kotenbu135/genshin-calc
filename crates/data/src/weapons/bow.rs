@@ -797,9 +797,18 @@ pub const MOUUNS_MOON: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "海淵の月",
         effect: PassiveEffect {
-            description: "Conditional: チーム全員のBurstエネルギーの合計に基づきBurst DMGアップ",
+            description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（総EP240超時）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "mouuns_moon_burst_dmg",
+                description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（240EP基準）",
+                stat: BuffableStat::BurstDmgBonus,
+                value: 0.40,
+                refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1202,9 +1211,18 @@ pub const RAVEN_BOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "烏の羽",
         effect: PassiveEffect {
-            description: "Conditional: Hydro/Pyro影響を受けた敵へのDMG+12%",
+            description: "水/炎元素影響下の敵へのDMG+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "raven_bow_dmg",
+                description: "水/炎元素影響下の敵へのDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1236,9 +1254,18 @@ pub const SHARPSHOOTERS_OATH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "精密射撃",
         effect: PassiveEffect {
-            description: "Conditional: 弱点命中時にDMG+24%",
+            description: "弱点命中時にDMG+24-48%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "sharpshooters_oath_dmg",
+                description: "弱点命中時にDMG+24-48%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.24,
+                refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1253,9 +1280,18 @@ pub const SLINGSHOT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "弾き出す",
         effect: PassiveEffect {
-            description: "Conditional: 矢が0.3秒以内に命中でDMG+36%、それ以上でDMG-10%",
+            description: "矢が0.3秒以内に命中でNA/CA DMG+36-60%（遠距離は-10%）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "slingshot_dmg",
+                description: "矢が0.3秒以内（近距離）に命中でNA/CA DMG+36-60%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.36,
+                refinement_values: Some([0.36, 0.42, 0.48, 0.54, 0.60]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1631,5 +1667,74 @@ mod tests {
             buff.activation,
             Activation::Manual(ManualCondition::Toggle)
         ));
+    }
+
+    #[test]
+    fn mouuns_moon_has_burst_dmg_toggle() {
+        let passive = MOUUNS_MOON.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "mouuns_moon_burst_dmg");
+        assert_eq!(buff.stat, BuffableStat::BurstDmgBonus);
+        assert!((buff.value - 0.40).abs() < 1e-6);
+        assert_eq!(buff.target, BuffTarget::OnlySelf);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.80).abs() < 1e-6);
+    }
+
+    #[test]
+    fn raven_bow_has_dmg_toggle() {
+        let passive = RAVEN_BOW.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "raven_bow_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.24).abs() < 1e-6);
+    }
+
+    #[test]
+    fn sharpshooters_oath_has_dmg_toggle() {
+        let passive = SHARPSHOOTERS_OATH.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "sharpshooters_oath_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.24).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.48).abs() < 1e-6);
+    }
+
+    #[test]
+    fn slingshot_has_dmg_toggle() {
+        let passive = SLINGSHOT.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "slingshot_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.36).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.60).abs() < 1e-6);
     }
 }

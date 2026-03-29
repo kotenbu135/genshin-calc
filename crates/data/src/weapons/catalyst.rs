@@ -118,8 +118,13 @@ pub const CASHFLOW_SUPERVISION: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Cashflow Supervision",
         effect: PassiveEffect {
-            description: "NA/CA DMG+16-32%",
+            description: "ATK+16-32%、NA/CA DMG+16-32%。HP変動後CA DMG追加+16-32%",
             buffs: &[
+                StatBuff {
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                },
                 StatBuff {
                     stat: BuffableStat::NormalAtkDmgBonus,
                     value: 0.16,
@@ -131,7 +136,16 @@ pub const CASHFLOW_SUPERVISION: WeaponData = WeaponData {
                     refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
                 },
             ],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "cashflow_supervision_ca_dmg",
+                description: "HP変動（回復/被ダメ）後にCA DMG追加+16-32%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -146,13 +160,22 @@ pub const CRANES_ECHOING_CALL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Crane's Echoing Call",
         effect: PassiveEffect {
-            description: "Plunging DMG+28-56%",
+            description: "Plunging DMG+28-56%。落下攻撃命中後チーム全員の落下攻撃DMG+28-56%",
             buffs: &[StatBuff {
                 stat: BuffableStat::PlungingAtkDmgBonus,
                 value: 0.28,
                 refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "cranes_echoing_call_team_plunge",
+                description: "落下攻撃命中後にチーム全員の落下攻撃DMG+28-56%",
+                stat: BuffableStat::PlungingAtkDmgBonus,
+                value: 0.28,
+                refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -167,13 +190,45 @@ pub const EVERLASTING_MOONGLOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Everlasting Moonglow",
         effect: PassiveEffect {
-            description: "Heal+10-20%",
+            description: "Heal+10-20%。NA DMG+HP上限の1-2%。元素爆発後12秒間NA DMG+HP上限の0.7-1.4%",
             buffs: &[StatBuff {
                 stat: BuffableStat::HealingBonus,
                 value: 0.10,
                 refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "everlasting_moonglow_na_hp",
+                    description: "HP上限の1-2%分、通常攻撃に追加ダメージ（常時）",
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 0.010,
+                    refinement_values: Some([0.010, 0.0125, 0.015, 0.0175, 0.020]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::HpPercent,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "everlasting_moonglow_burst_na_hp",
+                    description: "元素爆発後12秒間、HP上限の0.7-1.4%分の通常攻撃追加ダメージ",
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 0.007,
+                    refinement_values: Some([0.007, 0.00875, 0.0105, 0.01225, 0.014]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::HpPercent,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+            ],
         },
     }),
 };
@@ -607,9 +662,95 @@ pub const ASH_GRAVEN_DRINKING_HORN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Ash-Graven Drinking Horn",
         effect: PassiveEffect {
-            description: "Conditional: 夜魂バースト時にHP基準でDMGアップ",
+            description: "夜魂バースト中に全攻撃にフラットDMG+HP上限の2-4%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "ash_graven_na_hp",
+                    description: "夜魂バースト中に通常攻撃フラットDMG+HP上限の2-4%",
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 0.02,
+                    refinement_values: Some([0.02, 0.025, 0.03, 0.035, 0.04]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::HpPercent,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+                ConditionalBuff {
+                    name: "ash_graven_ca_hp",
+                    description: "夜魂バースト中に重撃フラットDMG+HP上限の2-4%",
+                    stat: BuffableStat::ChargedAtkFlatDmg,
+                    value: 0.02,
+                    refinement_values: Some([0.02, 0.025, 0.03, 0.035, 0.04]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::HpPercent,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+                ConditionalBuff {
+                    name: "ash_graven_plunge_hp",
+                    description: "夜魂バースト中に落下攻撃フラットDMG+HP上限の2-4%",
+                    stat: BuffableStat::PlungingAtkFlatDmg,
+                    value: 0.02,
+                    refinement_values: Some([0.02, 0.025, 0.03, 0.035, 0.04]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::HpPercent,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+                ConditionalBuff {
+                    name: "ash_graven_skill_hp",
+                    description: "夜魂バースト中に元素スキルフラットDMG+HP上限の2-4%",
+                    stat: BuffableStat::SkillFlatDmg,
+                    value: 0.02,
+                    refinement_values: Some([0.02, 0.025, 0.03, 0.035, 0.04]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::HpPercent,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+                ConditionalBuff {
+                    name: "ash_graven_burst_hp",
+                    description: "夜魂バースト中に元素爆発フラットDMG+HP上限の2-4%",
+                    stat: BuffableStat::BurstFlatDmg,
+                    value: 0.02,
+                    refinement_values: Some([0.02, 0.025, 0.03, 0.035, 0.04]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::HpPercent,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+            ],
         },
     }),
 };
@@ -992,9 +1133,25 @@ pub const RING_OF_YAXCHE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Ring of Yaxche",
         effect: PassiveEffect {
-            description: "Conditional: 夜魂バースト時にHP基準でNA DMGアップ",
+            description: "夜魂バースト中にNA DMG+HP上限の2-4%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "ring_of_yaxche_na_hp",
+                description: "夜魂バースト中にNA DMG+HP上限の2-4%（フラットダメージ）",
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 0.02,
+                refinement_values: Some([0.02, 0.025, 0.03, 0.035, 0.04]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Both(
+                    AutoCondition::StatScaling {
+                        stat: BuffableStat::HpPercent,
+                        offset: None,
+                        cap: None,
+                    },
+                    ManualCondition::Toggle,
+                ),
+            }],
         },
     }),
 };
@@ -1288,9 +1445,18 @@ pub const EMERALD_ORB: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Emerald Orb",
         effect: PassiveEffect {
-            description: "Conditional: 水元素反応時にATK+20%",
+            description: "水元素反応トリガー後10秒間ATK+20-40%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "emerald_orb_atk",
+                description: "水元素反応トリガー後10秒間ATK+20-40%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1374,9 +1540,18 @@ pub const TWIN_NEPHRITE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Twin Nephrite",
         effect: PassiveEffect {
-            description: "Conditional: 敵撃破時に移動速度とATK+12%",
+            description: "敵撃破後10秒間ATK+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "twin_nephrite_atk",
+                description: "敵撃破後10秒間ATK+12-24%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1818,5 +1993,170 @@ mod tests {
             buff.activation,
             Activation::Manual(ManualCondition::Toggle)
         ));
+    }
+
+    #[test]
+    fn cashflow_supervision_has_atk_statbuff_and_ca_conditional() {
+        let passive = CASHFLOW_SUPERVISION.passive.unwrap();
+        let buffs = passive.effect.buffs;
+        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((buffs[0].value - 0.16).abs() < 1e-6);
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "cashflow_supervision_ca_dmg");
+        assert_eq!(buff.stat, BuffableStat::ChargedAtkDmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.32).abs() < 1e-6);
+    }
+
+    #[test]
+    fn cranes_echoing_call_has_team_plunge_toggle() {
+        let passive = CRANES_ECHOING_CALL.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "cranes_echoing_call_team_plunge");
+        assert_eq!(buff.stat, BuffableStat::PlungingAtkDmgBonus);
+        assert!((buff.value - 0.28).abs() < 1e-6);
+        assert_eq!(buff.target, BuffTarget::Team);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.56).abs() < 1e-6);
+    }
+
+    #[test]
+    fn everlasting_moonglow_has_hp_scaling_na_dmg() {
+        let passive = EVERLASTING_MOONGLOW.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 2);
+
+        let base_buff = &cond[0];
+        assert_eq!(base_buff.name, "everlasting_moonglow_na_hp");
+        assert_eq!(base_buff.stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((base_buff.value - 0.010).abs() < 1e-6);
+        assert_eq!(base_buff.target, BuffTarget::OnlySelf);
+        assert!(matches!(
+            base_buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::HpPercent,
+                offset: None,
+                cap: None,
+            })
+        ));
+
+        let burst_buff = &cond[1];
+        assert_eq!(burst_buff.name, "everlasting_moonglow_burst_na_hp");
+        assert_eq!(burst_buff.stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((burst_buff.value - 0.007).abs() < 1e-6);
+        assert!(matches!(
+            burst_buff.activation,
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Toggle,
+            )
+        ));
+        let rv = base_buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.020).abs() < 1e-6);
+    }
+
+    #[test]
+    fn ash_graven_drinking_horn_has_hp_scaling_flat_dmg() {
+        let passive = ASH_GRAVEN_DRINKING_HORN.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 5);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "ash_graven_na_hp");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((buff.value - 0.02).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Toggle,
+            )
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.04).abs() < 1e-6);
+        // All 5 entries cover all damage types
+        assert_eq!(cond[1].stat, BuffableStat::ChargedAtkFlatDmg);
+        assert_eq!(cond[2].stat, BuffableStat::PlungingAtkFlatDmg);
+        assert_eq!(cond[3].stat, BuffableStat::SkillFlatDmg);
+        assert_eq!(cond[4].stat, BuffableStat::BurstFlatDmg);
+    }
+
+    #[test]
+    fn ring_of_yaxche_has_hp_scaling_na_dmg() {
+        let passive = RING_OF_YAXCHE.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "ring_of_yaxche_na_hp");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((buff.value - 0.02).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Toggle,
+            )
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.04).abs() < 1e-6);
+    }
+
+    #[test]
+    fn emerald_orb_has_atk_toggle() {
+        let passive = EMERALD_ORB.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "emerald_orb_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.20).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.40).abs() < 1e-6);
+    }
+
+    #[test]
+    fn twin_nephrite_has_atk_toggle() {
+        let passive = TWIN_NEPHRITE.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "twin_nephrite_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[4] - 0.24).abs() < 1e-6);
     }
 }

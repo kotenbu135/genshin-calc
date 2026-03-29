@@ -24,7 +24,16 @@ pub const ABSOLUTION: WeaponData = WeaponData {
                 value: 0.20,
                 refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "absolution_crit_dmg",
+                description: "罪禍スタックごとにCRIT DMG+16-32%",
+                stat: BuffableStat::CritDmg,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -139,7 +148,48 @@ pub const FREEDOM_SWORN: WeaponData = WeaponData {
                 value: 0.10,
                 refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "freedom_sworn_team_atk",
+                    description: "印2個蓄積後にチーム全員にATK+20-40%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "freedom_sworn_team_na_dmg",
+                    description: "印2個蓄積後にチーム全員にNA/CA/PlungeDMG+16-32%",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "freedom_sworn_team_ca_dmg",
+                    description: "印2個蓄積後にチーム全員にNA/CA/PlungeDMG+16-32%",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "freedom_sworn_team_plunge_dmg",
+                    description: "印2個蓄積後にチーム全員にNA/CA/PlungeDMG+16-32%",
+                    stat: BuffableStat::PlungingAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -160,7 +210,16 @@ pub const HARAN_GEPPAKU_FUTSU: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "haran_na_dmg",
+                description: "チームメンバーのスキル使用でNA DMG+12-24%（最大2スタック）",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(2)),
+            }],
         },
     }),
 };
@@ -414,7 +473,28 @@ pub const SPLENDOR_OF_TRANQUIL_WATERS: WeaponData = WeaponData {
                 value: 0.08,
                 refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "splendor_na_dmg",
+                    description: "HP変動時にNA DMG+8-16%（最大3スタック）",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.08,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(3)),
+                },
+                ConditionalBuff {
+                    name: "splendor_skill_dmg",
+                    description: "NA命中時にSkill DMG+6-12%（最大3スタック）",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.06,
+                    refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(3)),
+                },
+            ],
         },
     }),
 };
@@ -524,7 +604,16 @@ pub const BLACKCLIFF_LONGSWORD: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 敵を倒すとATK+12%、30秒、3スタックまで",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "blackcliff_longsword_atk",
+                description: "敵撃破ごとにATK+12-24%（最大3スタック）",
+                stat: BuffableStat::AtkPercent,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -541,7 +630,28 @@ pub const CALAMITY_OF_ESHU: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応時にスキルDMGとCRIT Rateがアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "calamity_eshu_skill_dmg",
+                    description: "元素反応後にSkill DMG+20-40%",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "calamity_eshu_crit_rate",
+                    description: "元素反応後にCRIT Rate+6-12%",
+                    stat: BuffableStat::CritRate,
+                    value: 0.06,
+                    refinement_values: Some([0.06, 0.075, 0.09, 0.105, 0.12]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -639,7 +749,38 @@ pub const FINALE_OF_THE_DEEP: WeaponData = WeaponData {
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
             }],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "finale_deep_na_dmg",
+                    description: "HP増減時にNA DMG+12-24%",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "finale_deep_ca_dmg",
+                    description: "HP増減時にCA DMG+12-24%",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "finale_deep_plunge_dmg",
+                    description: "HP増減時にPlunge DMG+12-24%",
+                    stat: BuffableStat::PlungingAtkDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -656,7 +797,28 @@ pub const FLEUVE_CENDRE_FERRYMAN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキルのCRIT RateとER%がアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "fleuve_skill_cr",
+                    description: "元素スキル使用後にCRIT Rate+8-16%（スキルのみ）",
+                    stat: BuffableStat::CritRate,
+                    value: 0.08,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "fleuve_energy_recharge",
+                    description: "元素スキル使用後にER+16-32%",
+                    stat: BuffableStat::EnergyRecharge,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -729,7 +891,16 @@ pub const KAGOTSURUBE_ISSHIN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA/CA/Plunge命中時にATK+15%、8秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "kagotsurube_atk",
+                description: "NA/CA/Plunge命中時にATK+15%（イベント武器、精錬なし）",
+                stat: BuffableStat::AtkPercent,
+                value: 0.15,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -772,7 +943,16 @@ pub const MOONWEAVERS_DAWN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素スキルまたは元素爆発の命中時にDMGバフ獲得",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "moonweavers_dawn_dmg",
+                description: "Skill/Burst命中後にDMG+16-32%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.16,
+                refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -817,7 +997,28 @@ pub const PROTOTYPE_RANCOUR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: NA/CA命中時にATK/DEF+4%、6秒、4スタックまで",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "prototype_rancour_atk",
+                    description: "NA/CA命中時にATK+4-8%（最大4スタック）",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
+                },
+                ConditionalBuff {
+                    name: "prototype_rancour_def",
+                    description: "NA/CA命中時にDEF+4-8%（最大4スタック）",
+                    stat: BuffableStat::DefPercent,
+                    value: 0.04,
+                    refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(4)),
+                },
+            ],
         },
     }),
 };
@@ -877,7 +1078,16 @@ pub const SAPWOOD_BLADE: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 草元素反応時に葉を生成、拾うとEM+60、12秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "sapwood_blade_em",
+                description: "草元素反応後に葉を拾うとEM+60-120",
+                stat: BuffableStat::ElementalMastery,
+                value: 60.0,
+                refinement_values: Some([60.0, 75.0, 90.0, 105.0, 120.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -963,7 +1173,28 @@ pub const SWORD_OF_NARZISSENKREUZ: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 装備者が「始まりの大いなる冒険」の影響を受けると元素スキル/元素爆発DMGアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "narzissenkreuz_skill_dmg",
+                    description: "冒険状態時にSkill DMG+32-64%",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.32,
+                    refinement_values: Some([0.32, 0.40, 0.48, 0.56, 0.64]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "narzissenkreuz_burst_dmg",
+                    description: "冒険状態時にBurst DMG+32-64%",
+                    stat: BuffableStat::BurstDmgBonus,
+                    value: 0.32,
+                    refinement_values: Some([0.32, 0.40, 0.48, 0.56, 0.64]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -979,12 +1210,17 @@ pub const THE_ALLEY_FLASH: WeaponData = WeaponData {
         name: "裏路地の閃光",
         effect: PassiveEffect {
             description: "DMG+12-24%。ダメージを受けると効果消失、5秒後に再発動",
-            buffs: &[StatBuff {
+            buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "alley_flash_dmg",
+                description: "DMG+12-24%（被弾で消失、5秒後に再発動）",
                 stat: BuffableStat::DmgBonus,
                 value: 0.12,
                 refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
             }],
-            conditional_buffs: &[],
         },
     }),
 };
@@ -1029,7 +1265,16 @@ pub const THE_DOCKHANDS_ASSISTANT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素反応時にEM+40、8秒、3スタックまで",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "dockhands_em",
+                description: "元素反応ごとにEM+40-80（最大3スタック）",
+                stat: BuffableStat::ElementalMastery,
+                value: 40.0,
+                refinement_values: Some([40.0, 50.0, 60.0, 70.0, 80.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(3)),
+            }],
         },
     }),
 };
@@ -1100,7 +1345,16 @@ pub const WOLF_FANG: WeaponData = WeaponData {
                     refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
                 },
             ],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "wolf_fang_def_reduction",
+                description: "Skill/Burst命中時に敵DEF-4-8%（最大4スタック）",
+                stat: BuffableStat::DefReduction,
+                value: 0.04,
+                refinement_values: Some([0.04, 0.05, 0.06, 0.07, 0.08]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            }],
         },
     }),
 };
@@ -1117,7 +1371,36 @@ pub const XIPHOS_MOONLIGHT: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EMに基づきERアップ。チームメンバーにもER付与",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "xiphos_self_er",
+                    description: "EM×0.036-0.072%分のERを自身に付与",
+                    stat: BuffableStat::EnergyRecharge,
+                    value: 0.00036,
+                    refinement_values: Some([0.00036, 0.00045, 0.00054, 0.00063, 0.00072]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "xiphos_team_er",
+                    description: "自身のER付与量の30%をチームメンバーに付与",
+                    stat: BuffableStat::EnergyRecharge,
+                    value: 0.000108,
+                    refinement_values: Some([0.000108, 0.0001350, 0.000162, 0.000189, 0.000216]),
+                    stack_values: None,
+                    target: BuffTarget::TeamExcludeSelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -1138,7 +1421,16 @@ pub const COOL_STEEL: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 水/氷の影響を受けた敵にDMG+12%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "cool_steel_dmg",
+                description: "水/氷の影響を受けた敵にDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1155,7 +1447,16 @@ pub const DARK_IRON_SWORD: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 雷元素反応時にATK+20%、12秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "dark_iron_atk",
+                description: "雷元素反応後にATK+20-40%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1189,7 +1490,16 @@ pub const HARBINGER_OF_DAWN: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: HP90%以上でCRIT Rate+14%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "harbinger_crit_rate",
+                description: "HP90%以上でCRIT Rate+14-28%",
+                stat: BuffableStat::CritRate,
+                value: 0.14,
+                refinement_values: Some([0.14, 0.175, 0.21, 0.245, 0.28]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1206,7 +1516,16 @@ pub const SKYRIDER_SWORD: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: 元素爆発後にNA/CA ATK+12%、15秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "skyrider_sword_atk",
+                description: "元素爆発後にATK+12-24%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1684,5 +2003,475 @@ mod tests {
         assert!((sv[0] - 0.08).abs() < 1e-6);
         assert!((sv[1] - 0.16).abs() < 1e-6);
         assert!((sv[2] - 0.28).abs() < 1e-6);
+    }
+
+    // ===== Phase 3 tests for 21 sword weapons =====
+
+    #[test]
+    fn cool_steel_has_conditional_dmg() {
+        let passive = COOL_STEEL.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "cool_steel_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert_eq!(buff.target, BuffTarget::OnlySelf);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.12).abs() < 1e-6);
+        assert!((rv[4] - 0.24).abs() < 1e-6);
+    }
+
+    #[test]
+    fn dark_iron_sword_has_atk_toggle() {
+        let passive = DARK_IRON_SWORD.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "dark_iron_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.20).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.20).abs() < 1e-6);
+        assert!((rv[4] - 0.40).abs() < 1e-6);
+    }
+
+    #[test]
+    fn harbinger_of_dawn_has_crit_rate_toggle() {
+        let passive = HARBINGER_OF_DAWN.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "harbinger_crit_rate");
+        assert_eq!(buff.stat, BuffableStat::CritRate);
+        assert!((buff.value - 0.14).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.14).abs() < 1e-6);
+        assert!((rv[4] - 0.28).abs() < 1e-6);
+    }
+
+    #[test]
+    fn skyrider_sword_has_atk_toggle() {
+        let passive = SKYRIDER_SWORD.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "skyrider_sword_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.12).abs() < 1e-6);
+        assert!((rv[4] - 0.24).abs() < 1e-6);
+    }
+
+    #[test]
+    fn kagotsurube_isshin_has_atk_toggle_no_refinement() {
+        let passive = KAGOTSURUBE_ISSHIN.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "kagotsurube_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.15).abs() < 1e-6);
+        assert!(buff.refinement_values.is_none());
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn sapwood_blade_has_em_toggle() {
+        let passive = SAPWOOD_BLADE.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "sapwood_blade_em");
+        assert_eq!(buff.stat, BuffableStat::ElementalMastery);
+        assert!((buff.value - 60.0).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 60.0).abs() < 1e-6);
+        assert!((rv[4] - 120.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn alley_flash_moved_to_conditional_dmg() {
+        let passive = THE_ALLEY_FLASH.passive.unwrap();
+        // StatBuff must be empty (moved to conditional)
+        assert_eq!(passive.effect.buffs.len(), 0);
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "alley_flash_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.12).abs() < 1e-6);
+        assert!((rv[4] - 0.24).abs() < 1e-6);
+    }
+
+    #[test]
+    fn sword_of_narzissenkreuz_has_skill_and_burst_dmg() {
+        let passive = SWORD_OF_NARZISSENKREUZ.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 2);
+
+        let skill = &cond[0];
+        assert_eq!(skill.name, "narzissenkreuz_skill_dmg");
+        assert_eq!(skill.stat, BuffableStat::SkillDmgBonus);
+        assert!((skill.value - 0.32).abs() < 1e-6);
+
+        let burst = &cond[1];
+        assert_eq!(burst.name, "narzissenkreuz_burst_dmg");
+        assert_eq!(burst.stat, BuffableStat::BurstDmgBonus);
+        assert!((burst.value - 0.32).abs() < 1e-6);
+
+        for buff in cond {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+            let rv = buff.refinement_values.unwrap();
+            assert!((rv[0] - 0.32).abs() < 1e-6);
+            assert!((rv[4] - 0.64).abs() < 1e-6);
+        }
+    }
+
+    #[test]
+    fn finale_of_the_deep_has_na_ca_plunge_toggle() {
+        let passive = FINALE_OF_THE_DEEP.passive.unwrap();
+        // ATK% StatBuff still present
+        assert_eq!(passive.effect.buffs.len(), 1);
+        assert_eq!(passive.effect.buffs[0].stat, BuffableStat::AtkPercent);
+
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 3);
+        assert_eq!(cond[0].stat, BuffableStat::NormalAtkDmgBonus);
+        assert_eq!(cond[1].stat, BuffableStat::ChargedAtkDmgBonus);
+        assert_eq!(cond[2].stat, BuffableStat::PlungingAtkDmgBonus);
+        for buff in cond {
+            assert!((buff.value - 0.12).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn moonweavers_dawn_has_dmg_toggle() {
+        let passive = MOONWEAVERS_DAWN.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "moonweavers_dawn_dmg");
+        assert_eq!(buff.stat, BuffableStat::DmgBonus);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.16).abs() < 1e-6);
+        assert!((rv[4] - 0.32).abs() < 1e-6);
+    }
+
+    #[test]
+    fn calamity_of_eshu_has_skill_dmg_and_crit_rate() {
+        let passive = CALAMITY_OF_ESHU.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 2);
+
+        let skill = &cond[0];
+        assert_eq!(skill.name, "calamity_eshu_skill_dmg");
+        assert_eq!(skill.stat, BuffableStat::SkillDmgBonus);
+        assert!((skill.value - 0.20).abs() < 1e-6);
+
+        let cr = &cond[1];
+        assert_eq!(cr.name, "calamity_eshu_crit_rate");
+        assert_eq!(cr.stat, BuffableStat::CritRate);
+        assert!((cr.value - 0.06).abs() < 1e-6);
+
+        for buff in cond {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn fleuve_cendre_ferryman_has_cr_and_er_toggle() {
+        let passive = FLEUVE_CENDRE_FERRYMAN.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 2);
+
+        let cr = &cond[0];
+        assert_eq!(cr.name, "fleuve_skill_cr");
+        assert_eq!(cr.stat, BuffableStat::CritRate);
+        assert!((cr.value - 0.08).abs() < 1e-6);
+        let rv = cr.refinement_values.unwrap();
+        assert!((rv[0] - 0.08).abs() < 1e-6);
+        assert!((rv[4] - 0.16).abs() < 1e-6);
+
+        let er = &cond[1];
+        assert_eq!(er.name, "fleuve_energy_recharge");
+        assert_eq!(er.stat, BuffableStat::EnergyRecharge);
+        assert!((er.value - 0.16).abs() < 1e-6);
+
+        for buff in cond {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn blackcliff_longsword_has_atk_stacks() {
+        let passive = BLACKCLIFF_LONGSWORD.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "blackcliff_longsword_atk");
+        assert_eq!(buff.stat, BuffableStat::AtkPercent);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.12).abs() < 1e-6);
+        assert!((rv[4] - 0.24).abs() < 1e-6);
+    }
+
+    #[test]
+    fn prototype_rancour_has_atk_and_def_stacks() {
+        let passive = PROTOTYPE_RANCOUR.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 2);
+
+        let atk = &cond[0];
+        assert_eq!(atk.name, "prototype_rancour_atk");
+        assert_eq!(atk.stat, BuffableStat::AtkPercent);
+        assert!((atk.value - 0.04).abs() < 1e-6);
+
+        let def = &cond[1];
+        assert_eq!(def.name, "prototype_rancour_def");
+        assert_eq!(def.stat, BuffableStat::DefPercent);
+        assert!((def.value - 0.04).abs() < 1e-6);
+
+        for buff in cond {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Stacks(4))
+            ));
+        }
+    }
+
+    #[test]
+    fn dockhands_assistant_has_em_stacks() {
+        let passive = THE_DOCKHANDS_ASSISTANT.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "dockhands_em");
+        assert_eq!(buff.stat, BuffableStat::ElementalMastery);
+        assert!((buff.value - 40.0).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 40.0).abs() < 1e-6);
+        assert!((rv[4] - 80.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn wolf_fang_has_def_reduction_stacks() {
+        let passive = WOLF_FANG.passive.unwrap();
+        // Skill/Burst StatBuffs still present
+        assert_eq!(passive.effect.buffs.len(), 2);
+
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "wolf_fang_def_reduction");
+        assert_eq!(buff.stat, BuffableStat::DefReduction);
+        assert!((buff.value - 0.04).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(4))
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.04).abs() < 1e-6);
+        assert!((rv[4] - 0.08).abs() < 1e-6);
+    }
+
+    #[test]
+    fn absolution_has_crit_dmg_stacks() {
+        let passive = ABSOLUTION.passive.unwrap();
+        // CritDmg StatBuff still present
+        assert_eq!(passive.effect.buffs.len(), 1);
+        assert_eq!(passive.effect.buffs[0].stat, BuffableStat::CritDmg);
+
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "absolution_crit_dmg");
+        assert_eq!(buff.stat, BuffableStat::CritDmg);
+        assert!((buff.value - 0.16).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.16).abs() < 1e-6);
+        assert!((rv[4] - 0.32).abs() < 1e-6);
+    }
+
+    #[test]
+    fn freedom_sworn_has_team_buffs() {
+        let passive = FREEDOM_SWORN.passive.unwrap();
+        // DmgBonus StatBuff still present
+        assert_eq!(passive.effect.buffs.len(), 1);
+
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 4);
+
+        let atk = &cond[0];
+        assert_eq!(atk.name, "freedom_sworn_team_atk");
+        assert_eq!(atk.stat, BuffableStat::AtkPercent);
+        assert_eq!(atk.target, BuffTarget::Team);
+        assert!((atk.value - 0.20).abs() < 1e-6);
+        let rv = atk.refinement_values.unwrap();
+        assert!((rv[0] - 0.20).abs() < 1e-6);
+        assert!((rv[4] - 0.40).abs() < 1e-6);
+
+        assert_eq!(cond[1].stat, BuffableStat::NormalAtkDmgBonus);
+        assert_eq!(cond[1].target, BuffTarget::Team);
+        assert_eq!(cond[2].stat, BuffableStat::ChargedAtkDmgBonus);
+        assert_eq!(cond[2].target, BuffTarget::Team);
+        assert_eq!(cond[3].stat, BuffableStat::PlungingAtkDmgBonus);
+        assert_eq!(cond[3].target, BuffTarget::Team);
+
+        for buff in &cond[1..] {
+            assert!((buff.value - 0.16).abs() < 1e-6);
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn haran_geppaku_futsu_has_na_dmg_stacks() {
+        let passive = HARAN_GEPPAKU_FUTSU.passive.unwrap();
+        // DmgBonus StatBuff still present
+        assert_eq!(passive.effect.buffs.len(), 1);
+
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 1);
+        let buff = &cond[0];
+        assert_eq!(buff.name, "haran_na_dmg");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((buff.value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            buff.activation,
+            Activation::Manual(ManualCondition::Stacks(2))
+        ));
+        let rv = buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.12).abs() < 1e-6);
+        assert!((rv[4] - 0.24).abs() < 1e-6);
+    }
+
+    #[test]
+    fn splendor_of_tranquil_waters_has_na_and_skill_stacks() {
+        let passive = SPLENDOR_OF_TRANQUIL_WATERS.passive.unwrap();
+        // SkillDmgBonus StatBuff still present
+        assert_eq!(passive.effect.buffs.len(), 1);
+
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 2);
+
+        let na = &cond[0];
+        assert_eq!(na.name, "splendor_na_dmg");
+        assert_eq!(na.stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((na.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            na.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+
+        let skill = &cond[1];
+        assert_eq!(skill.name, "splendor_skill_dmg");
+        assert_eq!(skill.stat, BuffableStat::SkillDmgBonus);
+        assert!((skill.value - 0.06).abs() < 1e-6);
+        assert!(matches!(
+            skill.activation,
+            Activation::Manual(ManualCondition::Stacks(3))
+        ));
+    }
+
+    #[test]
+    fn xiphos_moonlight_has_em_scaling_er_self_and_team() {
+        let passive = XIPHOS_MOONLIGHT.passive.unwrap();
+        let cond = passive.effect.conditional_buffs;
+        assert_eq!(cond.len(), 2);
+
+        let self_buff = &cond[0];
+        assert_eq!(self_buff.name, "xiphos_self_er");
+        assert_eq!(self_buff.stat, BuffableStat::EnergyRecharge);
+        assert!((self_buff.value - 0.00036).abs() < 1e-9);
+        assert_eq!(self_buff.target, BuffTarget::OnlySelf);
+        assert!(matches!(
+            self_buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::ElementalMastery,
+                offset: None,
+                cap: None,
+            })
+        ));
+        let rv = self_buff.refinement_values.unwrap();
+        assert!((rv[0] - 0.00036).abs() < 1e-9);
+        assert!((rv[4] - 0.00072).abs() < 1e-9);
+
+        let team_buff = &cond[1];
+        assert_eq!(team_buff.name, "xiphos_team_er");
+        assert_eq!(team_buff.stat, BuffableStat::EnergyRecharge);
+        assert_eq!(team_buff.target, BuffTarget::TeamExcludeSelf);
+        assert!((team_buff.value - 0.000108).abs() < 1e-10);
+        assert!(matches!(
+            team_buff.activation,
+            Activation::Auto(AutoCondition::StatScaling {
+                stat: BuffableStat::ElementalMastery,
+                offset: None,
+                cap: None,
+            })
+        ));
     }
 }
