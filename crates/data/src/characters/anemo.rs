@@ -222,6 +222,7 @@ pub const CHASCA: CharacterData = CharacterData {
             ],
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -394,6 +395,7 @@ pub const FARUZAN: CharacterData = CharacterData {
             scalings: &[FARUZAN_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -613,6 +615,7 @@ pub const HEIZOU: CharacterData = CharacterData {
             scalings: &[HEIZOU_BURST_VACUUM, HEIZOU_BURST_IRIS],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -760,6 +763,7 @@ pub const IFA: CharacterData = CharacterData {
             scalings: &[IFA_BURST, IFA_BURST_MARK],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -933,6 +937,7 @@ pub const JEAN: CharacterData = CharacterData {
             scalings: &[JEAN_BURST, JEAN_BURST_FIELD],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1146,6 +1151,7 @@ pub const KAZUHA: CharacterData = CharacterData {
             scalings: &[KAZUHA_BURST_SLASH, KAZUHA_BURST_DOT, KAZUHA_BURST_ELEM],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1309,6 +1315,7 @@ pub const LAN_YAN: CharacterData = CharacterData {
             scalings: &[LAN_YAN_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1512,6 +1519,7 @@ pub const LYNETTE: CharacterData = CharacterData {
             scalings: &[LYNETTE_BURST, LYNETTE_BURST_BOX, LYNETTE_BURST_VIVID],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1669,6 +1677,7 @@ pub const MIZUKI: CharacterData = CharacterData {
             scalings: &[MIZUKI_BURST, MIZUKI_BURST_SHOCKWAVE],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1882,6 +1891,7 @@ pub const SAYU: CharacterData = CharacterData {
             scalings: &[SAYU_BURST_ACTIVATION, SAYU_BURST_DARUMA],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -2044,6 +2054,7 @@ pub const SUCROSE: CharacterData = CharacterData {
             scalings: &[SUCROSE_BURST_DOT, SUCROSE_BURST_ELEM],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -2247,6 +2258,7 @@ pub const VENTI: CharacterData = CharacterData {
             scalings: &[VENTI_BURST_DOT, VENTI_BURST_ELEM],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -2384,6 +2396,7 @@ pub const WANDERER: CharacterData = CharacterData {
             scalings: &[WANDERER_BURST],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -2581,6 +2594,7 @@ pub const XIANYUN: CharacterData = CharacterData {
             scalings: &[XIANYUN_BURST, XIANYUN_BURST_STARWICKER],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -2747,4 +2761,5 @@ pub const XIAO: CharacterData = CharacterData {
             scalings: &[],
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };

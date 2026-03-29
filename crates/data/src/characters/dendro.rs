@@ -175,6 +175,7 @@ pub const ALHAITHAM: CharacterData = CharacterData {
             scalings: ALHAITHAM_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -331,6 +332,7 @@ pub const BAIZHU: CharacterData = CharacterData {
             scalings: BAIZHU_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -511,6 +513,7 @@ pub const COLLEI: CharacterData = CharacterData {
             scalings: COLLEI_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -702,6 +705,7 @@ pub const EMILIE: CharacterData = CharacterData {
             scalings: EMILIE_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -863,6 +867,7 @@ pub const KAVEH: CharacterData = CharacterData {
             scalings: KAVEH_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1024,6 +1029,7 @@ pub const KINICH: CharacterData = CharacterData {
             scalings: KINICH_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -1201,6 +1207,7 @@ pub const KIRARA: CharacterData = CharacterData {
             scalings: KIRARA_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -1348,6 +1355,7 @@ pub const NAHIDA: CharacterData = CharacterData {
             scalings: NAHIDA_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1555,6 +1563,7 @@ pub const TIGHNARI: CharacterData = CharacterData {
             scalings: TIGHNARI_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================
@@ -1737,6 +1746,7 @@ pub const TRAVELER_DENDRO: CharacterData = CharacterData {
             scalings: TRAVELER_DENDRO_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
@@ -1904,4 +1914,5 @@ pub const YAOYAO: CharacterData = CharacterData {
             scalings: YAOYAO_BURST_SCALINGS,
         },
     },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
