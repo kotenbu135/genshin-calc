@@ -294,9 +294,12 @@ impl TeamMemberBuilder {
                             &self.team_regions,
                             refinement,
                         ),
-                        Activation::Manual(manual) => {
-                            eval_manual(manual, cond_buff, &self.manual_activations)
-                        }
+                        Activation::Manual(manual) => eval_manual(
+                            manual,
+                            cond_buff,
+                            &self.manual_activations,
+                            effective_value,
+                        ),
                         Activation::Both(auto, manual) => {
                             let auto_result = eval_auto(
                                 auto,
@@ -308,8 +311,8 @@ impl TeamMemberBuilder {
                                 &self.team_regions,
                                 refinement,
                             );
-                            auto_result.and_then(|_| {
-                                eval_manual(manual, cond_buff, &self.manual_activations)
+                            auto_result.and_then(|av| {
+                                eval_manual(manual, cond_buff, &self.manual_activations, av)
                             })
                         }
                     };
@@ -503,11 +506,12 @@ fn eval_manual(
     cond: &ManualCondition,
     buff: &ConditionalBuff,
     activations: &[(&str, ManualActivation)],
+    base_value: f64,
 ) -> Option<f64> {
     let activation = activations.iter().find(|(name, _)| *name == buff.name);
     match cond {
         ManualCondition::Toggle => match activation {
-            Some((_, ManualActivation::Active)) => Some(buff.value),
+            Some((_, ManualActivation::Active)) => Some(base_value),
             _ => None,
         },
         ManualCondition::Stacks(max) => match activation {
@@ -518,14 +522,14 @@ fn eval_manual(
                 }
                 match buff.stack_values {
                     Some(values) => Some(values[(effective as usize).min(values.len()) - 1]),
-                    None => Some(buff.value * f64::from(effective)),
+                    None => Some(base_value * f64::from(effective)),
                 }
             }
             Some((_, ManualActivation::Active)) => {
                 let effective = *max;
                 match buff.stack_values {
                     Some(values) => Some(values[(effective as usize).min(values.len()) - 1]),
-                    None => Some(buff.value * f64::from(effective)),
+                    None => Some(base_value * f64::from(effective)),
                 }
             }
             _ => None,
@@ -1433,6 +1437,7 @@ mod conditional_tests {
             &ManualCondition::Toggle,
             &buff,
             &[("test_buff", ManualActivation::Active)],
+            buff.value,
         );
         assert!((result.unwrap() - 0.15).abs() < EPSILON);
     }
@@ -1440,7 +1445,7 @@ mod conditional_tests {
     #[test]
     fn test_eval_manual_toggle_not_present() {
         let buff = make_test_buff("test_buff", 0.15, ManualCondition::Toggle);
-        let result = eval_manual(&ManualCondition::Toggle, &buff, &[]);
+        let result = eval_manual(&ManualCondition::Toggle, &buff, &[], buff.value);
         assert!(result.is_none());
     }
 
@@ -1451,6 +1456,7 @@ mod conditional_tests {
             &ManualCondition::Toggle,
             &buff,
             &[("test_buff", ManualActivation::Stacks(2))],
+            buff.value,
         );
         assert!(result.is_none());
     }
@@ -1462,6 +1468,7 @@ mod conditional_tests {
             &ManualCondition::Stacks(3),
             &buff,
             &[("test_buff", ManualActivation::Stacks(2))],
+            buff.value,
         );
         assert!((result.unwrap() - 0.15).abs() < EPSILON); // 0.075 * 2
     }
@@ -1473,6 +1480,7 @@ mod conditional_tests {
             &ManualCondition::Stacks(3),
             &buff,
             &[("test_buff", ManualActivation::Stacks(5))],
+            buff.value,
         );
         assert!((result.unwrap() - 0.225).abs() < EPSILON); // 0.075 * 3 (capped)
     }
@@ -1480,7 +1488,7 @@ mod conditional_tests {
     #[test]
     fn test_eval_manual_stacks_not_present() {
         let buff = make_test_buff("test_buff", 0.075, ManualCondition::Stacks(3));
-        let result = eval_manual(&ManualCondition::Stacks(3), &buff, &[]);
+        let result = eval_manual(&ManualCondition::Stacks(3), &buff, &[], buff.value);
         assert!(result.is_none());
     }
 
@@ -1491,14 +1499,41 @@ mod conditional_tests {
             &ManualCondition::Stacks(3),
             &buff,
             &[("test_buff", ManualActivation::Active)],
+            buff.value,
         );
         assert!((result.unwrap() - 0.225).abs() < EPSILON); // 0.075 * 3 (max)
+    }
+
+    #[test]
+    fn test_eval_manual_toggle_uses_base_value() {
+        let buff = make_test_buff("test_buff", 0.15, ManualCondition::Toggle);
+        // base_value differs from buff.value — should return base_value
+        let result = eval_manual(
+            &ManualCondition::Toggle,
+            &buff,
+            &[("test_buff", ManualActivation::Active)],
+            0.30,
+        );
+        assert!((result.unwrap() - 0.30).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_manual_stacks_uses_base_value() {
+        let buff = make_test_buff("test_buff", 0.05, ManualCondition::Stacks(3));
+        let result = eval_manual(
+            &ManualCondition::Stacks(3),
+            &buff,
+            &[("test_buff", ManualActivation::Stacks(2))],
+            0.09,
+        );
+        assert!((result.unwrap() - 0.18).abs() < EPSILON); // 0.09 * 2
     }
 
     // --- Activation::Both tests (unit level) ---
 
     #[test]
     fn test_both_auto_pass_manual_pass() {
+        // Both should pass auto_val to eval_manual as base_value
         let auto = AutoCondition::StatScaling {
             stat: BuffableStat::HpPercent,
             offset: None,
@@ -1521,12 +1556,46 @@ mod conditional_tests {
             &[],
             1,
         );
-        assert!(auto_result.is_some());
-        // eval_manual: toggle activated → returns buff.value (0.01)
+        let auto_val = auto_result.unwrap();
+        assert!((auto_val - 200.0).abs() < EPSILON);
+        // Both passes auto_val (200.0) as base_value to eval_manual
         let buff = make_test_buff("test", 0.01, ManualCondition::Toggle);
         let result = auto_result
-            .and_then(|_| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)]));
-        assert!((result.unwrap() - 0.01).abs() < EPSILON);
+            .and_then(|av| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)], av));
+        assert!((result.unwrap() - 200.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_both_stat_scaling_with_stacks() {
+        let auto = AutoCondition::StatScaling {
+            stat: BuffableStat::ElementalMastery,
+            offset: None,
+            cap: None,
+        };
+        let manual = ManualCondition::Stacks(2);
+        let profile = StatProfile {
+            elemental_mastery: 200.0,
+            ..Default::default()
+        };
+        // eval_auto: 200 * 0.28 = 56.0
+        let auto_result = eval_auto(
+            &auto,
+            0.28,
+            &profile,
+            WeaponType::Polearm,
+            Element::Pyro,
+            &[],
+            &[],
+            1,
+        );
+        let auto_val = auto_result.unwrap();
+        assert!((auto_val - 56.0).abs() < EPSILON);
+        // Both: auto_val * 2 stacks = 112.0
+        let buff = make_test_buff("test", 0.28, ManualCondition::Stacks(2));
+        let result = auto_result.and_then(|av| {
+            eval_manual(&manual, &buff, &[("test", ManualActivation::Stacks(2))], av)
+        });
+        assert!((result.unwrap() - 112.0).abs() < EPSILON);
     }
 
     #[test]
@@ -1546,7 +1615,7 @@ mod conditional_tests {
         assert!(auto_result.is_none());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);
         let result = auto_result
-            .and_then(|_| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)]));
+            .and_then(|av| eval_manual(&manual, &buff, &[("test", ManualActivation::Active)], av));
         assert!(result.is_none());
     }
 
@@ -1566,8 +1635,8 @@ mod conditional_tests {
         );
         assert!(auto_result.is_some());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);
-        let result = auto_result.and_then(|_| {
-            eval_manual(&manual, &buff, &[]) // not activated
+        let result = auto_result.and_then(|av| {
+            eval_manual(&manual, &buff, &[], av) // not activated
         });
         assert!(result.is_none());
     }
@@ -1864,5 +1933,92 @@ mod conditional_tests {
             "R5 should give more ATK than R1"
         );
         assert!(r1_atk.value > 0.0, "ATK buff should be positive");
+    }
+
+    #[test]
+    fn test_lithic_blade_with_liyue_team() {
+        use crate::types::Region;
+        let beidou = find_character("beidou").unwrap();
+        let lithic = find_weapon("lithic_blade").unwrap();
+        let member = TeamMemberBuilder::new(beidou, lithic)
+            .team_regions(vec![Region::Liyue, Region::Mondstadt, Region::Liyue])
+            .build()
+            .unwrap();
+
+        let atk_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("lithic_blade_atk"))
+            .expect("Should have lithic_blade_atk buff");
+        // R1: 0.07 * 2 Liyue members = 0.14
+        assert!(
+            (atk_buff.value - 0.14).abs() < EPSILON,
+            "ATK% should be 0.14, got {}",
+            atk_buff.value
+        );
+
+        let crit_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("lithic_blade_crit"))
+            .expect("Should have lithic_blade_crit buff");
+        // R1: 0.03 * 2 = 0.06
+        assert!(
+            (crit_buff.value - 0.06).abs() < EPSILON,
+            "CR should be 0.06, got {}",
+            crit_buff.value
+        );
+    }
+
+    #[test]
+    fn test_scarlet_sands_with_em_and_stacks() {
+        let cyno = find_character("cyno").unwrap();
+        let weapon = find_weapon("staff_of_the_scarlet_sands").unwrap();
+        let em_stats = StatProfile {
+            elemental_mastery: 100.0,
+            ..Default::default()
+        };
+        let member = TeamMemberBuilder::new(cyno, weapon)
+            .artifact_stats(em_stats)
+            .activate_with_stacks("scarlet_sands_skill_stacks", 2)
+            .build()
+            .unwrap();
+
+        // Primary: Auto(StatScaling EM) should exist
+        let primary = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("scarlet_sands_em_atk"))
+            .expect("Should have primary EM ATK buff");
+        assert!(primary.value > 0.0, "Primary buff should be positive");
+
+        // Secondary: Both(StatScaling EM, Stacks(2)) should exist
+        let secondary = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("scarlet_sands_skill_stacks"))
+            .expect("Should have skill stacks buff");
+        assert!(secondary.value > 0.0, "Secondary buff should be positive");
+    }
+
+    #[test]
+    fn test_engulfing_burst_er_toggle() {
+        let raiden = find_character("raiden_shogun").unwrap();
+        let weapon = find_weapon("engulfing_lightning").unwrap();
+        let member = TeamMemberBuilder::new(raiden, weapon)
+            .activate("engulfing_burst_er")
+            .build()
+            .unwrap();
+
+        let er_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("engulfing_burst_er"))
+            .expect("Should have burst ER buff");
+        assert!(
+            (er_buff.value - 0.30).abs() < EPSILON,
+            "ER should be 0.30, got {}",
+            er_buff.value
+        );
     }
 }

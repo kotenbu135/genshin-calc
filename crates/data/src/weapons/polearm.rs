@@ -2,7 +2,7 @@ use crate::buff::{
     Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
     PassiveEffect, StatBuff,
 };
-use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
+use crate::types::{Rarity, Region, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
 // 5-Star Polearms
@@ -75,20 +75,32 @@ pub const ENGULFING_LIGHTNING: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: ERに基づきATKアップ。元素爆発後にER+30%",
             buffs: &[],
-            conditional_buffs: &[ConditionalBuff {
-                name: "engulfing_er_atk",
-                description: "ER超過分の28-56%をATK%に変換 (cap: 80-120%)",
-                stat: BuffableStat::AtkPercent,
-                value: 0.28,
-                refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
-                stack_values: None,
-                target: BuffTarget::OnlySelf,
-                activation: Activation::Auto(AutoCondition::StatScaling {
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "engulfing_er_atk",
+                    description: "ER超過分の28-56%をATK%に変換 (cap: 80-120%)",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.28,
+                    refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::EnergyRecharge,
+                        offset: Some(1.0),
+                        cap: Some([0.80, 0.90, 1.00, 1.10, 1.20]),
+                    }),
+                },
+                ConditionalBuff {
+                    name: "engulfing_burst_er",
+                    description: "元素爆発後12秒間ER+30-50%",
                     stat: BuffableStat::EnergyRecharge,
-                    offset: Some(1.0),
-                    cap: Some([0.80, 0.90, 1.00, 1.10, 1.20]),
-                }),
-            }],
+                    value: 0.30,
+                    refinement_values: Some([0.30, 0.35, 0.40, 0.45, 0.50]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -255,20 +267,39 @@ pub const STAFF_OF_THE_SCARLET_SANDS: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: EMに基づきATKアップ。スキル命中でさらにATKアップ",
             buffs: &[],
-            conditional_buffs: &[ConditionalBuff {
-                name: "scarlet_sands_em_atk",
-                description: "EM×52-104%分をATKフラットに加算",
-                stat: BuffableStat::AtkFlat,
-                value: 0.52,
-                refinement_values: Some([0.52, 0.65, 0.78, 0.91, 1.04]),
-                stack_values: None,
-                target: BuffTarget::OnlySelf,
-                activation: Activation::Auto(AutoCondition::StatScaling {
-                    stat: BuffableStat::ElementalMastery,
-                    offset: None,
-                    cap: None,
-                }),
-            }],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "scarlet_sands_em_atk",
+                    description: "EM×52-104%分をATKフラットに加算",
+                    stat: BuffableStat::AtkFlat,
+                    value: 0.52,
+                    refinement_values: Some([0.52, 0.65, 0.78, 0.91, 1.04]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "scarlet_sands_skill_stacks",
+                    description: "スキル命中後10秒間、EM×28-56%分ATKアップ。最大2スタック",
+                    stat: BuffableStat::AtkFlat,
+                    value: 0.28,
+                    refinement_values: Some([0.28, 0.35, 0.42, 0.49, 0.56]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::ElementalMastery,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Stacks(2),
+                    ),
+                },
+            ],
         },
     }),
 };
@@ -545,7 +576,32 @@ pub const LITHIC_SPEAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チーム内の璃月キャラ人数に応じてATK/CRIT Rateアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "lithic_spear_atk",
+                    description: "璃月キャラ1人につきATK+7-11%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.07,
+                    refinement_values: Some([0.07, 0.08, 0.09, 0.10, 0.11]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamRegionCount {
+                        region: Region::Liyue,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "lithic_spear_crit",
+                    description: "璃月キャラ1人につきCR+3-7%",
+                    stat: BuffableStat::CritRate,
+                    value: 0.03,
+                    refinement_values: Some([0.03, 0.04, 0.05, 0.06, 0.07]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamRegionCount {
+                        region: Region::Liyue,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -904,7 +960,7 @@ mod tests {
     fn engulfing_lightning_has_er_atk_conditional() {
         let passive = ENGULFING_LIGHTNING.passive.unwrap();
         let cond_buffs = passive.effect.conditional_buffs;
-        assert_eq!(cond_buffs.len(), 1);
+        assert_eq!(cond_buffs.len(), 2);
         let buff = &cond_buffs[0];
         assert_eq!(buff.name, "engulfing_er_atk");
         assert_eq!(buff.stat, BuffableStat::AtkPercent);
@@ -920,10 +976,36 @@ mod tests {
     }
 
     #[test]
+    fn engulfing_lightning_has_er_atk_and_burst_er() {
+        let passive = ENGULFING_LIGHTNING.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        // Primary unchanged
+        assert_eq!(cond_buffs[0].name, "engulfing_er_atk");
+
+        // Secondary: burst ER toggle
+        let buff2 = &cond_buffs[1];
+        assert_eq!(buff2.name, "engulfing_burst_er");
+        assert_eq!(buff2.stat, BuffableStat::EnergyRecharge);
+        assert!((buff2.value - 0.30).abs() < 1e-6);
+        assert!(buff2.refinement_values.is_some());
+        let rv = buff2.refinement_values.unwrap();
+        assert!((rv[0] - 0.30).abs() < 1e-6);
+        assert!((rv[4] - 0.50).abs() < 1e-6);
+        assert!(matches!(
+            buff2.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
     fn staff_of_scarlet_sands_has_em_atk_conditional() {
         let passive = STAFF_OF_THE_SCARLET_SANDS.passive.unwrap();
         let cond_buffs = passive.effect.conditional_buffs;
-        assert_eq!(cond_buffs.len(), 1);
+        assert_eq!(cond_buffs.len(), 2);
+
+        // Primary: EM → ATK flat (Auto StatScaling)
         let buff = &cond_buffs[0];
         assert_eq!(buff.name, "scarlet_sands_em_atk");
         assert_eq!(buff.stat, BuffableStat::AtkFlat);
@@ -935,6 +1017,24 @@ mod tests {
                 offset: None,
                 cap: None,
             })
+        ));
+
+        // Secondary: EM → ATK flat × stacks (Both StatScaling + Stacks)
+        let buff2 = &cond_buffs[1];
+        assert_eq!(buff2.name, "scarlet_sands_skill_stacks");
+        assert_eq!(buff2.stat, BuffableStat::AtkFlat);
+        assert!((buff2.value - 0.28).abs() < 1e-6);
+        assert!(buff2.refinement_values.is_some());
+        assert!(matches!(
+            buff2.activation,
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Stacks(2),
+            )
         ));
     }
 
@@ -982,5 +1082,28 @@ mod tests {
             ));
             assert!(buff.refinement_values.is_some());
         }
+    }
+
+    #[test]
+    fn lithic_spear_has_region_conditionals() {
+        let passive = LITHIC_SPEAR.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let atk = &cond_buffs[0];
+        assert_eq!(atk.name, "lithic_spear_atk");
+        assert_eq!(atk.stat, BuffableStat::AtkPercent);
+        assert!((atk.value - 0.07).abs() < 1e-6);
+        assert!(matches!(
+            atk.activation,
+            Activation::Auto(AutoCondition::TeamRegionCount {
+                region: crate::types::Region::Liyue
+            })
+        ));
+
+        let cr = &cond_buffs[1];
+        assert_eq!(cr.name, "lithic_spear_crit");
+        assert_eq!(cr.stat, BuffableStat::CritRate);
+        assert!((cr.value - 0.03).abs() < 1e-6);
     }
 }

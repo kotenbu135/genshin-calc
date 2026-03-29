@@ -2,7 +2,7 @@ use crate::buff::{
     Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
     PassiveEffect, StatBuff,
 };
-use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
+use crate::types::{Rarity, Region, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
 // 5-Star Claymores
@@ -492,11 +492,36 @@ pub const LITHIC_BLADE: WeaponData = WeaponData {
     base_atk: [42.0, 449.0, 475.0, 510.0],
     sub_stat: Some(WeaponSubStat::AtkPercent([0.090, 0.377, 0.377, 0.413])),
     passive: Some(WeaponPassive {
-        name: "千岩の槍",
+        name: "千岩の刃",
         effect: PassiveEffect {
             description: "Conditional: チーム内の璃月キャラ人数に応じてATK/CRIT Rateアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "lithic_blade_atk",
+                    description: "璃月キャラ1人につきATK+7-11%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.07,
+                    refinement_values: Some([0.07, 0.08, 0.09, 0.10, 0.11]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamRegionCount {
+                        region: Region::Liyue,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "lithic_blade_crit",
+                    description: "璃月キャラ1人につきCR+3-7%",
+                    stat: BuffableStat::CritRate,
+                    value: 0.03,
+                    refinement_values: Some([0.03, 0.04, 0.05, 0.06, 0.07]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamRegionCount {
+                        region: Region::Liyue,
+                    }),
+                },
+            ],
         },
     }),
 };
@@ -1131,5 +1156,31 @@ mod tests {
             buff.activation,
             Activation::Manual(ManualCondition::Toggle)
         ));
+    }
+
+    #[test]
+    fn lithic_blade_has_region_conditionals() {
+        let passive = LITHIC_BLADE.passive.unwrap();
+        assert_eq!(passive.name, "千岩の刃");
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let atk = &cond_buffs[0];
+        assert_eq!(atk.name, "lithic_blade_atk");
+        assert_eq!(atk.stat, BuffableStat::AtkPercent);
+        assert!((atk.value - 0.07).abs() < 1e-6);
+        assert!(atk.refinement_values.is_some());
+        assert!(matches!(
+            atk.activation,
+            Activation::Auto(AutoCondition::TeamRegionCount {
+                region: crate::types::Region::Liyue
+            })
+        ));
+
+        let cr = &cond_buffs[1];
+        assert_eq!(cr.name, "lithic_blade_crit");
+        assert_eq!(cr.stat, BuffableStat::CritRate);
+        assert!((cr.value - 0.03).abs() < 1e-6);
+        assert!(cr.refinement_values.is_some());
     }
 }

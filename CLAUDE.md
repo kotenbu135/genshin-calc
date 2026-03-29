@@ -57,7 +57,7 @@
 - `buff.rs`: BuffableStat(core re-export), StatBuff, PassiveEffect（武器パッシブ・聖遺物バフ）
 - `talent_buffs.rs`: 天賦バフ定義（TalentBuffDef, find_talent_buffs — 29キャラ・47定義）
 - `team_builder.rs`: TeamMemberBuilder（キャラ+武器+聖遺物→TeamMember構築）
-- `team_builder.rs`注意: `Both(auto, manual)`はauto値を破棄（ゲートのみ）。StatScaling結果を使いたい場合は`Auto(StatScaling)`を使用
+- `team_builder.rs`注意: `Both(auto, manual)`はauto_valをeval_manualのbase_valueとして渡す。Toggle→auto_val返却、Stacks→auto_val×n
 - `moonsign_chars.rs`: 月兆キャラデータ（9キャラの月光の祝福パッシブ + Laumaタレント強化）
 - `characters/`: 元素別ファイル（pyro/hydro/electro/cryo/dendro/anemo/geo）— 102キャラ
 - `weapons/`: 武器種別ファイル（sword/claymore/polearm/bow/catalyst）— 230武器
@@ -78,16 +78,27 @@
   - 新キャラ追加: TOMLファイル1つ追加するだけ
 - 許容誤差: 通常 `< 0.01`、ゲーム検証は `< 1.0`（floor丸め考慮）
 
-## Superpowers:Brainstorming Preferences
+## Superpowers Preferences
 
-Superpowers:brainstormingスキルは以下について質問せず、記載の通り進めること:
+Superpowers:brainstormingスキルは以下について質問せず、記載の通り進めること。
+
+### 自動採用する機能
 
 - **Visual companion**: 常にYES（提案メッセージ不要、即座に使用開始）
 - **SubAgent Driven Development**: 常にYES（実装は常にsubagent-driven-developmentスキルを使用）
 - **Spec review loop**: 常に実行（確認不要）
+
+### 対話スタイル
+
 - 選択肢形式を優先（A/B/C で回答できる形式）
 - 推奨選択肢を常に即採用（質問不要）。設計判断は推奨を提示→即採用→次へ進む
 - 1メッセージ1質問の制約は守るが、コンテキストから自明な質問はスキップ
 - CLAUDE.mdに回答が書いてある質問は聞かない
-- ブレインストーミング終了時にこの項目に追加したほうが良い質問内容を提案する
+
+### ブレインストーミング後の処理
+
+- 終了時にこの項目に追加したほうが良い質問内容を提案する
 - 実装完了後、`docs/superpowers/specs/` と `docs/superpowers/plans/` の該当ファイルを削除する（実装済みの設計書は不要。コードとテストが正）
+
+## superpowers:execute-plan
+実装はブランチを作成して行う
