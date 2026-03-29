@@ -62,9 +62,30 @@ pub const ATHAME_ARTIS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Athame Artis",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキルの会心率と元素ダメージがアップ",
+            description: "元素スキル使用後にスキルCR+10-20%/スキルDMG+8-16%（CritRate近似値）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "athame_artis_skill_cr",
+                    description: "元素スキル使用後にCR+10-20%（スキルのみ。CritRate近似値）",
+                    stat: BuffableStat::CritRate,
+                    value: 0.10,
+                    refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "athame_artis_skill_dmg",
+                    description: "元素スキル使用後にスキルDMG+8-16%",
+                    stat: BuffableStat::SkillDmgBonus,
+                    value: 0.08,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -79,9 +100,25 @@ pub const AZURELIGHT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Azurelight",
         effect: PassiveEffect {
-            description: "Conditional: HP上限を基にした通常攻撃ダメージアップ",
+            description: "HP上限×0.16-0.32%分をNA DMGボーナスに加算（条件付き、上限40-80%）",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "azurelight_hp_na_dmg",
+                description: "HP上限×0.16-0.32%分をNA DMGに加算",
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.0016,
+                refinement_values: Some([0.0016, 0.002, 0.0024, 0.0028, 0.0032]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Both(
+                    AutoCondition::StatScaling {
+                        stat: BuffableStat::HpPercent,
+                        offset: None,
+                        cap: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
+                    },
+                    ManualCondition::Toggle,
+                ),
+            }],
         },
     }),
 };
@@ -218,9 +255,30 @@ pub const LIGHTBEARING_MOONSHARD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Lightbearing Moonshard",
         effect: PassiveEffect {
-            description: "Conditional: 月光の力で攻撃力とダメージがアップ",
+            description: "月光の力でATK+24-48%/DMG+20-40%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "lightbearing_atk",
+                    description: "月光発動時にATK+24-48%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.24,
+                    refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "lightbearing_dmg",
+                    description: "月光発動時にDMG+20-40%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.20,
+                    refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -1228,5 +1286,73 @@ mod tests {
                 cap: None,
             })
         ));
+    }
+
+    #[test]
+    fn athame_artis_has_skill_cr_and_skill_dmg() {
+        let passive = ATHAME_ARTIS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        let cr_buff = &cond_buffs[0];
+        assert_eq!(cr_buff.name, "athame_artis_skill_cr");
+        assert_eq!(cr_buff.stat, BuffableStat::CritRate);
+        assert!((cr_buff.value - 0.10).abs() < 1e-6);
+        assert!(matches!(
+            cr_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+
+        let dmg_buff = &cond_buffs[1];
+        assert_eq!(dmg_buff.name, "athame_artis_skill_dmg");
+        assert_eq!(dmg_buff.stat, BuffableStat::SkillDmgBonus);
+        assert!((dmg_buff.value - 0.08).abs() < 1e-6);
+        assert!(matches!(
+            dmg_buff.activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn azurelight_has_hp_na_dmg_both() {
+        let passive = AZURELIGHT.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        let buff = &cond_buffs[0];
+        assert_eq!(buff.name, "azurelight_hp_na_dmg");
+        assert_eq!(buff.stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((buff.value - 0.0016).abs() < 1e-7);
+        assert!(matches!(
+            buff.activation,
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    ..
+                },
+                ManualCondition::Toggle
+            )
+        ));
+    }
+
+    #[test]
+    fn lightbearing_moonshard_has_atk_and_dmg_toggle() {
+        let passive = LIGHTBEARING_MOONSHARD.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+
+        assert_eq!(cond_buffs[0].name, "lightbearing_atk");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[0].value - 0.24).abs() < 1e-6);
+
+        assert_eq!(cond_buffs[1].name, "lightbearing_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[1].value - 0.20).abs() < 1e-6);
+
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
     }
 }

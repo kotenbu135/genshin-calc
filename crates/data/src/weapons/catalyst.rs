@@ -1,5 +1,6 @@
 use crate::buff::{
-    Activation, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition, PassiveEffect, StatBuff,
+    Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
+    PassiveEffect, StatBuff,
 };
 use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
@@ -17,9 +18,92 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "A Thousand Floating Dreams",
         effect: PassiveEffect {
-            description: "Conditional: チームの元素タイプに応じてEM/DMGアップ",
+            description: "同元素1人毎にEM+32-64、異元素1人毎にDMG+10-26%。チームにEM+40-56",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "thousand_dreams_same1_em",
+                    description: "1+同元素チームメンバーでEM+32-64",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 32.0,
+                    refinement_values: Some([32.0, 40.0, 48.0, 56.0, 64.0]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamSameElementCount {
+                        min_count: 1,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "thousand_dreams_same2_em",
+                    description: "2+同元素チームメンバーでEM+32-64",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 32.0,
+                    refinement_values: Some([32.0, 40.0, 48.0, 56.0, 64.0]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamSameElementCount {
+                        min_count: 2,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "thousand_dreams_same3_em",
+                    description: "3+同元素チームメンバーでEM+32-64",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 32.0,
+                    refinement_values: Some([32.0, 40.0, 48.0, 56.0, 64.0]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamSameElementCount {
+                        min_count: 3,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "thousand_dreams_diff1_dmg",
+                    description: "1+異元素チームメンバーでDMG+10-26%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.10,
+                    refinement_values: Some([0.10, 0.14, 0.18, 0.22, 0.26]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 1,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "thousand_dreams_diff2_dmg",
+                    description: "2+異元素チームメンバーでDMG+10-26%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.10,
+                    refinement_values: Some([0.10, 0.14, 0.18, 0.22, 0.26]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 2,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "thousand_dreams_diff3_dmg",
+                    description: "3+異元素チームメンバーでDMG+10-26%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.10,
+                    refinement_values: Some([0.10, 0.14, 0.18, 0.22, 0.26]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamDiffElementCount {
+                        min_count: 3,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "thousand_dreams_team_em",
+                    description: "チームメンバーにEM+40-56",
+                    stat: BuffableStat::ElementalMastery,
+                    value: 40.0,
+                    refinement_values: Some([40.0, 44.0, 48.0, 52.0, 56.0]),
+                    stack_values: None,
+                    target: BuffTarget::TeamExcludeSelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -104,9 +188,18 @@ pub const JADEFALLS_SPLENDOR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Jadefall's Splendor",
         effect: PassiveEffect {
-            description: "Conditional: 元素エネルギー消費後にEM獲得",
+            description: "元素エネルギー消費後にEM+32-64",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "jadefall_em",
+                description: "元素エネルギー消費後にEM+32-64",
+                stat: BuffableStat::ElementalMastery,
+                value: 32.0,
+                refinement_values: Some([32.0, 40.0, 48.0, 56.0, 64.0]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -202,9 +295,30 @@ pub const NIGHTWEAVERS_LOOKING_GLASS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Nightweaver's Looking Glass",
         effect: PassiveEffect {
-            description: "Conditional: 夜魂を消耗して通常/重撃ダメージアップ",
+            description: "夜魂消費でNA DMG+16-32%/CA DMG+16-32%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "nightweaver_na_dmg",
+                    description: "夜魂消費でNA DMG+16-32%",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "nightweaver_ca_dmg",
+                    description: "夜魂消費でCA DMG+16-32%",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.16,
+                    refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -245,9 +359,18 @@ pub const RELIQUARY_OF_TRUTH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Reliquary of Truth",
         effect: PassiveEffect {
-            description: "Conditional: 元素反応でDMGアップ",
+            description: "元素反応後にDMG+12-36%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "reliquary_truth_dmg",
+                description: "元素反応後にDMG+12-36%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.18, 0.24, 0.30, 0.36]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -283,9 +406,18 @@ pub const STARCALLERS_WATCH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Starcaller's Watch",
         effect: PassiveEffect {
-            description: "Conditional: チームの元素反応でDMGアップ",
+            description: "チームの元素反応でDMG+20-40%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "starcaller_dmg",
+                description: "チームが元素反応を起こした後にDMG+20-40%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -300,9 +432,30 @@ pub const SUNNY_MORNING_SLEEP_IN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Sunny Morning Sleep-In",
         effect: PassiveEffect {
-            description: "Conditional: 元素反応時にバフ獲得",
+            description: "元素反応時にATK+14-28%/DMG+18-36%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "sunny_morning_atk",
+                    description: "元素反応時にATK+14-28%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.14,
+                    refinement_values: Some([0.14, 0.175, 0.21, 0.245, 0.28]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "sunny_morning_dmg",
+                    description: "元素反応時にDMG+18-36%",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.18,
+                    refinement_values: Some([0.18, 0.225, 0.27, 0.315, 0.36]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };
@@ -1024,6 +1177,7 @@ pub const ALL_CATALYSTS: &[&WeaponData] = &[
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::buff::AutoCondition;
 
     #[test]
     fn kagura_has_skill_dmg_stacks_and_full_stack_bonus() {
@@ -1096,5 +1250,123 @@ mod tests {
             Activation::Manual(ManualCondition::Stacks(3))
         ));
         assert!(buff.refinement_values.is_some());
+    }
+
+    #[test]
+    fn thousand_floating_dreams_has_team_comp_and_team_buff() {
+        let passive = A_THOUSAND_FLOATING_DREAMS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 7);
+
+        for i in 0..3 {
+            let name = format!("thousand_dreams_same{}_em", i + 1);
+            let expected_min = (i + 1) as u8;
+            assert_eq!(cond_buffs[i].name, name.as_str());
+            assert_eq!(cond_buffs[i].stat, BuffableStat::ElementalMastery);
+            assert!((cond_buffs[i].value - 32.0).abs() < 1e-6);
+            assert!(matches!(
+                cond_buffs[i].activation,
+                Activation::Auto(AutoCondition::TeamSameElementCount { min_count })
+                if min_count == expected_min
+            ));
+        }
+
+        for i in 3..6 {
+            let name = format!("thousand_dreams_diff{}_dmg", i - 2);
+            let expected_min = (i - 2) as u8;
+            assert_eq!(cond_buffs[i].name, name.as_str());
+            assert_eq!(cond_buffs[i].stat, BuffableStat::DmgBonus);
+            assert!((cond_buffs[i].value - 0.10).abs() < 1e-6);
+            assert!(matches!(
+                cond_buffs[i].activation,
+                Activation::Auto(AutoCondition::TeamDiffElementCount { min_count })
+                if min_count == expected_min
+            ));
+        }
+
+        assert_eq!(cond_buffs[6].name, "thousand_dreams_team_em");
+        assert_eq!(cond_buffs[6].stat, BuffableStat::ElementalMastery);
+        assert!((cond_buffs[6].value - 40.0).abs() < 1e-6);
+        assert_eq!(cond_buffs[6].target, BuffTarget::TeamExcludeSelf);
+    }
+
+    #[test]
+    fn jadefall_has_em_toggle() {
+        let passive = JADEFALLS_SPLENDOR.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        assert_eq!(cond_buffs[0].name, "jadefall_em");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!((cond_buffs[0].value - 32.0).abs() < 1e-6);
+        assert!(matches!(
+            cond_buffs[0].activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn nightweaver_has_na_ca_dmg_toggle() {
+        let passive = NIGHTWEAVERS_LOOKING_GLASS.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "nightweaver_na_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((cond_buffs[0].value - 0.16).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "nightweaver_ca_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::ChargedAtkDmgBonus);
+        assert!((cond_buffs[1].value - 0.16).abs() < 1e-6);
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
+    }
+
+    #[test]
+    fn reliquary_truth_has_dmg_toggle() {
+        let passive = RELIQUARY_OF_TRUTH.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        assert_eq!(cond_buffs[0].name, "reliquary_truth_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[0].value - 0.12).abs() < 1e-6);
+        assert!(matches!(
+            cond_buffs[0].activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn starcaller_has_dmg_toggle() {
+        let passive = STARCALLERS_WATCH.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 1);
+        assert_eq!(cond_buffs[0].name, "starcaller_dmg");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[0].value - 0.20).abs() < 1e-6);
+        assert!(matches!(
+            cond_buffs[0].activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+    }
+
+    #[test]
+    fn sunny_morning_has_atk_and_dmg_toggle() {
+        let passive = SUNNY_MORNING_SLEEP_IN.passive.unwrap();
+        let cond_buffs = passive.effect.conditional_buffs;
+        assert_eq!(cond_buffs.len(), 2);
+        assert_eq!(cond_buffs[0].name, "sunny_morning_atk");
+        assert_eq!(cond_buffs[0].stat, BuffableStat::AtkPercent);
+        assert!((cond_buffs[0].value - 0.14).abs() < 1e-6);
+        assert_eq!(cond_buffs[1].name, "sunny_morning_dmg");
+        assert_eq!(cond_buffs[1].stat, BuffableStat::DmgBonus);
+        assert!((cond_buffs[1].value - 0.18).abs() < 1e-6);
+        for buff in cond_buffs {
+            assert!(matches!(
+                buff.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
     }
 }
