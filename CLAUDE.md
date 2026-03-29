@@ -57,7 +57,7 @@
 - `buff.rs`: BuffableStat(core re-export), StatBuff, PassiveEffect（武器パッシブ・聖遺物バフ）
 - `talent_buffs.rs`: 天賦バフ定義（TalentBuffDef, find_talent_buffs — 29キャラ・47定義）
 - `team_builder.rs`: TeamMemberBuilder（キャラ+武器+聖遺物→TeamMember構築）
-- `team_builder.rs`注意: `Both(auto, manual)`はauto値を破棄（ゲートのみ）。StatScaling結果を使いたい場合は`Auto(StatScaling)`を使用
+- `team_builder.rs`注意: `Both(auto, manual)`はauto_valをeval_manualのbase_valueとして渡す。Toggle→auto_val返却、Stacks→auto_val×n
 - `moonsign_chars.rs`: 月兆キャラデータ（9キャラの月光の祝福パッシブ + Laumaタレント強化）
 - `characters/`: 元素別ファイル（pyro/hydro/electro/cryo/dendro/anemo/geo）— 102キャラ
 - `weapons/`: 武器種別ファイル（sword/claymore/polearm/bow/catalyst）— 230武器

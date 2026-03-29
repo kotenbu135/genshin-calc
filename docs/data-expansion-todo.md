@@ -7,7 +7,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 | カテゴリ | 総数 | 実装済み | 未実装 | カバレッジ |
 |----------|-----:|--------:|-------:|-----------:|
 | 武器パッシブ (StatBuff) | 220 | 220 | 0 | 100% |
-| 武器パッシブ (ConditionalBuff) | 220 | 74 | 146 | 34% |
+| 武器パッシブ (ConditionalBuff) | 220 | 77 | 143 | 35% |
 | 聖遺物2pc (StatBuff) | 52 | 45 | 7 | 87% |
 | 聖遺物4pc効果 | 52 | 52 | 0 | 100% |
 | 天賦バフ/デバフ (TalentBuffDef) | 29キャラ | 47定義 | 1(Nilou) | ~97% |
@@ -103,7 +103,7 @@ P2/P3/P4/P6のアンロックキー。
 
 ## P3: 武器パッシブの充実
 
-StatBuffは全220本実装完了。ConditionalBuffは74/220本実装済み（34%）。
+StatBuffは全220本実装完了。ConditionalBuffは77/220本実装済み（35%）。
 
 ### 無条件パッシブ (StatBuff)
 
@@ -140,12 +140,12 @@ StatBuffは全220本実装完了。ConditionalBuffは74/220本実装済み（34%
   - Pattern D: Stacks (non-linear) — 1本
   - Pattern E: StatBuff + Toggle hybrid — 1本
 
-### 未対応 (より複雑な実装が必要)
+### 複雑な武器 ✅
 
-- [ ] 霧切の廻光 — スタックバフ (R1-R5実装済みだが ConditionalBuff未対応)
-- [ ] 千岩古剣/千岩長槍 — 璃月キャラ数依存 (TeamElementCount型拡張が必要)
-- [ ] 赤砂の杖 — EM基準ATK% (基本ConditionalBuff実装後に対応予定)
-- [ ] 草薙の稲光 — ER基準ATK% (ERオフセット計算が必要)
+- [x] 霧切の廻光 — 非線形Stacks(3)、stack_values R1絶対値
+- [x] 千岩古剣/千岩長槍 — TeamRegionCount(Liyue)、Auto完全自動評価
+- [x] 赤砂の杖 — 二次効果 Both(StatScaling(EM), Stacks(2))
+- [x] 草薙の稲光 — 二次効果 Manual(Toggle) ER+30-50%
 
 ## P4: 武器精錬値 (R1-R5) ✅
 
@@ -206,8 +206,8 @@ core crateに `apply_enemy_debuffs(enemy, buffs, element) -> Enemy` 関数を実
 
 ```
 影響度 高 │  ✅ P0 条件付き効果   ✅ P2 聖遺物4pc
-          │  ✅ P1 天賦バフ        P3 武器パッシブ (74/220)
-          │                        → 複雑な武器4本が残タスク
+          │  ✅ P1 天賦バフ        P3 武器パッシブ (77/220)
+          │
           │
 影響度 低 │  ✅ P5 敵データ        ✅ P4 精錬値
           │                        ✅ P6 敵側デバフ
@@ -221,12 +221,11 @@ core crateに `apply_enemy_debuffs(enemy, buffs, element) -> Enemy` 関数を実
 2. ~~**P1 天賦バフ**~~ ✅ 完了 (29キャラ・47定義)
 3. ~~**P0 条件付き効果**~~ ✅ 完了 (ConditionalBuff + AutoCondition/ManualCondition)
 4. ~~**P2 聖遺物4pc**~~ ✅ 完了 (全52セット)
-5. **P3 武器パッシブ** — 5星Batch 1-4 + 4星28本完了 (74/220、残りは複雑な武器4本)
+5. **P3 武器パッシブ** — 5星Batch 1-4 + 4星28本 + 複雑武器4本完了 (77/220)
 6. ~~**P4 精錬値**~~ ✅ 完了 (全220本R1-R5)
 7. ~~**P6 敵側デバフ**~~ ✅ 完了 (超電導/Zhongli/Chevreuse/Lisa/Faruzan)
 
 ### 残タスク
 
-- **P3 複雑な武器** — 霧切の廻光、千岩シリーズ、赤砂の杖、草薙の稲光 (4本)
 - **P1 Nilou** — 開花反応ボーナス (水草限定条件、特殊実装が必要)
 - **P2 2pc効果** — 残り7セットのStatBuff
