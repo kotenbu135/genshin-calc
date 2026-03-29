@@ -6,9 +6,13 @@ genshin-calc-data crateのデータカバレッジを完了させる。残りの
 
 ## スコープ
 
-### Phase 1: P2 2pc残り7セット
+### Phase 1: P2 2pc残り7セット → スキップ（意図的に空）
 
-artifacts.rsの`two_piece.buffs`が空の7セットにStatBuff追加。全て無条件バフ（元素ダメ+15%、物理ダメ+25%等）。テストは既存のserde roundtripテストで自動カバー。
+残り7セットの2pc効果はいずれもBuffableStatで表現不可能な効果:
+- 耐性+: Thundersoother（雷耐性+40%）、Lavawalker（炎耐性+40%）、Tiny Miracle（全元素耐性+20%）
+- 元素影響時間-: Prayers系4種（炎/水/雷/氷の影響時間-40%）
+
+これらはダメージ計算に影響しないユーティリティ効果であり、`buffs: &[]`のまま据え置く。既存45/52の実装で実質100%カバレッジ。
 
 ### Phase 2: P3 武器ConditionalBuff ~130本
 
@@ -22,9 +26,15 @@ artifacts.rsの`two_piece.buffs`が空の7セットにStatBuff追加。全て無
 
 refinement_values: 全武器R1-R5を入力。
 
-### Phase 3: P1 Nilou
+### Phase 3: P1 Nilou（別途ミニスペック）
 
-`AutoCondition::TeamElementsOnly(&[Hydro, Dendro])` で水草限定を表現。Bloom反応ダメージボーナスをTalentBuffDefとして定義。
+Nilouの開花反応ボーナスは通常のステータスバフと異なり、反応ダメージ自体の変更を伴う特殊実装。TalentBuffDefに`activation`フィールドがない現状では、Phase 2完了後に別途ミニスペックを作成して設計を詰める。
+
+検討事項:
+- TalentBuffDefに`auto_condition: Option<AutoCondition>`を追加するか、別アプローチか
+- 対象パッシブ: A1（金盞花の宮、Bloom→BountifulBloom変換）とA2（夢蓮の舞、HP30000超過分×0.9%のBloomダメボーナス）
+- BuffableStat::TransformativeBonusでBloomダメージボーナスを表現可能か
+- HP依存スケーリング（A2）のStatScaling連携
 
 ## スキップ基準
 
@@ -61,7 +71,7 @@ conditional_buffs: &[ConditionalBuff {
 }],
 ```
 
-### Stacks
+### Stacks（線形）
 
 ```rust
 conditional_buffs: &[ConditionalBuff {
@@ -73,6 +83,23 @@ conditional_buffs: &[ConditionalBuff {
     stack_values: None, // linear: value * n
     target: BuffTarget::OnlySelf,
     activation: Activation::Manual(ManualCondition::Stacks(5)),
+}],
+```
+
+### Stacks（非線形）
+
+スタック値が単純な倍数でない場合は`stack_values`を使用:
+
+```rust
+conditional_buffs: &[ConditionalBuff {
+    name: "weapon_id_stacks",
+    description: "非線形スタック効果の説明",
+    stat: BuffableStat::DmgBonus,
+    value: 0.08,
+    refinement_values: None,
+    stack_values: Some(&[0.08, 0.16, 0.28]), // 3スタック: 8%/16%/28%
+    target: BuffTarget::OnlySelf,
+    activation: Activation::Manual(ManualCondition::Stacks(3)),
 }],
 ```
 
@@ -95,35 +122,80 @@ conditional_buffs: &[ConditionalBuff {
 }],
 ```
 
+### 複数ConditionalBuff（1武器に2+バフ）
+
+多くの武器は複数の条件付き効果を持つ。既存例: ATHAME_ARTIS（CR+SkillDMG）、LIGHTBEARING_MOONSHARD（ATK+CR）。
+
+```rust
+conditional_buffs: &[
+    ConditionalBuff {
+        name: "weapon_id_atk",
+        description: "効果1の説明",
+        stat: BuffableStat::AtkPercent,
+        value: 0.20,
+        refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+        stack_values: None,
+        target: BuffTarget::OnlySelf,
+        activation: Activation::Manual(ManualCondition::Toggle),
+    },
+    ConditionalBuff {
+        name: "weapon_id_dmg",
+        description: "効果2の説明",
+        stat: BuffableStat::DmgBonus,
+        value: 0.16,
+        refinement_values: Some([0.16, 0.20, 0.24, 0.28, 0.32]),
+        stack_values: None,
+        target: BuffTarget::OnlySelf,
+        activation: Activation::Manual(ManualCondition::Toggle),
+    },
+],
+```
+
+## BuffTarget選択ガイド
+
+武器パッシブのバフ対象に応じて適切なBuffTargetを選択:
+
+- `BuffTarget::OnlySelf` — 装備者のみ（大半の武器パッシブ）
+- `BuffTarget::Team` — チーム全員（例: Elegy for the End のATK+20%/EM+100）
+- `BuffTarget::TeamExcludeSelf` — 装備者以外のチームメンバー（例: A Thousand Floating Dreams のEM+40）
+
+## 既存buffsとの共存
+
+武器によっては無条件`buffs`（StatBuff）が既に実装済みで、条件付き`conditional_buffs`のみ追加が必要なケースがある（例: MISTSPLITTER_REFORGED、ABSOLUTION）。
+
+**ルール: 既存の`buffs`は一切変更しない。`conditional_buffs: &[]`のみを実装で置き換える。**
+
 ## バッチ構成
 
 | バッチ | 対象 | 推定本数 | 備考 |
 |--------|------|----------|------|
-| 0 | P2 2pc残り7セット | 7 | ウォームアップ |
-| 1 | sword.rs | ~25本 | 35本中3星+DescOnly除外 |
-| 2 | claymore.rs | ~23本 | 同上 |
-| 3 | polearm.rs | ~25本 | 同上 |
-| 4 | bow.rs | ~27本 | 同上 |
-| 5 | catalyst.rs | ~23本 | 同上 |
-| 6 | Nilou TalentBuffDef | 1 | 特殊実装 |
+| ~~0~~ | ~~P2 2pc残り7セット~~ | 0 | 意図的空、スキップ |
+| 1 | sword.rs (~1700行) | ~25本 | 35本中3星+DescOnly除外 |
+| 2 | claymore.rs (~1200行) | ~23本 | 同上 |
+| 3 | polearm.rs (~1100行) | ~25本 | 同上 |
+| 4 | bow.rs (~1500行) | ~27本 | 同上 |
+| 5 | catalyst.rs (~1700行) | ~23本 | 同上 |
+| 6 | Nilou（別途ミニスペック） | 1 | Phase 2完了後に設計 |
+
+注: 武器ファイルはデータ定義であり、コーディングスタイルの800行制限はロジックファイル向け。データファイルの行数増加は許容。
 
 ## テスト戦略
 
 - Phase 1: 既存serde roundtripテストで自動カバー
-- Phase 2: 武器種ごとにConditionalBuff存在確認テスト + serde roundtrip
-- Phase 3: Nilou専用の統合テスト（チーム構成バリデーション含む）
+- Phase 2: 武器種ごとにConditionalBuff存在確認のバッチテスト（全4-5星ダメージ武器が非空conditional_buffsを持つことを検証）+ serde roundtrip
+- Phase 3: Nilou専用の統合テスト（チーム構成バリデーション含む）— ミニスペックで詳細化
 - 全Phase: `cargo test` + `cargo clippy -- -D warnings` でCI通過確認
 
 ## 命名規約
 
 - ConditionalBuff.name: `{weapon_id}_{buff_description}` (snake_case)
-  - 例: `skyward_blade_cr`, `amos_bow_na_ca_dmg`
+  - 例: `skyward_blade_cr`, `amos_bow_na_ca_dmg`, `freedom_sworn_team_atk`
 - description: 日本語でゲーム内効果を簡潔に記述
 - refinement_values: R1-R5の5要素配列、パーセンテージは小数形式（10.8% → 0.108）
 
 ## 成功基準
 
-- P2: 52/52セットの2pc StatBuff実装（100%カバレッジ）
+- P2: 45/52セットの2pc StatBuff実装維持（残り7セットは表現不可能な効果、意図的空）
 - P3: ダメージ影響のある4-5星武器の全ConditionalBuff実装
-- P1: Nilou TalentBuffDef追加、水草限定条件テスト通過
+- P1: Nilouミニスペック作成・レビュー完了
 - 全テスト通過、clippy警告なし
