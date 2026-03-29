@@ -875,9 +875,18 @@ pub const SAPWOOD_BLADE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "森林の活力",
         effect: PassiveEffect {
-            description: "Conditional: 草元素反応時に葉を生成、拾うとEM+60、12秒",
+            description: "草元素反応時に葉を生成、拾うとEM+60、12秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "sapwood_blade_em",
+                description: "草反応後に葉を生成、拾うとEM+60-120",
+                stat: BuffableStat::ElementalMastery,
+                value: 60.0,
+                refinement_values: Some([60.0, 75.0, 90.0, 105.0, 120.0]),
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1136,9 +1145,18 @@ pub const COOL_STEEL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "急凍の恩恵",
         effect: PassiveEffect {
-            description: "Conditional: 水/氷の影響を受けた敵にDMG+12%",
+            description: "水/氷の影響を受けた敵にDMG+12%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "cool_steel_dmg",
+                description: "水/氷影響下の敵にDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1153,9 +1171,18 @@ pub const DARK_IRON_SWORD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "過負荷",
         effect: PassiveEffect {
-            description: "Conditional: 雷元素反応時にATK+20%、12秒",
+            description: "雷元素反応時にATK+20%、12秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "dark_iron_sword_atk",
+                description: "雷元素反応後にATK+20-40%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1187,9 +1214,18 @@ pub const HARBINGER_OF_DAWN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "夜明けの曙光",
         effect: PassiveEffect {
-            description: "Conditional: HP90%以上でCRIT Rate+14%",
+            description: "HP90%以上でCRIT Rate+14%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "harbinger_of_dawn_cr",
+                description: "HP90%以上でCRIT Rate+14-28%",
+                stat: BuffableStat::CritRate,
+                value: 0.14,
+                refinement_values: Some([0.14, 0.175, 0.21, 0.245, 0.28]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1204,9 +1240,30 @@ pub const SKYRIDER_SWORD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "決意",
         effect: PassiveEffect {
-            description: "Conditional: 元素爆発後にNA/CA ATK+12%、15秒",
+            description: "元素爆発後にNA/CA ATK+12%、15秒",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "skyrider_sword_na_dmg",
+                    description: "元素爆発後に通常攻撃DMG+12-24%",
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+                ConditionalBuff {
+                    name: "skyrider_sword_ca_dmg",
+                    description: "元素爆発後に重撃DMG+12-24%",
+                    stat: BuffableStat::ChargedAtkDmgBonus,
+                    value: 0.12,
+                    refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Toggle),
+                },
+            ],
         },
     }),
 };

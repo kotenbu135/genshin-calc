@@ -1187,9 +1187,18 @@ pub const EMERALD_ORB: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Emerald Orb",
         effect: PassiveEffect {
-            description: "Conditional: 水元素反応時にATK+20%",
+            description: "水元素反応時にATK+20%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "emerald_orb_atk",
+                description: "水元素反応後にATK+20-40%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.20,
+                refinement_values: Some([0.20, 0.25, 0.30, 0.35, 0.40]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1204,9 +1213,18 @@ pub const MAGIC_GUIDE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Magic Guide",
         effect: PassiveEffect {
-            description: "Conditional: 水/雷の影響を受けた敵にDMG+12%",
+            description: "水/雷の影響を受けた敵にDMG+12%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "magic_guide_dmg",
+                description: "水/雷影響下の敵にDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1238,9 +1256,18 @@ pub const THRILLING_TALES_OF_DRAGON_SLAYERS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Thrilling Tales of Dragon Slayers",
         effect: PassiveEffect {
-            description: "Conditional: キャラ交代時に次のキャラのATK+24%",
+            description: "キャラ交代時に次のキャラのATK+24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "ttds_team_atk",
+                description: "キャラ交代時、次の出場キャラATK+24-48%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.24,
+                refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                stack_values: None,
+                target: BuffTarget::TeamExcludeSelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1255,9 +1282,18 @@ pub const TWIN_NEPHRITE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Twin Nephrite",
         effect: PassiveEffect {
-            description: "Conditional: 敵撃破時に移動速度とATK+12%",
+            description: "敵撃破時に移動速度とATK+12%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "twin_nephrite_atk",
+                description: "敵撃破後にATK+12-24%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };

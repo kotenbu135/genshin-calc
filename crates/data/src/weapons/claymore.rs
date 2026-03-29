@@ -857,9 +857,18 @@ pub const BLOODTAINTED_GREATSWORD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "炎と雷の渇き",
         effect: PassiveEffect {
-            description: "Conditional: 炎/雷元素影響下の敵へのDMG+12-24%",
+            description: "炎/雷元素影響下の敵へのDMG+12-24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "bloodtainted_greatsword_dmg",
+                description: "炎/雷影響下の敵へのDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -891,9 +900,18 @@ pub const FERROUS_SHADOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "鉄の影",
         effect: PassiveEffect {
-            description: "Conditional: HP70%以下で重撃の中断耐性アップ、重撃DMG+30-50%",
+            description: "HP70%以下で重撃の中断耐性アップ、重撃DMG+30-50%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "ferrous_shadow_ca_dmg",
+                description: "HP70%以下の時に重撃DMG+30-50%",
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.30,
+                refinement_values: Some([0.30, 0.35, 0.40, 0.45, 0.50]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -910,9 +928,18 @@ pub const SKYRIDER_GREATSWORD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "勇気",
         effect: PassiveEffect {
-            description: "Conditional: 通常/重撃命中でATK+6-10%、6秒、4スタックまで",
+            description: "通常/重撃命中でATK+6-10%、6秒、4スタックまで",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "skyrider_greatsword_atk",
+                description: "通常/重撃命中でATK+6-10%（1スタック）、最大4スタック",
+                stat: BuffableStat::AtkPercent,
+                value: 0.06,
+                refinement_values: Some([0.06, 0.07, 0.08, 0.09, 0.10]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            }],
         },
     }),
 };

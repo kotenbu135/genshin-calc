@@ -1034,9 +1034,18 @@ pub const RAVEN_BOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "烏の羽",
         effect: PassiveEffect {
-            description: "Conditional: Hydro/Pyro影響を受けた敵へのDMG+12%",
+            description: "Hydro/Pyro影響を受けた敵へのDMG+12%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "raven_bow_dmg",
+                description: "Hydro/Pyro影響下の敵へのDMG+12-24%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.12,
+                refinement_values: Some([0.12, 0.15, 0.18, 0.21, 0.24]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1068,9 +1077,18 @@ pub const SHARPSHOOTERS_OATH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "精密射撃",
         effect: PassiveEffect {
-            description: "Conditional: 弱点命中時にDMG+24%",
+            description: "弱点命中時にDMG+24%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "sharpshooters_oath_dmg",
+                description: "弱点命中時にDMG+24-48%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.24,
+                refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };
@@ -1085,9 +1103,18 @@ pub const SLINGSHOT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "弾き出す",
         effect: PassiveEffect {
-            description: "Conditional: 矢が0.3秒以内に命中でDMG+36%、それ以上でDMG-10%",
+            description: "矢が0.3秒以内に命中でDMG+36%、それ以上でDMG-10%",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[ConditionalBuff {
+                name: "slingshot_dmg",
+                description: "矢が0.3秒以内に命中した時DMG+36-60%",
+                stat: BuffableStat::DmgBonus,
+                value: 0.36,
+                refinement_values: Some([0.36, 0.42, 0.48, 0.54, 0.60]),
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            }],
         },
     }),
 };

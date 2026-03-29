@@ -7,7 +7,7 @@ genshin-calc-data crateのデータカバレッジ拡充ロードマップ。
 | カテゴリ | 総数 | 実装済み | 未実装 | カバレッジ |
 |----------|-----:|--------:|-------:|-----------:|
 | 武器パッシブ (StatBuff) | 220 | 220 | 0 | 100% |
-| 武器パッシブ (ConditionalBuff) | 220 | 77 | 143 | 35% |
+| 武器パッシブ (ConditionalBuff) | 220 | 92 | 128 | 42% |
 | 聖遺物2pc (StatBuff) | 52 | 48 | 4 | 92%→実質100% |
 | 聖遺物4pc効果 | 52 | 52 | 0 | 100% |
 | 天賦バフ/デバフ (TalentBuffDef) | 30キャラ | 49定義 | 0 | 100% |
@@ -106,7 +106,7 @@ P2/P3/P4/P6のアンロックキー。
 
 ## P3: 武器パッシブの充実
 
-StatBuffは全220本実装完了。ConditionalBuffは77/220本実装済み（35%）。
+StatBuffは全220本実装完了。ConditionalBuffは92/220本実装済み（42%）。
 
 ### 無条件パッシブ (StatBuff)
 
@@ -232,4 +232,4 @@ core crateに `apply_enemy_debuffs(enemy, buffs, element) -> Enemy` 関数を実
 
 - ~~**P1 Nilou**~~ ✅ 完了 (A2 開花DMGボーナス TalentBuffDef)
 - ~~**P2 2pc効果**~~ ✅ 完了 (48/52実装、残り4セットはPrayers系=元素影響時間短縮で表現不可、意図的スキップ)
-- **P3 武器ConditionalBuff残り ~130本** — 実装計画書作成済み
+- **P3 武器ConditionalBuff残り ~128本** — 3星武器15本 + SAPWOOD_BLADE実装済み (92/220)
