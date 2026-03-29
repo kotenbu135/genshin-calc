@@ -28,6 +28,8 @@ pub enum BuffableStat {
     AmplifyingBonus,
     TransformativeBonus,
     AdditiveBonus,
+    // Player-side elemental resistance (stored, not applied to damage calculation pipeline)
+    ElementalRes(Element),
     // Enemy resistance reduction (consumed by damage calculation, not applied to StatProfile)
     ElementalResReduction(Element),
     PhysicalResReduction,
@@ -45,6 +47,25 @@ pub enum BuffableStat {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_elemental_res_serde_roundtrip() {
+        use crate::types::Element;
+        for element in [
+            Element::Pyro,
+            Element::Hydro,
+            Element::Electro,
+            Element::Cryo,
+            Element::Dendro,
+            Element::Anemo,
+            Element::Geo,
+        ] {
+            let stat = BuffableStat::ElementalRes(element);
+            let json = serde_json::to_string(&stat).unwrap();
+            let deser: BuffableStat = serde_json::from_str(&json).unwrap();
+            assert_eq!(stat, deser);
+        }
+    }
 
     #[test]
     fn test_def_reduction_serde_roundtrip() {
