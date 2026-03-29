@@ -10,17 +10,25 @@ use crate::reaction::{
 };
 use crate::types::Element;
 
+/// Input for transformative reaction damage calculation.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TransformativeInput {
+    /// Character level (1-100).
     pub character_level: u32,
+    /// Elemental mastery.
     pub elemental_mastery: f64,
+    /// Transformative reaction type.
     pub reaction: Reaction,
+    /// Reaction DMG bonus in decimal form.
     pub reaction_bonus: f64,
 }
 
+/// Result of transformative reaction damage calculation.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TransformativeResult {
+    /// Total reaction damage.
     pub damage: f64,
+    /// Element of the reaction damage. `None` for physical (e.g. shattered).
     pub damage_element: Option<Element>,
 }
 
@@ -49,6 +57,30 @@ fn validate(input: &TransformativeInput, enemy: &Enemy) -> Result<(), CalcError>
     Ok(())
 }
 
+/// Calculates transformative reaction damage.
+///
+/// Transformative reactions deal fixed damage based on character level and
+/// elemental mastery. They ignore ATK, talent multipliers, crit, and defense.
+///
+/// # Errors
+///
+/// Returns [`CalcError`] if the reaction is not transformative or inputs are invalid.
+///
+/// # Examples
+///
+/// ```
+/// use genshin_calc_core::*;
+///
+/// let input = TransformativeInput {
+///     character_level: 90,
+///     elemental_mastery: 200.0,
+///     reaction: Reaction::Overloaded,
+///     reaction_bonus: 0.0,
+/// };
+/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+/// let result = calculate_transformative(&input, &enemy).unwrap();
+/// assert!(result.damage > 0.0);
+/// ```
 pub fn calculate_transformative(
     input: &TransformativeInput,
     enemy: &Enemy,

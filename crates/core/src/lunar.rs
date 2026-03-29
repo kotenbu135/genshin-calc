@@ -8,21 +8,33 @@ use crate::level_table::reaction_base_value;
 use crate::reaction::{Reaction, ReactionCategory, lunar_element, lunar_multiplier};
 use crate::types::Element;
 
+/// Input for lunar reaction damage calculation.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LunarInput {
+    /// Character level (1-100).
     pub character_level: u32,
+    /// Elemental mastery.
     pub elemental_mastery: f64,
+    /// Lunar reaction type.
     pub reaction: Reaction,
+    /// Reaction DMG bonus in decimal form.
     pub reaction_bonus: f64,
+    /// Crit rate in decimal form.
     pub crit_rate: f64,
+    /// Crit DMG in decimal form.
     pub crit_dmg: f64,
 }
 
+/// Result of lunar reaction damage calculation.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LunarResult {
+    /// Damage without critical hit.
     pub non_crit: f64,
+    /// Damage with critical hit.
     pub crit: f64,
+    /// Average damage (weighted by crit rate).
     pub average: f64,
+    /// Element of the reaction damage.
     pub damage_element: Option<Element>,
 }
 
@@ -48,6 +60,33 @@ fn validate(input: &LunarInput, enemy: &Enemy) -> Result<(), CalcError> {
     Ok(())
 }
 
+/// Calculates lunar reaction damage.
+///
+/// Lunar reactions scale with character level and elemental mastery like
+/// transformative reactions, but they can also crit. They ignore ATK,
+/// talent multipliers, and defense.
+///
+/// # Errors
+///
+/// Returns [`CalcError`] if the reaction is not lunar or inputs are invalid.
+///
+/// # Examples
+///
+/// ```
+/// use genshin_calc_core::*;
+///
+/// let input = LunarInput {
+///     character_level: 90,
+///     elemental_mastery: 300.0,
+///     reaction: Reaction::LunarElectroCharged,
+///     reaction_bonus: 0.0,
+///     crit_rate: 0.60,
+///     crit_dmg: 1.20,
+/// };
+/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+/// let result = calculate_lunar(&input, &enemy).unwrap();
+/// assert!(result.crit > result.non_crit);
+/// ```
 pub fn calculate_lunar(input: &LunarInput, enemy: &Enemy) -> Result<LunarResult, CalcError> {
     validate(input, enemy)?;
 

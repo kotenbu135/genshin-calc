@@ -13,6 +13,12 @@ const LEVEL_TABLE: [f64; 100] = [
     1593.5062, 1621.0258, 1643.8679, 1662.1382, 1674.8092,
 ];
 
+/// Returns the base reaction value for a given character level.
+///
+/// Used by transformative and lunar reaction calculations. Values are from
+/// datamined level multiplier tables (Lv1-100).
+///
+/// Returns `None` if level is 0 or greater than 100.
 pub fn reaction_base_value(level: u32) -> Option<f64> {
     if level == 0 || level > 100 {
         return None;
