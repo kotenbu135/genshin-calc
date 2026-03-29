@@ -2,7 +2,7 @@ use crate::buff::{
     Activation, AutoCondition, BuffTarget, BuffableStat, ConditionalBuff, ManualCondition,
     PassiveEffect, StatBuff,
 };
-use crate::types::{Rarity, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
+use crate::types::{Rarity, Region, WeaponData, WeaponPassive, WeaponSubStat, WeaponType};
 
 // =============================================================================
 // 5-Star Polearms
@@ -576,7 +576,32 @@ pub const LITHIC_SPEAR: WeaponData = WeaponData {
         effect: PassiveEffect {
             description: "Conditional: チーム内の璃月キャラ人数に応じてATK/CRIT Rateアップ",
             buffs: &[],
-            conditional_buffs: &[],
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "lithic_spear_atk",
+                    description: "璃月キャラ1人につきATK+7-11%",
+                    stat: BuffableStat::AtkPercent,
+                    value: 0.07,
+                    refinement_values: Some([0.07, 0.08, 0.09, 0.10, 0.11]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamRegionCount {
+                        region: Region::Liyue,
+                    }),
+                },
+                ConditionalBuff {
+                    name: "lithic_spear_crit",
+                    description: "璃月キャラ1人につきCR+3-7%",
+                    stat: BuffableStat::CritRate,
+                    value: 0.03,
+                    refinement_values: Some([0.03, 0.04, 0.05, 0.06, 0.07]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Auto(AutoCondition::TeamRegionCount {
+                        region: Region::Liyue,
+                    }),
+                },
+            ],
         },
     }),
 };
