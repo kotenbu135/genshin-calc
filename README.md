@@ -17,10 +17,30 @@
 
 ## Usage
 
+### ステータス合算
+
+```rust
+use genshin_calc_core::{StatProfile, combine_stats};
+
+let profile = StatProfile {
+    base_hp: 9352.0,
+    base_atk: 554.0,   // キャラ240 + 武器314
+    base_def: 572.0,
+    atk_percent: 0.466, // 聖遺物杯メイン
+    atk_flat: 311.0,    // 聖遺物羽メイン
+    crit_rate: 0.05 + 0.311,  // 基礎5% + 聖遺物31.1%
+    crit_dmg: 0.50 + 0.622,   // 基礎50% + 聖遺物62.2%
+    ..StatProfile::default()
+};
+
+let stats = combine_stats(&profile).unwrap();
+// stats.atk = 554 × 1.466 + 311 = 1123.164
+```
+
 ### ダメージ計算（反応なし）
 
 ```rust
-use genshin_calc_core::{calculate_damage, DamageInput, DamageType, Stats, Enemy, Element};
+use genshin_calc_core::{calculate_damage, DamageInput, DamageType, Stats, Enemy, Element, ScalingStat};
 
 let input = DamageInput {
     character_level: 90,
@@ -32,6 +52,7 @@ let input = DamageInput {
         ..Stats::default()
     },
     talent_multiplier: 1.76,
+    scaling_stat: ScalingStat::Atk,
     damage_type: DamageType::Skill,
     element: Some(Element::Pyro),
     reaction: None,
@@ -48,7 +69,7 @@ println!("Average: {:.1}", result.average);
 ### 増幅反応（蒸発）
 
 ```rust
-use genshin_calc_core::{calculate_damage, DamageInput, DamageType, Stats, Enemy, Element, Reaction};
+use genshin_calc_core::{calculate_damage, DamageInput, DamageType, Stats, Enemy, Element, Reaction, ScalingStat};
 
 let input = DamageInput {
     character_level: 90,
@@ -61,6 +82,7 @@ let input = DamageInput {
         ..Stats::default()
     },
     talent_multiplier: 1.5104,
+    scaling_stat: ScalingStat::Atk,
     damage_type: DamageType::Skill,
     element: Some(Element::Pyro),
     reaction: Some(Reaction::Vaporize),   // 蒸発（Pyro trigger = 1.5x）
@@ -107,6 +129,34 @@ let result = calculate_lunar(&input, &enemy).unwrap();
 println!("Non-crit: {:.1}, Crit: {:.1}", result.non_crit, result.crit);
 ```
 
+### HP/DEFスケーリング
+
+```rust
+use genshin_calc_core::{calculate_damage, DamageInput, ScalingStat, Stats, Enemy, DamageType, Element};
+
+let input = DamageInput {
+    character_level: 90,
+    stats: Stats {
+        hp: 30000.0,
+        atk: 1200.0,
+        crit_rate: 0.7,
+        crit_dmg: 1.5,
+        dmg_bonus: 0.466,
+        ..Stats::default()
+    },
+    talent_multiplier: 0.0589, // 夜蘭のスキル倍率（HP基準）
+    scaling_stat: ScalingStat::Hp,
+    damage_type: DamageType::Skill,
+    element: Some(Element::Hydro),
+    reaction: None,
+    reaction_bonus: 0.0,
+};
+
+let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+let result = calculate_damage(&input, &enemy).unwrap();
+// base_damage = 30000 × 0.0589 = 1767.0
+```
+
 ## API Overview
 
 | 関数 | 用途 | 反応タイプ |
@@ -114,12 +164,13 @@ println!("Non-crit: {:.1}, Crit: {:.1}", result.non_crit, result.crit);
 | `calculate_damage` | 通常ダメージ + 増幅/激化 | Vaporize, Melt, Aggravate, Spread |
 | `calculate_transformative` | 固定反応ダメージ | Overloaded, Superconduct, Swirl, Bloom, etc. |
 | `calculate_lunar` | 月反応ダメージ | LunarElectroCharged, LunarBloom, LunarCrystallize |
+| `combine_stats` | ステータス合算 | StatProfile → Stats |
 
 ## Development
 
 ```bash
 cargo build          # ビルド
-cargo test           # テスト実行（95件）
+cargo test           # テスト実行（116件）
 cargo clippy         # lint
 cargo fmt --check    # フォーマット確認
 ```

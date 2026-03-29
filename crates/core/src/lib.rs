@@ -5,6 +5,7 @@ pub mod error;
 pub mod level_table;
 pub mod lunar;
 pub mod reaction;
+pub mod stat_profile;
 pub mod stats;
 pub mod transformative;
 pub mod types;
@@ -16,9 +17,10 @@ pub use error::CalcError;
 pub use level_table::reaction_base_value;
 pub use lunar::{LunarInput, LunarResult, calculate_lunar};
 pub use reaction::{Reaction, ReactionCategory, determine_reaction};
+pub use stat_profile::{StatProfile, combine_stats};
 pub use stats::Stats;
 pub use transformative::{TransformativeInput, TransformativeResult, calculate_transformative};
-pub use types::{DamageType, Element};
+pub use types::{DamageType, Element, ScalingStat};
 
 #[cfg(test)]
 mod tests {
@@ -41,6 +43,7 @@ mod tests {
             character_level: 90,
             stats,
             talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
             damage_type: DamageType::Skill,
             element: Some(Element::Pyro),
             reaction: None,
