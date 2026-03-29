@@ -351,18 +351,45 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 
 // ===== Chevreuse =====
 // A1 passive "Vanguard's Coordinated Tactics": ATK+20% after Overloaded (Pyro+Electro team)
-static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Vanguard's Coordinated Tactics",
-    description: "After Overloaded, ATK+20% for party (Pyro+Electro teams only, approximation)",
-    stat: BuffableStat::AtkPercent,
-    base_value: 0.20,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
-    min_constellation: 0,
-}];
+// A4 passive: After Overloaded, enemy Pyro RES and Electro RES -40% for 6s
+static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Vanguard's Coordinated Tactics",
+        description: "After Overloaded, ATK+20% for party (Pyro+Electro teams only, approximation)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Overloaded Pyro RES Shred",
+        description: "After Overloaded reaction, enemy Pyro RES -40% for 6s",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Overloaded Electro RES Shred",
+        description: "After Overloaded reaction, enemy Electro RES -40% for 6s",
+        stat: BuffableStat::ElementalResReduction(Element::Electro),
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+];
 
 // ===== Diona =====
 // C6 "Cat's Tail Closing Time": EM+200 in burst field
@@ -458,18 +485,32 @@ static FARUZAN_BURST_ANEMO_SCALING: [f64; 15] = [
     0.410, 0.432,
 ];
 
-static FARUZAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Prayerful Wind's Benefit",
-    description: "Anemo DMG Bonus based on burst talent level",
-    stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&FARUZAN_BURST_ANEMO_SCALING),
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalBurst,
-    min_constellation: 0,
-}];
+static FARUZAN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Prayerful Wind's Benefit",
+        description: "Anemo DMG Bonus based on burst talent level",
+        stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&FARUZAN_BURST_ANEMO_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Perfidious Wind's Bale",
+        description: "A4: Enemies hit by Pressurized Collapse have Anemo RES -30%",
+        stat: BuffableStat::ElementalResReduction(Element::Anemo),
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+];
 
 // ===== Candace =====
 // Burst "Sacred Rite: Heron's Sanctum": Normal ATK DMG bonus per level (Lv1-15)
@@ -554,6 +595,122 @@ static INEFFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Lisa =====
+// A4 "Static Electricity Field": Enemies hit by burst have DEF -15% for 10s
+static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Static Electricity Field",
+    description: "Enemies hit by Lightning Rose have DEF -15% for 10s",
+    stat: BuffableStat::DefReduction,
+    base_value: 0.15,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
+// ===== Zhongli =====
+// Jade Shield "Dominus Lapidis": All RES -20% for nearby enemies while shield is active
+static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Jade Shield Pyro RES Shred",
+        description: "Nearby enemies' Pyro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Hydro RES Shred",
+        description: "Nearby enemies' Hydro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Electro RES Shred",
+        description: "Nearby enemies' Electro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Electro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Cryo RES Shred",
+        description: "Nearby enemies' Cryo RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Cryo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Dendro RES Shred",
+        description: "Nearby enemies' Dendro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Dendro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Anemo RES Shred",
+        description: "Nearby enemies' Anemo RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Anemo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Geo RES Shred",
+        description: "Nearby enemies' Geo RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Geo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Jade Shield Physical RES Shred",
+        description: "Nearby enemies' Physical RES -20%",
+        stat: BuffableStat::PhysicalResReduction,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+];
+
 // ===== Jahoda =====
 // A4 passive: EM+100 when Burst robots heal characters with HP>70%
 static JAHODA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -596,7 +753,8 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("kujou_sara", SARA_BUFFS),
     ("rosaria", ROSARIA_BUFFS),
     ("furina", FURINA_BUFFS),
-    // Zhongli provides resistance shred (Enemy-side), not a stat buff — excluded here
+    ("lisa", LISA_BUFFS),
+    ("zhongli", ZHONGLI_BUFFS),
     ("sucrose", SUCROSE_BUFFS),
     ("ganyu", GANYU_BUFFS),
     ("albedo", ALBEDO_BUFFS),
@@ -646,7 +804,7 @@ mod tests {
 
     #[test]
     fn test_find_nonexistent_character() {
-        assert!(find_talent_buffs("zhongli").is_none());
+        assert!(find_talent_buffs("diluc").is_none());
         assert!(find_talent_buffs("unknown").is_none());
     }
 
@@ -740,7 +898,7 @@ mod tests {
     #[test]
     fn test_find_chevreuse_buffs() {
         let buffs = find_talent_buffs("chevreuse").unwrap();
-        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
         assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
     }
@@ -830,7 +988,7 @@ mod tests {
     #[test]
     fn test_find_faruzan_buffs() {
         let buffs = find_talent_buffs("faruzan").unwrap();
-        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs.len(), 2);
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalDmgBonus(Element::Anemo)
@@ -909,5 +1067,91 @@ mod tests {
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 100.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_lisa_debuffs() {
+        let buffs = find_talent_buffs("lisa").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::DefReduction);
+        assert!((buffs[0].base_value - 0.15).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_chevreuse_debuffs() {
+        let buffs = find_talent_buffs("chevreuse").unwrap();
+        assert_eq!(buffs.len(), 3); // existing ATK + 2 new res shreds
+        let pyro_shred = buffs
+            .iter()
+            .find(|b| b.stat == BuffableStat::ElementalResReduction(Element::Pyro));
+        assert!(pyro_shred.is_some());
+        assert!((pyro_shred.unwrap().base_value - 0.40).abs() < 1e-6);
+        let electro_shred = buffs
+            .iter()
+            .find(|b| b.stat == BuffableStat::ElementalResReduction(Element::Electro));
+        assert!(electro_shred.is_some());
+        assert!((electro_shred.unwrap().base_value - 0.40).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_faruzan_res_shred() {
+        let buffs = find_talent_buffs("faruzan").unwrap();
+        assert_eq!(buffs.len(), 2); // existing Anemo DMG + new Anemo RES shred
+        let shred = buffs
+            .iter()
+            .find(|b| b.stat == BuffableStat::ElementalResReduction(Element::Anemo));
+        assert!(shred.is_some());
+        assert!((shred.unwrap().base_value - 0.30).abs() < 1e-6);
+        assert!(!shred.unwrap().scales_with_talent);
+    }
+
+    #[test]
+    fn test_find_zhongli_debuffs() {
+        let buffs = find_talent_buffs("zhongli").unwrap();
+        assert_eq!(buffs.len(), 8); // 7 elemental + 1 physical
+        for b in buffs {
+            assert!((b.base_value - 0.20).abs() < 1e-6);
+            assert_eq!(b.target, BuffTarget::Team);
+        }
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Pyro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Hydro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Electro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Cryo))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Dendro))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Anemo))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Geo))
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::PhysicalResReduction)
+        );
     }
 }
