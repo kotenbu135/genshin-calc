@@ -239,6 +239,74 @@ mod tests {
     }
 
     #[test]
+    fn test_golden_superconduct_em150() {
+        // Lv90, EM 150, Superconduct (1.5), vs 10% Cryo RES
+        // em_bonus = 16 * 150 / (150 + 2000) = 2400/2150 = 1.11628
+        // damage = 1446.8535 * 1.5 * (1 + 2400/2150) * 0.9
+        //        = 2170.280 * (4550/2150) * 0.9 = 4133.627
+        let input = TransformativeInput {
+            character_level: 90,
+            elemental_mastery: 150.0,
+            reaction: Reaction::Superconduct,
+            reaction_bonus: 0.0,
+        };
+        let result = calculate_transformative(&input, &default_enemy()).unwrap();
+        assert!((result.damage - 4133.627).abs() < 0.1);
+        assert_eq!(result.damage_element, Some(Element::Cryo));
+    }
+
+    #[test]
+    fn test_golden_electro_charged_em300() {
+        // Lv90, EM 300, ElectroCharged (2.0), vs 10% Electro RES
+        // em_bonus = 16 * 300 / (300 + 2000) = 4800/2300 = 2.08696
+        // damage = 1446.8535 * 2.0 * (1 + 4800/2300) * 0.9
+        //        = 2893.707 * (7100/2300) * 0.9 = 8039.473
+        let input = TransformativeInput {
+            character_level: 90,
+            elemental_mastery: 300.0,
+            reaction: Reaction::ElectroCharged,
+            reaction_bonus: 0.0,
+        };
+        let result = calculate_transformative(&input, &default_enemy()).unwrap();
+        assert!((result.damage - 8039.473).abs() < 0.1);
+        assert_eq!(result.damage_element, Some(Element::Electro));
+    }
+
+    #[test]
+    fn test_golden_hyperbloom_em800() {
+        // Lv90, EM 800, Hyperbloom (3.0), vs 10% Dendro RES
+        // em_bonus = 16 * 800 / (800 + 2000) = 12800/2800 = 4.57143
+        // damage = 1446.8535 * 3.0 * (1 + 12800/2800) * 0.9
+        //        = 4340.561 * (15600/2800) * 0.9 = 21764.811
+        let input = TransformativeInput {
+            character_level: 90,
+            elemental_mastery: 800.0,
+            reaction: Reaction::Hyperbloom,
+            reaction_bonus: 0.0,
+        };
+        let result = calculate_transformative(&input, &default_enemy()).unwrap();
+        assert!((result.damage - 21764.811).abs() < 0.1);
+        assert_eq!(result.damage_element, Some(Element::Dendro));
+    }
+
+    #[test]
+    fn test_golden_kazuha_swirl_with_vv() {
+        // Kazuha full EM (960), Lv90, Swirl Pyro, 4pc VV (+60% Swirl DMG)
+        // em_bonus = 16 * 960 / (960 + 2000) = 15360/2960 = 5.18919
+        // damage = 1446.8535 * 0.6 * (1 + 5.18919 + 0.60) * 0.9
+        //        = 868.112 * 6.78919 * 0.9 = 5304.306
+        let input = TransformativeInput {
+            character_level: 90,
+            elemental_mastery: 960.0,
+            reaction: Reaction::Swirl(Element::Pyro),
+            reaction_bonus: 0.60,
+        };
+        let result = calculate_transformative(&input, &default_enemy()).unwrap();
+        assert!((result.damage - 5304.306).abs() < 0.5);
+        assert_eq!(result.damage_element, Some(Element::Pyro));
+    }
+
+    #[test]
     fn test_reaction_bonus_applied() {
         let base = TransformativeInput {
             character_level: 90,

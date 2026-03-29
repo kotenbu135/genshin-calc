@@ -821,6 +821,193 @@ mod tests {
         assert_eq!(result.reaction, Some(Reaction::Aggravate));
     }
 
+    #[test]
+    fn test_golden_melt_reverse_cryo_trigger() {
+        // Reverse Melt (Cryo on Pyro) = 1.5x
+        // ATK 2000, talent 2.0, Cryo DMG 46.6%, EM 200
+        // em_bonus = 2.78 * 200 / (200 + 1400) = 0.3475
+        // amplify = 1.5 * (1 + 0.3475) = 2.02125
+        // base = 2000 * 2.0 = 4000
+        // non_crit = 4000 * 1.466 * 0.5 * 0.9 * 2.02125 = 5333.675
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.6,
+                crit_dmg: 1.2,
+                dmg_bonus: 0.466,
+                elemental_mastery: 200.0,
+                ..Stats::default()
+            },
+            talent_multiplier: 2.0,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Burst,
+            element: Some(Element::Cryo),
+            reaction: Some(Reaction::Melt),
+            reaction_bonus: 0.0,
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 5333.675).abs() < 0.1);
+        assert!((result.crit - 11734.084).abs() < 0.1);
+        assert_eq!(result.reaction, Some(Reaction::Melt));
+    }
+
+    #[test]
+    fn test_golden_spread_dendro_trigger() {
+        // Nahida-like: ATK 1200, talent 1.8576 (Tri-Karma Lv10 ATK%), Dendro DMG 15%, EM 800
+        // catalyze_em_bonus = 5.0 * 800 / (800 + 1200) = 2.0
+        // catalyze_flat = 1.25 * 1446.8535 * (1 + 2.0) = 5425.701
+        // base = 1200 * 1.8576 + 5425.701 = 7654.821
+        // non_crit = 7654.821 * 1.15 * 0.5 * 0.9 = 3961.370
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 1200.0,
+                crit_rate: 0.5,
+                crit_dmg: 1.0,
+                dmg_bonus: 0.15,
+                elemental_mastery: 800.0,
+                ..Stats::default()
+            },
+            talent_multiplier: 1.8576,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Dendro),
+            reaction: Some(Reaction::Spread),
+            reaction_bonus: 0.0,
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 3961.370).abs() < 0.1);
+        assert!((result.crit - 7922.739).abs() < 0.1);
+        assert_eq!(result.reaction, Some(Reaction::Spread));
+    }
+
+    #[test]
+    fn test_golden_hp_scaling_yelan_like() {
+        // Yelan-like: HP 30000, talent 20% max HP, Hydro DMG 46.6%, ScalingStat::Hp
+        // base = 30000 * 0.2 = 6000
+        // non_crit = 6000 * 1.466 * 0.5 * 0.9 = 3958.2
+        // crit (200% crit dmg) = 3958.2 * 3.0 = 11874.6
+        // avg = 3958.2 * 0.3 + 11874.6 * 0.7 = 9499.68
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                hp: 30000.0,
+                atk: 1000.0,
+                crit_rate: 0.7,
+                crit_dmg: 2.0,
+                dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            talent_multiplier: 0.2,
+            scaling_stat: ScalingStat::Hp,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Hydro),
+            reaction: None,
+            reaction_bonus: 0.0,
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 3958.2).abs() < 0.01);
+        assert!((result.crit - 11874.6).abs() < 0.01);
+        assert!((result.average - 9499.68).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_golden_def_scaling_itto_like() {
+        // Itto-like: DEF 2500, Kesagiri Lv10 = 178.84%, Geo DMG 46.6%, ScalingStat::Def
+        // (source: Project Amber API, KQM)
+        // base = 2500 * 1.7884 = 4471.0
+        // non_crit = 4471.0 * 1.466 * 0.5 * 0.9 = 2949.519
+        // crit (180% crit dmg) = 2949.519 * 2.8 = 8258.652
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                def: 2500.0,
+                atk: 1000.0,
+                crit_rate: 0.7,
+                crit_dmg: 1.8,
+                dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            talent_multiplier: 1.7884,
+            scaling_stat: ScalingStat::Def,
+            damage_type: DamageType::Normal,
+            element: Some(Element::Geo),
+            reaction: None,
+            reaction_bonus: 0.0,
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 2949.519).abs() < 0.1);
+        assert!((result.crit - 8258.652).abs() < 0.1);
+    }
+
+    #[test]
+    fn test_golden_negative_resistance_vv_shred() {
+        // VV shred: 10% base RES - 40% VV = -30% effective RES
+        // RES multiplier for -30%: 1 - (-0.30)/2 = 1.15
+        // ATK 1800, talent 1.5, Pyro DMG 46.6%
+        // non_crit = 1800 * 1.5 * 1.466 * 0.5 * 1.15 = 2275.965
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 1800.0,
+                crit_rate: 0.6,
+                crit_dmg: 1.2,
+                dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            talent_multiplier: 1.5,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+        };
+        let enemy = Enemy {
+            level: 90,
+            resistance: -0.30,
+            def_reduction: 0.0,
+        };
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 2275.965).abs() < 0.01);
+        assert!((result.crit - 5007.123).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_golden_def_reduction() {
+        // 30% DEF reduction (e.g. Lisa A4 + Raiden C2 etc.)
+        // DEF mult = 190 / (190 + 190*(1-0.30)) = 190/323 = 0.588235
+        // ATK 1500, talent 1.5, Electro DMG 46.6%
+        // non_crit = 1500 * 1.5 * 1.466 * (190/323) * 0.9 = 1746.265
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 1500.0,
+                crit_rate: 0.5,
+                crit_dmg: 1.0,
+                dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            talent_multiplier: 1.5,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Electro),
+            reaction: None,
+            reaction_bonus: 0.0,
+        };
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.30,
+        };
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!((result.non_crit - 1746.265).abs() < 0.1);
+    }
+
     // =====================================================================
     // ScalingStat tests
     // =====================================================================

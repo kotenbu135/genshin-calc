@@ -147,6 +147,33 @@ mod tests {
         assert!((result.average - result.crit).abs() < EPSILON);
     }
 
+    // =====================================================================
+    // Golden tests: hand-calculated lunar reaction values
+    // =====================================================================
+
+    #[test]
+    fn test_golden_lunar_electro_charged_em500() {
+        // Lv90, EM 500, Lunar EC (1.8), crit_rate 0.6, crit_dmg 1.2
+        // em_bonus = 6 * 500 / (500 + 2000) = 3000/2500 = 1.2
+        // non_crit = 1446.8535 * 1.8 * (1 + 1.2) * 0.9
+        //          = 2604.336 * 2.2 * 0.9 = 5156.586
+        // crit = 5156.586 * (1 + 1.2) = 11344.489
+        // avg = 5156.586 * 0.4 + 11344.489 * 0.6 = 8869.328
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 500.0,
+            reaction: Reaction::LunarElectroCharged,
+            reaction_bonus: 0.0,
+            crit_rate: 0.6,
+            crit_dmg: 1.2,
+        };
+        let result = calculate_lunar(&input, &default_enemy()).unwrap();
+        assert!((result.non_crit - 5156.586).abs() < 0.1);
+        assert!((result.crit - 11344.489).abs() < 0.1);
+        assert!((result.average - 8869.328).abs() < 0.1);
+        assert_eq!(result.damage_element, Some(Element::Electro));
+    }
+
     #[test]
     fn test_lunar_not_lunar_error() {
         let input = LunarInput {
