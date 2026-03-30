@@ -1,3 +1,5 @@
+mod convert;
+
 use wasm_bindgen::prelude::*;
 
 /// Initialize panic hook for better error messages in browser console.
