@@ -1,5 +1,6 @@
 use genshin_calc_core::{
-    MoonsignLevel, MoonsignTalentEffect, MoonsignTalentEnhancement, Reaction, ScalingStat,
+    BuffTarget, BuffableStat, MoonsignLevel, MoonsignTalentEffect, MoonsignTalentEnhancement,
+    Reaction, ScalingStat,
 };
 
 /// Definition of a Moonsign Benediction passive.
@@ -113,6 +114,17 @@ pub const FLINS_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
     },
 }];
 
+pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
+    character_name: "Nefer",
+    required_level: MoonsignLevel::AscendantGleam,
+    description: "At Ascendant Gleam, absorbing Seeds of Deceit grants Veil of Falsehood stacks (max 3). At 3 stacks, EM +100 for 8s",
+    effect: MoonsignTalentEffect::StatBuff {
+        stat: BuffableStat::ElementalMastery,
+        value: 100.0,
+        target: BuffTarget::OnlySelf,
+    },
+}];
+
 pub fn is_moonsign_character(id: &str) -> bool {
     ALL_MOONSIGN_BENEDICTIONS
         .iter()
@@ -138,6 +150,7 @@ pub fn find_moonsign_talent_enhancements(
     let enhancements: &[MoonsignTalentEnhancement] = match id {
         "lauma" => LAUMA_TALENT_ENHANCEMENTS,
         "flins" => FLINS_TALENT_ENHANCEMENTS,
+        "nefer" => NEFER_TALENT_ENHANCEMENTS,
         _ => &[],
     };
     enhancements

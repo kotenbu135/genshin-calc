@@ -858,6 +858,36 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Nefer =====
+// C2 "Observation Feeds Strategy": EM +200 at 5 Veil stacks (Toggle)
+// C4 "Delusion Ensnares Reason": Dendro RES -20% during Shadow Dance (Toggle)
+static NEFER_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Observation Feeds Strategy EM Bonus",
+        description: "C2: EM +200 at 5 Veil of Falsehood stacks",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 200.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+    },
+    TalentBuffDef {
+        name: "Delusion Ensnares Reason Dendro RES Down",
+        description: "C4: Enemy Dendro RES -20% during Shadow Dance",
+        stat: BuffableStat::ElementalResReduction(Element::Dendro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+    },
+];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("aino", AINO_BUFFS),
@@ -893,6 +923,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("varka", VARKA_BUFFS),
     ("lauma", LAUMA_BUFFS),
     ("flins", FLINS_BUFFS),
+    ("nefer", NEFER_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.

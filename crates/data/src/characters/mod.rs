@@ -80,7 +80,7 @@ pub const ALL_CHARACTERS: &[&CharacterData] = &[
     &cryo::SHENHE,
     &cryo::SKIRK,
     &cryo::WRIOTHESLEY,
-    // Dendro (12)
+    // Dendro (13)
     &dendro::ALHAITHAM,
     &dendro::BAIZHU,
     &dendro::COLLEI,
@@ -90,6 +90,7 @@ pub const ALL_CHARACTERS: &[&CharacterData] = &[
     &dendro::KIRARA,
     &dendro::LAUMA,
     &dendro::NAHIDA,
+    &dendro::NEFER,
     &dendro::TIGHNARI,
     &dendro::TRAVELER_DENDRO,
     &dendro::YAOYAO,
