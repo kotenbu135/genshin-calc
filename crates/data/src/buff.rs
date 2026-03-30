@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
 
 use crate::types::Region;
+/// Re-export of [`genshin_calc_core::BuffTarget`] for convenience.
 pub use genshin_calc_core::BuffTarget;
+/// Re-export of [`genshin_calc_core::BuffableStat`] for convenience.
 pub use genshin_calc_core::BuffableStat;
 use genshin_calc_core::{Element, WeaponType};
 

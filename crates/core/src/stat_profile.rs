@@ -49,6 +49,24 @@ pub struct StatProfile {
 ///
 /// Returns [`CalcError`] if any input value is out of valid range
 /// (e.g. negative base values, percent bonus below -1.0).
+///
+/// # Examples
+///
+/// ```
+/// use genshin_calc_core::{StatProfile, combine_stats};
+///
+/// let profile = StatProfile {
+///     base_atk: 800.0,
+///     atk_percent: 0.466,
+///     atk_flat: 311.0,
+///     crit_rate: 0.361,
+///     crit_dmg: 1.122,
+///     energy_recharge: 1.0,
+///     ..Default::default()
+/// };
+/// let stats = combine_stats(&profile).unwrap();
+/// assert!(stats.atk > 800.0);
+/// ```
 pub fn combine_stats(profile: &StatProfile) -> Result<Stats, CalcError> {
     validate(profile)?;
 

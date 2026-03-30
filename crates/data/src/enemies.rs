@@ -1,3 +1,8 @@
+//! Enemy definitions for Genshin Impact.
+//!
+//! Each constant defines an enemy type with element-specific resistance values.
+//! Use [`ALL_ENEMIES`] to iterate or [`super::find_enemy`] to look up by ID.
+
 use crate::types::{EnemyData, ResistanceTemplate};
 
 // ---------------------------------------------------------------------------
@@ -626,7 +631,7 @@ pub const RADIANT_MOONGECKO: EnemyData = EnemyData {
     resistance: &GEO_70_REST_10,
 };
 
-/// 全敵データの一覧
+/// All enemy types with default resistance values.
 pub const ALL_ENEMIES: &[&EnemyData] = &[
     // 既存15
     &HILICHURL,

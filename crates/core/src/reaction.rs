@@ -9,35 +9,52 @@ use crate::types::Element;
 /// which category a reaction belongs to.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Reaction {
-    // Amplifying
+    /// Vaporize (Hydro + Pyro amplifying reaction).
     Vaporize,
+    /// Melt (Pyro + Cryo amplifying reaction).
     Melt,
-    // Catalyze
+    /// Aggravate (Electro catalyze reaction).
     Aggravate,
+    /// Spread (Dendro catalyze reaction).
     Spread,
-    // Transformative
+    /// Overloaded (Pyro + Electro transformative reaction).
     Overloaded,
+    /// Superconduct (Cryo + Electro transformative reaction).
     Superconduct,
+    /// Electro-Charged (Hydro + Electro transformative reaction).
     ElectroCharged,
+    /// Shattered (Cryo + physical heavy attack transformative reaction).
     Shattered,
+    /// Swirl (Anemo + element transformative reaction, carries the swirled element).
     Swirl(Element),
+    /// Bloom (Hydro + Dendro transformative reaction).
     Bloom,
+    /// Hyperbloom (Electro + Bloom core transformative reaction).
     Hyperbloom,
+    /// Burgeon (Pyro + Bloom core transformative reaction).
     Burgeon,
+    /// Burning (Pyro + Dendro transformative reaction).
     Burning,
-    // Lunar
+    /// Lunar Electro-Charged (Nod-Krai lunar reaction).
     LunarElectroCharged,
+    /// Lunar Bloom (Nod-Krai lunar reaction).
     LunarBloom,
+    /// Lunar Crystallize primary hit (Nod-Krai lunar reaction).
     LunarCrystallize,
+    /// Lunar Crystallize secondary hit (Nod-Krai lunar reaction).
     LunarCrystallizeSecondary,
 }
 
 /// Reaction category classification.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ReactionCategory {
+    /// Amplifying reactions (vaporize, melt) — multiply damage by a coefficient.
     Amplifying,
+    /// Catalyze reactions (aggravate, spread) — add flat damage based on EM.
     Catalyze,
+    /// Transformative reactions — deal separate instance of elemental damage.
     Transformative,
+    /// Lunar reactions — Nod-Krai exclusive crittable reaction damage.
     Lunar,
 }
 

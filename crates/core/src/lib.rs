@@ -85,20 +85,37 @@
 //! assert!(result.average > 0.0);
 //! ```
 
+#![deny(missing_docs)]
+
+/// Buffable stat types for team buffs.
 pub mod buff_types;
+/// Standard damage calculation pipeline.
 pub mod damage;
+/// Elemental mastery bonus formulas.
 pub mod em;
+/// Enemy parameters and debuff application.
 pub mod enemy;
+/// Error types for calculation failures.
 pub mod error;
+/// Character level to reaction base value table.
 pub mod level_table;
+/// Lunar reaction damage calculation pipeline.
 pub mod lunar;
+/// Moonsign character system types and calculations.
 pub mod moonsign;
+/// Elemental reaction types and properties.
 pub mod reaction;
+/// Elemental resonance system.
 pub mod resonance;
+/// Stat profile (base/percent/flat breakdown) and combination.
 pub mod stat_profile;
+/// Final combined character stats.
 pub mod stats;
+/// Team composition and buff resolution.
 pub mod team;
+/// Transformative reaction damage calculation pipeline.
 pub mod transformative;
+/// Core type enums: Element, DamageType, ScalingStat, WeaponType.
 pub mod types;
 
 pub use buff_types::BuffableStat;

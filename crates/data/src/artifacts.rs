@@ -1,3 +1,8 @@
+//! Artifact set definitions for Genshin Impact.
+//!
+//! Each constant represents a complete artifact set with 2-piece and 4-piece bonuses.
+//! Use [`ALL_ARTIFACT_SETS`] to iterate or [`super::find_artifact_set`] to look up by ID.
+
 use crate::buff::{
     Activation, AutoCondition, BuffableStat, ConditionalBuff, ManualCondition, StatBuff,
 };
@@ -2199,6 +2204,7 @@ pub const A_DAY_CARVED_FROM_RISING_WINDS: ArtifactSet = ArtifactSet {
 // ALL_ARTIFACT_SETS
 // =============================================================================
 
+/// All artifact sets, ordered by release version.
 pub const ALL_ARTIFACT_SETS: &[&ArtifactSet] = &[
     // 5-star sets
     &CRIMSON_WITCH,

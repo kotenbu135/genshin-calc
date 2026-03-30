@@ -1,6 +1,7 @@
 use genshin_calc_core::{DamageInput, DamageType, Element, Reaction, ScalingStat, Stats};
 use serde::{Deserialize, Serialize};
 
+/// Re-export of [`genshin_calc_core::WeaponType`] for convenience.
 pub use genshin_calc_core::WeaponType;
 
 // -- Core Enums --
@@ -24,7 +25,6 @@ pub enum Region {
     Sumeru,
     Fontaine,
     Natlan,
-    NodKrai,
     Snezhnaya,
     NodKrai,
     Other,

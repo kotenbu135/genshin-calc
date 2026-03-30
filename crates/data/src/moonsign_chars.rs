@@ -1,3 +1,5 @@
+//! Moonsign character data: benedictions, talent enhancements, and lookup functions.
+
 use genshin_calc_core::{
     BuffTarget, BuffableStat, MoonsignLevel, MoonsignTalentEffect, MoonsignTalentEnhancement,
     Reaction, ScalingStat,
@@ -6,15 +8,21 @@ use genshin_calc_core::{
 /// Definition of a Moonsign Benediction passive.
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct MoonsignBenedictionDef {
+    /// Character identifier (lowercase, e.g. `"ineffa"`).
     pub character_id: &'static str,
+    /// Character display name.
     pub character_name: &'static str,
+    /// Lunar reactions this benediction applies to.
     pub enabled_reactions: &'static [Reaction],
+    /// Stat used for bonus scaling. `None` if the character has no personal scaling.
     pub scaling_stat: Option<ScalingStat>,
     /// Rate per 1 unit of stat.
     pub rate: f64,
+    /// Maximum bonus value (cap).
     pub max_bonus: f64,
 }
 
+/// All moonsign benediction definitions.
 pub const ALL_MOONSIGN_BENEDICTIONS: &[MoonsignBenedictionDef] = &[
     MoonsignBenedictionDef {
         character_id: "ineffa",
@@ -96,6 +104,7 @@ pub const ALL_MOONSIGN_BENEDICTIONS: &[MoonsignBenedictionDef] = &[
     },
 ];
 
+/// Talent enhancements for Lauma.
 pub const LAUMA_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Lauma",
     required_level: MoonsignLevel::NascentGleam,
@@ -107,6 +116,7 @@ pub const LAUMA_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
     },
 }];
 
+/// Talent enhancements for Flins.
 pub const FLINS_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Flins",
     required_level: MoonsignLevel::AscendantGleam,
@@ -117,6 +127,7 @@ pub const FLINS_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
     },
 }];
 
+/// Talent enhancements for Nefer.
 pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Nefer",
     required_level: MoonsignLevel::AscendantGleam,
@@ -128,6 +139,7 @@ pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
     },
 }];
 
+/// Talent enhancements for Aino.
 pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Aino",
     required_level: MoonsignLevel::AscendantGleam,
@@ -138,6 +150,7 @@ pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTal
     },
 }];
 
+/// Returns `true` if the character ID belongs to a moonsign character.
 #[must_use]
 pub fn is_moonsign_character(id: &str) -> bool {
     ALL_MOONSIGN_BENEDICTIONS
@@ -145,6 +158,7 @@ pub fn is_moonsign_character(id: &str) -> bool {
         .any(|d| d.character_id == id)
 }
 
+/// Finds a moonsign benediction definition by character ID.
 #[must_use]
 pub fn find_moonsign_benediction(id: &str) -> Option<&'static MoonsignBenedictionDef> {
     ALL_MOONSIGN_BENEDICTIONS

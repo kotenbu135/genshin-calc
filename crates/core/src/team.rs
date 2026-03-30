@@ -160,6 +160,26 @@ fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> 
 ///
 /// Returns [`CalcError::InvalidTeamSize`] if team is empty or has >4 members.
 /// Returns [`CalcError::InvalidTargetIndex`] if target_index is out of bounds.
+///
+/// # Examples
+///
+/// ```
+/// use genshin_calc_core::*;
+///
+/// let member = TeamMember {
+///     element: Element::Pyro,
+///     weapon_type: WeaponType::Sword,
+///     stats: StatProfile {
+///         base_atk: 800.0,
+///         energy_recharge: 1.0,
+///         ..Default::default()
+///     },
+///     buffs_provided: vec![],
+///     is_moonsign: false,
+/// };
+/// let stats = resolve_team_stats(&[member], 0).unwrap();
+/// assert!(stats.atk > 0.0);
+/// ```
 pub fn resolve_team_stats(team: &[TeamMember], target_index: usize) -> Result<Stats, CalcError> {
     let result = resolve_team_stats_detailed(team, target_index)?;
     Ok(result.final_stats)

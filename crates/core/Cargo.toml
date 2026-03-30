@@ -8,6 +8,7 @@ authors = ["kotenbu"]
 repository = "https://github.com/kotenbu/genshin-calc"
 keywords = ["genshin-impact", "damage-calculator", "game", "wasm"]
 categories = ["game-engines", "algorithms"]
+exclude = ["tests/"]
 rust-version = "1.85"
 readme = "README.md"
 

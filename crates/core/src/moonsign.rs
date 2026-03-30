@@ -34,9 +34,13 @@ pub struct MoonsignBenediction {
 /// fields cannot implement `Deserialize` generically.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct MoonsignTalentEnhancement {
+    /// Name of the character providing this enhancement.
     pub character_name: &'static str,
+    /// Minimum moonsign level required to activate this enhancement.
     pub required_level: MoonsignLevel,
+    /// Human-readable description of the enhancement effect.
     pub description: &'static str,
+    /// The mechanical effect of this enhancement.
     pub effect: MoonsignTalentEffect,
 }
 
@@ -45,18 +49,29 @@ pub struct MoonsignTalentEnhancement {
 pub enum MoonsignTalentEffect {
     /// Grant crit to a specific lunar reaction.
     GrantReactionCrit {
+        /// The lunar reaction that receives the crit bonus.
         reaction: Reaction,
+        /// Additional crit rate granted (decimal form).
         crit_rate: f64,
+        /// Additional crit damage granted (decimal form).
         crit_dmg: f64,
     },
-    /// Stat buff.
+    /// Stat buff applied to the character or team.
     StatBuff {
+        /// The stat being buffed.
         stat: BuffableStat,
+        /// The buff value (decimal form).
         value: f64,
+        /// Who receives the buff.
         target: BuffTarget,
     },
     /// Flat DMG bonus added to reaction_bonus for a specific lunar reaction.
-    ReactionDmgBonus { reaction: Reaction, bonus: f64 },
+    ReactionDmgBonus {
+        /// The lunar reaction that receives the bonus.
+        reaction: Reaction,
+        /// Bonus value added to reaction_bonus (decimal form).
+        bonus: f64,
+    },
 }
 
 /// Team-level Moonsign context.
@@ -65,6 +80,7 @@ pub enum MoonsignTalentEffect {
 /// contains `MoonsignTalentEnhancement` which has `&'static str` fields.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct MoonsignContext {
+    /// The resolved moonsign level for the team.
     pub level: MoonsignLevel,
     /// BaseDMGBonus per reaction type (Vec for WASM compatibility).
     pub base_dmg_bonus_by_reaction: Vec<(Reaction, f64)>,
@@ -85,6 +101,9 @@ impl MoonsignContext {
     }
 }
 
+/// Determines the moonsign level based on how many moonsign characters are in the team.
+///
+/// Returns [`MoonsignLevel::None`] for 0, [`MoonsignLevel::NascentGleam`] for 1, and [`MoonsignLevel::AscendantGleam`] for 2 or more moonsign characters.
 pub fn determine_moonsign_level(moonsign_count: usize) -> MoonsignLevel {
     match moonsign_count {
         0 => MoonsignLevel::None,
@@ -96,9 +115,11 @@ pub fn determine_moonsign_level(moonsign_count: usize) -> MoonsignLevel {
 /// Non-Moonsign character lunar buff definition.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct NonMoonsignLunarBuff {
+    /// The stat this buff scales from (ATK, HP, DEF, or EM depending on element).
     pub scaling_stat: ScalingStat,
-    /// Rate per 1 unit of stat.
+    /// Bonus rate per 1 unit of the scaling stat.
     pub rate: f64,
+    /// Maximum bonus value (cap, decimal form).
     pub max_bonus: f64,
 }
 
@@ -128,10 +149,16 @@ pub fn non_moonsign_scaling(element: Element) -> NonMoonsignLunarBuff {
     }
 }
 
+/// Calculates the bonus value from a non-moonsign lunar buff.
+///
+/// Multiplies the buff's rate by the given stat value, clamped to `buff.max_bonus`.
 pub fn calculate_non_moonsign_bonus(buff: &NonMoonsignLunarBuff, stat_value: f64) -> f64 {
     (buff.rate * stat_value).min(buff.max_bonus)
 }
 
+/// Selects the highest non-moonsign buff value from a list of team members.
+///
+/// Each member is represented as `(element, stat_value)`. Returns the maximum bonus across all members, or `0.0` if the list is empty.
 pub fn select_non_moonsign_buff(members: &[(Element, f64)]) -> f64 {
     members
         .iter()
@@ -147,6 +174,7 @@ const CONTRIBUTION_WEIGHTS: [f64; 4] = [1.0, 0.5, 1.0 / 12.0, 1.0 / 12.0];
 /// A single character's contribution to a lunar reaction.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LunarContribution {
+    /// The lunar input parameters for this contributing character.
     pub input: LunarInput,
 }
 
