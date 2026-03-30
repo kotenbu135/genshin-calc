@@ -24,6 +24,7 @@ pub enum Region {
     Sumeru,
     Fontaine,
     Natlan,
+    NodKrai,
     Snezhnaya,
     NodKrai,
     Other,

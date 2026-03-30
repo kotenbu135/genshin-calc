@@ -828,6 +828,36 @@ static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Flins =====
+// A4 passive "Whispering Flame": EM += ATK × 0.08, capped at 160 (computed at resolve time)
+// C4 "Night on Bald Mountain": ATK +20%
+static FLINS_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Whispering Flame EM Bonus",
+        description: "A4: Flins gains EM equal to 8% of her ATK (max 160)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.0, // ATK-dependent — builder computes ATK×0.08 (cap 160) at resolve time
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Night on Bald Mountain ATK Bonus",
+        description: "C4: Flins gains ATK +20%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+    },
+];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("aino", AINO_BUFFS),
@@ -862,6 +892,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("nilou", NILOU_BUFFS),
     ("varka", VARKA_BUFFS),
     ("lauma", LAUMA_BUFFS),
+    ("flins", FLINS_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.

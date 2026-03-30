@@ -1,0 +1,70 @@
+# Source: Electro Polearm — Normal Attack and Skill verification
+
+[character]
+name = "Flins"
+element = "Electro"
+
+# Case 1: Normal Attack Hit 1 — Physical, no reaction
+# base_dmg = 2000.0 * 0.88412 = 1768.24
+# non_crit = 1768.24 * 1.0 * 0.5 * 0.9 = 795.708
+# crit = 795.708 * 2.0 = 1591.416
+# average = 795.708 * 1.5 = 1193.562
+[[cases]]
+type = "normal"
+name = "Normal Attack Hit 1 — Physical, no reaction"
+character_level = 90
+talent_multiplier = 0.88412
+scaling_stat = "Atk"
+damage_type = "Normal"
+
+[cases.stats]
+hp = 20000.0
+atk = 2000.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.0
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 795.708000
+crit = 1591.416000
+average = 1193.562000
+
+# Case 2: Skill (Northland Spearstorm) — Electro, no reaction
+# base_dmg = 2000.0 * 3.21120 = 6422.4
+# non_crit = 6422.4 * 1.466 * 0.5 * 0.9 = 4236.857280
+# crit = 4236.857280 * 2.0 = 8473.714560
+# average = 4236.857280 * 1.5 = 6355.285920
+[[cases]]
+type = "normal"
+name = "Skill — Electro, no reaction"
+character_level = 90
+talent_multiplier = 3.21120
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Electro"
+
+[cases.stats]
+hp = 20000.0
+atk = 2000.0
+def = 700.0
+elemental_mastery = 100.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4236.857280
+crit = 8473.714560
+average = 6355.285920

@@ -55,6 +55,8 @@ pub enum MoonsignTalentEffect {
         value: f64,
         target: BuffTarget,
     },
+    /// Flat DMG bonus added to reaction_bonus for a specific lunar reaction.
+    ReactionDmgBonus { reaction: Reaction, bonus: f64 },
 }
 
 /// Team-level Moonsign context.
@@ -196,21 +198,31 @@ pub fn calculate_lunar_team(
 
 /// Apply Moonsign talent enhancements to a LunarInput.
 /// Matching GrantReactionCrit effects add crit_rate (capped at 1.0) and crit_dmg.
+/// Matching ReactionDmgBonus effects add to reaction_bonus.
 pub fn apply_moonsign_enhancements(
     input: &LunarInput,
     enhancements: &[MoonsignTalentEnhancement],
 ) -> LunarInput {
     let mut result = input.clone();
     for enh in enhancements {
-        if let MoonsignTalentEffect::GrantReactionCrit {
-            reaction,
-            crit_rate,
-            crit_dmg,
-        } = &enh.effect
-        {
-            if *reaction == input.reaction {
-                result.crit_rate = (result.crit_rate + crit_rate).min(1.0);
-                result.crit_dmg += crit_dmg;
+        match &enh.effect {
+            MoonsignTalentEffect::GrantReactionCrit {
+                reaction,
+                crit_rate,
+                crit_dmg,
+            } => {
+                if *reaction == input.reaction {
+                    result.crit_rate = (result.crit_rate + crit_rate).min(1.0);
+                    result.crit_dmg += crit_dmg;
+                }
+            }
+            MoonsignTalentEffect::ReactionDmgBonus { reaction, bonus } => {
+                if *reaction == input.reaction {
+                    result.reaction_bonus += bonus;
+                }
+            }
+            MoonsignTalentEffect::StatBuff { .. } => {
+                // StatBuff is applied at the stat-profile level, not directly to LunarInput
             }
         }
     }

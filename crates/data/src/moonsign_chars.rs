@@ -103,6 +103,16 @@ pub const LAUMA_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
     },
 }];
 
+pub const FLINS_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
+    character_name: "Flins",
+    required_level: MoonsignLevel::AscendantGleam,
+    description: "Lunar-Charged DMG +20% at Ascendant Gleam",
+    effect: MoonsignTalentEffect::ReactionDmgBonus {
+        reaction: Reaction::LunarElectroCharged,
+        bonus: 0.20,
+    },
+}];
+
 pub fn is_moonsign_character(id: &str) -> bool {
     ALL_MOONSIGN_BENEDICTIONS
         .iter()
@@ -127,6 +137,7 @@ pub fn find_moonsign_talent_enhancements(
 ) -> Vec<&'static MoonsignTalentEnhancement> {
     let enhancements: &[MoonsignTalentEnhancement] = match id {
         "lauma" => LAUMA_TALENT_ENHANCEMENTS,
+        "flins" => FLINS_TALENT_ENHANCEMENTS,
         _ => &[],
     };
     enhancements

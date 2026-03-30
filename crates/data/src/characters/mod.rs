@@ -42,12 +42,13 @@ pub const ALL_CHARACTERS: &[&CharacterData] = &[
     &hydro::TARTAGLIA,
     &hydro::XINGQIU,
     &hydro::YELAN,
-    // Electro (17)
+    // Electro (18)
     &electro::BEIDOU,
     &electro::CLORINDE,
     &electro::CYNO,
     &electro::DORI,
     &electro::FISCHL,
+    &electro::FLINS,
     &electro::IANSAN,
     &electro::INEFFA,
     &electro::KEQING,
