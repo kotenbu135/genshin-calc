@@ -1,106 +1,225 @@
 ---
 name: character-add-workflow
-description: Domain knowledge reference for adding a new Genshin Impact character — file structure, implementation steps, validation rules, and common pitfalls. Used by superpowers brainstorming/planning phases.
-version: 1.0.0
+description: End-to-end execution skill for adding a new Genshin Impact character — fetches data, auto-scopes, dispatches subagents in a worktree, verifies, and merges. Replaces brainstorming/writing-plans/SDD chain for character additions.
+version: 2.0.0
 ---
 
-# Character Add Workflow
+# Character Add Workflow v2
 
-新キャラクターをデータクレートに追加するためのドメイン知識リファレンス。
-
-**このスキルは実行を制御しない。** superpowers:brainstorming でスコープ確認、superpowers:writing-plans でタスク分解するときに、ドメイン知識として参照する。実際の実行は subagent-driven-development が行う。
+キャラクター追加をワンショットで実行するスキル。
+brainstorming / writing-plans / subagent-driven-development の連鎖を**スキップ**し、このスキル単体で完結する。
 
 ## Trigger
 
 - ユーザーが「キャラ追加」「{名前}を実装」「新キャラデータ」に言及したとき
 - `/game-update-todo` で生成されたTODOのうちキャラ関連タスクを実装するとき
 
-## Role in Superpowers Flow
+## Flow
 
 ```
-brainstorming           → このスキルのStep Map でスコープを確認
-  ↓                       どのステップが必要か判断（月兆あり？天賦バフあり？）
-writing-plans           → このスキルのStep Map をタスク分解の入力にする
-  ↓                       各ステップを独立タスクとして計画に落とす
-subagent-driven-dev     → 各タスクのsubagentに該当ステップの詳細を渡す
-                          subagentは honeyhunter-data-fetch スキルも参照
+Phase 1: Data Fetch + Scope (このセッション)
+  ├── Honey Impact WebFetch
+  ├── スコープ自動判定 (月兆/バフ/デュアルスケーリング)
+  └── ユーザーにスコープ提示 → 確認待ち (1メッセージ)
+
+Phase 2: Worktree + Subagent Dispatch (このセッション)
+  ├── git worktree 作成
+  ├── Task A: zibai.rs + mod.rs (subagent — honeyhunter-data-fetch で自前取得)
+  ├── Task B: TOML テスト (subagent — dummy expected → test → actual 読取 → 修正)
+  ├── Task C: talent_buffs (subagent — 該当時のみ, Task A 完了後 Task B と並列)
+  └── Task D: moonsign (subagent — 該当時のみ, 未実装の場合)
+
+Phase 3: Verify + Merge (このセッション)
+  ├── cargo build + test + clippy + fmt
+  ├── TODO チェックボックス更新
+  ├── spec/plan ファイル削除 (存在する場合)
+  └── main にマージ + worktree 削除
 ```
 
-**brainstorming でのスコープ確認（質問不要 — Honey Impact データから自動判断）:**
-- 月兆対応キャラか？ → honeyhunter-data-fetch でA1パッシブを確認 → Step 5 の要否
-- チームバフ/自己バフを持つか？ → honeyhunter-data-fetch でパッシブ・星座を確認 → Step 4 の要否とスコープ
-- デュアルスケーリング天賦があるか？ → honeyhunter-data-fetch で天賦説明を確認 → TalentScaling の分割パターン
-
-**brainstorming の手順:** honeyhunter-data-fetch でデータ取得 → 上記3点を自動判定 → スコープ確定 → 設計提示
-
-**brainstorming で聞かなくてよい質問:**
-- ファイル配置（このスキルで定義済み）
-- 数値フォーマット（honeyhunter-data-fetch スキルで定義済み）
-- テストの書き方（testing.md で定義済み）
+**重要:** brainstorming / writing-plans / executing-plans スキルは呼び出さない。
 
 ---
 
-## Step Map
+## Phase 1: Data Fetch + Scope
 
-各ステップは独立タスクとして subagent に dispatch 可能。依存関係に注意。
+### 1-1. Honey Impact データ取得
 
 ```
-Step 1: キャラデータ定義 (.rs ファイル作成)
-  ↓ 依存
-Step 2: mod 登録 (mod.rs に追加)
-  ↓ 依存
-Step 3: TOML テストケース作成
-  |
-  ├── Step 4: 天賦バフ定義 (該当キャラのみ, Step 2 に依存)
-  |
-  └── Step 5: 月兆データ定義 (該当キャラのみ, Step 2 に依存)
-  ↓ 全完了後
-Step 6: 検証 (cargo build + test + clippy + fmt)
+WebFetch: https://gensh.honeyhunterworld.com/{char_name}/?lang=EN
 ```
 
-**並列化可能:** Step 3, 4, 5 は互いに独立。ただし全て Step 2 完了後。
+抽出対象:
+- 基本情報 (元素, 武器種, ★, 地域)
+- ベースステータス (HP/ATK/DEF × [Lv1, Lv20, Lv80, Lv90])
+- 突破ステ (種類 + Lv90値)
+- 天賦名 + 各段のスケーリングstat (ATK/DEF/HP/EM) と元素判定
+- パッシブ A1/A4 の説明文
+- 星座 C1-C6 の説明文 (C3/C5 でどの天賦が+3か)
+
+**天賦倍率の数値 (Lv1-15) はこの段階では不要。** subagent が個別に取得する。
+
+### 1-2. スコープ自動判定
+
+| 判定項目 | 判定方法 | 結果 |
+|---------|---------|------|
+| 月兆 | `moonsign_chars.rs` に既存エントリがあるか grep | 実装済み / 要実装 / 対象外 |
+| 天賦バフ | A1/A4/C1-C6 にステータスバフがあるか | バフ一覧 (stat, value, target, source) |
+| デュアルスケーリング | 天賦説明に ATK+DEF 等の複数stat参照があるか | 分割パターン |
+| 星座パターン | C3/C5 の記述から判定 | C3SkillC5Burst or C3BurstC5Skill |
+
+### 1-3. スコープ提示
+
+ユーザーに1メッセージで提示:
+```
+## {CharName} ({Element}/{Weapon}/★{N}) スコープ
+
+| 項目 | 結果 |
+|------|------|
+| 月兆 | {実装済み/要実装/対象外} |
+| 天賦バフ | {なし / C2: TransformativeBonus +30% 等} |
+| デュアルスケーリング | {なし / ATK+DEF 等} |
+| 星座パターン | {C3SkillC5Burst / C3BurstC5Skill} |
+
+実装タスク: A(データ定義+登録), B(テスト), {C(バフ)}, {D(月兆)}
+これで進めますか？
+```
+
+ユーザー確認後、Phase 2 へ。
 
 ---
 
-## Step 1: キャラデータ定義
+## Phase 2: Worktree + Subagent Dispatch
 
-**出力先:** `crates/data/src/characters/{element}/{char_id}.rs`（新規ファイル）
+### 2-0. Worktree 作成
 
-**データ取得:** `/honeyhunter-data-fetch` スキルのワークフローに従う
-
-### 必須フィールド
-
-```rust
-pub const {CHAR_UPPER}: CharacterData = CharacterData {
-    id: "{char_id}",           // snake_case, グローバルユニーク
-    name: "{表示名}",
-    element: Element::{Xxx},
-    weapon_type: WeaponType::{Xxx},
-    rarity: Rarity::Star{N},
-    region: Region::{Xxx},
-    base_hp: [Lv1, Lv20, Lv80, Lv90],    // 突破前の値
-    base_atk: [Lv1, Lv20, Lv80, Lv90],
-    base_def: [Lv1, Lv20, Lv80, Lv90],
-    ascension_stat: AscensionStat::{Xxx}(値),  // Lv90突破後の合計値
-    talents: TalentSet { normal, skill, burst },
-    constellation_pattern: ConstellationPattern::{C3SkillC5Burst|C3BurstC5Skill},
-};
+```bash
+git worktree add .claude/worktrees/feat-{char_id} -b feat/{char_id}-data
 ```
 
-### 天賦スケーリング定義
+### 2-1. Task A: CharacterData + mod 登録
 
-各段ごとに `const` + `TalentScaling`:
+**1つの subagent で実行。** honeyhunter-data-fetch のフォーマット規約を subagent に渡す。
 
-```rust
-const CHAR_NA_HIT1: TalentScaling = TalentScaling {
-    name: "1-Hit DMG",
-    scaling_stat: ScalingStat::Atk,    // Hp/Def/Em の場合あり
-    damage_element: None,              // 物理=None, 元素=Some(Element::Xxx)
-    values: [f64; 15],                 // Lv1-Lv15、必ず15値
-};
+subagent に渡す情報:
+- Worktree パス
+- Honey Impact URL
+- 基本情報 (element, weapon, rarity, region)
+- ベースステータス 4値 (Phase 1 で取得済み)
+- 突破ステ
+- 天賦構成 (各天賦名, scaling_stat, damage_element の判定結果)
+- 星座パターン
+- 既存キャラの参照ファイルパス (同元素で最も近いパターン)
+- mod.rs の現在の内容
+
+subagent の責務:
+1. WebFetch で天賦倍率 Lv1-15 を取得
+2. `{char_id}.rs` 作成 (honeyhunter-data-fetch のフォーマット規約に従う)
+3. `mod.rs` に3箇所追加
+4. `cargo build -p genshin-calc-data` で検証
+5. `cargo test -p genshin-calc-data` で検証
+6. 2コミット (データ定義 + mod登録)
+
+### 2-2. Task B: TOML テストケース
+
+**Task A 完了後に dispatch。** expected 値は手計算しない。
+
+subagent に渡す情報:
+- Worktree パス
+- キャラ名, 元素
+- テストケース構成 (scaling_stat, damage_type, element, talent_multiplier の Lv10 値)
+- 既存 TOML の参照ファイルパス
+
+subagent の責務 (dummy → actual パターン):
+1. TOML ファイルを作成 (expected は `0.1` のダミー値)
+2. `cargo test -p genshin-calc-core --test character_verification -- {char_id}` を実行
+3. テスト失敗出力から `got {actual}` の値を読み取る
+4. TOML の expected をactual値で上書き
+5. テストを再実行して全パス確認
+6. コミット
+
+**これにより手計算ミスを完全に排除する。**
+
+### 2-3. Task C: 天賦バフ (該当時のみ)
+
+**Task A 完了後、Task B と並列 dispatch 可能。**
+
+subagent に渡す情報:
+- Worktree パス
+- バフ定義 (Phase 1 で判定済み: stat, base_value, target, source, min_constellation)
+- `talent_buffs/{element}.rs` の現在の内容
+
+### 2-4. Task D: 月兆データ (該当時のみ)
+
+**Phase 1 で「要実装」と判定された場合のみ。**
+
+subagent に渡す情報:
+- Worktree パス
+- 月兆データ (reaction, scaling_stat, rate, max_bonus)
+- `moonsign_chars.rs` の現在の内容
+
+---
+
+## Phase 3: Verify + Merge
+
+### 3-1. 最終検証
+
+```bash
+cd {worktree_path}
+cargo build
+cargo test
+cargo clippy -- -D warnings
+cargo fmt --check
 ```
 
-**元素判定ルール:**
+### 3-2. TODO 更新
+
+`docs/v6.0-6.3-data-update-todo.md` の該当セクションのチェックボックスを `[x]` に更新。コミット。
+
+### 3-3. クリーンアップ
+
+- `docs/superpowers/specs/` と `docs/superpowers/plans/` の該当ファイルを削除 (存在する場合)
+
+### 3-4. マージ
+
+ユーザーに確認後:
+```bash
+cd /home/sakis/genshin-calc
+git merge feat/{char_id}-data --no-ff
+git worktree remove .claude/worktrees/feat-{char_id}
+git branch -d feat/{char_id}-data
+```
+
+---
+
+## Subagent Model Routing
+
+CLAUDE.md の Agent Model Routing に従う。キャラデータ実装は mechanical task なので sonnet を使用。
+
+| Task | Model |
+|------|-------|
+| Task A (データ定義 + mod登録) | sonnet |
+| Task B (TOML テスト) | sonnet |
+| Task C (天賦バフ) | sonnet |
+| Task D (月兆) | sonnet |
+
+---
+
+## Domain Knowledge (Reference)
+
+以下はスキル実行中にsubagentへ渡すドメイン知識。
+
+### ファイル配置
+
+| 種類 | パス |
+|------|------|
+| キャラデータ | `crates/data/src/characters/{element}/{char_id}.rs` |
+| mod登録 | `crates/data/src/characters/{element}/mod.rs` |
+| TOML テスト | `crates/core/tests/data/characters/{char_id}.toml` |
+| 天賦バフ | `crates/data/src/talent_buffs/{element}.rs` |
+| 月兆 | `crates/data/src/moonsign_chars.rs` |
+| TODO | `docs/v6.0-6.3-data-update-todo.md` |
+
+### 元素判定ルール
 
 | 武器種 | 通常攻撃 | 重撃 | スキル/爆発 |
 |--------|---------|------|------------|
@@ -108,155 +227,40 @@ const CHAR_NA_HIT1: TalentScaling = TalentScaling {
 | Sword/Claymore/Polearm | `None` (物理) | `None` (物理) | `Some(Element)` |
 | Bow | `None` (物理) | フルチャージ: `Some(Element)` | `Some(Element)` |
 
-**デュアルスケーリング:** ATK+EM 等の天賦は `_ATK` と `_EM` の2エントリに分割（Lauma/Nefer パターン）。
+### パーセンテージ変換
 
----
+Honey Impact の `%` 値は全て小数に変換: `88.2%` → `0.882`
 
-## Step 2: mod 登録
+### base_stat 配列
 
-**対象ファイル:** `crates/data/src/characters/{element}/mod.rs`
+`[Lv1, Lv20, Lv80, Lv90]` — 4値。Lv20/Lv80 は突破前の値。
 
-3箇所の変更:
+### 天賦スケーリング
 
-```rust
-// 1. mod宣言
-mod {char_id};
+`[f64; 15]` — Lv1 から Lv15 まで必ず15値。
 
-// 2. pub use
-pub use {char_id}::{CHAR_UPPER};
-
-// 3. CHARACTERS スライスに追加
-pub const CHARACTERS: &[CharacterData] = &[
-    // ... 既存キャラ ...
-    {char_id}::{CHAR_UPPER},  // ← 追加
-];
-```
-
----
-
-## Step 3: TOML テストケース
-
-**出力先:** `crates/core/tests/data/characters/{char_id}.toml`
-
-**最小構成:** 通常攻撃1段目、反応なし、ベーシックなステータス
-
-```toml
-[character]
-name = "{CharacterName}"
-element = "{Element}"
-
-[[cases]]
-type = "normal"
-name = "Normal Attack Hit 1 — no reaction"
-character_level = 90
-talent_multiplier = {1段目Lv10の値}
-scaling_stat = "Atk"           # or "Hp", "Def", "Em"
-damage_type = "Normal"
-element = "{Element}"          # 物理の場合は "Physical"
-
-[cases.stats]
-hp = 15000.0
-atk = 2000.0
-def = 800.0
-elemental_mastery = 100.0
-crit_rate = 0.50
-crit_dmg = 1.00
-energy_recharge = 1.2
-dmg_bonus = 0.466
-
-[cases.enemy]
-level = 90
-resistance = 0.10
-
-[cases.expected]
-non_crit = {手計算値}
-crit = {手計算値}
-average = {手計算値}
-```
-
-### expected 値の計算方法
-
-```
-base_damage = atk × talent_multiplier
-dmg_multiplier = 1 + dmg_bonus
-defense_mult = (char_level + 100) / ((char_level + 100) + (enemy_level + 100))
-              = 190 / (190 + 190) = 0.5
-resistance_mult = 1 - resistance = 0.9
-
-non_crit = base_damage × dmg_multiplier × defense_mult × resistance_mult
-crit = non_crit × (1 + crit_dmg)
-average = non_crit × (1 + crit_rate × crit_dmg)
-```
-
-**推奨追加ケース:**
-- 元素スキル/爆発のダメージ
-- 蒸発/溶解（増幅反応）
-- 超激化/草激化（catalyze — 該当元素のみ）
-
----
-
-## Step 4: 天賦バフ定義（該当キャラのみ）
-
-**出力先:** `crates/data/src/talent_buffs/{element}.rs`
-
-**実装対象の判別:**
+### 天賦バフ判定
 
 | パッシブ内容 | 実装する？ |
 |-------------|-----------|
 | ATK/DMG/CRIT等のステータスバフ | YES — TalentBuffDef |
 | 元素耐性ダウン | YES — TalentBuffDef |
+| Lunar反応DMG+N% | YES — `BuffableStat::TransformativeBonus` |
 | 追加ヒット/proc damage | NO |
 | HP回復/シールド | NO |
 | クールダウン短縮 | NO |
 
-**対象:**
-- 固有天賦 A1/A4 でステータスバフがあるもの
-- 命の星座 C1-C6 で主要なステータスバフ
-- チームバフ: `target: BuffTarget::Team`
-- 自己バフ: `target: BuffTarget::Character("{char_id}")`
-
----
-
-## Step 5: 月兆データ定義（該当キャラのみ）
-
-**出力先:** `crates/data/src/moonsign_chars.rs`
-
-**該当判定:** Honey Impact / Wiki に Moonsign セクションがあるキャラ（Luna以降の新キャラが対象）
-
-**MoonsignTalentEffect の種類:**
-- `GrantReactionCrit` — 月反応に会心付与
-- `StatBuff` — ステータスバフ
-- `ReactionDmgBonus` — 反応ダメージボーナス
-
----
-
-## Step 6: 検証
-
-```bash
-cargo build
-cargo test
-cargo clippy -- -D warnings
-cargo fmt --check
-```
-
-**特に確認:**
-- データ整合性テスト（ID重複なし、base stats正値）
-- `character_verification` テスト（TOML ケース通過）
-- 天賦バフ名のユニーク性
-
----
-
-## Common Pitfalls
+### Common Pitfalls
 
 | ミス | 正しい対処 |
 |------|-----------|
-| パーセンテージを小数変換し忘れ（`88.2` → `0.882`） | honeyhunter-data-fetch の規約参照 |
+| パーセンテージ小数変換忘れ | honeyhunter-data-fetch 規約参照 |
 | Catalyst通常攻撃の `damage_element: None` | `Some(Element::Xxx)` が正しい |
-| base_stat で突破前/後を混同 | Lv20=突破**前**, Lv80=突破**前** |
-| 天賦スケーリングが13値 | 必ず15値 (Lv1-15) |
-| mod.rs の CHARACTERS スライスへの登録忘れ | Step 2 を忘れずに |
-| 天賦バフ名が既存と重複 | `{char_id}_{effect}` でユニークにする |
-| TOMLの expected を概算で書く | 上記の計算式で正確に算出 |
+| base_stat 突破前/後混同 | Lv20=突破前, Lv80=突破前 |
+| 天賦スケーリング13値 | 必ず15値 (Lv1-15) |
+| mod.rs CHARACTERS 登録忘れ | Step 2 で3箇所変更 |
+| 天賦バフ名の重複 | `{char_id}_{effect}` でユニーク化 |
+| TOML expected の手計算ミス | dummy → actual パターンで自動算出 |
 
 ---
 
@@ -264,13 +268,13 @@ cargo fmt --check
 
 | スキル | 役割 | いつ使う |
 |--------|------|---------|
-| `game-update-todo` | バージョン全体のTODOリスト生成 | 複数キャラ/武器/聖遺物をまとめて把握 |
-| `honeyhunter-data-fetch` | 数値データ取得とRust定数変換 | Step 1 のデータ取得時 |
+| `honeyhunter-data-fetch` | 数値データ取得のフォーマット規約 | Task A の subagent が参照 |
+| `game-update-todo` | バージョン全体のTODOリスト生成 | 複数キャラ実装時の全体把握 |
 
 ## Related Docs
 
 | ドキュメント | 内容 |
 |-------------|------|
 | `docs/dev/character-data-guide.md` | デュアルスケーリング等の実装パターン |
-| `docs/dev/testing.md` | テスト構造・許容誤差・検証済みキャラ |
+| `docs/dev/testing.md` | テスト構造・許容誤差 |
 | `docs/dev/architecture.md` | crate構造とファイル配置 |
