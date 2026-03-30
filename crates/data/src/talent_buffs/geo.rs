@@ -185,6 +185,22 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Zibai =====
+// C2 "At Birth Are Souls Born, and in Death Leave But Husks":
+// Lunar-Crystallize Reaction DMG +30% for nearby party members
+static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "At Birth Are Souls Born C2 Reaction DMG",
+    description: "C2: Lunar-Crystallize Reaction DMG +30% for nearby party members",
+    stat: BuffableStat::TransformativeBonus,
+    base_value: 0.30,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(2),
+    min_constellation: 2,
+}];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static GEO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("albedo", ALBEDO_BUFFS),
@@ -192,6 +208,7 @@ pub(super) static GEO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("ningguang", NINGGUANG_BUFFS),
     ("yun_jin", YUN_JIN_BUFFS),
     ("zhongli", ZHONGLI_BUFFS),
+    ("zibai", ZIBAI_BUFFS),
 ];
 
 pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {

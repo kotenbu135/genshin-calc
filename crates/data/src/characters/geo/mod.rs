@@ -9,6 +9,7 @@ mod noelle;
 mod xilonen;
 mod yun_jin;
 mod zhongli;
+mod zibai;
 
 pub use albedo::ALBEDO;
 pub use chiori::CHIORI;
@@ -21,10 +22,11 @@ pub use noelle::NOELLE;
 pub use xilonen::XILONEN;
 pub use yun_jin::YUN_JIN;
 pub use zhongli::ZHONGLI;
+pub use zibai::ZIBAI;
 
 use crate::types::CharacterData;
 
 pub const CHARACTERS: &[&CharacterData] = &[
     &ALBEDO, &CHIORI, &GOROU, &ITTO, &KACHINA, &NAVIA, &NINGGUANG, &NOELLE, &XILONEN, &YUN_JIN,
-    &ZHONGLI,
+    &ZHONGLI, &ZIBAI,
 ];
