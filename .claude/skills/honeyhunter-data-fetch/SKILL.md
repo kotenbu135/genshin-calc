@@ -171,10 +171,10 @@ Honey Impactの星座一覧からC3とC5を確認:
    - 元素スキル: 各ヒットのLv1-15倍率
    - 元素爆発: 各ヒットのLv1-15倍率
    - 星座パターン: C3/C5判定
-3. **出力先**: `crates/data/src/characters/{element}.rs`
-4. **登録**: `crates/data/src/characters/mod.rs` の `ALL_CHARACTERS`
+3. **出力先**: `crates/data/src/characters/{element}/{char}.rs`（新規ファイル作成）
+4. **mod登録**: `crates/data/src/characters/{element}/mod.rs` の `CHARACTERS` スライスに追加、`mod` 宣言、`pub use` 追加
 5. **テスト**: `crates/core/tests/data/characters/{id}.toml`
-6. **天賦バフ**: `crates/data/src/talent_buffs.rs`（A1/A4/星座でステバフがある場合）
+6. **天賦バフ**: `crates/data/src/talent_buffs/{element}.rs`（A1/A4/星座でステバフがある場合）
 7. **月兆**: `crates/data/src/moonsign_chars.rs`（月兆対応キャラの場合）
 
 ### 武器追加

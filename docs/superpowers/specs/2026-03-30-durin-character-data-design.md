@@ -20,7 +20,7 @@ Honey Impact（gensh.honeyhunterworld.com）— 2026-03-30 取得。
 
 ### 1. CharacterData 定義
 
-`crates/data/src/characters/pyro.rs` に追加。Diluc（同 Pyro ★5）パターン準拠。
+`crates/data/src/characters/pyro/durin.rs` に新規ファイル作成。Diluc（同 Pyro ★5）パターン準拠。
 
 - `id: "durin"`, `name: "Durin"`
 - `element: Pyro`, `weapon_type: Sword`, `rarity: Star5`, `region: Mondstadt`
@@ -76,11 +76,12 @@ Honey Impact（gensh.honeyhunterworld.com）— 2026-03-30 取得。
 
 ### 2. 登録
 
-`crates/data/src/characters/mod.rs` の `ALL_CHARACTERS` Pyro セクションに `&pyro::DURIN` をアルファベット順で追加（DILUC の後、GAMING の前）。
+`crates/data/src/characters/pyro/mod.rs` の `CHARACTERS` スライスに `&durin::DURIN` をアルファベット順で追加（DILUC の後、GAMING の前）。
+同時に `mod durin;` 宣言と `pub use durin::DURIN;` エクスポートを追加。
 
 ### 3. 天賦バフ
 
-`crates/data/src/talent_buffs.rs` に `DURIN_BUFFS` を追加:
+`crates/data/src/talent_buffs/pyro.rs` に `DURIN_BUFFS` を追加:
 
 | 効果 | stat | base_value | scales_with_talent | target | source | min_constellation |
 |------|------|-----------|-------------------|--------|--------|-------------------|

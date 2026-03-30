@@ -59,10 +59,7 @@ pub const GAME_VERSION: &str = "5.8";
 /// assert!(find_character("nonexistent").is_none());
 /// ```
 pub fn find_character(id: &str) -> Option<&'static CharacterData> {
-    characters::ALL_CHARACTERS
-        .iter()
-        .find(|c| c.id == id)
-        .copied()
+    characters::all_characters().find(|c| c.id == id).copied()
 }
 
 /// Finds a weapon by ID (lowercase, e.g. `"wolfs_gravestone"`).
@@ -95,11 +92,7 @@ pub fn find_enemy(id: &str) -> Option<&'static EnemyData> {
 
 /// Returns all characters with the given element.
 pub fn characters_by_element(element: Element) -> Vec<&'static CharacterData> {
-    characters::ALL_CHARACTERS
-        .iter()
-        .filter(|c| c.element == element)
-        .copied()
-        .collect()
+    characters::characters_by_element_slice(element).to_vec()
 }
 
 /// Returns all weapons of the given type.

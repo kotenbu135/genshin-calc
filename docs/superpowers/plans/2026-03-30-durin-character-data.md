@@ -15,11 +15,11 @@
 ### Task 1: Add Durin normal attack TalentScaling consts
 
 **Files:**
-- Modify: `crates/data/src/characters/pyro.rs` (append after YOIMIYA block, before EOF)
+- Create: `crates/data/src/characters/pyro/durin.rs` (new file)
 
-- [ ] **Step 1: Add section header and normal attack consts**
+- [ ] **Step 1: Create durin.rs and add section header and normal attack consts**
 
-Append to `pyro.rs` after the last character block. Use raw data from spec, converting percentages to decimals (e.g., 45.65% → 0.4565).
+Create new file `crates/data/src/characters/pyro/durin.rs`. Use raw data from spec, converting percentages to decimals (e.g., 45.65% → 0.4565).
 
 ```rust
 // =============================================================================
@@ -116,12 +116,12 @@ const DURIN_PLUNGE_HIGH: TalentScaling = TalentScaling {
 - [ ] **Step 2: Verify file compiles**
 
 Run: `cargo build -p genshin-calc-data 2>&1 | head -5`
-Expected: `Compiling genshin-calc-data` with no errors (consts are unused but `#![allow(dead_code)]` is implicit for consts in this module pattern — they'll be used in Task 3).
+Expected: `Compiling genshin-calc-data` with no errors. If "module declared but not used" error appears, it's expected until Task 3 registers the module.
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add crates/data/src/characters/pyro.rs
+git add crates/data/src/characters/pyro/durin.rs
 git commit -m "feat(data): add Durin normal attack talent scalings"
 ```
 
@@ -130,11 +130,11 @@ git commit -m "feat(data): add Durin normal attack talent scalings"
 ### Task 2: Add Durin skill and burst TalentScaling consts
 
 **Files:**
-- Modify: `crates/data/src/characters/pyro.rs`
+- Modify: `crates/data/src/characters/pyro/durin.rs`
 
 - [ ] **Step 1: Add elemental skill consts**
 
-Append after the normal attack consts:
+Append to `durin.rs` after the normal attack consts:
 
 ```rust
 // --- Elemental Skill: Binary Form: Convergence and Division ---
@@ -274,21 +274,21 @@ Expected: Success
 - [ ] **Step 4: Commit**
 
 ```bash
-git add crates/data/src/characters/pyro.rs
+git add crates/data/src/characters/pyro/durin.rs
 git commit -m "feat(data): add Durin skill and burst talent scalings"
 ```
 
 ---
 
-### Task 3: Add Durin CharacterData struct and register in ALL_CHARACTERS
+### Task 3: Add Durin CharacterData struct and register
 
 **Files:**
-- Modify: `crates/data/src/characters/pyro.rs`
-- Modify: `crates/data/src/characters/mod.rs`
+- Modify: `crates/data/src/characters/pyro/durin.rs`
+- Modify: `crates/data/src/characters/pyro/mod.rs`
 
 - [ ] **Step 1: Add CharacterData const**
 
-Append after burst consts in `pyro.rs`:
+Append after burst consts in `durin.rs`:
 
 ```rust
 // -- Character Data --
@@ -343,9 +343,12 @@ pub const DURIN: CharacterData = CharacterData {
 };
 ```
 
-- [ ] **Step 2: Register in ALL_CHARACTERS**
+- [ ] **Step 2: Register in CHARACTERS and add module declarations**
 
-In `crates/data/src/characters/mod.rs`, add `&pyro::DURIN,` in the Pyro section between `&pyro::DILUC,` and `&pyro::GAMING,` (alphabetical order). Update the Pyro count comment from `(16)` to `(17)`.
+In `crates/data/src/characters/pyro/mod.rs`:
+- Add `mod durin;` after the other module declarations
+- Add `pub use durin::DURIN;` after the other use statements
+- Add `&durin::DURIN,` in the `CHARACTERS` slice between `&DILUC,` and `&GAMING,` (alphabetical order)
 
 - [ ] **Step 3: Verify build and existing tests pass**
 
@@ -355,7 +358,7 @@ Expected: Build success, all tests pass
 - [ ] **Step 4: Commit**
 
 ```bash
-git add crates/data/src/characters/pyro.rs crates/data/src/characters/mod.rs
+git add crates/data/src/characters/pyro/durin.rs crates/data/src/characters/pyro/mod.rs
 git commit -m "feat(data): add Durin (Pyro/Sword/★5) character data and register"
 ```
 
@@ -364,11 +367,11 @@ git commit -m "feat(data): add Durin (Pyro/Sword/★5) character data and regist
 ### Task 4: Add Durin talent buffs
 
 **Files:**
-- Modify: `crates/data/src/talent_buffs.rs`
+- Modify: `crates/data/src/talent_buffs/pyro.rs`
 
 - [ ] **Step 1: Add DURIN_BUFFS static**
 
-Insert before the `ALL_TALENT_BUFFS` static (before line ~891). Pattern matches NEFER_BUFFS:
+Append to `talent_buffs/pyro.rs`. Pattern matches NEFER_BUFFS in the same file:
 
 ```rust
 // ===== Durin =====
@@ -428,9 +431,9 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
 ];
 ```
 
-- [ ] **Step 2: Register in ALL_TALENT_BUFFS**
+- [ ] **Step 2: Register in pyro::ALL_BUFFS**
 
-Add `("durin", DURIN_BUFFS),` to the `ALL_TALENT_BUFFS` array (alphabetical — after `("chevreuse", ...)`, before `("faruzan", ...)`).
+In the same file `crates/data/src/talent_buffs/pyro.rs`, add `("durin", DURIN_BUFFS),` to the `ALL_BUFFS` array (alphabetical order).
 
 - [ ] **Step 3: Verify build and tests**
 
@@ -440,7 +443,7 @@ Expected: All tests pass
 - [ ] **Step 4: Commit**
 
 ```bash
-git add crates/data/src/talent_buffs.rs
+git add crates/data/src/talent_buffs/pyro.rs
 git commit -m "feat(data): add Durin talent buffs (A4 Pyro RES/Amplifying, C2 Pyro DMG, C4 Burst DMG)"
 ```
 

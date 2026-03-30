@@ -1,0 +1,144 @@
+use crate::types::*;
+use genshin_calc_core::{Element, ScalingStat};
+
+// =============================================================================
+
+// --- Normal Attack: Akara (all Dendro — catalyst) ---
+
+const NAHIDA_NA_HIT1: TalentScaling = TalentScaling {
+    name: "1段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.403048, 0.433277, 0.463505, 0.50381, 0.534039, 0.564267, 0.604572, 0.644877, 0.685182,
+        0.725486, 0.765791, 0.806096, 0.856477, 0.906858, 0.957239,
+    ],
+};
+
+const NAHIDA_NA_HIT2: TalentScaling = TalentScaling {
+    name: "2段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.369744, 0.397475, 0.425206, 0.46218, 0.489911, 0.517642, 0.554616, 0.59159, 0.628565,
+        0.665539, 0.702514, 0.739488, 0.785706, 0.831924, 0.878142,
+    ],
+};
+
+const NAHIDA_NA_HIT3: TalentScaling = TalentScaling {
+    name: "3段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.458744, 0.49315, 0.527556, 0.57343, 0.607836, 0.642242, 0.688116, 0.73399, 0.779865,
+        0.825739, 0.871614, 0.917488, 0.974831, 1.032174, 1.089517,
+    ],
+};
+
+const NAHIDA_NA_HIT4: TalentScaling = TalentScaling {
+    name: "4段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.584064, 0.627869, 0.671674, 0.73008, 0.773885, 0.81769, 0.876096, 0.934502, 0.992909,
+        1.051315, 1.109722, 1.168128, 1.241136, 1.314144, 1.387152,
+    ],
+};
+
+const NAHIDA_CHARGED: TalentScaling = TalentScaling {
+    name: "重撃ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.66, 0.7095, 0.759, 0.825, 0.8745, 0.924, 0.99, 1.056, 1.122, 1.188, 1.254, 1.32, 1.4025,
+        1.485, 1.5675,
+    ],
+};
+
+const NAHIDA_PLUNGE: TalentScaling = TalentScaling {
+    name: "落下ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.568288, 0.614544, 0.6608, 0.72688, 0.773136, 0.826, 0.898688, 0.971376, 1.044064,
+        1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
+    ],
+};
+
+const NAHIDA_PLUNGE_LOW: TalentScaling = TalentScaling {
+    name: "低空落下ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.136335, 1.228828, 1.32132, 1.453452, 1.545944, 1.65165, 1.796995, 1.94234, 2.087686,
+        2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
+    ],
+};
+
+const NAHIDA_PLUNGE_HIGH: TalentScaling = TalentScaling {
+    name: "高空落下ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.419344, 1.534872, 1.6504, 1.81544, 1.930968, 2.063, 2.244544, 2.426088, 2.607632,
+        2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
+    ],
+};
+
+// --- Elemental Skill: All Schemes to Know (ATK portion of Tri-Karma Purification) ---
+
+const NAHIDA_SKILL_PRESS: TalentScaling = TalentScaling {
+    name: "滅浄三業ダメージ(攻撃力)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.032, 1.1094, 1.1868, 1.29, 1.3674, 1.4448, 1.548, 1.6512, 1.7544, 1.8576, 1.9608, 2.064,
+        2.193, 2.322, 2.451,
+    ],
+};
+
+// --- Elemental Burst: Illusory Heart ---
+// Nahida's burst provides buffs — no direct damage scalings
+
+// --- Nahida aggregation ---
+
+static NAHIDA_NA_HITS: &[TalentScaling] = &[
+    NAHIDA_NA_HIT1,
+    NAHIDA_NA_HIT2,
+    NAHIDA_NA_HIT3,
+    NAHIDA_NA_HIT4,
+];
+static NAHIDA_CHARGED_ATTACKS: &[TalentScaling] = &[NAHIDA_CHARGED];
+static NAHIDA_PLUNGING: &[TalentScaling] = &[NAHIDA_PLUNGE, NAHIDA_PLUNGE_LOW, NAHIDA_PLUNGE_HIGH];
+static NAHIDA_SKILL_SCALINGS: &[TalentScaling] = &[NAHIDA_SKILL_PRESS];
+static NAHIDA_BURST_SCALINGS: &[TalentScaling] = &[];
+
+pub const NAHIDA: CharacterData = CharacterData {
+    id: "nahida",
+    name: "Nahida",
+    element: Element::Dendro,
+    weapon_type: WeaponType::Catalyst,
+    rarity: Rarity::Star5,
+    region: Region::Sumeru,
+    base_hp: [807.0, 9141.0, 9632.0, 10360.0],
+    base_atk: [23.0, 264.0, 278.0, 299.0],
+    base_def: [49.0, 556.0, 586.0, 630.0],
+    ascension_stat: AscensionStat::ElementalMastery(115.2),
+    talents: TalentSet {
+        normal_attack: NormalAttackData {
+            name: "行相",
+            hits: NAHIDA_NA_HITS,
+            charged: NAHIDA_CHARGED_ATTACKS,
+            plunging: NAHIDA_PLUNGING,
+        },
+        elemental_skill: TalentData {
+            name: "所聞遍計",
+            scalings: NAHIDA_SKILL_SCALINGS,
+        },
+        elemental_burst: TalentData {
+            name: "心景幻成",
+            scalings: NAHIDA_BURST_SCALINGS,
+        },
+    },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+};

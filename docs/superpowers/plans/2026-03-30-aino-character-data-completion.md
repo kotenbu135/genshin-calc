@@ -16,8 +16,8 @@
 
 | Action | File | Responsibility |
 |--------|------|---------------|
-| Modify | `crates/data/src/characters/hydro.rs:2590-2733` | 天賦名プレースホルダー修正 + コンステパターン修正 |
-| Modify | `crates/data/src/talent_buffs.rs` | A4 Burst DMGボーナス追加 + C6 反応DMGボーナス追加 |
+| Modify | `crates/data/src/characters/hydro/aino.rs` | 天賦名プレースホルダー修正 + コンステパターン修正 |
+| Modify | `crates/data/src/talent_buffs/hydro.rs` | A4 Burst DMGボーナス追加 + C6 反応DMGボーナス追加 |
 | Modify | `crates/data/src/moonsign_chars.rs:70-76` | 月兆スタブ更新 + タレント強化追加 |
 | Create | `crates/core/tests/data/characters/aino.toml` | TOML テストケース |
 

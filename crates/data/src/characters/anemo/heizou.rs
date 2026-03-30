@@ -1,0 +1,223 @@
+use crate::types::*;
+use genshin_calc_core::{Element, ScalingStat};
+
+// =============================================================================
+
+// -- Normal Attack: Fudou Style Martial Arts -- All Anemo (Catalyst) --
+
+const HEIZOU_NORMAL_1: TalentScaling = TalentScaling {
+    name: "1段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.374736, 0.402841, 0.430946, 0.46842, 0.496525, 0.52463, 0.562104, 0.599578, 0.637051,
+        0.674525, 0.711998, 0.749472, 0.796314, 0.843156, 0.889998,
+    ],
+};
+
+const HEIZOU_NORMAL_2: TalentScaling = TalentScaling {
+    name: "2段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.36852, 0.396159, 0.423798, 0.46065, 0.488289, 0.515928, 0.55278, 0.589632, 0.626484,
+        0.663336, 0.700188, 0.73704, 0.783105, 0.82917, 0.875235,
+    ],
+};
+
+const HEIZOU_NORMAL_3: TalentScaling = TalentScaling {
+    name: "3段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.5106, 0.548895, 0.58719, 0.63825, 0.676545, 0.71484, 0.7659, 0.81696, 0.86802, 0.91908,
+        0.97014, 1.0212, 1.085025, 1.14885, 1.212675,
+    ],
+};
+
+const HEIZOU_NORMAL_4A: TalentScaling = TalentScaling {
+    name: "4段ダメージ (1)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.147824, 0.158911, 0.169998, 0.18478, 0.195867, 0.206954, 0.221736, 0.236518, 0.251301,
+        0.266083, 0.280866, 0.295648, 0.314126, 0.332604, 0.351082,
+    ],
+};
+
+const HEIZOU_NORMAL_4B: TalentScaling = TalentScaling {
+    name: "4段ダメージ (2)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.162608, 0.174804, 0.186999, 0.20326, 0.215456, 0.227651, 0.243912, 0.260173, 0.276434,
+        0.292694, 0.308955, 0.325216, 0.345542, 0.365868, 0.386194,
+    ],
+};
+
+const HEIZOU_NORMAL_4C: TalentScaling = TalentScaling {
+    name: "4段ダメージ (3)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.192176, 0.206589, 0.221002, 0.24022, 0.254633, 0.269046, 0.288264, 0.307482, 0.326699,
+        0.345917, 0.365134, 0.384352, 0.408374, 0.432396, 0.456418,
+    ],
+};
+
+const HEIZOU_NORMAL_5: TalentScaling = TalentScaling {
+    name: "5段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.614496, 0.660583, 0.70667, 0.76812, 0.814207, 0.860294, 0.921744, 0.983194, 1.044643,
+        1.106093, 1.167542, 1.228992, 1.305804, 1.382616, 1.459428,
+    ],
+};
+
+// -- Charged Attack -- Anemo (Catalyst) --
+
+const HEIZOU_CHARGED: TalentScaling = TalentScaling {
+    name: "重撃ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.73, 0.78475, 0.8395, 0.9125, 0.96725, 1.022, 1.095, 1.168, 1.241, 1.314, 1.387, 1.46,
+        1.55125, 1.6425, 1.73375,
+    ],
+};
+
+// -- Plunging Attack -- Anemo (Catalyst) --
+
+const HEIZOU_PLUNGE: TalentScaling = TalentScaling {
+    name: "落下期間のダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.568288, 0.614544, 0.6608, 0.72688, 0.773136, 0.826, 0.898688, 0.971376, 1.044064,
+        1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
+    ],
+};
+
+const HEIZOU_PLUNGE_LOW: TalentScaling = TalentScaling {
+    name: "低空落下攻撃ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        1.136335, 1.228828, 1.32132, 1.453452, 1.545944, 1.65165, 1.796995, 1.94234, 2.087686,
+        2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
+    ],
+};
+
+const HEIZOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
+    name: "高空落下攻撃ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        1.419344, 1.534872, 1.6504, 1.81544, 1.930968, 2.063, 2.244544, 2.426088, 2.607632,
+        2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
+    ],
+};
+
+// -- Elemental Skill: Heartstopper Strike -- Anemo --
+
+const HEIZOU_SKILL: TalentScaling = TalentScaling {
+    name: "スキルダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        2.2752, 2.44584, 2.61648, 2.844, 3.01464, 3.18528, 3.4128, 3.64032, 3.86784, 4.09536,
+        4.32288, 4.5504, 4.8348, 5.1192, 5.4036,
+    ],
+};
+
+const HEIZOU_SKILL_DECLENSION: TalentScaling = TalentScaling {
+    name: "変格スタックボーナス",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.5688, 0.61146, 0.65412, 0.711, 0.75366, 0.79632, 0.8532, 0.91008, 0.96696, 1.02384,
+        1.08072, 1.1376, 1.2087, 1.2798, 1.3509,
+    ],
+};
+
+const HEIZOU_SKILL_CONVICTION: TalentScaling = TalentScaling {
+    name: "正論ボーナス",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        1.1376, 1.22292, 1.30824, 1.422, 1.50732, 1.59264, 1.7064, 1.82016, 1.93392, 2.04768,
+        2.16144, 2.2752, 2.4174, 2.5596, 2.7018,
+    ],
+};
+
+// -- Elemental Burst: Windmuster Kick -- Anemo --
+
+const HEIZOU_BURST_VACUUM: TalentScaling = TalentScaling {
+    name: "不動流・真空弾ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        3.14688, 3.382896, 3.618912, 3.9336, 4.169616, 4.405632, 4.72032, 5.035008, 5.349696,
+        5.664384, 5.979072, 6.29376, 6.68712, 7.08048, 7.47384,
+    ],
+};
+
+const HEIZOU_BURST_IRIS: TalentScaling = TalentScaling {
+    name: "風威の虹玉ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.21456, 0.230652, 0.246744, 0.2682, 0.284292, 0.300384, 0.32184, 0.343296, 0.364752,
+        0.386208, 0.407664, 0.42912, 0.45594, 0.48276, 0.50958,
+    ],
+};
+
+pub const HEIZOU: CharacterData = CharacterData {
+    id: "heizou",
+    name: "Heizou",
+    element: Element::Anemo,
+    weapon_type: WeaponType::Catalyst,
+    rarity: Rarity::Star4,
+    region: Region::Inazuma,
+    base_hp: [894.0, 9445.0, 9919.0, 10657.0],
+    base_atk: [19.0, 200.0, 210.0, 225.0],
+    base_def: [57.0, 606.0, 636.0, 684.0],
+    ascension_stat: AscensionStat::ElementalDmgBonus(Element::Anemo, 0.24),
+    talents: TalentSet {
+        normal_attack: NormalAttackData {
+            name: "不動流格闘術",
+            hits: &[
+                HEIZOU_NORMAL_1,
+                HEIZOU_NORMAL_2,
+                HEIZOU_NORMAL_3,
+                HEIZOU_NORMAL_4A,
+                HEIZOU_NORMAL_4B,
+                HEIZOU_NORMAL_4C,
+                HEIZOU_NORMAL_5,
+            ],
+            charged: &[HEIZOU_CHARGED],
+            plunging: &[HEIZOU_PLUNGE, HEIZOU_PLUNGE_LOW, HEIZOU_PLUNGE_HIGH],
+        },
+        elemental_skill: TalentData {
+            name: "勠心拳",
+            scalings: &[
+                HEIZOU_SKILL,
+                HEIZOU_SKILL_DECLENSION,
+                HEIZOU_SKILL_CONVICTION,
+            ],
+        },
+        elemental_burst: TalentData {
+            name: "廻風蹴",
+            scalings: &[HEIZOU_BURST_VACUUM, HEIZOU_BURST_IRIS],
+        },
+    },
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+};
+
+// =============================================================================
+// Ifa — 4★ Anemo Sword (Natlan)
+// Source: genshin-db-api
+// Normal Attack: Rite of Dispelling Winds
+// Elemental Skill: Airborne Disease Prevention
+// Elemental Burst: Compound Sedation Field

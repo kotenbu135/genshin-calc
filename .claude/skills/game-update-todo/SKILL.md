@@ -135,7 +135,7 @@ WebSearchで `"Genshin Impact {version} new characters weapons"` を検索し、
 ### {キャラ名} ({元素}/{武器種}/★{星})
 
 #### 1-1. キャラデータ定義
-- [ ] `crates/data/src/characters/{element}.rs` にconst定義追加
+- [ ] `crates/data/src/characters/{element}/{char}.rs` にconst定義追加（新規ファイル）
   - `id`, `name`, `element`, `weapon_type`, `rarity`, `region`
   - `base_hp`, `base_atk`, `base_def` (Lv1/Lv20/Lv80/Lv90の4値)
   - `ascension_stat` (突破ステ)
@@ -147,8 +147,10 @@ WebSearchで `"Genshin Impact {version} new characters weapons"` を検索し、
 - [ ] `NormalAttackData` + `TalentData` × 2 → `TalentSet` 構築
 
 #### 1-2. 登録
-- [ ] `crates/data/src/characters/mod.rs` の `ALL_CHARACTERS` に追加
-  - コメント付き元素グループ内に挿入
+- [ ] `crates/data/src/characters/{element}/mod.rs` の `CHARACTERS` スライスに追加
+  - `mod {char};` 宣言を追加
+  - `pub use {char}::{CHAR};` エクスポート追加
+  - `CHARACTERS` スライスに `&{char}::{CHAR}` を挿入
 
 #### 1-3. テストケース
 - [ ] `crates/core/tests/data/characters/{character_id}.toml` 作成
@@ -157,7 +159,7 @@ WebSearchで `"Genshin Impact {version} new characters weapons"` を検索し、
   - 元素反応ケース（該当する場合）
 
 #### 1-4. 天賦バフ（該当キャラのみ）
-- [ ] `crates/data/src/talent_buffs.rs` に `TalentBuffDef` 追加
+- [ ] `crates/data/src/talent_buffs/{element}.rs` に `TalentBuffDef` 追加
   - チームバフを持つキャラ: `target: BuffTarget::Team`
   - 固有天賦(A1/A4)のステータスバフ
   - 命の星座のバフ（C1-C6で主要なもの）

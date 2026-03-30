@@ -7,121 +7,32 @@ pub mod hydro;
 pub mod pyro;
 
 use crate::types::CharacterData;
+use genshin_calc_core::Element;
 
-pub const ALL_CHARACTERS: &[&CharacterData] = &[
-    // Pyro (16)
-    &pyro::AMBER,
-    &pyro::ARLECCHINO,
-    &pyro::BENNETT,
-    &pyro::CHEVREUSE,
-    &pyro::DEHYA,
-    &pyro::DILUC,
-    &pyro::GAMING,
-    &pyro::HU_TAO,
-    &pyro::KLEE,
-    &pyro::LYNEY,
-    &pyro::MAVUIKA,
-    &pyro::THOMA,
-    &pyro::XIANGLING,
-    &pyro::XINYAN,
-    &pyro::YANFEI,
-    &pyro::YOIMIYA,
-    // Hydro (15)
-    &hydro::AINO,
-    &hydro::AYATO,
-    &hydro::BARBARA,
-    &hydro::CANDACE,
-    &hydro::DAHLIA,
-    &hydro::FURINA,
-    &hydro::KOKOMI,
-    &hydro::MONA,
-    &hydro::MUALANI,
-    &hydro::NEUVILLETTE,
-    &hydro::NILOU,
-    &hydro::SIGEWINNE,
-    &hydro::TARTAGLIA,
-    &hydro::XINGQIU,
-    &hydro::YELAN,
-    // Electro (18)
-    &electro::BEIDOU,
-    &electro::CLORINDE,
-    &electro::CYNO,
-    &electro::DORI,
-    &electro::FISCHL,
-    &electro::FLINS,
-    &electro::IANSAN,
-    &electro::INEFFA,
-    &electro::KEQING,
-    &electro::KUJOU_SARA,
-    &electro::KUKI_SHINOBU,
-    &electro::LISA,
-    &electro::ORORON,
-    &electro::RAIDEN_SHOGUN,
-    &electro::RAZOR,
-    &electro::SETHOS,
-    &electro::VARESA,
-    &electro::YAE_MIKO,
-    // Cryo (18)
-    &cryo::ALOY,
-    &cryo::AYAKA,
-    &cryo::CHARLOTTE,
-    &cryo::CHONGYUN,
-    &cryo::CITLALI,
-    &cryo::DIONA,
-    &cryo::ESCOFFIER,
-    &cryo::EULA,
-    &cryo::FREMINET,
-    &cryo::GANYU,
-    &cryo::KAEYA,
-    &cryo::LAYLA,
-    &cryo::MIKA,
-    &cryo::QIQI,
-    &cryo::ROSARIA,
-    &cryo::SHENHE,
-    &cryo::SKIRK,
-    &cryo::WRIOTHESLEY,
-    // Dendro (13)
-    &dendro::ALHAITHAM,
-    &dendro::BAIZHU,
-    &dendro::COLLEI,
-    &dendro::EMILIE,
-    &dendro::KAVEH,
-    &dendro::KINICH,
-    &dendro::KIRARA,
-    &dendro::LAUMA,
-    &dendro::NAHIDA,
-    &dendro::NEFER,
-    &dendro::TIGHNARI,
-    &dendro::TRAVELER_DENDRO,
-    &dendro::YAOYAO,
-    // Anemo (17)
-    &anemo::CHASCA,
-    &anemo::FARUZAN,
-    &anemo::HEIZOU,
-    &anemo::IFA,
-    &anemo::JAHODA,
-    &anemo::JEAN,
-    &anemo::KAZUHA,
-    &anemo::LAN_YAN,
-    &anemo::LYNETTE,
-    &anemo::MIZUKI,
-    &anemo::SAYU,
-    &anemo::SUCROSE,
-    &anemo::VARKA,
-    &anemo::VENTI,
-    &anemo::WANDERER,
-    &anemo::XIANYUN,
-    &anemo::XIAO,
-    // Geo (11)
-    &geo::ALBEDO,
-    &geo::CHIORI,
-    &geo::GOROU,
-    &geo::ITTO,
-    &geo::KACHINA,
-    &geo::NAVIA,
-    &geo::NINGGUANG,
-    &geo::NOELLE,
-    &geo::XILONEN,
-    &geo::YUN_JIN,
-    &geo::ZHONGLI,
-];
+/// Iterator over all characters across all elements.
+///
+/// Replaces the former `ALL_CHARACTERS` const slice.
+/// Element ordering: Pyro → Hydro → Electro → Cryo → Dendro → Anemo → Geo.
+pub fn all_characters() -> impl Iterator<Item = &'static &'static CharacterData> {
+    pyro::CHARACTERS
+        .iter()
+        .chain(hydro::CHARACTERS.iter())
+        .chain(electro::CHARACTERS.iter())
+        .chain(cryo::CHARACTERS.iter())
+        .chain(dendro::CHARACTERS.iter())
+        .chain(anemo::CHARACTERS.iter())
+        .chain(geo::CHARACTERS.iter())
+}
+
+/// Returns the element-specific character slice directly (O(1), no allocation).
+pub fn characters_by_element_slice(element: Element) -> &'static [&'static CharacterData] {
+    match element {
+        Element::Pyro => pyro::CHARACTERS,
+        Element::Hydro => hydro::CHARACTERS,
+        Element::Electro => electro::CHARACTERS,
+        Element::Cryo => cryo::CHARACTERS,
+        Element::Dendro => dendro::CHARACTERS,
+        Element::Anemo => anemo::CHARACTERS,
+        Element::Geo => geo::CHARACTERS,
+    }
+}

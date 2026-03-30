@@ -666,7 +666,7 @@ mod tests {
         // Characters whose burst is a self-buff or heal with no damage scalings.
         let no_burst_scalings: &[&str] = &["mika", "nahida", "xiao"];
 
-        for c in crate::characters::ALL_CHARACTERS {
+        for c in crate::characters::all_characters() {
             assert!(
                 !c.talents.normal_attack.hits.is_empty(),
                 "{} has no normal attack hits",

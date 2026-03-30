@@ -1,12 +1,12 @@
 use genshin_calc_data::artifacts::ALL_ARTIFACT_SETS;
 use genshin_calc_data::buff::{Activation, ConditionalBuff, ManualCondition};
-use genshin_calc_data::characters::ALL_CHARACTERS;
+use genshin_calc_data::characters::all_characters;
 use genshin_calc_data::enemies::ALL_ENEMIES;
 use genshin_calc_data::weapons::ALL_WEAPONS;
 
 #[test]
 fn all_characters_have_positive_base_stats() {
-    for c in ALL_CHARACTERS {
+    for c in all_characters() {
         for &hp in &c.base_hp {
             assert!(hp > 0.0, "{}: base_hp has non-positive value {}", c.id, hp);
         }
@@ -31,7 +31,7 @@ fn all_characters_have_positive_base_stats() {
 
 #[test]
 fn all_characters_base_stats_ascending() {
-    for c in ALL_CHARACTERS {
+    for c in all_characters() {
         assert!(c.base_hp[0] < c.base_hp[1], "{}: HP not ascending", c.id);
         assert!(c.base_hp[1] <= c.base_hp[2], "{}: HP Lv80 > Lv80+", c.id);
         assert!(c.base_hp[2] < c.base_hp[3], "{}: HP Lv80+ > Lv90", c.id);
@@ -46,19 +46,16 @@ fn all_characters_base_stats_ascending() {
 
 #[test]
 fn all_characters_have_unique_ids() {
-    let mut ids: Vec<&str> = ALL_CHARACTERS.iter().map(|c| c.id).collect();
+    let mut ids: Vec<&str> = all_characters().map(|c| c.id).collect();
+    let total = ids.len();
     ids.sort();
     ids.dedup();
-    assert_eq!(
-        ids.len(),
-        ALL_CHARACTERS.len(),
-        "Duplicate character IDs found"
-    );
+    assert_eq!(ids.len(), total, "Duplicate character IDs found");
 }
 
 #[test]
 fn all_talent_values_non_negative() {
-    for c in ALL_CHARACTERS {
+    for c in all_characters() {
         for scaling in c.talents.normal_attack.hits {
             for &v in &scaling.values {
                 assert!(
@@ -114,7 +111,7 @@ fn all_talent_values_non_negative() {
 
 #[test]
 fn talent_values_generally_ascending() {
-    for c in ALL_CHARACTERS {
+    for c in all_characters() {
         for scaling in c.talents.normal_attack.hits {
             assert!(
                 scaling.values[0] <= scaling.values[14],
