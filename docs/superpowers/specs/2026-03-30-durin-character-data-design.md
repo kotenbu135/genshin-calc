@@ -85,9 +85,9 @@ Honey Impact（gensh.honeyhunterworld.com）— 2026-03-30 取得。
 | 効果 | stat | base_value | scales_with_talent | target | source | min_constellation |
 |------|------|-----------|-------------------|--------|--------|-------------------|
 | A4 (Purity) 敵Pyro耐性-20% | ElementalResReduction(Pyro) | 0.20 | false | Team | AscensionPassive | 0 |
-| A4 (Darkness) 蒸発/溶解DMG+40% | AmplifyingBonus | 0.40 | false | ActiveChar | AscensionPassive | 0 |
+| A4 (Darkness) 蒸発/溶解DMG+40% | AmplifyingBonus | 0.40 | false | OnlySelf | AscensionPassive | 0 |
 | C2 Pyro DMG+50% (パーティ) | ElementalDmgBonus(Pyro) | 0.50 | false | Team | Constellation(2) | 2 |
-| C4 爆発DMG+40% | BurstDmgBonus | 0.40 | false | ActiveChar | Constellation(4) | 4 |
+| C4 爆発DMG+40% | BurstDmgBonus | 0.40 | false | OnlySelf | Constellation(4) | 4 |
 
 **スキップした効果:**
 - A1: 探索パッシブ（モンド遠征+25%）— 戦闘に無関係
