@@ -359,7 +359,48 @@ pub const ARCHAIC_PETRA: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "結晶反応で形成された欠片を獲得すると、チーム全員の該当元素ダメージ+35%、継続時間10秒。同時に1つの元素ダメージボーナスのみ獲得可能",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "archaic_petra_pyro",
+                description: "Pyro Crystallize shard: team Pyro DMG +35%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+                value: 0.35,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "archaic_petra_hydro",
+                description: "Hydro Crystallize shard: team Hydro DMG +35%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+                value: 0.35,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "archaic_petra_electro",
+                description: "Electro Crystallize shard: team Electro DMG +35%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+                value: 0.35,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "archaic_petra_cryo",
+                description: "Cryo Crystallize shard: team Cryo DMG +35%",
+                stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+                value: 0.35,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -799,7 +840,23 @@ pub const ECHOES_OF_AN_OFFERING: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "通常攻撃が命中した時、36%の確率で「谷の念」が発動し、通常攻撃のダメージが攻撃力の70%分アップする。発動しなかった場合、次回の発動確率+20%。0.2秒ごとに1回のみ判定",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "echoes_valley_rite",
+            description: "Valley Rite: Normal ATK flat DMG +70% of ATK",
+            stat: BuffableStat::NormalAtkFlatDmg,
+            value: 0.70,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::AtkPercent,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Toggle,
+            ),
+        }],
     },
 };
 
@@ -1183,7 +1240,58 @@ pub const SONG_OF_DAYS_PAST: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "装備キャラクターがチームメイトを治療した時、治療量を記録する「往日の協奏」効果が発動。6秒後に「往日の協奏」は解消され、その記録した治療量の8%分、チーム全員の通常攻撃、重撃、落下攻撃、元素スキル、元素爆発のダメージをアップ。最大2000まで。「往日の協奏」の持続中に再発動された場合、既存の記録はクリア",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "song_days_past_normal",
+                description: "8% of healing as Normal ATK flat DMG, max 2000",
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 2000.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "song_days_past_charged",
+                description: "8% of healing as Charged ATK flat DMG, max 2000",
+                stat: BuffableStat::ChargedAtkFlatDmg,
+                value: 2000.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "song_days_past_plunging",
+                description: "8% of healing as Plunging ATK flat DMG, max 2000",
+                stat: BuffableStat::PlungingAtkFlatDmg,
+                value: 2000.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "song_days_past_skill",
+                description: "8% of healing as Skill flat DMG, max 2000",
+                stat: BuffableStat::SkillFlatDmg,
+                value: 2000.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "song_days_past_burst",
+                description: "8% of healing as Burst flat DMG, max 2000",
+                stat: BuffableStat::BurstFlatDmg,
+                value: 2000.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
     },
 };
 
@@ -1815,7 +1923,58 @@ pub const GLORY_OF_THE_ANCIENT_SEA: ArtifactSet = ArtifactSet {
     four_piece: SetEffect {
         description: "現在のHP上限と上限を超えた治療量に基づき通常攻撃と重撃のダメージがアップ。HP上限が30000を超えた場合、超過量1000ごとに通常攻撃と重撃のダメージが+24。超過回復量1000ごとに通常攻撃と重撃のダメージがさらに+32。超過回復効果のスタックは最大6スタック。持続時間6秒",
         buffs: &[],
-        conditional_buffs: &[],
+        conditional_buffs: &[
+            // HP excess: (total_HP - 30000) * 0.024 = +24 per 1000 HP over 30000
+            ConditionalBuff {
+                name: "glory_ancient_sea_hp_normal",
+                description: "Per 1000 HP over 30000: Normal ATK flat DMG +24",
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 0.024,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    offset: Some(30000.0),
+                    cap: None,
+                }),
+            },
+            ConditionalBuff {
+                name: "glory_ancient_sea_hp_charged",
+                description: "Per 1000 HP over 30000: Charged ATK flat DMG +24",
+                stat: BuffableStat::ChargedAtkFlatDmg,
+                value: 0.024,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Auto(AutoCondition::StatScaling {
+                    stat: BuffableStat::HpPercent,
+                    offset: Some(30000.0),
+                    cap: None,
+                }),
+            },
+            // Excess healing stacks: +32 per stack, max 6
+            ConditionalBuff {
+                name: "glory_ancient_sea_heal_normal",
+                description: "Excess healing stacks: Normal ATK flat DMG +32/stack, max 6",
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 32.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(6)),
+            },
+            ConditionalBuff {
+                name: "glory_ancient_sea_heal_charged",
+                description: "Excess healing stacks: Charged ATK flat DMG +32/stack, max 6",
+                stat: BuffableStat::ChargedAtkFlatDmg,
+                value: 32.0,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(6)),
+            },
+        ],
     },
 };
 
@@ -1868,6 +2027,174 @@ pub const CHRONICLED_SANDS_AND_WATER: ArtifactSet = ArtifactSet {
     },
 };
 
+// v6.0 Artifact Sets
+
+pub const NIGHT_OF_THE_SKYS_UNVEILING: ArtifactSet = ArtifactSet {
+    id: "night_of_the_skys_unveiling",
+    name: "天幕の夜の露見",
+    rarity: ArtifactRarity::Star5,
+    two_piece: SetEffect {
+        description: "元素熟知+80",
+        buffs: &[StatBuff {
+            stat: BuffableStat::ElementalMastery,
+            value: 80.0,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: "近くのチームメンバーが月反応を起こした時、装備キャラがフィールド上にいると「月明かり：意志」効果を4秒間獲得：月兆が新月の光/昇天の光の時、会心率+15%/30%。チーム全員の月反応ダメージが、チームメンバーが持つ異なる月明かり効果1つにつき10%アップ",
+        buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "gleaming_moon_intent_crit",
+                description: "Gleaming Moon: Intent — CRIT Rate +15%/30% (Nascent/Ascendant Gleam)",
+                stat: BuffableStat::CritRate,
+                value: 0.15,
+                refinement_values: None,
+                stack_values: Some(&[0.15, 0.30]),
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(2)),
+            },
+            ConditionalBuff {
+                name: "gleaming_moon_intent_lunar_dmg",
+                description: "Gleaming Moon: Intent — Lunar Reaction DMG +10%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.10,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
+    },
+};
+
+pub const SILKEN_MOONS_SERENADE: ArtifactSet = ArtifactSet {
+    id: "silken_moons_serenade",
+    name: "絹月の小夜曲",
+    rarity: ArtifactRarity::Star5,
+    two_piece: SetEffect {
+        description: "元素チャージ効率+20%",
+        buffs: &[StatBuff {
+            stat: BuffableStat::EnergyRecharge,
+            value: 0.20,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: "元素ダメージを与えた時、「月明かり：献身」効果を8秒間獲得：月兆が新月の光/昇天の光の時、チーム全員の元素熟知+60/120。装備キャラがフィールド外でも発動可。チーム全員の月反応ダメージが、チームメンバーが持つ異なる月明かり効果1つにつき10%アップ",
+        buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "gleaming_moon_devotion_em",
+                description: "Gleaming Moon: Devotion — EM +60/120 (Nascent/Ascendant Gleam)",
+                stat: BuffableStat::ElementalMastery,
+                value: 60.0,
+                refinement_values: None,
+                stack_values: Some(&[60.0, 120.0]),
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Stacks(2)),
+            },
+            ConditionalBuff {
+                name: "gleaming_moon_devotion_lunar_dmg",
+                description: "Gleaming Moon: Devotion — Lunar Reaction DMG +10%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.10,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::Team,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
+    },
+};
+
+// v6.3 Artifact Sets
+
+pub const AUBADE_OF_MORNINGSTAR_AND_MOON: ArtifactSet = ArtifactSet {
+    id: "aubade_of_morningstar_and_moon",
+    name: "明星と月のオーバード",
+    rarity: ArtifactRarity::Star5,
+    two_piece: SetEffect {
+        description: "元素熟知+80",
+        buffs: &[StatBuff {
+            stat: BuffableStat::ElementalMastery,
+            value: 80.0,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: "装備キャラがフィールド外の時、月反応ダメージ+20%。月兆レベルが昇天の光以上の場合、月反応ダメージがさらに+40%。装備キャラがフィールドに復帰して3秒後に効果消滅",
+        buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "aubade_off_field_lunar",
+                description: "Off-field Lunar Reaction DMG +20%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "aubade_ascendant_lunar",
+                description: "Ascendant Gleam: additional Lunar Reaction DMG +40%",
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.40,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
+    },
+};
+
+pub const A_DAY_CARVED_FROM_RISING_WINDS: ArtifactSet = ArtifactSet {
+    id: "a_day_carved_from_rising_winds",
+    name: "昇風に刻まれた一日",
+    rarity: ArtifactRarity::Star5,
+    two_piece: SetEffect {
+        description: "攻撃力+18%",
+        buffs: &[StatBuff {
+            stat: BuffableStat::AtkPercent,
+            value: 0.18,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: "通常攻撃、重撃、元素スキルまたは元素爆発が敵に命中後、「牧風の祝福」効果を6秒間獲得：攻撃力+25%。装備キャラが「魔女の宿題」を完了している場合、「牧風の決意」に昇格し、会心率がさらに+20%。フィールド外でも発動可",
+        buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "blessing_of_pastoral_winds_atk",
+                description: "Blessing of Pastoral Winds: ATK +25%",
+                stat: BuffableStat::AtkPercent,
+                value: 0.25,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "resolve_of_pastoral_winds_crit",
+                description: "Resolve of Pastoral Winds (Witch's Homework): CRIT Rate +20%",
+                stat: BuffableStat::CritRate,
+                value: 0.20,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
+    },
+};
+
 // =============================================================================
 // ALL_ARTIFACT_SETS
 // =============================================================================
@@ -1912,6 +2239,10 @@ pub const ALL_ARTIFACT_SETS: &[&ArtifactSet] = &[
     &OBSIDIAN_CODEX,
     &GLORY_OF_THE_ANCIENT_SEA,
     &CHRONICLED_SANDS_AND_WATER,
+    &NIGHT_OF_THE_SKYS_UNVEILING,
+    &SILKEN_MOONS_SERENADE,
+    &AUBADE_OF_MORNINGSTAR_AND_MOON,
+    &A_DAY_CARVED_FROM_RISING_WINDS,
     // 4-star / mixed rarity sets
     &RESOLUTION_OF_SOJOURNER,
     &TINY_MIRACLE,

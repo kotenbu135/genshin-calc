@@ -1,8 +1,8 @@
-# キャラクター一覧 (v5.8)
+# キャラクター一覧 (v6.4)
 
-実装済み: **104体**
+実装済み: **112体**
 
-## Pyro (16体)
+## Pyro (17体)
 
 | Name | Weapon | Rarity | Region | Ascension Stat | Constellation |
 |------|--------|--------|--------|----------------|---------------|
@@ -12,6 +12,7 @@
 | Chevreuse | Polearm | 4 | Fontaine | Hp | C3Burst/C5Skill |
 | Dehya | Claymore | 5 | Sumeru | Hp | C3Burst/C5Skill |
 | Diluc | Claymore | 5 | Mondstadt | CritRate | C3Skill/C5Burst |
+| Durin | Sword | 5 | Mondstadt | CritDmg | C3Burst/C5Skill |
 | Gaming | Claymore | 4 | Liyue | Atk | C3Burst/C5Skill |
 | Hu Tao | Polearm | 5 | Liyue | CritDmg | C3Skill/C5Burst |
 | Klee | Catalyst | 5 | Mondstadt | ElementalDmgBonus(Pyro) | C3Burst/C5Skill |
@@ -23,7 +24,7 @@
 | Yanfei | Catalyst | 4 | Liyue | ElementalDmgBonus(Pyro) | C3Skill/C5Burst |
 | Yoimiya | Bow | 5 | Inazuma | CritRate | C3Burst/C5Skill |
 
-## Hydro (15体)
+## Hydro (16体)
 
 | Name | Weapon | Rarity | Region | Ascension Stat | Constellation |
 |------|--------|--------|--------|----------------|---------------|
@@ -31,6 +32,7 @@
 | Ayato | Sword | 5 | Inazuma | CritDmg | C3Burst/C5Skill |
 | Barbara | Catalyst | 4 | Mondstadt | Hp | C3Burst/C5Skill |
 | Candace | Polearm | 4 | Sumeru | Hp | C3Burst/C5Skill |
+| Columbina | Catalyst | 5 | Nod Krai | CritRate | C3Skill/C5Burst |
 | Dahlia | Bow | 5 | Snezhnaya | CritDmg | C3Burst/C5Skill |
 | Furina | Sword | 5 | Fontaine | CritRate | C3Burst/C5Skill |
 | Kokomi | Catalyst | 5 | Inazuma | ElementalDmgBonus(Hydro) | C3Burst/C5Skill |
@@ -43,7 +45,7 @@
 | Xingqiu | Sword | 4 | Liyue | Atk | C3Burst/C5Skill |
 | Yelan | Bow | 5 | Liyue | CritRate | C3Burst/C5Skill |
 
-## Electro (17体)
+## Electro (18体)
 
 | Name | Weapon | Rarity | Region | Ascension Stat | Constellation |
 |------|--------|--------|--------|----------------|---------------|
@@ -52,6 +54,7 @@
 | Cyno | Polearm | 5 | Sumeru | CritDmg | C3Burst/C5Skill |
 | Dori | Claymore | 4 | Sumeru | Hp | C3Burst/C5Skill |
 | Fischl | Bow | 4 | Mondstadt | Atk | C3Burst/C5Skill |
+| Flins | Polearm | 5 | Nod Krai | CritDmg | C3Burst/C5Skill |
 | Iansan | Polearm | 4 | Natlan | Atk | C3Skill/C5Burst |
 | Ineffa | Catalyst | 5 | Natlan | CritDmg | C3Burst/C5Skill |
 | Keqing | Sword | 5 | Liyue | CritDmg | C3Burst/C5Skill |
@@ -88,7 +91,7 @@
 | Skirk | Sword | 5 | Snezhnaya | CritDmg | C3Skill/C5Burst |
 | Wriothesley | Catalyst | 5 | Fontaine | CritDmg | C3Skill/C5Burst |
 
-## Dendro (11体)
+## Dendro (13体)
 
 | Name | Weapon | Rarity | Region | Ascension Stat | Constellation |
 |------|--------|--------|--------|----------------|---------------|
@@ -99,12 +102,14 @@
 | Kaveh | Claymore | 4 | Sumeru | ElementalMastery | C3Burst/C5Skill |
 | Kinich | Claymore | 5 | Natlan | CritDmg | C3Skill/C5Burst |
 | Kirara | Sword | 4 | Inazuma | Hp | C3Skill/C5Burst |
+| Lauma | Catalyst | 5 | Nod Krai | ElementalMastery | C3Burst/C5Skill |
 | Nahida | Catalyst | 5 | Sumeru | ElementalMastery | C3Burst/C5Skill |
+| Nefer | Catalyst | 5 | Nod Krai | CritDmg | C3Skill/C5Burst |
 | Tighnari | Bow | 5 | Sumeru | ElementalDmgBonus(Dendro) | C3Burst/C5Skill |
 | Traveler (Dendro) | Sword | 5 | Other | Atk | C3Skill/C5Burst |
 | Yaoyao | Polearm | 4 | Liyue | Hp | C3Burst/C5Skill |
 
-## Anemo (16体)
+## Anemo (17体)
 
 | Name | Weapon | Rarity | Region | Ascension Stat | Constellation |
 |------|--------|--------|--------|----------------|---------------|
@@ -120,13 +125,13 @@
 | Mizuki | Catalyst | 5 | Inazuma | Hp | C3Burst/C5Skill |
 | Sayu | Claymore | 4 | Inazuma | ElementalMastery | C3Burst/C5Skill |
 | Sucrose | Catalyst | 4 | Mondstadt | ElementalDmgBonus(Anemo) | C3Burst/C5Skill |
-| Varka | Anemo | Claymore | ★5 | Mondstadt | CritDmg 38.4% |
+| Varka | Claymore | 5 | Mondstadt | CritDmg | C3Skill/C5Burst |
 | Venti | Bow | 5 | Mondstadt | EnergyRecharge | C3Burst/C5Skill |
 | Wanderer | Catalyst | 5 | Sumeru | CritRate | C3Burst/C5Skill |
 | Xianyun | Catalyst | 5 | Liyue | Atk | C3Burst/C5Skill |
 | Xiao | Polearm | 5 | Liyue | CritRate | C3Burst/C5Skill |
 
-## Geo (11体)
+## Geo (13体)
 
 | Name | Weapon | Rarity | Region | Ascension Stat | Constellation |
 |------|--------|--------|--------|----------------|---------------|
@@ -134,10 +139,12 @@
 | Arataki Itto | Claymore | 5 | Inazuma | CritRate | C3Burst/C5Skill |
 | Chiori | Sword | 5 | Inazuma | CritRate | C3Skill/C5Burst |
 | Gorou | Bow | 4 | Inazuma | ElementalDmgBonus(Geo) | C3Burst/C5Skill |
+| Illuga | Polearm | 4 | Natlan | ElementalMastery | C3Burst/C5Skill |
 | Kachina | Polearm | 4 | Natlan | ElementalDmgBonus(Geo) | C3Skill/C5Burst |
 | Navia | Claymore | 5 | Fontaine | CritDmg | C3Burst/C5Skill |
 | Ningguang | Catalyst | 4 | Liyue | ElementalDmgBonus(Geo) | C3Burst/C5Skill |
 | Noelle | Claymore | 4 | Mondstadt | Def | C3Burst/C5Skill |
 | Xilonen | Sword | 5 | Natlan | Def | C3Skill/C5Burst |
 | Yun Jin | Polearm | 4 | Liyue | EnergyRecharge | C3Burst/C5Skill |
+| Zibai | Sword | 5 | Liyue | CritDmg | C3Skill/C5Burst |
 | Zhongli | Polearm | 5 | Liyue | ElementalDmgBonus(Geo) | C3Burst/C5Skill |

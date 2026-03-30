@@ -1,8 +1,8 @@
-# 聖遺物セット一覧 (v5.8)
+# 聖遺物セット一覧 (v6.4)
 
-実装済み: **51セット**
+実装済み: **55セット**
 
-## 5星セット (38セット)
+## 5星セット (42セット)
 
 | Name | ID | 2pc | 4pc |
 |------|----|-----|-----|
@@ -15,7 +15,7 @@
 | Thundersoother | thundersoother | StatBuff | ConditionalBuff |
 | Viridescent Venerer | viridescent_venerer | StatBuff | ConditionalBuff |
 | Maiden Beloved | maiden_beloved | StatBuff | DescriptionOnly |
-| Archaic Petra | archaic_petra | StatBuff | DescriptionOnly |
+| Archaic Petra | archaic_petra | StatBuff | ConditionalBuff |
 | Retracing Bolide | retracing_bolide | StatBuff | ConditionalBuff |
 | Lavawalker | lavawalker | StatBuff | ConditionalBuff |
 | Blizzard Strayer | blizzard_strayer | StatBuff | ConditionalBuff |
@@ -27,7 +27,7 @@
 | Husk of Opulent Dreams | husk_of_opulent_dreams | StatBuff | ConditionalBuff |
 | Ocean Hued Clam | ocean_hued_clam | StatBuff | DescriptionOnly |
 | Vermillion Hereafter | vermillion_hereafter | StatBuff | ConditionalBuff |
-| Echoes of an Offering | echoes_of_an_offering | StatBuff | DescriptionOnly |
+| Echoes of an Offering | echoes_of_an_offering | StatBuff | ConditionalBuff |
 | Deepwood Memories | deepwood_memories | StatBuff | ConditionalBuff |
 | Gilded Dreams | gilded_dreams | StatBuff | ConditionalBuff |
 | Desert Pavilion Chronicle | desert_pavilion_chronicle | StatBuff | ConditionalBuff |
@@ -36,14 +36,18 @@
 | Vourukasha's Glow | vourukashas_glow | StatBuff+ConditionalBuff | ConditionalBuff |
 | Marechaussee Hunter | marechaussee_hunter | StatBuff | ConditionalBuff |
 | Golden Troupe | golden_troupe | StatBuff | StatBuff+ConditionalBuff |
-| Song of Days Past | song_of_days_past | StatBuff | DescriptionOnly |
+| Song of Days Past | song_of_days_past | StatBuff | ConditionalBuff |
 | Nighttime Whispers in the Echoing Woods | nighttime_whispers | StatBuff | ConditionalBuff |
 | Fragment of Harmonic Whimsy | fragment_of_harmonic_whimsy | StatBuff | ConditionalBuff |
 | Unfinished Reverie | unfinished_reverie | StatBuff | ConditionalBuff |
 | Scroll of the Hero of Cinder City | scroll_of_the_hero | StatBuff | ConditionalBuff |
 | Obsidian Codex | obsidian_codex | StatBuff | ConditionalBuff |
-| Glory of the Ancient Sea | glory_of_the_ancient_sea | StatBuff | DescriptionOnly |
+| Glory of the Ancient Sea | glory_of_the_ancient_sea | StatBuff | ConditionalBuff |
 | Chronicled Sands and Water | chronicled_sands_and_water | StatBuff | ConditionalBuff |
+| Night of the Sky's Unveiling | night_of_the_skys_unveiling | StatBuff | ConditionalBuff |
+| Silken Moon's Serenade | silken_moons_serenade | StatBuff | ConditionalBuff |
+| Aubade of Morningstar and Moon | aubade_of_morningstar_and_moon | StatBuff | ConditionalBuff |
+| A Day Carved from Rising Winds | a_day_carved_from_rising_winds | StatBuff | ConditionalBuff |
 
 ## 4星/混合セット (13セット)
 
@@ -68,7 +72,7 @@
 
 | カテゴリ | 実装数 | 詳細 |
 |----------|--------|------|
-| 2pc StatBuff | 47/51 | Prayers系4セットはDescriptionOnly |
-| 4pc ConditionalBuff | 35/51 | 構造化バフ実装済み |
-| 4pc DescriptionOnly | 12/51 | 効果がバフ系でない（回復、ダメージproc等） |
-| 4pc なし | 4/51 | Prayers系 |
+| 2pc StatBuff | 51/55 | Prayers系4セットはDescriptionOnly |
+| 4pc ConditionalBuff | 43/55 | 構造化バフ実装済み |
+| 4pc DescriptionOnly | 8/55 | 効果がバフ系でない（回復、ダメージproc等） |
+| 4pc なし | 4/55 | Prayers系 |
