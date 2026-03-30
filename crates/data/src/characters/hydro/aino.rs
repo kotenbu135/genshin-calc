@@ -124,19 +124,19 @@ pub const AINO: CharacterData = CharacterData {
     ascension_stat: AscensionStat::ElementalMastery(96.0),
     talents: TalentSet {
         normal_attack: NormalAttackData {
-            name: "Placeholder Normal Attack",
+            name: "Bish-Bash-Bosh Repair",
             hits: &[AINO_NORMAL_1, AINO_NORMAL_2, AINO_NORMAL_3, AINO_NORMAL_4],
             charged: &[AINO_CHARGED],
             plunging: &[AINO_PLUNGE, AINO_PLUNGE_LOW, AINO_PLUNGE_HIGH],
         },
         elemental_skill: TalentData {
-            name: "Placeholder Skill",
+            name: "Musecatcher",
             scalings: &[AINO_SKILL],
         },
         elemental_burst: TalentData {
-            name: "Placeholder Burst",
+            name: "Precision Hydronic Cooler",
             scalings: &[AINO_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };

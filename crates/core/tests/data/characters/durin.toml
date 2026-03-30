@@ -1,0 +1,64 @@
+[character]
+name = "Durin"
+element = "Pyro"
+
+# Case 1: Normal Attack 1st Hit (Talent Lv8), no reaction
+# Physical damage (Sword normal = no element), ATK scaling
+# talent_multiplier = 0.7803 (Lv8 value from Honey Impact)
+[[cases]]
+type = "normal"
+name = "Normal Attack 1st Hit Lv8 — no reaction"
+character_level = 90
+talent_multiplier = 0.7803
+scaling_stat = "Atk"
+damage_type = "Normal"
+
+[cases.stats]
+hp = 12430.0
+atk = 1800.0
+def = 822.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.168
+energy_recharge = 1.0
+dmg_bonus = 0.0
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 632.043000
+crit = 1370.269224
+average = 1074.978734
+
+# Case 2: Burst Purity 1st Hit (Talent Lv8), no reaction
+# Pyro damage, ATK scaling
+# talent_multiplier = 1.9034 (Lv8 value)
+[[cases]]
+type = "normal"
+name = "Burst Purity 1st Hit Lv8 — no reaction"
+character_level = 90
+talent_multiplier = 1.9034
+scaling_stat = "Atk"
+damage_type = "Burst"
+element = "Pyro"
+
+[cases.stats]
+hp = 12430.0
+atk = 1800.0
+def = 822.0
+elemental_mastery = 0.0
+crit_rate = 0.60
+crit_dmg = 1.168
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2260.211364
+crit = 4900.138237
+average = 3844.167488

@@ -133,11 +133,68 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 0,
 }];
 
+// ===== Durin =====
+// A4 (Purity) "Light Manifest of the Divine Calculus": Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize
+// A4 (Darkness) "Light Manifest of the Divine Calculus": Vaporize/Melt DMG +40%
+// C2 "Unground Visions": Pyro DMG +50% for party after reaction
+// C4 "Emanare's Source": Burst DMG +40%
+static DURIN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Light Manifest (Purity) Pyro RES Down",
+        description: "A4: Enemy Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Light Manifest (Darkness) Amplifying Bonus",
+        description: "A4: Vaporize/Melt DMG +40% in Darkness form",
+        stat: BuffableStat::AmplifyingBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Unground Visions Pyro DMG Bonus",
+        description: "C2: Pyro DMG +50% for party after triggering reactions",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+    },
+    TalentBuffDef {
+        name: "Emanare's Source Burst DMG Bonus",
+        description: "C4: Elemental Burst DMG +40%",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+    },
+];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static PYRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("amber", AMBER_BUFFS),
     ("bennett", BENNETT_BUFFS),
     ("chevreuse", CHEVREUSE_BUFFS),
+    ("durin", DURIN_BUFFS),
     ("thoma", THOMA_BUFFS),
     ("yoimiya", YOIMIYA_BUFFS),
 ];

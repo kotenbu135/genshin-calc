@@ -1,0 +1,35 @@
+# Source: Honey Impact — Aino Skill (Musecatcher) Lv10
+# Hand-calculated: ATK 1400 × 3.024 × 1.466 × 0.5 × 0.90
+
+[character]
+name = "Aino"
+element = "Hydro"
+
+# Case 1: Skill (Musecatcher) Lv10 — no reactions
+[[cases]]
+type = "normal"
+name = "Skill Lv10 vs Lv90 enemy"
+character_level = 90
+talent_multiplier = 3.024
+scaling_stat = "Atk"
+damage_type = "Skill"
+element = "Hydro"
+
+[cases.stats]
+hp = 10768.0
+atk = 1400.0
+def = 664.0
+elemental_mastery = 200.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2792.906
+crit = 5585.812
+average = 4189.359

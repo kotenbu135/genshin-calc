@@ -2,18 +2,46 @@ use super::*;
 
 // ===== Aino =====
 // C1: EM+80 to Aino and active party member after skill/burst for 15s
-static AINO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Aino C1 EM Share",
-    description: "After Skill or Burst, Aino and active character gain EM+80 for 15s",
-    stat: BuffableStat::ElementalMastery,
-    base_value: 80.0,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(1),
-    min_constellation: 1,
-}];
+// A4: Structured Power Booster — Burst DMG increased by 50% of EM
+// C6: The Burden of Creative Genius — Reaction DMG +15% for 15s after Burst
+static AINO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Aino C1 EM Share",
+        description: "After Skill or Burst, Aino and active character gain EM+80 for 15s",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 80.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+    },
+    TalentBuffDef {
+        name: "Aino A4 Burst DMG from EM",
+        description: "Burst DMG increased by 50% of Elemental Mastery",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Aino C6 Reaction DMG Bonus",
+        description: "After Burst, nearby active characters' reaction DMG +15% for 15s",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+    },
+];
 
 // ===== Barbara =====
 // C2 "Vitality Burst": Hydro DMG+15% during skill

@@ -4,6 +4,7 @@ mod bennett;
 mod chevreuse;
 mod dehya;
 mod diluc;
+mod durin;
 mod gaming;
 mod hu_tao;
 mod klee;
@@ -21,6 +22,7 @@ pub use bennett::BENNETT;
 pub use chevreuse::CHEVREUSE;
 pub use dehya::DEHYA;
 pub use diluc::DILUC;
+pub use durin::DURIN;
 pub use gaming::GAMING;
 pub use hu_tao::HU_TAO;
 pub use klee::KLEE;
@@ -41,6 +43,7 @@ pub const CHARACTERS: &[&CharacterData] = &[
     &CHEVREUSE,
     &DEHYA,
     &DILUC,
+    &DURIN,
     &GAMING,
     &HU_TAO,
     &KLEE,

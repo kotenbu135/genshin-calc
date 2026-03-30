@@ -67,6 +67,8 @@ pub const ALL_MOONSIGN_BENEDICTIONS: &[MoonsignBenedictionDef] = &[
         rate: 0.000002,
         max_bonus: 0.07,
     },
+    // Aino — A1 raises party Moonsign level by 1 (handled by MoonsignContext.level,
+    // not via benediction stat scaling). No personal lunar reaction DMG scaling.
     MoonsignBenedictionDef {
         character_id: "aino",
         character_name: "Aino",
@@ -125,6 +127,16 @@ pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
     },
 }];
 
+pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
+    character_name: "Aino",
+    required_level: MoonsignLevel::AscendantGleam,
+    description: "At Ascendant Gleam, reaction DMG bonus from C6 increases by +20% (total +35%)",
+    effect: MoonsignTalentEffect::ReactionDmgBonus {
+        reaction: Reaction::LunarElectroCharged,
+        bonus: 0.20,
+    },
+}];
+
 pub fn is_moonsign_character(id: &str) -> bool {
     ALL_MOONSIGN_BENEDICTIONS
         .iter()
@@ -151,6 +163,7 @@ pub fn find_moonsign_talent_enhancements(
         "lauma" => LAUMA_TALENT_ENHANCEMENTS,
         "flins" => FLINS_TALENT_ENHANCEMENTS,
         "nefer" => NEFER_TALENT_ENHANCEMENTS,
+        "aino" => AINO_TALENT_ENHANCEMENTS,
         _ => &[],
     };
     enhancements
@@ -238,6 +251,22 @@ mod tests {
     #[test]
     fn test_find_moonsign_talent_enhancements_lauma_none_level() {
         let enhancements = find_moonsign_talent_enhancements("lauma", MoonsignLevel::None);
+        assert!(enhancements.is_empty());
+    }
+
+    #[test]
+    fn test_aino_talent_enhancements_at_ascendant_gleam() {
+        let enhancements = find_moonsign_talent_enhancements("aino", MoonsignLevel::AscendantGleam);
+        assert_eq!(enhancements.len(), 1);
+        assert_eq!(
+            enhancements[0].required_level,
+            MoonsignLevel::AscendantGleam
+        );
+    }
+
+    #[test]
+    fn test_aino_talent_enhancements_at_nascent_gleam() {
+        let enhancements = find_moonsign_talent_enhancements("aino", MoonsignLevel::NascentGleam);
         assert!(enhancements.is_empty());
     }
 

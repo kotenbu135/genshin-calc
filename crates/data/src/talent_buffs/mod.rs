@@ -172,10 +172,36 @@ mod tests {
     #[test]
     fn test_find_aino_buffs() {
         let buffs = find_talent_buffs("aino").unwrap();
-        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 80.0).abs() < 1e-6);
         assert_eq!(buffs[0].min_constellation, 1);
+    }
+
+    #[test]
+    fn test_aino_a4_burst_dmg_from_em() {
+        let buffs = find_talent_buffs("aino").unwrap();
+        let a4 = buffs
+            .iter()
+            .find(|b| b.source == TalentBuffSource::AscensionPassive)
+            .unwrap();
+        assert_eq!(a4.stat, BuffableStat::BurstDmgBonus);
+        assert!((a4.base_value - 0.50).abs() < 1e-6);
+        assert_eq!(a4.scales_on, Some(ScalingStat::Em));
+        assert_eq!(a4.target, BuffTarget::OnlySelf);
+    }
+
+    #[test]
+    fn test_aino_c6_reaction_dmg_bonus() {
+        let buffs = find_talent_buffs("aino").unwrap();
+        let c6 = buffs
+            .iter()
+            .find(|b| b.source == TalentBuffSource::Constellation(6))
+            .unwrap();
+        assert_eq!(c6.stat, BuffableStat::TransformativeBonus);
+        assert!((c6.base_value - 0.15).abs() < 1e-6);
+        assert_eq!(c6.min_constellation, 6);
+        assert_eq!(c6.target, BuffTarget::Team);
     }
 
     #[test]
