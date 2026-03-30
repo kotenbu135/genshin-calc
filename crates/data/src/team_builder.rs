@@ -135,38 +135,37 @@ impl TeamMemberBuilder {
     /// Returns [`CalcError::InvalidConstellation`] if constellation > 6.
     /// Returns [`CalcError::InvalidTalentLevel`] if any talent level is 0 or > 15.
     pub fn build(self) -> Result<TeamMember, CalcError> {
-        if self.constellation > 6 {
-            return Err(CalcError::InvalidConstellation(self.constellation));
-        }
-        for &level in &self.talent_levels {
-            if level == 0 || level > 15 {
-                return Err(CalcError::InvalidTalentLevel(level));
-            }
-        }
-        if self.refinement == 0 || self.refinement > 5 {
-            return Err(CalcError::InvalidRefinement(self.refinement));
-        }
+        self.validate()?;
 
-        let char_data = self.character;
-        let weapon = self.weapon;
-
-        // 1. Base stats (Lv90 = index 3)
-        let mut profile = StatProfile {
-            base_hp: char_data.base_hp[3],
-            base_atk: char_data.base_atk[3] + weapon.base_atk[3],
-            base_def: char_data.base_def[3],
-            ..Default::default()
-        };
-
-        // 2. Character ascension stat
-        apply_ascension_stat(&mut profile, &char_data.ascension_stat);
-
-        // 3. Weapon sub-stat
-        if let Some(sub) = &weapon.sub_stat {
-            apply_weapon_sub_stat(&mut profile, sub);
-        }
+        // 1-3. Base stats, ascension stat, weapon sub-stat
+        let mut profile = self.build_base_profile();
 
         // 4. Artifact stats (user input) merged
+        self.merge_artifact_stats(&mut profile);
+
+        // 5-7. Collect buffs
+        let mut buffs = self.collect_static_buffs();
+
+        // 8. Talent buffs
+        self.collect_talent_buffs(&profile, &mut buffs);
+
+        // 9. Resolve conditional buffs
+        self.resolve_conditional_buffs(&profile, &mut buffs);
+
+        Ok(self.into_team_member(profile, buffs))
+    }
+
+    fn into_team_member(self, stats: StatProfile, buffs: Vec<ResolvedBuff>) -> TeamMember {
+        TeamMember {
+            element: self.character.element,
+            weapon_type: self.character.weapon_type,
+            stats,
+            buffs_provided: buffs,
+            is_moonsign: is_moonsign_character(self.character.id),
+        }
+    }
+
+    fn merge_artifact_stats(&self, profile: &mut StatProfile) {
         profile.hp_percent += self.artifact_stats.hp_percent;
         profile.atk_percent += self.artifact_stats.atk_percent;
         profile.def_percent += self.artifact_stats.def_percent;
@@ -178,15 +177,171 @@ impl TeamMemberBuilder {
         profile.crit_dmg += self.artifact_stats.crit_dmg;
         profile.energy_recharge += self.artifact_stats.energy_recharge;
         profile.dmg_bonus += self.artifact_stats.dmg_bonus;
+    }
 
-        // 5-7. Collect buffs
+    fn build_base_profile(&self) -> StatProfile {
+        let mut profile = StatProfile {
+            base_hp: self.character.base_hp[3],
+            base_atk: self.character.base_atk[3] + self.weapon.base_atk[3],
+            base_def: self.character.base_def[3],
+            ..Default::default()
+        };
+        apply_ascension_stat(&mut profile, &self.character.ascension_stat);
+        if let Some(sub) = &self.weapon.sub_stat {
+            apply_weapon_sub_stat(&mut profile, sub);
+        }
+        profile
+    }
+
+    fn resolve_conditionals_for_source(
+        &self,
+        conditional_buffs: &'static [ConditionalBuff],
+        source_name: &str,
+        refinement: u8,
+        profile: &StatProfile,
+        buffs: &mut Vec<ResolvedBuff>,
+    ) {
+        for cond_buff in conditional_buffs {
+            let effective_value =
+                resolve_value(cond_buff.value, cond_buff.refinement_values, refinement);
+            let resolved_value = match &cond_buff.activation {
+                Activation::Auto(auto) => eval_auto(
+                    auto,
+                    effective_value,
+                    profile,
+                    self.character.weapon_type,
+                    self.character.element,
+                    &self.team_elements,
+                    &self.team_regions,
+                    refinement,
+                ),
+                Activation::Manual(manual) => {
+                    eval_manual(manual, cond_buff, &self.manual_activations, effective_value)
+                }
+                Activation::Both(auto, manual) => {
+                    let auto_result = eval_auto(
+                        auto,
+                        effective_value,
+                        profile,
+                        self.character.weapon_type,
+                        self.character.element,
+                        &self.team_elements,
+                        &self.team_regions,
+                        refinement,
+                    );
+                    auto_result
+                        .and_then(|av| eval_manual(manual, cond_buff, &self.manual_activations, av))
+                }
+            };
+
+            if let Some(value) = resolved_value {
+                buffs.push(ResolvedBuff {
+                    source: format!("{} ({})", cond_buff.name, source_name),
+                    stat: cond_buff.stat,
+                    value,
+                    target: cond_buff.target,
+                });
+            }
+        }
+    }
+
+    fn resolve_conditional_buffs(&self, profile: &StatProfile, buffs: &mut Vec<ResolvedBuff>) {
+        // Weapon conditional buffs
+        if let Some(passive) = &self.weapon.passive {
+            self.resolve_conditionals_for_source(
+                passive.effect.conditional_buffs,
+                self.weapon.name,
+                self.refinement,
+                profile,
+                buffs,
+            );
+        }
+
+        // Artifact conditional buffs
+        if let Some(set) = self.artifact_set {
+            self.resolve_conditionals_for_source(
+                set.two_piece.conditional_buffs,
+                &format!("{} 2pc", set.name),
+                1,
+                profile,
+                buffs,
+            );
+            self.resolve_conditionals_for_source(
+                set.four_piece.conditional_buffs,
+                &format!("{} 4pc", set.name),
+                1,
+                profile,
+                buffs,
+            );
+        }
+    }
+
+    fn collect_talent_buffs(&self, profile: &StatProfile, buffs: &mut Vec<ResolvedBuff>) {
+        let Some(talent_defs) = find_talent_buffs(self.character.id) else {
+            return;
+        };
+        for def in talent_defs {
+            if self.constellation < def.min_constellation {
+                continue;
+            }
+            // Get scaling value based on talent level
+            let raw_value = if def.scales_with_talent {
+                if let Some(scaling) = def.talent_scaling {
+                    let (talent_idx, damage_type) = match def.source {
+                        crate::talent_buffs::TalentBuffSource::ElementalSkill => {
+                            (1, DamageType::Skill)
+                        }
+                        crate::talent_buffs::TalentBuffSource::ElementalBurst => {
+                            (2, DamageType::Burst)
+                        }
+                        // AscensionPassive and Constellation(u8) map to Normal,
+                        // which is never boosted — these sources don't benefit from C3/C5.
+                        _ => (0, DamageType::Normal),
+                    };
+                    let base_level = self.talent_levels[talent_idx];
+                    let level = self.character.effective_talent_level(
+                        damage_type,
+                        base_level,
+                        self.constellation,
+                    );
+                    scaling[(level - 1) as usize]
+                } else {
+                    def.base_value
+                }
+            } else {
+                def.base_value
+            };
+
+            // If scales_on is set, multiply by the provider's base stat
+            let value = if let Some(scaling_stat) = def.scales_on {
+                let base = match scaling_stat {
+                    genshin_calc_core::ScalingStat::Atk => profile.base_atk,
+                    genshin_calc_core::ScalingStat::Hp => profile.base_hp,
+                    genshin_calc_core::ScalingStat::Def => profile.base_def,
+                    genshin_calc_core::ScalingStat::Em => profile.elemental_mastery,
+                };
+                base * raw_value
+            } else {
+                raw_value
+            };
+
+            buffs.push(ResolvedBuff {
+                source: def.name.to_string(),
+                stat: def.stat,
+                value,
+                target: def.target,
+            });
+        }
+    }
+
+    fn collect_static_buffs(&self) -> Vec<ResolvedBuff> {
         let mut buffs = Vec::new();
 
         // Weapon passive
-        if let Some(passive) = &weapon.passive {
+        if let Some(passive) = &self.weapon.passive {
             for stat_buff in passive.effect.buffs {
                 buffs.push(ResolvedBuff {
-                    source: format!("{} ({})", passive.name, weapon.name),
+                    source: format!("{} ({})", passive.name, self.weapon.name),
                     stat: stat_buff.stat,
                     value: resolve_value(
                         stat_buff.value,
@@ -218,149 +373,22 @@ impl TeamMemberBuilder {
             }
         }
 
-        // 8. Talent buffs
-        if let Some(talent_defs) = find_talent_buffs(char_data.id) {
-            for def in talent_defs {
-                if self.constellation < def.min_constellation {
-                    continue;
-                }
-                // Get scaling value based on talent level
-                let raw_value = if def.scales_with_talent {
-                    if let Some(scaling) = def.talent_scaling {
-                        let (talent_idx, damage_type) = match def.source {
-                            crate::talent_buffs::TalentBuffSource::ElementalSkill => {
-                                (1, DamageType::Skill)
-                            }
-                            crate::talent_buffs::TalentBuffSource::ElementalBurst => {
-                                (2, DamageType::Burst)
-                            }
-                            // AscensionPassive and Constellation(u8) map to Normal,
-                            // which is never boosted — these sources don't benefit from C3/C5.
-                            _ => (0, DamageType::Normal),
-                        };
-                        let base_level = self.talent_levels[talent_idx];
-                        let level = char_data.effective_talent_level(
-                            damage_type,
-                            base_level,
-                            self.constellation,
-                        );
-                        scaling[(level - 1) as usize]
-                    } else {
-                        def.base_value
-                    }
-                } else {
-                    def.base_value
-                };
+        buffs
+    }
 
-                // If scales_on is set, multiply by the provider's base stat
-                let value = if let Some(scaling_stat) = def.scales_on {
-                    let base = match scaling_stat {
-                        genshin_calc_core::ScalingStat::Atk => profile.base_atk,
-                        genshin_calc_core::ScalingStat::Hp => profile.base_hp,
-                        genshin_calc_core::ScalingStat::Def => profile.base_def,
-                        genshin_calc_core::ScalingStat::Em => profile.elemental_mastery,
-                    };
-                    base * raw_value
-                } else {
-                    raw_value
-                };
-
-                buffs.push(ResolvedBuff {
-                    source: def.name.to_string(),
-                    stat: def.stat,
-                    value,
-                    target: def.target,
-                });
+    fn validate(&self) -> Result<(), CalcError> {
+        if self.constellation > 6 {
+            return Err(CalcError::InvalidConstellation(self.constellation));
+        }
+        for &level in &self.talent_levels {
+            if level == 0 || level > 15 {
+                return Err(CalcError::InvalidTalentLevel(level));
             }
         }
-
-        // 9. Resolve conditional buffs
-        let resolve_conditionals =
-            |conditional_buffs: &'static [ConditionalBuff],
-             source_name: &str,
-             refinement: u8,
-             buffs: &mut Vec<ResolvedBuff>| {
-                for cond_buff in conditional_buffs {
-                    let effective_value =
-                        resolve_value(cond_buff.value, cond_buff.refinement_values, refinement);
-                    let resolved_value = match &cond_buff.activation {
-                        Activation::Auto(auto) => eval_auto(
-                            auto,
-                            effective_value,
-                            &profile,
-                            char_data.weapon_type,
-                            char_data.element,
-                            &self.team_elements,
-                            &self.team_regions,
-                            refinement,
-                        ),
-                        Activation::Manual(manual) => eval_manual(
-                            manual,
-                            cond_buff,
-                            &self.manual_activations,
-                            effective_value,
-                        ),
-                        Activation::Both(auto, manual) => {
-                            let auto_result = eval_auto(
-                                auto,
-                                effective_value,
-                                &profile,
-                                char_data.weapon_type,
-                                char_data.element,
-                                &self.team_elements,
-                                &self.team_regions,
-                                refinement,
-                            );
-                            auto_result.and_then(|av| {
-                                eval_manual(manual, cond_buff, &self.manual_activations, av)
-                            })
-                        }
-                    };
-
-                    if let Some(value) = resolved_value {
-                        buffs.push(ResolvedBuff {
-                            source: format!("{} ({})", cond_buff.name, source_name),
-                            stat: cond_buff.stat,
-                            value,
-                            target: cond_buff.target,
-                        });
-                    }
-                }
-            };
-
-        // Weapon conditional buffs
-        if let Some(passive) = &weapon.passive {
-            resolve_conditionals(
-                passive.effect.conditional_buffs,
-                weapon.name,
-                self.refinement,
-                &mut buffs,
-            );
+        if self.refinement == 0 || self.refinement > 5 {
+            return Err(CalcError::InvalidRefinement(self.refinement));
         }
-
-        // Artifact conditional buffs
-        if let Some(set) = self.artifact_set {
-            resolve_conditionals(
-                set.two_piece.conditional_buffs,
-                &format!("{} 2pc", set.name),
-                1,
-                &mut buffs,
-            );
-            resolve_conditionals(
-                set.four_piece.conditional_buffs,
-                &format!("{} 4pc", set.name),
-                1,
-                &mut buffs,
-            );
-        }
-
-        Ok(TeamMember {
-            element: char_data.element,
-            weapon_type: char_data.weapon_type,
-            stats: profile,
-            buffs_provided: buffs,
-            is_moonsign: is_moonsign_character(char_data.id),
-        })
+        Ok(())
     }
 }
 
