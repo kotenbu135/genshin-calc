@@ -30,6 +30,7 @@
 - `docs/dev/`: 開発者向け詳細ドキュメント（architecture, testing, character-data-guide）
 - `.claude/skills/game-update-todo/`: ゲーム更新時の実装TODOリスト生成スキル
 - `.claude/skills/honeyhunter-data-fetch/`: Honey Impactからゲームデータ取得・Rust定数変換スキル
+- `.claude/skills/character-add-workflow/`: キャラクター追加E2Eワークフロー（ドメイン知識リファレンス、superpowersと併用）
 
 ## Superpowers Preferences
 
