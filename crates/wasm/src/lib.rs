@@ -72,6 +72,83 @@ pub fn weapons_by_type(weapon_type: &str) -> Result<JsValue, JsError> {
     serde_wasm_bindgen::to_value(&weapons).map_err(|e| JsError::new(&e.to_string()))
 }
 
+/// Calculates standard damage (ATK/HP/DEF scaling with crit, defense, resistance).
+///
+/// # Arguments
+/// * `input` - DamageInput as a JS object (PascalCase enum variants, e.g. element: "Pyro")
+/// * `enemy` - Enemy as a JS object
+///
+/// # Returns
+/// DamageResult as a JS object with non_crit, crit, average, reaction fields.
+///
+/// # Errors
+/// Throws JsError on invalid input or calculation error.
+#[wasm_bindgen]
+pub fn calculate_damage(input: JsValue, enemy: JsValue) -> Result<JsValue, JsError> {
+    let input: genshin_calc_core::DamageInput = serde_wasm_bindgen::from_value(input)
+        .map_err(|e| JsError::new(&format!("Invalid input: {e}")))?;
+    let enemy: genshin_calc_core::Enemy = serde_wasm_bindgen::from_value(enemy)
+        .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
+    let result = genshin_calc_core::calculate_damage(&input, &enemy)
+        .map_err(|e| JsError::new(&e.to_string()))?;
+    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+}
+
+/// Calculates transformative reaction damage (overloaded, superconduct, swirl, etc.).
+///
+/// # Arguments
+/// * `input` - TransformativeInput as a JS object
+/// * `enemy` - Enemy as a JS object
+///
+/// # Returns
+/// TransformativeResult as a JS object with damage and damage_element fields.
+#[wasm_bindgen]
+pub fn calculate_transformative(input: JsValue, enemy: JsValue) -> Result<JsValue, JsError> {
+    let input: genshin_calc_core::TransformativeInput = serde_wasm_bindgen::from_value(input)
+        .map_err(|e| JsError::new(&format!("Invalid input: {e}")))?;
+    let enemy: genshin_calc_core::Enemy = serde_wasm_bindgen::from_value(enemy)
+        .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
+    let result = genshin_calc_core::calculate_transformative(&input, &enemy)
+        .map_err(|e| JsError::new(&e.to_string()))?;
+    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+}
+
+/// Calculates lunar reaction damage (Nod-Krai exclusive crittable reactions).
+///
+/// # Arguments
+/// * `input` - LunarInput as a JS object
+/// * `enemy` - Enemy as a JS object
+///
+/// # Returns
+/// LunarResult as a JS object with non_crit, crit, average, damage_element fields.
+#[wasm_bindgen]
+pub fn calculate_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsError> {
+    let input: genshin_calc_core::LunarInput = serde_wasm_bindgen::from_value(input)
+        .map_err(|e| JsError::new(&format!("Invalid input: {e}")))?;
+    let enemy: genshin_calc_core::Enemy = serde_wasm_bindgen::from_value(enemy)
+        .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
+    let result = genshin_calc_core::calculate_lunar(&input, &enemy)
+        .map_err(|e| JsError::new(&e.to_string()))?;
+    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+}
+
+/// Resolves team buffs and returns final stats for the target member.
+///
+/// # Arguments
+/// * `members` - Array of TeamMember objects
+/// * `target_index` - Index of the DPS/target member (0-based)
+///
+/// # Returns
+/// Stats as a JS object with hp, atk, def, elemental_mastery, crit_rate, crit_dmg, energy_recharge, dmg_bonus.
+#[wasm_bindgen]
+pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue, JsError> {
+    let members: Vec<genshin_calc_core::TeamMember> = serde_wasm_bindgen::from_value(members)
+        .map_err(|e| JsError::new(&format!("Invalid members: {e}")))?;
+    let result = genshin_calc_core::resolve_team_stats(&members, target_index as usize)
+        .map_err(|e| JsError::new(&e.to_string()))?;
+    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -129,5 +206,136 @@ mod tests {
         let wt = convert::parse_weapon_type("sword").unwrap();
         let weapons = genshin_calc_data::weapons_by_type(wt);
         assert!(!weapons.is_empty());
+    }
+
+    #[test]
+    fn test_damage_input_serde_roundtrip() {
+        use genshin_calc_core::*;
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                hp: 20000.0,
+                atk: 2000.0,
+                def: 800.0,
+                elemental_mastery: 100.0,
+                crit_rate: 0.75,
+                crit_dmg: 1.50,
+                energy_recharge: 1.20,
+                dmg_bonus: 0.466,
+            },
+            talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+            flat_dmg: 0.0,
+        };
+        let json = serde_json::to_string(&input).unwrap();
+        let back: DamageInput = serde_json::from_str(&json).unwrap();
+        assert_eq!(input.character_level, back.character_level);
+        assert!((input.talent_multiplier - back.talent_multiplier).abs() < 1e-10);
+    }
+
+    #[test]
+    fn test_damage_calculation_via_core() {
+        use genshin_calc_core::*;
+        let input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                hp: 20000.0,
+                atk: 2000.0,
+                def: 800.0,
+                elemental_mastery: 100.0,
+                crit_rate: 0.75,
+                crit_dmg: 1.50,
+                energy_recharge: 1.20,
+                dmg_bonus: 0.466,
+            },
+            talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Skill,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+            flat_dmg: 0.0,
+        };
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let result = calculate_damage(&input, &enemy).unwrap();
+        assert!(result.average > 0.0);
+        assert!(result.crit > result.non_crit);
+    }
+
+    #[test]
+    fn test_transformative_calculation_via_core() {
+        use genshin_calc_core::*;
+        let input = TransformativeInput {
+            character_level: 90,
+            elemental_mastery: 200.0,
+            reaction: Reaction::Overloaded,
+            reaction_bonus: 0.0,
+        };
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let result = calculate_transformative(&input, &enemy).unwrap();
+        assert!(result.damage > 0.0);
+    }
+
+    #[test]
+    fn test_lunar_calculation_via_core() {
+        use genshin_calc_core::*;
+        let input = LunarInput {
+            character_level: 90,
+            elemental_mastery: 200.0,
+            reaction: Reaction::LunarElectroCharged,
+            reaction_bonus: 0.0,
+            crit_rate: 0.5,
+            crit_dmg: 1.0,
+            base_dmg_bonus: 0.0,
+        };
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let result = calculate_lunar(&input, &enemy).unwrap();
+        assert!(result.average > 0.0);
+    }
+
+    #[test]
+    fn test_resolve_team_stats_via_core() {
+        use genshin_calc_core::*;
+        let dps = TeamMember {
+            element: Element::Pyro,
+            weapon_type: WeaponType::Claymore,
+            stats: StatProfile {
+                base_atk: 900.0,
+                crit_rate: 0.60,
+                crit_dmg: 1.50,
+                energy_recharge: 1.0,
+                ..Default::default()
+            },
+            buffs_provided: vec![],
+            is_moonsign: false,
+        };
+        let result = resolve_team_stats(&[dps], 0).unwrap();
+        assert!(result.atk > 0.0);
+    }
+
+    #[test]
+    fn test_reaction_swirl_serde() {
+        use genshin_calc_core::Reaction;
+        let swirl = Reaction::Swirl(genshin_calc_core::Element::Pyro);
+        let json = serde_json::to_string(&swirl).unwrap();
+        assert_eq!(json, r#"{"Swirl":"Pyro"}"#);
+        let back: Reaction = serde_json::from_str(&json).unwrap();
+        assert_eq!(swirl, back);
     }
 }
