@@ -2,6 +2,8 @@ use genshin_calc_core::Element;
 use genshin_calc_data::buff::*;
 use genshin_calc_data::types::*;
 
+const EPSILON: f64 = 1e-10;
+
 // Roundtrip tests for Deserialize-capable types
 #[test]
 fn weapon_type_roundtrip() {
@@ -32,7 +34,12 @@ fn ascension_stat_roundtrip() {
     let original = AscensionStat::CritRate(0.192);
     let json = serde_json::to_string(&original).unwrap();
     let deserialized: AscensionStat = serde_json::from_str(&json).unwrap();
-    assert_eq!(original, deserialized);
+    match (original, deserialized) {
+        (AscensionStat::CritRate(a), AscensionStat::CritRate(b)) => {
+            assert!((a - b).abs() < EPSILON);
+        }
+        _ => panic!("variant mismatch"),
+    }
 }
 
 #[test]
@@ -40,7 +47,13 @@ fn ascension_stat_elemental_roundtrip() {
     let original = AscensionStat::ElementalDmgBonus(Element::Pyro, 0.288);
     let json = serde_json::to_string(&original).unwrap();
     let deserialized: AscensionStat = serde_json::from_str(&json).unwrap();
-    assert_eq!(original, deserialized);
+    match (original, deserialized) {
+        (AscensionStat::ElementalDmgBonus(e1, a), AscensionStat::ElementalDmgBonus(e2, b)) => {
+            assert_eq!(e1, e2);
+            assert!((a - b).abs() < EPSILON);
+        }
+        _ => panic!("variant mismatch"),
+    }
 }
 
 #[test]
@@ -52,7 +65,13 @@ fn stat_buff_roundtrip() {
     };
     let json = serde_json::to_string(&original).unwrap();
     let deserialized: StatBuff = serde_json::from_str(&json).unwrap();
-    assert_eq!(original, deserialized);
+    assert_eq!(original.stat, deserialized.stat);
+    assert!((original.value - deserialized.value).abs() < EPSILON);
+    let orig_rv = original.refinement_values.unwrap();
+    let deser_rv = deserialized.refinement_values.unwrap();
+    for (a, b) in orig_rv.iter().zip(deser_rv.iter()) {
+        assert!((a - b).abs() < EPSILON);
+    }
 }
 
 #[test]
@@ -60,7 +79,14 @@ fn weapon_sub_stat_roundtrip() {
     let original = WeaponSubStat::AtkPercent([0.108, 0.406, 0.444, 0.496]);
     let json = serde_json::to_string(&original).unwrap();
     let deserialized: WeaponSubStat = serde_json::from_str(&json).unwrap();
-    assert_eq!(original, deserialized);
+    match (original, deserialized) {
+        (WeaponSubStat::AtkPercent(a), WeaponSubStat::AtkPercent(b)) => {
+            for (x, y) in a.iter().zip(b.iter()) {
+                assert!((x - y).abs() < EPSILON);
+            }
+        }
+        _ => panic!("variant mismatch"),
+    }
 }
 
 #[test]

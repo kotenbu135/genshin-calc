@@ -87,11 +87,13 @@ pub fn calculate_transformative(
 ) -> Result<TransformativeResult, CalcError> {
     validate(input, enemy)?;
 
-    let level_base = reaction_base_value(input.character_level).unwrap();
-    let reaction_mult = transformative_multiplier(input.reaction).unwrap();
+    let level_base = reaction_base_value(input.character_level).expect("validated: level 1..=100");
+    let reaction_mult =
+        transformative_multiplier(input.reaction).expect("validated: Transformative reaction");
     let em_bonus = transformative_em_bonus(input.elemental_mastery);
     let res_mult = resistance_multiplier(enemy);
-    let damage_elem = transformative_element(input.reaction).unwrap();
+    let damage_elem =
+        transformative_element(input.reaction).expect("validated: Transformative reaction");
 
     let damage = level_base * reaction_mult * (1.0 + em_bonus + input.reaction_bonus) * res_mult;
 

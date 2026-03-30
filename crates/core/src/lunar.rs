@@ -93,8 +93,8 @@ fn validate(input: &LunarInput, enemy: &Enemy) -> Result<(), CalcError> {
 pub fn calculate_lunar(input: &LunarInput, enemy: &Enemy) -> Result<LunarResult, CalcError> {
     validate(input, enemy)?;
 
-    let level_base = reaction_base_value(input.character_level).unwrap();
-    let reaction_mult = lunar_multiplier(input.reaction).unwrap();
+    let level_base = reaction_base_value(input.character_level).expect("validated: level 1..=100");
+    let reaction_mult = lunar_multiplier(input.reaction).expect("validated: Lunar reaction");
     let em_bonus = lunar_em_bonus(input.elemental_mastery);
     let res_mult = resistance_multiplier(enemy);
 
@@ -106,7 +106,7 @@ pub fn calculate_lunar(input: &LunarInput, enemy: &Enemy) -> Result<LunarResult,
     let crit = non_crit * (1.0 + input.crit_dmg);
     let average = non_crit * (1.0 - input.crit_rate) + crit * input.crit_rate;
 
-    let damage_element = lunar_element(input.reaction).unwrap();
+    let damage_element = lunar_element(input.reaction).expect("validated: Lunar reaction");
 
     Ok(LunarResult {
         non_crit,

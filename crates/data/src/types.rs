@@ -189,6 +189,9 @@ impl CharacterData {
         talent_level: u8,
         constellation: u8,
     ) -> Option<f64> {
+        if talent_level == 0 {
+            return None;
+        }
         let scaling = self.talent_scaling(damage_type, hit_index)?;
         let effective = self.effective_talent_level(damage_type, talent_level, constellation);
         Some(scaling.values[(effective - 1) as usize])
@@ -212,6 +215,9 @@ impl CharacterData {
         reaction: Option<Reaction>,
         reaction_bonus: f64,
     ) -> Option<DamageInput> {
+        if talent_level == 0 {
+            return None;
+        }
         let scaling = self.talent_scaling(damage_type, hit_index)?;
         let effective = self.effective_talent_level(damage_type, talent_level, constellation);
         let multiplier = scaling.values[(effective - 1) as usize];

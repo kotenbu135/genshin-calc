@@ -1,8 +1,6 @@
 use genshin_calc_core::*;
 use genshin_calc_data::*;
 
-const EPSILON: f64 = 1.0;
-
 #[test]
 fn test_bennett_kazuha_team_damage() {
     // Bennett: Aquila Favonia, Noblesse 4pc, C6, talents 1/1/13
@@ -72,7 +70,6 @@ fn test_bennett_kazuha_team_damage() {
 
     assert!(damage.average > 0.0);
     assert!(damage.crit > damage.non_crit);
-    let _ = EPSILON; // used for tolerance reference
 }
 
 #[test]

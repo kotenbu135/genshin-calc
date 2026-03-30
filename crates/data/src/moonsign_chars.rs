@@ -4,6 +4,7 @@ use genshin_calc_core::{
 };
 
 /// Definition of a Moonsign Benediction passive.
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct MoonsignBenedictionDef {
     pub character_id: &'static str,
     pub character_name: &'static str,
@@ -137,12 +138,14 @@ pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTal
     },
 }];
 
+#[must_use]
 pub fn is_moonsign_character(id: &str) -> bool {
     ALL_MOONSIGN_BENEDICTIONS
         .iter()
         .any(|d| d.character_id == id)
 }
 
+#[must_use]
 pub fn find_moonsign_benediction(id: &str) -> Option<&'static MoonsignBenedictionDef> {
     ALL_MOONSIGN_BENEDICTIONS
         .iter()
@@ -150,11 +153,13 @@ pub fn find_moonsign_benediction(id: &str) -> Option<&'static MoonsignBenedictio
 }
 
 /// Calculate the BaseDMGBonus from a benediction definition.
+#[must_use]
 pub fn calculate_benediction_bonus(def: &MoonsignBenedictionDef, stat_value: f64) -> f64 {
     (def.rate * stat_value).min(def.max_bonus)
 }
 
 /// Get talent enhancements for a character, filtered by moonsign level.
+#[must_use]
 pub fn find_moonsign_talent_enhancements(
     id: &str,
     level: MoonsignLevel,

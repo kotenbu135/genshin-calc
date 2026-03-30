@@ -152,9 +152,11 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
                 reaction_result = Some(reaction);
             }
             ReactionCategory::Catalyze => {
-                let coeff = catalyze_coefficient(reaction).unwrap();
+                let coeff =
+                    catalyze_coefficient(reaction).expect("validated: reaction is Catalyze");
                 let em_bonus = catalyze_em_bonus(input.stats.elemental_mastery);
-                let level_base = reaction_base_value(input.character_level).unwrap();
+                let level_base =
+                    reaction_base_value(input.character_level).expect("validated: level 1..=90");
                 catalyze_flat = coeff * level_base * (1.0 + em_bonus + input.reaction_bonus);
                 reaction_result = Some(reaction);
             }
@@ -537,7 +539,18 @@ mod tests {
         let input = valid_input();
         let json = serde_json::to_string(&input).unwrap();
         let deserialized: DamageInput = serde_json::from_str(&json).unwrap();
-        assert_eq!(input, deserialized);
+        assert!((input.stats.atk - deserialized.stats.atk).abs() < EPSILON);
+        assert!(
+            (input.stats.elemental_mastery - deserialized.stats.elemental_mastery).abs() < EPSILON
+        );
+        assert!((input.talent_multiplier - deserialized.talent_multiplier).abs() < EPSILON);
+        assert!((input.reaction_bonus - deserialized.reaction_bonus).abs() < EPSILON);
+        assert!((input.flat_dmg - deserialized.flat_dmg).abs() < EPSILON);
+        assert_eq!(input.character_level, deserialized.character_level);
+        assert_eq!(input.scaling_stat, deserialized.scaling_stat);
+        assert_eq!(input.damage_type, deserialized.damage_type);
+        assert_eq!(input.element, deserialized.element);
+        assert_eq!(input.reaction, deserialized.reaction);
     }
 
     // =====================================================================

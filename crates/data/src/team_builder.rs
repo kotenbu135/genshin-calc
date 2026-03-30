@@ -403,7 +403,35 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         BuffableStat::DefPercentRaw => profile.def_percent,
         BuffableStat::ElementalMastery => profile.elemental_mastery,
         BuffableStat::EnergyRecharge => profile.energy_recharge,
-        _ => 0.0,
+        // Not valid as StatScaling sources — these stats are not readable
+        // from StatProfile as a single scalar for scaling purposes.
+        BuffableStat::HpFlat
+        | BuffableStat::AtkFlat
+        | BuffableStat::DefFlat
+        | BuffableStat::CritRate
+        | BuffableStat::CritDmg
+        | BuffableStat::DmgBonus
+        | BuffableStat::ElementalDmgBonus(_)
+        | BuffableStat::PhysicalDmgBonus
+        | BuffableStat::NormalAtkDmgBonus
+        | BuffableStat::ChargedAtkDmgBonus
+        | BuffableStat::PlungingAtkDmgBonus
+        | BuffableStat::SkillDmgBonus
+        | BuffableStat::BurstDmgBonus
+        | BuffableStat::HealingBonus
+        | BuffableStat::ShieldStrength
+        | BuffableStat::AmplifyingBonus
+        | BuffableStat::TransformativeBonus
+        | BuffableStat::AdditiveBonus
+        | BuffableStat::ElementalRes(_)
+        | BuffableStat::ElementalResReduction(_)
+        | BuffableStat::PhysicalResReduction
+        | BuffableStat::DefReduction
+        | BuffableStat::NormalAtkFlatDmg
+        | BuffableStat::ChargedAtkFlatDmg
+        | BuffableStat::PlungingAtkFlatDmg
+        | BuffableStat::SkillFlatDmg
+        | BuffableStat::BurstFlatDmg => 0.0,
     }
 }
 
@@ -521,14 +549,20 @@ fn eval_manual(
                     return None;
                 }
                 match buff.stack_values {
-                    Some(values) => Some(values[(effective as usize).min(values.len()) - 1]),
+                    Some(values) if !values.is_empty() => {
+                        Some(values[(effective as usize).min(values.len()) - 1])
+                    }
+                    Some(_) => None,
                     None => Some(base_value * f64::from(effective)),
                 }
             }
             Some((_, ManualActivation::Active)) => {
                 let effective = *max;
                 match buff.stack_values {
-                    Some(values) => Some(values[(effective as usize).min(values.len()) - 1]),
+                    Some(values) if !values.is_empty() => {
+                        Some(values[(effective as usize).min(values.len()) - 1])
+                    }
+                    Some(_) => None,
                     None => Some(base_value * f64::from(effective)),
                 }
             }
@@ -1527,6 +1561,23 @@ mod conditional_tests {
             0.09,
         );
         assert!((result.unwrap() - 0.18).abs() < EPSILON); // 0.09 * 2
+    }
+
+    #[test]
+    fn test_empty_stack_values_returns_none() {
+        let buff = ConditionalBuff {
+            name: "test_empty",
+            description: "test",
+            stat: BuffableStat::AtkPercent,
+            value: 0.10,
+            refinement_values: None,
+            stack_values: Some(&[]),
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Stacks(3)),
+        };
+        let activations = vec![("test_empty", ManualActivation::Stacks(2))];
+        let result = eval_manual(&ManualCondition::Stacks(3), &buff, &activations, 0.10);
+        assert_eq!(result, None);
     }
 
     // --- Activation::Both tests (unit level) ---

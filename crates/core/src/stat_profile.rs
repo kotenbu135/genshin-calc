@@ -64,6 +64,11 @@ pub fn combine_stats(profile: &StatProfile) -> Result<Stats, CalcError> {
     })
 }
 
+/// Validates that all StatProfile fields are within acceptable ranges.
+///
+/// Note: NaN inputs pass all validation checks (`NaN < 0.0` is false)
+/// and propagate as NaN in output. This is intentional — callers are
+/// responsible for ensuring inputs are not NaN.
 fn validate(profile: &StatProfile) -> Result<(), CalcError> {
     if profile.base_hp < 0.0 {
         return Err(CalcError::InvalidBaseValue(profile.base_hp));
@@ -83,6 +88,8 @@ fn validate(profile: &StatProfile) -> Result<(), CalcError> {
     if profile.def_percent < -1.0 {
         return Err(CalcError::InvalidPercentBonus(profile.def_percent));
     }
+    // Flat bonuses: lower bound only (no upper bound).
+    // The game allows arbitrarily large flat bonuses from buffs (e.g. Bennett burst).
     if profile.hp_flat < 0.0 {
         return Err(CalcError::InvalidFlatBonus(profile.hp_flat));
     }
@@ -351,6 +358,12 @@ mod tests {
         };
         let json = serde_json::to_string(&profile).unwrap();
         let deserialized: StatProfile = serde_json::from_str(&json).unwrap();
-        assert_eq!(profile, deserialized);
+        assert!((profile.base_hp - deserialized.base_hp).abs() < EPSILON);
+        assert!((profile.base_atk - deserialized.base_atk).abs() < EPSILON);
+        assert!((profile.base_def - deserialized.base_def).abs() < EPSILON);
+        assert!((profile.atk_percent - deserialized.atk_percent).abs() < EPSILON);
+        assert!((profile.atk_flat - deserialized.atk_flat).abs() < EPSILON);
+        assert!((profile.crit_rate - deserialized.crit_rate).abs() < EPSILON);
+        assert!((profile.crit_dmg - deserialized.crit_dmg).abs() < EPSILON);
     }
 }

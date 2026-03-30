@@ -58,6 +58,7 @@ pub const GAME_VERSION: &str = "5.8";
 /// assert_eq!(ganyu.name, "Ganyu");
 /// assert!(find_character("nonexistent").is_none());
 /// ```
+#[must_use]
 pub fn find_character(id: &str) -> Option<&'static CharacterData> {
     characters::all_characters().find(|c| c.id == id).copied()
 }
@@ -73,11 +74,13 @@ pub fn find_character(id: &str) -> Option<&'static CharacterData> {
 /// assert_eq!(weapon.id, "wolfs_gravestone");
 /// assert!(find_weapon("nonexistent").is_none());
 /// ```
+#[must_use]
 pub fn find_weapon(id: &str) -> Option<&'static WeaponData> {
     weapons::ALL_WEAPONS.iter().find(|w| w.id == id).copied()
 }
 
 /// Finds an artifact set by ID (lowercase, e.g. `"crimson_witch_of_flames"`).
+#[must_use]
 pub fn find_artifact_set(id: &str) -> Option<&'static ArtifactSet> {
     artifacts::ALL_ARTIFACT_SETS
         .iter()
@@ -86,16 +89,19 @@ pub fn find_artifact_set(id: &str) -> Option<&'static ArtifactSet> {
 }
 
 /// Finds an enemy by ID (lowercase, e.g. `"hilichurl"`).
+#[must_use]
 pub fn find_enemy(id: &str) -> Option<&'static EnemyData> {
     enemies::ALL_ENEMIES.iter().find(|e| e.id == id).copied()
 }
 
 /// Returns all characters with the given element.
+#[must_use]
 pub fn characters_by_element(element: Element) -> Vec<&'static CharacterData> {
     characters::characters_by_element_slice(element).to_vec()
 }
 
 /// Returns all weapons of the given type.
+#[must_use]
 pub fn weapons_by_type(weapon_type: WeaponType) -> Vec<&'static WeaponData> {
     weapons::ALL_WEAPONS
         .iter()

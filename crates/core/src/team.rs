@@ -32,7 +32,7 @@ pub struct ResolvedBuff {
 }
 
 /// A team member with pre-resolved stats and buffs.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct TeamMember {
     /// Character element.
     pub element: Element,
@@ -47,7 +47,7 @@ pub struct TeamMember {
 }
 
 /// Detailed result of team buff resolution.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct TeamResolveResult {
     /// Stats before team buffs.
     pub base_stats: Stats,

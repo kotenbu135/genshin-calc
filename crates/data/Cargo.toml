@@ -20,4 +20,6 @@ glob = "0.3"
 serde_json = "1"
 
 [lints.clippy]
+# Game data constants may coincidentally match mathematical constants (e.g. PI).
+# These are domain-specific values, not approximations.
 approx_constant = "allow"
