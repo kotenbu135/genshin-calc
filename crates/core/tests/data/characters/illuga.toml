@@ -1,0 +1,70 @@
+# Source: 4-star Geo Polearm, Normal Attack Hit 1 at Talent Lv10
+# Honey Impact: 93.63% ATK
+
+[character]
+name = "Illuga"
+element = "Geo"
+
+# Case 1: Normal Attack Hit 1 — no reaction, physical (element omitted = Physical)
+[[cases]]
+type = "normal"
+name = "Normal Attack Hit 1 Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 0.9363
+scaling_stat = "Atk"
+damage_type = "Normal"
+
+[cases.stats]
+hp = 15000.0
+atk = 2000.0
+def = 800.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.0
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+# non_crit = 2000 * 0.9363 * 1.0 * 0.5 * 0.9 = 842.67
+# crit = 842.67 * (1 + 1.00) = 1685.34
+# average = 842.67 * (1 + 0.50 * 1.00) = 1264.005
+[cases.expected]
+non_crit = 842.670000
+crit = 1685.340000
+average = 1264.005000
+
+# Case 2: Skill Press DMG EM part — Geo, EM scaling
+# Honey Impact Lv10: 868.61% EM
+[[cases]]
+type = "normal"
+name = "Skill Press EM Lv10 — no reaction"
+character_level = 90
+talent_multiplier = 8.6861
+scaling_stat = "Em"
+damage_type = "Skill"
+element = "Geo"
+
+[cases.stats]
+hp = 15000.0
+atk = 800.0
+def = 1500.0
+elemental_mastery = 500.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+# non_crit = 500 * 8.6861 * 1.466 * 0.5 * 0.9 = 2865.110085
+# crit = 2865.110085 * (1 + 1.00) = 5730.220170
+# average = 2865.110085 * (1 + 0.50 * 1.00) = 4297.665128
+[cases.expected]
+non_crit = 2865.110085
+crit = 5730.220170
+average = 4297.665128

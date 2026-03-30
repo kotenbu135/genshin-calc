@@ -138,6 +138,7 @@ pub fn parse_scaling_stat(s: &str) -> ScalingStat {
         "Atk" => ScalingStat::Atk,
         "Hp" => ScalingStat::Hp,
         "Def" => ScalingStat::Def,
+        "Em" => ScalingStat::Em,
         other => panic!("Unknown scaling stat: {other}"),
     }
 }

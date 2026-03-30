@@ -201,10 +201,70 @@ static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     min_constellation: 2,
 }];
 
+// ===== Illuga =====
+// A4 passive "Torchforger's Covenant": CRIT Rate +5%, CRIT DMG +10%, EM +50 (Moonsign)
+// Burst "Shadowless Reflection": Geo DMG Bonus based on burst talent level
+static ILLUGA_BURST_GEO_DMG_SCALING: [f64; 15] = [
+    0.336, 0.3612, 0.3864, 0.42, 0.4452, 0.4704, 0.504, 0.5376, 0.5712, 0.6048, 0.6384, 0.672,
+    0.714, 0.756, 0.798,
+];
+
+static ILLUGA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Torchforger's Covenant - CRIT Rate",
+        description: "After Geo DMG hits opponent, party CRIT Rate +5% for 20s",
+        stat: BuffableStat::CritRate,
+        base_value: 0.05,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Torchforger's Covenant - CRIT DMG",
+        description: "After Geo DMG hits opponent, party CRIT DMG +10% for 20s",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Torchforger's Covenant - EM (Moonsign)",
+        description: "With Moonsign active, party EM +50 for 20s (A4 Ascendant Gleam condition)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 50.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Shadowless Reflection - Geo DMG",
+        description: "During burst, Geo DMG Bonus based on talent level (flat%, not EM-scaled)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&ILLUGA_BURST_GEO_DMG_SCALING),
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+    },
+];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static GEO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("albedo", ALBEDO_BUFFS),
     ("gorou", GOROU_BUFFS),
+    ("illuga", ILLUGA_BUFFS),
     ("ningguang", NINGGUANG_BUFFS),
     ("yun_jin", YUN_JIN_BUFFS),
     ("zhongli", ZHONGLI_BUFFS),
