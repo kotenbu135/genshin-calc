@@ -2,6 +2,7 @@ mod aino;
 mod ayato;
 mod barbara;
 mod candace;
+mod columbina;
 mod dahlia;
 mod furina;
 mod kokomi;
@@ -18,6 +19,7 @@ pub use aino::AINO;
 pub use ayato::AYATO;
 pub use barbara::BARBARA;
 pub use candace::CANDACE;
+pub use columbina::COLUMBINA;
 pub use dahlia::DAHLIA;
 pub use furina::FURINA;
 pub use kokomi::KOKOMI;
@@ -37,6 +39,7 @@ pub const CHARACTERS: &[&CharacterData] = &[
     &AYATO,
     &BARBARA,
     &CANDACE,
+    &COLUMBINA,
     &DAHLIA,
     &FURINA,
     &KOKOMI,
