@@ -813,6 +813,21 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Lauma =====
+// A4 passive "Cleansing for the Spring": Elemental Skill DMG +0.04% per point of EM (max +32% at 800 EM)
+static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Cleansing for the Spring",
+    description: "A4: Elemental Skill DMG +0.04% per point of EM (builder computes EM×0.0004 at resolve time, max +32% at 800 EM)",
+    stat: BuffableStat::SkillDmgBonus,
+    base_value: 0.0, // EM-dependent — builder computes EM×0.0004 at resolve time
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::AscensionPassive,
+    min_constellation: 0,
+}];
+
 /// All character talent buff definitions.
 static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("aino", AINO_BUFFS),
@@ -846,6 +861,7 @@ static ALL_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("jahoda", JAHODA_BUFFS),
     ("nilou", NILOU_BUFFS),
     ("varka", VARKA_BUFFS),
+    ("lauma", LAUMA_BUFFS),
 ];
 
 /// Finds talent buff definitions for a character by ID.

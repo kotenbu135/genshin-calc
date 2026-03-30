@@ -1,0 +1,66 @@
+# Source: Dendro Catalyst, Normal Attack Hit 1
+
+[character]
+name = "Lauma"
+element = "Dendro"
+
+# Case 1: Normal Attack Hit 1 — no reaction
+[[cases]]
+type = "normal"
+name = "Normal Attack Hit 1 — no reaction"
+character_level = 90
+talent_multiplier = 0.606643
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Dendro"
+
+[cases.stats]
+hp = 20000.0
+atk = 1500.0
+def = 700.0
+elemental_mastery = 300.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 600.303581
+crit = 1200.607161
+average = 900.455371
+
+# Case 2: Normal Attack Hit 1 — Spread
+[[cases]]
+type = "catalyze"
+name = "Normal Attack Hit 1 — Spread"
+character_level = 90
+talent_multiplier = 0.606643
+scaling_stat = "Atk"
+damage_type = "Normal"
+element = "Dendro"
+reaction = "Spread"
+reaction_bonus = 0.0
+tolerance = 0.1
+
+[cases.stats]
+hp = 20000.0
+atk = 1500.0
+def = 700.0
+elemental_mastery = 300.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.0
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 2986.526716
+crit = 5973.053431
+average = 4479.790073
