@@ -1,6 +1,15 @@
 mod convert;
 
+use serde::Serialize;
 use wasm_bindgen::prelude::*;
+
+/// Serialize a value to JsValue, with None mapped to null (not undefined).
+fn to_js<T: Serialize>(value: &T) -> Result<JsValue, JsError> {
+    let serializer = serde_wasm_bindgen::Serializer::new().serialize_missing_as_null(true);
+    value
+        .serialize(&serializer)
+        .map_err(|e| JsError::new(&e.to_string()))
+}
 
 /// Initialize panic hook for better error messages in browser console.
 #[wasm_bindgen(start)]
@@ -17,40 +26,40 @@ pub fn game_version() -> String {
 /// Finds a character by ID (lowercase, e.g. "diluc", "hu_tao").
 /// Returns the character data as a JS object, or null if not found.
 #[wasm_bindgen]
-pub fn find_character(id: &str) -> JsValue {
+pub fn find_character(id: &str) -> Result<JsValue, JsError> {
     match genshin_calc_data::find_character(id) {
-        Some(c) => serde_wasm_bindgen::to_value(c).unwrap_or(JsValue::NULL),
-        None => JsValue::NULL,
+        Some(c) => to_js(c),
+        None => Ok(JsValue::NULL),
     }
 }
 
 /// Finds a weapon by ID (lowercase, e.g. "wolfs_gravestone").
 /// Returns the weapon data as a JS object, or null if not found.
 #[wasm_bindgen]
-pub fn find_weapon(id: &str) -> JsValue {
+pub fn find_weapon(id: &str) -> Result<JsValue, JsError> {
     match genshin_calc_data::find_weapon(id) {
-        Some(w) => serde_wasm_bindgen::to_value(w).unwrap_or(JsValue::NULL),
-        None => JsValue::NULL,
+        Some(w) => to_js(w),
+        None => Ok(JsValue::NULL),
     }
 }
 
 /// Finds an artifact set by ID (lowercase, e.g. "crimson_witch").
 /// Returns the artifact set data as a JS object, or null if not found.
 #[wasm_bindgen]
-pub fn find_artifact_set(id: &str) -> JsValue {
+pub fn find_artifact_set(id: &str) -> Result<JsValue, JsError> {
     match genshin_calc_data::find_artifact_set(id) {
-        Some(a) => serde_wasm_bindgen::to_value(a).unwrap_or(JsValue::NULL),
-        None => JsValue::NULL,
+        Some(a) => to_js(a),
+        None => Ok(JsValue::NULL),
     }
 }
 
 /// Finds an enemy by ID (lowercase, e.g. "hilichurl").
 /// Returns the enemy data as a JS object, or null if not found.
 #[wasm_bindgen]
-pub fn find_enemy(id: &str) -> JsValue {
+pub fn find_enemy(id: &str) -> Result<JsValue, JsError> {
     match genshin_calc_data::find_enemy(id) {
-        Some(e) => serde_wasm_bindgen::to_value(e).unwrap_or(JsValue::NULL),
-        None => JsValue::NULL,
+        Some(e) => to_js(e),
+        None => Ok(JsValue::NULL),
     }
 }
 
@@ -60,7 +69,7 @@ pub fn find_enemy(id: &str) -> JsValue {
 pub fn characters_by_element(element: &str) -> Result<JsValue, JsError> {
     let elem = convert::parse_element(element).map_err(|e| JsError::new(&e))?;
     let chars = genshin_calc_data::characters_by_element(elem);
-    serde_wasm_bindgen::to_value(&chars).map_err(|e| JsError::new(&e.to_string()))
+    to_js(&chars)
 }
 
 /// Returns all weapons of the given type.
@@ -69,7 +78,7 @@ pub fn characters_by_element(element: &str) -> Result<JsValue, JsError> {
 pub fn weapons_by_type(weapon_type: &str) -> Result<JsValue, JsError> {
     let wt = convert::parse_weapon_type(weapon_type).map_err(|e| JsError::new(&e))?;
     let weapons = genshin_calc_data::weapons_by_type(wt);
-    serde_wasm_bindgen::to_value(&weapons).map_err(|e| JsError::new(&e.to_string()))
+    to_js(&weapons)
 }
 
 /// Calculates standard damage (ATK/HP/DEF scaling with crit, defense, resistance).
@@ -91,7 +100,7 @@ pub fn calculate_damage(input: JsValue, enemy: JsValue) -> Result<JsValue, JsErr
         .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
     let result = genshin_calc_core::calculate_damage(&input, &enemy)
         .map_err(|e| JsError::new(&e.to_string()))?;
-    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+    to_js(&result)
 }
 
 /// Calculates transformative reaction damage (overloaded, superconduct, swirl, etc.).
@@ -110,7 +119,7 @@ pub fn calculate_transformative(input: JsValue, enemy: JsValue) -> Result<JsValu
         .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
     let result = genshin_calc_core::calculate_transformative(&input, &enemy)
         .map_err(|e| JsError::new(&e.to_string()))?;
-    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+    to_js(&result)
 }
 
 /// Calculates lunar reaction damage (Nod-Krai exclusive crittable reactions).
@@ -129,7 +138,7 @@ pub fn calculate_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsErro
         .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
     let result = genshin_calc_core::calculate_lunar(&input, &enemy)
         .map_err(|e| JsError::new(&e.to_string()))?;
-    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+    to_js(&result)
 }
 
 /// Resolves team buffs and returns final stats for the target member.
@@ -146,7 +155,7 @@ pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue
         .map_err(|e| JsError::new(&format!("Invalid members: {e}")))?;
     let result = genshin_calc_core::resolve_team_stats(&members, target_index as usize)
         .map_err(|e| JsError::new(&e.to_string()))?;
-    serde_wasm_bindgen::to_value(&result).map_err(|e| JsError::new(&e.to_string()))
+    to_js(&result)
 }
 
 #[cfg(test)]

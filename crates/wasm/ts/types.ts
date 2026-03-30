@@ -31,24 +31,30 @@ export type Reaction =
 
 export type BuffTarget = "OnlySelf" | "Team" | "TeamExcludeSelf";
 
+// Object-shaped newtype variants
+type ElementalDmgBonusStat = { ElementalDmgBonus: Element };
+type ElementalResStat = { ElementalRes: Element };
+type ElementalResReductionStat = { ElementalResReduction: Element };
+
 export type BuffableStat =
   | "HpPercent" | "AtkPercent" | "DefPercent"
   | "HpFlat" | "AtkFlat" | "DefFlat"
   | "CritRate" | "CritDmg"
   | "ElementalMastery" | "EnergyRecharge"
   | "DmgBonus"
-  | "NormalDmgBonus" | "ChargedDmgBonus" | "PlungingDmgBonus"
-  | "SkillDmgBonus" | "BurstDmgBonus"
-  | "PyroDmgBonus" | "HydroDmgBonus" | "ElectroDmgBonus"
-  | "CryoDmgBonus" | "AnemoDmgBonus" | "GeoDmgBonus" | "DendroDmgBonus"
+  | ElementalDmgBonusStat
   | "PhysicalDmgBonus"
+  | "NormalAtkDmgBonus" | "ChargedAtkDmgBonus" | "PlungingAtkDmgBonus"
+  | "SkillDmgBonus" | "BurstDmgBonus"
   | "HealingBonus" | "ShieldStrength"
-  | "DefReduction" | "ResistanceReduction"
-  | "DefIgnore"
-  | "AmplifyingBonus" | "TransformativeBonus" | "CatalyzeBonus"
-  | "BaseAtkPercent"
-  | "AllElementalDmgBonus"
-  | "FlatDmg";
+  | "AmplifyingBonus" | "TransformativeBonus" | "AdditiveBonus"
+  | ElementalResStat
+  | ElementalResReductionStat
+  | "PhysicalResReduction"
+  | "DefReduction"
+  | "NormalAtkFlatDmg" | "ChargedAtkFlatDmg" | "PlungingAtkFlatDmg"
+  | "SkillFlatDmg" | "BurstFlatDmg"
+  | "DefPercentRaw";
 
 // === Input/Output Types ===
 

@@ -3,7 +3,7 @@ use genshin_calc_core::{Element, WeaponType};
 /// Parses a lowercase element string to Element enum.
 ///
 /// Accepts: "pyro", "hydro", "electro", "cryo", "anemo", "geo", "dendro"
-pub fn parse_element(s: &str) -> Result<Element, String> {
+pub(crate) fn parse_element(s: &str) -> Result<Element, String> {
     match s {
         "pyro" => Ok(Element::Pyro),
         "hydro" => Ok(Element::Hydro),
@@ -21,7 +21,7 @@ pub fn parse_element(s: &str) -> Result<Element, String> {
 /// Parses a lowercase weapon type string to WeaponType enum.
 ///
 /// Accepts: "sword", "claymore", "polearm", "bow", "catalyst"
-pub fn parse_weapon_type(s: &str) -> Result<WeaponType, String> {
+pub(crate) fn parse_weapon_type(s: &str) -> Result<WeaponType, String> {
     match s {
         "sword" => Ok(WeaponType::Sword),
         "claymore" => Ok(WeaponType::Claymore),
