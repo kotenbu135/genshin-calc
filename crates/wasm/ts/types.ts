@@ -271,6 +271,7 @@ export interface CharacterFullData {
   constellation_pattern: ConstellationPattern;
 }
 
+/** GOOD import用の簡略キャラクターデータ（CharacterBuild.character）。find_character() の戻り値は CharacterFullData を参照 */
 export interface CharacterData {
   id: string;
   name: string;
