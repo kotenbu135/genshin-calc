@@ -95,6 +95,14 @@ pub fn combine_stats(profile: &StatProfile) -> Result<Stats, CalcError> {
         crit_dmg: profile.crit_dmg,
         energy_recharge: profile.energy_recharge,
         dmg_bonus: profile.dmg_bonus,
+        pyro_dmg_bonus: profile.pyro_dmg_bonus,
+        hydro_dmg_bonus: profile.hydro_dmg_bonus,
+        electro_dmg_bonus: profile.electro_dmg_bonus,
+        cryo_dmg_bonus: profile.cryo_dmg_bonus,
+        dendro_dmg_bonus: profile.dendro_dmg_bonus,
+        anemo_dmg_bonus: profile.anemo_dmg_bonus,
+        geo_dmg_bonus: profile.geo_dmg_bonus,
+        physical_dmg_bonus: profile.physical_dmg_bonus,
     })
 }
 

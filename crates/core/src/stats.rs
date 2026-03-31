@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::types::Element;
+
 /// Final character stats used for damage calculation.
 ///
 /// All percentage fields use decimal form (e.g. 75% crit rate = `0.75`).
@@ -21,4 +23,78 @@ pub struct Stats {
     pub energy_recharge: f64,
     /// DMG bonus in decimal form (e.g. 0.466 for Pyro DMG goblet).
     pub dmg_bonus: f64,
+    /// Pyro DMG bonus in decimal form.
+    pub pyro_dmg_bonus: f64,
+    /// Hydro DMG bonus in decimal form.
+    pub hydro_dmg_bonus: f64,
+    /// Electro DMG bonus in decimal form.
+    pub electro_dmg_bonus: f64,
+    /// Cryo DMG bonus in decimal form.
+    pub cryo_dmg_bonus: f64,
+    /// Dendro DMG bonus in decimal form.
+    pub dendro_dmg_bonus: f64,
+    /// Anemo DMG bonus in decimal form.
+    pub anemo_dmg_bonus: f64,
+    /// Geo DMG bonus in decimal form.
+    pub geo_dmg_bonus: f64,
+    /// Physical DMG bonus in decimal form.
+    pub physical_dmg_bonus: f64,
+}
+
+impl Stats {
+    /// Returns the total DMG bonus for the given element.
+    /// `None` means physical damage.
+    pub fn total_dmg_bonus(&self, element: Option<Element>) -> f64 {
+        self.dmg_bonus
+            + match element {
+                Some(Element::Pyro) => self.pyro_dmg_bonus,
+                Some(Element::Hydro) => self.hydro_dmg_bonus,
+                Some(Element::Electro) => self.electro_dmg_bonus,
+                Some(Element::Cryo) => self.cryo_dmg_bonus,
+                Some(Element::Dendro) => self.dendro_dmg_bonus,
+                Some(Element::Anemo) => self.anemo_dmg_bonus,
+                Some(Element::Geo) => self.geo_dmg_bonus,
+                None => self.physical_dmg_bonus,
+            }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::types::Element;
+
+    #[test]
+    fn total_dmg_bonus_pyro() {
+        let stats = Stats {
+            dmg_bonus: 0.10,
+            pyro_dmg_bonus: 0.466,
+            ..Default::default()
+        };
+        let result = stats.total_dmg_bonus(Some(Element::Pyro));
+        assert!((result - 0.566).abs() < 1e-10);
+    }
+
+    #[test]
+    fn total_dmg_bonus_physical() {
+        let stats = Stats {
+            dmg_bonus: 0.10,
+            physical_dmg_bonus: 0.583,
+            ..Default::default()
+        };
+        let result = stats.total_dmg_bonus(None);
+        assert!((result - 0.683).abs() < 1e-10);
+    }
+
+    #[test]
+    fn total_dmg_bonus_no_element_bonus() {
+        let stats = Stats {
+            dmg_bonus: 0.15,
+            pyro_dmg_bonus: 0.466,
+            ..Default::default()
+        };
+        // Hydro damage should NOT include Pyro bonus
+        let result = stats.total_dmg_bonus(Some(Element::Hydro));
+        assert!((result - 0.15).abs() < 1e-10);
+    }
 }
