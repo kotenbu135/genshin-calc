@@ -177,6 +177,14 @@ impl TeamMemberBuilder {
         profile.crit_dmg += self.artifact_stats.crit_dmg;
         profile.energy_recharge += self.artifact_stats.energy_recharge;
         profile.dmg_bonus += self.artifact_stats.dmg_bonus;
+        profile.pyro_dmg_bonus += self.artifact_stats.pyro_dmg_bonus;
+        profile.hydro_dmg_bonus += self.artifact_stats.hydro_dmg_bonus;
+        profile.electro_dmg_bonus += self.artifact_stats.electro_dmg_bonus;
+        profile.cryo_dmg_bonus += self.artifact_stats.cryo_dmg_bonus;
+        profile.dendro_dmg_bonus += self.artifact_stats.dendro_dmg_bonus;
+        profile.anemo_dmg_bonus += self.artifact_stats.anemo_dmg_bonus;
+        profile.geo_dmg_bonus += self.artifact_stats.geo_dmg_bonus;
+        profile.physical_dmg_bonus += self.artifact_stats.physical_dmg_bonus;
     }
 
     fn build_base_profile(&self) -> StatProfile {
@@ -402,7 +410,7 @@ fn resolve_value(value: f64, refinement_values: Option<[f64; 5]>, refinement: u8
     }
 }
 
-fn apply_ascension_stat(profile: &mut StatProfile, stat: &AscensionStat) {
+pub fn apply_ascension_stat(profile: &mut StatProfile, stat: &AscensionStat) {
     match stat {
         AscensionStat::Hp(v) => profile.hp_percent += v,
         AscensionStat::Atk(v) => profile.atk_percent += v,
@@ -411,8 +419,16 @@ fn apply_ascension_stat(profile: &mut StatProfile, stat: &AscensionStat) {
         AscensionStat::CritDmg(v) => profile.crit_dmg += v,
         AscensionStat::ElementalMastery(v) => profile.elemental_mastery += v,
         AscensionStat::EnergyRecharge(v) => profile.energy_recharge += v,
-        AscensionStat::ElementalDmgBonus(_, v) => profile.dmg_bonus += v,
-        AscensionStat::PhysicalDmgBonus(v) => profile.dmg_bonus += v,
+        AscensionStat::ElementalDmgBonus(elem, v) => match elem {
+            Element::Pyro => profile.pyro_dmg_bonus += v,
+            Element::Hydro => profile.hydro_dmg_bonus += v,
+            Element::Electro => profile.electro_dmg_bonus += v,
+            Element::Cryo => profile.cryo_dmg_bonus += v,
+            Element::Dendro => profile.dendro_dmg_bonus += v,
+            Element::Anemo => profile.anemo_dmg_bonus += v,
+            Element::Geo => profile.geo_dmg_bonus += v,
+        },
+        AscensionStat::PhysicalDmgBonus(v) => profile.physical_dmg_bonus += v,
         AscensionStat::HealingBonus(_) => {} // No effect on damage calculation
     }
 }
@@ -599,7 +615,7 @@ fn eval_manual(
     }
 }
 
-fn apply_weapon_sub_stat(profile: &mut StatProfile, sub: &WeaponSubStat) {
+pub fn apply_weapon_sub_stat(profile: &mut StatProfile, sub: &WeaponSubStat) {
     // Lv90 = index 3
     match sub {
         WeaponSubStat::HpPercent(v) => profile.hp_percent += v[3],
@@ -609,7 +625,7 @@ fn apply_weapon_sub_stat(profile: &mut StatProfile, sub: &WeaponSubStat) {
         WeaponSubStat::CritDmg(v) => profile.crit_dmg += v[3],
         WeaponSubStat::ElementalMastery(v) => profile.elemental_mastery += v[3],
         WeaponSubStat::EnergyRecharge(v) => profile.energy_recharge += v[3],
-        WeaponSubStat::PhysicalDmgBonus(v) => profile.dmg_bonus += v[3],
+        WeaponSubStat::PhysicalDmgBonus(v) => profile.physical_dmg_bonus += v[3],
     }
 }
 
