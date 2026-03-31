@@ -1,0 +1,101 @@
+{
+  "format": "GOOD",
+  "source": "TestScanner",
+  "version": 2,
+  "characters": [
+    {
+      "key": "HuTao",
+      "level": 90,
+      "constellation": 1,
+      "ascension": 6,
+      "talent": { "auto": 10, "skill": 10, "burst": 8 }
+    }
+  ],
+  "weapons": [
+    {
+      "key": "StaffOfHoma",
+      "level": 90,
+      "ascension": 6,
+      "refinement": 1,
+      "location": "HuTao",
+      "lock": true
+    }
+  ],
+  "artifacts": [
+    {
+      "setKey": "CrimsonWitchOfFlames",
+      "slotKey": "flower",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "hp",
+      "location": "HuTao",
+      "lock": false,
+      "substats": [
+        { "key": "critRate_", "value": 10.5 },
+        { "key": "critDMG_", "value": 21.0 },
+        { "key": "atk_", "value": 5.8 },
+        { "key": "eleMas", "value": 23 }
+      ]
+    },
+    {
+      "setKey": "CrimsonWitchOfFlames",
+      "slotKey": "plume",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "atk",
+      "location": "HuTao",
+      "lock": false,
+      "substats": [
+        { "key": "hp_", "value": 9.9 },
+        { "key": "critDMG_", "value": 14.8 },
+        { "key": "eleMas", "value": 40 },
+        { "key": "enerRech_", "value": 6.5 }
+      ]
+    },
+    {
+      "setKey": "CrimsonWitchOfFlames",
+      "slotKey": "sands",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "hp_",
+      "location": "HuTao",
+      "lock": false,
+      "substats": [
+        { "key": "critRate_", "value": 6.2 },
+        { "key": "critDMG_", "value": 13.2 },
+        { "key": "atk_", "value": 4.1 },
+        { "key": "def", "value": 37 }
+      ]
+    },
+    {
+      "setKey": "CrimsonWitchOfFlames",
+      "slotKey": "goblet",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "pyro_dmg_",
+      "location": "HuTao",
+      "lock": false,
+      "substats": [
+        { "key": "hp_", "value": 14.0 },
+        { "key": "critRate_", "value": 3.5 },
+        { "key": "critDMG_", "value": 7.8 },
+        { "key": "atk", "value": 33 }
+      ]
+    },
+    {
+      "setKey": "CrimsonWitchOfFlames",
+      "slotKey": "circlet",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "critDMG_",
+      "location": "HuTao",
+      "lock": false,
+      "substats": [
+        { "key": "hp_", "value": 11.7 },
+        { "key": "critRate_", "value": 7.4 },
+        { "key": "atk_", "value": 5.3 },
+        { "key": "def_", "value": 7.3 }
+      ]
+    }
+  ]
+}
