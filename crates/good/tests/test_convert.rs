@@ -1,7 +1,5 @@
 use genshin_calc_good::import_good;
 
-const EPS: f64 = 1e-4;
-
 #[test]
 fn import_minimal_hu_tao() {
     let json = include_str!("data/minimal.json");
@@ -84,4 +82,66 @@ fn empty_good_returns_empty_builds() {
     let result = import_good(json).unwrap();
     assert!(result.builds.is_empty());
     assert!(result.warnings.is_empty());
+}
+
+#[test]
+fn two_piece_two_piece_sets() {
+    let json = include_str!("data/two_piece_two_piece.json");
+    let result = import_good(json).unwrap();
+    let build = &result.builds[0];
+
+    // Emblem 3pc + Gladiator 2pc → both qualify for 2pc
+    assert_eq!(build.artifacts.sets.len(), 2);
+    assert!(build.artifacts.four_piece_set.is_none());
+
+    let set_ids: Vec<&str> = build.artifacts.sets.iter().map(|s| s.id).collect();
+    assert!(set_ids.contains(&"emblem_of_severed_fate"));
+    assert!(set_ids.contains(&"gladiators_finale"));
+
+    // Emblem 2pc: ER+20% (0.20) pre-merged into stats
+    // Gladiator 2pc: ATK+18% (0.18) pre-merged into stats
+    // enerRech_ subs: 5+10+5+5 = 25% → 0.25
+    // sands main enerRech_: 51.8% → 0.518
+    // total enerRech_ = 0.25 + 0.518 + 0.20(emblem 2pc) = 0.968
+    assert!((build.artifacts.stats.energy_recharge - 0.968).abs() < 0.02);
+
+    // atk_percent subs: 5+5+5+5 = 20% → 0.20
+    // + gladiator 2pc 0.18 = 0.38
+    assert!((build.artifacts.stats.atk_percent - 0.38).abs() < 0.01);
+}
+
+#[test]
+fn partial_build_no_weapon() {
+    let json = r#"{
+        "format": "GOOD", "source": "Test", "version": 1,
+        "characters": [
+            { "key": "Xiangling", "level": 80, "constellation": 0, "ascension": 5,
+              "talent": { "auto": 1, "skill": 1, "burst": 1 } }
+        ]
+    }"#;
+    let result = import_good(json).unwrap();
+    assert_eq!(result.builds.len(), 1);
+    assert!(result.builds[0].weapon.is_none());
+    assert!(result.builds[0].artifacts.sets.is_empty());
+}
+
+#[test]
+fn element_mismatch_goblet_warning() {
+    let json = r#"{
+        "format": "GOOD", "source": "Test", "version": 1,
+        "characters": [
+            { "key": "Xiangling", "level": 90, "constellation": 0, "ascension": 6,
+              "talent": { "auto": 1, "skill": 1, "burst": 1 } }
+        ],
+        "artifacts": [
+            {
+                "setKey": "GladiatorsFinale", "slotKey": "goblet",
+                "level": 20, "rarity": 5, "mainStatKey": "hydro_dmg_",
+                "location": "Xiangling", "lock": false, "substats": []
+            }
+        ]
+    }"#;
+    let result = import_good(json).unwrap();
+    assert!(!result.warnings.is_empty());
+    assert!((result.builds[0].artifacts.stats.dmg_bonus).abs() < 0.001);
 }

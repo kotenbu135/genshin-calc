@@ -1,0 +1,101 @@
+{
+  "format": "GOOD",
+  "source": "Test",
+  "version": 2,
+  "characters": [
+    {
+      "key": "Xiangling",
+      "level": 90,
+      "constellation": 6,
+      "ascension": 6,
+      "talent": { "auto": 6, "skill": 9, "burst": 12 }
+    }
+  ],
+  "weapons": [
+    {
+      "key": "TheCatch",
+      "level": 90,
+      "ascension": 6,
+      "refinement": 5,
+      "location": "Xiangling",
+      "lock": true
+    }
+  ],
+  "artifacts": [
+    {
+      "setKey": "EmblemOfSeveredFate",
+      "slotKey": "flower",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "hp",
+      "location": "Xiangling",
+      "lock": false,
+      "substats": [
+        { "key": "critRate_", "value": 7.0 },
+        { "key": "critDMG_", "value": 14.0 },
+        { "key": "atk_", "value": 5.0 },
+        { "key": "enerRech_", "value": 5.0 }
+      ]
+    },
+    {
+      "setKey": "EmblemOfSeveredFate",
+      "slotKey": "plume",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "atk",
+      "location": "Xiangling",
+      "lock": false,
+      "substats": [
+        { "key": "critRate_", "value": 7.0 },
+        { "key": "critDMG_", "value": 14.0 },
+        { "key": "enerRech_", "value": 10.0 },
+        { "key": "hp_", "value": 5.0 }
+      ]
+    },
+    {
+      "setKey": "GladiatorsFinale",
+      "slotKey": "sands",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "enerRech_",
+      "location": "Xiangling",
+      "lock": false,
+      "substats": [
+        { "key": "critRate_", "value": 7.0 },
+        { "key": "critDMG_", "value": 14.0 },
+        { "key": "atk_", "value": 5.0 },
+        { "key": "hp", "value": 500 }
+      ]
+    },
+    {
+      "setKey": "GladiatorsFinale",
+      "slotKey": "goblet",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "pyro_dmg_",
+      "location": "Xiangling",
+      "lock": false,
+      "substats": [
+        { "key": "critRate_", "value": 7.0 },
+        { "key": "critDMG_", "value": 14.0 },
+        { "key": "atk_", "value": 5.0 },
+        { "key": "enerRech_", "value": 5.0 }
+      ]
+    },
+    {
+      "setKey": "EmblemOfSeveredFate",
+      "slotKey": "circlet",
+      "level": 20,
+      "rarity": 5,
+      "mainStatKey": "critRate_",
+      "location": "Xiangling",
+      "lock": false,
+      "substats": [
+        { "key": "critDMG_", "value": 14.0 },
+        { "key": "atk_", "value": 5.0 },
+        { "key": "enerRech_", "value": 5.0 },
+        { "key": "hp", "value": 500 }
+      ]
+    }
+  ]
+}
