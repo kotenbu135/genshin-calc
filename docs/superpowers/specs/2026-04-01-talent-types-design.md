@@ -6,21 +6,39 @@
 
 ## 背景
 
-`find_character()` WASM関数はRust側の `CharacterData`（`TalentSet` 含む）をフルにシリアライズして返す。しかし `types.ts` の `CharacterData` インターフェースにはタレントデータの型定義がなく、UI開発者が戻り値の構造を把握しにくい。
+`find_character()` WASM関数はRust側の `CharacterData`（`TalentSet` 含む）をフルにシリアライズして返す。しかし `types.ts` の `CharacterData` インターフェースはGOOD import用の簡略版であり、`find_character()` の戻り値とはフィールド構成が異なる。タレントデータの型定義もなく、UI開発者が戻り値の構造を把握しにくい。
 
 Rust側の `NormalAttackData` は既に `hits`（通常攻撃）、`charged`（重撃）、`plunging`（落下攻撃）を別配列で保持しており、`DamageType` との対応は構造的に明確。問題はTS型定義の不足のみ。
 
+## 既存 `CharacterData` との型不一致
+
+既存の `types.ts` の `CharacterData` はGOOD import経由（`CharacterBuild.character`）で使用される簡略版。`find_character()` が返すフルのRust `CharacterData` とは以下のフィールドが異なる:
+
+| フィールド | 既存TS型 | Rust型（find_character戻り値） |
+|-----------|---------|-------------------------------|
+| `rarity` | `number` | `Rarity` enum (`"Star1"` ... `"Star5"`) |
+| `base_hp` | `number` | `[number, number, number, number]`（突破段階別） |
+| `base_atk` | `number` | `[number, number, number, number]` |
+| `base_def` | `number` | `[number, number, number, number]` |
+| `ascension_stat` | `string` | `AscensionStat`（タグ付きunion） |
+| `region` | なし | `Region` enum |
+| `constellation_pattern` | なし | `ConstellationPattern` enum |
+| `talents` | なし | `TalentSet` |
+
 ## 設計
+
+### 方針
+
+既存の `CharacterData`（GOOD import用）はそのまま維持し、`find_character()` の戻り値用に新インターフェース `CharacterFullData` を導入する。
 
 ### 追加する型
 
 `types.ts` に以下のインターフェースを追加する。
 
-#### TalentScaling
-
-個別のスケーリング項目（1段ダメージ、重撃ダメージ等）。
+#### タレント関連型
 
 ```typescript
+/** 個別のスケーリング項目（1段ダメージ、重撃ダメージ等） */
 export interface TalentScaling {
   /** スケーリング名（例: "1段ダメージ"） */
   name: string;
@@ -31,15 +49,13 @@ export interface TalentScaling {
   /** 天賦Lv1-15の倍率値 */
   values: number[];
 }
-```
 
-Rust側の `TalentScaling` と1:1対応。`&'static str` → `string`、`Option<Element>` → `Element | null`、`[f64; 15]` → `number[]`。
-
-#### NormalAttackData
-
-通常攻撃データ。各配列が `DamageType` に対応する。
-
-```typescript
+/**
+ * 通常攻撃データ。各配列が DamageType に対応:
+ * - hits → "Normal"
+ * - charged → "Charged"
+ * - plunging → "Plunging"
+ */
 export interface NormalAttackData {
   /** 攻撃名（例: "往生秘伝槍法"） */
   name: string;
@@ -50,28 +66,16 @@ export interface NormalAttackData {
   /** 落下攻撃（DamageType: "Plunging"） */
   plunging: TalentScaling[];
 }
-```
 
-JSDocコメントで各配列と `DamageType` の対応を明記。
-
-#### TalentData
-
-元素スキル/元素爆発データ。
-
-```typescript
+/** 元素スキル/元素爆発データ */
 export interface TalentData {
   /** 天賦名（例: "蝶導来世"） */
   name: string;
   /** スケーリング項目 */
   scalings: TalentScaling[];
 }
-```
 
-#### TalentSet
-
-キャラクターの天賦セット。
-
-```typescript
+/** キャラクターの天賦セット */
 export interface TalentSet {
   /** 通常攻撃（DamageType: "Normal" / "Charged" / "Plunging"） */
   normal_attack: NormalAttackData;
@@ -82,29 +86,74 @@ export interface TalentSet {
 }
 ```
 
-### CharacterData の変更
+Rust型との対応: `&'static str` → `string`、`Option<Element>` → `Element | null`、`[f64; 15]` → `number[]`。
 
-既存の `CharacterData` インターフェースに `talents` フィールドを追加。
+#### キャラクター関連型
 
 ```typescript
-export interface CharacterData {
-  // ... 既存フィールド（変更なし） ...
+export type Rarity = "Star1" | "Star2" | "Star3" | "Star4" | "Star5";
+
+export type Region =
+  | "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru"
+  | "Fontaine" | "Natlan" | "Snezhnaya" | "NodKrai" | "Other";
+
+export type ConstellationPattern = "C3SkillC5Burst" | "C3BurstC5Skill";
+
+/** AscensionStat: serdeタグ付きunion。例: { "CritDmg": 0.384 }, { "ElementalDmgBonus": ["Pyro", 0.288] } */
+export type AscensionStat =
+  | { Hp: number }
+  | { Atk: number }
+  | { Def: number }
+  | { CritRate: number }
+  | { CritDmg: number }
+  | { ElementalMastery: number }
+  | { EnergyRecharge: number }
+  | { ElementalDmgBonus: [Element, number] }
+  | { PhysicalDmgBonus: number }
+  | { HealingBonus: number };
+```
+
+#### CharacterFullData
+
+`find_character()` の戻り値を正確に型付けする新インターフェース。
+
+```typescript
+/** find_character() の戻り値。フルのキャラクターデータ */
+export interface CharacterFullData {
+  id: string;
+  name: string;
+  element: Element;
+  weapon_type: WeaponType;
+  rarity: Rarity;
+  region: Region;
+  /** 基礎HP [Lv1, Lv20, Lv80, Lv90] */
+  base_hp: [number, number, number, number];
+  /** 基礎攻撃力 [Lv1, Lv20, Lv80, Lv90] */
+  base_atk: [number, number, number, number];
+  /** 基礎防御力 [Lv1, Lv20, Lv80, Lv90] */
+  base_def: [number, number, number, number];
+  ascension_stat: AscensionStat;
   talents: TalentSet;
+  constellation_pattern: ConstellationPattern;
 }
 ```
+
+### 既存型への変更
+
+既存の `CharacterData` インターフェースは変更しない。GOOD import用の簡略版としてそのまま維持。
 
 ## 変更対象
 
 | ファイル | 変更内容 |
 |---------|---------|
-| `crates/wasm/ts/types.ts` | `TalentScaling`, `NormalAttackData`, `TalentData`, `TalentSet` 追加、`CharacterData` に `talents` 追加 |
+| `crates/wasm/ts/types.ts` | `TalentScaling`, `NormalAttackData`, `TalentData`, `TalentSet`, `Rarity`, `Region`, `ConstellationPattern`, `AscensionStat`, `CharacterFullData` を追加 |
 
 ## 変更しないもの
 
-- Rust側の型定義（`crates/data/src/types.ts`）
+- Rust側の型定義（`crates/data/src/types.rs`）
 - Rust側のキャラクターデータ
 - WASM関数（`find_character()` 等）
-- 既存のTS型（`DamageType`, `ScalingStat`, `Element` 等）
+- 既存のTS型（`CharacterData`, `DamageType`, `ScalingStat`, `Element` 等）
 
 ## Rust型との対応表
 
@@ -114,15 +163,20 @@ export interface CharacterData {
 | `NormalAttackData` | `NormalAttackData` |
 | `TalentData` | `TalentData` |
 | `TalentSet` | `TalentSet` |
-| `CharacterData.talents` | `CharacterData.talents` |
+| `Rarity` | `Rarity` |
+| `Region` | `Region` |
+| `ConstellationPattern` | `ConstellationPattern` |
+| `AscensionStat` | `AscensionStat` |
+| `CharacterData`（フル） | `CharacterFullData` |
+| `CharacterData`（GOOD import簡略版） | `CharacterData`（既存、変更なし） |
 
 ## UI側での使用例
 
 ```typescript
 import { find_character, calculate_damage } from "genshin-calc-wasm";
-import type { CharacterData, DamageType } from "genshin-calc-wasm/types";
+import type { CharacterFullData, DamageType } from "genshin-calc-wasm/types";
 
-const character: CharacterData = find_character("hu_tao");
+const character: CharacterFullData = find_character("hu_tao");
 
 // 通常攻撃1段目 → DamageType: "Normal"
 const hit1 = character.talents.normal_attack.hits[0];
