@@ -39,6 +39,22 @@ pub struct StatProfile {
     pub energy_recharge: f64,
     /// DMG bonus in decimal form.
     pub dmg_bonus: f64,
+    /// Pyro DMG bonus in decimal form.
+    pub pyro_dmg_bonus: f64,
+    /// Hydro DMG bonus in decimal form.
+    pub hydro_dmg_bonus: f64,
+    /// Electro DMG bonus in decimal form.
+    pub electro_dmg_bonus: f64,
+    /// Cryo DMG bonus in decimal form.
+    pub cryo_dmg_bonus: f64,
+    /// Dendro DMG bonus in decimal form.
+    pub dendro_dmg_bonus: f64,
+    /// Anemo DMG bonus in decimal form.
+    pub anemo_dmg_bonus: f64,
+    /// Geo DMG bonus in decimal form.
+    pub geo_dmg_bonus: f64,
+    /// Physical DMG bonus in decimal form.
+    pub physical_dmg_bonus: f64,
 }
 
 /// Combines a [`StatProfile`] into final [`Stats`].
@@ -134,6 +150,30 @@ fn validate(profile: &StatProfile) -> Result<(), CalcError> {
     if profile.dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.dmg_bonus));
     }
+    if profile.pyro_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.pyro_dmg_bonus));
+    }
+    if profile.hydro_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.hydro_dmg_bonus));
+    }
+    if profile.electro_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.electro_dmg_bonus));
+    }
+    if profile.cryo_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.cryo_dmg_bonus));
+    }
+    if profile.dendro_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.dendro_dmg_bonus));
+    }
+    if profile.anemo_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.anemo_dmg_bonus));
+    }
+    if profile.geo_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.geo_dmg_bonus));
+    }
+    if profile.physical_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.physical_dmg_bonus));
+    }
     Ok(())
 }
 
@@ -160,6 +200,7 @@ mod tests {
             crit_dmg: 1.0,
             energy_recharge: 1.2,
             dmg_bonus: 0.466,
+            ..Default::default()
         };
         let stats = combine_stats(&profile).unwrap();
         // final_hp  = 10000 × 1.466 + 4780 = 19440.0
@@ -352,6 +393,7 @@ mod tests {
             crit_dmg: 1.244,
             energy_recharge: 1.0,
             dmg_bonus: 0.466,
+            ..Default::default()
         };
         let stats = combine_stats(&profile).unwrap();
         // final_atk = 674 × 1.466 + 311 = 988.084 + 311 = 1299.084
