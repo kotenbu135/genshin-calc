@@ -121,6 +121,9 @@ GOOD形式のPascalCaseキーを内部のsnake_caseに変換する。
 | `"HuTao"` | `"hu_tao"` | `"hu_tao"` | ✓ |
 | `"KamisatoAyaka"` | `"kamisato_ayaka"` | `"kamisato_ayaka"` | ✓ |
 | `"WolfsGravestone"` | `"wolfs_gravestone"` | `"wolfs_gravestone"` | ✓ |
+| `"TravelerAnemo"` | `"traveler_anemo"` | `"traveler_anemo"` | ✓ |
+
+**旅人の扱い:** GOODは元素別キー（`"TravelerAnemo"`, `"TravelerDendro"` 等）を使用する。snake_case変換で内部IDと一致する。data crateに未実装の旅人バリアントは `UnknownCharacter` warningになる。
 
 **例外テーブル（自動変換で不一致のもの）:**
 
@@ -194,6 +197,7 @@ static ARTIFACT_ALIASES: &[(&str, &str)] = &[
 
 ```rust
 /// GOODインポートの結果
+#[derive(Debug, Clone, Serialize)]
 pub struct GoodImport {
     pub source: String,
     pub version: u8,
@@ -202,33 +206,52 @@ pub struct GoodImport {
 }
 
 /// 1キャラ分のビルド（キャラ+武器+聖遺物がセット）
+#[derive(Debug, Clone, Serialize)]
 pub struct CharacterBuild {
     pub character: &'static CharacterData,
     pub level: u32,
+    pub ascension: u8,            // 0-6（突破段階）
     pub constellation: u8,
     pub talent_levels: [u8; 3],   // [auto, skill, burst]
     pub weapon: Option<WeaponBuild>,
     pub artifacts: ArtifactsBuild,
 }
 
+#[derive(Debug, Clone, Serialize)]
 pub struct WeaponBuild {
     pub weapon: &'static WeaponData,
     pub level: u32,
     pub refinement: u8,
 }
 
+#[derive(Debug, Clone, Serialize)]
 pub struct ArtifactsBuild {
-    pub set: Option<&'static ArtifactSet>,  // 検出された4pcまたは2pcセット
-    pub stats: StatProfile,                  // 聖遺物全体の集計ステータス
+    pub sets: Vec<&'static ArtifactSet>,            // 検出されたセット（情報参照用）
+    pub four_piece_set: Option<&'static ArtifactSet>, // 4pcセット（あれば）
+    pub stats: StatProfile,                          // 聖遺物全体の集計ステータス
 }
 ```
 
+**`&'static`参照を含む型は`Serialize`のみ（`Deserialize`なし）。** プロジェクト規約に準拠。
+
 ### 聖遺物セット検出
 
-装備中の5個の聖遺物から最多セットを自動検出:
-- 同一セット4個以上 → 4pcセットとして認識
-- 同一セット2個以上 → 2pcセットとして認識
-- 4pcが存在すれば4pc優先
+装備中の5個の聖遺物から有効セットを自動検出し、`sets: Vec` に格納:
+- 同一セット4個以上 → 4pcセット1つ（`sets.len() == 1`）
+- 同一セット2個 × 2種 → 2pcセット2つ（`sets.len() == 2`）
+- 同一セット2個 × 1種 → 2pcセット1つ（`sets.len() == 1`）
+- 条件を満たすセットなし → 空（`sets.len() == 0`）
+
+### 聖遺物セットバフの適用方針
+
+`TeamMemberBuilder::artifact_set()` は1セットのみ受け付けるため、セット効果の適用方法はケースで異なる:
+
+- **4pc**: `four_piece_set` にセットを格納。`artifact_set()` に渡す（2pc + 4pc の両効果が適用される。4pc conditional も利用可能）。2pcバフは `stats` に合算しない（`artifact_set()` が適用するため）
+- **2pc + 2pc**: 両セットの2pcバフ（静的StatBuff）を `stats: StatProfile` に事前合算する。`four_piece_set` は `None`。2pc効果はすべて静的バフ（conditional_buffs なし）のため、StatProfile への合算で正確に表現できる
+- **2pc のみ**: 同上、`stats` に合算。`four_piece_set` は `None`
+
+`ArtifactsBuild.sets` はどのケースでも検出されたセット情報を保持する（情報参照用）。
+`ArtifactsBuild.four_piece_set` は4pcセットが検出された場合のみ値を持つ。
 
 ## 公開API
 
@@ -237,7 +260,8 @@ pub struct ArtifactsBuild {
 pub fn import_good(json: &str) -> Result<GoodImport, GoodError>;
 
 /// 既にデシリアライズ済みのGoodFormatから変換
-pub fn convert_good(good: GoodFormat) -> GoodImport;
+/// format/versionの検証も行う
+pub fn convert_good(good: GoodFormat) -> Result<GoodImport, GoodError>;
 ```
 
 ### 使用例
@@ -247,19 +271,19 @@ let json = std::fs::read_to_string("good_export.json")?;
 let import = genshin_calc_good::import_good(&json)?;
 
 for build in &import.builds {
-    let mut builder = TeamMemberBuilder::new(
-        build.character,
-        build.weapon.as_ref().map(|w| w.weapon).unwrap_or(default_weapon),
-    );
-    builder
+    let weapon = build.weapon.as_ref().map(|w| w.weapon).unwrap_or(default_weapon);
+    // artifact_stats には聖遺物のメイン/サブステ + 2pcセットバフが合算済み
+    let mut builder = TeamMemberBuilder::new(build.character, weapon)
         .constellation(build.constellation)
         .talent_levels(build.talent_levels)
         .artifact_stats(build.artifacts.stats.clone());
-    if let Some(set) = build.artifacts.set {
-        builder.artifact_set(set);
+    // 4pcセットのみ artifact_set() に渡す（2pc+4pc効果 + conditional）
+    // 2pc/2pc+2pc の場合は既に stats に合算済みなので不要
+    if let Some(set) = build.artifacts.four_piece_set {
+        builder = builder.artifact_set(set);
     }
     if let Some(ref wb) = build.weapon {
-        builder.refinement(wb.refinement);
+        builder = builder.refinement(wb.refinement);
     }
 }
 ```
@@ -284,7 +308,7 @@ pub enum GoodError {
     UnsupportedVersion(u8),
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub enum ImportWarning {
     UnknownCharacter(String),
     UnknownWeapon(String),
