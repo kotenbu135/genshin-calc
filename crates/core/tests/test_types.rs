@@ -190,6 +190,7 @@ pub fn to_stats(data: &StatsData) -> Stats {
         crit_dmg: data.crit_dmg,
         energy_recharge: data.energy_recharge,
         dmg_bonus: data.dmg_bonus,
+        ..Default::default()
     }
 }
 

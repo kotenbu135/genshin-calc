@@ -49,8 +49,8 @@ fn artifact_stats_aggregation() {
     assert!((stats.crit_rate - 0.276).abs() < 0.01);
     // crit_dmg: circlet main(0.622) + flower sub(0.210) + plume sub(0.148) + sands sub(0.132) + goblet sub(0.078)
     assert!((stats.crit_dmg - 1.19).abs() < 0.01);
-    // dmg_bonus: goblet main pyro 0.466 (HuTao = Pyro, matches)
-    assert!((stats.dmg_bonus - 0.466).abs() < 0.01);
+    // pyro_dmg_bonus: goblet main pyro 0.466
+    assert!((stats.pyro_dmg_bonus - 0.466).abs() < 0.01);
     // def_flat: sands sub(37)
     assert!((stats.def_flat - 37.0).abs() < 1.0);
 }
@@ -126,7 +126,10 @@ fn partial_build_no_weapon() {
 }
 
 #[test]
-fn element_mismatch_goblet_warning() {
+fn off_element_goblet_stored_in_per_element_field() {
+    // Xiangling is Pyro but equipped with a hydro goblet.
+    // The hydro DMG bonus should be stored in hydro_dmg_bonus (not filtered out),
+    // and no ElementMismatchGoblet warning should be emitted.
     let json = r#"{
         "format": "GOOD", "source": "Test", "version": 1,
         "characters": [
@@ -142,6 +145,13 @@ fn element_mismatch_goblet_warning() {
         ]
     }"#;
     let result = import_good(json).unwrap();
-    assert!(!result.warnings.is_empty());
+    assert!(
+        result.warnings.is_empty(),
+        "unexpected warnings: {:?}",
+        result.warnings
+    );
+    // hydro DMG stored in its own field (~0.466 at lv20 5★)
+    assert!((result.builds[0].artifacts.stats.hydro_dmg_bonus - 0.466).abs() < 0.01);
+    // dmg_bonus (generic) unaffected
     assert!((result.builds[0].artifacts.stats.dmg_bonus).abs() < 0.001);
 }

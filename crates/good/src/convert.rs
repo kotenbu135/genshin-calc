@@ -122,20 +122,7 @@ fn build_artifacts(
             if let stat_map::StatConvertResult::Converted(field, converted) =
                 stat_map::convert_stat(&art.main_stat_key, main_value)
             {
-                let added = stat_map::add_to_profile(
-                    &mut stats,
-                    &field,
-                    converted,
-                    Some(character.element),
-                );
-                if !added {
-                    if let stat_map::StatField::ElementalDmgBonus(elem) = &field {
-                        warnings.push(ImportWarning::ElementMismatchGoblet {
-                            character: character.id.to_string(),
-                            goblet_element: elem.to_string(),
-                        });
-                    }
-                }
+                stat_map::add_to_profile(&mut stats, &field, converted);
             }
         }
 
@@ -146,12 +133,7 @@ fn build_artifacts(
             }
             match stat_map::convert_stat(&sub.key, sub.value) {
                 stat_map::StatConvertResult::Converted(field, converted) => {
-                    stat_map::add_to_profile(
-                        &mut stats,
-                        &field,
-                        converted,
-                        Some(character.element),
-                    );
+                    stat_map::add_to_profile(&mut stats, &field, converted);
                 }
                 stat_map::StatConvertResult::Skip => {}
                 stat_map::StatConvertResult::Unknown => {
@@ -200,10 +182,10 @@ fn detect_sets(
 
 fn apply_two_piece_buffs(
     set: &'static ArtifactSet,
-    character: &'static CharacterData,
+    _character: &'static CharacterData,
     stats: &mut StatProfile,
 ) {
-    use genshin_calc_core::BuffableStat;
+    use genshin_calc_core::{BuffableStat, Element};
 
     for buff in set.two_piece.buffs {
         match buff.stat {
@@ -218,12 +200,16 @@ fn apply_two_piece_buffs(
             BuffableStat::CritRate => stats.crit_rate += buff.value,
             BuffableStat::CritDmg => stats.crit_dmg += buff.value,
             BuffableStat::DmgBonus => stats.dmg_bonus += buff.value,
-            BuffableStat::ElementalDmgBonus(elem) => {
-                if elem == character.element {
-                    stats.dmg_bonus += buff.value;
-                }
-            }
-            BuffableStat::PhysicalDmgBonus => stats.dmg_bonus += buff.value,
+            BuffableStat::ElementalDmgBonus(elem) => match elem {
+                Element::Pyro => stats.pyro_dmg_bonus += buff.value,
+                Element::Hydro => stats.hydro_dmg_bonus += buff.value,
+                Element::Electro => stats.electro_dmg_bonus += buff.value,
+                Element::Cryo => stats.cryo_dmg_bonus += buff.value,
+                Element::Dendro => stats.dendro_dmg_bonus += buff.value,
+                Element::Anemo => stats.anemo_dmg_bonus += buff.value,
+                Element::Geo => stats.geo_dmg_bonus += buff.value,
+            },
+            BuffableStat::PhysicalDmgBonus => stats.physical_dmg_bonus += buff.value,
             _ => {}
         }
     }

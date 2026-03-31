@@ -157,6 +157,7 @@ mod tests {
             crit_dmg: 1.50,
             energy_recharge: 1.20,
             dmg_bonus: 0.466,
+            ..Default::default()
         };
 
         let input = DamageInput {

@@ -64,12 +64,11 @@ pub fn convert_stat(key: &str, value: f64) -> StatConvertResult {
     }
 }
 
-/// StatFieldの値をStatProfileに加算する。元素不一致の場合falseを返す
+/// StatFieldの値をStatProfileに加算する
 pub fn add_to_profile(
     profile: &mut genshin_calc_core::StatProfile,
     field: &StatField,
     value: f64,
-    character_element: Option<genshin_calc_core::Element>,
 ) -> bool {
     match field {
         StatField::HpFlat => {
@@ -117,28 +116,22 @@ pub fn add_to_profile(
             true
         }
         StatField::PhysicalDmgBonus => {
-            profile.dmg_bonus += value;
+            profile.physical_dmg_bonus += value;
             true
         }
         StatField::ElementalDmgBonus(elem_str) => {
-            let matches = character_element.is_some_and(|ce| element_str_matches(ce, elem_str));
-            if matches {
-                profile.dmg_bonus += value;
+            match *elem_str {
+                "pyro" => profile.pyro_dmg_bonus += value,
+                "hydro" => profile.hydro_dmg_bonus += value,
+                "electro" => profile.electro_dmg_bonus += value,
+                "cryo" => profile.cryo_dmg_bonus += value,
+                "dendro" => profile.dendro_dmg_bonus += value,
+                "anemo" => profile.anemo_dmg_bonus += value,
+                "geo" => profile.geo_dmg_bonus += value,
+                _ => return false,
             }
-            matches
+            true
         }
-    }
-}
-
-fn element_str_matches(element: genshin_calc_core::Element, s: &str) -> bool {
-    match element {
-        genshin_calc_core::Element::Pyro => s == "pyro",
-        genshin_calc_core::Element::Hydro => s == "hydro",
-        genshin_calc_core::Element::Electro => s == "electro",
-        genshin_calc_core::Element::Cryo => s == "cryo",
-        genshin_calc_core::Element::Dendro => s == "dendro",
-        genshin_calc_core::Element::Anemo => s == "anemo",
-        genshin_calc_core::Element::Geo => s == "geo",
     }
 }
 

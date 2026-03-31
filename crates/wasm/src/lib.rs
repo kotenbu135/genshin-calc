@@ -148,7 +148,10 @@ pub fn calculate_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsErro
 /// * `target_index` - Index of the DPS/target member (0-based)
 ///
 /// # Returns
-/// Stats as a JS object with hp, atk, def, elemental_mastery, crit_rate, crit_dmg, energy_recharge, dmg_bonus.
+/// Stats as a JS object with hp, atk, def, elemental_mastery, crit_rate,
+/// crit_dmg, energy_recharge, dmg_bonus, pyro_dmg_bonus, hydro_dmg_bonus,
+/// electro_dmg_bonus, cryo_dmg_bonus, dendro_dmg_bonus, anemo_dmg_bonus,
+/// geo_dmg_bonus, physical_dmg_bonus.
 #[wasm_bindgen]
 pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue, JsError> {
     let members: Vec<genshin_calc_core::TeamMember> = serde_wasm_bindgen::from_value(members)
@@ -156,6 +159,33 @@ pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue
     let result = genshin_calc_core::resolve_team_stats(&members, target_index as usize)
         .map_err(|e| JsError::new(&e.to_string()))?;
     to_js(&result)
+}
+
+/// Calculates final stats for a character from a GOOD JSON export.
+///
+/// # Arguments
+/// * `json` - GOOD format JSON string (same as `import_good`)
+/// * `character_id` - Character ID to find (e.g. "hu_tao")
+///
+/// # Returns
+/// Stats with per-element DMG bonuses in separate fields.
+/// Returns null if the character is not found in the GOOD data.
+#[wasm_bindgen]
+pub fn build_stats_from_good(json: &str, character_id: &str) -> Result<JsValue, JsError> {
+    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let build = import
+        .builds
+        .iter()
+        .find(|b| b.character.id == character_id);
+    match build {
+        Some(b) => {
+            let profile = genshin_calc_good::build_stat_profile(b);
+            let stats = genshin_calc_core::combine_stats(&profile)
+                .map_err(|e| JsError::new(&e.to_string()))?;
+            to_js(&stats)
+        }
+        None => Ok(JsValue::NULL),
+    }
 }
 
 /// Imports a GOOD (Genshin Open Object Description) JSON string and returns parsed character builds.
@@ -170,8 +200,7 @@ pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue
 /// Throws JsError on invalid JSON or unsupported GOOD format.
 #[wasm_bindgen]
 pub fn import_good(json: &str) -> Result<JsValue, JsError> {
-    let result =
-        genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let result = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
     to_js(&result)
 }
 
@@ -248,6 +277,7 @@ mod tests {
                 crit_dmg: 1.50,
                 energy_recharge: 1.20,
                 dmg_bonus: 0.466,
+                ..Default::default()
             },
             talent_multiplier: 1.76,
             scaling_stat: ScalingStat::Atk,
@@ -277,6 +307,7 @@ mod tests {
                 crit_dmg: 1.50,
                 energy_recharge: 1.20,
                 dmg_bonus: 0.466,
+                ..Default::default()
             },
             talent_multiplier: 1.76,
             scaling_stat: ScalingStat::Atk,
