@@ -83,7 +83,7 @@ fn index_weapons<'a>(
     map
 }
 
-fn group_artifacts<'a>(good: &'a GoodFormat) -> HashMap<&'a str, Vec<&'a GoodArtifact>> {
+fn group_artifacts(good: &GoodFormat) -> HashMap<&str, Vec<&GoodArtifact>> {
     let mut map: HashMap<&str, Vec<&GoodArtifact>> = HashMap::new();
     if let Some(artifacts) = &good.artifacts {
         for ga in artifacts {
@@ -183,7 +183,7 @@ fn detect_sets(
     let mut four_piece = None;
     let mut two_pieces = Vec::new();
 
-    for (_, &(set, count)) in counts {
+    for &(set, count) in counts.values() {
         if count >= 4 {
             four_piece = Some(set);
         } else if count >= 2 {
