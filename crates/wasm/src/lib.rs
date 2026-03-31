@@ -158,6 +158,23 @@ pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue
     to_js(&result)
 }
 
+/// Imports a GOOD (Genshin Open Object Description) JSON string and returns parsed character builds.
+///
+/// # Arguments
+/// * `json` - GOOD format JSON string (e.g. exported from Genshin Optimizer, Scanner tools)
+///
+/// # Returns
+/// GoodImport object with source, version, builds array, and warnings.
+///
+/// # Errors
+/// Throws JsError on invalid JSON or unsupported GOOD format.
+#[wasm_bindgen]
+pub fn import_good(json: &str) -> Result<JsValue, JsError> {
+    let result =
+        genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    to_js(&result)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -336,6 +353,22 @@ mod tests {
         };
         let result = resolve_team_stats(&[dps], 0).unwrap();
         assert!(result.atk > 0.0);
+    }
+
+    #[test]
+    fn test_import_good_via_core() {
+        let json = include_str!("../../good/tests/data/minimal.json");
+        let result = genshin_calc_good::import_good(json).unwrap();
+        assert_eq!(result.source, "TestScanner");
+        assert_eq!(result.version, 2);
+        assert!(!result.builds.is_empty());
+        assert_eq!(result.builds[0].character.name, "Hu Tao");
+    }
+
+    #[test]
+    fn test_import_good_invalid_json() {
+        let result = genshin_calc_good::import_good("not json");
+        assert!(result.is_err());
     }
 
     #[test]

@@ -69,6 +69,7 @@ dependencies = [
  "console_error_panic_hook",
  "genshin-calc-core",
  "genshin-calc-data",
+ "genshin-calc-good",
  "serde",
  "serde-wasm-bindgen",
  "serde_json",

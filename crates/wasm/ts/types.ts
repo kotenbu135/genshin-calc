@@ -145,3 +145,67 @@ export interface TeamMember {
   buffs_provided: ResolvedBuff[];
   is_moonsign: boolean;
 }
+
+// === GOOD Import Types ===
+
+export interface GoodImport {
+  source: string;
+  version: number;
+  builds: CharacterBuild[];
+  warnings: ImportWarning[];
+}
+
+export interface CharacterBuild {
+  character: CharacterData;
+  level: number;
+  ascension: number;
+  constellation: number;
+  talent_levels: [number, number, number];
+  weapon: WeaponBuild | null;
+  artifacts: ArtifactsBuild;
+}
+
+export interface WeaponBuild {
+  weapon: WeaponData;
+  level: number;
+  refinement: number;
+}
+
+export interface ArtifactsBuild {
+  sets: ArtifactSetData[];
+  four_piece_set: ArtifactSetData | null;
+  stats: StatProfile;
+}
+
+export interface ImportWarning {
+  kind: string;
+  message: string;
+}
+
+export interface CharacterData {
+  id: string;
+  name: string;
+  element: Element;
+  weapon_type: WeaponType;
+  rarity: number;
+  base_hp: number;
+  base_atk: number;
+  base_def: number;
+  ascension_stat: string;
+  ascension_stat_value: number;
+}
+
+export interface WeaponData {
+  id: string;
+  name: string;
+  weapon_type: WeaponType;
+  rarity: number;
+  base_atk: number;
+  sub_stat: string | null;
+  sub_stat_value: number;
+}
+
+export interface ArtifactSetData {
+  id: string;
+  name: string;
+}

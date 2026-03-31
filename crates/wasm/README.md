@@ -20,6 +20,7 @@ import init, {
   calculate_transformative,
   calculate_lunar,
   resolve_team_stats,
+  import_good,
 } from "@kotenbu/genshin-calc";
 
 // Initialize the WASM module first
@@ -81,6 +82,20 @@ console.log(result); // { non_crit, crit, average, reaction }
 | `calculate_transformative(input, enemy)` | Transformative reactions (overloaded, swirl, etc.) |
 | `calculate_lunar(input, enemy)` | Lunar reactions (Nod-Krai crittable reactions) |
 | `resolve_team_stats(members, target_index)` | Resolve team buffs into final stats |
+
+### GOOD Format Import
+
+| Function | Description |
+|---|---|
+| `import_good(json)` | Import GOOD JSON string → `GoodImport` with character builds |
+
+```js
+// Import from Genshin Optimizer, Scanner tools, etc.
+const goodJson = '{"format":"GOOD","source":"GenshinOptimizer","version":2,...}';
+const imported = import_good(goodJson);
+console.log(imported.builds); // Array of CharacterBuild objects
+console.log(imported.warnings); // Any import warnings
+```
 
 ## TypeScript
 
