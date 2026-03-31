@@ -20,6 +20,27 @@ export type ScalingStat = "Atk" | "Hp" | "Def" | "Em";
 export type DamageType = "Normal" | "Charged" | "Plunging" | "Skill" | "Burst";
 export type WeaponType = "Sword" | "Claymore" | "Polearm" | "Bow" | "Catalyst";
 
+export type Rarity = "Star1" | "Star2" | "Star3" | "Star4" | "Star5";
+
+export type Region =
+  | "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru"
+  | "Fontaine" | "Natlan" | "Snezhnaya" | "NodKrai" | "Other";
+
+export type ConstellationPattern = "C3SkillC5Burst" | "C3BurstC5Skill";
+
+/** serde externally-tagged format. 例: { "CritDmg": 0.384 }, { "ElementalDmgBonus": ["Pyro", 0.288] } */
+export type AscensionStat =
+  | { Hp: number }
+  | { Atk: number }
+  | { Def: number }
+  | { CritRate: number }
+  | { CritDmg: number }
+  | { ElementalMastery: number }
+  | { EnergyRecharge: number }
+  | { ElementalDmgBonus: [Element, number] }
+  | { PhysicalDmgBonus: number }
+  | { HealingBonus: number };
+
 // Reaction: simple variants are strings, Swirl is an object with the swirled element
 export type Reaction =
   | "Vaporize" | "Melt"
