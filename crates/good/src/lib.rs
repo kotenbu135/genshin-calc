@@ -6,6 +6,7 @@ pub mod stat_map;
 mod types;
 
 pub use build_stats::build_stat_profile;
+pub use convert::to_team_member_builder;
 pub use error::{GoodError, ImportWarning};
 pub use types::GoodFormat;
 

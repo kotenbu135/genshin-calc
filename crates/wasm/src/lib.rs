@@ -1,7 +1,30 @@
 mod convert;
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
+
+#[derive(Clone, Deserialize)]
+struct WasmManualActivation {
+    name: String,
+    active: bool,
+    stacks: Option<u8>,
+}
+
+fn convert_activations(
+    input: &[WasmManualActivation],
+) -> Vec<(&str, genshin_calc_data::buff::ManualActivation)> {
+    input
+        .iter()
+        .filter(|a| a.active)
+        .map(|a| {
+            let activation = match a.stacks {
+                Some(n) => genshin_calc_data::buff::ManualActivation::Stacks(n),
+                None => genshin_calc_data::buff::ManualActivation::Active,
+            };
+            (a.name.as_str(), activation)
+        })
+        .collect()
+}
 
 /// Serialize a value to JsValue, with None mapped to null (not undefined).
 fn to_js<T: Serialize>(value: &T) -> Result<JsValue, JsError> {
@@ -181,6 +204,54 @@ pub fn build_stats_from_good(json: &str, character_id: &str) -> Result<JsValue, 
         Some(b) => {
             let profile = genshin_calc_good::build_stat_profile(b);
             let stats = genshin_calc_core::combine_stats(&profile)
+                .map_err(|e| JsError::new(&e.to_string()))?;
+            to_js(&stats)
+        }
+        None => Ok(JsValue::NULL),
+    }
+}
+
+/// Calculates final stats for a character build with conditional buff activations.
+///
+/// Unlike `build_stats_from_good`, this function resolves weapon and artifact
+/// conditional buffs (toggles, stacks) via TeamMemberBuilder.
+///
+/// # Arguments
+/// * `json` - GOOD format JSON string
+/// * `character_id` - Character ID (e.g. "diluc")
+/// * `weapon_activations` - JS array of {name, active, stacks?} for weapon buffs
+/// * `artifact_activations` - JS array of {name, active, stacks?} for artifact set buffs
+///
+/// # Returns
+/// Stats as a JS object, or null if character not found.
+#[wasm_bindgen]
+pub fn build_stats(
+    json: &str,
+    character_id: &str,
+    weapon_activations: JsValue,
+    artifact_activations: JsValue,
+) -> Result<JsValue, JsError> {
+    let import = genshin_calc_good::import_good(json)
+        .map_err(|e| JsError::new(&e.to_string()))?;
+    let build = import
+        .builds
+        .iter()
+        .find(|b| b.character.id == character_id);
+    match build {
+        Some(b) => {
+            let w_acts: Vec<WasmManualActivation> =
+                serde_wasm_bindgen::from_value(weapon_activations).unwrap_or_default();
+            let a_acts: Vec<WasmManualActivation> =
+                serde_wasm_bindgen::from_value(artifact_activations).unwrap_or_default();
+            let w_converted = convert_activations(&w_acts);
+            let a_converted = convert_activations(&a_acts);
+            let builder =
+                genshin_calc_good::to_team_member_builder(b, &w_converted, &a_converted)
+                    .map_err(|e| JsError::new(&e.to_string()))?;
+            let member = builder
+                .build()
+                .map_err(|e| JsError::new(&e.to_string()))?;
+            let stats = genshin_calc_core::resolve_team_stats(&[member], 0)
                 .map_err(|e| JsError::new(&e.to_string()))?;
             to_js(&stats)
         }
@@ -400,6 +471,80 @@ mod tests {
     fn test_import_good_invalid_json() {
         let result = genshin_calc_good::import_good("not json");
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_build_stats_basic() {
+        let char = genshin_calc_data::find_character("hu_tao").unwrap();
+        let weapon = genshin_calc_data::find_weapon("staff_of_homa").unwrap();
+        let build = genshin_calc_good::CharacterBuild {
+            character: char,
+            level: 90,
+            ascension: 6,
+            constellation: 0,
+            talent_levels: [10, 10, 10],
+            weapon: Some(genshin_calc_good::WeaponBuild {
+                weapon,
+                level: 90,
+                refinement: 1,
+            }),
+            artifacts: genshin_calc_good::ArtifactsBuild {
+                sets: vec![],
+                four_piece_set: None,
+                stats: genshin_calc_core::StatProfile::default(),
+            },
+        };
+        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let member = builder.build().unwrap();
+        let stats = genshin_calc_core::resolve_team_stats(&[member], 0).unwrap();
+        assert!(stats.atk > 0.0, "ATK should be positive");
+        assert!(stats.hp > 0.0, "HP should be positive");
+    }
+
+    #[test]
+    fn test_build_stats_with_artifact_activation() {
+        use genshin_calc_data::buff::ManualActivation;
+
+        let char = genshin_calc_data::find_character("diluc").unwrap();
+        let weapon = genshin_calc_data::find_weapon("wolfs_gravestone").unwrap();
+        let cw = genshin_calc_data::find_artifact_set("crimson_witch").unwrap();
+        let build = genshin_calc_good::CharacterBuild {
+            character: char,
+            level: 90,
+            ascension: 6,
+            constellation: 0,
+            talent_levels: [10, 10, 10],
+            weapon: Some(genshin_calc_good::WeaponBuild {
+                weapon,
+                level: 90,
+                refinement: 1,
+            }),
+            artifacts: genshin_calc_good::ArtifactsBuild {
+                sets: vec![cw],
+                four_piece_set: Some(cw),
+                stats: genshin_calc_core::StatProfile::default(),
+            },
+        };
+
+        // Without activation
+        let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let member_no = builder_no.build().unwrap();
+        let stats_no = genshin_calc_core::resolve_team_stats(&[member_no], 0).unwrap();
+
+        // With 2 stacks of CW pyro buff
+        let artifact_acts = [("cwof_pyro_stacks", ManualActivation::Stacks(2))];
+        let builder_with =
+            genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts).unwrap();
+        let member_with = builder_with.build().unwrap();
+        let stats_with = genshin_calc_core::resolve_team_stats(&[member_with], 0).unwrap();
+
+        // With stacks, pyro_dmg_bonus should be higher by 0.15 (2 × 0.075)
+        let diff = stats_with.pyro_dmg_bonus - stats_no.pyro_dmg_bonus;
+        assert!(
+            (diff - 0.15).abs() < 1e-10,
+            "CW 4pc 2 stacks should add 0.15 pyro_dmg_bonus, got diff={}",
+            diff
+        );
     }
 
     #[test]

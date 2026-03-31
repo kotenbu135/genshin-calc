@@ -10,6 +10,9 @@ pub enum GoodError {
 
     #[error("unsupported GOOD version: {0}")]
     UnsupportedVersion(u8),
+
+    #[error("weapon is required for stat calculation")]
+    MissingWeapon,
 }
 
 #[derive(Debug, Clone, Serialize)]
