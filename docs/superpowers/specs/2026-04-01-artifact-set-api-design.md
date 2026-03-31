@@ -1,8 +1,8 @@
 # 聖遺物セット効果API 設計仕様
 
 > Date: 2026-04-01
-> Scope: `crates/good` (CharacterBuild→TeamMemberBuilder変換), `crates/wasm` (build_stats API)
-> Depends on: A. build_stats設計spec (2026-03-31)
+> Scope: `crates/data` (TeamMemberBuilder小修正), `crates/good` (CharacterBuild→TeamMemberBuilder変換), `crates/wasm` (build_stats API)
+> Depends on: A. build_stats設計spec (2026-03-31) — `combine_stats()` 関数はそちらで定義
 
 ## 背景
 
@@ -19,35 +19,64 @@
 
 既存の `TeamMemberBuilder` のセット効果処理をそのまま活用し、WASM `build_stats` APIで公開する。新しいバフ解決ロジックの追加は不要。
 
-## 既存インフラ（実装済み・変更不要）
+## 既存インフラ（実装済み）
 
 | コンポーネント | 場所 | 状態 |
 |--------------|------|------|
-| `TeamMemberBuilder.artifact_set` フィールド | `team_builder.rs:18` | 実装済み |
-| 2pc/4pc無条件バフ収集 | `collect_static_buffs()` L337-374 | 実装済み |
-| 2pc/4pc条件付きバフ評価 | `resolve_conditional_buffs()` L248-276 | 実装済み |
-| 利用可能な条件付きバフ一覧 | `available_conditionals()` L114-128 | 実装済み |
+| `TeamMemberBuilder.artifact_set` フィールド | `team_builder.rs` | 実装済み |
+| 2pc/4pc無条件バフ収集 | `collect_static_buffs()` | 実装済み |
+| 2pc/4pc条件付きバフ評価 | `resolve_conditional_buffs()` | 実装済み |
+| 利用可能な条件付きバフ一覧 | `available_conditionals()` | 実装済み |
 | `ManualActivation` enum (`Active`, `Stacks(u8)`) | `team_builder.rs` | 実装済み |
 | `find_artifact_set(id)` WASM API | `wasm/lib.rs` | 実装済み（メタデータ返却済み） |
 
 ## 新規実装
 
-### 1. CharacterBuild → TeamMemberBuilder 変換関数
+### 0. TeamMemberBuilder: manual_activations の型変更（前提変更）
 
-`crates/good/src/convert.rs`（または新モジュール）に変換関数を追加。
+現在 `manual_activations` は `Vec<(&'static str, ManualActivation)>` で、`activate()` / `activate_with_stacks()` は `&'static str` を要求する。WASM入力は `String` なので `&'static str` を満たせない。
 
-`CharacterBuild` は `crates/good` に、`TeamMemberBuilder` は `crates/data` にある。`good` は `data` に依存しているので、変換関数は `good` crate内に配置する。
+**変更**: `manual_activations` の型を `Vec<(String, ManualActivation)>` に変更。
 
 ```rust
-/// CharacterBuild と ManualActivation リストから TeamMemberBuilder を構築
+// team_builder.rs
+pub struct TeamMemberBuilder {
+    // ...
+    manual_activations: Vec<(String, ManualActivation)>,  // &'static str → String
+}
+
+pub fn activate(mut self, name: &str) -> Self {          // &'static str → &str
+    self.manual_activations.push((name.to_string(), ManualActivation::Active));
+    self
+}
+
+pub fn activate_with_stacks(mut self, name: &str, stacks: u8) -> Self {  // &'static str → &str
+    self.manual_activations.push((name.to_string(), ManualActivation::Stacks(stacks)));
+    self
+}
+```
+
+`eval_manual` 内の比較 `*n == cond_buff.name` は `String == &str` で動作するため、他の変更なし。既存の呼び出し元（`&'static str` を渡すコード）も `&str` に自動coerceされるため後方互換。
+
+### 1. CharacterBuild → TeamMemberBuilder 変換関数
+
+`crates/good/src/convert.rs` に変換関数を追加。`good` は `data` に依存しているので `good` crate内に配置。
+
+```rust
+/// CharacterBuild と ManualActivation リストから TeamMemberBuilder を構築。
+/// weapon が None の場合は Err を返す（ステータス計算には武器が必須）。
 pub fn to_team_member_builder(
     build: &CharacterBuild,
     weapon_activations: &[(&str, ManualActivation)],
     artifact_activations: &[(&str, ManualActivation)],
-) -> TeamMemberBuilder {
-    let mut builder = TeamMemberBuilder::new(build.character, build.weapon.weapon)
+) -> Result<TeamMemberBuilder, GoodError> {
+    let weapon_build = build.weapon.as_ref()
+        .ok_or(GoodError::MissingWeapon)?;
+
+    let mut builder = TeamMemberBuilder::new(build.character, weapon_build.weapon)
         .constellation(build.constellation)
-        .refinement(build.weapon.refinement);
+        .talent_levels(build.talent_levels)
+        .refinement(weapon_build.refinement);
 
     // 聖遺物ステータス（StatProfile）をマージ
     builder = builder.artifact_stats(build.artifacts.stats.clone());
@@ -61,13 +90,18 @@ pub fn to_team_member_builder(
     for (name, activation) in weapon_activations.iter().chain(artifact_activations.iter()) {
         builder = match activation {
             ManualActivation::Active => builder.activate(name),
-            ManualActivation::Stacks(n) => builder.activate_stacks(name, *n),
+            ManualActivation::Stacks(n) => builder.activate_with_stacks(name, *n),
         };
     }
 
-    builder
+    Ok(builder)
 }
 ```
+
+**注意点:**
+- `weapon` が `None` の場合は `GoodError::MissingWeapon` を返す（ステータス計算には武器基礎攻撃力が必須）
+- `talent_levels` を設定（デフォルト `[1,1,1]` の回避）
+- 2セット無条件バフは `build.artifacts.stats` に既にマージ済み（`import_good` 時に `apply_two_piece_buffs` で処理）
 
 ### 2. WASM build_stats API入力
 
@@ -97,32 +131,30 @@ struct WasmManualActivation {
     stacks: Option<u8>,
 }
 
-impl WasmManualActivation {
-    /// active: false をフィルタし、Rust側の ManualActivation に変換
-    fn to_activations(input: &[WasmManualActivation]) -> Vec<(&str, ManualActivation)> {
-        input.iter()
-            .filter(|a| a.active)
-            .map(|a| {
-                let activation = match a.stacks {
-                    Some(n) => ManualActivation::Stacks(n),
-                    None => ManualActivation::Active,
-                };
-                (a.name.as_str(), activation)
-            })
-            .collect()
-    }
+/// active: false をフィルタし、Rust側の (&str, ManualActivation) ペアに変換
+fn convert_activations(input: &[WasmManualActivation]) -> Vec<(&str, ManualActivation)> {
+    input.iter()
+        .filter(|a| a.active)
+        .map(|a| {
+            let activation = match a.stacks {
+                Some(n) => ManualActivation::Stacks(n),
+                None => ManualActivation::Active,
+            };
+            (a.name.as_str(), activation)
+        })
+        .collect()
 }
 ```
 
-WASM関数：
+WASM関数（`combine_stats` はA設計specで定義）：
 
 ```rust
 #[wasm_bindgen]
 pub fn build_stats(input: JsValue) -> Result<JsValue, JsError> {
     let input: BuildStatsInput = serde_wasm_bindgen::from_value(input)?;
-    let weapon_acts = WasmManualActivation::to_activations(&input.weapon_activations);
-    let artifact_acts = WasmManualActivation::to_activations(&input.artifact_activations);
-    let builder = to_team_member_builder(&input.build, &weapon_acts, &artifact_acts);
+    let weapon_acts = convert_activations(&input.weapon_activations.unwrap_or_default());
+    let artifact_acts = convert_activations(&input.artifact_activations.unwrap_or_default());
+    let builder = to_team_member_builder(&input.build, &weapon_acts, &artifact_acts)?;
     let member = builder.build()?;
     let stats = combine_stats(&member.stats)?;
     to_js(&stats)
@@ -142,8 +174,9 @@ pub fn build_stats(input: JsValue) -> Result<JsValue, JsError> {
 
 | ファイル | 変更内容 |
 |---------|---------|
-| `crates/good/src/convert.rs` | `to_team_member_builder()` 変換関数を新設 |
-| `crates/wasm/src/lib.rs` | `build_stats` 関数追加（`BuildStatsInput` / `WasmManualActivation` 型含む） |
+| `crates/data/src/team_builder.rs` | `manual_activations` 型を `Vec<(String, ManualActivation)>` に変更、`activate`/`activate_with_stacks` のシグネチャを `&str` に変更 |
+| `crates/good/src/convert.rs` | `to_team_member_builder()` 変換関数を新設、`GoodError::MissingWeapon` variant追加 |
+| `crates/wasm/src/lib.rs` | `build_stats` 関数追加（`BuildStatsInput` / `WasmManualActivation` / `convert_activations` 含む） |
 
 ## テスト戦略
 
@@ -155,13 +188,16 @@ pub fn build_stats(input: JsValue) -> Result<JsValue, JsError> {
 - 旧貴族4セット チームバフ
 - 絶縁4セット StatScaling
 
+既存テストは `activate("name")` を `&'static str` で呼び出しており、`&str` への変更で後方互換のためそのままコンパイル可能。
+
 ### 新規テスト
 
 | テスト | 内容 | 対象ファイル |
 |--------|------|-------------|
-| to_team_member_builder変換 | CharacterBuild → TeamMemberBuilder が正しくフィールドをマップ | `good/convert.rs` |
+| to_team_member_builder変換 | CharacterBuild → TeamMemberBuilder が正しくフィールドをマップ（weapon, constellation, talent_levels, artifact_set） | `good/convert.rs` |
+| weapon None エラー | weapon が None の場合に GoodError::MissingWeapon を返す | `good/convert.rs` |
 | artifact_activations反映 | Toggle/Stacks指定がTeamMemberBuilderのmanual_activationsに反映 | `good/convert.rs` |
-| WasmManualActivation変換 | active: false フィルタ、stacks有無でActive/Stacks分岐 | `wasm/lib.rs` |
+| convert_activations変換 | active: false フィルタ、stacks有無でActive/Stacks分岐 | `wasm/lib.rs` |
 | WASM build_stats統合 | artifact_activations付きでbuild_stats呼出し → Statsに反映 | `wasm/lib.rs` |
 | build_stats セット効果なし | four_piece_set = None → 4セットバフなし | `wasm/lib.rs` |
 
