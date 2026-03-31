@@ -74,6 +74,8 @@ fn is_unconditional(stat: &BuffableStat) -> bool {
             | BuffableStat::ElementalMastery
             | BuffableStat::EnergyRecharge
             | BuffableStat::DmgBonus
+            | BuffableStat::ElementalDmgBonus(_)
+            | BuffableStat::PhysicalDmgBonus
     )
 }
 
@@ -99,6 +101,16 @@ pub fn apply_buffs_to_profile(profile: &StatProfile, buffs: &[ResolvedBuff]) -> 
             BuffableStat::ElementalMastery => p.elemental_mastery += buff.value,
             BuffableStat::EnergyRecharge => p.energy_recharge += buff.value,
             BuffableStat::DmgBonus => p.dmg_bonus += buff.value,
+            BuffableStat::ElementalDmgBonus(elem) => match elem {
+                Element::Pyro => p.pyro_dmg_bonus += buff.value,
+                Element::Hydro => p.hydro_dmg_bonus += buff.value,
+                Element::Electro => p.electro_dmg_bonus += buff.value,
+                Element::Cryo => p.cryo_dmg_bonus += buff.value,
+                Element::Dendro => p.dendro_dmg_bonus += buff.value,
+                Element::Anemo => p.anemo_dmg_bonus += buff.value,
+                Element::Geo => p.geo_dmg_bonus += buff.value,
+            },
+            BuffableStat::PhysicalDmgBonus => p.physical_dmg_bonus += buff.value,
             _ => {} // conditional — skipped
         }
     }
@@ -376,6 +388,34 @@ mod tests {
         );
         assert!(!result.applied_buffs.is_empty());
         assert!(result.final_stats.atk > result.base_stats.atk);
+    }
+
+    #[test]
+    fn elemental_dmg_bonus_buff_applies_to_element_field() {
+        let base = StatProfile::default();
+        let buffs = vec![ResolvedBuff {
+            source: "test".to_string(),
+            stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+            value: 0.15,
+            target: BuffTarget::Team,
+        }];
+        let result = apply_buffs_to_profile(&base, &buffs);
+        assert!((result.pyro_dmg_bonus - 0.15).abs() < 1e-10);
+        assert!((result.hydro_dmg_bonus - 0.0).abs() < 1e-10);
+    }
+
+    #[test]
+    fn physical_dmg_bonus_buff_applies_to_physical_field() {
+        let base = StatProfile::default();
+        let buffs = vec![ResolvedBuff {
+            source: "test".to_string(),
+            stat: BuffableStat::PhysicalDmgBonus,
+            value: 0.25,
+            target: BuffTarget::Team,
+        }];
+        let result = apply_buffs_to_profile(&base, &buffs);
+        assert!((result.physical_dmg_bonus - 0.25).abs() < 1e-10);
+        assert!((result.dmg_bonus - 0.0).abs() < 1e-10);
     }
 
     #[test]
