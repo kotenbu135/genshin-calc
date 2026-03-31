@@ -1,9 +1,11 @@
+mod build_stats;
 mod convert;
 mod error;
 pub mod key_map;
 pub mod stat_map;
 mod types;
 
+pub use build_stats::build_stat_profile;
 pub use error::{GoodError, ImportWarning};
 pub use types::GoodFormat;
 
