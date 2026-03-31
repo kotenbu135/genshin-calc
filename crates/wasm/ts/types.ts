@@ -252,6 +252,25 @@ export interface TalentSet {
   elemental_burst: TalentData;
 }
 
+/** find_character() の戻り値。フルのキャラクターデータ */
+export interface CharacterFullData {
+  id: string;
+  name: string;
+  element: Element;
+  weapon_type: WeaponType;
+  rarity: Rarity;
+  region: Region;
+  /** 基礎HP [Lv1, Lv20, Lv80, Lv90] */
+  base_hp: [number, number, number, number];
+  /** 基礎攻撃力 [Lv1, Lv20, Lv80, Lv90] */
+  base_atk: [number, number, number, number];
+  /** 基礎防御力 [Lv1, Lv20, Lv80, Lv90] */
+  base_def: [number, number, number, number];
+  ascension_stat: AscensionStat;
+  talents: TalentSet;
+  constellation_pattern: ConstellationPattern;
+}
+
 export interface CharacterData {
   id: string;
   name: string;
