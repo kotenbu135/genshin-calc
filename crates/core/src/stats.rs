@@ -24,20 +24,28 @@ pub struct Stats {
     /// DMG bonus in decimal form (e.g. 0.466 for Pyro DMG goblet).
     pub dmg_bonus: f64,
     /// Pyro DMG bonus in decimal form.
+    #[serde(default)]
     pub pyro_dmg_bonus: f64,
     /// Hydro DMG bonus in decimal form.
+    #[serde(default)]
     pub hydro_dmg_bonus: f64,
     /// Electro DMG bonus in decimal form.
+    #[serde(default)]
     pub electro_dmg_bonus: f64,
     /// Cryo DMG bonus in decimal form.
+    #[serde(default)]
     pub cryo_dmg_bonus: f64,
     /// Dendro DMG bonus in decimal form.
+    #[serde(default)]
     pub dendro_dmg_bonus: f64,
     /// Anemo DMG bonus in decimal form.
+    #[serde(default)]
     pub anemo_dmg_bonus: f64,
     /// Geo DMG bonus in decimal form.
+    #[serde(default)]
     pub geo_dmg_bonus: f64,
     /// Physical DMG bonus in decimal form.
+    #[serde(default)]
     pub physical_dmg_bonus: f64,
 }
 

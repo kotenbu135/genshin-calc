@@ -18,6 +18,7 @@ fn diluc_normal_attack_with_data_crate() {
         crit_dmg: 1.00,
         energy_recharge: 1.0,
         dmg_bonus: 0.466,
+        ..Default::default()
     };
 
     let hilichurl = find_enemy("hilichurl").unwrap();
@@ -57,6 +58,7 @@ fn diluc_skill_pyro_damage() {
         crit_dmg: 1.00,
         energy_recharge: 1.0,
         dmg_bonus: 0.466,
+        ..Default::default()
     };
 
     let hilichurl = find_enemy("hilichurl").unwrap();

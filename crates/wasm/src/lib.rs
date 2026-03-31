@@ -170,8 +170,7 @@ pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue
 /// Throws JsError on invalid JSON or unsupported GOOD format.
 #[wasm_bindgen]
 pub fn import_good(json: &str) -> Result<JsValue, JsError> {
-    let result =
-        genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let result = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
     to_js(&result)
 }
 
@@ -248,6 +247,7 @@ mod tests {
                 crit_dmg: 1.50,
                 energy_recharge: 1.20,
                 dmg_bonus: 0.466,
+                ..Default::default()
             },
             talent_multiplier: 1.76,
             scaling_stat: ScalingStat::Atk,
@@ -277,6 +277,7 @@ mod tests {
                 crit_dmg: 1.50,
                 energy_recharge: 1.20,
                 dmg_bonus: 0.466,
+                ..Default::default()
             },
             talent_multiplier: 1.76,
             scaling_stat: ScalingStat::Atk,
