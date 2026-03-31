@@ -203,6 +203,55 @@ export interface ImportWarning {
   message: string;
 }
 
+// === Talent Types ===
+
+/** 個別のスケーリング項目（1段ダメージ、重撃ダメージ等） */
+export interface TalentScaling {
+  /** スケーリング名（例: "1段ダメージ"） */
+  name: string;
+  /** スケーリングに使うステータス */
+  scaling_stat: ScalingStat;
+  /** ダメージ元素。null = 物理 */
+  damage_element: Element | null;
+  /** 天賦Lv1-15の倍率値 */
+  values: number[];
+}
+
+/**
+ * 通常攻撃データ。各配列が DamageType に対応:
+ * - hits → "Normal"
+ * - charged → "Charged"
+ * - plunging → "Plunging"
+ */
+export interface NormalAttackData {
+  /** 攻撃名（例: "往生秘伝槍法"） */
+  name: string;
+  /** 通常攻撃コンボ（DamageType: "Normal"） */
+  hits: TalentScaling[];
+  /** 重撃（DamageType: "Charged"） */
+  charged: TalentScaling[];
+  /** 落下攻撃（DamageType: "Plunging"） */
+  plunging: TalentScaling[];
+}
+
+/** 元素スキル/元素爆発データ */
+export interface TalentData {
+  /** 天賦名（例: "蝶導来世"） */
+  name: string;
+  /** スケーリング項目 */
+  scalings: TalentScaling[];
+}
+
+/** キャラクターの天賦セット */
+export interface TalentSet {
+  /** 通常攻撃（DamageType: "Normal" / "Charged" / "Plunging"） */
+  normal_attack: NormalAttackData;
+  /** 元素スキル（DamageType: "Skill"） */
+  elemental_skill: TalentData;
+  /** 元素爆発（DamageType: "Burst"） */
+  elemental_burst: TalentData;
+}
+
 export interface CharacterData {
   id: string;
   name: string;
