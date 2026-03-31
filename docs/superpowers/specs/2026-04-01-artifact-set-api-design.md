@@ -56,7 +56,18 @@ pub fn activate_with_stacks(mut self, name: &str, stacks: u8) -> Self {  // &'st
 }
 ```
 
-`eval_manual` 内の比較 `*n == cond_buff.name` は `String == &str` で動作するため、他の変更なし。既存の呼び出し元（`&'static str` を渡すコード）も `&str` に自動coerceされるため後方互換。
+`eval_manual` のシグネチャも合わせて変更：
+
+```rust
+fn eval_manual(
+    cond: &ManualCondition,
+    buff: &ConditionalBuff,
+    activations: &[(String, ManualActivation)],  // was &[(&str, ManualActivation)]
+    base_value: f64,
+) -> Option<f64>
+```
+
+関数内の比較 `*n == cond_buff.name` は `String == &str` の `PartialEq` implで動作するため、関数本体の変更は不要。既存の呼び出し元（`&'static str` を渡すコード）も `&str` に自動coerceされるため後方互換。
 
 ### 1. CharacterBuild → TeamMemberBuilder 変換関数
 
@@ -175,7 +186,8 @@ pub fn build_stats(input: JsValue) -> Result<JsValue, JsError> {
 | ファイル | 変更内容 |
 |---------|---------|
 | `crates/data/src/team_builder.rs` | `manual_activations` 型を `Vec<(String, ManualActivation)>` に変更、`activate`/`activate_with_stacks` のシグネチャを `&str` に変更 |
-| `crates/good/src/convert.rs` | `to_team_member_builder()` 変換関数を新設、`GoodError::MissingWeapon` variant追加 |
+| `crates/good/src/convert.rs` | `to_team_member_builder()` 変換関数を新設 |
+| `crates/good/src/error.rs` | `GoodError::MissingWeapon` variant追加 |
 | `crates/wasm/src/lib.rs` | `build_stats` 関数追加（`BuildStatsInput` / `WasmManualActivation` / `convert_activations` 含む） |
 
 ## テスト戦略
