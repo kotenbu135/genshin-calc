@@ -177,7 +177,7 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
     };
     let base = scaling_value * input.talent_multiplier + catalyze_flat + input.flat_dmg;
     let non_crit = base
-        * (1.0 + input.stats.dmg_bonus)
+        * (1.0 + input.stats.total_dmg_bonus(input.element))
         * defense_multiplier(input.character_level, enemy)
         * resistance_multiplier(enemy)
         * amplify_mult;
@@ -1278,5 +1278,72 @@ mod tests {
         }"#;
         let input: DamageInput = serde_json::from_str(json).unwrap();
         assert_eq!(input.scaling_stat, ScalingStat::Atk);
+    }
+
+    #[test]
+    fn element_specific_dmg_bonus_applies() {
+        // Test that pyro_dmg_bonus is applied when element is Pyro
+        let input = DamageInput {
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.75,
+                crit_dmg: 1.50,
+                dmg_bonus: 0.0,
+                pyro_dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            element: Some(Element::Pyro),
+            ..valid_input()
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        // non_crit = 2000 * (1 + 0.466) * def_mult * res_mult
+        // Pyro bonus should be applied
+        assert!(result.non_crit > 0.0);
+        // Verify pyro bonus is used (not zero dmg_bonus)
+        let input_no_bonus = DamageInput {
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.75,
+                crit_dmg: 1.50,
+                dmg_bonus: 0.0,
+                ..Stats::default()
+            },
+            ..input.clone()
+        };
+        let result_no_bonus = calculate_damage(&input_no_bonus, &enemy).unwrap();
+        assert!(result.non_crit > result_no_bonus.non_crit);
+    }
+
+    #[test]
+    fn wrong_element_dmg_bonus_does_not_apply() {
+        // Test that pyro_dmg_bonus is NOT applied when element is Hydro
+        let input = DamageInput {
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.75,
+                crit_dmg: 1.50,
+                dmg_bonus: 0.0,
+                pyro_dmg_bonus: 0.466,
+                ..Stats::default()
+            },
+            element: Some(Element::Hydro), // Hydro damage, NOT Pyro
+            ..valid_input()
+        };
+        let enemy = valid_enemy();
+        let result = calculate_damage(&input, &enemy).unwrap();
+        // Pyro bonus should NOT apply to Hydro damage
+        let input_no_bonus = DamageInput {
+            stats: Stats {
+                atk: 2000.0,
+                crit_rate: 0.75,
+                crit_dmg: 1.50,
+                dmg_bonus: 0.0,
+                ..Stats::default()
+            },
+            ..input.clone()
+        };
+        let result_no_bonus = calculate_damage(&input_no_bonus, &enemy).unwrap();
+        assert!((result.non_crit - result_no_bonus.non_crit).abs() < 1e-6);
     }
 }
