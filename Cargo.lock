@@ -52,6 +52,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "genshin-calc-good"
+version = "0.1.0"
+dependencies = [
+ "genshin-calc-core",
+ "genshin-calc-data",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
 name = "genshin-calc-wasm"
 version = "0.1.0"
 dependencies = [
