@@ -251,7 +251,7 @@ pub fn build_stats(
             let member = builder
                 .build()
                 .map_err(|e| JsError::new(&e.to_string()))?;
-            let stats = genshin_calc_core::combine_stats(&member.stats)
+            let stats = genshin_calc_core::resolve_team_stats(&[member], 0)
                 .map_err(|e| JsError::new(&e.to_string()))?;
             to_js(&stats)
         }
