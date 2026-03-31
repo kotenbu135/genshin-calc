@@ -18,10 +18,6 @@ pub enum ImportWarning {
     UnknownWeapon(String),
     UnknownArtifactSet(String),
     UnknownStatKey(String),
-    ElementMismatchGoblet {
-        character: String,
-        goblet_element: String,
-    },
 }
 
 pub(crate) fn validate_format(good: &crate::types::GoodFormat) -> Result<(), GoodError> {
