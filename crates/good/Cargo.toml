@@ -5,10 +5,15 @@ edition = "2024"
 rust-version = "1.85"
 license = "MIT"
 description = "GOOD (Genshin Open Object Description) format importer for genshin-calc"
+authors = ["kotenbu"]
+repository = "https://github.com/kotenbu/genshin-calc"
+keywords = ["genshin-impact", "good-format", "damage-calculator", "import"]
+categories = ["game-engines", "parser-implementations"]
+readme = "README.md"
 
 [dependencies]
-genshin-calc-core = { path = "../core" }
-genshin-calc-data = { path = "../data" }
+genshin-calc-core = { path = "../core", version = "0.1.0" }
+genshin-calc-data = { path = "../data", version = "0.1.0" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "2"
