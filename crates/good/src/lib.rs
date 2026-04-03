@@ -7,15 +7,21 @@
 //!
 //! ## Quick Start
 //!
-//! ```ignore
+//! ```rust
 //! use genshin_calc_good::import_good;
 //!
-//! let json = std::fs::read_to_string("good_export.json")?;
-//! let import = import_good(&json)?;
+//! let json = r#"{
+//!     "format": "GOOD",
+//!     "version": 3,
+//!     "source": "Test",
+//!     "characters": [{"key": "Amber", "level": 50, "constellation": 0, "ascension": 0, "talent": {"auto": 1, "skill": 1, "burst": 1}}],
+//!     "artifacts": [],
+//!     "weapons": []
+//! }"#;
 //!
-//! for build in &import.builds {
-//!     println!("{}: Lv{}", build.character.name, build.level);
-//! }
+//! let import = import_good(json).unwrap();
+//! assert_eq!(import.builds.len(), 1);
+//! assert_eq!(import.builds[0].character.name, "Amber");
 //! ```
 //!
 //! ## Full Example
@@ -44,21 +50,21 @@ use error::validate_format;
 ///
 /// # Example
 ///
-/// ```ignore
+/// ```rust
 /// use genshin_calc_good::import_good;
 ///
-/// let json = std::fs::read_to_string("good_export.json")?;
-/// let import = import_good(&json)?;
+/// let json = r#"{
+///     "format": "GOOD",
+///     "version": 3,
+///     "source": "Test",
+///     "characters": [{"key": "Amber", "level": 50, "constellation": 0, "ascension": 0, "talent": {"auto": 1, "skill": 1, "burst": 1}}],
+///     "artifacts": [],
+///     "weapons": []
+/// }"#;
 ///
-/// // Check for warnings
-/// for warning in &import.warnings {
-///     eprintln!("Warning: {:?}", warning);
-/// }
-///
-/// // Process each character build
-/// for build in &import.builds {
-///     println!("{} (Lv{})", build.character.name, build.level);
-/// }
+/// let import = import_good(json).unwrap();
+/// assert_eq!(import.builds.len(), 1);
+/// assert_eq!(import.builds[0].character.name, "Amber");
 /// ```
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct GoodImport {
@@ -158,7 +164,7 @@ pub struct ArtifactsBuild {
 ///
 /// # Example
 ///
-/// ```ignore
+/// ```rust
 /// use genshin_calc_good::import_good;
 ///
 /// let json = r#"{
@@ -170,7 +176,7 @@ pub struct ArtifactsBuild {
 ///     "weapons": []
 /// }"#;
 ///
-/// let import = import_good(json).expect("Failed to parse GOOD JSON");
+/// let import = import_good(json).unwrap();
 /// assert_eq!(import.builds.len(), 1);
 /// assert_eq!(import.builds[0].character.name, "Amber");
 /// ```
