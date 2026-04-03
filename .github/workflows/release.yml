@@ -113,40 +113,6 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
-  publish-npm:
-    name: Publish to npm
-    needs: validate
-    runs-on: ubuntu-latest
-    if: needs.validate.outputs.dry_run == 'false'
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Build wasm package
-        run: wasm-pack build crates/wasm --scope kotenbu135 --release
-
-      - name: Fix package name
-        working-directory: crates/wasm/pkg
-        run: npm pkg set name="@kotenbu/genshin-calc"
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Publish to npm
-        working-directory: crates/wasm/pkg
-        run: npm publish --access public --provenance
-
   publish-dry-run:
     name: Dry run
     needs: validate
@@ -169,14 +135,3 @@ jobs:
 
       - name: Dry run - cargo publish (good)
         run: cargo publish -p genshin-calc-good --dry-run
-
-      - name: Dry run - wasm-pack build
-        run: wasm-pack build crates/wasm --scope kotenbu135 --release
-
-      - name: Fix package name
-        working-directory: crates/wasm/pkg
-        run: npm pkg set name="@kotenbu/genshin-calc"
-
-      - name: Dry run - npm pack
-        working-directory: crates/wasm/pkg
-        run: npm pack --dry-run
