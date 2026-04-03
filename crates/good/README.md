@@ -1,6 +1,6 @@
 # genshin-calc-good
 
-GOOD (Genshin Open Object Description) format importer for [genshin-calc](https://github.com/kotenbu/genshin-calc).
+GOOD (Genshin Open Object Description) format importer for [genshin-calc](https://github.com/kotenbu135/genshin-calc).
 
 Parses GOOD JSON exported by scanners (Inventory Kamera, Genshin Calculator, etc.) and converts to `CharacterBuild` structs compatible with the genshin-calc calculation engine.
 

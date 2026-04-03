@@ -4,8 +4,8 @@ version = "0.2.3"
 edition = "2024"
 description = "WASM bindings for genshin-calc damage calculator"
 license = "MIT"
-authors = ["kotenbu"]
-repository = "https://github.com/kotenbu/genshin-calc"
+authors = ["kotenbu135"]
+repository = "https://github.com/kotenbu135/genshin-calc"
 rust-version = "1.85"
 
 [lib]

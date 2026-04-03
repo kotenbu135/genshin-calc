@@ -1,6 +1,6 @@
 //! # genshin-calc-good
 //!
-//! GOOD (Genshin Open Object Description) format importer for [genshin-calc](https://github.com/kotenbu/genshin-calc).
+//! GOOD (Genshin Open Object Description) format importer for [genshin-calc](https://github.com/kotenbu135/genshin-calc).
 //!
 //! This crate parses GOOD JSON exports from scanner apps (Inventory Kamera, Genshin Calculator, etc.)
 //! and converts them into `CharacterBuild` structs ready for damage calculation.
@@ -26,7 +26,7 @@
 //!
 //! ## Full Example
 //!
-//! See [`demo`](https://github.com/kotenbu/genshin-calc/blob/main/crates/good/examples/demo.rs) for complete usage.
+//! See [`demo`](https://github.com/kotenbu135/genshin-calc/blob/main/crates/good/examples/demo.rs) for complete usage.
 
 mod build_stats;
 mod convert;

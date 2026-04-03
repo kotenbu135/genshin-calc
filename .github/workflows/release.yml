@@ -131,11 +131,11 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build wasm package
-        run: wasm-pack build crates/wasm --scope kotenbu --release
+        run: wasm-pack build crates/wasm --scope kotenbu135 --release
 
       - name: Fix package name
         working-directory: crates/wasm/pkg
-        run: npm pkg set name="@kotenbu/genshin-calc"
+        run: npm pkg set name="@kotenbu135/genshin-calc"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -171,11 +171,11 @@ jobs:
         run: cargo publish -p genshin-calc-good --dry-run
 
       - name: Dry run - wasm-pack build
-        run: wasm-pack build crates/wasm --scope kotenbu --release
+        run: wasm-pack build crates/wasm --scope kotenbu135 --release
 
       - name: Fix package name
         working-directory: crates/wasm/pkg
-        run: npm pkg set name="@kotenbu/genshin-calc"
+        run: npm pkg set name="@kotenbu135/genshin-calc"
 
       - name: Dry run - npm pack
         working-directory: crates/wasm/pkg
