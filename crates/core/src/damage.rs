@@ -4,7 +4,7 @@ use crate::em::{amplifying_em_bonus, catalyze_em_bonus};
 use crate::enemy::Enemy;
 use crate::error::CalcError;
 use crate::level_table::reaction_base_value;
-use crate::reaction::{catalyze_coefficient, Reaction, ReactionCategory};
+use crate::reaction::{Reaction, ReactionCategory, catalyze_coefficient};
 use crate::stats::Stats;
 use crate::team::ResolvedBuff;
 use crate::types::{DamageType, Element, ScalingStat};
