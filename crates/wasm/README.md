@@ -1,4 +1,4 @@
-# @kotenbu/genshin-calc
+# @kotenbu135/genshin-calc-wasm
 
 Genshin Impact damage calculator — WASM bindings for the browser.
 
@@ -7,7 +7,7 @@ Built on [genshin-calc](https://crates.io/crates/genshin-calc-core), a Rust-base
 ## Install
 
 ```bash
-npm install @kotenbu/genshin-calc
+npm install @kotenbu135/genshin-calc-wasm
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ import init, {
   calculate_lunar,
   resolve_team_stats,
   import_good,
-} from "@kotenbu/genshin-calc";
+} from "@kotenbu135/genshin-calc-wasm";
 
 // Initialize the WASM module first
 await init();
@@ -102,7 +102,7 @@ console.log(imported.warnings); // Any import warnings
 Type definitions for all input/output objects are available at `types.ts`.
 
 ```ts
-import type { DamageInput, Enemy, DamageResult } from "@kotenbu/genshin-calc/types";
+import type { DamageInput, Enemy, DamageResult } from "@kotenbu135/genshin-calc-wasm/types";
 ```
 
 ## License
