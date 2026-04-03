@@ -258,9 +258,24 @@ pub const TARTAGLIA: CharacterData = CharacterData {
     weapon_type: WeaponType::Bow,
     rarity: Rarity::Star5,
     region: Region::Snezhnaya,
-    base_hp: [1020.0, 11561.0, 12182.0, 13103.0],
-    base_atk: [23.0, 260.0, 274.0, 301.0],
-    base_def: [63.0, 714.0, 753.0, 810.0],
+    base_hp: [
+        1020.00, 2646.00, 3521.00, 5268.00, 5889.00, 6776.00, 7604.00, 8500.00, 9121.00, 10025.00,
+        10647.00, 11561.00, 12182.00, 13103.00, 13103.00, 13627.12, // Lv95/Lv95+/Lv100
+        13627.12, // Lv95/Lv95+/Lv100
+        14151.24, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        23.46, 60.86, 80.97, 121.16, 135.45, 155.84, 174.90, 195.50, 209.79, 230.57, 244.87,
+        265.89, 280.18, 301.36, 301.36, 313.41, // Lv95/Lv95+/Lv100
+        313.41, // Lv95/Lv95+/Lv100
+        325.47, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        63.42, 164.51, 218.89, 327.53, 366.16, 421.28, 472.79, 528.47, 567.11, 623.30, 661.94,
+        718.76, 757.40, 814.67, 814.67, 847.26, // Lv95/Lv95+/Lv100
+        847.26, // Lv95/Lv95+/Lv100
+        879.84, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Hydro, 0.288),
     talents: TalentSet {
         normal_attack: NormalAttackData {

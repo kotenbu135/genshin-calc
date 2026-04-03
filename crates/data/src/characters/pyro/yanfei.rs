@@ -152,9 +152,24 @@ pub const YANFEI: CharacterData = CharacterData {
     weapon_type: WeaponType::Catalyst,
     rarity: Rarity::Star4,
     region: Region::Liyue,
-    base_hp: [784.0, 8289.0, 8705.0, 9352.0],
-    base_atk: [20.0, 213.0, 223.0, 240.0],
-    base_def: [49.0, 520.0, 546.0, 587.0],
+    base_hp: [
+        784.00, 8289.00, 8289.00, 8497.00, 8497.00, 8601.00, 8601.00, 8566.33, 8566.33, 9028.50,
+        9028.50, 8705.00, 8705.00, 9352.00, 9352.00, 9726.08,  // Lv95/Lv95+/Lv100
+        9726.08,  // Lv95/Lv95+/Lv100
+        10100.16, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        20.00, 213.00, 213.00, 218.00, 218.00, 220.50, 220.50, 219.67, 219.67, 231.50, 231.50,
+        223.00, 223.00, 240.00, 240.00, 249.60, // Lv95/Lv95+/Lv100
+        249.60, // Lv95/Lv95+/Lv100
+        259.20, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        49.00, 520.00, 520.00, 533.00, 533.00, 539.50, 539.50, 537.33, 537.33, 566.50, 566.50,
+        546.00, 546.00, 587.00, 587.00, 610.48, // Lv95/Lv95+/Lv100
+        610.48, // Lv95/Lv95+/Lv100
+        633.96, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Pyro, 0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

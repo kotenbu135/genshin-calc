@@ -150,9 +150,24 @@ pub const DIONA: CharacterData = CharacterData {
     weapon_type: WeaponType::Bow,
     rarity: Rarity::Star4,
     region: Region::Mondstadt,
-    base_hp: [802.0, 8481.0, 8907.0, 9570.0],
-    base_atk: [18.0, 188.0, 198.0, 212.0],
-    base_def: [50.0, 532.0, 559.0, 601.0],
+    base_hp: [
+        802.00, 2061.00, 2661.00, 3985.00, 4411.00, 5074.00, 5642.00, 6305.00, 6731.00, 7393.00,
+        7819.00, 8481.00, 8907.00, 9570.00, 9570.00, 9952.80,  // Lv95/Lv95+/Lv100
+        9952.80,  // Lv95/Lv95+/Lv100
+        10335.60, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        17.81, 45.75, 59.05, 88.45, 97.91, 112.62, 125.22, 139.93, 149.38, 164.07, 173.53, 188.24,
+        197.69, 212.40, 212.40, 220.90, // Lv95/Lv95+/Lv100
+        220.90, // Lv95/Lv95+/Lv100
+        229.39, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        50.36, 129.37, 166.99, 250.13, 276.86, 318.46, 354.10, 395.69, 422.42, 463.97, 490.70,
+        532.29, 559.02, 600.62, 600.62, 624.64, // Lv95/Lv95+/Lv100
+        624.64, // Lv95/Lv95+/Lv100
+        648.67, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Cryo, 0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

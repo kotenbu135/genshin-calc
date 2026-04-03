@@ -161,9 +161,24 @@ pub const BEIDOU: CharacterData = CharacterData {
     weapon_type: WeaponType::Claymore,
     rarity: Rarity::Star4,
     region: Region::Liyue,
-    base_hp: [1094.0, 11565.0, 12146.0, 13050.0],
-    base_atk: [19.0, 200.0, 210.0, 225.0],
-    base_def: [54.0, 575.0, 603.0, 648.0],
+    base_hp: [
+        1094.00, 2811.00, 3628.00, 5435.00, 6015.00, 6919.00, 7694.00, 8597.00, 9178.00, 10081.00,
+        10662.00, 11565.00, 12146.00, 13050.00, 13050.00, 13572.00, // Lv95/Lv95+/Lv100
+        13572.00, // Lv95/Lv95+/Lv100
+        14094.00, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        18.88, 48.49, 62.60, 93.76, 103.78, 119.37, 132.73, 148.32, 158.34, 173.92, 183.94, 199.53,
+        209.55, 225.14, 225.14, 234.15, // Lv95/Lv95+/Lv100
+        234.15, // Lv95/Lv95+/Lv100
+        243.15, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        54.36, 139.66, 180.27, 270.03, 298.88, 343.79, 382.26, 427.17, 456.02, 500.87, 529.73,
+        574.63, 603.49, 648.40, 648.40, 674.34, // Lv95/Lv95+/Lv100
+        674.34, // Lv95/Lv95+/Lv100
+        700.27, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Electro, 0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

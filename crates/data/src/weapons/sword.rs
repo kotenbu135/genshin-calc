@@ -142,7 +142,8 @@ pub const FREEDOM_SWORN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "革命の翼",
         effect: PassiveEffect {
-            description: "DMG+10-20%。元素反応時に印を蓄積、2つでチーム全員にATK+20%/NA・CA・PlungeDMG+16%",
+            description:
+                "DMG+10-20%。元素反応時に印を蓄積、2つでチーム全員にATK+20%/NA・CA・PlungeDMG+16%",
             buffs: &[StatBuff {
                 stat: BuffableStat::DmgBonus,
                 value: 0.10,
@@ -234,7 +235,8 @@ pub const KEY_OF_KHAJ_NISUT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "砂漠の導きの鍵",
         effect: PassiveEffect {
-            description: "Conditional: HP上限に基づき元素熟知アップ。フルスタックでチーム全員にEM付与",
+            description:
+                "Conditional: HP上限に基づき元素熟知アップ。フルスタックでチーム全員にEM付与",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "khaj_nisut_hp_em",
@@ -382,7 +384,8 @@ pub const PEAK_PATROL_SONG: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Peak Patrol Song",
         effect: PassiveEffect {
-            description: "Conditional: DEFに基づき元素DMGアップ。フルスタックでチームにDEF%/元素DMG付与",
+            description:
+                "Conditional: DEFに基づき元素DMGアップ。フルスタックでチームにDEF%/元素DMG付与",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "peak_patrol_def_dmg",

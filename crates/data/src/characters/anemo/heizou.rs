@@ -180,9 +180,24 @@ pub const HEIZOU: CharacterData = CharacterData {
     weapon_type: WeaponType::Catalyst,
     rarity: Rarity::Star4,
     region: Region::Inazuma,
-    base_hp: [894.0, 9445.0, 9919.0, 10657.0],
-    base_atk: [19.0, 200.0, 210.0, 225.0],
-    base_def: [57.0, 606.0, 636.0, 684.0],
+    base_hp: [
+        894.00, 9445.00, 9445.00, 9682.00, 9682.00, 9800.50, 9800.50, 9761.00, 9761.00, 10288.00,
+        10288.00, 9919.00, 9919.00, 10657.00, 10657.00, 11083.28, // Lv95/Lv95+/Lv100
+        11083.28, // Lv95/Lv95+/Lv100
+        11509.56, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        19.00, 200.00, 200.00, 205.00, 205.00, 207.50, 207.50, 206.67, 206.67, 217.50, 217.50,
+        210.00, 210.00, 225.00, 225.00, 234.00, // Lv95/Lv95+/Lv100
+        234.00, // Lv95/Lv95+/Lv100
+        243.00, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        57.00, 606.00, 606.00, 621.00, 621.00, 628.50, 628.50, 626.00, 626.00, 660.00, 660.00,
+        636.00, 636.00, 684.00, 684.00, 711.36, // Lv95/Lv95+/Lv100
+        711.36, // Lv95/Lv95+/Lv100
+        738.72, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Anemo, 0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

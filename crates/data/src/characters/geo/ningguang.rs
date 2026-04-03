@@ -102,9 +102,24 @@ pub const NINGGUANG: CharacterData = CharacterData {
     weapon_type: WeaponType::Catalyst,
     rarity: Rarity::Star4,
     region: Region::Liyue,
-    base_hp: [821.0, 8674.0, 9110.0, 9787.0],
-    base_atk: [18.0, 188.0, 198.0, 212.0],
-    base_def: [48.0, 512.0, 538.0, 573.0],
+    base_hp: [
+        821.00, 2108.00, 2721.00, 4076.00, 4512.00, 5189.00, 5770.00, 6448.00, 6884.00, 7561.00,
+        7996.00, 8674.00, 9110.00, 9787.00, 9787.00, 10178.48, // Lv95/Lv95+/Lv100
+        10178.48, // Lv95/Lv95+/Lv100
+        10569.96, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        17.81, 45.75, 59.05, 88.45, 97.91, 112.62, 125.22, 139.93, 149.38, 164.07, 173.53, 188.24,
+        197.69, 212.40, 212.40, 220.90, // Lv95/Lv95+/Lv100
+        220.90, // Lv95/Lv95+/Lv100
+        229.39, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        48.07, 123.49, 159.40, 238.76, 264.28, 303.98, 338.00, 377.71, 403.22, 442.88, 468.39,
+        508.10, 533.61, 573.32, 573.32, 596.25, // Lv95/Lv95+/Lv100
+        596.25, // Lv95/Lv95+/Lv100
+        619.19, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Geo, 0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

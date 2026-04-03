@@ -3,15 +3,15 @@ use genshin_calc_core::StatProfile;
 
 /// Converts a CharacterBuild into a StatProfile.
 ///
-/// Uses Lv90/A6 values for base stats, weapon stats, and ascension stats.
+/// Uses character level for base stats, weapon stats, and ascension stats.
 /// Merges artifact stats and applies base defaults (CR 5%, CD 50%, ER 100%).
 pub fn build_stat_profile(build: &CharacterBuild) -> StatProfile {
     use genshin_calc_data::team_builder::{apply_ascension_stat, apply_weapon_sub_stat};
 
     let mut profile = StatProfile {
-        base_hp: build.character.base_hp[3],
-        base_atk: build.character.base_atk[3],
-        base_def: build.character.base_def[3],
+        base_hp: build.character.base_hp_at_level(build.level),
+        base_atk: build.character.base_atk_at_level(build.level),
+        base_def: build.character.base_def_at_level(build.level),
         crit_rate: 0.05,
         crit_dmg: 0.50,
         energy_recharge: 1.0,

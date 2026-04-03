@@ -122,9 +122,24 @@ pub const KACHINA: CharacterData = CharacterData {
     weapon_type: WeaponType::Polearm,
     rarity: Rarity::Star4,
     region: Region::Natlan,
-    base_hp: [989.0, 10454.0, 10979.0, 11799.0],
-    base_atk: [18.0, 186.0, 196.0, 210.0],
-    base_def: [66.0, 698.0, 733.0, 788.0],
+    base_hp: [
+        989.00, 2541.00, 3281.00, 4914.00, 5439.00, 6256.00, 6956.00, 7773.00, 8299.00, 9115.00,
+        9640.00, 10457.00, 10982.00, 11799.00, 11799.00, 12270.96, // Lv95/Lv95+/Lv100
+        12270.96, // Lv95/Lv95+/Lv100
+        12742.92, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        18.16, 46.66, 60.23, 90.22, 99.86, 114.87, 127.72, 142.73, 152.37, 167.35, 177.00, 192.00,
+        201.64, 216.65, 216.65, 225.32, // Lv95/Lv95+/Lv100
+        225.32, // Lv95/Lv95+/Lv100
+        233.98, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        66.44, 170.68, 220.31, 330.00, 365.27, 420.15, 467.17, 522.04, 557.31, 612.12, 647.39,
+        702.26, 737.53, 792.41, 792.41, 824.11, // Lv95/Lv95+/Lv100
+        824.11, // Lv95/Lv95+/Lv100
+        855.80, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Geo, 0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

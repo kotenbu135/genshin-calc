@@ -23,6 +23,8 @@
 #![deny(missing_docs)]
 
 #[allow(missing_docs)]
+pub mod artifact_stats;
+#[allow(missing_docs)]
 pub mod artifacts;
 #[allow(missing_docs)]
 pub mod buff;
@@ -40,6 +42,8 @@ pub mod types;
 #[allow(missing_docs)]
 pub mod weapons;
 
+/// Artifact main stat values by slot, rarity, and level.
+pub use artifact_stats::{artifact_main_stat_value, available_levels, ArtifactSlot};
 /// Conditional buff types for weapon passives and artifact set effects.
 pub use buff::{
     Activation, AutoCondition, AvailableConditional, ConditionalBuff, ManualActivation,
@@ -47,11 +51,11 @@ pub use buff::{
 };
 /// Moonsign character data: benedictions, talent enhancements, and lookup functions.
 pub use moonsign_chars::{
-    ALL_MOONSIGN_BENEDICTIONS, MoonsignBenedictionDef, calculate_benediction_bonus,
-    find_moonsign_benediction, find_moonsign_talent_enhancements, is_moonsign_character,
+    calculate_benediction_bonus, find_moonsign_benediction, find_moonsign_talent_enhancements,
+    is_moonsign_character, MoonsignBenedictionDef, ALL_MOONSIGN_BENEDICTIONS,
 };
 /// Talent buff definitions and lookup.
-pub use talent_buffs::{TalentBuffDef, TalentBuffSource, find_talent_buffs};
+pub use talent_buffs::{find_talent_buffs, TalentBuffDef, TalentBuffSource};
 /// Builder pattern for constructing [`genshin_calc_core::TeamMember`] from game data.
 pub use team_builder::TeamMemberBuilder;
 
@@ -174,9 +178,9 @@ mod tests {
         let jahoda = find_character("jahoda").unwrap();
         assert_eq!(jahoda.element, Element::Anemo);
         assert_eq!(jahoda.weapon_type, WeaponType::Bow);
-        assert!(jahoda.base_hp[3] > 0.0);
-        assert!(jahoda.base_atk[3] > 0.0);
-        assert!(jahoda.base_def[3] > 0.0);
+        assert!(jahoda.base_hp_at_level(90) > 0.0);
+        assert!(jahoda.base_atk_at_level(90) > 0.0);
+        assert!(jahoda.base_def_at_level(90) > 0.0);
     }
 
     #[test]
@@ -184,6 +188,6 @@ mod tests {
         let aino = find_character("aino").unwrap();
         assert_eq!(aino.element, Element::Hydro);
         assert_eq!(aino.weapon_type, WeaponType::Claymore);
-        assert!(aino.base_hp[3] > 0.0);
+        assert!(aino.base_hp_at_level(90) > 0.0);
     }
 }

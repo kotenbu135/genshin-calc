@@ -138,9 +138,24 @@ pub const KOKOMI: CharacterData = CharacterData {
     weapon_type: WeaponType::Catalyst,
     rarity: Rarity::Star5,
     region: Region::Inazuma,
-    base_hp: [1049.0, 11885.0, 12524.0, 13471.0],
-    base_atk: [18.0, 203.0, 214.0, 234.0],
-    base_def: [51.0, 573.0, 604.0, 657.0],
+    base_hp: [
+        1049.00, 2720.00, 3619.00, 5416.00, 6055.00, 6966.00, 7818.00, 8738.00, 9377.00, 10306.00,
+        10945.00, 11885.00, 12524.00, 13471.00, 13471.00, 14009.84, // Lv95/Lv95+/Lv100
+        14009.84, // Lv95/Lv95+/Lv100
+        14548.68, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        18.25, 47.33, 62.98, 94.24, 105.35, 121.21, 136.03, 152.05, 163.17, 179.34, 190.45, 206.80,
+        217.92, 234.39, 234.39, 243.77, // Lv95/Lv95+/Lv100
+        243.77, // Lv95/Lv95+/Lv100
+        253.14, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        51.15, 132.70, 176.56, 264.18, 295.35, 339.80, 381.36, 426.27, 457.43, 502.76, 533.92,
+        579.76, 610.92, 657.11, 657.11, 683.39, // Lv95/Lv95+/Lv100
+        683.39, // Lv95/Lv95+/Lv100
+        709.68, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Hydro, 0.288),
     talents: TalentSet {
         normal_attack: NormalAttackData {

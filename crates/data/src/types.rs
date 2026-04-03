@@ -111,6 +111,61 @@ pub struct TalentSet {
     pub elemental_burst: TalentData,
 }
 
+/// Base stat values at key level breakpoints.
+/// [Lv1, Lv20, Lv20+, Lv40, Lv40+, Lv50(pre-A3), Lv50+, Lv60, Lv60+, Lv70, Lv70+, Lv80, Lv80+, Lv90, Lv90+, Lv95, Lv95+, Lv100]
+///
+/// Note: Lv50+ (突破後) is at index 6, and Lv50- (突破前) is at index 5.
+/// This design allows level=50 to return the post-ascension value (Lv50+) for user convenience.
+/// Lv95/Lv100 unlocked with 無主の星屑 (Stardust of the Unowned).
+pub type BaseStatKeypoints = [f64; 18];
+
+/// Returns the interpolated stat value at a given level.
+///
+/// Uses linear interpolation between key breakpoints.
+/// Level 50 returns the post-ascension value (Lv50+) for convenience.
+/// Use level 49 for the pre-ascension Lv50 value.
+pub fn interpolate_base_stat(keypoints: &[f64; 18], level: u32) -> f64 {
+    debug_assert_eq!(keypoints.len(), 18, "Expected 18 keypoints");
+    let level = level.clamp(1, 100);
+
+    if level <= 1 {
+        return keypoints[0];
+    }
+    if level >= 100 {
+        return keypoints[17];
+    }
+
+    // Breakpoints: [1, 20, 20, 40, 40, 49, 50, 60, 60, 70, 70, 80, 80, 90, 90, 95, 95, 100]
+    // Index mapping:
+    //   0: Lv1     = keypoints[0]
+    //   1: Lv20    = keypoints[1]
+    //   2: Lv20+   = keypoints[2]
+    //   3: Lv40    = keypoints[3]
+    //   4: Lv40+   = keypoints[4]
+    //   5: Lv49    = keypoints[5] (Lv50 突破前)
+    //   6: Lv50    = keypoints[6] (Lv50+ 突破後)
+    //   7: Lv60    = keypoints[7]
+    //   ...
+    const BREAKPOINTS: [u32; 18] = [
+        1, 20, 20, 40, 40, 49, 50, 60, 60, 70, 70, 80, 80, 90, 90, 95, 95, 100,
+    ];
+
+    for i in 0..17 {
+        if level >= BREAKPOINTS[i] && level <= BREAKPOINTS[i + 1] {
+            let start_level = BREAKPOINTS[i];
+            let end_level = BREAKPOINTS[i + 1];
+            let t = if start_level == end_level {
+                0.0
+            } else {
+                (level - start_level) as f64 / (end_level - start_level) as f64
+            };
+            return keypoints[i] + (keypoints[i + 1] - keypoints[i]) * t;
+        }
+    }
+
+    keypoints[17]
+}
+
 // -- Character --
 
 /// Character data including base stats, talents, and metadata.
@@ -128,12 +183,12 @@ pub struct CharacterData {
     pub rarity: Rarity,
     /// Region of origin.
     pub region: Region,
-    /// Base HP at ascension breakpoints [Lv1, Lv20, Lv80, Lv90].
-    pub base_hp: [f64; 4],
-    /// Base ATK at ascension breakpoints.
-    pub base_atk: [f64; 4],
-    /// Base DEF at ascension breakpoints.
-    pub base_def: [f64; 4],
+    /// Base HP at key level breakpoints [Lv1, Lv20, Lv40, Lv50, Lv60, Lv70, Lv80, Lv90, Lv95, Lv100].
+    pub base_hp: BaseStatKeypoints,
+    /// Base ATK at key level breakpoints.
+    pub base_atk: BaseStatKeypoints,
+    /// Base DEF at key level breakpoints.
+    pub base_def: BaseStatKeypoints,
     /// Stat gained from ascension.
     pub ascension_stat: AscensionStat,
     /// Character talent set.
@@ -163,6 +218,23 @@ impl CharacterData {
             _ => 0,
         };
         (talent_level + boost).min(15)
+    }
+
+    /// Returns the base HP at the specified character level.
+    ///
+    /// Uses linear interpolation between key breakpoints [Lv1, Lv20, Lv40, Lv50, Lv60, Lv70, Lv80, Lv90, Lv95, Lv100].
+    pub fn base_hp_at_level(&self, level: u32) -> f64 {
+        interpolate_base_stat(&self.base_hp, level)
+    }
+
+    /// Returns the base ATK at the specified character level.
+    pub fn base_atk_at_level(&self, level: u32) -> f64 {
+        interpolate_base_stat(&self.base_atk, level)
+    }
+
+    /// Returns the base DEF at the specified character level.
+    pub fn base_def_at_level(&self, level: u32) -> f64 {
+        interpolate_base_stat(&self.base_def, level)
     }
 
     /// Returns the TalentScaling entry for a specific talent hit.
@@ -380,9 +452,9 @@ mod tests {
             weapon_type: WeaponType::Sword,
             rarity: Rarity::Star4,
             region: Region::Mondstadt,
-            base_hp: [0.0; 4],
-            base_atk: [0.0; 4],
-            base_def: [0.0; 4],
+            base_hp: [0.0; 18],
+            base_atk: [0.0; 18],
+            base_def: [0.0; 18],
             ascension_stat: AscensionStat::Atk(0.0),
             talents: TalentSet {
                 normal_attack: NormalAttackData {
@@ -496,11 +568,9 @@ mod tests {
     #[test]
     fn test_talent_multiplier_out_of_range() {
         let diluc = crate::find_character("diluc").unwrap();
-        assert!(
-            diluc
-                .talent_multiplier(DamageType::Skill, 999, 9, 0)
-                .is_none()
-        );
+        assert!(diluc
+            .talent_multiplier(DamageType::Skill, 999, 9, 0)
+            .is_none());
     }
 
     // -- build_damage_input tests --
@@ -584,18 +654,16 @@ mod tests {
         let diluc = crate::find_character("diluc").unwrap();
         let stats = Stats::default();
 
-        assert!(
-            diluc
-                .build_damage_input(stats, 90, DamageType::Skill, 999, 9, 0, None, 0.0)
-                .is_none()
-        );
+        assert!(diluc
+            .build_damage_input(stats, 90, DamageType::Skill, 999, 9, 0, None, 0.0)
+            .is_none());
     }
 
     // -- E2E integration tests --
 
     #[test]
     fn test_e2e_build_damage_input_to_calculate_damage() {
-        use genshin_calc_core::{Enemy, calculate_damage};
+        use genshin_calc_core::{calculate_damage, Enemy};
 
         let diluc = crate::find_character("diluc").unwrap();
         let stats = Stats {
@@ -629,7 +697,7 @@ mod tests {
 
     #[test]
     fn test_e2e_with_vaporize() {
-        use genshin_calc_core::{Enemy, calculate_damage};
+        use genshin_calc_core::{calculate_damage, Enemy};
 
         let diluc = crate::find_character("diluc").unwrap();
         let stats = Stats {

@@ -32,15 +32,30 @@ fn all_characters_have_positive_base_stats() {
 #[test]
 fn all_characters_base_stats_ascending() {
     for c in all_characters() {
-        assert!(c.base_hp[0] < c.base_hp[1], "{}: HP not ascending", c.id);
-        assert!(c.base_hp[1] <= c.base_hp[2], "{}: HP Lv80 > Lv80+", c.id);
-        assert!(c.base_hp[2] < c.base_hp[3], "{}: HP Lv80+ > Lv90", c.id);
-        assert!(c.base_atk[0] < c.base_atk[1], "{}: ATK not ascending", c.id);
-        assert!(c.base_atk[1] <= c.base_atk[2], "{}: ATK Lv80 > Lv80+", c.id);
-        assert!(c.base_atk[2] < c.base_atk[3], "{}: ATK Lv80+ > Lv90", c.id);
-        assert!(c.base_def[0] < c.base_def[1], "{}: DEF not ascending", c.id);
-        assert!(c.base_def[1] <= c.base_def[2], "{}: DEF Lv80 > Lv80+", c.id);
-        assert!(c.base_def[2] < c.base_def[3], "{}: DEF Lv80+ > Lv90", c.id);
+        // Index mapping: [Lv1, Lv20, Lv20+, Lv40, Lv40+, Lv50, Lv50+, Lv60, Lv60+, Lv70, Lv70+, Lv80, Lv80+, Lv90, Lv90+, Lv95, Lv95+, Lv100]
+        assert!(c.base_hp[0] < c.base_hp[1], "{}: HP Lv1 >= Lv20", c.id);
+        assert!(c.base_hp[1] <= c.base_hp[2], "{}: HP Lv20 > Lv20+", c.id);
+        assert!(c.base_hp[2] < c.base_hp[3], "{}: HP Lv20+ >= Lv40", c.id);
+        assert!(c.base_hp[3] <= c.base_hp[4], "{}: HP Lv40 > Lv40+", c.id);
+        assert!(c.base_hp[12] <= c.base_hp[13], "{}: HP Lv80+ > Lv90", c.id);
+        assert!(c.base_atk[0] < c.base_atk[1], "{}: ATK Lv1 >= Lv20", c.id);
+        assert!(c.base_atk[1] <= c.base_atk[2], "{}: ATK Lv20 > Lv20+", c.id);
+        assert!(c.base_atk[2] < c.base_atk[3], "{}: ATK Lv20+ >= Lv40", c.id);
+        assert!(c.base_atk[3] <= c.base_atk[4], "{}: ATK Lv40 > Lv40+", c.id);
+        assert!(
+            c.base_atk[12] <= c.base_atk[13],
+            "{}: ATK Lv80+ > Lv90",
+            c.id
+        );
+        assert!(c.base_def[0] < c.base_def[1], "{}: DEF Lv1 >= Lv20", c.id);
+        assert!(c.base_def[1] <= c.base_def[2], "{}: DEF Lv20 > Lv20+", c.id);
+        assert!(c.base_def[2] < c.base_def[3], "{}: DEF Lv20+ >= Lv40", c.id);
+        assert!(c.base_def[3] <= c.base_def[4], "{}: DEF Lv40 > Lv40+", c.id);
+        assert!(
+            c.base_def[12] <= c.base_def[13],
+            "{}: DEF Lv80+ > Lv90",
+            c.id
+        );
     }
 }
 

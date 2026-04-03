@@ -130,9 +130,24 @@ pub const SUCROSE: CharacterData = CharacterData {
     weapon_type: WeaponType::Catalyst,
     rarity: Rarity::Star4,
     region: Region::Mondstadt,
-    base_hp: [775.0, 8192.0, 8604.0, 9244.0],
-    base_atk: [14.0, 151.0, 158.0, 170.0],
-    base_def: [59.0, 623.0, 654.0, 703.0],
+    base_hp: [
+        775.00, 1991.00, 2570.00, 3850.00, 4261.00, 4901.00, 5450.00, 6090.00, 6501.00, 7141.00,
+        7552.00, 8192.00, 8604.00, 9244.00, 9244.00, 9613.76, // Lv95/Lv95+/Lv100
+        9613.76, // Lv95/Lv95+/Lv100
+        9983.52, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        14.25, 36.60, 47.24, 70.76, 78.33, 90.09, 100.18, 111.94, 119.51, 131.26, 138.82, 150.59,
+        158.15, 169.92, 169.92, 176.72, // Lv95/Lv95+/Lv100
+        176.72, // Lv95/Lv95+/Lv100
+        183.51, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        58.94, 151.42, 195.45, 292.77, 324.05, 372.74, 414.45, 463.14, 494.43, 543.05, 574.34,
+        623.03, 654.31, 703.00, 703.00, 731.12, // Lv95/Lv95+/Lv100
+        731.12, // Lv95/Lv95+/Lv100
+        759.24, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Anemo, 0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

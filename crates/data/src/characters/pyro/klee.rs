@@ -122,9 +122,24 @@ pub const KLEE: CharacterData = CharacterData {
     weapon_type: WeaponType::Catalyst,
     rarity: Rarity::Star5,
     region: Region::Mondstadt,
-    base_hp: [801.0, 9076.0, 9563.0, 10287.0],
-    base_atk: [24.0, 274.0, 289.0, 311.0],
-    base_def: [48.0, 542.0, 572.0, 615.0],
+    base_hp: [
+        801.00, 2077.00, 2764.00, 4136.00, 4623.00, 5319.00, 5970.00, 6673.00, 7161.00, 7870.00,
+        8358.00, 9076.00, 9563.00, 10287.00, 10287.00, 10698.48, // Lv95/Lv95+/Lv100
+        10698.48, // Lv95/Lv95+/Lv100
+        11109.96, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        24.21, 62.79, 83.54, 125.01, 139.75, 160.79, 180.45, 201.70, 216.45, 237.89, 252.64,
+        274.33, 289.07, 310.93, 310.93, 323.37, // Lv95/Lv95+/Lv100
+        323.37, // Lv95/Lv95+/Lv100
+        335.80, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        47.86, 124.16, 165.20, 247.19, 276.35, 317.94, 356.82, 398.85, 428.01, 470.42, 499.58,
+        542.46, 571.62, 614.84, 614.84, 639.43, // Lv95/Lv95+/Lv100
+        639.43, // Lv95/Lv95+/Lv100
+        664.03, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Pyro, 0.288),
     talents: TalentSet {
         normal_attack: NormalAttackData {

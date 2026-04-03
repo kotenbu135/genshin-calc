@@ -282,21 +282,15 @@ mod tests {
     fn test_thoma_c6_buffs() {
         let buffs = find_talent_buffs("thoma").unwrap();
         assert_eq!(buffs.len(), 3);
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::NormalAtkDmgBonus)
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ChargedAtkDmgBonus)
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::PlungingAtkDmgBonus)
-        );
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::NormalAtkDmgBonus));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ChargedAtkDmgBonus));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::PlungingAtkDmgBonus));
         for b in buffs {
             assert!((b.base_value - 0.15).abs() < 1e-6);
             assert_eq!(b.min_constellation, 6);
@@ -444,45 +438,29 @@ mod tests {
             assert!((b.base_value - 0.20).abs() < 1e-6);
             assert_eq!(b.target, BuffTarget::Team);
         }
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Pyro))
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Hydro))
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Electro))
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Cryo))
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Dendro))
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Anemo))
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Geo))
-        );
-        assert!(
-            buffs
-                .iter()
-                .any(|b| b.stat == BuffableStat::PhysicalResReduction)
-        );
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Pyro)));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Hydro)));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Electro)));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Cryo)));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Dendro)));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Anemo)));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::ElementalResReduction(Element::Geo)));
+        assert!(buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::PhysicalResReduction));
     }
 }

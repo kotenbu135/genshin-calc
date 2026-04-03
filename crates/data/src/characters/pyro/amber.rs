@@ -152,9 +152,24 @@ pub const AMBER: CharacterData = CharacterData {
     weapon_type: WeaponType::Bow,
     rarity: Rarity::Star4,
     region: Region::Mondstadt,
-    base_hp: [793.0, 8385.0, 8806.0, 9461.0],
-    base_atk: [19.0, 198.0, 208.0, 223.0],
-    base_def: [50.0, 532.0, 559.0, 601.0],
+    base_hp: [
+        793.26, 2037.88, 2630.48, 3940.15, 4361.22, 5016.45, // index 5: Lv50 突破前
+        5577.86, 6233.09, 6654.15, 7308.59, 7729.65, 8384.88, // index 6-11
+        8805.94, 9461.18, 9461.18, 9788.00, // index 12-15: Lv80+ - Lv90+
+        9788.00, 10115.61, // index 16-17: Lv95/Lv95+
+    ],
+    base_atk: [
+        18.70, 48.04, 62.01, 92.88, 102.80, 118.25, // index 5: Lv50 突破前
+        131.48, 146.93, 156.85, 172.28, 182.20, 197.65, // index 6-11
+        207.57, 223.02, 223.02, 231.94, // index 12-15: Lv80+ - Lv90+
+        231.94, 240.86, // index 16-17: Lv95/Lv95+
+    ],
+    base_def: [
+        50.36, 129.37, 166.99, 250.13, 276.86, 318.46, // index 5: Lv50 突破前
+        354.10, 395.69, 422.42, 463.97, 490.70, 532.29, // index 6-11
+        559.02, 600.62, 600.62, 621.37, // index 12-15: Lv80+ - Lv90+
+        621.37, 642.16, // index 16-17: Lv95/Lv95+
+    ],
     ascension_stat: AscensionStat::Atk(0.24),
     talents: TalentSet {
         normal_attack: NormalAttackData {

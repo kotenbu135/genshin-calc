@@ -231,8 +231,7 @@ pub fn build_stats(
     weapon_activations: JsValue,
     artifact_activations: JsValue,
 ) -> Result<JsValue, JsError> {
-    let import = genshin_calc_good::import_good(json)
-        .map_err(|e| JsError::new(&e.to_string()))?;
+    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
     let build = import
         .builds
         .iter()
@@ -245,12 +244,9 @@ pub fn build_stats(
                 serde_wasm_bindgen::from_value(artifact_activations).unwrap_or_default();
             let w_converted = convert_activations(&w_acts);
             let a_converted = convert_activations(&a_acts);
-            let builder =
-                genshin_calc_good::to_team_member_builder(b, &w_converted, &a_converted)
-                    .map_err(|e| JsError::new(&e.to_string()))?;
-            let member = builder
-                .build()
+            let builder = genshin_calc_good::to_team_member_builder(b, &w_converted, &a_converted)
                 .map_err(|e| JsError::new(&e.to_string()))?;
+            let member = builder.build().map_err(|e| JsError::new(&e.to_string()))?;
             let stats = genshin_calc_core::resolve_team_stats(&[member], 0)
                 .map_err(|e| JsError::new(&e.to_string()))?;
             to_js(&stats)

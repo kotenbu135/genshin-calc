@@ -352,7 +352,8 @@ pub const WOLFS_GRAVESTONE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "止めの一撃",
         effect: PassiveEffect {
-            description: "ATK+20-40%。HP30%以下の敵を攻撃するとチーム全員ATK+40-80%、12秒、30秒に1回",
+            description:
+                "ATK+20-40%。HP30%以下の敵を攻撃するとチーム全員ATK+40-80%、12秒、30秒に1回",
             buffs: &[StatBuff {
                 stat: BuffableStat::AtkPercent,
                 value: 0.20,
@@ -386,7 +387,8 @@ pub const AKUOUMARU: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "曚雲の海鯨波",
         effect: PassiveEffect {
-            description: "チーム総エネルギー上限に応じてBurst DMGアップ（最大Burst DMG+40-80%、総EP280超時）",
+            description:
+                "チーム総エネルギー上限に応じてBurst DMGアップ（最大Burst DMG+40-80%、総EP280超時）",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "akuoumaru_burst_dmg",
@@ -672,7 +674,8 @@ pub const MAKHAIRA_AQUAMARINE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "砂海の渡し守",
         effect: PassiveEffect {
-            description: "EM×0.024-0.048%分のATK(フラット)を自身に付与。その30%をチームメンバーにも付与",
+            description:
+                "EM×0.024-0.048%分のATK(フラット)を自身に付与。その30%をチームメンバーにも付与",
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
@@ -856,7 +859,8 @@ pub const SERPENT_SPINE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "波乱",
         effect: PassiveEffect {
-            description: "4秒毎にDMG+6-10%スタック（最大5スタック）。ダメージを受けるとスタック減少",
+            description:
+                "4秒毎にDMG+6-10%スタック（最大5スタック）。ダメージを受けるとスタック減少",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "serpent_spine_dmg",

@@ -11,6 +11,15 @@ use crate::moonsign_chars::is_moonsign_character;
 use crate::talent_buffs::find_talent_buffs;
 use crate::types::{ArtifactSet, AscensionStat, CharacterData, WeaponData, WeaponSubStat};
 
+fn weapon_stat_index(level: u32) -> usize {
+    match level {
+        1..=20 => 0,
+        21..=40 => 1,
+        41..=70 => 2,
+        _ => 3,
+    }
+}
+
 /// Builder for constructing a [`TeamMember`] from game data.
 pub struct TeamMemberBuilder {
     character: &'static CharacterData,
@@ -23,12 +32,14 @@ pub struct TeamMemberBuilder {
     team_elements: Vec<Element>,
     team_regions: Vec<crate::types::Region>,
     refinement: u8,
+    character_level: u32,
+    weapon_level: u32,
 }
 
 impl TeamMemberBuilder {
     /// Creates a new builder with a character and weapon.
     ///
-    /// Defaults: no artifact set, empty artifact stats, constellation 0, talents [1, 1, 1], refinement 1.
+    /// Defaults: no artifact set, empty artifact stats, constellation 0, talents [1, 1, 1], refinement 1, level 90.
     pub fn new(character: &'static CharacterData, weapon: &'static WeaponData) -> Self {
         Self {
             character,
@@ -41,6 +52,8 @@ impl TeamMemberBuilder {
             team_elements: Vec::new(),
             team_regions: Vec::new(),
             refinement: 1,
+            character_level: 90,
+            weapon_level: 90,
         }
     }
 
@@ -97,6 +110,18 @@ impl TeamMemberBuilder {
     /// Set team region composition for Auto region-based conditions.
     pub fn team_regions(mut self, regions: Vec<crate::types::Region>) -> Self {
         self.team_regions = regions;
+        self
+    }
+
+    /// Sets the character level (1-100). Defaults to 90.
+    pub fn character_level(mut self, level: u32) -> Self {
+        self.character_level = level.clamp(1, 100);
+        self
+    }
+
+    /// Sets the weapon level (1-90). Defaults to 90.
+    pub fn weapon_level(mut self, level: u32) -> Self {
+        self.weapon_level = level.clamp(1, 90);
         self
     }
 
@@ -188,15 +213,20 @@ impl TeamMemberBuilder {
     }
 
     fn build_base_profile(&self) -> StatProfile {
+        let weapon_idx = weapon_stat_index(self.weapon_level);
         let mut profile = StatProfile {
-            base_hp: self.character.base_hp[3],
-            base_atk: self.character.base_atk[3] + self.weapon.base_atk[3],
-            base_def: self.character.base_def[3],
+            base_hp: self.character.base_hp_at_level(self.character_level),
+            base_atk: self.character.base_atk_at_level(self.character_level)
+                + self.weapon.base_atk[weapon_idx],
+            base_def: self.character.base_def_at_level(self.character_level),
+            crit_rate: 0.05,
+            crit_dmg: 0.50,
+            energy_recharge: 1.0,
             ..Default::default()
         };
         apply_ascension_stat(&mut profile, &self.character.ascension_stat);
         if let Some(sub) = &self.weapon.sub_stat {
-            apply_weapon_sub_stat(&mut profile, sub);
+            apply_weapon_sub_stat_at_level(&mut profile, sub, weapon_idx);
         }
         profile
     }
@@ -616,16 +646,23 @@ fn eval_manual(
 }
 
 pub fn apply_weapon_sub_stat(profile: &mut StatProfile, sub: &WeaponSubStat) {
-    // Lv90 = index 3
+    apply_weapon_sub_stat_at_level(profile, sub, 3); // Default to Lv90
+}
+
+pub fn apply_weapon_sub_stat_at_level(
+    profile: &mut StatProfile,
+    sub: &WeaponSubStat,
+    level_idx: usize,
+) {
     match sub {
-        WeaponSubStat::HpPercent(v) => profile.hp_percent += v[3],
-        WeaponSubStat::AtkPercent(v) => profile.atk_percent += v[3],
-        WeaponSubStat::DefPercent(v) => profile.def_percent += v[3],
-        WeaponSubStat::CritRate(v) => profile.crit_rate += v[3],
-        WeaponSubStat::CritDmg(v) => profile.crit_dmg += v[3],
-        WeaponSubStat::ElementalMastery(v) => profile.elemental_mastery += v[3],
-        WeaponSubStat::EnergyRecharge(v) => profile.energy_recharge += v[3],
-        WeaponSubStat::PhysicalDmgBonus(v) => profile.physical_dmg_bonus += v[3],
+        WeaponSubStat::HpPercent(v) => profile.hp_percent += v[level_idx],
+        WeaponSubStat::AtkPercent(v) => profile.atk_percent += v[level_idx],
+        WeaponSubStat::DefPercent(v) => profile.def_percent += v[level_idx],
+        WeaponSubStat::CritRate(v) => profile.crit_rate += v[level_idx],
+        WeaponSubStat::CritDmg(v) => profile.crit_dmg += v[level_idx],
+        WeaponSubStat::ElementalMastery(v) => profile.elemental_mastery += v[level_idx],
+        WeaponSubStat::EnergyRecharge(v) => profile.energy_recharge += v[level_idx],
+        WeaponSubStat::PhysicalDmgBonus(v) => profile.physical_dmg_bonus += v[level_idx],
     }
 }
 
@@ -1655,8 +1692,14 @@ mod conditional_tests {
         assert!((auto_val - 200.0).abs() < EPSILON);
         // Both passes auto_val (200.0) as base_value to eval_manual
         let buff = make_test_buff("test", 0.01, ManualCondition::Toggle);
-        let result = auto_result
-            .and_then(|av| eval_manual(&manual, &buff, &[("test".to_string(), ManualActivation::Active)], av));
+        let result = auto_result.and_then(|av| {
+            eval_manual(
+                &manual,
+                &buff,
+                &[("test".to_string(), ManualActivation::Active)],
+                av,
+            )
+        });
         assert!((result.unwrap() - 200.0).abs() < EPSILON);
     }
 
@@ -1688,7 +1731,12 @@ mod conditional_tests {
         // Both: auto_val * 2 stacks = 112.0
         let buff = make_test_buff("test", 0.28, ManualCondition::Stacks(2));
         let result = auto_result.and_then(|av| {
-            eval_manual(&manual, &buff, &[("test".to_string(), ManualActivation::Stacks(2))], av)
+            eval_manual(
+                &manual,
+                &buff,
+                &[("test".to_string(), ManualActivation::Stacks(2))],
+                av,
+            )
         });
         assert!((result.unwrap() - 112.0).abs() < EPSILON);
     }
@@ -1709,8 +1757,14 @@ mod conditional_tests {
         );
         assert!(auto_result.is_none());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);
-        let result = auto_result
-            .and_then(|av| eval_manual(&manual, &buff, &[("test".to_string(), ManualActivation::Active)], av));
+        let result = auto_result.and_then(|av| {
+            eval_manual(
+                &manual,
+                &buff,
+                &[("test".to_string(), ManualActivation::Active)],
+                av,
+            )
+        });
         assert!(result.is_none());
     }
 

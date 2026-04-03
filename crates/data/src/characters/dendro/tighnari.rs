@@ -180,9 +180,24 @@ pub const TIGHNARI: CharacterData = CharacterData {
     weapon_type: WeaponType::Bow,
     rarity: Rarity::Star5,
     region: Region::Sumeru,
-    base_hp: [845.0, 9573.0, 10087.0, 10850.0],
-    base_atk: [21.0, 236.0, 249.0, 268.0],
-    base_def: [49.0, 556.0, 586.0, 630.0],
+    base_hp: [
+        845.00, 2191.00, 2915.00, 4362.00, 4877.00, 5611.00, 6297.00, 7038.00, 7553.00, 8301.00,
+        8816.00, 9573.00, 10087.00, 10850.00, 10850.00, 11284.00, // Lv95/Lv95+/Lv100
+        11284.00, // Lv95/Lv95+/Lv100
+        11718.00, // Lv95/Lv95+/Lv100
+    ],
+    base_atk: [
+        20.85, 54.10, 71.98, 107.70, 120.40, 138.53, 155.46, 173.77, 186.48, 204.96, 217.66,
+        236.34, 249.05, 267.88, 267.88, 278.60, // Lv95/Lv95+/Lv100
+        278.60, // Lv95/Lv95+/Lv100
+        289.31, // Lv95/Lv95+/Lv100
+    ],
+    base_def: [
+        49.06, 127.26, 169.33, 253.37, 283.26, 325.89, 365.74, 408.82, 438.71, 482.18, 512.07,
+        556.02, 585.91, 630.21, 630.21, 655.42, // Lv95/Lv95+/Lv100
+        655.42, // Lv95/Lv95+/Lv100
+        680.63, // Lv95/Lv95+/Lv100
+    ],
     ascension_stat: AscensionStat::ElementalDmgBonus(Element::Dendro, 0.288),
     talents: TalentSet {
         normal_attack: NormalAttackData {

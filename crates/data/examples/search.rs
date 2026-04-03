@@ -13,7 +13,7 @@ fn main() {
         "Character: {} ({:?}, {:?})",
         diluc.name, diluc.element, diluc.weapon_type
     );
-    println!("  Base ATK at Lv90: {:.0}", diluc.base_atk[3]);
+    println!("  Base ATK at Lv90: {:.0}", diluc.base_atk_at_level(90));
 
     // Filter characters by element
     let pyro_chars = characters_by_element(Element::Pyro);

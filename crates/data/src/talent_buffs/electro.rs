@@ -37,7 +37,8 @@ static SARA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sin of Pride",
-        description: "Electro CRIT DMG +60% (approximated as generic CritDmg; Electro-only in game)",
+        description:
+            "Electro CRIT DMG +60% (approximated as generic CritDmg; Electro-only in game)",
         stat: BuffableStat::CritDmg,
         base_value: 0.60,
         scales_with_talent: false,
