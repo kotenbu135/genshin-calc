@@ -153,16 +153,7 @@ fn build_artifacts(
             warnings.push(ImportWarning::UnknownArtifactSet(art.set_key.clone()));
         }
 
-        // Use valid artifact level (1, 4, 8, 12, 16, 20)
-        // GOOD exports may have levels like 18, 19 - round up to next valid level
-        let level = match art.level {
-            1..=3 => 1,
-            4..=7 => 4,
-            8..=11 => 8,
-            12..=15 => 12,
-            16..=19 => 16,
-            _ => 20,
-        };
+        let level = art.level;
 
         // Add main stat
         let rarity = match art.rarity {
