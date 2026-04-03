@@ -229,9 +229,10 @@ mod tests {
     fn test_find_moonsign_benediction_columbina_all_reactions() {
         let def = find_moonsign_benediction("columbina").unwrap();
         assert_eq!(def.enabled_reactions.len(), 3);
-        assert!(def
-            .enabled_reactions
-            .contains(&Reaction::LunarElectroCharged));
+        assert!(
+            def.enabled_reactions
+                .contains(&Reaction::LunarElectroCharged)
+        );
         assert!(def.enabled_reactions.contains(&Reaction::LunarBloom));
         assert!(def.enabled_reactions.contains(&Reaction::LunarCrystallize));
         assert!((def.max_bonus - 0.07).abs() < EPSILON);

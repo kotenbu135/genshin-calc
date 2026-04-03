@@ -1,12 +1,21 @@
 use crate::CharacterBuild;
 use genshin_calc_core::StatProfile;
 
+fn weapon_stat_index(level: u32) -> usize {
+    match level {
+        1..=20 => 0,
+        21..=40 => 1,
+        41..=70 => 2,
+        _ => 3,
+    }
+}
+
 /// Converts a CharacterBuild into a StatProfile.
 ///
 /// Uses character level for base stats, weapon stats, and ascension stats.
 /// Merges artifact stats and applies base defaults (CR 5%, CD 50%, ER 100%).
 pub fn build_stat_profile(build: &CharacterBuild) -> StatProfile {
-    use genshin_calc_data::team_builder::{apply_ascension_stat, apply_weapon_sub_stat};
+    use genshin_calc_data::team_builder::{apply_ascension_stat, apply_weapon_sub_stat_at_level};
 
     let mut profile = StatProfile {
         base_hp: build.character.base_hp_at_level(build.level),
@@ -18,12 +27,13 @@ pub fn build_stat_profile(build: &CharacterBuild) -> StatProfile {
         ..Default::default()
     };
 
-    // Weapon base ATK
+    // Weapon base ATK (using proper weapon level)
     if let Some(ref wb) = build.weapon {
-        profile.base_atk += wb.weapon.base_atk[3];
-        // Weapon sub-stat
+        let weapon_idx = weapon_stat_index(wb.level);
+        profile.base_atk += wb.weapon.base_atk[weapon_idx];
+        // Weapon sub-stat with level consideration
         if let Some(ref sub) = wb.weapon.sub_stat {
-            apply_weapon_sub_stat(&mut profile, sub);
+            apply_weapon_sub_stat_at_level(&mut profile, sub, weapon_idx);
         }
     }
 
@@ -64,13 +74,11 @@ mod tests {
         let build = CharacterBuild {
             character,
             level: 90,
-            ascension: 6,
             constellation: 0,
             talent_levels: [10, 10, 10],
             weapon: None,
             artifacts: crate::ArtifactsBuild {
                 sets: vec![],
-                four_piece_set: None,
                 stats: StatProfile::default(),
             },
         };

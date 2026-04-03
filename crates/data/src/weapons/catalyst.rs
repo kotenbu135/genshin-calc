@@ -190,8 +190,7 @@ pub const EVERLASTING_MOONGLOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Everlasting Moonglow",
         effect: PassiveEffect {
-            description:
-                "Heal+10-20%。NA DMG+HP上限の1-2%。元素爆発後12秒間NA DMG+HP上限の0.7-1.4%",
+            description: "Heal+10-20%。NA DMG+HP上限の1-2%。元素爆発後12秒間NA DMG+HP上限の0.7-1.4%",
             buffs: &[StatBuff {
                 stat: BuffableStat::HealingBonus,
                 value: 0.10,
@@ -270,8 +269,7 @@ pub const KAGURAS_VERITY: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Kagura's Verity",
         effect: PassiveEffect {
-            description:
-                "元素スキル使用でスキルDMG+12-24%スタック（最大3）、3スタックで元素DMG+12-24%",
+            description: "元素スキル使用でスキルDMG+12-24%スタック（最大3）、3スタックで元素DMG+12-24%",
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
@@ -608,8 +606,7 @@ pub const TULAYTULLAHS_REMEMBRANCE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Tulaytullah's Remembrance",
         effect: PassiveEffect {
-            description:
-                "通常攻撃DMG+4.8-9.6%スタック（最大10スタック、1秒毎）。攻撃速度バフは非対応",
+            description: "通常攻撃DMG+4.8-9.6%スタック（最大10スタック、1秒毎）。攻撃速度バフは非対応",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "tulaytullah_na_dmg_stacks",
@@ -1250,8 +1247,7 @@ pub const SOLAR_PEARL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Solar Pearl",
         effect: PassiveEffect {
-            description:
-                "Conditional: NA命中でSkill/Burst DMGアップ、Skill/Burst命中でNA DMGアップ",
+            description: "Conditional: NA命中でSkill/Burst DMGアップ、Skill/Burst命中でNA DMGアップ",
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
@@ -1366,8 +1362,7 @@ pub const WANDERING_EVENSTAR: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "wandering_evenstar_team_atk",
-                    description:
-                        "スキル使用後: EM×0.072-0.144分をチームメンバーのATKフラットに加算（30%）",
+                    description: "スキル使用後: EM×0.072-0.144分をチームメンバーのATKフラットに加算（30%）",
                     stat: BuffableStat::AtkFlat,
                     value: 0.072,
                     refinement_values: Some([0.072, 0.090, 0.108, 0.126, 0.144]),

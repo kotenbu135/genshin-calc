@@ -178,6 +178,37 @@ pub fn available_levels() -> [u8; 6] {
     LEVELS
 }
 
+pub fn artifact_main_stat_value_by_key(
+    rarity: ArtifactRarity,
+    slot: ArtifactSlot,
+    stat_key: &str,
+    level: u8,
+) -> Option<f64> {
+    let stat = match stat_key {
+        "hp" => Some(BuffableStat::HpFlat),
+        "atk" => Some(BuffableStat::AtkFlat),
+        "def" => Some(BuffableStat::DefFlat),
+        "hp_" => Some(BuffableStat::HpPercent),
+        "atk_" => Some(BuffableStat::AtkPercent),
+        "def_" => Some(BuffableStat::DefPercent),
+        "eleMas" => Some(BuffableStat::ElementalMastery),
+        "enerRech_" => Some(BuffableStat::EnergyRecharge),
+        "critRate_" => Some(BuffableStat::CritRate),
+        "critDMG_" => Some(BuffableStat::CritDmg),
+        "physical_dmg_" => Some(BuffableStat::PhysicalDmgBonus),
+        "pyro_dmg_" => Some(BuffableStat::ElementalDmgBonus(Element::Pyro)),
+        "hydro_dmg_" => Some(BuffableStat::ElementalDmgBonus(Element::Hydro)),
+        "electro_dmg_" => Some(BuffableStat::ElementalDmgBonus(Element::Electro)),
+        "cryo_dmg_" => Some(BuffableStat::ElementalDmgBonus(Element::Cryo)),
+        "dendro_dmg_" => Some(BuffableStat::ElementalDmgBonus(Element::Dendro)),
+        "anemo_dmg_" => Some(BuffableStat::ElementalDmgBonus(Element::Anemo)),
+        "geo_dmg_" => Some(BuffableStat::ElementalDmgBonus(Element::Geo)),
+        _ => None,
+    }?;
+
+    artifact_main_stat_value(rarity, slot, &stat, level)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

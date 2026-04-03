@@ -493,8 +493,7 @@ pub const BLIZZARD_STRAYER: ArtifactSet = ArtifactSet {
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
-        description:
-            "氷元素の影響を受けた敵を攻撃した場合、会心率+20%。敵が凍結状態の場合、会心率は更に+20%",
+        description: "氷元素の影響を受けた敵を攻撃した場合、会心率+20%。敵が凍結状態の場合、会心率は更に+20%",
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {
@@ -1211,8 +1210,7 @@ pub const GOLDEN_TROUPE: ArtifactSet = ArtifactSet {
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
-        description:
-            "元素スキルのダメージ+25%。さらにキャラクターが待機中の場合、元素スキルのダメージ+25%",
+        description: "元素スキルのダメージ+25%。さらにキャラクターが待機中の場合、元素スキルのダメージ+25%",
         buffs: &[StatBuff {
             stat: BuffableStat::SkillDmgBonus,
             value: 0.25,
@@ -1625,8 +1623,7 @@ pub const TINY_MIRACLE: ArtifactSet = ArtifactSet {
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
-        description:
-            "元素ダメージを受けた後、その元素の耐性+30%、継続時間10秒。10秒ごとに1回のみ発動可能",
+        description: "元素ダメージを受けた後、その元素の耐性+30%、継続時間10秒。10秒ごとに1回のみ発動可能",
         buffs: &[],
         conditional_buffs: &[],
     },
@@ -1731,8 +1728,7 @@ pub const MARTIAL_ARTIST: ArtifactSet = ArtifactSet {
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
-        description:
-            "元素スキルまたは元素爆発を発動した後、通常攻撃と重撃のダメージ+25%、継続時間8秒",
+        description: "元素スキルまたは元素爆発を発動した後、通常攻撃と重撃のダメージ+25%、継続時間8秒",
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {

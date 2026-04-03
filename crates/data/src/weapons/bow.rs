@@ -570,8 +570,7 @@ pub const END_OF_THE_LINE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "川漁の極み",
         effect: PassiveEffect {
-            description:
-                "Conditional: 元素エネルギー獲得でフグ蓄積、Skill/Burst命中時に爆発ダメージ",
+            description: "Conditional: 元素エネルギー獲得でフグ蓄積、Skill/Burst命中時に爆発ダメージ",
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -657,8 +656,7 @@ pub const HAMAYUMI: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "待ち伏せの矢",
         effect: PassiveEffect {
-            description:
-                "NA DMG+16-32%/CA DMG+12-24%。エネルギー満タンでさらにNA DMG+16-32%/CA DMG+12-24%",
+            description: "NA DMG+16-32%/CA DMG+12-24%。エネルギー満タンでさらにNA DMG+16-32%/CA DMG+12-24%",
             buffs: &[
                 StatBuff {
                     stat: BuffableStat::NormalAtkDmgBonus,
@@ -799,13 +797,11 @@ pub const MOUUNS_MOON: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "海淵の月",
         effect: PassiveEffect {
-            description:
-                "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（総EP240超時）",
+            description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（総EP240超時）",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "mouuns_moon_burst_dmg",
-                description:
-                    "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（240EP基準）",
+                description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（240EP基準）",
                 stat: BuffableStat::BurstDmgBonus,
                 value: 0.40,
                 refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
@@ -1007,8 +1003,7 @@ pub const SCION_OF_THE_BLAZING_SUN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "灼熱の太陽の子",
         effect: PassiveEffect {
-            description:
-                "Conditional: CA命中でCA DMGアップ。チームがDendro反応を起こすとさらにアップ",
+            description: "Conditional: CA命中でCA DMGアップ。チームがDendro反応を起こすとさらにアップ",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "scion_blazing_sun_ca",

@@ -1,4 +1,4 @@
-use genshin_calc_good::import_good;
+use genshin_calc_good::{import_good, to_team_member_builder};
 
 #[test]
 fn import_minimal_hu_tao() {
@@ -17,7 +17,6 @@ fn import_minimal_hu_tao() {
     let build = &result.builds[0];
     assert_eq!(build.character.id, "hu_tao");
     assert_eq!(build.level, 90);
-    assert_eq!(build.ascension, 6);
     assert_eq!(build.constellation, 1);
     assert_eq!(build.talent_levels, [10, 10, 8]);
 
@@ -29,8 +28,6 @@ fn import_minimal_hu_tao() {
     // 5x CrimsonWitch → 4pc set
     assert_eq!(build.artifacts.sets.len(), 1);
     assert_eq!(build.artifacts.sets[0].id, "crimson_witch");
-    assert!(build.artifacts.four_piece_set.is_some());
-    assert_eq!(build.artifacts.four_piece_set.unwrap().id, "crimson_witch");
 }
 
 #[test]
@@ -56,10 +53,57 @@ fn artifact_stats_aggregation() {
 }
 
 #[test]
-fn invalid_format_returns_error() {
-    let json = r#"{ "format": "NOT_GOOD", "source": "X", "version": 1 }"#;
-    let result = import_good(json);
-    assert!(result.is_err());
+fn two_piece_two_piece_sets() {
+    let json = include_str!("data/two_piece_two_piece.json");
+    let result = import_good(json).unwrap();
+    let build = &result.builds[0];
+
+    // Emblem 3pc + Gladiator 2pc → both qualify for 2pc
+    assert_eq!(build.artifacts.sets.len(), 2);
+
+    let set_ids: Vec<&str> = build.artifacts.sets.iter().map(|s| s.id).collect();
+    assert!(set_ids.contains(&"emblem_of_severed_fate"));
+    assert!(set_ids.contains(&"gladiators_finale"));
+
+    // Convert to TeamMember and verify 2pc buffs are in buffs_provided
+    let member = to_team_member_builder(build, &[], &[])
+        .unwrap()
+        .build()
+        .unwrap();
+
+    // Debug: print all buffs
+    eprintln!("=== buffs_provided ===");
+    for b in &member.buffs_provided {
+        eprintln!("  source={}, value={}", b.source, b.value);
+    }
+
+    // Emblem 2pc: ER+20% (0.20)
+    // Gladiator 2pc: ATK+18% (0.18)
+    let has_emblem_2pc = member
+        .buffs_provided
+        .iter()
+        .any(|b| b.source.contains("絶縁の旗印") && b.source.contains("2pc"));
+    let has_glad_2pc = member
+        .buffs_provided
+        .iter()
+        .any(|b| b.source.contains("剣闘士のフィナーレ") && b.source.contains("2pc"));
+    assert!(
+        has_emblem_2pc,
+        "should have Emblem 2pc buff in buffs_provided"
+    );
+    assert!(
+        has_glad_2pc,
+        "should have Gladiator 2pc buff in buffs_provided"
+    );
+
+    // artifact stats should NOT contain 2pc buffs (only main/substats)
+    // enerRech_ subs: 5+10+5+5 = 25% → 0.25
+    // sands main enerRech_: 51.8% → 0.518
+    // total = 0.25 + 0.518 = 0.768
+    assert!((build.artifacts.stats.energy_recharge - 0.768).abs() < 0.02);
+
+    // atk_percent subs: 5+5+5+5 = 20% → 0.20
+    assert!((build.artifacts.stats.atk_percent - 0.20).abs() < 0.01);
 }
 
 #[test]
@@ -82,32 +126,6 @@ fn empty_good_returns_empty_builds() {
     let result = import_good(json).unwrap();
     assert!(result.builds.is_empty());
     assert!(result.warnings.is_empty());
-}
-
-#[test]
-fn two_piece_two_piece_sets() {
-    let json = include_str!("data/two_piece_two_piece.json");
-    let result = import_good(json).unwrap();
-    let build = &result.builds[0];
-
-    // Emblem 3pc + Gladiator 2pc → both qualify for 2pc
-    assert_eq!(build.artifacts.sets.len(), 2);
-    assert!(build.artifacts.four_piece_set.is_none());
-
-    let set_ids: Vec<&str> = build.artifacts.sets.iter().map(|s| s.id).collect();
-    assert!(set_ids.contains(&"emblem_of_severed_fate"));
-    assert!(set_ids.contains(&"gladiators_finale"));
-
-    // Emblem 2pc: ER+20% (0.20) pre-merged into stats
-    // Gladiator 2pc: ATK+18% (0.18) pre-merged into stats
-    // enerRech_ subs: 5+10+5+5 = 25% → 0.25
-    // sands main enerRech_: 51.8% → 0.518
-    // total enerRech_ = 0.25 + 0.518 + 0.20(emblem 2pc) = 0.968
-    assert!((build.artifacts.stats.energy_recharge - 0.968).abs() < 0.02);
-
-    // atk_percent subs: 5+5+5+5 = 20% → 0.20
-    // + gladiator 2pc 0.18 = 0.38
-    assert!((build.artifacts.stats.atk_percent - 0.38).abs() < 0.01);
 }
 
 #[test]

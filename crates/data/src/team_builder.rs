@@ -24,7 +24,7 @@ fn weapon_stat_index(level: u32) -> usize {
 pub struct TeamMemberBuilder {
     character: &'static CharacterData,
     weapon: &'static WeaponData,
-    artifact_set: Option<&'static ArtifactSet>,
+    artifact_sets: Vec<&'static ArtifactSet>,
     artifact_stats: StatProfile,
     constellation: u8,
     talent_levels: [u8; 3],
@@ -44,7 +44,7 @@ impl TeamMemberBuilder {
         Self {
             character,
             weapon,
-            artifact_set: None,
+            artifact_sets: Vec::new(),
             artifact_stats: StatProfile::default(),
             constellation: 0,
             talent_levels: [1, 1, 1],
@@ -63,9 +63,15 @@ impl TeamMemberBuilder {
         self
     }
 
-    /// Sets the artifact set (4-piece).
+    /// Sets the artifact sets (supports 2pc+2pc, 4pc, or single 2pc).
+    pub fn artifact_sets(mut self, sets: Vec<&'static ArtifactSet>) -> Self {
+        self.artifact_sets = sets;
+        self
+    }
+
+    /// Sets the artifact set (4-piece only, convenience method).
     pub fn artifact_set(mut self, set: &'static ArtifactSet) -> Self {
-        self.artifact_set = Some(set);
+        self.artifact_sets = vec![set];
         self
     }
 
@@ -136,7 +142,7 @@ impl TeamMemberBuilder {
                 });
             }
         }
-        if let Some(set) = self.artifact_set {
+        for set in &self.artifact_sets {
             for buff in set.two_piece.conditional_buffs {
                 result.push(AvailableConditional {
                     source: set.name,
@@ -296,7 +302,7 @@ impl TeamMemberBuilder {
         }
 
         // Artifact conditional buffs
-        if let Some(set) = self.artifact_set {
+        for set in &self.artifact_sets {
             self.resolve_conditionals_for_source(
                 set.two_piece.conditional_buffs,
                 &format!("{} 2pc", set.name),
@@ -392,7 +398,7 @@ impl TeamMemberBuilder {
         }
 
         // Artifact set effects
-        if let Some(set) = self.artifact_set {
+        for set in &self.artifact_sets {
             for stat_buff in set.two_piece.buffs {
                 buffs.push(ResolvedBuff {
                     source: format!("{} 2pc", set.name),

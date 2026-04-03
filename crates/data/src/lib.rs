@@ -43,7 +43,9 @@ pub mod types;
 pub mod weapons;
 
 /// Artifact main stat values by slot, rarity, and level.
-pub use artifact_stats::{artifact_main_stat_value, available_levels, ArtifactSlot};
+pub use artifact_stats::{
+    ArtifactSlot, artifact_main_stat_value, artifact_main_stat_value_by_key, available_levels,
+};
 /// Conditional buff types for weapon passives and artifact set effects.
 pub use buff::{
     Activation, AutoCondition, AvailableConditional, ConditionalBuff, ManualActivation,
@@ -51,11 +53,11 @@ pub use buff::{
 };
 /// Moonsign character data: benedictions, talent enhancements, and lookup functions.
 pub use moonsign_chars::{
-    calculate_benediction_bonus, find_moonsign_benediction, find_moonsign_talent_enhancements,
-    is_moonsign_character, MoonsignBenedictionDef, ALL_MOONSIGN_BENEDICTIONS,
+    ALL_MOONSIGN_BENEDICTIONS, MoonsignBenedictionDef, calculate_benediction_bonus,
+    find_moonsign_benediction, find_moonsign_talent_enhancements, is_moonsign_character,
 };
 /// Talent buff definitions and lookup.
-pub use talent_buffs::{find_talent_buffs, TalentBuffDef, TalentBuffSource};
+pub use talent_buffs::{TalentBuffDef, TalentBuffSource, find_talent_buffs};
 /// Builder pattern for constructing [`genshin_calc_core::TeamMember`] from game data.
 pub use team_builder::TeamMemberBuilder;
 

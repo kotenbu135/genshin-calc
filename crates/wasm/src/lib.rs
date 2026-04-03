@@ -476,7 +476,6 @@ mod tests {
         let build = genshin_calc_good::CharacterBuild {
             character: char,
             level: 90,
-            ascension: 6,
             constellation: 0,
             talent_levels: [10, 10, 10],
             weapon: Some(genshin_calc_good::WeaponBuild {
@@ -486,7 +485,6 @@ mod tests {
             }),
             artifacts: genshin_calc_good::ArtifactsBuild {
                 sets: vec![],
-                four_piece_set: None,
                 stats: genshin_calc_core::StatProfile::default(),
             },
         };
@@ -507,7 +505,6 @@ mod tests {
         let build = genshin_calc_good::CharacterBuild {
             character: char,
             level: 90,
-            ascension: 6,
             constellation: 0,
             talent_levels: [10, 10, 10],
             weapon: Some(genshin_calc_good::WeaponBuild {
@@ -517,7 +514,6 @@ mod tests {
             }),
             artifacts: genshin_calc_good::ArtifactsBuild {
                 sets: vec![cw],
-                four_piece_set: Some(cw),
                 stats: genshin_calc_core::StatProfile::default(),
             },
         };

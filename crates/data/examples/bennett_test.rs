@@ -1,9 +1,9 @@
 //! Test Bennett stats calculation with specific artifacts and weapon.
 
-use genshin_calc_core::{combine_stats, BuffableStat, Element, StatProfile};
+use genshin_calc_core::{BuffableStat, Element, StatProfile, combine_stats};
 use genshin_calc_data::{
-    artifact_main_stat_value, find_artifact_set, find_character, find_weapon,
-    team_builder::TeamMemberBuilder, types::ArtifactRarity, ArtifactSlot,
+    ArtifactSlot, artifact_main_stat_value, find_artifact_set, find_character, find_weapon,
+    team_builder::TeamMemberBuilder, types::ArtifactRarity,
 };
 
 fn main() {

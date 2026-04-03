@@ -194,7 +194,6 @@ export interface WeaponBuild {
 
 export interface ArtifactsBuild {
   sets: ArtifactSetData[];
-  four_piece_set: ArtifactSetData | null;
   stats: StatProfile;
 }
 

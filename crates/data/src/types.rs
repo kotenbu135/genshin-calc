@@ -568,9 +568,11 @@ mod tests {
     #[test]
     fn test_talent_multiplier_out_of_range() {
         let diluc = crate::find_character("diluc").unwrap();
-        assert!(diluc
-            .talent_multiplier(DamageType::Skill, 999, 9, 0)
-            .is_none());
+        assert!(
+            diluc
+                .talent_multiplier(DamageType::Skill, 999, 9, 0)
+                .is_none()
+        );
     }
 
     // -- build_damage_input tests --
@@ -654,16 +656,18 @@ mod tests {
         let diluc = crate::find_character("diluc").unwrap();
         let stats = Stats::default();
 
-        assert!(diluc
-            .build_damage_input(stats, 90, DamageType::Skill, 999, 9, 0, None, 0.0)
-            .is_none());
+        assert!(
+            diluc
+                .build_damage_input(stats, 90, DamageType::Skill, 999, 9, 0, None, 0.0)
+                .is_none()
+        );
     }
 
     // -- E2E integration tests --
 
     #[test]
     fn test_e2e_build_damage_input_to_calculate_damage() {
-        use genshin_calc_core::{calculate_damage, Enemy};
+        use genshin_calc_core::{Enemy, calculate_damage};
 
         let diluc = crate::find_character("diluc").unwrap();
         let stats = Stats {
@@ -697,7 +701,7 @@ mod tests {
 
     #[test]
     fn test_e2e_with_vaporize() {
-        use genshin_calc_core::{calculate_damage, Enemy};
+        use genshin_calc_core::{Enemy, calculate_damage};
 
         let diluc = crate::find_character("diluc").unwrap();
         let stats = Stats {

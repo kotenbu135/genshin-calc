@@ -27,7 +27,6 @@ pub struct GoodImport {
 pub struct CharacterBuild {
     pub character: &'static genshin_calc_data::types::CharacterData,
     pub level: u32,
-    pub ascension: u8,
     pub constellation: u8,
     pub talent_levels: [u8; 3],
     pub weapon: Option<WeaponBuild>,
@@ -44,7 +43,6 @@ pub struct WeaponBuild {
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct ArtifactsBuild {
     pub sets: Vec<&'static genshin_calc_data::types::ArtifactSet>,
-    pub four_piece_set: Option<&'static genshin_calc_data::types::ArtifactSet>,
     pub stats: genshin_calc_core::StatProfile,
 }
 

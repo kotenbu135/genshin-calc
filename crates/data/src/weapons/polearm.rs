@@ -305,8 +305,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "護摩の杖",
         effect: PassiveEffect {
-            description:
-                "HP+20-40%。HP上限の0.8-1.6%分ATKアップ。HP50%以下でさらに1.0-1.8%分アップ",
+            description: "HP+20-40%。HP上限の0.8-1.6%分ATKアップ。HP50%以下でさらに1.0-1.8%分アップ",
             buffs: &[StatBuff {
                 stat: BuffableStat::HpPercent,
                 value: 0.20,
@@ -1075,13 +1074,11 @@ pub const WAVEBREAKERS_FIN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "波乗りの鰭",
         effect: PassiveEffect {
-            description:
-                "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（総EP240超時）",
+            description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（総EP240超時）",
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "wavebreakers_fin_burst_dmg",
-                description:
-                    "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（240EP基準）",
+                description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（240EP基準）",
                 stat: BuffableStat::BurstDmgBonus,
                 value: 0.40,
                 refinement_values: Some([0.40, 0.50, 0.60, 0.70, 0.80]),
