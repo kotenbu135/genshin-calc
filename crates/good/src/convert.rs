@@ -24,16 +24,17 @@ pub fn to_team_member_builder(
         .ok_or(crate::GoodError::MissingWeapon)?;
 
     let mut builder = TeamMemberBuilder::new(build.character, weapon_build.weapon)
+        .weapon_level(weapon_build.level)
         .constellation(build.constellation)
         .talent_levels(build.talent_levels)
         .refinement(weapon_build.refinement);
 
-    // 聖遺物ステータス（2pc無条件バフはimport時にstatsにマージ済み）
+    // 聖遺物ステータス（artifact main/substats のみ）
     builder = builder.artifact_stats(build.artifacts.stats.clone());
 
-    // 4セット効果
-    if let Some(set) = build.artifacts.four_piece_set {
-        builder = builder.artifact_set(set);
+    // 聖遺物セット効果（2pc/4pc全部）
+    if !build.artifacts.sets.is_empty() {
+        builder = builder.artifact_sets(build.artifacts.sets.clone());
     }
 
     // ManualActivation を登録
@@ -76,7 +77,6 @@ pub(crate) fn build_imports(good: GoodFormat) -> GoodImport {
             builds.push(CharacterBuild {
                 character,
                 level: gc.level,
-                ascension: gc.ascension,
                 constellation: gc.constellation,
                 talent_levels: [gc.talent.auto, gc.talent.skill, gc.talent.burst],
                 weapon: weapon.map(|(w, level, refinement)| WeaponBuild {
@@ -137,7 +137,7 @@ fn group_artifacts(good: &GoodFormat) -> HashMap<&str, Vec<&GoodArtifact>> {
 
 fn build_artifacts(
     artifacts: &[&GoodArtifact],
-    character: &'static CharacterData,
+    _character: &'static CharacterData,
     warnings: &mut Vec<ImportWarning>,
 ) -> ArtifactsBuild {
     let mut stats = StatProfile::default();
@@ -153,10 +153,39 @@ fn build_artifacts(
             warnings.push(ImportWarning::UnknownArtifactSet(art.set_key.clone()));
         }
 
+        // Use valid artifact level (1, 4, 8, 12, 16, 20)
+        // GOOD exports may have levels like 18, 19 - round up to next valid level
+        let level = match art.level {
+            1..=3 => 1,
+            4..=7 => 4,
+            8..=11 => 8,
+            12..=15 => 12,
+            16..=19 => 16,
+            _ => 20,
+        };
+
         // Add main stat
-        if let Some(main_value) =
-            stat_map::main_stat_value(art.rarity, &art.main_stat_key, art.level)
-        {
+        let rarity = match art.rarity {
+            5 => genshin_calc_data::types::ArtifactRarity::Star5,
+            4 => genshin_calc_data::types::ArtifactRarity::Star4,
+            _ => {
+                continue;
+            }
+        };
+        let slot = match art.slot_key.as_str() {
+            "flower" => genshin_calc_data::ArtifactSlot::Flower,
+            "plume" => genshin_calc_data::ArtifactSlot::Plume,
+            "sands" => genshin_calc_data::ArtifactSlot::Sands,
+            "goblet" => genshin_calc_data::ArtifactSlot::Goblet,
+            "circlet" => genshin_calc_data::ArtifactSlot::Circlet,
+            _ => continue,
+        };
+        if let Some(main_value) = genshin_calc_data::artifact_main_stat_value_by_key(
+            rarity,
+            slot,
+            &art.main_stat_key,
+            level,
+        ) {
             if let stat_map::StatConvertResult::Converted(field, converted) =
                 stat_map::convert_stat(&art.main_stat_key, main_value)
             {
@@ -181,25 +210,14 @@ fn build_artifacts(
         }
     }
 
-    let (sets, four_piece_set) = detect_sets(&set_counts);
+    let sets = detect_sets(&set_counts);
 
-    // For 2pc/2pc+2pc, pre-merge 2pc buffs into stats
-    if four_piece_set.is_none() {
-        for set in &sets {
-            apply_two_piece_buffs(set, character, &mut stats);
-        }
-    }
-
-    ArtifactsBuild {
-        sets,
-        four_piece_set,
-        stats,
-    }
+    ArtifactsBuild { sets, stats }
 }
 
 fn detect_sets(
     counts: &HashMap<&'static str, (&'static ArtifactSet, u8)>,
-) -> (Vec<&'static ArtifactSet>, Option<&'static ArtifactSet>) {
+) -> Vec<&'static ArtifactSet> {
     let mut four_piece = None;
     let mut two_pieces = Vec::new();
 
@@ -212,44 +230,9 @@ fn detect_sets(
     }
 
     if let Some(fp) = four_piece {
-        (vec![fp], Some(fp))
+        vec![fp]
     } else {
-        (two_pieces, None)
-    }
-}
-
-fn apply_two_piece_buffs(
-    set: &'static ArtifactSet,
-    _character: &'static CharacterData,
-    stats: &mut StatProfile,
-) {
-    use genshin_calc_core::{BuffableStat, Element};
-
-    for buff in set.two_piece.buffs {
-        match buff.stat {
-            BuffableStat::HpPercent => stats.hp_percent += buff.value,
-            BuffableStat::AtkPercent => stats.atk_percent += buff.value,
-            BuffableStat::DefPercent => stats.def_percent += buff.value,
-            BuffableStat::HpFlat => stats.hp_flat += buff.value,
-            BuffableStat::AtkFlat => stats.atk_flat += buff.value,
-            BuffableStat::DefFlat => stats.def_flat += buff.value,
-            BuffableStat::ElementalMastery => stats.elemental_mastery += buff.value,
-            BuffableStat::EnergyRecharge => stats.energy_recharge += buff.value,
-            BuffableStat::CritRate => stats.crit_rate += buff.value,
-            BuffableStat::CritDmg => stats.crit_dmg += buff.value,
-            BuffableStat::DmgBonus => stats.dmg_bonus += buff.value,
-            BuffableStat::ElementalDmgBonus(elem) => match elem {
-                Element::Pyro => stats.pyro_dmg_bonus += buff.value,
-                Element::Hydro => stats.hydro_dmg_bonus += buff.value,
-                Element::Electro => stats.electro_dmg_bonus += buff.value,
-                Element::Cryo => stats.cryo_dmg_bonus += buff.value,
-                Element::Dendro => stats.dendro_dmg_bonus += buff.value,
-                Element::Anemo => stats.anemo_dmg_bonus += buff.value,
-                Element::Geo => stats.geo_dmg_bonus += buff.value,
-            },
-            BuffableStat::PhysicalDmgBonus => stats.physical_dmg_bonus += buff.value,
-            _ => {}
-        }
+        two_pieces
     }
 }
 
@@ -263,10 +246,10 @@ mod tests {
         weapon: Option<&'static WeaponData>,
         artifact_set: Option<&'static ArtifactSet>,
     ) -> crate::CharacterBuild {
+        let sets: Vec<&'static ArtifactSet> = artifact_set.iter().copied().collect();
         crate::CharacterBuild {
             character,
             level: 90,
-            ascension: 6,
             constellation: 0,
             talent_levels: [10, 8, 9],
             weapon: weapon.map(|w| crate::WeaponBuild {
@@ -275,8 +258,7 @@ mod tests {
                 refinement: 1,
             }),
             artifacts: crate::ArtifactsBuild {
-                sets: vec![],
-                four_piece_set: artifact_set,
+                sets,
                 stats: StatProfile::default(),
             },
         }
