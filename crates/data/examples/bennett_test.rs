@@ -11,7 +11,6 @@ fn main() {
     let aquila = find_weapon("aquila_favonia").expect("Aquila Favonia not found");
     let blizzard_strayer =
         find_artifact_set("blizzard_strayer").expect("Blizzard Strayer not found");
-    let noblesse = find_artifact_set("noblesse_oblige").expect("Noblesse Oblige not found");
 
     println!("=== Bennett Stats Test ===");
     println!(

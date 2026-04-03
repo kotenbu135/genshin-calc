@@ -9,7 +9,7 @@ on:
       dry_run:
         description: "Dry run (skip actual publish)"
         required: false
-        default: "false"
+        default: false
         type: boolean
 
 permissions:
@@ -124,6 +124,10 @@ jobs:
       - name: Build wasm package
         run: wasm-pack build crates/wasm --scope kotenbu --release
 
+      - name: Fix package name
+        working-directory: crates/wasm/pkg
+        run: npm pkg set name="@kotenbu/genshin-calc"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -159,6 +163,10 @@ jobs:
 
       - name: Dry run - wasm-pack build
         run: wasm-pack build crates/wasm --scope kotenbu --release
+
+      - name: Fix package name
+        working-directory: crates/wasm/pkg
+        run: npm pkg set name="@kotenbu/genshin-calc"
 
       - name: Dry run - npm pack
         working-directory: crates/wasm/pkg
