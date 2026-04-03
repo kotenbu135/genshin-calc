@@ -4,7 +4,7 @@ use crate::em::{amplifying_em_bonus, catalyze_em_bonus};
 use crate::enemy::Enemy;
 use crate::error::CalcError;
 use crate::level_table::reaction_base_value;
-use crate::reaction::{Reaction, ReactionCategory, catalyze_coefficient};
+use crate::reaction::{catalyze_coefficient, Reaction, ReactionCategory};
 use crate::stats::Stats;
 use crate::team::ResolvedBuff;
 use crate::types::{DamageType, Element, ScalingStat};
@@ -49,7 +49,7 @@ pub struct DamageResult {
 }
 
 fn validate(input: &DamageInput, enemy: &Enemy) -> Result<(), CalcError> {
-    if !(1..=90).contains(&input.character_level) {
+    if !(1..=100).contains(&input.character_level) {
         return Err(CalcError::InvalidCharacterLevel(input.character_level));
     }
     if !(1..=100).contains(&enemy.level) {
@@ -259,11 +259,11 @@ mod tests {
     #[test]
     fn test_invalid_character_level_too_high() {
         let input = DamageInput {
-            character_level: 91,
+            character_level: 101,
             ..valid_input()
         };
         let result = calculate_damage(&input, &valid_enemy());
-        assert_eq!(result, Err(CalcError::InvalidCharacterLevel(91)));
+        assert_eq!(result, Err(CalcError::InvalidCharacterLevel(101)));
     }
 
     #[test]

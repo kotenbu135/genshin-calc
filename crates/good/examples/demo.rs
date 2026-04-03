@@ -6,28 +6,32 @@ use genshin_calc_core::*;
 use genshin_calc_good::import_good;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let json = std::fs::read_to_string("genshin_export_2026-03-31_13-17.json")?;
+    let json = std::fs::read_to_string("genshin_export_2026-04-03_22-17.json")?;
     let import = import_good(&json)?;
 
-    println!("Imported {} builds\n", import.builds.len());
+    println!("# Character Status Report\n");
+    println!("Imported: {} builds\n", import.builds.len());
 
-    for build in import.builds.iter().take(5) {
+    for build in &import.builds {
         let weapon = match build.weapon.as_ref() {
             Some(w) => w,
             None => {
                 println!(
-                    "=== {} (Lv{}) - No weapon, skipping ===\n",
+                    "## {} (Lv{}) - No weapon\n",
                     build.character.name, build.level
                 );
                 continue;
             }
         };
 
+        let level = build.level.min(100);
+        let weapon_level = weapon.level.min(90);
+
         let member = match genshin_calc_data::TeamMemberBuilder::new(build.character, weapon.weapon)
-            .character_level(build.level)
+            .character_level(level)
             .constellation(build.constellation)
             .talent_levels(build.talent_levels)
-            .weapon_level(weapon.level)
+            .weapon_level(weapon_level)
             .artifact_sets(build.artifacts.sets.iter().copied().collect())
             .artifact_stats(build.artifacts.stats.clone())
             .build()
@@ -35,29 +39,34 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Ok(m) => m,
             Err(e) => {
                 println!(
-                    "=== {} (Lv{}) - Build error: {:?} ===\n",
-                    build.character.name, build.level, e
+                    "## {} (Lv{}) - Build error: {:?}\n",
+                    build.character.name, level, e
                 );
                 continue;
             }
         };
 
-        let stats = combine_stats(&member.stats)?;
+        let stats = combine_stats(&member.stats).map_err(|e| {
+            eprintln!(
+                "Error combining stats for {}: {:?}",
+                build.character.name, e
+            );
+            std::io::Error::new(std::io::ErrorKind::Other, format!("{:?}", e))
+        })?;
 
-        println!("=== {} (Lv{}) ===", build.character.name, build.level);
-        println!("ATK: {:.0}", stats.atk);
-        println!("HP: {:.0}", stats.hp);
-        println!("DEF: {:.0}", stats.def);
-        println!("EM: {:.0}", stats.elemental_mastery);
-        println!(
-            "CRIT: {:.1}% / {:.1}%",
-            stats.crit_rate * 100.0,
-            stats.crit_dmg * 100.0
-        );
-        println!("ER: {:.1}%", stats.energy_recharge * 100.0);
+        println!("## {} (Lv{})\n", build.character.name, level);
+        println!("| Stat | Value |");
+        println!("|------|-------|");
+        println!("| ATK | {:.0} |", stats.atk);
+        println!("| HP | {:.0} |", stats.hp);
+        println!("| DEF | {:.0} |", stats.def);
+        println!("| EM | {:.0} |", stats.elemental_mastery);
+        println!("| CRIT Rate | {:.1}% |", stats.crit_rate * 100.0);
+        println!("| CRIT DMG | {:.1}% |", stats.crit_dmg * 100.0);
+        println!("| ER | {:.1}% |", stats.energy_recharge * 100.0);
 
         if stats.dmg_bonus > 0.0 {
-            println!("Dmg Bonus: +{:.1}%", stats.dmg_bonus * 100.0);
+            println!("| Dmg Bonus | +{:.1}% |", stats.dmg_bonus * 100.0);
         }
 
         let enemy = Enemy {
@@ -76,7 +85,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let damage = calculate_damage(
             &DamageInput {
-                character_level: build.level,
+                character_level: level,
                 stats: stats.clone(),
                 talent_multiplier,
                 scaling_stat: ScalingStat::Atk,
@@ -89,10 +98,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             &enemy,
         )?;
 
-        println!("Normal Attack (Lv1):");
-        println!("  non-crit: {:.0}", damage.non_crit);
-        println!("  crit:     {:.0}", damage.crit);
-        println!("  average:  {:.0}", damage.average);
+        println!("\n### Normal Attack (Lv1)\n");
+        println!("| Type | Value |");
+        println!("|------|-------|");
+        println!("| non-crit | {:.0} |", damage.non_crit);
+        println!("| crit | {:.0} |", damage.crit);
+        println!("| average | {:.0} |", damage.average);
         println!();
     }
 
