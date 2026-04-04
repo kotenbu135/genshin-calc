@@ -164,17 +164,20 @@ pub fn calculate_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsErro
     to_js(&result)
 }
 
-/// Resolves team buffs and returns final stats for the target member.
+/// Resolves team buffs and returns detailed result for the target member.
 ///
 /// # Arguments
 /// * `members` - Array of TeamMember objects
 /// * `target_index` - Index of the DPS/target member (0-based)
 ///
 /// # Returns
-/// Stats as a JS object with hp, atk, def, elemental_mastery, crit_rate,
-/// crit_dmg, energy_recharge, dmg_bonus, pyro_dmg_bonus, hydro_dmg_bonus,
-/// electro_dmg_bonus, cryo_dmg_bonus, dendro_dmg_bonus, anemo_dmg_bonus,
-/// geo_dmg_bonus, physical_dmg_bonus.
+/// TeamResolveResult as a JS object with:
+/// - `base_stats`: Stats before team buffs
+/// - `applied_buffs`: All resolved buffs applied to target
+/// - `resonances`: Active elemental resonances
+/// - `final_stats`: Stats after all unconditional buffs
+/// - `damage_context`: Attack-type DMG bonuses, flat DMG, reaction bonuses
+/// - `enemy_debuffs`: Enemy resistance and DEF reduction from team debuffs
 #[wasm_bindgen]
 pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue, JsError> {
     let members: Vec<genshin_calc_core::TeamMember> = serde_wasm_bindgen::from_value(members)
@@ -247,12 +250,44 @@ pub fn build_stats(
             let builder = genshin_calc_good::to_team_member_builder(b, &w_converted, &a_converted)
                 .map_err(|e| JsError::new(&e.to_string()))?;
             let member = builder.build().map_err(|e| JsError::new(&e.to_string()))?;
-            let stats = genshin_calc_core::resolve_team_stats(&[member], 0)
+            let result = genshin_calc_core::resolve_team_stats(&[member], 0)
                 .map_err(|e| JsError::new(&e.to_string()))?;
+            let stats = result.final_stats;
             to_js(&stats)
         }
         None => Ok(JsValue::NULL),
     }
+}
+
+/// Applies team enemy debuffs to a base enemy for a specific damage element.
+///
+/// # Arguments
+/// * `enemy` - Base Enemy as a JS object
+/// * `debuffs` - EnemyDebuffs from resolve_team_stats result
+/// * `element` - Element string in PascalCase ("Pyro", "Hydro", etc.) or null for physical.
+///   Uses the same format as DamageInput.element (serde PascalCase).
+///
+/// # Returns
+/// New Enemy with debuffs applied.
+#[wasm_bindgen]
+pub fn apply_team_debuffs(
+    enemy: JsValue,
+    debuffs: JsValue,
+    element: JsValue,
+) -> Result<JsValue, JsError> {
+    let enemy: genshin_calc_core::Enemy = serde_wasm_bindgen::from_value(enemy)
+        .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
+    let debuffs: genshin_calc_core::EnemyDebuffs = serde_wasm_bindgen::from_value(debuffs)
+        .map_err(|e| JsError::new(&format!("Invalid debuffs: {e}")))?;
+    let elem: Option<genshin_calc_core::Element> = if element.is_null() || element.is_undefined() {
+        None
+    } else {
+        let e: genshin_calc_core::Element = serde_wasm_bindgen::from_value(element)
+            .map_err(|e| JsError::new(&format!("Invalid element: {e}")))?;
+        Some(e)
+    };
+    let result = genshin_calc_core::apply_debuffs_to_enemy(&enemy, &debuffs, elem);
+    to_js(&result)
 }
 
 /// Imports a GOOD (Genshin Open Object Description) JSON string and returns parsed character builds.
@@ -450,7 +485,7 @@ mod tests {
             is_moonsign: false,
         };
         let result = resolve_team_stats(&[dps], 0).unwrap();
-        assert!(result.atk > 0.0);
+        assert!(result.final_stats.atk > 0.0);
     }
 
     #[test]
@@ -490,7 +525,8 @@ mod tests {
         };
         let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
         let member = builder.build().unwrap();
-        let stats = genshin_calc_core::resolve_team_stats(&[member], 0).unwrap();
+        let result = genshin_calc_core::resolve_team_stats(&[member], 0).unwrap();
+        let stats = result.final_stats;
         assert!(stats.atk > 0.0, "ATK should be positive");
         assert!(stats.hp > 0.0, "HP should be positive");
     }
@@ -521,14 +557,18 @@ mod tests {
         // Without activation
         let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
         let member_no = builder_no.build().unwrap();
-        let stats_no = genshin_calc_core::resolve_team_stats(&[member_no], 0).unwrap();
+        let stats_no = genshin_calc_core::resolve_team_stats(&[member_no], 0)
+            .unwrap()
+            .final_stats;
 
         // With 2 stacks of CW pyro buff
         let artifact_acts = [("cwof_pyro_stacks", ManualActivation::Stacks(2))];
         let builder_with =
             genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts).unwrap();
         let member_with = builder_with.build().unwrap();
-        let stats_with = genshin_calc_core::resolve_team_stats(&[member_with], 0).unwrap();
+        let stats_with = genshin_calc_core::resolve_team_stats(&[member_with], 0)
+            .unwrap()
+            .final_stats;
 
         // With stacks, pyro_dmg_bonus should be higher by 0.15 (2 × 0.075)
         let diff = stats_with.pyro_dmg_bonus - stats_no.pyro_dmg_bonus;
@@ -537,6 +577,25 @@ mod tests {
             "CW 4pc 2 stacks should add 0.15 pyro_dmg_bonus, got diff={}",
             diff
         );
+    }
+
+    #[test]
+    fn test_apply_debuffs_to_enemy_via_core() {
+        use genshin_calc_core::*;
+
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let debuffs = EnemyDebuffs {
+            pyro_res_reduction: 0.40,
+            def_reduction: 0.15,
+            ..Default::default()
+        };
+        let result = apply_debuffs_to_enemy(&enemy, &debuffs, Some(Element::Pyro));
+        assert!((result.resistance - (-0.30)).abs() < 1e-6);
+        assert!((result.def_reduction - 0.15).abs() < 1e-6);
     }
 
     #[test]
