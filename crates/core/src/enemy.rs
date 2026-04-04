@@ -683,4 +683,131 @@ mod tests {
         assert!((result.resistance - (-0.30)).abs() < EPSILON);
         assert!((result.def_reduction - 0.15).abs() < EPSILON);
     }
+
+    #[test]
+    fn test_full_pipeline_resolve_debuffs_damage() {
+        use crate::damage::{DamageInput, calculate_damage};
+        use crate::stat_profile::StatProfile;
+        use crate::stats::Stats;
+        use crate::team::{BuffTarget, ResolvedBuff, TeamMember, resolve_team_stats};
+        use crate::types::{DamageType, ScalingStat, WeaponType};
+
+        let dps = TeamMember {
+            element: Element::Pyro,
+            weapon_type: WeaponType::Claymore,
+            stats: StatProfile {
+                base_atk: 900.0,
+                crit_rate: 0.70,
+                crit_dmg: 1.50,
+                energy_recharge: 1.0,
+                ..Default::default()
+            },
+            buffs_provided: vec![],
+            is_moonsign: false,
+        };
+
+        let support = TeamMember {
+            element: Element::Cryo,
+            weapon_type: WeaponType::Catalyst,
+            stats: StatProfile {
+                base_atk: 600.0,
+                energy_recharge: 1.0,
+                ..Default::default()
+            },
+            buffs_provided: vec![
+                ResolvedBuff {
+                    source: "Bennett Burst".into(),
+                    stat: BuffableStat::AtkFlat,
+                    value: 1000.0,
+                    target: BuffTarget::Team,
+                },
+                ResolvedBuff {
+                    source: "VV Pyro".into(),
+                    stat: BuffableStat::ElementalResReduction(Element::Pyro),
+                    value: 0.40,
+                    target: BuffTarget::Team,
+                },
+                ResolvedBuff {
+                    source: "Shenhe E".into(),
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 2500.0,
+                    target: BuffTarget::Team,
+                },
+                ResolvedBuff {
+                    source: "Freedom-Sworn".into(),
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.16,
+                    target: BuffTarget::Team,
+                },
+            ],
+            is_moonsign: false,
+        };
+
+        let team = vec![dps, support];
+        let result = resolve_team_stats(&team, 0).unwrap();
+
+        // Verify stats: base_atk 900 + Bennett 1000 = 1900
+        assert!((result.final_stats.atk - 1900.0).abs() < EPSILON);
+
+        // Verify damage_context
+        assert!((result.damage_context.normal_atk_dmg_bonus - 0.16).abs() < EPSILON);
+        assert!((result.damage_context.normal_atk_flat_dmg - 2500.0).abs() < EPSILON);
+
+        // Verify enemy_debuffs
+        assert!((result.enemy_debuffs.pyro_res_reduction - 0.40).abs() < EPSILON);
+
+        // Build DamageInput using the resolved data
+        let mut stats = result.final_stats.clone();
+        stats.dmg_bonus += result.damage_context.normal_atk_dmg_bonus;
+
+        let input = DamageInput {
+            character_level: 90,
+            stats,
+            talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Normal,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+            flat_dmg: result.damage_context.normal_atk_flat_dmg,
+        };
+
+        let base_enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let debuffed_enemy =
+            apply_debuffs_to_enemy(&base_enemy, &result.enemy_debuffs, Some(Element::Pyro));
+
+        // Verify debuffed enemy: 0.10 - 0.40 = -0.30
+        assert!((debuffed_enemy.resistance - (-0.30)).abs() < EPSILON);
+
+        // Calculate damage with and without the full pipeline
+        let result_full = calculate_damage(&input, &debuffed_enemy).unwrap();
+
+        // Compare with no-buff baseline
+        let baseline_input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 900.0,
+                crit_rate: 0.70,
+                crit_dmg: 1.50,
+                ..Default::default()
+            },
+            talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Normal,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+            flat_dmg: 0.0,
+        };
+        let result_baseline = calculate_damage(&baseline_input, &base_enemy).unwrap();
+
+        // Full pipeline should produce significantly more damage
+        assert!(result_full.average > result_baseline.average * 2.0);
+        assert!(result_full.non_crit > 0.0);
+        assert!(result_full.crit > result_full.non_crit);
+    }
 }
