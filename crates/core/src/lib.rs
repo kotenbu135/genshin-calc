@@ -122,8 +122,7 @@ pub use buff_types::BuffableStat;
 pub use damage::{DamageInput, DamageResult, calculate_damage, collect_flat_dmg};
 pub use em::{amplifying_em_bonus, catalyze_em_bonus, lunar_em_bonus, transformative_em_bonus};
 pub use enemy::{
-    Enemy, EnemyDebuffs, apply_debuffs_to_enemy, apply_enemy_debuffs, collect_enemy_debuffs,
-    superconduct_debuff,
+    Enemy, EnemyDebuffs, apply_debuffs_to_enemy, apply_enemy_debuffs, superconduct_debuff,
 };
 pub use error::CalcError;
 pub use level_table::reaction_base_value;

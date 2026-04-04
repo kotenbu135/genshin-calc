@@ -101,7 +101,7 @@ pub struct EnemyDebuffs {
 ///
 /// Extracts `ElementalResReduction`, `PhysicalResReduction`, and `DefReduction`
 /// buffs. All other buff types are ignored.
-pub fn collect_enemy_debuffs(buffs: &[ResolvedBuff]) -> EnemyDebuffs {
+pub(crate) fn collect_enemy_debuffs(buffs: &[ResolvedBuff]) -> EnemyDebuffs {
     let mut d = EnemyDebuffs::default();
     for buff in buffs {
         match buff.stat {
@@ -805,8 +805,12 @@ mod tests {
         };
         let result_baseline = calculate_damage(&baseline_input, &base_enemy).unwrap();
 
-        // Full pipeline should produce significantly more damage
-        assert!(result_full.average > result_baseline.average * 2.0);
+        // Hand-calculated golden values:
+        // base = 1900 * 1.76 + 2500 = 5844
+        // dmg_bonus = 0.16, res = -0.30 → res_mult = 1.15, def_mult = 0.5
+        // non_crit = 5844 * 1.16 * 0.5 * 1.15 = 3897.948
+        let expected_non_crit = 3897.948;
+        assert!((result_full.non_crit - expected_non_crit).abs() < 0.01);
         assert!(result_full.non_crit > 0.0);
         assert!(result_full.crit > result_full.non_crit);
     }
