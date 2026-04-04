@@ -50,8 +50,8 @@
 //!     }],
 //!     is_moonsign: false,
 //! };
-//! let stats = resolve_team_stats(&[dps, support], 0).unwrap();
-//! assert!(stats.atk > 900.0); // DPS gets Bennett's ATK buff
+//! let result = resolve_team_stats(&[dps, support], 0).unwrap();
+//! assert!(result.final_stats.atk > 900.0); // DPS gets Bennett's ATK buff
 //! ```
 //!
 //! ## Example
@@ -121,7 +121,10 @@ pub mod types;
 pub use buff_types::BuffableStat;
 pub use damage::{DamageInput, DamageResult, calculate_damage, collect_flat_dmg};
 pub use em::{amplifying_em_bonus, catalyze_em_bonus, lunar_em_bonus, transformative_em_bonus};
-pub use enemy::{Enemy, apply_enemy_debuffs, superconduct_debuff};
+pub use enemy::{
+    Enemy, EnemyDebuffs, apply_debuffs_to_enemy, apply_enemy_debuffs, collect_enemy_debuffs,
+    superconduct_debuff,
+};
 pub use error::CalcError;
 pub use level_table::reaction_base_value;
 pub use lunar::{LunarInput, LunarResult, calculate_lunar};
@@ -136,7 +139,7 @@ pub use resonance::{ElementalResonance, determine_resonances, resonance_buffs};
 pub use stat_profile::{StatProfile, combine_stats};
 pub use stats::Stats;
 pub use team::{
-    BuffTarget, ResolvedBuff, TeamMember, TeamResolveResult, apply_buffs_to_profile,
+    BuffTarget, DamageContext, ResolvedBuff, TeamMember, TeamResolveResult, apply_buffs_to_profile,
     resolve_team_stats, resolve_team_stats_detailed,
 };
 pub use transformative::{TransformativeInput, TransformativeResult, calculate_transformative};
