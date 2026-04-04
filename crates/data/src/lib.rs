@@ -1,6 +1,6 @@
 //! # genshin-calc-data
 //!
-//! Genshin Impact v5.8 game data as Rust constants.
+//! Genshin Impact v6.4 game data as Rust constants.
 //!
 //! Includes:
 //! - 102 playable characters
@@ -65,7 +65,7 @@ use genshin_calc_core::Element;
 use types::{ArtifactSet, CharacterData, EnemyData, WeaponData, WeaponType};
 
 /// Current game version for the included data.
-pub const GAME_VERSION: &str = "5.8";
+pub const GAME_VERSION: &str = "6.4";
 
 /// Finds a character by ID (lowercase, e.g. `"diluc"`, `"hu_tao"`).
 ///

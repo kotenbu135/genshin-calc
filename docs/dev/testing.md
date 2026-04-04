@@ -12,7 +12,7 @@
 手計算値との照合（各モジュールに `test_golden_*` テスト）
 
 ## Data-Driven Tests
-- `tests/data/characters/*.toml`（v5.8全キャラ + v6.0-6.1追加分対応）
+- `tests/data/characters/*.toml`（v6.4全キャラ対応）
 - `cargo test --test character_verification` で実行
 - 新キャラ追加: TOMLファイル1つ追加するだけ
 

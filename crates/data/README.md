@@ -1,6 +1,6 @@
 # genshin-calc-data
 
-Genshin Impact v5.8 game data as Rust constants for use with
+Genshin Impact v6.4 game data as Rust constants for use with
 [genshin-calc-core](https://crates.io/crates/genshin-calc-core).
 
 ## Installation
@@ -21,7 +21,7 @@ Minimum supported Rust version: **1.85**
 | Artifact Sets | 52 |
 | Enemies | 15 |
 
-All data is current as of Genshin Impact **v5.8**.
+All data is current as of Genshin Impact **v6.4**.
 
 ## Usage
 

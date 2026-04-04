@@ -27,7 +27,7 @@ import init, {
 await init();
 
 // Game data version
-console.log(game_version()); // "5.8"
+console.log(game_version()); // "6.4"
 
 // Look up a character
 const diluc = find_character("diluc");

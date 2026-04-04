@@ -3,7 +3,7 @@
 原神のダメージ・元素反応計算エンジン（Rust製ライブラリ）
 
 ## Project Structure
-- Cargoワークスペース構成: `crates/core`（計算エンジン）, `crates/data`（ゲームデータ v5.8 + v6.0-6.1一部）
+- Cargoワークスペース構成: `crates/core`（計算エンジン）, `crates/data`（ゲームデータ v6.4）
 - MIT License
 
 ## Development Commands

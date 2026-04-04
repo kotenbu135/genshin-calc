@@ -28,7 +28,7 @@
 
 ## Data Crate (`crates/data`)
 
-v5.8全ゲームデータ + v6.0-6.1一部（Lauma/Flins/Nefer）をRust定数として実装。
+v6.4全ゲームデータをRust定数として実装。
 
 ### Files
 - `types.rs`: CharacterData, WeaponData, ArtifactSet, EnemyData等の型定義
