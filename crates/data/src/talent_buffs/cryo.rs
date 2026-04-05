@@ -14,6 +14,7 @@ static DIONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(6),
     min_constellation: 6,
     cap: None,
+    activation: None,
 }];
 
 // ===== Ganyu =====
@@ -32,6 +33,7 @@ static GANYU_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Westward Sojourn DmgBonus",
@@ -45,6 +47,7 @@ static GANYU_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -64,6 +67,7 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: Some(0.15),
+        activation: None,
     },
     TalentBuffDef {
         name: "Rites of Termination Physical RES Shred",
@@ -77,6 +81,7 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -100,6 +105,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Charged ATK Flat DMG",
@@ -113,6 +119,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Plunging ATK Flat DMG",
@@ -126,6 +133,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Skill Flat DMG",
@@ -139,6 +147,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Burst Flat DMG",
@@ -152,6 +161,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
     },
     // A4 "Deific Embrace" Press E: Skill/Burst DMG +15%
     TalentBuffDef {
@@ -166,6 +176,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Deific Embrace Press - Burst DMG",
@@ -179,6 +190,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     // A4 "Deific Embrace" Hold E: Normal/Charged/Plunging ATK DMG +15%
     TalentBuffDef {
@@ -193,6 +205,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Deific Embrace Hold - Charged ATK DMG",
@@ -206,6 +219,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Deific Embrace Hold - Plunging ATK DMG",
@@ -219,6 +233,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -239,6 +254,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Itzpapa Hydro RES Shred",
@@ -252,6 +268,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Heart Devourer's Travail EM Bonus",
@@ -265,6 +282,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Cold Moon Pyro RES Shred",
@@ -278,6 +296,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Cold Moon Hydro RES Shred",
@@ -291,6 +310,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -309,6 +329,7 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(2))),
     },
     TalentBuffDef {
         name: "Icetide Vortex Physical RES Shred",
@@ -322,6 +343,7 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(2))),
     },
 ];
 
@@ -339,6 +361,7 @@ static MIKA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(6),
     min_constellation: 6,
     cap: None,
+    activation: None,
 }];
 
 // Registry (pub(super) for cross-element uniqueness test)

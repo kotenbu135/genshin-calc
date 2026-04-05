@@ -1,3 +1,4 @@
+pub use crate::buff::{Activation, AutoCondition, ManualCondition};
 use genshin_calc_core::{BuffTarget, BuffableStat, Element, ScalingStat};
 use serde::{Deserialize, Serialize};
 
@@ -49,6 +50,8 @@ pub struct TalentBuffDef {
     pub min_constellation: u8,
     /// Optional cap for scaled value. E.g. Lauma A4 cap at 0.32.
     pub cap: Option<f64>,
+    /// How this buff is activated. None = always active (passive).
+    pub activation: Option<Activation>,
 }
 
 /// Finds talent buff definitions for a character by ID.

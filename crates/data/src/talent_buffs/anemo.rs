@@ -21,6 +21,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Perfidious Wind's Bale",
@@ -34,6 +35,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -51,6 +53,7 @@ static JAHODA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Kazuha =====
@@ -67,6 +70,7 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Sucrose =====
@@ -85,6 +89,7 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Mollis Favonius",
@@ -98,6 +103,7 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -121,6 +127,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Wind's Vanguard Normal ATK DMG",
@@ -134,6 +141,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Wind's Vanguard Charged ATK DMG",
@@ -147,6 +155,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Freedom of Song Anemo DMG",
@@ -160,6 +169,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -177,6 +187,7 @@ static JEAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(4),
     min_constellation: 4,
     cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
 }];
 
 // ===== Venti =====
@@ -194,6 +205,7 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Breeze of Reminiscence Physical RES Shred",
@@ -207,6 +219,7 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -232,6 +245,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Crane Form Plunging DMG Bonus",
@@ -245,6 +259,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Trivial Matters CritRate Bonus",
@@ -258,6 +273,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
 ];
 

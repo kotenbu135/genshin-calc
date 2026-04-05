@@ -14,6 +14,7 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Gorou =====
@@ -36,6 +37,7 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Inuzaka All-Round Defense - Geo DMG",
@@ -49,6 +51,7 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -66,6 +69,7 @@ static NINGGUANG_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Yun Jin =====
@@ -87,6 +91,7 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::ElementalBurst,
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Zhongli =====
@@ -104,6 +109,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Jade Shield Hydro RES Shred",
@@ -117,6 +123,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Jade Shield Electro RES Shred",
@@ -130,6 +137,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Jade Shield Cryo RES Shred",
@@ -143,6 +151,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Jade Shield Dendro RES Shred",
@@ -156,6 +165,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Jade Shield Anemo RES Shred",
@@ -169,6 +179,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Jade Shield Geo RES Shred",
@@ -182,6 +193,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Jade Shield Physical RES Shred",
@@ -195,6 +207,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -213,6 +226,7 @@ static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(2),
     min_constellation: 2,
     cap: None,
+    activation: None,
 }];
 
 // ===== Illuga =====
@@ -240,6 +254,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - CRIT DMG",
@@ -253,6 +268,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - EM (Moonsign)",
@@ -266,6 +282,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     // A4 "Demonhunter's Dusk": EM × party Hydro/Geo count → Geo DMG buff.
     // Complex scaling (1人=7%, 2人=14%, 3人=24%) — not expressible with TalentBuffDef.
@@ -284,6 +301,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Nightmare Orioles - CRIT DMG",
@@ -297,6 +315,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Nightmare Orioles - EM",
@@ -310,6 +329,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -333,6 +353,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Suchitl's Trance Normal ATK Flat DMG",
@@ -346,6 +367,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Suchitl's Trance Charged ATK Flat DMG",
@@ -359,6 +381,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Suchitl's Trance Plunging ATK Flat DMG",
@@ -372,6 +395,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
 ];
 

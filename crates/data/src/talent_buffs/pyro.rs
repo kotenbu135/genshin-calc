@@ -20,6 +20,7 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Spirit of Pyro",
@@ -33,6 +34,7 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -50,6 +52,7 @@ static AMBER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(6),
     min_constellation: 6,
     cap: None,
+    activation: None,
 }];
 
 // ===== Chevreuse =====
@@ -68,6 +71,10 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Both(
+            AutoCondition::TeamElementsOnly(&[Element::Pyro, Element::Electro]),
+            ManualCondition::Toggle,
+        )),
     },
     TalentBuffDef {
         name: "Overloaded Pyro RES Shred",
@@ -81,6 +88,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Overloaded Electro RES Shred",
@@ -94,6 +102,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "In Pursuit of Ending Evil Pyro DMG Bonus",
@@ -107,6 +116,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "In Pursuit of Ending Evil Electro DMG Bonus",
@@ -120,6 +130,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -138,6 +149,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Burning Heart - Charged ATK",
@@ -151,6 +163,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Burning Heart - Plunging ATK",
@@ -164,6 +177,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -181,6 +195,7 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Durin =====
@@ -202,6 +217,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Light Manifest (Darkness) Amplifying Bonus",
@@ -215,6 +231,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Unground Visions Pyro DMG Bonus",
@@ -228,6 +245,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Emanare's Source Burst DMG Bonus",
@@ -241,6 +259,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -260,6 +279,7 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Blazing Delight Pyro DMG Bonus",
@@ -273,6 +293,7 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -292,6 +313,7 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Fire-Forged Heritage DMG Bonus",
@@ -305,6 +327,7 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -324,6 +347,7 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Condensed Pyronado Pyro DMG Bonus",
@@ -337,6 +361,7 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -354,6 +379,7 @@ static XINYAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(4),
     min_constellation: 4,
     cap: None,
+    activation: None,
 }];
 
 // Registry (pub(super) for cross-element uniqueness test)
