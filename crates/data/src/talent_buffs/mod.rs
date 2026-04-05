@@ -1,3 +1,4 @@
+use crate::buff::TalentConditionalBuff;
 pub use crate::buff::{Activation, AutoCondition, ManualCondition};
 use genshin_calc_core::{BuffTarget, BuffableStat, Element, ScalingStat};
 use serde::{Deserialize, Serialize};
@@ -65,6 +66,52 @@ pub fn find_talent_buffs(character_id: &str) -> Option<&'static [TalentBuffDef]>
         .or_else(|| dendro::find(character_id))
         .or_else(|| anemo::find(character_id))
         .or_else(|| geo::find(character_id))
+}
+
+/// Returns conditional talent buffs for a character, resolved at the given talent levels.
+///
+/// Filters to `activation: Some(...)` entries that meet the constellation requirement,
+/// and resolves the value based on talent level scaling.
+/// Returns an empty `Vec` if the character has no conditional talent buffs.
+pub fn get_talent_conditional_buffs(
+    character_id: &str,
+    constellation: u8,
+    talent_levels: &[u8; 3],
+) -> Vec<TalentConditionalBuff> {
+    let Some(defs) = find_talent_buffs(character_id) else {
+        return Vec::new();
+    };
+    defs.iter()
+        .filter(|def| def.activation.is_some() && constellation >= def.min_constellation)
+        .map(|def| {
+            let value = resolve_scaling_value(def, talent_levels);
+            TalentConditionalBuff {
+                name: def.name,
+                description: def.description,
+                stat: def.stat,
+                value,
+                target: def.target,
+                activation: def.activation.clone().unwrap(),
+                scales_on: def.scales_on,
+            }
+        })
+        .collect()
+}
+
+/// Resolves the buff value based on talent level scaling.
+fn resolve_scaling_value(def: &TalentBuffDef, talent_levels: &[u8; 3]) -> f64 {
+    if let Some(scaling) = def.talent_scaling {
+        let talent_level = match def.source {
+            TalentBuffSource::ElementalSkill => talent_levels[1],
+            TalentBuffSource::ElementalBurst => talent_levels[2],
+            _ if def.scales_with_talent => talent_levels[2],
+            _ => return def.base_value,
+        };
+        let idx = (talent_level as usize).saturating_sub(1).min(14);
+        scaling[idx]
+    } else {
+        def.base_value
+    }
 }
 
 #[cfg(test)]
@@ -791,5 +838,103 @@ mod tests {
                 .iter()
                 .any(|b| b.stat == BuffableStat::PhysicalResReduction)
         );
+    }
+
+    // --- get_talent_conditional_buffs tests ---
+
+    #[test]
+    fn test_conditional_bennett_c6_returns_both_buffs() {
+        let buffs = get_talent_conditional_buffs("bennett", 6, &[6, 8, 10]);
+        assert_eq!(buffs.len(), 2);
+        // ATK buff from burst, value resolved at burst lv10
+        assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
+        assert_eq!(buffs[0].scales_on, Some(ScalingStat::Atk));
+        assert_eq!(buffs[0].target, BuffTarget::Team);
+        assert!(matches!(
+            buffs[0].activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
+        // C6 pyro DMG bonus
+        assert_eq!(
+            buffs[1].stat,
+            BuffableStat::ElementalDmgBonus(Element::Pyro)
+        );
+        assert!((buffs[1].value - 0.15).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_conditional_bennett_c0_returns_only_atk() {
+        let buffs = get_talent_conditional_buffs("bennett", 0, &[1, 1, 1]);
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
+    }
+
+    #[test]
+    fn test_conditional_bennett_burst_scaling_resolves() {
+        let buffs_lv1 = get_talent_conditional_buffs("bennett", 0, &[1, 1, 1]);
+        let buffs_lv13 = get_talent_conditional_buffs("bennett", 0, &[1, 1, 13]);
+        // Burst scaling should differ at different talent levels
+        assert!(
+            (buffs_lv13[0].value - buffs_lv1[0].value).abs() > 0.01,
+            "Talent level should affect resolved value"
+        );
+    }
+
+    #[test]
+    fn test_conditional_furina_returns_stacks() {
+        // C0: only the base 300pt entry; C1+ adds the extra 100pt entry
+        let buffs_c0 = get_talent_conditional_buffs("furina", 0, &[1, 1, 10]);
+        assert_eq!(buffs_c0.len(), 1);
+        let buffs = get_talent_conditional_buffs("furina", 1, &[1, 1, 10]);
+        assert_eq!(buffs.len(), 2);
+        for b in &buffs {
+            assert!(matches!(
+                b.activation,
+                Activation::Manual(ManualCondition::Stacks(300))
+            ));
+        }
+    }
+
+    #[test]
+    fn test_conditional_nonexistent_character() {
+        let buffs = get_talent_conditional_buffs("diluc", 6, &[10, 10, 10]);
+        assert!(buffs.is_empty());
+    }
+
+    #[test]
+    fn test_conditional_no_conditionals_character() {
+        // Ganyu has talent buffs but all are activation: None
+        let buffs = get_talent_conditional_buffs("ganyu", 6, &[10, 10, 10]);
+        assert!(
+            buffs.is_empty(),
+            "Characters with only unconditional buffs should return empty"
+        );
+    }
+
+    #[test]
+    fn test_conditional_shenhe_stacks() {
+        let buffs = get_talent_conditional_buffs("shenhe", 0, &[1, 10, 10]);
+        // Shenhe has 5 Stacks(5) FlatDmg entries + A1 press entries
+        let stacks_buffs: Vec<_> = buffs
+            .iter()
+            .filter(|b| matches!(b.activation, Activation::Manual(ManualCondition::Stacks(5))))
+            .collect();
+        assert_eq!(
+            stacks_buffs.len(),
+            5,
+            "Shenhe should have 5 Stacks(5) FlatDmg entries"
+        );
+    }
+
+    #[test]
+    fn test_conditional_mavuika_toggle() {
+        let buffs = get_talent_conditional_buffs("mavuika", 0, &[1, 1, 1]);
+        assert_eq!(buffs.len(), 2);
+        for b in &buffs {
+            assert!(matches!(
+                b.activation,
+                Activation::Manual(ManualCondition::Toggle)
+            ));
+        }
     }
 }

@@ -361,6 +361,57 @@ pub fn get_character_team_buffs(
     to_js(&buffs)
 }
 
+/// Returns available conditional talent buffs for a character.
+///
+/// Unlike `get_character_team_buffs` (which returns resolved buff values), this returns
+/// the conditional buff definitions with activation type info, enabling frontends to
+/// render toggle/stacks UI controls.
+///
+/// Does NOT require GOOD JSON — only character identity and talent configuration.
+///
+/// # Arguments
+/// * `character_id` - Character ID (e.g. "bennett")
+/// * `constellation` - Constellation level (0-6)
+/// * `talent_levels` - `Uint32Array` of 3 elements `[auto, skill, burst]`, each 1-15
+///
+/// # Returns
+/// `TalentConditionalBuff[]` — same shape as `ConditionalBuff` with added `scales_on`.
+#[wasm_bindgen]
+pub fn get_talent_conditional_buffs(
+    character_id: &str,
+    constellation: u32,
+    talent_levels: Vec<u32>,
+) -> Result<JsValue, JsError> {
+    if talent_levels.len() != 3 {
+        return Err(JsError::new(
+            "talent_levels must have exactly 3 elements [auto, skill, burst]",
+        ));
+    }
+    for (i, &tl) in talent_levels.iter().enumerate() {
+        if tl == 0 || tl > 15 {
+            return Err(JsError::new(&format!(
+                "talent_levels[{i}] must be 1-15, got {tl}",
+            )));
+        }
+    }
+    if constellation > 6 {
+        return Err(JsError::new(&format!(
+            "constellation must be 0-6, got {constellation}",
+        )));
+    }
+    let tl: [u8; 3] = [
+        talent_levels[0] as u8,
+        talent_levels[1] as u8,
+        talent_levels[2] as u8,
+    ];
+    let buffs = genshin_calc_data::talent_buffs::get_talent_conditional_buffs(
+        character_id,
+        constellation as u8,
+        &tl,
+    );
+    to_js(&buffs)
+}
+
 /// Builds a TeamMember from GOOD JSON with conditional buff activations.
 ///
 /// Returns a fully resolved `TeamMember` (element, weapon_type, stats, buffs_provided,
