@@ -25,3 +25,4 @@ target
 
 # Claude Code local settings (user-specific, auto-generated)
 .claude/settings.local.json
+.claude/worktrees/
