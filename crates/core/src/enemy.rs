@@ -803,7 +803,7 @@ mod tests {
             reaction_bonus: 0.0,
             flat_dmg: 0.0,
         };
-        let result_baseline = calculate_damage(&baseline_input, &base_enemy).unwrap();
+        let _result_baseline = calculate_damage(&baseline_input, &base_enemy).unwrap();
 
         // Hand-calculated golden values:
         // base = 1900 * 1.76 + 2500 = 5844
