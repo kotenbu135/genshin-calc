@@ -23,12 +23,16 @@
 
 ```rust
 /// An artifact set with its detected piece count.
+///
+/// `Serialize` only — `Deserialize` is not derived because the `set` field
+/// is a `&'static` reference (per project convention: `&'static` types are Serialize-only).
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct ArtifactSetEntry {
     /// Artifact set data.
     pub set: &'static genshin_calc_data::types::ArtifactSet,
-    /// Number of pieces equipped (2 or 4).
-    /// Capped at 4 even if 5 pieces are equipped.
+    /// Effective piece threshold: always exactly 2 or 4.
+    /// Represents the highest activated set bonus, not the raw equipped count
+    /// (e.g., 5 pieces of the same set → piece_count = 4).
     pub piece_count: u8,
 }
 ```
@@ -43,19 +47,26 @@ pub struct ArtifactSetEntry {
 fn detect_sets(
     counts: &HashMap<&'static str, (&'static ArtifactSet, u8)>,
 ) -> Vec<ArtifactSetEntry> {
-    let mut result = Vec::new();
+    let mut four_piece: Option<ArtifactSetEntry> = None;
+    let mut two_pieces: Vec<ArtifactSetEntry> = Vec::new();
+
     for &(set, count) in counts.values() {
         if count >= 4 {
-            result.insert(0, ArtifactSetEntry { set, piece_count: 4 });
+            four_piece = Some(ArtifactSetEntry { set, piece_count: 4 });
         } else if count >= 2 {
-            result.push(ArtifactSetEntry { set, piece_count: 2 });
+            two_pieces.push(ArtifactSetEntry { set, piece_count: 2 });
         }
     }
-    result
+
+    if let Some(fp) = four_piece {
+        vec![fp]
+    } else {
+        two_pieces
+    }
 }
 ```
 
-4pcセットは先頭に配置（既存の動作を維持）。`piece_count` は実際のカウントではなく有効ピース数（4 or 2）。
+4pc/2pcの排他制御を維持: 4pcセットがあれば2pcセットは返さない（既存の動作と同一）。
 
 ### 3. TeamMemberBuilder の piece_count 対応
 
@@ -174,14 +185,10 @@ fn element_to_suffix(element: Element) -> &'static str {
 `crates/good/src/convert.rs`:
 
 ```rust
-builder = builder.artifact_sets(
-    build.artifacts.sets.iter()
-        .map(|e| ArtifactSetEntry { set: e.set, piece_count: e.piece_count })
-        .collect()
-);
+builder = builder.artifact_sets(build.artifacts.sets.clone());
 ```
 
-既に `ArtifactSetEntry` なので `.clone()` で渡すだけ。
+型が一致するので `.clone()` で直接渡す。
 
 ### 7. WASM API 更新
 
@@ -202,7 +209,15 @@ pub fn import_good_with_options(json: &str, traveler_element: Option<String>) ->
 }
 ```
 
-既存の `import_good` WASM関数は後方互換維持。`build_stats_from_good` 等の他のWASM関数も `import_good_with_options` を使えるよう `traveler_element` 引数を追加する（オプショナル）。
+既存の `import_good` WASM関数は後方互換維持。以下の5つのWASM関数が内部で `import_good()` を呼んでおり、全てに `traveler_element: Option<String>` 引数を追加する:
+
+- `build_stats_from_good` (lib.rs:200)
+- `build_stats` (lib.rs:237)
+- `get_character_team_buffs` (lib.rs:324)
+- `build_team_member` (lib.rs:369)
+- `build_member_stats` (lib.rs:404)
+
+各関数は内部で `import_good()` → `import_good_with_options()` に切り替える。引数は `Option<String>` (WASM境界) → `Option<Element>` (Rust内部) に変換。
 
 ## Files to Modify
 
@@ -215,7 +230,8 @@ pub fn import_good_with_options(json: &str, traveler_element: Option<String>) ->
 | `crates/good/src/convert.rs` | `detect_sets()` 戻り値変更、`build_imports()` Traveler処理、`to_team_member_builder()` 更新 |
 | `crates/good/src/key_map.rs` | `lookup_character_with_traveler()` 追加 |
 | `crates/wasm/src/lib.rs` | `import_good_with_options()` WASM binding、既存関数の `ArtifactSetEntry` 対応 |
-| `crates/good/examples/demo.rs` | API変更に追従 |
+| `crates/good/examples/demo.rs` | `.iter().copied().collect()` → `.clone()` に変更 |
+| `crates/good/src/convert.rs` (tests mod) | `make_build()` ヘルパーの `sets` 型を `Vec<ArtifactSetEntry>` に更新 |
 | `crates/good/tests/test_convert.rs` | piece_count 検証テスト追加 |
 | `crates/good/tests/evaluate_talent_buffs_integration.rs` | 必要に応じ更新 |
 | `crates/data/tests/` | TeamMemberBuilder の piece_count フィルタテスト |
@@ -227,6 +243,20 @@ pub fn import_good_with_options(json: &str, traveler_element: Option<String>) ->
 | `ArtifactsBuild.sets` 型変更 | JS: `build.artifacts.sets[0]` → `build.artifacts.sets[0].set` | smart-paimon 側で `.set` アクセス追加 |
 | `TeamMemberBuilder::artifact_sets()` 型変更 | Rust API 利用者 | `ArtifactSetEntry { set, piece_count: 4 }` でラップ |
 | `import_good()` シグネチャ | 変更なし（後方互換） | `import_good_with_options()` を新規利用 |
+
+## Notes
+
+### Traveler の要素制限
+
+現在 data crate に実装済みの Traveler は `traveler_dendro` のみ。他の要素（Pyro, Hydro等）を `traveler_element` に指定した場合、`find_character()` が `None` を返し `UnknownCharacter` 警告になる。これは想定動作であり、他の要素の Traveler は data crate への追加時に自動的に対応される。テストではこのケース（有効な要素だが未実装）もカバーすること。
+
+### Public API exports
+
+`ImportOptions` は `crates/good/src/lib.rs` の crate root で `pub use` する（Rust API 利用者が直接構築する必要があるため）。`ArtifactSetEntry` は `data` crate で定義、`good` crate で re-export。
+
+### Doc comment 更新
+
+`lib.rs:109` の doc example `build.artifacts.sets.iter().map(|s| s.name)` は `|s| s.set.name` に変更。
 
 ## JSON Output Change
 
