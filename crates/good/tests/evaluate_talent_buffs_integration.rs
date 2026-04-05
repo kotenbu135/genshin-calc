@@ -18,7 +18,7 @@ fn test_bennett_burst_atk_scaling() {
     );
     let import = import_good(&json).unwrap();
     let build = &import.builds[0];
-    let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 13]);
+    let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 13], &[]);
 
     assert_eq!(buffs.len(), 1);
     assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
@@ -65,7 +65,7 @@ fn test_pipeline_build_member_stats_to_resolve_team() {
 
     let profile = genshin_calc_good::build_stat_profile(build);
     let base_atk = profile.base_atk;
-    let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 13]);
+    let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 13], &[]);
 
     let member = genshin_calc_core::TeamMember {
         element: build.character.element,

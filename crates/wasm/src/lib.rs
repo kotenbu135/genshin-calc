@@ -356,7 +356,7 @@ pub fn get_character_team_buffs(
         talent_levels[1] as u8,
         talent_levels[2] as u8,
     ];
-    let buffs = genshin_calc_good::evaluate_talent_buffs(build, constellation as u8, &tl);
+    let buffs = genshin_calc_good::evaluate_talent_buffs(build, constellation as u8, &tl, &[]);
     to_js(&buffs)
 }
 
