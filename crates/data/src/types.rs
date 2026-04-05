@@ -45,6 +45,20 @@ pub enum AscensionStat {
     HealingBonus(f64),
 }
 
+/// An artifact set with its detected piece count.
+///
+/// `Serialize` only — `Deserialize` is not derived because the `set` field
+/// is a `&'static` reference (per project convention: `&'static` types are Serialize-only).
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct ArtifactSetEntry {
+    /// Artifact set data.
+    pub set: &'static ArtifactSet,
+    /// Effective piece threshold: always exactly 2 or 4.
+    /// Represents the highest activated set bonus, not the raw equipped count
+    /// (e.g., 5 pieces of the same set → piece_count = 4).
+    pub piece_count: u8,
+}
+
 /// Artifact set rarity availability.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum ArtifactRarity {

@@ -1,4 +1,6 @@
-use genshin_calc_good::{import_good, to_team_member_builder};
+use genshin_calc_good::{
+    ImportOptions, import_good, import_good_with_options, to_team_member_builder,
+};
 
 #[test]
 fn import_minimal_hu_tao() {
@@ -27,7 +29,8 @@ fn import_minimal_hu_tao() {
 
     // 5x CrimsonWitch → 4pc set
     assert_eq!(build.artifacts.sets.len(), 1);
-    assert_eq!(build.artifacts.sets[0].id, "crimson_witch");
+    assert_eq!(build.artifacts.sets[0].set.id, "crimson_witch");
+    assert_eq!(build.artifacts.sets[0].piece_count, 4);
 }
 
 #[test]
@@ -60,8 +63,11 @@ fn two_piece_two_piece_sets() {
 
     // Emblem 3pc + Gladiator 2pc → both qualify for 2pc
     assert_eq!(build.artifacts.sets.len(), 2);
+    for entry in &build.artifacts.sets {
+        assert_eq!(entry.piece_count, 2, "2pc sets should have piece_count=2");
+    }
 
-    let set_ids: Vec<&str> = build.artifacts.sets.iter().map(|s| s.id).collect();
+    let set_ids: Vec<&str> = build.artifacts.sets.iter().map(|s| s.set.id).collect();
     assert!(set_ids.contains(&"emblem_of_severed_fate"));
     assert!(set_ids.contains(&"gladiators_finale"));
 
@@ -172,4 +178,54 @@ fn off_element_goblet_stored_in_per_element_field() {
     assert!((result.builds[0].artifacts.stats.hydro_dmg_bonus - 0.466).abs() < 0.01);
     // dmg_bonus (generic) unaffected
     assert!((result.builds[0].artifacts.stats.dmg_bonus).abs() < 0.001);
+}
+
+#[test]
+fn traveler_dendro_with_options() {
+    let json = r#"{
+        "format": "GOOD", "source": "Test", "version": 1,
+        "characters": [
+            { "key": "Traveler", "level": 90, "constellation": 0, "ascension": 6,
+              "talent": { "auto": 1, "skill": 1, "burst": 1 } }
+        ]
+    }"#;
+    let options = ImportOptions {
+        traveler_element: Some(genshin_calc_core::Element::Dendro),
+    };
+    let result = import_good_with_options(json, &options).unwrap();
+    assert_eq!(result.builds.len(), 1);
+    assert_eq!(result.builds[0].character.id, "traveler_dendro");
+    assert!(result.warnings.is_empty());
+}
+
+#[test]
+fn traveler_without_options_becomes_warning() {
+    let json = r#"{
+        "format": "GOOD", "source": "Test", "version": 1,
+        "characters": [
+            { "key": "Traveler", "level": 90, "constellation": 0, "ascension": 6,
+              "talent": { "auto": 1, "skill": 1, "burst": 1 } }
+        ]
+    }"#;
+    let result = import_good(json).unwrap();
+    assert_eq!(result.builds.len(), 0);
+    assert_eq!(result.warnings.len(), 1);
+}
+
+#[test]
+fn traveler_unimplemented_element_becomes_warning() {
+    let json = r#"{
+        "format": "GOOD", "source": "Test", "version": 1,
+        "characters": [
+            { "key": "Traveler", "level": 90, "constellation": 0, "ascension": 6,
+              "talent": { "auto": 1, "skill": 1, "burst": 1 } }
+        ]
+    }"#;
+    let options = ImportOptions {
+        traveler_element: Some(genshin_calc_core::Element::Pyro),
+    };
+    let result = import_good_with_options(json, &options).unwrap();
+    // traveler_pyro is not in data crate → UnknownCharacter warning
+    assert_eq!(result.builds.len(), 0);
+    assert_eq!(result.warnings.len(), 1);
 }

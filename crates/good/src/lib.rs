@@ -40,9 +40,10 @@ pub use build_stats::build_stat_profile;
 pub use convert::to_team_member_builder;
 pub use error::{GoodError, ImportWarning};
 pub use evaluate_talent_buffs::evaluate_talent_buffs;
+pub use genshin_calc_data::ArtifactSetEntry;
 pub use types::GoodFormat;
 
-use convert::build_imports;
+use convert::build_imports_with_options;
 use error::validate_format;
 
 /// Result of importing a GOOD JSON file.
@@ -106,7 +107,7 @@ pub struct GoodImport {
 ///         println!("  Weapon: {} (Lv{})", weapon.weapon.name, weapon.level);
 ///     }
 ///
-///     println!("  Artifacts: {:?}", build.artifacts.sets.iter().map(|s| s.name).collect::<Vec<_>>());
+///     println!("  Artifacts: {:?}", build.artifacts.sets.iter().map(|s| s.set.name).collect::<Vec<_>>());
 /// }
 /// ```
 #[derive(Debug, Clone, serde::Serialize)]
@@ -143,13 +144,21 @@ pub struct WeaponBuild {
 /// Contains detected artifact sets and aggregated main+substats.
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct ArtifactsBuild {
-    /// Detected artifact sets.
+    /// Detected artifact sets with piece counts.
     /// Returns 4pc set first, or up to two 2pc sets.
-    pub sets: Vec<&'static genshin_calc_data::types::ArtifactSet>,
+    pub sets: Vec<genshin_calc_data::types::ArtifactSetEntry>,
     /// Aggregated stats from all artifacts (main stat + substats).
     /// This is a raw [`genshin_calc_core::StatProfile`] that can be passed directly to
     /// [`genshin_calc_data::team_builder::TeamMemberBuilder::artifact_stats`].
     pub stats: genshin_calc_core::StatProfile,
+}
+
+/// Import options for GOOD format parsing.
+#[derive(Debug, Clone, Default)]
+pub struct ImportOptions {
+    /// Element to use for the Traveler character.
+    /// If None, Traveler entries produce an UnknownCharacter warning.
+    pub traveler_element: Option<genshin_calc_core::Element>,
 }
 
 /// Parses a GOOD JSON string and converts to character builds.
@@ -191,8 +200,21 @@ pub struct ArtifactsBuild {
 /// 4. Use [`CharacterBuild`] data to build [`genshin_calc_core::TeamMember`]
 /// 5. Calculate damage using [`genshin_calc_core::calculate_damage`]
 pub fn import_good(json: &str) -> Result<GoodImport, GoodError> {
+    import_good_with_options(json, &ImportOptions::default())
+}
+
+/// Parses a GOOD JSON string with import options (e.g. Traveler element).
+///
+/// # Arguments
+///
+/// * `json` - Valid GOOD JSON string
+/// * `options` - Import options (traveler_element, etc.)
+pub fn import_good_with_options(
+    json: &str,
+    options: &ImportOptions,
+) -> Result<GoodImport, GoodError> {
     let good: GoodFormat = serde_json::from_str(json)?;
-    convert_good(good)
+    convert_good_with_options(good, options)
 }
 
 /// Converts an already-parsed [`GoodFormat`] into character builds.
@@ -207,6 +229,14 @@ pub fn import_good(json: &str) -> Result<GoodImport, GoodError> {
 ///
 /// Returns [`Ok(GoodImport)`] on success, or [`Err(GoodError)`] if validation fails.
 pub fn convert_good(good: GoodFormat) -> Result<GoodImport, GoodError> {
+    convert_good_with_options(good, &ImportOptions::default())
+}
+
+/// Converts with options (e.g. Traveler element).
+pub fn convert_good_with_options(
+    good: GoodFormat,
+    options: &ImportOptions,
+) -> Result<GoodImport, GoodError> {
     validate_format(&good)?;
-    Ok(build_imports(good))
+    Ok(build_imports_with_options(good, options))
 }

@@ -32,7 +32,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .constellation(build.constellation)
             .talent_levels(build.talent_levels)
             .weapon_level(weapon_level)
-            .artifact_sets(build.artifacts.sets.iter().copied().collect())
+            .artifact_sets(build.artifacts.sets.clone())
             .artifact_stats(build.artifacts.stats.clone())
             .build()
         {

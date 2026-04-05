@@ -60,6 +60,8 @@ pub use moonsign_chars::{
 pub use talent_buffs::{TalentBuffDef, TalentBuffSource, find_talent_buffs};
 /// Builder pattern for constructing [`genshin_calc_core::TeamMember`] from game data.
 pub use team_builder::TeamMemberBuilder;
+/// Artifact set with piece count for set bonus activation.
+pub use types::ArtifactSetEntry;
 
 use genshin_calc_core::Element;
 use types::{ArtifactSet, CharacterData, EnemyData, WeaponData, WeaponType};

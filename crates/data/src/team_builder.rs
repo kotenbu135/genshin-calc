@@ -9,7 +9,9 @@ use crate::buff::{
 };
 use crate::moonsign_chars::is_moonsign_character;
 use crate::talent_buffs::find_talent_buffs;
-use crate::types::{ArtifactSet, AscensionStat, CharacterData, WeaponData, WeaponSubStat};
+use crate::types::{
+    ArtifactSet, ArtifactSetEntry, AscensionStat, CharacterData, WeaponData, WeaponSubStat,
+};
 
 fn weapon_stat_index(level: u32) -> usize {
     match level {
@@ -24,7 +26,7 @@ fn weapon_stat_index(level: u32) -> usize {
 pub struct TeamMemberBuilder {
     character: &'static CharacterData,
     weapon: &'static WeaponData,
-    artifact_sets: Vec<&'static ArtifactSet>,
+    artifact_sets: Vec<ArtifactSetEntry>,
     artifact_stats: StatProfile,
     constellation: u8,
     talent_levels: [u8; 3],
@@ -63,15 +65,18 @@ impl TeamMemberBuilder {
         self
     }
 
-    /// Sets the artifact sets (supports 2pc+2pc, 4pc, or single 2pc).
-    pub fn artifact_sets(mut self, sets: Vec<&'static ArtifactSet>) -> Self {
+    /// Sets the artifact sets with piece counts.
+    pub fn artifact_sets(mut self, sets: Vec<ArtifactSetEntry>) -> Self {
         self.artifact_sets = sets;
         self
     }
 
-    /// Sets the artifact set (4-piece only, convenience method).
+    /// Sets a single artifact set as 4-piece (convenience method).
     pub fn artifact_set(mut self, set: &'static ArtifactSet) -> Self {
-        self.artifact_sets = vec![set];
+        self.artifact_sets = vec![ArtifactSetEntry {
+            set,
+            piece_count: 4,
+        }];
         self
     }
 
@@ -142,18 +147,20 @@ impl TeamMemberBuilder {
                 });
             }
         }
-        for set in &self.artifact_sets {
-            for buff in set.two_piece.conditional_buffs {
+        for entry in &self.artifact_sets {
+            for buff in entry.set.two_piece.conditional_buffs {
                 result.push(AvailableConditional {
-                    source: set.name,
+                    source: entry.set.name,
                     buff,
                 });
             }
-            for buff in set.four_piece.conditional_buffs {
-                result.push(AvailableConditional {
-                    source: set.name,
-                    buff,
-                });
+            if entry.piece_count >= 4 {
+                for buff in entry.set.four_piece.conditional_buffs {
+                    result.push(AvailableConditional {
+                        source: entry.set.name,
+                        buff,
+                    });
+                }
             }
         }
         result
@@ -302,21 +309,25 @@ impl TeamMemberBuilder {
         }
 
         // Artifact conditional buffs
-        for set in &self.artifact_sets {
+        for entry in &self.artifact_sets {
+            // 2pc conditional: always apply
             self.resolve_conditionals_for_source(
-                set.two_piece.conditional_buffs,
-                &format!("{} 2pc", set.name),
+                entry.set.two_piece.conditional_buffs,
+                &format!("{} 2pc", entry.set.name),
                 1,
                 profile,
                 buffs,
             );
-            self.resolve_conditionals_for_source(
-                set.four_piece.conditional_buffs,
-                &format!("{} 4pc", set.name),
-                1,
-                profile,
-                buffs,
-            );
+            // 4pc conditional: only if piece_count >= 4
+            if entry.piece_count >= 4 {
+                self.resolve_conditionals_for_source(
+                    entry.set.four_piece.conditional_buffs,
+                    &format!("{} 4pc", entry.set.name),
+                    1,
+                    profile,
+                    buffs,
+                );
+            }
         }
     }
 
@@ -404,22 +415,26 @@ impl TeamMemberBuilder {
         }
 
         // Artifact set effects
-        for set in &self.artifact_sets {
-            for stat_buff in set.two_piece.buffs {
+        for entry in &self.artifact_sets {
+            // 2pc buffs: always apply (piece_count >= 2)
+            for stat_buff in entry.set.two_piece.buffs {
                 buffs.push(ResolvedBuff {
-                    source: format!("{} 2pc", set.name),
+                    source: format!("{} 2pc", entry.set.name),
                     stat: stat_buff.stat,
                     value: resolve_value(stat_buff.value, stat_buff.refinement_values, 1),
                     target: BuffTarget::OnlySelf,
                 });
             }
-            for stat_buff in set.four_piece.buffs {
-                buffs.push(ResolvedBuff {
-                    source: format!("{} 4pc", set.name),
-                    stat: stat_buff.stat,
-                    value: resolve_value(stat_buff.value, stat_buff.refinement_values, 1),
-                    target: BuffTarget::OnlySelf,
-                });
+            // 4pc buffs: only if piece_count >= 4
+            if entry.piece_count >= 4 {
+                for stat_buff in entry.set.four_piece.buffs {
+                    buffs.push(ResolvedBuff {
+                        source: format!("{} 4pc", entry.set.name),
+                        stat: stat_buff.stat,
+                        value: resolve_value(stat_buff.value, stat_buff.refinement_values, 1),
+                        target: BuffTarget::OnlySelf,
+                    });
+                }
             }
         }
 
