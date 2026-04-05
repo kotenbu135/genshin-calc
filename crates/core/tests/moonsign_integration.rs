@@ -28,6 +28,7 @@ fn test_ineffa_solo_lunar_ec() {
         level: 90,
         resistance: 0.1,
         def_reduction: 0.0,
+        def_ignore: 0.0,
     };
     let result = calculate_lunar(&input, &enemy).unwrap();
 
@@ -78,6 +79,7 @@ fn test_lauma_nascent_gleam_bloom_crit() {
         level: 90,
         resistance: 0.1,
         def_reduction: 0.0,
+        def_ignore: 0.0,
     };
     let result = calculate_lunar(&input, &enemy).unwrap();
     assert!(result.crit > result.non_crit);
@@ -123,6 +125,7 @@ fn test_two_moonsign_with_non_moonsign_buff() {
         level: 90,
         resistance: 0.1,
         def_reduction: 0.0,
+        def_ignore: 0.0,
     };
     let result = calculate_lunar(&input, &enemy).unwrap();
     assert!(result.average > 0.0);
@@ -135,6 +138,7 @@ fn test_lunar_team_integration() {
         level: 90,
         resistance: 0.1,
         def_reduction: 0.0,
+        def_ignore: 0.0,
     };
     let contributions = vec![
         LunarContribution {

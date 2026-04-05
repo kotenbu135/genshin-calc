@@ -59,7 +59,7 @@ let input = DamageInput {
     reaction_bonus: 0.0,
 };
 
-let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 let result = calculate_damage(&input, &enemy).unwrap();
 println!("Non-crit: {:.1}", result.non_crit);
 println!("Crit: {:.1}", result.crit);
@@ -89,7 +89,7 @@ let input = DamageInput {
     reaction_bonus: 0.15,                 // 魔女4セット
 };
 
-let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 let result = calculate_damage(&input, &enemy).unwrap();
 ```
 
@@ -105,7 +105,7 @@ let input = TransformativeInput {
     reaction_bonus: 0.0,
 };
 
-let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 let result = calculate_transformative(&input, &enemy).unwrap();
 println!("Overloaded damage: {:.1}", result.damage);
 ```
@@ -125,7 +125,7 @@ let input = LunarInput {
     base_dmg_bonus: 0.0,
 };
 
-let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 let result = calculate_lunar(&input, &enemy).unwrap();
 println!("Non-crit: {:.1}, Crit: {:.1}", result.non_crit, result.crit);
 ```
@@ -153,7 +153,7 @@ let input = DamageInput {
     reaction_bonus: 0.0,
 };
 
-let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 let result = calculate_damage(&input, &enemy).unwrap();
 // base_damage = 30000 × 0.0589 = 1767.0
 ```

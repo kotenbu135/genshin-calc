@@ -296,6 +296,7 @@ mod tests {
             level: 90,
             resistance: 0.1,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         }
     }
 

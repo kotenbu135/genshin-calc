@@ -199,5 +199,6 @@ pub fn to_enemy(data: &EnemyData) -> Enemy {
         level: data.level,
         resistance: data.resistance,
         def_reduction: data.def_reduction,
+        def_ignore: 0.0,
     }
 }

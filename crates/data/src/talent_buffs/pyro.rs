@@ -301,6 +301,21 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
 // A1 "Sunfrost Encomium": Mavuika's own ATK+30% while in Nightsoul's Blessing state
 // A4 "Fire-Forged Heritage" "Kiongozi": DMG Bonus +0.2% per Fighting Spirit point consumed (max +40% at C0, 200pt)
 static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
+    // C2 "The Ashen Price": Ring of Searing Radiance form reduces nearby enemies' DEF -20%
+    TalentBuffDef {
+        name: "The Ashen Price DEF Reduction",
+        description: "C2: In Ring of Searing Radiance form, nearby enemies' DEF -20%",
+        stat: BuffableStat::DefReduction,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Sunfrost Encomium ATK Bonus",
         description: "A1: Mavuika's own ATK+30% while in Nightsoul's Blessing state",
@@ -330,6 +345,23 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
+
+// ===== Hu Tao =====
+// C4 "Garden of Eternal Rest": After defeating Blood Blossom enemy, party (excl. Hu Tao) CR+12% for 15s
+static HU_TAO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Garden of Eternal Rest",
+    description: "C4: After defeating Blood Blossom enemy, party (excl. Hu Tao) CRIT Rate +12% for 15s",
+    stat: BuffableStat::CritRate,
+    base_value: 0.12,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::TeamExcludeSelf,
+    source: TalentBuffSource::Constellation(4),
+    min_constellation: 4,
+    cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
+}];
 
 // ===== Xiangling =====
 // C1: Pyro RES -15% on Guoba hit
@@ -388,6 +420,7 @@ pub(super) static PYRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
     ("chevreuse", CHEVREUSE_BUFFS),
     ("durin", DURIN_BUFFS),
+    ("hu_tao", HU_TAO_BUFFS),
     ("klee", KLEE_BUFFS),
     ("mavuika", MAVUIKA_BUFFS),
     ("thoma", THOMA_BUFFS),

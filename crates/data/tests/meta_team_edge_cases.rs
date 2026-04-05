@@ -80,6 +80,7 @@ fn edge_res_shred_stacking() {
         level: 90,
         resistance: 0.10,
         def_reduction: 0.0,
+        def_ignore: 0.0,
     };
 
     let enemy_with_debuff =
@@ -194,6 +195,7 @@ fn edge_def_scaling_redhorn_itto() {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         },
     )
     .unwrap();
@@ -214,6 +216,7 @@ fn edge_def_scaling_redhorn_itto() {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         },
     )
     .unwrap();
@@ -812,6 +815,7 @@ fn edge_single_member_team() {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         },
     )
     .unwrap();
@@ -861,6 +865,7 @@ fn edge_known_damage_formula_check() {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         },
     )
     .unwrap();
@@ -916,6 +921,7 @@ fn edge_vaporize_multiplier() {
         level: 90,
         resistance: 0.10,
         def_reduction: 0.0,
+        def_ignore: 0.0,
     };
 
     let no_reaction = calculate_damage(
@@ -1023,6 +1029,7 @@ fn edge_melt_multiplier() {
         level: 90,
         resistance: 0.10,
         def_reduction: 0.0,
+        def_ignore: 0.0,
     };
 
     let no_reaction = calculate_damage(
@@ -1187,6 +1194,7 @@ fn edge_raiden_burst_resolve_stacks() {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         },
     )
     .unwrap();

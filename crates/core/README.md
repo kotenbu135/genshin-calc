@@ -40,7 +40,7 @@ let input = DamageInput {
     reaction: None,
     reaction_bonus: 0.0,
 };
-let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 let result = calculate_damage(&input, &enemy).unwrap();
 
 println!("Average damage: {:.0}", result.average);

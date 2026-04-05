@@ -461,6 +461,7 @@ impl EnemyData {
             level,
             resistance: self.resistance.get(element),
             def_reduction,
+            def_ignore: 0.0,
         }
     }
 }
@@ -714,6 +715,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
 
         let result = calculate_damage(&input, &enemy).unwrap();
@@ -758,6 +760,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
 
         let result = calculate_damage(&input, &enemy).unwrap();

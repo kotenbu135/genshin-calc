@@ -56,8 +56,10 @@ pub enum BuffableStat {
     ElementalResReduction(Element),
     /// Enemy physical resistance reduction.
     PhysicalResReduction,
-    /// Enemy DEF reduction.
+    /// Enemy DEF reduction (reduces effective DEF before ignore).
     DefReduction,
+    /// Enemy DEF ignore (bypasses a portion of remaining DEF after reduction).
+    DefIgnore,
     /// Flat damage added to normal attacks (ATK * multiplier + flat_dmg).
     NormalAtkFlatDmg,
     /// Flat damage added to charged attacks.

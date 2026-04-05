@@ -22,6 +22,10 @@ pub enum CalcError {
     #[error("def_reduction must be 0.0..=1.0, got {0}")]
     InvalidDefReduction(f64),
 
+    /// DEF ignore is outside the valid range of 0.0..=1.0.
+    #[error("def_ignore must be 0.0..=1.0, got {0}")]
+    InvalidDefIgnore(f64),
+
     /// Talent multiplier must be positive.
     #[error("talent_multiplier must be > 0.0, got {0}")]
     InvalidTalentMultiplier(f64),

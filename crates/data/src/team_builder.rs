@@ -616,6 +616,7 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         | BuffableStat::ElementalResReduction(_)
         | BuffableStat::PhysicalResReduction
         | BuffableStat::DefReduction
+        | BuffableStat::DefIgnore
         | BuffableStat::NormalAtkFlatDmg
         | BuffableStat::ChargedAtkFlatDmg
         | BuffableStat::PlungingAtkFlatDmg

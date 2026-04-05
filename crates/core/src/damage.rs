@@ -61,6 +61,9 @@ fn validate(input: &DamageInput, enemy: &Enemy) -> Result<(), CalcError> {
     if !(0.0..=1.0).contains(&enemy.def_reduction) {
         return Err(CalcError::InvalidDefReduction(enemy.def_reduction));
     }
+    if !(0.0..=1.0).contains(&enemy.def_ignore) {
+        return Err(CalcError::InvalidDefIgnore(enemy.def_ignore));
+    }
     if input.talent_multiplier <= 0.0 {
         return Err(CalcError::InvalidTalentMultiplier(input.talent_multiplier));
     }
@@ -88,7 +91,8 @@ pub(crate) fn resistance_multiplier(enemy: &Enemy) -> f64 {
 
 fn defense_multiplier(char_level: u32, enemy: &Enemy) -> f64 {
     let char_part = f64::from(char_level) + 100.0;
-    let enemy_part = (f64::from(enemy.level) + 100.0) * (1.0 - enemy.def_reduction);
+    let enemy_part =
+        (f64::from(enemy.level) + 100.0) * (1.0 - enemy.def_reduction) * (1.0 - enemy.def_ignore);
     char_part / (char_part + enemy_part)
 }
 
@@ -125,7 +129,7 @@ fn defense_multiplier(char_level: u32, enemy: &Enemy) -> f64 {
 ///     reaction_bonus: 0.0,
 ///     flat_dmg: 0.0,
 /// };
-/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 /// let result = calculate_damage(&input, &enemy).unwrap();
 /// assert!(result.crit > result.non_crit);
 /// ```
@@ -244,6 +248,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         }
     }
 
@@ -359,6 +364,7 @@ mod tests {
             level: 90,
             resistance: -0.2,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         assert!((resistance_multiplier(&enemy) - 1.1).abs() < EPSILON);
     }
@@ -369,6 +375,7 @@ mod tests {
             level: 90,
             resistance: 0.0,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         assert!((resistance_multiplier(&enemy) - 1.0).abs() < EPSILON);
     }
@@ -379,6 +386,7 @@ mod tests {
             level: 90,
             resistance: 0.1,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         assert!((resistance_multiplier(&enemy) - 0.9).abs() < EPSILON);
     }
@@ -389,6 +397,7 @@ mod tests {
             level: 90,
             resistance: 0.74,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         assert!((resistance_multiplier(&enemy) - 0.26).abs() < EPSILON);
     }
@@ -399,6 +408,7 @@ mod tests {
             level: 90,
             resistance: 0.75,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         assert!((resistance_multiplier(&enemy) - 0.25).abs() < EPSILON);
     }
@@ -409,6 +419,7 @@ mod tests {
             level: 90,
             resistance: 0.9,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         assert!((resistance_multiplier(&enemy) - 1.0 / 4.6).abs() < EPSILON);
     }
@@ -419,6 +430,7 @@ mod tests {
             level: 90,
             resistance: 0.0,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = defense_multiplier(90, &enemy);
         assert!((result - 0.5).abs() < EPSILON);
@@ -430,6 +442,7 @@ mod tests {
             level: 90,
             resistance: 0.0,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = defense_multiplier(1, &enemy);
         assert!((result - 101.0 / 291.0).abs() < EPSILON);
@@ -441,6 +454,7 @@ mod tests {
             level: 90,
             resistance: 0.0,
             def_reduction: 0.3,
+            def_ignore: 0.0,
         };
         let result = defense_multiplier(90, &enemy);
         assert!((result - 190.0 / 323.0).abs() < EPSILON);
@@ -452,6 +466,7 @@ mod tests {
             level: 90,
             resistance: 0.0,
             def_reduction: 1.0,
+            def_ignore: 0.0,
         };
         let result = defense_multiplier(90, &enemy);
         assert!((result - 1.0).abs() < EPSILON);
@@ -516,6 +531,7 @@ mod tests {
             level: 1,
             resistance: 0.0,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy);
         assert!(result.is_ok());
@@ -583,6 +599,7 @@ mod tests {
             level: 85,
             resistance: 0.1, // Hilichurl physical resistance
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
         // Game shows floor(35.84) = 35, floor(53.76) = 53
@@ -615,6 +632,7 @@ mod tests {
             level: 90,
             resistance: 0.1,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
         assert!((result.non_crit - 1793.539584).abs() < 0.01);
@@ -646,6 +664,7 @@ mod tests {
             level: 90,
             resistance: 0.1,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
         assert!((result.non_crit - 6337.926144).abs() < 0.01);
@@ -678,6 +697,7 @@ mod tests {
             level: 100,
             resistance: 0.1,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
         // DEF mult = 190/390 = 0.48718 (not 0.5)
@@ -1079,6 +1099,7 @@ mod tests {
             level: 90,
             resistance: -0.30,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
         assert!((result.non_crit - 2275.965).abs() < 0.01);
@@ -1112,6 +1133,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.30,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
         assert!((result.non_crit - 1746.265).abs() < 0.1);
@@ -1211,6 +1233,7 @@ mod tests {
             level: 90,
             resistance: 0.0,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
 
@@ -1227,6 +1250,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let result = calculate_damage(&input, &enemy).unwrap();
 

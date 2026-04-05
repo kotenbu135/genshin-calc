@@ -75,6 +75,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
 
         let damage = calculate_damage(

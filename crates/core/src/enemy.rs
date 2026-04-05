@@ -13,6 +13,10 @@ pub struct Enemy {
     pub resistance: f64,
     /// DEF reduction from debuffs in decimal form (0.0 to 1.0).
     pub def_reduction: f64,
+    /// DEF ignore in decimal form (0.0 to 1.0).
+    /// Applied multiplicatively after DEF reduction: effective_def = base_def * (1 - reduction) * (1 - ignore).
+    #[serde(default)]
+    pub def_ignore: f64,
 }
 
 /// Applies enemy debuffs (resistance reduction, DEF reduction) from resolved buffs.
@@ -21,6 +25,7 @@ pub struct Enemy {
 /// - `ElementalResReduction(e)`: reduces `resistance` when `element == Some(e)`
 /// - `PhysicalResReduction`: reduces `resistance` when `element == None`
 /// - `DefReduction`: adds to `def_reduction` (clamped to 1.0)
+/// - `DefIgnore`: adds to `def_ignore` (clamped to 1.0)
 ///
 /// Other `BuffableStat` variants are ignored.
 /// Returns a new `Enemy` (immutable pattern).
@@ -31,6 +36,7 @@ pub fn apply_enemy_debuffs(
 ) -> Enemy {
     let mut res_reduction = 0.0;
     let mut def_reduction_add = 0.0;
+    let mut def_ignore_add = 0.0;
 
     for buff in buffs {
         match buff.stat {
@@ -47,6 +53,9 @@ pub fn apply_enemy_debuffs(
             BuffableStat::DefReduction => {
                 def_reduction_add += buff.value;
             }
+            BuffableStat::DefIgnore => {
+                def_ignore_add += buff.value;
+            }
             _ => {}
         }
     }
@@ -55,6 +64,7 @@ pub fn apply_enemy_debuffs(
         level: enemy.level,
         resistance: enemy.resistance - res_reduction,
         def_reduction: f64::min(1.0, enemy.def_reduction + def_reduction_add),
+        def_ignore: f64::min(1.0, enemy.def_ignore + def_ignore_add),
     }
 }
 
@@ -96,6 +106,8 @@ pub struct EnemyDebuffs {
     pub physical_res_reduction: f64,
     /// DEF reduction total.
     pub def_reduction: f64,
+    /// DEF ignore total.
+    pub def_ignore: f64,
 }
 
 /// Collects enemy debuffs from resolved team buffs into an [`EnemyDebuffs`].
@@ -127,6 +139,7 @@ pub(crate) fn collect_enemy_debuffs(buffs: &[ResolvedBuff]) -> EnemyDebuffs {
             BuffableStat::ElementalResReduction(Element::Geo) => d.geo_res_reduction += buff.value,
             BuffableStat::PhysicalResReduction => d.physical_res_reduction += buff.value,
             BuffableStat::DefReduction => d.def_reduction += buff.value,
+            BuffableStat::DefIgnore => d.def_ignore += buff.value,
             _ => {}
         }
     }
@@ -136,7 +149,7 @@ pub(crate) fn collect_enemy_debuffs(buffs: &[ResolvedBuff]) -> EnemyDebuffs {
 /// Applies pre-collected enemy debuffs to a base enemy for a specific damage element.
 ///
 /// Selects the matching resistance reduction by element (or physical if `None`),
-/// subtracts from `enemy.resistance`, and adds `def_reduction` (clamped to 1.0).
+/// subtracts from `enemy.resistance`, adds `def_reduction` and `def_ignore` (each clamped to 1.0).
 /// Returns a new `Enemy` (immutable pattern).
 pub fn apply_debuffs_to_enemy(
     enemy: &Enemy,
@@ -157,6 +170,7 @@ pub fn apply_debuffs_to_enemy(
         level: enemy.level,
         resistance: enemy.resistance - res_reduction,
         def_reduction: f64::min(1.0, enemy.def_reduction + debuffs.def_reduction),
+        def_ignore: f64::min(1.0, enemy.def_ignore + debuffs.def_ignore),
     }
 }
 
@@ -172,6 +186,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         }
     }
 
@@ -277,6 +292,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.20,
+            def_ignore: 0.0,
         };
         let buffs = vec![ResolvedBuff {
             source: "Lisa A4".into(),
@@ -295,6 +311,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.80,
+            def_ignore: 0.0,
         };
         let buffs = vec![ResolvedBuff {
             source: "Test".into(),
@@ -369,6 +386,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let buffs = vec![res_reduction_buff(Element::Pyro, 0.20)];
         let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
@@ -384,6 +402,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let buffs = vec![
             res_reduction_buff(Element::Pyro, 0.40),
@@ -402,6 +421,7 @@ mod tests {
             level: 90,
             resistance: 0.70,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let buffs = vec![res_reduction_buff(Element::Pyro, 0.40)];
         let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
@@ -423,6 +443,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let buffs = vec![
             res_reduction_buff(Element::Pyro, 0.40), // VV
@@ -469,6 +490,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let buffs = vec![superconduct_debuff()]; // -40% phys
         let debuffed = apply_enemy_debuffs(&enemy, &buffs, None); // physical
@@ -510,6 +532,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let buffs = vec![ResolvedBuff {
             source: "Lisa A4".into(),
@@ -680,6 +703,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.80,
+            def_ignore: 0.0,
         };
         let debuffs = EnemyDebuffs {
             def_reduction: 0.50,
@@ -801,6 +825,7 @@ mod tests {
             level: 90,
             resistance: 0.10,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         };
         let debuffed_enemy =
             apply_debuffs_to_enemy(&base_enemy, &result.enemy_debuffs, Some(Element::Pyro));

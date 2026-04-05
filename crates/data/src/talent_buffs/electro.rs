@@ -145,6 +145,21 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    // C2 "Steelbreaker": During Musou Isshin, ignore 60% of enemy DEF
+    TalentBuffDef {
+        name: "Steelbreaker DEF Ignore",
+        description: "C2: During Musou Isshin state, ignore 60% of enemy DEF",
+        stat: BuffableStat::DefIgnore,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Pledge of Propriety ATK Bonus",
         description: "C4: After Musou Isshin ends, nearby party members gain ATK+30% for 10s",

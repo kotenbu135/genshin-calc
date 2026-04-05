@@ -552,34 +552,47 @@ mod tests {
     #[test]
     fn test_find_raiden_shogun_buffs() {
         let buffs = find_talent_buffs("raiden_shogun").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(buffs[0].stat, BuffableStat::BurstDmgBonus);
         assert!(buffs[0].scales_with_talent);
         assert_eq!(buffs[0].source, TalentBuffSource::ElementalSkill);
+        // C2 DEF Ignore
+        assert_eq!(buffs[1].stat, BuffableStat::DefIgnore);
+        assert!((buffs[1].base_value - 0.60).abs() < 1e-6);
+        assert_eq!(buffs[1].min_constellation, 2);
         // C4 ATK%
-        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
-        assert!((buffs[1].base_value - 0.30).abs() < 1e-6);
-        assert_eq!(buffs[1].min_constellation, 4);
+        assert_eq!(buffs[2].stat, BuffableStat::AtkPercent);
+        assert!((buffs[2].base_value - 0.30).abs() < 1e-6);
+        assert_eq!(buffs[2].min_constellation, 4);
     }
 
     #[test]
     fn test_find_xilonen_buffs() {
         let buffs = find_talent_buffs("xilonen").unwrap();
-        assert_eq!(buffs.len(), 4);
+        assert_eq!(buffs.len(), 8);
         // Skill: Geo RES reduction (talent-scaled)
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Geo)
         );
         assert!(buffs[0].scales_with_talent);
+        // C2 buffs: Geo DMG, Pyro ATK, Hydro HP, Cryo Crit DMG
+        assert_eq!(buffs[1].stat, BuffableStat::ElementalDmgBonus(Element::Geo));
+        assert_eq!(buffs[1].min_constellation, 2);
+        assert_eq!(buffs[2].stat, BuffableStat::AtkPercent);
+        assert_eq!(buffs[2].min_constellation, 2);
+        assert_eq!(buffs[3].stat, BuffableStat::HpPercent);
+        assert_eq!(buffs[3].min_constellation, 2);
+        assert_eq!(buffs[4].stat, BuffableStat::CritDmg);
+        assert_eq!(buffs[4].min_constellation, 2);
         // C4: flat DMG from DEF for Normal/Charged/Plunging
-        assert_eq!(buffs[1].stat, BuffableStat::NormalAtkFlatDmg);
-        assert!((buffs[1].base_value - 0.65).abs() < 1e-6);
-        assert_eq!(buffs[1].scales_on, Some(ScalingStat::Def));
-        assert_eq!(buffs[1].min_constellation, 4);
-        assert_eq!(buffs[2].stat, BuffableStat::ChargedAtkFlatDmg);
-        assert_eq!(buffs[3].stat, BuffableStat::PlungingAtkFlatDmg);
-        for b in &buffs[1..] {
+        assert_eq!(buffs[5].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((buffs[5].base_value - 0.65).abs() < 1e-6);
+        assert_eq!(buffs[5].scales_on, Some(ScalingStat::Def));
+        assert_eq!(buffs[5].min_constellation, 4);
+        assert_eq!(buffs[6].stat, BuffableStat::ChargedAtkFlatDmg);
+        assert_eq!(buffs[7].stat, BuffableStat::PlungingAtkFlatDmg);
+        for b in &buffs[5..] {
             assert!((b.base_value - 0.65).abs() < 1e-6);
             assert_eq!(b.scales_on, Some(ScalingStat::Def));
             assert_eq!(b.min_constellation, 4);
@@ -629,17 +642,21 @@ mod tests {
     #[test]
     fn test_find_mavuika_buffs() {
         let buffs = find_talent_buffs("mavuika").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
+        // C2: DEF Reduction -20%
+        assert_eq!(buffs[0].stat, BuffableStat::DefReduction);
+        assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[0].source, TalentBuffSource::Constellation(2));
         // A1: Mavuika's own ATK+30% (self-buff)
-        assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
-        assert!((buffs[0].base_value - 0.30).abs() < 1e-6);
-        assert_eq!(buffs[0].source, TalentBuffSource::AscensionPassive(1));
-        assert_eq!(buffs[0].target, BuffTarget::OnlySelf);
-        // A4: DMG Bonus +40% (max, self-buff)
-        assert_eq!(buffs[1].stat, BuffableStat::DmgBonus);
-        assert!((buffs[1].base_value - 0.40).abs() < 1e-6);
-        assert_eq!(buffs[1].source, TalentBuffSource::AscensionPassive(4));
+        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((buffs[1].base_value - 0.30).abs() < 1e-6);
+        assert_eq!(buffs[1].source, TalentBuffSource::AscensionPassive(1));
         assert_eq!(buffs[1].target, BuffTarget::OnlySelf);
+        // A4: DMG Bonus +40% (max, self-buff)
+        assert_eq!(buffs[2].stat, BuffableStat::DmgBonus);
+        assert!((buffs[2].base_value - 0.40).abs() < 1e-6);
+        assert_eq!(buffs[2].source, TalentBuffSource::AscensionPassive(4));
+        assert_eq!(buffs[2].target, BuffTarget::OnlySelf);
     }
 
     #[test]

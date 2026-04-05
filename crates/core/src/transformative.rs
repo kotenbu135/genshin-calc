@@ -77,7 +77,7 @@ fn validate(input: &TransformativeInput, enemy: &Enemy) -> Result<(), CalcError>
 ///     reaction: Reaction::Overloaded,
 ///     reaction_bonus: 0.0,
 /// };
-/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 /// let result = calculate_transformative(&input, &enemy).unwrap();
 /// assert!(result.damage > 0.0);
 /// ```
@@ -114,6 +114,7 @@ mod tests {
             level: 90,
             resistance: 0.1,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         }
     }
 

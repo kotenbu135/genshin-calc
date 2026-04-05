@@ -86,7 +86,7 @@ fn validate(input: &LunarInput, enemy: &Enemy) -> Result<(), CalcError> {
 ///     crit_dmg: 1.20,
 ///     base_dmg_bonus: 0.0,
 /// };
-/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0 };
+/// let enemy = Enemy { level: 90, resistance: 0.10, def_reduction: 0.0, def_ignore: 0.0 };
 /// let result = calculate_lunar(&input, &enemy).unwrap();
 /// assert!(result.crit > result.non_crit);
 /// ```
@@ -127,6 +127,7 @@ mod tests {
             level: 90,
             resistance: 0.1,
             def_reduction: 0.0,
+            def_ignore: 0.0,
         }
     }
 
