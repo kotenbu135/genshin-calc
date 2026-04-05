@@ -4,8 +4,8 @@ use genshin_calc_core::{
 };
 
 use crate::buff::{
-    Activation, AutoCondition, AvailableConditional, ConditionalBuff, ManualActivation,
-    ManualCondition,
+    Activation, AutoCondition, AvailableConditional, AvailableTalentConditional, ConditionalBuff,
+    ManualActivation, ManualCondition,
 };
 use crate::moonsign_chars::is_moonsign_character;
 use crate::talent_buffs::find_talent_buffs;
@@ -164,6 +164,20 @@ impl TeamMemberBuilder {
             }
         }
         result
+    }
+
+    /// Returns available conditional talent buffs (activation: Some) with source context.
+    pub fn available_talent_conditionals(&self) -> Vec<AvailableTalentConditional> {
+        let Some(defs) = find_talent_buffs(self.character.id) else {
+            return Vec::new();
+        };
+        defs.iter()
+            .filter(|def| def.activation.is_some() && self.constellation >= def.min_constellation)
+            .map(|def| AvailableTalentConditional {
+                source: self.character.name,
+                buff: def,
+            })
+            .collect()
     }
 
     /// Builds the [`TeamMember`].

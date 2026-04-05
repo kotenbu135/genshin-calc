@@ -118,3 +118,12 @@ pub struct AvailableConditional {
     /// The conditional buff definition.
     pub buff: &'static ConditionalBuff,
 }
+
+/// A conditional talent buff with source context, for UI display.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct AvailableTalentConditional {
+    /// Source name (character name).
+    pub source: &'static str,
+    /// The talent buff definition (with activation field).
+    pub buff: &'static crate::talent_buffs::TalentBuffDef,
+}
