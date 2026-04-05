@@ -216,63 +216,64 @@ static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Illuga =====
-// A4 passive "Torchforger's Covenant": CRIT Rate +5%, CRIT DMG +10%, EM +50 (Moonsign)
-// Burst "Shadowless Reflection": Geo DMG Bonus based on burst talent level
-static ILLUGA_BURST_GEO_DMG_SCALING: [f64; 15] = [
-    0.336, 0.3612, 0.3864, 0.42, 0.4452, 0.4704, 0.504, 0.5376, 0.5712, 0.6048, 0.6384, 0.672,
-    0.714, 0.756, 0.798,
-];
+// A1 passive "Torchforger's Covenant": CRIT Rate +5%, CRIT DMG +10%, EM +50 (Moonsign)
+//   source was wrongly listed as A4 — corrected to A1
+// A4 passive "Demonhunter's Dusk": Geo DMG Bonus = EM × coefficient based on party Hydro/Geo count
+//   1 member: EM×7%, 2 members: EM×14%, 3 members: EM×24%
+//   Simplified: 2-member coefficient (14%) as representative; party count not modeled
+// Burst "Shadowless Reflection": EM-based additive flat Burst DMG (per stack consumed), not talent%
+//   TODO: Correct mechanic (EM×stack scaling) cannot be fully modeled in TalentBuffDef; omitted
 
 static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Torchforger's Covenant - CRIT Rate",
-        description: "After Geo DMG hits opponent, party CRIT Rate +5% for 20s",
+        description: "A1: After Geo DMG hits opponent, party CRIT Rate +5% for 20s",
         stat: BuffableStat::CritRate,
         base_value: 0.05,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - CRIT DMG",
-        description: "After Geo DMG hits opponent, party CRIT DMG +10% for 20s",
+        description: "A1: After Geo DMG hits opponent, party CRIT DMG +10% for 20s",
         stat: BuffableStat::CritDmg,
         base_value: 0.10,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - EM (Moonsign)",
-        description: "With Moonsign active, party EM +50 for 20s (A4 Ascendant Gleam condition)",
+        description: "A1: With Moonsign active, party EM +50 for 20s",
         stat: BuffableStat::ElementalMastery,
         base_value: 50.0,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
-        name: "Shadowless Reflection - Geo DMG",
-        description: "During burst, Geo DMG Bonus based on talent level (flat%, not EM-scaled)",
+        name: "Demonhunter's Dusk - Geo DMG (simplified 2-member)",
+        description: "A4: Geo DMG Bonus = EM × 14% (simplified: 2 Hydro/Geo allies; actual: 7%/14%/24% for 1/2/3 members)",
         stat: BuffableStat::ElementalDmgBonus(Element::Geo),
-        base_value: 0.0,
-        scales_with_talent: true,
-        talent_scaling: Some(&ILLUGA_BURST_GEO_DMG_SCALING),
-        scales_on: None,
+        base_value: 0.14,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::ElementalBurst,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
     },

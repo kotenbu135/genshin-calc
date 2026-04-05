@@ -683,10 +683,16 @@ mod tests {
     fn test_find_iansan_buffs() {
         let buffs = find_talent_buffs("iansan").unwrap();
         assert_eq!(buffs.len(), 2);
-        assert_eq!(buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
+        // Burst: AtkFlat scaling on Iansan's ATK (fixed from wrong NormalAtkDmgBonus)
+        assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert!(buffs[0].scales_with_talent);
-        assert_eq!(buffs[1].stat, BuffableStat::AtkFlat);
-        assert_eq!(buffs[1].scales_on, Some(ScalingStat::Hp));
+        assert_eq!(buffs[0].scales_on, Some(ScalingStat::Atk));
+        assert_eq!(buffs[0].target, BuffTarget::Team);
+        // A1: AtkPercent OnlySelf (fixed from wrong A4 HP-scaling AtkFlat)
+        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((buffs[1].base_value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[1].scales_on, None);
+        assert_eq!(buffs[1].target, BuffTarget::OnlySelf);
     }
 
     #[test]

@@ -155,37 +155,38 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Iansan =====
-// Burst: NormalAtkDmgBonus per burst level
-// A4: AtkFlat from HP (HP × 0.40 coefficient)
-static IANSAN_BURST_NORMAL_SCALING: [f64; 15] = [
+// Burst "Three Principles": AtkFlat to party = Iansan ATK × coefficient (talent-level scaled)
+// A1 "Enhanced Resistance Training": Iansan's own ATK +20% for 15s
+// A4 "Kinetic Energy Gradient Test": Healing (ATK × 60%), not a stat buff — omitted
+static IANSAN_BURST_ATK_SCALING: [f64; 15] = [
     0.30, 0.3225, 0.345, 0.375, 0.3975, 0.42, 0.45, 0.48, 0.51, 0.54, 0.57, 0.60, 0.6375, 0.675,
     0.7125,
 ];
 
 static IANSAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Three Principles NormalAtkDmgBonus",
-        description: "Burst: Party Normal ATK DMG Bonus based on burst talent level",
-        stat: BuffableStat::NormalAtkDmgBonus,
+        name: "Three Principles AtkFlat",
+        description: "Burst: Party Flat ATK = Iansan ATK × talent-level coefficient (Lv1≈30%→Lv15≈71.25%)",
+        stat: BuffableStat::AtkFlat,
         base_value: 0.0,
         scales_with_talent: true,
-        talent_scaling: Some(&IANSAN_BURST_NORMAL_SCALING),
-        scales_on: None,
+        talent_scaling: Some(&IANSAN_BURST_ATK_SCALING),
+        scales_on: Some(ScalingStat::Atk),
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
-        name: "The Law of Power ATK Bonus",
-        description: "A4: Grants ATK Flat = HP × 0.40 coefficient (builder computes at resolve time)",
-        stat: BuffableStat::AtkFlat,
-        base_value: 0.40,
+        name: "Enhanced Resistance Training ATK Bonus",
+        description: "A1: Iansan's own ATK +20% for 15s after using Skill",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: Some(ScalingStat::Hp),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
