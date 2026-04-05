@@ -736,12 +736,12 @@ fn eval_talent_manual(
                 if effective == 0 {
                     return None;
                 }
-                // computed_value is the MAX value; scale by n/max to get n-stack value
-                Some(computed_value * f64::from(effective) / f64::from(*max))
+                // computed_value is per-stack value; multiply by n for total
+                Some(computed_value * f64::from(effective))
             }
             Some((_, ManualActivation::Active)) => {
-                // Active means full max stacks = full value
-                Some(computed_value)
+                // Active means full max stacks
+                Some(computed_value * f64::from(*max))
             }
             _ => None,
         },
@@ -794,40 +794,40 @@ mod tests {
 
     #[test]
     fn test_eval_talent_manual_stacks_partial() {
-        // computed_value = 0.3 (= 3 stacks max). With 2 stacks: 0.3 * 2/3 = 0.2
+        // computed_value = 0.1 (per-stack). With 2 stacks: 0.1 * 2 = 0.2
         let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(2))];
-        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
         assert!((result.unwrap() - 0.2).abs() < EPSILON);
     }
 
     #[test]
     fn test_eval_talent_manual_stacks_max() {
-        // Stacks(3) with max=3 → full value
+        // per-stack=0.1, Stacks(3) with max=3 → 0.1 * 3 = 0.3
         let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(3))];
-        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
         assert!((result.unwrap() - 0.3).abs() < EPSILON);
     }
 
     #[test]
     fn test_eval_talent_manual_stacks_zero_returns_none() {
         let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(0))];
-        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
         assert!(result.is_none());
     }
 
     #[test]
     fn test_eval_talent_manual_stacks_active_full_value() {
-        // Active = max stacks = full computed_value
+        // Active = max stacks: per-stack=0.1, max=3 → 0.1 * 3 = 0.3
         let activations = vec![("my_buff".to_string(), ManualActivation::Active)];
-        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
         assert!((result.unwrap() - 0.3).abs() < EPSILON);
     }
 
     #[test]
     fn test_eval_talent_manual_stacks_clamped_to_max() {
-        // n=5 but max=3 → effective=3 → full value
+        // n=5 but max=3 → effective=3: per-stack=0.1 → 0.1 * 3 = 0.3
         let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(5))];
-        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
         assert!((result.unwrap() - 0.3).abs() < EPSILON);
     }
 

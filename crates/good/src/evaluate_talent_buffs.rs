@@ -1,6 +1,7 @@
 use genshin_calc_core::{ResolvedBuff, ScalingStat, combine_stats};
 
 use crate::CharacterBuild;
+use genshin_calc_data::buff::{Activation, ManualCondition};
 
 pub fn evaluate_talent_buffs(
     build: &CharacterBuild,
@@ -22,7 +23,17 @@ pub fn evaluate_talent_buffs(
         .filter(|def| def.min_constellation <= constellation)
         .map(|def| {
             let scaling_value = resolve_scaling_value(def, talent_levels);
-            let final_value = apply_stat_scaling(def, scaling_value, &profile, &stats);
+            let base_value = apply_stat_scaling(def, scaling_value, &profile, &stats);
+            // Max-value policy: for Stacks activation, multiply by max to get full value
+            let final_value = match &def.activation {
+                Some(Activation::Manual(ManualCondition::Stacks(max))) => {
+                    base_value * f64::from(*max)
+                }
+                Some(Activation::Both(_, ManualCondition::Stacks(max))) => {
+                    base_value * f64::from(*max)
+                }
+                _ => base_value,
+            };
             ResolvedBuff {
                 source: format!("{}:{}", character_id, source_label(&def.source)),
                 stat: def.stat,

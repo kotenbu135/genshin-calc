@@ -574,9 +574,9 @@ mod tests {
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Cryo)
         );
-        assert!((buffs[0].base_value - 0.50).abs() < 1e-6);
+        assert!((buffs[0].base_value - 0.25).abs() < 1e-6);
         assert_eq!(buffs[1].stat, BuffableStat::PhysicalResReduction);
-        assert!((buffs[1].base_value - 0.50).abs() < 1e-6);
+        assert!((buffs[1].base_value - 0.25).abs() < 1e-6);
     }
 
     #[test]

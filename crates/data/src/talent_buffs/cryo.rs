@@ -319,9 +319,9 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
 static EULA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Icetide Vortex Cryo RES Shred",
-        description: "Hold Skill: Enemy Cryo RES -25% per Grimheart stack (max -50%)",
+        description: "Hold Skill: Enemy Cryo RES -25% per Grimheart stack (max 2)",
         stat: BuffableStat::ElementalResReduction(Element::Cryo),
-        base_value: 0.50,
+        base_value: 0.25,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
@@ -333,9 +333,9 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Icetide Vortex Physical RES Shred",
-        description: "Hold Skill: Enemy Physical RES -25% per Grimheart stack (max -50%)",
+        description: "Hold Skill: Enemy Physical RES -25% per Grimheart stack (max 2)",
         stat: BuffableStat::PhysicalResReduction,
-        base_value: 0.50,
+        base_value: 0.25,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
