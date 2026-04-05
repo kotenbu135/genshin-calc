@@ -293,8 +293,8 @@ mod tests {
     #[test]
     fn test_shenhe_skill_flat_dmg_entries() {
         let buffs = find_talent_buffs("shenhe").unwrap();
-        // Should have 5 FlatDmg entries + 2 A4 press entries = 7 total
-        assert_eq!(buffs.len(), 7);
+        // 5 FlatDmg (Icy Quill) + 2 A4 press (Skill/BurstDmgBonus) + 3 A4 hold (Normal/Charged/PlungingDmgBonus) = 10 total
+        assert_eq!(buffs.len(), 10);
         assert!(
             buffs.iter().all(|b| b.stat != BuffableStat::AtkFlat),
             "Shenhe should have no AtkFlat entry"
@@ -316,12 +316,28 @@ mod tests {
         );
         assert!(buffs.iter().any(|b| b.stat == BuffableStat::SkillFlatDmg));
         assert!(buffs.iter().any(|b| b.stat == BuffableStat::BurstFlatDmg));
-        // All 5 FlatDmg entries should be ElementalSkill source with ATK scaling
+        // The 5 FlatDmg entries should be ElementalSkill source with ATK scaling
         for b in buffs.iter().filter(|b| b.name.contains("Flat DMG")) {
             assert_eq!(b.source, TalentBuffSource::ElementalSkill);
             assert_eq!(b.scales_on, Some(ScalingStat::Atk));
             assert!(b.scales_with_talent);
         }
+        // Hold E: NormalAtkDmgBonus, ChargedAtkDmgBonus, PlungingAtkDmgBonus all +15%
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::NormalAtkDmgBonus)
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ChargedAtkDmgBonus)
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::PlungingAtkDmgBonus)
+        );
     }
 
     #[test]
@@ -683,10 +699,14 @@ mod tests {
     fn test_find_iansan_buffs() {
         let buffs = find_talent_buffs("iansan").unwrap();
         assert_eq!(buffs.len(), 2);
-        assert_eq!(buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
+        // Burst: AtkFlat with talent scaling (not NormalAtkDmgBonus)
+        assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert!(buffs[0].scales_with_talent);
-        assert_eq!(buffs[1].stat, BuffableStat::AtkFlat);
-        assert_eq!(buffs[1].scales_on, Some(ScalingStat::Hp));
+        assert_eq!(buffs[0].scales_on, None);
+        // A4: AtkPercent +20% for self (not AtkFlat from HP)
+        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
+        assert_eq!(buffs[1].target, BuffTarget::OnlySelf);
+        assert!((buffs[1].base_value - 0.20).abs() < 1e-6);
     }
 
     #[test]

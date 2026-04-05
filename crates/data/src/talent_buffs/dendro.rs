@@ -17,11 +17,12 @@ static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Nahida =====
-// A1 passive "On All Things Meditated": grants (highest_em - 200) * 25%, max 250
-// At single-character evaluation, uses own EM as "highest EM".
+// A1 passive "On All Things Meditated": grants (highest_em - 200) * 25%, max 250 EM
+// Note: the -200 offset cannot be expressed in TalentBuffDef without struct changes;
+// the cap prevents overestimation at very high EM values.
 static NAHIDA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "On All Things Meditated",
-    description: "Grants EM to party: (highest_em - 200) * 25%, max 250",
+    description: "Grants EM to party: (highest_em - 200) * 25%, max 250 EM (offset not applied; cap enforced)",
     stat: BuffableStat::ElementalMastery,
     base_value: 0.25,
     scales_with_talent: false,
@@ -30,7 +31,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(1),
     min_constellation: 0,
-    cap: None,
+    cap: Some(250.0),
 }];
 
 // ===== Nefer =====

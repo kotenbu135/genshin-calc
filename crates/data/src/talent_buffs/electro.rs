@@ -70,7 +70,7 @@ static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 
 // ===== Flins =====
 // A4 passive "Whispering Flame": EM += total ATK × 0.08, capped at 160
-// C4 "Night on Bald Mountain": ATK +20%
+// C4 "Night on Bald Mountain": ATK +20%; also upgrades Whispering Flame to 10% (cap 220)
 static FLINS_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Whispering Flame EM Bonus",
@@ -97,6 +97,19 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+    },
+    TalentBuffDef {
+        name: "Whispering Flame EM Bonus C4 Enhancement",
+        description: "C4: Upgrades Whispering Flame from 8%→10% (+2% of TotalATK, extra cap +60 → total 220)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.02,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::TotalAtk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: Some(60.0),
     },
 ];
 
@@ -155,21 +168,21 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Iansan =====
-// Burst: NormalAtkDmgBonus per burst level
-// A4: AtkFlat from HP (HP × 0.40 coefficient)
-static IANSAN_BURST_NORMAL_SCALING: [f64; 15] = [
-    0.30, 0.3225, 0.345, 0.375, 0.3975, 0.42, 0.45, 0.48, 0.51, 0.54, 0.57, 0.60, 0.6375, 0.675,
-    0.7125,
+// Burst: AtkFlat bonus per burst level (Iansan's ATK × coefficient; Lv1≈330~Lv15≈890)
+// A4 "Enhanced Resistance Training": Iansan's own ATK +20% for 15s
+static IANSAN_BURST_ATK_FLAT_SCALING: [f64; 15] = [
+    330.0, 370.0, 410.0, 450.0, 490.0, 530.0, 570.0, 610.0, 650.0, 690.0, 730.0, 770.0, 810.0,
+    850.0, 890.0,
 ];
 
 static IANSAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Three Principles NormalAtkDmgBonus",
-        description: "Burst: Party Normal ATK DMG Bonus based on burst talent level",
-        stat: BuffableStat::NormalAtkDmgBonus,
+        name: "Three Principles AtkFlat Bonus",
+        description: "Burst: Party gains flat ATK bonus based on burst talent level (scales with Iansan's ATK)",
+        stat: BuffableStat::AtkFlat,
         base_value: 0.0,
         scales_with_talent: true,
-        talent_scaling: Some(&IANSAN_BURST_NORMAL_SCALING),
+        talent_scaling: Some(&IANSAN_BURST_ATK_FLAT_SCALING),
         scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalBurst,
@@ -177,14 +190,14 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
         cap: None,
     },
     TalentBuffDef {
-        name: "The Law of Power ATK Bonus",
-        description: "A4: Grants ATK Flat = HP × 0.40 coefficient (builder computes at resolve time)",
-        stat: BuffableStat::AtkFlat,
-        base_value: 0.40,
+        name: "Enhanced Resistance Training ATK Bonus",
+        description: "A4: Iansan's own ATK +20% for 15s",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: Some(ScalingStat::Hp),
-        target: BuffTarget::Team,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,

@@ -143,10 +143,11 @@ pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
 pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Aino",
     required_level: MoonsignLevel::AscendantGleam,
-    description: "At Ascendant Gleam, reaction DMG bonus from C6 increases by +20% (total +35%)",
-    effect: MoonsignTalentEffect::ReactionDmgBonus {
-        reaction: Reaction::LunarElectroCharged,
-        bonus: 0.20,
+    description: "At Ascendant Gleam, C6 reaction DMG bonus increases from +15% to +35% (all reactions, +20% additional)",
+    effect: MoonsignTalentEffect::StatBuff {
+        stat: BuffableStat::TransformativeBonus,
+        value: 0.20,
+        target: BuffTarget::Team,
     },
 }];
 

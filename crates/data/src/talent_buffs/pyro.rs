@@ -184,34 +184,35 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Durin =====
-// A4 (Purity) "Light Manifest of the Divine Calculus": Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize
-// A4 (Darkness) "Light Manifest of the Divine Calculus": Vaporize/Melt DMG +40%
+// A1 (Purity) "Light Manifest of the Divine Calculus": Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize
+// A1 (Darkness) "Light Manifest of the Divine Calculus": Vaporize/Melt DMG +40%
 // C2 "Unground Visions": Pyro DMG +50% for party after reaction
 // C4 "Emanare's Source": Burst DMG +40%
+// (A4 "Chaos Formed Like the Night" is a complex per-hit ATK-scaling DMG bonus — not expressible as TalentBuffDef)
 static DURIN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Light Manifest (Purity) Pyro RES Down",
-        description: "A4: Enemy Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize",
+        description: "A1: Enemy Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize",
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
         name: "Light Manifest (Darkness) Amplifying Bonus",
-        description: "A4: Vaporize/Melt DMG +40% in Darkness form",
+        description: "A1: Vaporize/Melt DMG +40% in Darkness form",
         stat: BuffableStat::AmplifyingBonus,
         base_value: 0.40,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
