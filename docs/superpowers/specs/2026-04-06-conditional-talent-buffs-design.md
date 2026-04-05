@@ -178,7 +178,15 @@ Crane Form（落下攻撃DMG +75%）は Toggle で簡略化する。実際には
 
 ### 9. テスト
 
-- 既存テスト: `activation: None` 追加でコンパイル修正のみ、動作変更なし
+- 既存テスト（`team_builder.rs` 内）: `activation: None` 追加でコンパイル修正のみ、動作変更なし
+- 既存テスト（`evaluate_talent_buffs.rs` 内）: **動作変更あり**。`activation: Some(...)` に変更されるキャラのテストは `evaluate_talent_buffs()` に activation を渡す形に更新が必要:
+  - `test_bennett_c0_burst_lv13` → `&[("Fantastic Voyage ATK Bonus".into(), ManualActivation::Active)]` を渡す
+  - `test_bennett_c6_burst_lv13` → 上記 + Spirit of Pyro の activation を渡す
+  - `test_furina_c0_burst_lv10` → `Stacks(300)` を渡す
+  - `test_furina_c1_*` → 同上
+  - `test_yelan_a4_returns_max` → Toggle active を渡す
+  - `test_nahida_a1_*` → ナヒーダ A1 は `activation: None`（issue #38 では Compassion Illuminated のみ対象）なので変更不要
+  - `test_sucrose_a4_em_sharing` → Toggle active を渡す
 - 新規テスト:
   - マーヴィカ: activations 空 → buffs_provided にA1/A4なし、Toggle ON → あり
   - ベネット: activations 空 → Fantastic Voyage なし、Toggle ON → あり
