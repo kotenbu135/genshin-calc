@@ -38,7 +38,8 @@ fn is_ascension_met(
 ) -> bool {
     use genshin_calc_data::talent_buffs::TalentBuffSource;
     match source {
-        TalentBuffSource::AscensionPassive => level >= 70,
+        TalentBuffSource::AscensionPassive(1) => level >= 40,
+        TalentBuffSource::AscensionPassive(_) => level >= 70,
         _ => true,
     }
 }
@@ -78,7 +79,15 @@ fn apply_stat_scaling(
         Some(ScalingStat::Atk) => profile.base_atk * scaling_value,
         Some(ScalingStat::Def) => stats.def * scaling_value,
         Some(ScalingStat::Hp) => stats.hp * scaling_value,
-        Some(ScalingStat::Em) => stats.elemental_mastery * scaling_value,
+        Some(ScalingStat::Em) => {
+            // Nahida A1: (em - 200) * coefficient, clamped to [0, 250]
+            // Generic EM scaling: em * coefficient
+            if def.stat == genshin_calc_core::BuffableStat::ElementalMastery {
+                ((stats.elemental_mastery - 200.0).max(0.0) * scaling_value).min(250.0)
+            } else {
+                stats.elemental_mastery * scaling_value
+            }
+        }
         _ => scaling_value,
     }
 }
@@ -86,7 +95,8 @@ fn apply_stat_scaling(
 fn source_label(source: &genshin_calc_data::talent_buffs::TalentBuffSource) -> &'static str {
     use genshin_calc_data::talent_buffs::TalentBuffSource;
     match source {
-        TalentBuffSource::AscensionPassive => "a4",
+        TalentBuffSource::AscensionPassive(1) => "a1",
+        TalentBuffSource::AscensionPassive(_) => "a4",
         TalentBuffSource::ElementalSkill => "skill",
         TalentBuffSource::ElementalBurst => "burst",
         TalentBuffSource::Constellation(n) => match *n {
@@ -204,5 +214,87 @@ mod tests {
         let buffs = evaluate_talent_buffs(&build, 0, &[1, 10, 1]);
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
+    }
+
+    fn make_nahida_build(em_value: f64) -> CharacterBuild {
+        // Nahida Lv90 with A Thousand Floating Dreams (EM substat)
+        // Use artifact substats to control total EM
+        let json = format!(
+            r#"{{
+                "format": "GOOD", "version": 3, "source": "Test",
+                "characters": [{{"key": "Nahida", "level": 90, "constellation": 0, "ascension": 6, "talent": {{"auto": 1, "skill": 10, "burst": 10}}}}],
+                "weapons": [{{"key": "AThousandFloatingDreams", "level": 90, "ascension": 6, "refinement": 1, "location": "Nahida", "lock": false}}],
+                "artifacts": [{{"setKey": "GildedDreams", "slotKey": "sands", "rarity": 5, "level": 20, "mainStatKey": "eleMas", "substats": [{{"key": "eleMas", "value": {em_value}}}], "location": "Nahida", "lock": false}}]
+            }}"#
+        );
+        let import = import_good(&json).unwrap();
+        import.builds.into_iter().next().unwrap()
+    }
+
+    #[test]
+    fn test_nahida_a1_em_buff_formula() {
+        let build = make_nahida_build(0.0);
+        let profile = crate::build_stat_profile(&build);
+        let em = profile.elemental_mastery;
+        // Nahida Lv90 base EM = 115.2, ascension EM bonus = 28.8
+        // A Thousand Floating Dreams EM = 265, EM sands = 186.5
+        // Total EM ≈ 595.5 (no extra substats)
+        assert!(em > 500.0, "EM should be > 500, got {em}");
+
+        let buffs = evaluate_talent_buffs(&build, 0, &[1, 10, 10]);
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        assert!(
+            buffs[0].source.contains("a1"),
+            "Source should contain 'a1', got: {}",
+            buffs[0].source
+        );
+        // Expected: (em - 200) * 0.25
+        let expected = (em - 200.0).max(0.0) * 0.25;
+        assert!(
+            (buffs[0].value - expected).abs() < 1.0,
+            "Expected ~{expected}, got {}",
+            buffs[0].value
+        );
+        assert!(buffs[0].value > 0.0, "Nahida A1 buff should not be zero");
+    }
+
+    #[test]
+    fn test_nahida_a1_low_em_clamped_to_zero() {
+        // With very low EM (below 200), buff should be 0
+        let json = r#"{
+            "format": "GOOD", "version": 3, "source": "Test",
+            "characters": [{"key": "Nahida", "level": 90, "constellation": 0, "ascension": 6, "talent": {"auto": 1, "skill": 10, "burst": 10}}],
+            "weapons": [{"key": "MagicGuide", "level": 1, "ascension": 0, "refinement": 1, "location": "Nahida", "lock": false}],
+            "artifacts": []
+        }"#;
+        let import = import_good(&json).unwrap();
+        let build = &import.builds[0];
+        let profile = crate::build_stat_profile(build);
+
+        if profile.elemental_mastery < 200.0 {
+            let buffs = evaluate_talent_buffs(build, 0, &[1, 10, 10]);
+            assert_eq!(buffs.len(), 1);
+            assert!(
+                (buffs[0].value - 0.0).abs() < 1e-6,
+                "Below 200 EM, buff should be 0, got {}",
+                buffs[0].value
+            );
+        }
+    }
+
+    #[test]
+    fn test_nahida_a1_level_gate() {
+        // Nahida at level 20 (below A1 threshold of 40) should not produce buffs
+        let json = r#"{
+            "format": "GOOD", "version": 3, "source": "Test",
+            "characters": [{"key": "Nahida", "level": 20, "constellation": 0, "ascension": 1, "talent": {"auto": 1, "skill": 1, "burst": 1}}],
+            "weapons": [{"key": "MagicGuide", "level": 1, "ascension": 0, "refinement": 1, "location": "Nahida", "lock": false}],
+            "artifacts": []
+        }"#;
+        let import = import_good(&json).unwrap();
+        let build = &import.builds[0];
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
+        assert!(buffs.is_empty(), "A1 buff should not appear at level 20");
     }
 }

@@ -30,7 +30,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
 ];
@@ -46,7 +46,7 @@ static JAHODA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -61,7 +61,7 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -78,7 +78,7 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -90,7 +90,7 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::TeamExcludeSelf,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
 ];
@@ -102,14 +102,14 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
 static VARKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dawn Wind's March Anemo DMG",
-        description: "ATK1000あたり風元素/対応元素DMG+10%、最大25%。Toggle=25%想定",
+        description: "ATK1000あた��風元素/対応元素DMG+10%、最大25%。Toggle=25%想定",
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
         base_value: 0.25,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -121,7 +121,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -133,7 +133,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {

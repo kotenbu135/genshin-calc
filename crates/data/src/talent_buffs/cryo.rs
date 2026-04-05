@@ -26,7 +26,7 @@ static GANYU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -41,7 +41,7 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::TeamExcludeSelf,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -54,9 +54,57 @@ static SHENHE_SKILL_SCALING: [f64; 15] = [
 
 static SHENHE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Spring Spirit Summoning Quill DMG",
-        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Cryo attacks",
-        stat: BuffableStat::AtkFlat, // treated as flat bonus scaled from ATK
+        name: "Spring Spirit Summoning Normal ATK Flat DMG",
+        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Normal Attacks",
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SHENHE_SKILL_SCALING),
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Spring Spirit Summoning Charged ATK Flat DMG",
+        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Charged Attacks",
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SHENHE_SKILL_SCALING),
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Spring Spirit Summoning Plunging ATK Flat DMG",
+        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Plunging Attacks",
+        stat: BuffableStat::PlungingAtkFlatDmg,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SHENHE_SKILL_SCALING),
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Spring Spirit Summoning Skill Flat DMG",
+        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Elemental Skills",
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SHENHE_SKILL_SCALING),
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Spring Spirit Summoning Burst Flat DMG",
+        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Elemental Bursts",
+        stat: BuffableStat::BurstFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
         talent_scaling: Some(&SHENHE_SKILL_SCALING),
@@ -74,7 +122,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -86,7 +134,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
 ];

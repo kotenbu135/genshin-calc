@@ -1004,14 +1004,30 @@ mod tests {
                 .buffs_provided
                 .iter()
                 .any(|b| b.stat == genshin_calc_core::BuffableStat::SkillDmgBonus),
-            "Should have SkillDmgBonus from A1"
+            "Should have SkillDmgBonus from A4"
         );
         assert!(
             member
                 .buffs_provided
                 .iter()
                 .any(|b| b.stat == genshin_calc_core::BuffableStat::BurstDmgBonus),
-            "Should have BurstDmgBonus from A1"
+            "Should have BurstDmgBonus from A4"
+        );
+        // Skill should produce 5 FlatDmg entries, not AtkFlat
+        assert!(
+            !member
+                .buffs_provided
+                .iter()
+                .any(|b| b.stat == genshin_calc_core::BuffableStat::AtkFlat
+                    && b.source.contains("Spring Spirit")),
+            "Shenhe skill should not produce AtkFlat"
+        );
+        assert!(
+            member
+                .buffs_provided
+                .iter()
+                .any(|b| b.stat == genshin_calc_core::BuffableStat::NormalAtkFlatDmg),
+            "Should have NormalAtkFlatDmg from skill"
         );
     }
 

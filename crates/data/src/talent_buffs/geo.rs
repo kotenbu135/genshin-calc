@@ -11,7 +11,7 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -60,7 +60,7 @@ static NINGGUANG_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -74,7 +74,7 @@ static YUN_JIN_BURST_SCALING: [f64; 15] = [
 static YUN_JIN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Cliffbreaker's Banner Normal ATK Bonus",
     description: "Normal Attack DMG increased based on Yun Jin's DEF",
-    stat: BuffableStat::AtkFlat,
+    stat: BuffableStat::NormalAtkFlatDmg,
     base_value: 0.0,
     scales_with_talent: true,
     talent_scaling: Some(&YUN_JIN_BURST_SCALING),
@@ -219,7 +219,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -231,7 +231,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -243,7 +243,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {

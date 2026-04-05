@@ -26,7 +26,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: Some(ScalingStat::Em),
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -128,7 +128,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::OnlySelf,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -143,7 +143,7 @@ static YELAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 

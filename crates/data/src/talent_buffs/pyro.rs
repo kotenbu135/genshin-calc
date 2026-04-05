@@ -62,7 +62,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -74,7 +74,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -86,7 +86,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
 ];
@@ -143,7 +143,7 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::TeamExcludeSelf,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
@@ -162,7 +162,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {
@@ -174,7 +174,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
     },
     TalentBuffDef {

@@ -11,22 +11,23 @@ static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::OnlySelf,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 
 // ===== Nahida =====
-// A4 passive "On All Things Meditated": grants 25% of highest EM in team (max 250)
+// A1 passive "On All Things Meditated": grants (highest_em - 200) * 25%, max 250
+// At single-character evaluation, uses own EM as "highest EM".
 static NAHIDA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "On All Things Meditated",
-    description: "Grants EM to party based on highest EM in team (25%, max 250)",
+    description: "Grants EM to party: (highest_em - 200) * 25%, max 250",
     stat: BuffableStat::ElementalMastery,
-    base_value: 0.0, // Team EM-dependent — builder sets value at resolve time
+    base_value: 0.25,
     scales_with_talent: false,
     talent_scaling: None,
-    scales_on: None,
+    scales_on: Some(ScalingStat::Em),
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(1),
     min_constellation: 0,
 }];
 
@@ -71,7 +72,7 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive,
+    source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
 }];
 

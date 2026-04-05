@@ -12,8 +12,8 @@ pub mod pyro;
 /// Source of a talent buff.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TalentBuffSource {
-    /// Ascension passive (A1 or A4).
-    AscensionPassive,
+    /// Ascension passive. `1` = A1 (level >= 40), `4` = A4 (level >= 70).
+    AscensionPassive(u8),
     /// Elemental skill.
     ElementalSkill,
     /// Elemental burst.
@@ -190,7 +190,7 @@ mod tests {
         let buffs = find_talent_buffs("aino").unwrap();
         let a4 = buffs
             .iter()
-            .find(|b| b.source == TalentBuffSource::AscensionPassive)
+            .find(|b| b.source == TalentBuffSource::AscensionPassive(4))
             .unwrap();
         assert_eq!(a4.stat, BuffableStat::BurstDmgBonus);
         assert!((a4.base_value - 0.50).abs() < 1e-6);
@@ -269,8 +269,6 @@ mod tests {
     #[test]
     fn test_shenhe_a1_press_buffs() {
         let buffs = find_talent_buffs("shenhe").unwrap();
-        // Existing: Spring Spirit Summoning (skill scaling)
-        // New: Deific Embrace press = SkillDmgBonus + BurstDmgBonus
         let skill_dmg = buffs.iter().find(|b| b.stat == BuffableStat::SkillDmgBonus);
         let burst_dmg = buffs.iter().find(|b| b.stat == BuffableStat::BurstDmgBonus);
         assert!(
@@ -283,6 +281,52 @@ mod tests {
         );
         assert!((skill_dmg.unwrap().base_value - 0.15).abs() < 1e-6);
         assert!((burst_dmg.unwrap().base_value - 0.15).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_shenhe_skill_flat_dmg_entries() {
+        let buffs = find_talent_buffs("shenhe").unwrap();
+        // Should have 5 FlatDmg entries + 2 A4 press entries = 7 total
+        assert_eq!(buffs.len(), 7);
+        assert!(
+            buffs.iter().all(|b| b.stat != BuffableStat::AtkFlat),
+            "Shenhe should have no AtkFlat entry"
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::NormalAtkFlatDmg)
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::ChargedAtkFlatDmg)
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::PlungingAtkFlatDmg)
+        );
+        assert!(buffs.iter().any(|b| b.stat == BuffableStat::SkillFlatDmg));
+        assert!(buffs.iter().any(|b| b.stat == BuffableStat::BurstFlatDmg));
+        // All 5 FlatDmg entries should be ElementalSkill source with ATK scaling
+        for b in buffs.iter().filter(|b| b.name.contains("Flat DMG")) {
+            assert_eq!(b.source, TalentBuffSource::ElementalSkill);
+            assert_eq!(b.scales_on, Some(ScalingStat::Atk));
+            assert!(b.scales_with_talent);
+        }
+    }
+
+    #[test]
+    fn test_yun_jin_normal_atk_flat_dmg() {
+        let buffs = find_talent_buffs("yun_jin").unwrap();
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!(
+            buffs.iter().all(|b| b.stat != BuffableStat::AtkFlat),
+            "Yun Jin should have no AtkFlat entry"
+        );
+        assert_eq!(buffs[0].scales_on, Some(ScalingStat::Def));
     }
 
     #[test]
@@ -403,7 +447,7 @@ mod tests {
         assert!(!buffs[0].scales_with_talent);
         assert!(buffs[0].talent_scaling.is_none());
         assert_eq!(buffs[0].target, BuffTarget::OnlySelf);
-        assert_eq!(buffs[0].source, TalentBuffSource::AscensionPassive);
+        assert_eq!(buffs[0].source, TalentBuffSource::AscensionPassive(4));
         assert_eq!(buffs[0].min_constellation, 0);
     }
 
