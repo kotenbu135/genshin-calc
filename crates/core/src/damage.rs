@@ -1247,18 +1247,21 @@ mod tests {
                 stat: BuffableStat::NormalAtkFlatDmg,
                 value: 200.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Weapon2".into(),
                 stat: BuffableStat::NormalAtkFlatDmg,
                 value: 100.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Other".into(),
                 stat: BuffableStat::SkillFlatDmg,
                 value: 500.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         assert!((collect_flat_dmg(&buffs, DamageType::Normal) - 300.0).abs() < 1e-6);

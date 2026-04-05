@@ -8,6 +8,7 @@ use crate::buff::{
     ManualActivation, ManualCondition,
 };
 use crate::moonsign_chars::is_moonsign_character;
+use crate::nightsoul_chars::is_nightsoul_character;
 use crate::talent_buffs::find_talent_buffs;
 use crate::types::{
     ArtifactSet, ArtifactSetEntry, AscensionStat, CharacterData, WeaponData, WeaponSubStat,
@@ -214,6 +215,7 @@ impl TeamMemberBuilder {
             stats,
             buffs_provided: buffs,
             is_moonsign: is_moonsign_character(self.character.id),
+            can_nightsoul: is_nightsoul_character(self.character.id),
         }
     }
 
@@ -265,10 +267,21 @@ impl TeamMemberBuilder {
         refinement: u8,
         profile: &StatProfile,
         buffs: &mut Vec<ResolvedBuff>,
+        set_origin: Option<&str>,
     ) {
         for cond_buff in conditional_buffs {
             let effective_value =
                 resolve_value(cond_buff.value, cond_buff.refinement_values, refinement);
+            // Nightsoul override: use nightsoul_value if character can use Nightsoul's Blessing
+            let effective_value = if let Some(ns_val) = cond_buff.nightsoul_value {
+                if is_nightsoul_character(self.character.id) {
+                    resolve_value(ns_val, cond_buff.refinement_values, refinement)
+                } else {
+                    effective_value
+                }
+            } else {
+                effective_value
+            };
             let resolved_value = match &cond_buff.activation {
                 Activation::Auto(auto) => eval_auto(
                     auto,
@@ -279,6 +292,7 @@ impl TeamMemberBuilder {
                     &self.team_elements,
                     &self.team_regions,
                     refinement,
+                    self.character.id,
                 ),
                 Activation::Manual(manual) => {
                     eval_manual(manual, cond_buff, &self.manual_activations, effective_value)
@@ -293,6 +307,7 @@ impl TeamMemberBuilder {
                         &self.team_elements,
                         &self.team_regions,
                         refinement,
+                        self.character.id,
                     );
                     auto_result
                         .and_then(|av| eval_manual(manual, cond_buff, &self.manual_activations, av))
@@ -300,11 +315,17 @@ impl TeamMemberBuilder {
             };
 
             if let Some(value) = resolved_value {
+                let origin = if cond_buff.target == BuffTarget::Team {
+                    set_origin.map(|s| s.to_string())
+                } else {
+                    None
+                };
                 buffs.push(ResolvedBuff {
                     source: format!("{} ({})", cond_buff.name, source_name),
                     stat: cond_buff.stat,
                     value,
                     target: cond_buff.target,
+                    origin,
                 });
             }
         }
@@ -319,6 +340,7 @@ impl TeamMemberBuilder {
                 self.refinement,
                 profile,
                 buffs,
+                None,
             );
         }
 
@@ -331,6 +353,7 @@ impl TeamMemberBuilder {
                 1,
                 profile,
                 buffs,
+                None,
             );
             // 4pc conditional: only if piece_count >= 4
             if entry.piece_count >= 4 {
@@ -340,6 +363,7 @@ impl TeamMemberBuilder {
                     1,
                     profile,
                     buffs,
+                    Some(entry.set.id),
                 );
             }
         }
@@ -415,6 +439,7 @@ impl TeamMemberBuilder {
                         &self.team_elements,
                         &self.team_regions,
                         self.refinement,
+                        self.character.id,
                     ),
                     crate::buff::Activation::Both(auto_cond, manual_cond) => {
                         let auto_val = eval_auto(
@@ -426,6 +451,7 @@ impl TeamMemberBuilder {
                             &self.team_elements,
                             &self.team_regions,
                             self.refinement,
+                            self.character.id,
                         );
                         match auto_val {
                             Some(base) => eval_talent_manual(
@@ -445,6 +471,7 @@ impl TeamMemberBuilder {
                     stat: def.stat,
                     value: fv,
                     target: def.target,
+                    origin: None,
                 });
             }
         }
@@ -465,6 +492,7 @@ impl TeamMemberBuilder {
                         self.refinement,
                     ),
                     target: BuffTarget::OnlySelf,
+                    origin: None,
                 });
             }
         }
@@ -478,6 +506,7 @@ impl TeamMemberBuilder {
                     stat: stat_buff.stat,
                     value: resolve_value(stat_buff.value, stat_buff.refinement_values, 1),
                     target: BuffTarget::OnlySelf,
+                    origin: None,
                 });
             }
             // 4pc buffs: only if piece_count >= 4
@@ -488,6 +517,7 @@ impl TeamMemberBuilder {
                         stat: stat_buff.stat,
                         value: resolve_value(stat_buff.value, stat_buff.refinement_values, 1),
                         target: BuffTarget::OnlySelf,
+                        origin: None,
                     });
                 }
             }
@@ -602,6 +632,7 @@ fn eval_auto(
     team_elements: &[Element],
     team_regions: &[crate::types::Region],
     refinement: u8, // 1-based: 1=R1, 5=R5
+    character_id: &str,
 ) -> Option<f64> {
     match cond {
         AutoCondition::WeaponTypeRequired(types) => {
@@ -678,6 +709,13 @@ fn eval_auto(
             let count = team_regions.iter().filter(|r| **r == *region).count();
             if count > 0 {
                 Some(multiplier * count as f64)
+            } else {
+                None
+            }
+        }
+        AutoCondition::NightsoulRequired => {
+            if is_nightsoul_character(character_id) {
+                Some(multiplier)
             } else {
                 None
             }
@@ -1314,6 +1352,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.35).abs() < EPSILON);
     }
@@ -1330,6 +1369,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1346,6 +1386,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.20).abs() < EPSILON);
     }
@@ -1362,6 +1403,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1387,6 +1429,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.45).abs() < EPSILON);
     }
@@ -1412,6 +1455,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.75).abs() < EPSILON);
     }
@@ -1439,6 +1483,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 214.16).abs() < 0.01);
     }
@@ -1464,6 +1509,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.224).abs() < EPSILON);
     }
@@ -1489,6 +1535,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.0).abs() < EPSILON);
     }
@@ -1514,6 +1561,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.80).abs() < EPSILON);
 
@@ -1527,6 +1575,7 @@ mod conditional_tests {
             &[],
             &[],
             5,
+            "",
         );
         assert!((result_r5.unwrap() - 1.20).abs() < EPSILON);
     }
@@ -1553,6 +1602,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.09).abs() < EPSILON);
     }
@@ -1573,6 +1623,7 @@ mod conditional_tests {
             &team,
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.25).abs() < EPSILON);
     }
@@ -1593,6 +1644,7 @@ mod conditional_tests {
             &team,
             &[],
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1612,6 +1664,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1634,6 +1687,7 @@ mod conditional_tests {
             &team,
             &[],
             1,
+            "",
         );
         assert!((result.unwrap() - 0.10).abs() < EPSILON);
     }
@@ -1656,6 +1710,7 @@ mod conditional_tests {
             &team,
             &[],
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1672,6 +1727,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1697,6 +1753,7 @@ mod conditional_tests {
             &[],
             &regions,
             1,
+            "",
         );
         assert!((result.unwrap() - 0.14).abs() < EPSILON); // 0.07 * 2
     }
@@ -1716,6 +1773,7 @@ mod conditional_tests {
             &[],
             &regions,
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1734,6 +1792,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!(result.is_none());
     }
@@ -1746,6 +1805,7 @@ mod conditional_tests {
             description: "test",
             stat: BuffableStat::AtkPercent,
             value,
+            nightsoul_value: None,
             refinement_values: None,
             stack_values: None,
             target: BuffTarget::OnlySelf,
@@ -1859,6 +1919,7 @@ mod conditional_tests {
             description: "test",
             stat: BuffableStat::AtkPercent,
             value: 0.10,
+            nightsoul_value: None,
             refinement_values: None,
             stack_values: Some(&[]),
             target: BuffTarget::OnlySelf,
@@ -1895,6 +1956,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         let auto_val = auto_result.unwrap();
         assert!((auto_val - 200.0).abs() < EPSILON);
@@ -1933,6 +1995,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         let auto_val = auto_result.unwrap();
         assert!((auto_val - 56.0).abs() < EPSILON);
@@ -1962,6 +2025,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!(auto_result.is_none());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);
@@ -1989,6 +2053,7 @@ mod conditional_tests {
             &[],
             &[],
             1,
+            "",
         );
         assert!(auto_result.is_some());
         let buff = make_test_buff("test", 0.35, ManualCondition::Toggle);

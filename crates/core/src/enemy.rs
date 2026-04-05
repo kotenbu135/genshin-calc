@@ -67,6 +67,7 @@ pub fn superconduct_debuff() -> ResolvedBuff {
         stat: BuffableStat::PhysicalResReduction,
         value: 0.40,
         target: crate::team::BuffTarget::Team,
+        origin: None,
     }
 }
 
@@ -180,6 +181,7 @@ mod tests {
             stat: BuffableStat::ElementalResReduction(element),
             value,
             target: BuffTarget::Team,
+            origin: None,
         }
     }
 
@@ -216,6 +218,7 @@ mod tests {
             stat: BuffableStat::PhysicalResReduction,
             value: 0.40,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let result = apply_enemy_debuffs(&enemy, &buffs, None);
         assert!((result.resistance - (-0.30)).abs() < EPSILON);
@@ -229,6 +232,7 @@ mod tests {
             stat: BuffableStat::PhysicalResReduction,
             value: 0.40,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
         assert!((result.resistance - 0.10).abs() < EPSILON);
@@ -261,6 +265,7 @@ mod tests {
             stat: BuffableStat::DefReduction,
             value: 0.15,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Electro));
         assert!((result.def_reduction - 0.15).abs() < EPSILON);
@@ -278,6 +283,7 @@ mod tests {
             stat: BuffableStat::DefReduction,
             value: 0.15,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Electro));
         assert!((result.def_reduction - 0.35).abs() < EPSILON);
@@ -295,6 +301,7 @@ mod tests {
             stat: BuffableStat::DefReduction,
             value: 0.50,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Electro));
         assert!((result.def_reduction - 1.0).abs() < EPSILON);
@@ -309,12 +316,14 @@ mod tests {
                 stat: BuffableStat::AtkFlat,
                 value: 1000.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Noblesse".into(),
                 stat: BuffableStat::AtkPercent,
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let result = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Pyro));
@@ -338,6 +347,7 @@ mod tests {
                 stat: BuffableStat::PhysicalResReduction,
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let result = apply_enemy_debuffs(&enemy, &buffs, None);
@@ -506,6 +516,7 @@ mod tests {
             stat: BuffableStat::DefReduction,
             value: 0.15,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let debuffed = apply_enemy_debuffs(&enemy, &buffs, Some(Element::Electro));
 
@@ -557,36 +568,42 @@ mod tests {
                 stat: BuffableStat::ElementalResReduction(Element::Pyro),
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Citlali Q".into(),
                 stat: BuffableStat::ElementalResReduction(Element::Cryo),
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "VV".into(),
                 stat: BuffableStat::ElementalResReduction(Element::Hydro),
                 value: 0.40,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Superconduct".into(),
                 stat: BuffableStat::PhysicalResReduction,
                 value: 0.40,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Lisa A4".into(),
                 stat: BuffableStat::DefReduction,
                 value: 0.15,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Bennett".into(),
                 stat: BuffableStat::AtkFlat,
                 value: 1000.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let debuffs = collect_enemy_debuffs(&buffs);
@@ -609,12 +626,14 @@ mod tests {
                 stat: BuffableStat::ElementalResReduction(Element::Pyro),
                 value: 0.40,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Zhongli".into(),
                 stat: BuffableStat::ElementalResReduction(Element::Pyro),
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let debuffs = collect_enemy_debuffs(&buffs);
@@ -704,6 +723,7 @@ mod tests {
             },
             buffs_provided: vec![],
             is_moonsign: false,
+            can_nightsoul: false,
         };
 
         let support = TeamMember {
@@ -720,27 +740,32 @@ mod tests {
                     stat: BuffableStat::AtkFlat,
                     value: 1000.0,
                     target: BuffTarget::Team,
+                    origin: None,
                 },
                 ResolvedBuff {
                     source: "VV Pyro".into(),
                     stat: BuffableStat::ElementalResReduction(Element::Pyro),
                     value: 0.40,
                     target: BuffTarget::Team,
+                    origin: None,
                 },
                 ResolvedBuff {
                     source: "Shenhe E".into(),
                     stat: BuffableStat::NormalAtkFlatDmg,
                     value: 2500.0,
                     target: BuffTarget::Team,
+                    origin: None,
                 },
                 ResolvedBuff {
                     source: "Freedom-Sworn".into(),
                     stat: BuffableStat::NormalAtkDmgBonus,
                     value: 0.16,
                     target: BuffTarget::Team,
+                    origin: None,
                 },
             ],
             is_moonsign: false,
+            can_nightsoul: false,
         };
 
         let team = vec![dps, support];

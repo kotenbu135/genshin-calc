@@ -56,6 +56,7 @@ pub fn evaluate_talent_buffs(
                 stat: def.stat,
                 value: final_value,
                 target: def.target,
+                origin: None,
             })
         })
         .collect()

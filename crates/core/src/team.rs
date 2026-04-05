@@ -30,6 +30,10 @@ pub struct ResolvedBuff {
     pub value: f64,
     /// Who receives this buff.
     pub target: BuffTarget,
+    /// Deduplication key for same-name set effects.
+    /// When multiple team members provide buffs with the same `origin` and `stat`,
+    /// only the maximum value is kept.
+    pub origin: Option<String>,
 }
 
 /// A team member with pre-resolved stats and buffs.
@@ -45,6 +49,8 @@ pub struct TeamMember {
     pub buffs_provided: Vec<ResolvedBuff>,
     /// Whether this character is a Moonsign (月兆) character from Nod-Krai.
     pub is_moonsign: bool,
+    /// Whether this character can use Nightsoul's Blessing (夜魂の加護).
+    pub can_nightsoul: bool,
 }
 
 /// Aggregated attack-type-specific DMG bonuses, flat DMG, and reaction bonuses
@@ -220,11 +226,62 @@ fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> 
                 stat,
                 value,
                 target: BuffTarget::Team,
+                origin: None,
             });
         }
     }
 
+    dedup_by_origin(&mut buffs);
     buffs
+}
+
+/// Deduplicates buffs by `(origin, stat)` pair, keeping only the maximum value.
+///
+/// Buffs with `origin: None` are always kept (no deduplication).
+/// This prevents multiple team members using the same artifact set from stacking
+/// the 4pc team buff multiple times.
+fn dedup_by_origin(buffs: &mut Vec<ResolvedBuff>) {
+    // Pass 1: find max value for each (origin, stat) pair
+    let mut max_entries: Vec<(String, BuffableStat, f64)> = Vec::new();
+    for buff in buffs.iter() {
+        if let Some(ref origin) = buff.origin {
+            if let Some(entry) = max_entries
+                .iter_mut()
+                .find(|(o, s, _)| o == origin && *s == buff.stat)
+            {
+                if buff.value > entry.2 {
+                    entry.2 = buff.value;
+                }
+            } else {
+                max_entries.push((origin.clone(), buff.stat, buff.value));
+            }
+        }
+    }
+
+    // Pass 2: keep origin=None buffs always; for origin=Some, keep only first with max value
+    let mut seen: Vec<(String, BuffableStat)> = Vec::new();
+    buffs.retain(|buff| {
+        if let Some(ref origin) = buff.origin {
+            let max_val = max_entries
+                .iter()
+                .find(|(o, s, _)| o == origin && *s == buff.stat)
+                .map(|(_, _, v)| *v)
+                .unwrap_or(0.0);
+            if (buff.value - max_val).abs() < f64::EPSILON {
+                let key = (origin.clone(), buff.stat);
+                if seen.iter().any(|s| s.0 == key.0 && s.1 == key.1) {
+                    false // already seen this max
+                } else {
+                    seen.push(key);
+                    true
+                }
+            } else {
+                false // not max value
+            }
+        } else {
+            true // no origin, always keep
+        }
+    });
 }
 
 /// Resolves team buffs and returns a [`TeamResolveResult`] for the target member.
@@ -252,6 +309,7 @@ fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> 
 ///     },
 ///     buffs_provided: vec![],
 ///     is_moonsign: false,
+///     can_nightsoul: false,
 /// };
 /// let result = resolve_team_stats(&[member], 0).unwrap();
 /// assert!(result.final_stats.atk > 0.0);
@@ -321,6 +379,7 @@ mod tests {
             },
             buffs_provided: vec![],
             is_moonsign: false,
+            can_nightsoul: false,
         }
     }
 
@@ -365,6 +424,7 @@ mod tests {
             stat: BuffableStat::AtkPercent,
             value: 0.20,
             target: BuffTarget::OnlySelf,
+            origin: None,
         });
         let team = vec![member, make_member(Element::Hydro, 700.0)];
 
@@ -385,6 +445,7 @@ mod tests {
             stat: BuffableStat::AtkFlat,
             value: 1000.0,
             target: BuffTarget::Team,
+            origin: None,
         });
         let dps = make_member(Element::Pyro, 900.0);
         let team = vec![bennett, dps];
@@ -405,6 +466,7 @@ mod tests {
             stat: BuffableStat::CritRate,
             value: 0.15,
             target: BuffTarget::TeamExcludeSelf,
+            origin: None,
         });
         let dps = make_member(Element::Pyro, 900.0);
         let team = vec![rosaria, dps];
@@ -469,6 +531,7 @@ mod tests {
             stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
             value: 0.15,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let result = apply_buffs_to_profile(&base, &buffs);
         assert!((result.pyro_dmg_bonus - 0.15).abs() < 1e-10);
@@ -483,6 +546,7 @@ mod tests {
             stat: BuffableStat::PhysicalDmgBonus,
             value: 0.25,
             target: BuffTarget::Team,
+            origin: None,
         }];
         let result = apply_buffs_to_profile(&base, &buffs);
         assert!((result.physical_dmg_bonus - 0.25).abs() < 1e-10);
@@ -501,12 +565,14 @@ mod tests {
                 stat: BuffableStat::AtkPercent,
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "conditional".into(),
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.30,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let result = apply_buffs_to_profile(&profile, &buffs);
@@ -531,24 +597,28 @@ mod tests {
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.25,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Shenhe E".into(),
                 stat: BuffableStat::SkillFlatDmg,
                 value: 3000.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Shenhe E".into(),
                 stat: BuffableStat::BurstFlatDmg,
                 value: 3000.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Bennett Burst".into(),
                 stat: BuffableStat::AtkFlat,
                 value: 1000.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let ctx = DamageContext::from_buffs(&buffs);
@@ -568,12 +638,14 @@ mod tests {
                 stat: BuffableStat::AmplifyingBonus,
                 value: 0.15,
                 target: BuffTarget::OnlySelf,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Sucrose C6".into(),
                 stat: BuffableStat::AdditiveBonus,
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let ctx = DamageContext::from_buffs(&buffs);
@@ -590,30 +662,35 @@ mod tests {
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.10,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "b".into(),
                 stat: BuffableStat::ChargedAtkDmgBonus,
                 value: 0.20,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "c".into(),
                 stat: BuffableStat::PlungingAtkDmgBonus,
                 value: 0.30,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "d".into(),
                 stat: BuffableStat::SkillDmgBonus,
                 value: 0.40,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "e".into(),
                 stat: BuffableStat::BurstDmgBonus,
                 value: 0.50,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let ctx = DamageContext::from_buffs(&buffs);
@@ -632,30 +709,35 @@ mod tests {
                 stat: BuffableStat::NormalAtkFlatDmg,
                 value: 100.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "b".into(),
                 stat: BuffableStat::ChargedAtkFlatDmg,
                 value: 200.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "c".into(),
                 stat: BuffableStat::PlungingAtkFlatDmg,
                 value: 300.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "d".into(),
                 stat: BuffableStat::SkillFlatDmg,
                 value: 400.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "e".into(),
                 stat: BuffableStat::BurstFlatDmg,
                 value: 500.0,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let ctx = DamageContext::from_buffs(&buffs);
@@ -674,12 +756,14 @@ mod tests {
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.16,
                 target: BuffTarget::Team,
+                origin: None,
             },
             ResolvedBuff {
                 source: "Yun Jin A4".into(),
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.05,
                 target: BuffTarget::Team,
+                origin: None,
             },
         ];
         let ctx = DamageContext::from_buffs(&buffs);
@@ -694,18 +778,21 @@ mod tests {
             stat: BuffableStat::ElementalResReduction(Element::Pyro),
             value: 0.20,
             target: BuffTarget::Team,
+            origin: None,
         });
         support.buffs_provided.push(ResolvedBuff {
             source: "Freedom-Sworn".into(),
             stat: BuffableStat::NormalAtkDmgBonus,
             value: 0.16,
             target: BuffTarget::Team,
+            origin: None,
         });
         support.buffs_provided.push(ResolvedBuff {
             source: "Shenhe E".into(),
             stat: BuffableStat::NormalAtkFlatDmg,
             value: 2500.0,
             target: BuffTarget::Team,
+            origin: None,
         });
         let dps = make_member(Element::Pyro, 900.0);
         let team = vec![support, dps];
@@ -716,5 +803,119 @@ mod tests {
         assert!((result.damage_context.normal_atk_flat_dmg - 2500.0).abs() < EPSILON);
         assert!((result.enemy_debuffs.pyro_res_reduction - 0.20).abs() < EPSILON);
         assert!((result.enemy_debuffs.cryo_res_reduction - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_dedup_same_origin_keeps_max() {
+        // Two team members both providing Noblesse 4pc ATK buff
+        // Member with higher value (0.25) should win, lower (0.20) should be deduped
+        let mut member1 = make_member(Element::Pyro, 800.0);
+        member1.buffs_provided.push(ResolvedBuff {
+            source: "ATK% Up (Noblesse 4pc)".into(),
+            stat: BuffableStat::AtkPercent,
+            value: 0.20,
+            target: BuffTarget::Team,
+            origin: Some("noblesse_oblige".to_string()),
+        });
+
+        let mut member2 = make_member(Element::Hydro, 700.0);
+        member2.buffs_provided.push(ResolvedBuff {
+            source: "ATK% Up (Noblesse 4pc)".into(),
+            stat: BuffableStat::AtkPercent,
+            value: 0.25,
+            target: BuffTarget::Team,
+            origin: Some("noblesse_oblige".to_string()),
+        });
+
+        let dps = make_member(Element::Cryo, 900.0);
+        let team = vec![member1, member2, dps];
+
+        let result = resolve_team_stats(&team, 2).unwrap();
+        // Only max (0.25) applies; lower (0.20) is deduped
+        // base_atk=900, atk_percent=0.25 → 900 * 1.25 = 1125
+        assert!((result.final_stats.atk - 1125.0).abs() < EPSILON);
+        // Exactly one buff with origin "noblesse_oblige"
+        let noblesse_buffs: Vec<_> = result
+            .applied_buffs
+            .iter()
+            .filter(|b| b.origin.as_deref() == Some("noblesse_oblige"))
+            .collect();
+        assert_eq!(noblesse_buffs.len(), 1);
+        assert!((noblesse_buffs[0].value - 0.25).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_different_origin_not_deduped() {
+        // One member with Noblesse ATK +20%, another with Millelith ATK +20%
+        // Both should apply (different origins)
+        let mut member1 = make_member(Element::Pyro, 800.0);
+        member1.buffs_provided.push(ResolvedBuff {
+            source: "ATK% Up (Noblesse 4pc)".into(),
+            stat: BuffableStat::AtkPercent,
+            value: 0.20,
+            target: BuffTarget::Team,
+            origin: Some("noblesse_oblige".to_string()),
+        });
+
+        let mut member2 = make_member(Element::Hydro, 700.0);
+        member2.buffs_provided.push(ResolvedBuff {
+            source: "ATK% Up (Millelith 4pc)".into(),
+            stat: BuffableStat::AtkPercent,
+            value: 0.20,
+            target: BuffTarget::Team,
+            origin: Some("tenacity_of_the_millelith".to_string()),
+        });
+
+        let dps = make_member(Element::Cryo, 900.0);
+        let team = vec![member1, member2, dps];
+
+        let result = resolve_team_stats(&team, 2).unwrap();
+        // Both apply: 900 * (1 + 0.20 + 0.20) = 900 * 1.40 = 1260
+        assert!((result.final_stats.atk - 1260.0).abs() < EPSILON);
+        assert_eq!(
+            result
+                .applied_buffs
+                .iter()
+                .filter(|b| b.origin.is_some())
+                .count(),
+            2
+        );
+    }
+
+    #[test]
+    fn test_origin_none_never_deduped() {
+        // Two members both providing weapon ATK buff with origin: None
+        // Both should apply (origin=None is never deduped)
+        let mut member1 = make_member(Element::Pyro, 800.0);
+        member1.buffs_provided.push(ResolvedBuff {
+            source: "Weapon ATK%".into(),
+            stat: BuffableStat::AtkPercent,
+            value: 0.20,
+            target: BuffTarget::Team,
+            origin: None,
+        });
+
+        let mut member2 = make_member(Element::Hydro, 700.0);
+        member2.buffs_provided.push(ResolvedBuff {
+            source: "Weapon ATK%".into(),
+            stat: BuffableStat::AtkPercent,
+            value: 0.20,
+            target: BuffTarget::Team,
+            origin: None,
+        });
+
+        let dps = make_member(Element::Cryo, 900.0);
+        let team = vec![member1, member2, dps];
+
+        let result = resolve_team_stats(&team, 2).unwrap();
+        // Both apply: 900 * (1 + 0.20 + 0.20) = 900 * 1.40 = 1260
+        assert!((result.final_stats.atk - 1260.0).abs() < EPSILON);
+        // Both origin=None buffs present
+        let no_origin_atk_buffs: Vec<_> = result
+            .applied_buffs
+            .iter()
+            .filter(|b| b.origin.is_none() && b.stat == BuffableStat::AtkPercent)
+            .collect();
+        assert_eq!(no_origin_atk_buffs.len(), 2);
     }
 }
