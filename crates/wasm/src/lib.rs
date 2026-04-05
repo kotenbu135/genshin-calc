@@ -290,6 +290,81 @@ pub fn apply_team_debuffs(
     to_js(&result)
 }
 
+/// Evaluates character talent buffs for team use.
+///
+/// Returns `Vec<ResolvedBuff>` for the specified character. Characters without
+/// defined talent buffs return an empty array.
+#[wasm_bindgen]
+pub fn get_character_team_buffs(
+    json: &str,
+    character_id: &str,
+    constellation: u32,
+    talent_levels: Vec<u32>,
+) -> Result<JsValue, JsError> {
+    if talent_levels.len() != 3 {
+        return Err(JsError::new(
+            "talent_levels must have exactly 3 elements [auto, skill, burst]",
+        ));
+    }
+    for (i, &tl) in talent_levels.iter().enumerate() {
+        if tl == 0 || tl > 15 {
+            return Err(JsError::new(&format!(
+                "talent_levels[{}] must be 1-15, got {}",
+                i, tl
+            )));
+        }
+    }
+    if constellation > 6 {
+        return Err(JsError::new(&format!(
+            "constellation must be 0-6, got {}",
+            constellation
+        )));
+    }
+
+    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let build = import
+        .builds
+        .iter()
+        .find(|b| b.character.id == character_id)
+        .ok_or_else(|| {
+            JsError::new(&format!(
+                "Character '{}' not found in GOOD data",
+                character_id
+            ))
+        })?;
+
+    let tl: [u8; 3] = [
+        talent_levels[0] as u8,
+        talent_levels[1] as u8,
+        talent_levels[2] as u8,
+    ];
+    let buffs = genshin_calc_good::evaluate_talent_buffs(build, constellation as u8, &tl);
+    to_js(&buffs)
+}
+
+/// Builds a StatProfile from GOOD JSON for use with `resolve_team_stats`.
+///
+/// Unlike `build_stats_from_good` which returns final `Stats`, this returns
+/// the decomposed `StatProfile` (base values, percentages, flats) that
+/// `resolve_team_stats` requires as input.
+#[wasm_bindgen]
+pub fn build_member_stats(json: &str, character_id: &str) -> Result<JsValue, JsError> {
+    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let build = import
+        .builds
+        .iter()
+        .find(|b| b.character.id == character_id)
+        .ok_or_else(|| {
+            JsError::new(&format!(
+                "Character '{}' not found in GOOD data",
+                character_id
+            ))
+        })?;
+
+    let profile = genshin_calc_good::build_stat_profile(build);
+    to_js(&profile)
+}
+
 /// Imports a GOOD (Genshin Open Object Description) JSON string and returns parsed character builds.
 ///
 /// # Arguments
