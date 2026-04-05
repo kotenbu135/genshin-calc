@@ -13,6 +13,7 @@ const SAYU_NORMAL_1: TalentScaling = TalentScaling {
         0.7224, 0.7812, 0.84, 0.924, 0.9828, 1.05, 1.1424, 1.2348, 1.3272, 1.428, 1.5435, 1.679328,
         1.815156, 1.950984, 2.09916,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const SAYU_NORMAL_2: TalentScaling = TalentScaling {
         0.7138, 0.7719, 0.83, 0.913, 0.9711, 1.0375, 1.1288, 1.2201, 1.3114, 1.411, 1.525125,
         1.659336, 1.793547, 1.927758, 2.07417,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_NORMAL_3: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const SAYU_NORMAL_3: TalentScaling = TalentScaling {
         0.4343, 0.46965, 0.505, 0.5555, 0.59085, 0.63125, 0.6868, 0.74235, 0.7979, 0.8585,
         0.927937, 1.009596, 1.091255, 1.172913, 1.261995,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_NORMAL_4: TalentScaling = TalentScaling {
@@ -43,6 +46,7 @@ const SAYU_NORMAL_4: TalentScaling = TalentScaling {
         0.98126, 1.06113, 1.141, 1.2551, 1.33497, 1.42625, 1.55176, 1.67727, 1.80278, 1.9397,
         2.096588, 2.281087, 2.465587, 2.650087, 2.851359,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Physical --
@@ -55,6 +59,7 @@ const SAYU_CHARGED_SPINNING: TalentScaling = TalentScaling {
         0.625455, 0.676364, 0.727273, 0.8, 0.850909, 0.909091, 0.989091, 1.069091, 1.149091,
         1.236364, 1.336364, 1.453964, 1.571564, 1.689164, 1.817455,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -65,6 +70,7 @@ const SAYU_CHARGED_FINAL: TalentScaling = TalentScaling {
         1.1309, 1.22295, 1.315, 1.4465, 1.53855, 1.64375, 1.7884, 1.93305, 2.0777, 2.2355,
         2.416313, 2.628948, 2.841584, 3.054219, 3.286185,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Physical --
@@ -77,6 +83,7 @@ const SAYU_PLUNGE: TalentScaling = TalentScaling {
         0.745878, 0.806589, 0.8673, 0.95403, 1.014741, 1.084125, 1.179528, 1.274931, 1.370334,
         1.47441, 1.578486, 1.682562, 1.786638, 1.890714, 1.99479,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -87,6 +94,7 @@ const SAYU_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.49144, 1.612836, 1.734233, 1.907656, 2.029052, 2.167791, 2.358556, 2.549322, 2.740087,
         2.948195, 3.156303, 3.364411, 3.572519, 3.780627, 3.988735,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -97,6 +105,7 @@ const SAYU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.862889, 2.01452, 2.16615, 2.382765, 2.534396, 2.707688, 2.945964, 3.184241, 3.422517,
         3.682455, 3.942393, 4.202331, 4.462269, 4.722207, 4.982145,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: Yoohoo Art: Fuuin Dash -- Anemo --
@@ -109,6 +118,7 @@ const SAYU_SKILL_WINDWHEEL: TalentScaling = TalentScaling {
         0.36, 0.387, 0.414, 0.45, 0.477, 0.504, 0.54, 0.576, 0.612, 0.648, 0.684, 0.72, 0.765,
         0.81, 0.855,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_SKILL_WINDWHEEL_ELEM: TalentScaling = TalentScaling {
@@ -119,6 +129,7 @@ const SAYU_SKILL_WINDWHEEL_ELEM: TalentScaling = TalentScaling {
         0.168, 0.1806, 0.1932, 0.21, 0.2226, 0.2352, 0.252, 0.2688, 0.2856, 0.3024, 0.3192, 0.336,
         0.357, 0.378, 0.399,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_SKILL_KICK_PRESS: TalentScaling = TalentScaling {
@@ -129,6 +140,7 @@ const SAYU_SKILL_KICK_PRESS: TalentScaling = TalentScaling {
         1.584, 1.7028, 1.8216, 1.98, 2.0988, 2.2176, 2.376, 2.5344, 2.6928, 2.8512, 3.0096, 3.168,
         3.366, 3.564, 3.762,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_SKILL_KICK_HOLD: TalentScaling = TalentScaling {
@@ -139,6 +151,7 @@ const SAYU_SKILL_KICK_HOLD: TalentScaling = TalentScaling {
         2.176, 2.3392, 2.5024, 2.72, 2.8832, 3.0464, 3.264, 3.4816, 3.6992, 3.9168, 4.1344, 4.352,
         4.624, 4.896, 5.168,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_SKILL_KICK_ELEM: TalentScaling = TalentScaling {
@@ -149,6 +162,7 @@ const SAYU_SKILL_KICK_ELEM: TalentScaling = TalentScaling {
         0.7616, 0.81872, 0.87584, 0.952, 1.00912, 1.06624, 1.1424, 1.21856, 1.29472, 1.37088,
         1.44704, 1.5232, 1.6184, 1.7136, 1.8088,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: Yoohoo Art: Mujina Flurry -- Anemo --
@@ -161,6 +175,7 @@ const SAYU_BURST_ACTIVATION: TalentScaling = TalentScaling {
         1.168, 1.2556, 1.3432, 1.46, 1.5476, 1.6352, 1.752, 1.8688, 1.9856, 2.1024, 2.2192, 2.336,
         2.482, 2.628, 2.774,
     ],
+    dynamic_bonus: None,
 };
 
 const SAYU_BURST_DARUMA: TalentScaling = TalentScaling {
@@ -171,6 +186,7 @@ const SAYU_BURST_DARUMA: TalentScaling = TalentScaling {
         0.52, 0.559, 0.598, 0.65, 0.689, 0.728, 0.78, 0.832, 0.884, 0.936, 0.988, 1.04, 1.105,
         1.17, 1.235,
     ],
+    dynamic_bonus: None,
 };
 
 pub const SAYU: CharacterData = CharacterData {

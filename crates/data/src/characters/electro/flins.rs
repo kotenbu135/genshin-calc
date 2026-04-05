@@ -14,6 +14,7 @@ const FLINS_NORMAL_1: TalentScaling = TalentScaling {
         0.44726, 0.48367, 0.52007, 0.57208, 0.60848, 0.65009, 0.70730, 0.76450, 0.82171, 0.88412,
         0.94653, 1.00894, 1.07134, 1.13375, 1.19616,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_NORMAL_2: TalentScaling = TalentScaling {
@@ -24,6 +25,7 @@ const FLINS_NORMAL_2: TalentScaling = TalentScaling {
         0.45148, 0.48823, 0.52498, 0.57748, 0.61423, 0.65623, 0.71397, 0.77172, 0.82947, 0.89247,
         0.95546, 1.01846, 1.08146, 1.14446, 1.20745,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const FLINS_NORMAL_3: TalentScaling = TalentScaling {
         0.55920, 0.60471, 0.65023, 0.71525, 0.76077, 0.81279, 0.88431, 0.95584, 1.02736, 1.10539,
         1.18342, 1.26145, 1.33947, 1.41750, 1.49553,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_NORMAL_4: TalentScaling = TalentScaling {
@@ -44,6 +47,7 @@ const FLINS_NORMAL_4: TalentScaling = TalentScaling {
         0.32039, 0.34647, 0.37255, 0.40980, 0.43588, 0.46568, 0.50666, 0.54764, 0.58862, 0.63333,
         0.67803, 0.72274, 0.76744, 0.81215, 0.85685,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_NORMAL_5: TalentScaling = TalentScaling {
@@ -54,6 +58,7 @@ const FLINS_NORMAL_5: TalentScaling = TalentScaling {
         0.76795, 0.83045, 0.89296, 0.98226, 1.04476, 1.11620, 1.21443, 1.31265, 1.41088, 1.51803,
         1.62519, 1.73234, 1.83950, 1.94665, 2.05381,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Physical --
@@ -66,6 +71,7 @@ const FLINS_CHARGED: TalentScaling = TalentScaling {
         1.03028, 1.11414, 1.19800, 1.31780, 1.40166, 1.49750, 1.62928, 1.76106, 1.89284, 2.03660,
         2.18036, 2.32412, 2.46788, 2.61164, 2.75540,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Physical --
@@ -78,6 +84,7 @@ const FLINS_PLUNGE: TalentScaling = TalentScaling {
         0.63932, 0.69136, 0.74340, 0.81774, 0.86978, 0.92925, 1.01102, 1.09280, 1.17457, 1.26378,
         1.35299, 1.44220, 1.53140, 1.62061, 1.70982,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -88,6 +95,7 @@ const FLINS_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.27838, 1.38243, 1.48649, 1.63513, 1.73919, 1.85811, 2.02162, 2.18513, 2.34865, 2.52703,
         2.70540, 2.88378, 3.06216, 3.24054, 3.41892,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -98,6 +106,7 @@ const FLINS_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.59676, 1.72673, 1.85670, 2.04237, 2.17234, 2.32088, 2.52511, 2.72935, 2.93359, 3.15639,
         3.37919, 3.60200, 3.82480, 4.04761, 4.27041,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: Ancient Rite: Arcane Light -- Electro --
@@ -110,6 +119,7 @@ const FLINS_SKILL: TalentScaling = TalentScaling {
         1.78400, 1.91780, 2.05160, 2.23000, 2.36380, 2.49760, 2.67600, 2.85440, 3.03280, 3.21120,
         3.38960, 3.56800, 3.79100, 4.01400, 4.23700,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: Ancient Ritual: Cometh the Night -- Electro --
@@ -122,6 +132,7 @@ const FLINS_BURST_INITIAL: TalentScaling = TalentScaling {
         2.59840, 2.79328, 2.98816, 3.24800, 3.44288, 3.63776, 3.89760, 4.15744, 4.41728, 4.67712,
         4.93696, 5.19680, 5.52160, 5.84640, 6.17120,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_BURST_MIDDLE_LUNAR: TalentScaling = TalentScaling {
@@ -132,6 +143,7 @@ const FLINS_BURST_MIDDLE_LUNAR: TalentScaling = TalentScaling {
         0.16240, 0.17458, 0.18676, 0.20300, 0.21518, 0.22736, 0.24360, 0.25984, 0.27608, 0.29232,
         0.30856, 0.32480, 0.34510, 0.36540, 0.38570,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_BURST_FINAL_LUNAR: TalentScaling = TalentScaling {
@@ -142,6 +154,7 @@ const FLINS_BURST_FINAL_LUNAR: TalentScaling = TalentScaling {
         1.16928, 1.25698, 1.34467, 1.46160, 1.54930, 1.63699, 1.75392, 1.87085, 1.98778, 2.10470,
         2.22163, 2.33856, 2.48472, 2.63088, 2.77704,
     ],
+    dynamic_bonus: None,
 };
 
 const FLINS_BURST_THUNDER: TalentScaling = TalentScaling {
@@ -152,6 +165,7 @@ const FLINS_BURST_THUNDER: TalentScaling = TalentScaling {
         0.71456, 0.76815, 0.82174, 0.89320, 0.94679, 1.00038, 1.07184, 1.14330, 1.21475, 1.28621,
         1.35766, 1.42912, 1.51844, 1.60776, 1.69708,
     ],
+    dynamic_bonus: None,
 };
 
 pub const FLINS: CharacterData = CharacterData {

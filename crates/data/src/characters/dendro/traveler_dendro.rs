@@ -13,6 +13,7 @@ const TRAVELER_DENDRO_NA_HIT1: TalentScaling = TalentScaling {
         0.44462, 0.48081, 0.517, 0.5687, 0.60489, 0.64625, 0.70312, 0.75999, 0.81686, 0.8789,
         0.94094, 1.00298, 1.06502, 1.12706, 1.1891,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_NA_HIT2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const TRAVELER_DENDRO_NA_HIT2: TalentScaling = TalentScaling {
         0.4343, 0.46965, 0.505, 0.5555, 0.59085, 0.63125, 0.6868, 0.74235, 0.7979, 0.8585, 0.9191,
         0.9797, 1.0403, 1.1009, 1.1615,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_NA_HIT3: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const TRAVELER_DENDRO_NA_HIT3: TalentScaling = TalentScaling {
         0.52976, 0.57288, 0.616, 0.6776, 0.72072, 0.77, 0.83776, 0.90552, 0.97328, 1.0472, 1.12112,
         1.19504, 1.26896, 1.34288, 1.4168,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_NA_HIT4: TalentScaling = TalentScaling {
@@ -43,6 +46,7 @@ const TRAVELER_DENDRO_NA_HIT4: TalentScaling = TalentScaling {
         0.58308, 0.63054, 0.678, 0.7458, 0.79326, 0.8475, 0.92208, 0.99666, 1.07124, 1.1526,
         1.23396, 1.31532, 1.39668, 1.47804, 1.5594,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_NA_HIT5: TalentScaling = TalentScaling {
@@ -53,6 +57,7 @@ const TRAVELER_DENDRO_NA_HIT5: TalentScaling = TalentScaling {
         0.70778, 0.76539, 0.823, 0.9053, 0.96291, 1.02875, 1.11928, 1.20981, 1.30034, 1.3991,
         1.49786, 1.59662, 1.69538, 1.79414, 1.8929,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_CHARGED: TalentScaling = TalentScaling {
@@ -63,6 +68,7 @@ const TRAVELER_DENDRO_CHARGED: TalentScaling = TalentScaling {
         0.559, 0.6045, 0.65, 0.715, 0.7605, 0.8125, 0.884, 0.9555, 1.027, 1.105, 1.183, 1.261,
         1.339, 1.417, 1.495,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_PLUNGE: TalentScaling = TalentScaling {
@@ -73,6 +79,7 @@ const TRAVELER_DENDRO_PLUNGE: TalentScaling = TalentScaling {
         0.639324, 0.691362, 0.7434, 0.81774, 0.869778, 0.92925, 1.011024, 1.092798, 1.174572,
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -83,6 +90,7 @@ const TRAVELER_DENDRO_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.278377, 1.382431, 1.486485, 1.635134, 1.739187, 1.858106, 2.02162, 2.185133, 2.348646,
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -93,6 +101,7 @@ const TRAVELER_DENDRO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.596762, 1.726731, 1.8567, 2.04237, 2.172339, 2.320875, 2.525112, 2.729349, 2.933586,
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Elemental Skill: Razorgrass Blade ---
@@ -105,6 +114,7 @@ const TRAVELER_DENDRO_SKILL_DMG: TalentScaling = TalentScaling {
         2.304, 2.4768, 2.6496, 2.88, 3.0528, 3.2256, 3.456, 3.6864, 3.9168, 4.1472, 4.3776, 4.608,
         4.896, 5.184, 5.472,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Elemental Burst: Surgent Manifestation ---
@@ -117,6 +127,7 @@ const TRAVELER_DENDRO_BURST_LAMP: TalentScaling = TalentScaling {
         0.8016, 0.86172, 0.92184, 1.002, 1.06212, 1.12224, 1.2024, 1.28256, 1.36272, 1.44288,
         1.52304, 1.6032, 1.7034, 1.8036, 1.9038,
     ],
+    dynamic_bonus: None,
 };
 
 const TRAVELER_DENDRO_BURST_EXPLOSION: TalentScaling = TalentScaling {
@@ -127,6 +138,7 @@ const TRAVELER_DENDRO_BURST_EXPLOSION: TalentScaling = TalentScaling {
         4.008, 4.3086, 4.6092, 5.01, 5.3106, 5.6112, 6.012, 6.4128, 6.8136, 7.2144, 7.6152, 8.016,
         8.517, 9.018, 9.519,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Traveler (Dendro) aggregation ---

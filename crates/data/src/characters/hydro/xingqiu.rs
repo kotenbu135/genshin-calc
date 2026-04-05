@@ -11,6 +11,7 @@ const XINGQIU_NORMAL_1: TalentScaling = TalentScaling {
         0.4661, 0.5041, 0.5420, 0.5962, 0.6341, 0.6775, 0.7371, 0.7967, 0.8564, 0.9214, 0.9959,
         1.0836, 1.1712, 1.2588, 1.3545,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_NORMAL_2: TalentScaling = TalentScaling {
@@ -21,6 +22,7 @@ const XINGQIU_NORMAL_2: TalentScaling = TalentScaling {
         0.4764, 0.5152, 0.5540, 0.6094, 0.6482, 0.6925, 0.7534, 0.8144, 0.8753, 0.9418, 1.0180,
         1.1076, 1.1971, 1.2867, 1.3844,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_NORMAL_3A: TalentScaling = TalentScaling {
@@ -31,6 +33,7 @@ const XINGQIU_NORMAL_3A: TalentScaling = TalentScaling {
         0.2855, 0.3088, 0.3320, 0.3652, 0.3884, 0.4150, 0.4515, 0.4880, 0.5246, 0.5644, 0.6101,
         0.6637, 0.7174, 0.7711, 0.8297,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_NORMAL_3B: TalentScaling = TalentScaling {
@@ -41,6 +44,7 @@ const XINGQIU_NORMAL_3B: TalentScaling = TalentScaling {
         0.2855, 0.3088, 0.3320, 0.3652, 0.3884, 0.4150, 0.4515, 0.4880, 0.5246, 0.5644, 0.6101,
         0.6637, 0.7174, 0.7711, 0.8297,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_NORMAL_4: TalentScaling = TalentScaling {
@@ -51,6 +55,7 @@ const XINGQIU_NORMAL_4: TalentScaling = TalentScaling {
         0.5599, 0.6054, 0.6510, 0.7161, 0.7617, 0.8138, 0.8854, 0.9570, 1.0286, 1.1067, 1.1962,
         1.3015, 1.4067, 1.5120, 1.6268,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_NORMAL_5A: TalentScaling = TalentScaling {
@@ -61,6 +66,7 @@ const XINGQIU_NORMAL_5A: TalentScaling = TalentScaling {
         0.3586, 0.3878, 0.4170, 0.4587, 0.4879, 0.5213, 0.5671, 0.6130, 0.6589, 0.7089, 0.7662,
         0.8337, 0.9011, 0.9685, 1.0421,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_NORMAL_5B: TalentScaling = TalentScaling {
@@ -71,6 +77,7 @@ const XINGQIU_NORMAL_5B: TalentScaling = TalentScaling {
         0.3586, 0.3878, 0.4170, 0.4587, 0.4879, 0.5213, 0.5671, 0.6130, 0.6589, 0.7089, 0.7662,
         0.8337, 0.9011, 0.9685, 1.0421,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Physical (Sword) --
@@ -83,6 +90,7 @@ const XINGQIU_CHARGED_1: TalentScaling = TalentScaling {
         0.4730, 0.5115, 0.5500, 0.6050, 0.6435, 0.6875, 0.7480, 0.8085, 0.8690, 0.9350, 1.0106,
         1.0996, 1.1885, 1.2774, 1.3745,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_CHARGED_2: TalentScaling = TalentScaling {
@@ -93,6 +101,7 @@ const XINGQIU_CHARGED_2: TalentScaling = TalentScaling {
         0.5616, 0.6073, 0.6530, 0.7183, 0.7640, 0.8163, 0.8881, 0.9599, 1.0317, 1.1101, 1.1999,
         1.3055, 1.4111, 1.5167, 1.6318,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Physical (Sword) --
@@ -105,6 +114,7 @@ const XINGQIU_PLUNGE: TalentScaling = TalentScaling {
         0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 1.0110, 1.0928, 1.1746, 1.2638, 1.3530,
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -115,6 +125,7 @@ const XINGQIU_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.2784, 1.3824, 1.4865, 1.6351, 1.7392, 1.8581, 2.0216, 2.1851, 2.3486, 2.5270, 2.7054,
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -125,6 +136,7 @@ const XINGQIU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.5968, 1.7267, 1.8567, 2.0424, 2.1723, 2.3209, 2.5251, 2.7293, 2.9336, 3.1564, 3.3792,
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: 古華剣·画雨籠山 (Guhua Sword: Fatal Rainscreen) -- Hydro --
@@ -137,6 +149,7 @@ const XINGQIU_SKILL_1: TalentScaling = TalentScaling {
         1.6800, 1.8060, 1.9320, 2.1000, 2.2260, 2.3520, 2.5200, 2.6880, 2.8560, 3.0240, 3.1920,
         3.3600, 3.5700, 3.7800, 3.9900,
     ],
+    dynamic_bonus: None,
 };
 
 const XINGQIU_SKILL_2: TalentScaling = TalentScaling {
@@ -147,6 +160,7 @@ const XINGQIU_SKILL_2: TalentScaling = TalentScaling {
         1.9120, 2.0554, 2.1988, 2.3900, 2.5334, 2.6768, 2.8680, 3.0592, 3.2504, 3.4416, 3.6328,
         3.8240, 4.0630, 4.3020, 4.5410,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: 古華剣·裁雨留虹 (Guhua Sword: Raincutter) -- Hydro --
@@ -159,6 +173,7 @@ const XINGQIU_BURST: TalentScaling = TalentScaling {
         0.5427, 0.5834, 0.6241, 0.6784, 0.7191, 0.7598, 0.8141, 0.8684, 0.9226, 0.9769, 1.0312,
         1.0854, 1.1533, 1.2211, 1.2890,
     ],
+    dynamic_bonus: None,
 };
 
 pub const XINGQIU: CharacterData = CharacterData {

@@ -13,6 +13,7 @@ const CITLALI_NORMAL_1: TalentScaling = TalentScaling {
         0.4341, 0.4666, 0.4992, 0.5426, 0.5751, 0.6077, 0.6511, 0.6945, 0.7379, 0.7813, 0.8247,
         0.8681, 0.9224, 0.9767, 1.0309,
     ],
+    dynamic_bonus: None,
 };
 
 const CITLALI_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const CITLALI_NORMAL_2: TalentScaling = TalentScaling {
         0.3881, 0.4172, 0.4464, 0.4852, 0.5143, 0.5434, 0.5822, 0.6210, 0.6598, 0.6986, 0.7375,
         0.7763, 0.8248, 0.8733, 0.9218,
     ],
+    dynamic_bonus: None,
 };
 
 const CITLALI_NORMAL_3: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const CITLALI_NORMAL_3: TalentScaling = TalentScaling {
         0.5377, 0.5780, 0.6184, 0.6721, 0.7125, 0.7528, 0.8066, 0.8603, 0.9141, 0.9679, 1.0217,
         1.0754, 1.1426, 1.2099, 1.2771,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Cryo (Catalyst) --
@@ -45,6 +48,7 @@ const CITLALI_CHARGED: TalentScaling = TalentScaling {
         0.9920, 1.0664, 1.1408, 1.2400, 1.3144, 1.3888, 1.4880, 1.5872, 1.6864, 1.7856, 1.8848,
         1.9840, 2.1080, 2.2320, 2.3560,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Cryo (Catalyst) --
@@ -57,6 +61,7 @@ const CITLALI_PLUNGE: TalentScaling = TalentScaling {
         0.5683, 0.6145, 0.6608, 0.7269, 0.7731, 0.8260, 0.8987, 0.9714, 1.0441, 1.1234, 1.2027,
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
+    dynamic_bonus: None,
 };
 
 const CITLALI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const CITLALI_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.1363, 1.2288, 1.3213, 1.4535, 1.5459, 1.6517, 1.7970, 1.9423, 2.0877, 2.2462, 2.4048,
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
+    dynamic_bonus: None,
 };
 
 const CITLALI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -77,6 +83,7 @@ const CITLALI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.4193, 1.5349, 1.6504, 1.8154, 1.9310, 2.0630, 2.2445, 2.4261, 2.6076, 2.8057, 3.0037,
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: Dawnfrost Darkstar -- Cryo --
@@ -89,6 +96,7 @@ const CITLALI_SKILL_TZITZIMITL: TalentScaling = TalentScaling {
         0.7296, 0.7843, 0.8390, 0.9120, 0.9667, 1.0214, 1.0944, 1.1674, 1.2403, 1.3133, 1.3862,
         1.4592, 1.5504, 1.6416, 1.7328,
     ],
+    dynamic_bonus: None,
 };
 
 const CITLALI_SKILL_STORM: TalentScaling = TalentScaling {
@@ -99,6 +107,7 @@ const CITLALI_SKILL_STORM: TalentScaling = TalentScaling {
         0.1703, 0.1830, 0.1958, 0.2128, 0.2256, 0.2383, 0.2554, 0.2724, 0.2894, 0.3064, 0.3235,
         0.3405, 0.3618, 0.3830, 0.4043,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: Edict of Entwined Splendor -- Cryo --
@@ -111,6 +120,7 @@ const CITLALI_BURST_ICE_STORM: TalentScaling = TalentScaling {
         5.3760, 5.7792, 6.1824, 6.7200, 7.1232, 7.5264, 8.0640, 8.6016, 9.1392, 9.6768, 10.2144,
         10.7520, 11.4240, 12.0960, 12.7680,
     ],
+    dynamic_bonus: None,
 };
 
 const CITLALI_BURST_SKULL: TalentScaling = TalentScaling {
@@ -121,6 +131,7 @@ const CITLALI_BURST_SKULL: TalentScaling = TalentScaling {
         1.3440, 1.4448, 1.5456, 1.6800, 1.7808, 1.8816, 2.0160, 2.1504, 2.2848, 2.4192, 2.5536,
         2.6880, 2.8560, 3.0240, 3.1920,
     ],
+    dynamic_bonus: None,
 };
 
 pub const CITLALI: CharacterData = CharacterData {

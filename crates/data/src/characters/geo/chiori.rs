@@ -15,6 +15,7 @@ const CHIORI_NORMAL_1: TalentScaling = TalentScaling {
         0.4941, 0.5343, 0.5745, 0.6320, 0.6722, 0.7181, 0.7813, 0.8445, 0.9077, 0.9766, 1.0456,
         1.1145, 1.1835, 1.2524, 1.3214,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const CHIORI_NORMAL_2: TalentScaling = TalentScaling {
         0.4685, 0.5066, 0.5448, 0.5993, 0.6374, 0.6810, 0.7409, 0.8009, 0.8609, 0.9262, 0.9914,
         1.0567, 1.1220, 1.1873, 1.2525,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_NORMAL_3: TalentScaling = TalentScaling {
@@ -35,6 +37,7 @@ const CHIORI_NORMAL_3: TalentScaling = TalentScaling {
         0.3048, 0.3296, 0.3545, 0.3899, 0.4148, 0.4431, 0.4821, 0.5211, 0.5601, 0.6026, 0.6451,
         0.6876, 0.7301, 0.7726, 0.8151,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_NORMAL_4: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const CHIORI_NORMAL_4: TalentScaling = TalentScaling {
         0.7513, 0.8124, 0.8735, 0.9609, 1.0220, 1.0919, 1.1881, 1.2843, 1.3805, 1.4852, 1.5898,
         1.6944, 1.7991, 1.9037, 2.0083,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Physical --
@@ -57,6 +61,7 @@ const CHIORI_CHARGED_1: TalentScaling = TalentScaling {
         0.5425, 0.5867, 0.6310, 0.6941, 0.7383, 0.7887, 0.8582, 0.9277, 0.9972, 1.0728, 1.1483,
         1.2239, 1.2995, 1.3750, 1.4506,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_CHARGED_2: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const CHIORI_CHARGED_2: TalentScaling = TalentScaling {
         0.5425, 0.5867, 0.6310, 0.6941, 0.7383, 0.7887, 0.8582, 0.9277, 0.9972, 1.0728, 1.1483,
         1.2239, 1.2995, 1.3750, 1.4506,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Physical --
@@ -79,6 +85,7 @@ const CHIORI_PLUNGE: TalentScaling = TalentScaling {
         0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 0.1011, 1.0928, 1.1746, 1.2638, 1.3530,
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -89,6 +96,7 @@ const CHIORI_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.2784, 1.3824, 1.4865, 1.6351, 1.7392, 1.8581, 2.0216, 2.1851, 2.3486, 2.5271, 2.7055,
         2.8840, 3.0624, 3.2409, 3.4193,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -99,6 +107,7 @@ const CHIORI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.5968, 1.7267, 1.8567, 2.0424, 2.1723, 2.3209, 2.5251, 2.7293, 2.9336, 3.1564, 3.3792,
         3.6021, 3.8249, 4.0478, 4.2706,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: 羽袖キ法・糸結 (Fluttering Hasode) -- Geo --
@@ -111,6 +120,7 @@ const CHIORI_SKILL_TAMOTO: TalentScaling = TalentScaling {
         0.8208, 0.8824, 0.9439, 1.0260, 1.0876, 1.1491, 1.2312, 1.3133, 1.3954, 1.4774, 1.5595,
         1.6416, 1.7442, 1.8468, 1.9494,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_SKILL_TURRET: TalentScaling = TalentScaling {
@@ -121,6 +131,7 @@ const CHIORI_SKILL_TURRET: TalentScaling = TalentScaling {
         1.4880, 1.5996, 1.7112, 1.8600, 1.9716, 2.0832, 2.2320, 2.3808, 2.5296, 2.6784, 2.8272,
         2.9760, 3.1620, 3.3480, 3.5340,
     ],
+    dynamic_bonus: None,
 };
 
 const CHIORI_SKILL_UPWARD_SWEEP: TalentScaling = TalentScaling {
@@ -131,6 +142,7 @@ const CHIORI_SKILL_UPWARD_SWEEP: TalentScaling = TalentScaling {
         1.4928, 1.6048, 1.7168, 1.8660, 1.9780, 2.0899, 2.2392, 2.3885, 2.5378, 2.6870, 2.8363,
         2.9856, 3.1722, 3.3588, 3.5454,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: 二刀キ法・緋反 (Hiyoku: Twin Blades) -- Geo --
@@ -143,6 +155,7 @@ const CHIORI_BURST: TalentScaling = TalentScaling {
         2.5656, 2.7580, 2.9504, 3.2070, 3.3994, 3.5918, 3.8484, 4.1050, 4.3615, 4.6181, 4.8747,
         5.1312, 5.4519, 5.7726, 6.0933,
     ],
+    dynamic_bonus: None,
 };
 
 pub const CHIORI: CharacterData = CharacterData {

@@ -13,6 +13,7 @@ const JEAN_NORMAL_1: TalentScaling = TalentScaling {
         0.48332, 0.52266, 0.562, 0.6182, 0.65754, 0.7025, 0.76432, 0.82614, 0.88796, 0.9554,
         1.032675, 1.12355, 1.214426, 1.305301, 1.404438,
     ],
+    dynamic_bonus: None,
 };
 
 const JEAN_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const JEAN_NORMAL_2: TalentScaling = TalentScaling {
         0.4558, 0.4929, 0.53, 0.583, 0.6201, 0.6625, 0.7208, 0.7791, 0.8374, 0.901, 0.973875,
         1.059576, 1.145277, 1.230978, 1.32447,
     ],
+    dynamic_bonus: None,
 };
 
 const JEAN_NORMAL_3: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const JEAN_NORMAL_3: TalentScaling = TalentScaling {
         0.60286, 0.65193, 0.701, 0.7711, 0.82017, 0.87625, 0.95336, 1.03047, 1.10758, 1.1917,
         1.288088, 1.401439, 1.514791, 1.628143, 1.751799,
     ],
+    dynamic_bonus: None,
 };
 
 const JEAN_NORMAL_4: TalentScaling = TalentScaling {
@@ -43,6 +46,7 @@ const JEAN_NORMAL_4: TalentScaling = TalentScaling {
         0.65876, 0.71238, 0.766, 0.8426, 0.89622, 0.9575, 1.04176, 1.12602, 1.21028, 1.3022,
         1.407525, 1.531387, 1.655249, 1.779112, 1.914234,
     ],
+    dynamic_bonus: None,
 };
 
 const JEAN_NORMAL_5: TalentScaling = TalentScaling {
@@ -53,6 +57,7 @@ const JEAN_NORMAL_5: TalentScaling = TalentScaling {
         0.79206, 0.85653, 0.921, 1.0131, 1.07757, 1.15125, 1.25256, 1.35387, 1.45518, 1.5657,
         1.692338, 1.841263, 1.990189, 2.139115, 2.301579,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Physical --
@@ -65,6 +70,7 @@ const JEAN_CHARGED: TalentScaling = TalentScaling {
         1.62024, 1.75212, 1.884, 2.0724, 2.20428, 2.355, 2.56224, 2.76948, 2.97672, 3.2028,
         3.46185, 3.766493, 4.071136, 4.375778, 4.708116,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Physical --
@@ -77,6 +83,7 @@ const JEAN_PLUNGE: TalentScaling = TalentScaling {
         0.639324, 0.691362, 0.7434, 0.81774, 0.869778, 0.92925, 1.011024, 1.092798, 1.174572,
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
+    dynamic_bonus: None,
 };
 
 const JEAN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -87,6 +94,7 @@ const JEAN_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.278377, 1.382431, 1.486485, 1.635134, 1.739187, 1.858106, 2.02162, 2.185133, 2.348646,
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
+    dynamic_bonus: None,
 };
 
 const JEAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -97,6 +105,7 @@ const JEAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.596762, 1.726731, 1.8567, 2.04237, 2.172339, 2.320875, 2.525112, 2.729349, 2.933586,
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: Gale Blade -- Anemo --
@@ -109,6 +118,7 @@ const JEAN_SKILL: TalentScaling = TalentScaling {
         2.92, 3.139, 3.358, 3.65, 3.869, 4.088, 4.38, 4.672, 4.964, 5.256, 5.548, 5.84, 6.205,
         6.57, 6.935,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: Dandelion Breeze -- Anemo --
@@ -121,6 +131,7 @@ const JEAN_BURST: TalentScaling = TalentScaling {
         4.248, 4.5666, 4.8852, 5.31, 5.6286, 5.9472, 6.372, 6.7968, 7.2216, 7.6464, 8.0712, 8.496,
         9.027, 9.558, 10.089,
     ],
+    dynamic_bonus: None,
 };
 
 const JEAN_BURST_FIELD: TalentScaling = TalentScaling {
@@ -131,6 +142,7 @@ const JEAN_BURST_FIELD: TalentScaling = TalentScaling {
         0.784, 0.8428, 0.9016, 0.98, 1.0388, 1.0976, 1.176, 1.2544, 1.3328, 1.4112, 1.4896, 1.568,
         1.666, 1.764, 1.862,
     ],
+    dynamic_bonus: None,
 };
 
 pub const JEAN: CharacterData = CharacterData {

@@ -15,6 +15,7 @@ const NINGGUANG_NORMAL: TalentScaling = TalentScaling {
         0.2800, 0.3010, 0.3220, 0.3500, 0.3710, 0.3920, 0.4200, 0.4480, 0.4760, 0.5040, 0.5330,
         0.5712, 0.6094, 0.6475, 0.6857,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Geo (Catalyst) --
@@ -27,6 +28,7 @@ const NINGGUANG_CHARGED: TalentScaling = TalentScaling {
         1.7408, 1.8714, 2.0019, 2.1760, 2.3066, 2.4371, 2.6112, 2.7853, 2.9594, 3.1334, 3.3133,
         3.5500, 3.7866, 4.0233, 4.2600,
     ],
+    dynamic_bonus: None,
 };
 
 const NINGGUANG_CHARGED_STAR_JADE: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const NINGGUANG_CHARGED_STAR_JADE: TalentScaling = TalentScaling {
         0.4960, 0.5332, 0.5704, 0.6200, 0.6572, 0.6944, 0.7440, 0.7936, 0.8432, 0.8928, 0.9443,
         1.0118, 1.0793, 1.1468, 1.2143,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Geo (Catalyst) --
@@ -49,6 +52,7 @@ const NINGGUANG_PLUNGE: TalentScaling = TalentScaling {
         0.5683, 0.6145, 0.6608, 0.7269, 0.7731, 0.8260, 0.8987, 0.9714, 1.0441, 1.1234, 1.2027,
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
+    dynamic_bonus: None,
 };
 
 const NINGGUANG_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const NINGGUANG_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.1363, 1.2288, 1.3213, 1.4535, 1.5459, 1.6517, 1.7970, 1.9423, 2.0877, 2.2462, 2.4048,
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
+    dynamic_bonus: None,
 };
 
 const NINGGUANG_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const NINGGUANG_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.4193, 1.5349, 1.6504, 1.8154, 1.9310, 2.0630, 2.2445, 2.4261, 2.6076, 2.8057, 3.0037,
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: 璇璣キ屏 (Jade Screen) -- Geo --
@@ -81,6 +87,7 @@ const NINGGUANG_SKILL: TalentScaling = TalentScaling {
         2.3040, 2.4768, 2.6496, 2.8800, 3.0528, 3.2256, 3.4560, 3.6864, 3.9168, 4.1472, 4.3776,
         4.6080, 4.8960, 5.1840, 5.4720,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: 天キ権キ典 (Starshatter) -- Geo --
@@ -93,6 +100,7 @@ const NINGGUANG_BURST: TalentScaling = TalentScaling {
         0.8696, 0.9348, 1.0000, 1.0870, 1.1522, 1.2174, 1.3044, 1.3914, 1.4783, 1.5653, 1.6522,
         1.7392, 1.8479, 1.9566, 2.0653,
     ],
+    dynamic_bonus: None,
 };
 
 pub const NINGGUANG: CharacterData = CharacterData {
