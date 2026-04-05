@@ -364,15 +364,479 @@ static MIKA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     activation: None,
 }];
 
+// ===== Aloy =====
+// A1 "Easy Does It": ATK+16% (self) and ATK+8% (team excl. self) after receiving Coil stacks
+// A4 "Strong Strike": Cryo DMG+3.5%/s in Rushing Ice state, max +35% (adopting max value)
+static ALOY_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Easy Does It ATK Self",
+        description: "A1: After receiving Coil stacks, Aloy's ATK +16%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.16,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Easy Does It ATK Team",
+        description: "A1: After receiving Coil stacks, nearby party members (excl. Aloy) gain ATK+8%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.08,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Strong Strike Cryo DMG",
+        description: "A4: In Rushing Ice state, Cryo DMG+3.5%/s (max +35%, adopting max value)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.35),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Ayaka =====
+// A1 "Amatsumi Kunitsumi Sanctification": NA+CA DMG+30% for 6s after using Skill
+// A4 "Kanten Senmyou Blessing": Cryo DMG+18% for 10s after burst
+// C4 "Ebb and Flow": Enemy DEF-30% for 6s after burst hits
+// C6 "Flowers of the Freesia State": CA DMG+298% during burst
+static AYAKA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Amatsumi Kunitsumi Sanctification Normal ATK",
+        description: "A1: After using Skill, Normal ATK DMG+30% for 6s",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Amatsumi Kunitsumi Sanctification Charged ATK",
+        description: "A1: After using Skill, Charged ATK DMG+30% for 6s",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Kanten Senmyou Blessing Cryo DMG",
+        description: "A4: After using Burst, Cryo DMG+18% for 10s",
+        stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+        base_value: 0.18,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Ebb and Flow DEF Shred",
+        description: "C4: Enemies hit by burst have DEF-30% for 6s",
+        stat: BuffableStat::DefReduction,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Flowers of the Freesia State CA DMG",
+        description: "C6: During Burst, Charged ATK DMG+298%",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 2.98,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Charlotte =====
+// C2 "Cherished Discourse": ATK+10% per stack (max 3 stacks) each time Framing: Freezing Point Composition hits
+// C4 "Biting Cold": Burst DMG+10%
+static CHARLOTTE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Cherished Discourse ATK",
+        description: "C2: Each time Skill hits, ATK+10% per stack (max 3 stacks)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+    TalentBuffDef {
+        name: "Biting Cold Burst DMG",
+        description: "C4: Burst DMG+10%",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Chongyun =====
+// A4 "Rimechaser Blade": Enemy Cryo RES-10% after Skill field ends
+// C6 "Rally of Four Blades": DMG+15% per Chongyun on team (self)
+static CHONGYUN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Rimechaser Blade Cryo RES Shred",
+        description: "A4: After Skill field ends, enemy Cryo RES -10% for 8s",
+        stat: BuffableStat::ElementalResReduction(Element::Cryo),
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Rally of Four Blades DMG Bonus",
+        description: "C6: DMG+15% (self)",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Escoffier =====
+// C1 "Amuse-bouche de Saveur": Team Cryo CD+60%
+// C2 "Sauté de Fantôme": flat DMG scaling — too complex, skipped (TODO)
+static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Amuse-bouche de Saveur Cryo CD",
+    description: "C1: Party Cryo CRIT DMG+60%",
+    stat: BuffableStat::CritDmg,
+    base_value: 0.60,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(1),
+    min_constellation: 1,
+    cap: None,
+    activation: None,
+    // TODO: C2 "Sauté de Fantôme" — flat DMG = 240% ATK per stack; too complex for current model
+}];
+
+// ===== Freminet =====
+// A4 "Deepwater Swim": Shatter DMG+40%
+// C1 "Dreams of the Foamy Deep": CR+15%
+// C4 "Secret Plan to Freeze": ATK+9%/stack (max 2 stacks) on hitting Pers Timer
+// C6 "Moment of Waking": CD+12%/stack (max 3 stacks) per Shattering hit
+static FREMINET_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Deepwater Swim Shatter DMG",
+        description: "A4: Shatter DMG+40%",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Dreams of the Foamy Deep CR",
+        description: "C1: CR+15%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Secret Plan to Freeze ATK",
+        description: "C4: ATK+9% per stack when Pers Timer hits (max 2 stacks)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.09,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(2))),
+    },
+    TalentBuffDef {
+        name: "Moment of Waking CD",
+        description: "C6: CD+12% per Shattering hit (max 3 stacks)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+];
+
+// ===== Kaeya =====
+// C1 "Excellent Blood": CR+15% vs Cryo-affected enemies (Team)
+static KAEYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Excellent Blood CR",
+    description: "C1: CR+15% vs Cryo-affected enemies (Team)",
+    stat: BuffableStat::CritRate,
+    base_value: 0.15,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(1),
+    min_constellation: 1,
+    cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
+}];
+
+// ===== Layla =====
+// A1 "Like Nascent Light": Shield Str+6%/stack (max 4 stacks) — adopting max value +24%
+// A4 "Sweet Slumber Undisturbed": Shooting Stars deal flat DMG = 1.5% HP
+// C4 "Starry Illumination": NA+CA flat DMG = 5% HP each
+// C6 "Boundless Radiance": Shooting Stars DMG+40%
+static LAYLA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Like Nascent Light Shield Strength",
+        description: "A1: Shield Str+6%/stack when Night Star is absorbed (max 4 stacks, adopting max +24%)",
+        stat: BuffableStat::ShieldStrength,
+        base_value: 0.24,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: Some(0.24),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Sweet Slumber Undisturbed Shooting Star DMG",
+        description: "A4: Shooting Stars deal flat DMG = 1.5% of Layla's HP",
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 0.015,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Starry Illumination Normal ATK Flat DMG",
+        description: "C4: Normal ATK flat DMG = 5% of Layla's HP",
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.05,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Starry Illumination Charged ATK Flat DMG",
+        description: "C4: Charged ATK flat DMG = 5% of Layla's HP",
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 0.05,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Boundless Radiance Shooting Star DMG",
+        description: "C6: Shooting Stars DMG+40%",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Skirk =====
+// C2 "Liminal Crossing": ATK+70% (self)
+// C4 "Fractured Boundary": ATK+40% max (Stacks(3) simplified to Toggle max, self)
+static SKIRK_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Liminal Crossing ATK",
+        description: "C2: ATK+70% (self)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.70,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Fractured Boundary ATK",
+        description: "C4: ATK+10/20/40% based on stacks (adopting max +40%, self)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Wriothesley =====
+// A4 "There Shall Be a Plea for Justice": ATK+6%/stack (max 5 stacks = +30%) on consecutive CA hits
+// C6 "Pax Perpetua": CR+10% and CD+80% during Darkgold state
+static WRIOTHESLEY_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "There Shall Be a Plea for Justice ATK",
+        description: "A4: ATK+6% per stack on consecutive CA hits (max 5 stacks = +30%)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.06,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
+    },
+    TalentBuffDef {
+        name: "Pax Perpetua CR",
+        description: "C6: During Darkgold state, CR+10%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Pax Perpetua CD",
+        description: "C6: During Darkgold state, CD+80%",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.80,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static CRYO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
+    ("aloy", ALOY_BUFFS),
+    ("ayaka", AYAKA_BUFFS),
+    ("charlotte", CHARLOTTE_BUFFS),
+    ("chongyun", CHONGYUN_BUFFS),
     ("citlali", CITLALI_BUFFS),
     ("diona", DIONA_BUFFS),
+    ("escoffier", ESCOFFIER_BUFFS),
     ("eula", EULA_BUFFS),
+    ("freminet", FREMINET_BUFFS),
     ("ganyu", GANYU_BUFFS),
+    ("kaeya", KAEYA_BUFFS),
+    ("layla", LAYLA_BUFFS),
     ("mika", MIKA_BUFFS),
     ("rosaria", ROSARIA_BUFFS),
     ("shenhe", SHENHE_BUFFS),
+    ("skirk", SKIRK_BUFFS),
+    ("wriothesley", WRIOTHESLEY_BUFFS),
 ];
 
 pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {

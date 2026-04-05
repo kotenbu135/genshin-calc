@@ -315,6 +315,234 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Ayato =====
+// A1 "Kamisato Art: Daily Cooking": Namisen at max stacks grants NA DMG Bonus
+//   Simplified to max value (5 stacks): ~56% NA DMG Bonus (Toggle)
+// C1 "Kyouka Fuushi": Shunsuiken (E) DMG +40% — approximated as NormalAtkDmgBonus
+// C2 "World Source": MaxHP +50%
+// C4 "Boundless Origin": team NA ATK SPD — ATK SPD not a buffable stat, skip
+//   TODO: C4 team NA ATK SPD +15% not implementable (no AtkSpd BuffableStat)
+static AYATO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Namisen Max Stacks NA DMG Bonus",
+        description: "A1: Namisen at max stacks grants NA DMG Bonus +56% (approximated max)",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.56,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Kyouka Fuushi Shunsuiken DMG",
+        description: "C1: Shunsuiken DMG +40% (approximated as Normal ATK DMG Bonus)",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "World Source Max HP",
+        description: "C2: Max HP +50%",
+        stat: BuffableStat::HpPercent,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Dahlia =====
+// A4 "Flowering Rainforest": ATK SPD — not a buffable stat, skip
+//   TODO: A4 ATK SPD buff not implementable (no AtkSpd BuffableStat)
+// C2 "Petal Rain": Shield Strength +25%
+// C6 "Floral Tempest": ATK SPD — not a buffable stat, skip
+//   TODO: C6 ATK SPD buff not implementable (no AtkSpd BuffableStat)
+static DAHLIA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Petal Rain Shield Strength",
+    description: "C2: Shield Strength +25%",
+    stat: BuffableStat::ShieldStrength,
+    base_value: 0.25,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::Constellation(2),
+    min_constellation: 2,
+    cap: None,
+    activation: None,
+}];
+
+// ===== Kokomi =====
+// A4 "Flawless Strategy": HealBonus→DMG conversion (15% of HealingBonus as DmgBonus)
+//   HealingBonus is not a ScalingStat, too complex for TalentBuffDef — skip with TODO
+//   TODO: A4 Flawless Strategy — 15% of HealingBonus converts to DmgBonus; requires ScalingStat::HealingBonus
+// C4 "Retained Medicinal Efficacy": NA ATK SPD — not a buffable stat, skip
+//   TODO: C4 NA ATK SPD +10% not implementable (no AtkSpd BuffableStat)
+// C6 "Tamanooya's Casket": Hydro DMG +40% during Burst when NA/CA hit
+static KOKOMI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Tamanooya's Casket Hydro DMG",
+    description: "C6: Hydro DMG Bonus +40% during Burst when Normal/Charged Attacks hit",
+    stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+    base_value: 0.40,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::Constellation(6),
+    min_constellation: 6,
+    cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
+}];
+
+// ===== Mualani =====
+// C1 "The Shark Bites!": DMG +66% MaxHP — flat DMG scaling on HP, too complex — skip with TODO
+//   TODO: C1 flat DMG +66% MaxHP scaling not implementable as TalentBuffDef (HpFlat not HP%)
+// C4 "Sharky's Pal": Burst DMG +75%
+static MUALANI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Sharky's Pal Burst DMG",
+    description: "C4: Elemental Burst DMG +75%",
+    stat: BuffableStat::BurstDmgBonus,
+    base_value: 0.75,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::Constellation(4),
+    min_constellation: 4,
+    cap: None,
+    activation: None,
+}];
+
+// ===== Neuvillette =====
+// A1 "Tidal Affinity": CA DMG Bonus at max Sourcewater Droplets — use max value 0.60 (Toggle)
+// A4 "Heir to the Ancient Sea's Authority": Hydro DMG +30% from HP conditions (Toggle)
+// C2 "The Law's Final Remains": CRIT DMG +14%/stack, max 3 stacks (+42% total)
+static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Tidal Affinity CA DMG Bonus",
+        description: "A1: CA DMG Bonus at 3 Sourcewater Droplets (max value +60%)",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Heir to the Ancient Sea's Authority Hydro DMG",
+        description: "A4: Hydro DMG Bonus +30% when HP conditions are met",
+        stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "The Law's Final Remains CRIT DMG",
+        description: "C2: CRIT DMG +14% per stack, max 3 stacks (+42%)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.14,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+];
+
+// ===== Sigewinne =====
+// A1 "A Friendly Rivalry": Hydro DMG +8% for team (after Skill)
+//   HP→flat DMG part is too complex — skip with TODO
+//   TODO: A1 HP-scaling flat DMG bonus not implementable as TalentBuffDef
+// C2 "Targeted Treatment": enemy Hydro RES -35% (Team, Toggle)
+// C6 "Whirlpool Wisdom": CR +20% / CD +110% from HP scaling — use max values (self, Toggle)
+static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "A Friendly Rivalry Hydro DMG",
+        description: "A1: After Skill, team Hydro DMG Bonus +8%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+        base_value: 0.08,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Targeted Treatment Hydro RES Shred",
+        description: "C2: Enemy Hydro RES -35%",
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Whirlpool Wisdom CRIT Rate",
+        description: "C6: CRIT Rate +20% (max value from HP scaling)",
+        stat: BuffableStat::CritRate,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Whirlpool Wisdom CRIT DMG",
+        description: "C6: CRIT DMG +110% (max value from HP scaling)",
+        stat: BuffableStat::CritDmg,
+        base_value: 1.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
 // ===== Xingqiu =====
 // C2: Hydro RES -15% on Rain Sword hit
 static XINGQIU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -335,12 +563,18 @@ static XINGQIU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static HYDRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("aino", AINO_BUFFS),
+    ("ayato", AYATO_BUFFS),
     ("barbara", BARBARA_BUFFS),
     ("candace", CANDACE_BUFFS),
     ("columbina", COLUMBINA_BUFFS),
+    ("dahlia", DAHLIA_BUFFS),
     ("furina", FURINA_BUFFS),
+    ("kokomi", KOKOMI_BUFFS),
     ("mona", MONA_BUFFS),
+    ("mualani", MUALANI_BUFFS),
+    ("neuvillette", NEUVILLETTE_BUFFS),
     ("nilou", NILOU_BUFFS),
+    ("sigewinne", SIGEWINNE_BUFFS),
     ("xingqiu", XINGQIU_BUFFS),
     ("yelan", YELAN_BUFFS),
 ];

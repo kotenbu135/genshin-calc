@@ -458,12 +458,257 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Chiori =====
+// C6 "A Guru's Inbred Nature": NA DMG +235% DEF as flat DMG
+static CHIORI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "A Guru's Inbred Nature - NA Flat DMG",
+    description: "C6: Normal Attack DMG +235% of Chiori's DEF as flat DMG",
+    stat: BuffableStat::NormalAtkFlatDmg,
+    base_value: 2.35,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: Some(ScalingStat::Def),
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::Constellation(6),
+    min_constellation: 6,
+    cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
+}];
+
+// ===== Itto =====
+// A4 "Bloodline of the Crimson Oni": Kesagiri (Charged ATK) +35% DEF as flat DMG
+// C4 "Alright, More Dumplings!": Team DEF+20% / ATK+20% when Raging Oni King ends
+// C6 "Crimson Oni King's Legacy": CA CRIT DMG +70%
+static ITTO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Bloodline of the Crimson Oni",
+        description: "A4: Arataki Kesagiri DMG +35% of Itto's DEF as flat DMG",
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Alright More Dumplings DEF Bonus",
+        description: "C4: After Raging Oni King ends, team DEF +20%",
+        stat: BuffableStat::DefPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Alright More Dumplings ATK Bonus",
+        description: "C4: After Raging Oni King ends, team ATK +20%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Crimson Oni King's Legacy CA CRIT DMG",
+        description: "C6: Arataki Kesagiri CRIT DMG +70%",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.70,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Kachina =====
+// A4 "Flowy Mountain": Geo DMG +20%
+// C4 "Stand Together": DEF +8~20% based on enemy count (use max 20%)
+static KACHINA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Flowy Mountain Geo DMG Bonus",
+        description: "A4: Geo DMG Bonus +20%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Stand Together DEF Bonus",
+        description: "C4: DEF +8~20% based on nearby enemies (max 20%)",
+        stat: BuffableStat::DefPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Navia =====
+// A1 "That Shard's Ours, Undoubtedly!": NA/CA/Plunge DMG +40% after burst
+// A4 "Turns Out, She's a Damn Good Miner!": ATK +20% (up to +40% max)
+// C2 "Candlelight": CRIT Rate +12% per Shockwave stack (max 3 stacks = +36%)
+// C4 "The Little Bit of Kindness We Show": enemy Geo RES -20%
+static NAVIA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "That Shard's Ours - NA DMG Bonus",
+        description: "A1: After burst, Normal Attack DMG +40%",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "That Shard's Ours - CA DMG Bonus",
+        description: "A1: After burst, Charged Attack DMG +40%",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "That Shard's Ours - Plunge DMG Bonus",
+        description: "A1: After burst, Plunging Attack DMG +40%",
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Turns Out She's a Damn Good Miner ATK Bonus",
+        description: "A4: ATK +20% per Shockwave stack (max +40%)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Candlelight CRIT Rate",
+        description: "C2: CRIT Rate +12% per Shockwave stack, up to 3 stacks (+36% max)",
+        stat: BuffableStat::CritRate,
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+    TalentBuffDef {
+        name: "The Little Bit of Kindness Geo RES Reduction",
+        description: "C4: Enemy Geo RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Geo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Noelle =====
+// C2 "Combat Maid": CA DMG +15%
+// C6 "Must Be Spotless": ATK +50% DEF as flat ATK
+static NOELLE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Combat Maid CA DMG Bonus",
+        description: "C2: Charged Attack DMG +15%",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Must Be Spotless ATK Flat",
+        description: "C6: During burst, ATK +50% of Noelle's DEF as flat ATK",
+        stat: BuffableStat::AtkFlat,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static GEO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("albedo", ALBEDO_BUFFS),
+    ("chiori", CHIORI_BUFFS),
     ("gorou", GOROU_BUFFS),
     ("illuga", ILLUGA_BUFFS),
+    ("itto", ITTO_BUFFS),
+    ("kachina", KACHINA_BUFFS),
+    ("navia", NAVIA_BUFFS),
     ("ningguang", NINGGUANG_BUFFS),
+    ("noelle", NOELLE_BUFFS),
     ("xilonen", XILONEN_BUFFS),
     ("yun_jin", YUN_JIN_BUFFS),
     ("zhongli", ZHONGLI_BUFFS),

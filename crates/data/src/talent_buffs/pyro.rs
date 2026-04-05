@@ -346,22 +346,309 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Arlecchino =====
+// A1 "Crimson Flower Flutters Freely": Pyro DMG Bonus +40% (self)
+// A4: ATK scales into All RES reduction — complex, TODO
+// C6 "Foul Legacy: Tide Withholder": CR+10%, CD+70% (self)
+static ARLECCHINO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Crimson Flower Pyro DMG Bonus",
+        description: "A1: Arlecchino gains Pyro DMG Bonus +40%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // TODO: A4 "The Balemoon Alone May Know" — ATK scales into All RES reduction; complex, not implemented
+    TalentBuffDef {
+        name: "Foul Legacy CRIT Rate Bonus",
+        description: "C6: CRIT Rate +10%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Foul Legacy CRIT DMG Bonus",
+        description: "C6: CRIT DMG +70%",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.70,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Dehya =====
+// C1 "The Flame Incandescent": MaxHP +20% (self)
+// C2 "The Sand-Blanketed Fortress": Skill DMG +50% (self, Toggle)
+// C6 "The Burning Claws Cleave": CR+10%, CD+60% (self, Toggle, max values)
+static DEHYA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "The Flame Incandescent HP Bonus",
+        description: "C1: Dehya's Max HP +20%",
+        stat: BuffableStat::HpPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "The Sand-Blanketed Fortress Skill DMG Bonus",
+        description: "C2: Skill DMG +50%",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "The Burning Claws Cleave CRIT Rate Bonus",
+        description: "C6: CRIT Rate +10% (max value)",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "The Burning Claws Cleave CRIT DMG Bonus",
+        description: "C6: CRIT DMG +60% (max value)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Diluc =====
+// A4 "Flowing Flame": Pyro DMG +20% after skill (self)
+// C1 "Conviction": DMG +15% vs enemies with HP>50% (self, Toggle)
+// C2 "Searing Ember": ATK +10% per stack, max 3 stacks (self, Stacks(3))
+// C4 "Flowing Ember": Skill DMG +40% after combo (self, Toggle)
+// C6 "Flaming Sword, Nemesis of the Dark": NA DMG +30% during burst (self, Toggle)
+static DILUC_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Flowing Flame Pyro DMG Bonus",
+        description: "A4: After using Elemental Skill, Pyro DMG +20%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Conviction DMG Bonus",
+        description: "C1: DMG +15% when enemy HP is above 50%",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Searing Ember ATK Bonus",
+        description: "C2: ATK +10% per stack, max 3 stacks",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+    TalentBuffDef {
+        name: "Flowing Ember Skill DMG Bonus",
+        description: "C4: After skill combo, Skill DMG +40%",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Flaming Sword Normal ATK DMG Bonus",
+        description: "C6: Normal ATK DMG +30% during burst",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Gaming =====
+// A4 "Dance of Amity": Plunge DMG +20% when HP>=50% (self, Toggle)
+// C2 "Savage Hunting Fangs": ATK +20% (self, Toggle)
+// C6 "Dance of Auspicious Crane": CR+20%, CD+40% (self, Toggle)
+static GAMING_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Dance of Amity Plunging ATK DMG Bonus",
+        description: "A4: Plunging ATK DMG +20% when HP is 50% or above",
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Savage Hunting Fangs ATK Bonus",
+        description: "C2: ATK +20%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Dance of Auspicious Crane CRIT Rate Bonus",
+        description: "C6: CRIT Rate +20%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Dance of Auspicious Crane CRIT DMG Bonus",
+        description: "C6: CRIT DMG +40%",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
 // ===== Hu Tao =====
+// A1 "Flutter By": Team CR+12% after skill ends (TeamExcludeSelf, Toggle)
+// A4 "Sanguine Rouge": Pyro DMG +33% when HP≤50% (self, Toggle)
 // C4 "Garden of Eternal Rest": After defeating Blood Blossom enemy, party (excl. Hu Tao) CR+12% for 15s
-static HU_TAO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Garden of Eternal Rest",
-    description: "C4: After defeating Blood Blossom enemy, party (excl. Hu Tao) CRIT Rate +12% for 15s",
-    stat: BuffableStat::CritRate,
-    base_value: 0.12,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::TeamExcludeSelf,
-    source: TalentBuffSource::Constellation(4),
-    min_constellation: 4,
-    cap: None,
-    activation: Some(Activation::Manual(ManualCondition::Toggle)),
-}];
+static HU_TAO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Flutter By CRIT Rate Bonus",
+        description: "A1: After Paramita Papilio ends, party members (excl. Hu Tao) gain CRIT Rate +12%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Sanguine Rouge Pyro DMG Bonus",
+        description: "A4: When HP is 50% or lower, Pyro DMG Bonus +33%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.33,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Garden of Eternal Rest",
+        description: "C4: After defeating Blood Blossom enemy, party (excl. Hu Tao) CRIT Rate +12% for 15s",
+        stat: BuffableStat::CritRate,
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Xiangling =====
 // C1: Pyro RES -15% on Guoba hit
@@ -414,18 +701,107 @@ static XINYAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     activation: None,
 }];
 
+// ===== Lyney =====
+// A4 "Prestidigitation": DMG Bonus based on Pyro party count (60-100%); adopting max value 1.00 with Toggle
+// C2 "Locquacious Cajoling": CD +20% per stack, max 3 stacks (self, Stacks(3))
+// C4 "Seated Next to Polished Nacre": Enemy Pyro RES -20% (Team, Toggle)
+static LYNEY_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Prestidigitation DMG Bonus",
+        description: "A4: DMG Bonus based on number of Pyro party members (max value 100% with all Pyro, Toggle)",
+        stat: BuffableStat::DmgBonus,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Locquacious Cajoling CRIT DMG Bonus",
+        description: "C2: CRIT DMG +20% per stack, max 3 stacks",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+    TalentBuffDef {
+        name: "Seated Next to Polished Nacre Pyro RES Shred",
+        description: "C4: Enemy Pyro RES -20%",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Yanfei =====
+// A1 "Encyclopedic Expertise": Pyro DMG Bonus +5% per Scarlet Seal, max 4 seals = +20% (self, adopting max value 0.20 with Toggle)
+// C2 "Blazing Eye": Charged ATK CRIT Rate +20% (self, Toggle)
+static YANFEI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Encyclopedic Expertise Pyro DMG Bonus",
+        description: "A1: Pyro DMG Bonus +5% per Scarlet Seal (max 4 seals = +20%, adopting max value)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Blazing Eye Charged ATK CRIT Rate Bonus",
+        description: "C2: Charged ATK CRIT Rate +20%",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static PYRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("amber", AMBER_BUFFS),
+    ("arlecchino", ARLECCHINO_BUFFS),
     ("bennett", BENNETT_BUFFS),
     ("chevreuse", CHEVREUSE_BUFFS),
+    ("dehya", DEHYA_BUFFS),
+    ("diluc", DILUC_BUFFS),
     ("durin", DURIN_BUFFS),
+    ("gaming", GAMING_BUFFS),
     ("hu_tao", HU_TAO_BUFFS),
     ("klee", KLEE_BUFFS),
+    ("lyney", LYNEY_BUFFS),
     ("mavuika", MAVUIKA_BUFFS),
     ("thoma", THOMA_BUFFS),
     ("xiangling", XIANGLING_BUFFS),
     ("xinyan", XINYAN_BUFFS),
+    ("yanfei", YANFEI_BUFFS),
     ("yoimiya", YOIMIYA_BUFFS),
 ];
 

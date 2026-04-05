@@ -234,15 +234,513 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Clorinde =====
+// A1: Electro flat DMG = 20% ATK/stack (self, Toggle)
+// A4: CR+10% (self, Toggle — simplified from per-stack)
+// C6: CR+10% / CD+70% (self, Toggle)
+static CLORINDE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Clorinde A1 Electro Flat DMG",
+        description: "A1: Normal Attack deals additional Electro DMG equal to 20% of ATK (per stack, max 1800)",
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: Some(1800.0),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Clorinde A4 CRIT Rate Bonus",
+        description: "A4: CRIT Rate +10% while in Ominous Inscription state",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Clorinde C6 CRIT Rate",
+        description: "C6: CRIT Rate +10%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Clorinde C6 CRIT DMG",
+        description: "C6: CRIT DMG +70%",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.70,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Cyno =====
+// A4: NA flat DMG = 150% EM, Skill flat DMG = 250% EM (self, Toggle)
+// C2: Electro DMG+10%/stack max 5 (self, Stacks(5), min_constellation=2)
+static CYNO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Cyno A4 Normal Atk Flat DMG",
+        description: "A4: During Pactsworn Pathclearer, Normal Attacks deal additional DMG equal to 150% of EM",
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 1.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Cyno A4 Skill Flat DMG",
+        description: "A4: During Pactsworn Pathclearer, Skill deals additional DMG equal to 250% of EM",
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 2.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Cyno C2 Electro DMG Bonus",
+        description: "C2: Electro DMG Bonus +10% per stack, max 5 stacks (50% total)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
+    },
+];
+
+// ===== Keqing =====
+// A4: CR+15% + ER+15% after burst infusion (self, Toggle)
+// C4: ATK+25% on triggering Electro reaction (self, Toggle, min_constellation=4)
+// C6: Electro DMG+24% max (self, Toggle, min_constellation=6)
+static KEQING_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Keqing A4 CRIT Rate",
+        description: "A4: After using Starward Sword, CRIT Rate +15% for 8s",
+        stat: BuffableStat::CritRate,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Keqing A4 Energy Recharge",
+        description: "A4: After using Starward Sword, Energy Recharge +15% for 8s",
+        stat: BuffableStat::EnergyRecharge,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Keqing C4 ATK Bonus",
+        description: "C4: Triggering an Electro-related reaction grants ATK +25% for 10s",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Keqing C6 Electro DMG Bonus",
+        description: "C6: Electro DMG Bonus +6% per Electro-related reaction triggered, max 4 stacks (24% total)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.24,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Yae Miko =====
+// A4: Skill DMG +0.15% per point of EM (self, always active via scaling)
+// C4: Team Electro DMG +20% (Team, min_constellation=4)
+static YAE_MIKO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Yae Miko A4 Skill DMG Bonus",
+        description: "A4: Sesshou Sakura DMG increased by 0.15% for every point of Elemental Mastery",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.0015,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Yae Miko C4 Electro DMG Bonus",
+        description: "C4: All nearby party members' Electro DMG Bonus increased by 20%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Dori =====
+// C4: Healing Bonus +50% when HP<50% (self, Toggle, min_constellation=4)
+// C4: ER+30% when Energy<50% (self, Toggle, min_constellation=4)
+static DORI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Dori C4 Healing Bonus",
+        description: "C4: When HP falls below 50%, Healing Bonus +50%",
+        stat: BuffableStat::HealingBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Dori C4 Energy Recharge",
+        description: "C4: When Energy falls below 50%, Energy Recharge +30%",
+        stat: BuffableStat::EnergyRecharge,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Kuki Shinobu =====
+// A1: Healing Bonus +15% when HP<=50% (self, Toggle)
+// A4: Skill flat DMG = 25% EM (self, always active)
+// C6: EM +150 (self, min_constellation=6)
+static KUKI_SHINOBU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Kuki Shinobu A1 Healing Bonus",
+        description: "A1: When HP is at or below 50%, Healing Bonus +15%",
+        stat: BuffableStat::HealingBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Kuki Shinobu A4 Skill Flat DMG",
+        description: "A4: Sanctifying Ring deals additional DMG equal to 25% of Kuki's EM",
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Kuki Shinobu C6 Elemental Mastery",
+        description: "C6: Elemental Mastery +150 for 15s after using Elemental Skill",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 150.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Razor =====
+// C1: DMG +10% after picking up Electro Sigil (self, Toggle)
+// C2: CR +10% vs HP<30% enemies (self, Toggle, min_constellation=2)
+// C6: Electro flat DMG on NA — TODO: proc damage, skip
+static RAZOR_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Razor C1 DMG Bonus",
+        description: "C1: After picking up an Electro Sigil from Wolf's Instinct, DMG +10% for 8s",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Razor C2 CRIT Rate vs Low HP",
+        description: "C2: CRIT Rate +10% against enemies with HP below 30%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // C6: Electro proc DMG on NA — skipped (proc/companion damage, not a stat buff)
+];
+
+// ===== Sethos =====
+// A4: CA flat DMG = 700% EM (self, Toggle)
+// C1: CR +15% (self, Toggle, min_constellation=1)
+// C2: Electro DMG +15%/stack max 2 (self, Stacks(2), min_constellation=2)
+// C4: Team EM +80 (Team, min_constellation=4)
+static SETHOS_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Sethos A4 Charged Atk Flat DMG",
+        description: "A4: Charged Attack deals additional DMG equal to 700% of EM",
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 7.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Sethos C1 CRIT Rate",
+        description: "C1: CRIT Rate +15% for Charged Attacks",
+        stat: BuffableStat::CritRate,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Sethos C2 Electro DMG Bonus",
+        description: "C2: Electro DMG Bonus +15% per stack, max 2 stacks (30% total)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(2))),
+    },
+    TalentBuffDef {
+        name: "Sethos C4 Team Elemental Mastery",
+        description: "C4: All nearby party members gain EM +80",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 80.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Varesa =====
+// A1: Plunge flat DMG = 180% ATK (max value, self, Toggle)
+// A4: ATK +35%/stack max 2 (self, Stacks(2))
+// C6: CR +10% / CD +100% (self, Toggle, min_constellation=6)
+static VARESA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Varesa A1 Plunging Atk Flat DMG",
+        description: "A1: Plunging Attack deals additional DMG equal to 180% of ATK (max value)",
+        stat: BuffableStat::PlungingAtkFlatDmg,
+        base_value: 1.80,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Varesa A4 ATK Bonus",
+        description: "A4: ATK +35% per stack, max 2 stacks (70% total)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(2))),
+    },
+    TalentBuffDef {
+        name: "Varesa C6 CRIT Rate",
+        description: "C6: CRIT Rate +10%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Varesa C6 CRIT DMG",
+        description: "C6: CRIT DMG +100%",
+        stat: BuffableStat::CritDmg,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Ororon =====
+// C2: Electro DMG +40% max (self, Toggle, min_constellation=2)
+// C6: Team ATK +10%/stack max 3 (Team, Stacks(3), min_constellation=6)
+static ORORON_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Ororon C2 Electro DMG Bonus",
+        description: "C2: Electro DMG Bonus +40% (max value)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Ororon C6 Team ATK Bonus",
+        description: "C6: Active character gains ATK +10% per stack, max 3 stacks (30% total)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static ELECTRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("beidou", BEIDOU_BUFFS),
+    ("clorinde", CLORINDE_BUFFS),
+    ("cyno", CYNO_BUFFS),
+    ("dori", DORI_BUFFS),
     ("flins", FLINS_BUFFS),
     ("iansan", IANSAN_BUFFS),
     ("ineffa", INEFFA_BUFFS),
+    ("keqing", KEQING_BUFFS),
     ("kujou_sara", SARA_BUFFS),
+    ("kuki_shinobu", KUKI_SHINOBU_BUFFS),
     ("lisa", LISA_BUFFS),
+    ("ororon", ORORON_BUFFS),
     ("raiden_shogun", RAIDEN_SHOGUN_BUFFS),
+    ("razor", RAZOR_BUFFS),
+    ("sethos", SETHOS_BUFFS),
+    ("varesa", VARESA_BUFFS),
+    ("yae_miko", YAE_MIKO_BUFFS),
 ];
 
 pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {

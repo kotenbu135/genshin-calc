@@ -244,7 +244,7 @@ mod tests {
     fn test_unknown_character_returns_empty() {
         let json = r#"{
             "format": "GOOD", "version": 3, "source": "Test",
-            "characters": [{"key": "Diluc", "level": 90, "constellation": 0, "ascension": 6, "talent": {"auto": 10, "skill": 10, "burst": 10}}],
+            "characters": [{"key": "Tartaglia", "level": 90, "constellation": 0, "ascension": 6, "talent": {"auto": 10, "skill": 10, "burst": 10}}],
             "weapons": [],
             "artifacts": []
         }"#;

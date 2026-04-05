@@ -87,6 +87,118 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     activation: None,
 }];
 
+// ===== Alhaitham =====
+// A4 "Four-Causal Correction": DMG +0.1% per EM, max +100%
+// C2 "Emergence of Runes": EM +50 per Chisel-Light Mirror (max 3 mirrors)
+// C4 "Insight": Team EM +120 while 3 mirrors active (Toggle)
+// C6 "Structuring": CR +10%, CD +70% (Toggle)
+static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Four-Causal Correction DMG Bonus",
+        description: "A4: DMG +0.1% per point of EM, max +100%",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.001,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(1.00),
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Chisel-Light Mirror EM Bonus",
+        description: "C2: EM +50 per Chisel-Light Mirror (max 3 mirrors)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 50.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+    TalentBuffDef {
+        name: "Insight Team EM Bonus",
+        description: "C4: Team EM +120 while 3 Chisel-Light Mirrors are active",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 120.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Structuring Crit Rate Bonus",
+        description: "C6: CR +10% (Toggle)",
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Structuring Crit DMG Bonus",
+        description: "C6: CD +70% (Toggle)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.70,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Baizhu =====
+// A4 "Five Fortunes Forever": HP → Bloom/Hyperbloom/Burgeon DMG bonus, simplified as 2% per 1000 HP, max +50%
+// C4 "Ancient Art of Perception": Team EM +80
+static BAIZHU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Five Fortunes Forever Reaction DMG",
+        description: "A4: Reaction DMG bonus scales with HP (~2% per 1000 HP), max +50%",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.00002,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.50),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Ancient Art of Perception EM Bonus",
+        description: "C4: Team EM +80",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 80.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+];
+
 // ===== Collei =====
 // C4: EM+60 in Cuilein-Anbar field
 static COLLEI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
@@ -104,13 +216,315 @@ static COLLEI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     activation: None,
 }];
 
+// ===== Emilie =====
+// A4 "Rectification": ATK → DMG bonus (0.1% per ATK, max +36%)
+// C1 "Consequence of Karma": Elemental Skill DMG +20% (Toggle)
+// C2 "The Controlled Blaze": Enemy Dendro RES -30% (Toggle, Team)
+static EMILIE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Rectification DMG Bonus",
+        description: "A4: DMG +0.1% per ATK, max +36%",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.001,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::TotalAtk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.36),
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Consequence of Karma Skill DMG Bonus",
+        description: "C1: Elemental Skill DMG +20%",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "The Controlled Blaze Dendro RES Down",
+        description: "C2: Enemy Dendro RES -30%",
+        stat: BuffableStat::ElementalResReduction(Element::Dendro),
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Kaveh =====
+// A4 "An Architect's Undertaking": EM +25 per Bloom core consumed (max 4 stacks = +100 EM)
+// C1 "Sublime Salvo": Healing Bonus +25%
+// C4 "Feast of Apadana": Bloom DMG +60% (Toggle)
+static KAVEH_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "An Architect's Undertaking EM Bonus",
+        description: "A4: EM +25 per Bloom core consumed (max 4 stacks)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 25.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(4))),
+    },
+    TalentBuffDef {
+        name: "Sublime Salvo Healing Bonus",
+        description: "C1: Healing Bonus +25%",
+        stat: BuffableStat::HealingBonus,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Feast of Apadana Bloom DMG Bonus",
+        description: "C4: Bloom DMG +60% (Toggle)",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Kinich =====
+// C2 "Parrot Squawks, Jaguars Roar": Enemy Dendro RES -30% + DMG +100% (Team/Self, Toggle)
+// C4 "Canopy Hunter: Glamorous Debut": Burst DMG +70%
+static KINICH_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Parrot Squawks Dendro RES Down",
+        description: "C2: Enemy Dendro RES -30% (Toggle)",
+        stat: BuffableStat::ElementalResReduction(Element::Dendro),
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Parrot Squawks DMG Bonus",
+        description: "C2: DMG +100% (Toggle)",
+        stat: BuffableStat::DmgBonus,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Canopy Hunter Burst DMG Bonus",
+        description: "C4: Burst DMG +70%",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.70,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Kirara =====
+// A4: HP → Skill/Burst DMG — complex formula, skip (TODO)
+// C6 "Kindred of the Sinovamakara": Team All Elem DMG +12%
+static KIRARA_BUFFS: &[TalentBuffDef] = &[
+    // TODO: A4 "Kindred Spirit": HP → Skill/Burst DMG bonus (complex formula, skipped)
+    TalentBuffDef {
+        name: "Kindred of the Sinovamakara DMG Bonus",
+        description: "C6: Team All Element DMG +12%",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Tighnari =====
+// A1 "Keen Sight": EM +50 (self)
+// A4 "Scholarly Blade": EM → CA DMG bonus (0.06% per EM, max +60%), EM → Burst DMG bonus (same)
+// C1 "Beginners' Luck": CA CR +15% (Toggle)
+// C2 "Ingenuity of the Smiths": Dendro DMG +20%
+// C4 "Fortuitous Arrival": Team EM +60 (Toggle)
+static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Keen Sight EM Bonus",
+        description: "A1: EM +50",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 50.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Scholarly Blade CA DMG Bonus",
+        description: "A4: Charged Attack DMG +0.06% per EM, max +60%",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.0006,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.60),
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Scholarly Blade Burst DMG Bonus",
+        description: "A4: Burst DMG +0.06% per EM, max +60%",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.0006,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.60),
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Beginners' Luck CA Crit Rate",
+        description: "C1: Charged Attack CR +15%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Ingenuity of the Smiths Dendro DMG Bonus",
+        description: "C2: Dendro DMG +20%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Fortuitous Arrival Team EM Bonus",
+        description: "C4: Team EM +60 (Toggle)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 60.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Yaoyao =====
+// C1 "Nutcracker": Dendro DMG +15%
+// C4 "Whitesun Wheel": HP → EM (0.08% per HP, max 120 EM)
+static YAOYAO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Nutcracker Dendro DMG Bonus",
+        description: "C1: Dendro DMG +15%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Whitesun Wheel EM Bonus",
+        description: "C4: EM +0.08% per HP, max +120 EM",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.0008,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: Some(120.0),
+        activation: None,
+    },
+];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static DENDRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
+    ("alhaitham", ALHAITHAM_BUFFS),
+    ("baizhu", BAIZHU_BUFFS),
     ("collei", COLLEI_BUFFS),
+    ("emilie", EMILIE_BUFFS),
+    ("kaveh", KAVEH_BUFFS),
+    ("kinich", KINICH_BUFFS),
+    ("kirara", KIRARA_BUFFS),
     ("lauma", LAUMA_BUFFS),
     ("nahida", NAHIDA_BUFFS),
     ("nefer", NEFER_BUFFS),
+    ("tighnari", TIGHNARI_BUFFS),
     ("traveler_dendro", TRAVELER_DENDRO_BUFFS),
+    ("yaoyao", YAOYAO_BUFFS),
 ];
 
 pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {

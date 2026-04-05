@@ -334,15 +334,358 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Wanderer =====
+// A1: ATK+30% from Pyro contact, CR+20% from Cryo contact (self, Toggle)
+// C2: Burst DMG up to +200% (self, Toggle, min_constellation=2)
+static WANDERER_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Gales of Reverie ATK Bonus",
+        description: "A1: On Pyro contact during Windfavored state, ATK+30%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Gales of Reverie CritRate Bonus",
+        description: "A1: On Cryo contact during Windfavored state, CritRate+20%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Stormborne Burst DMG Bonus",
+        description: "C2: Hanega: Song of the Wind DMG up to +200% (max value)",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 2.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Xiao =====
+// A4: DMG+5%/3s max 25% (self, Toggle max 0.25)
+// C2: ER+25% off-field — skip (not relevant for damage calc)
+// C4: DEF+100% when HP<50% (self, Toggle, min_constellation=4)
+static XIAO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Transcension: Gravity Defier DMG Bonus",
+        description: "A4: DMG+5% every 3s in Yaksha's Mask, max 5 stacks (+25%). Toggle = max value",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.25),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Conqueror of Evil: Tamer of Demons DEF Bonus",
+        description: "C4: When HP<50%, DEF+100%",
+        stat: BuffableStat::DefPercent,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Chasca =====
+// A1: Skill DMG+15/35/65% based on element count. Max SkillDmgBonus 0.65 Toggle (self)
+// C6: CritDmg+120% (self, Toggle, min_constellation=6)
+static CHASCA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Galesplitting Soulseeker Shell Skill DMG Bonus",
+        description: "A1: Skill DMG+15/35/65% based on element count. Toggle = max 65%",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.65,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Ride the Wind CritDmg Bonus",
+        description: "C6: CritDmg+120%",
+        stat: BuffableStat::CritDmg,
+        base_value: 1.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Heizou =====
+// A4: team EM+80 after burst (Team)
+// C6: CR+4%/stack max 4 stacks (+16%) + CD+32% (self, Toggle, min_constellation=6)
+static HEIZOU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Penetrative Reasoning EM Bonus",
+        description: "A4: After using Elemental Burst, team EM+80 for 10s",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 80.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Paradoxical Practice CritRate Bonus",
+        description: "C6: CritRate+4%/Declension stack, max 4 stacks (+16%). Toggle = max value",
+        stat: BuffableStat::CritRate,
+        base_value: 0.16,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Paradoxical Practice CritDmg Bonus",
+        description: "C6: CritDmg+32% at max Declension stacks",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.32,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Ifa =====
+// A4: Swirl/EC DMG from Nightsoul scaling — too complex, skip with TODO
+// C4: EM+100 (self, min_constellation=4)
+// TODO: A4 — Swirl/EC DMG scaling from Nightsoul points; too complex for TalentBuffDef
+static IFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Eye of Stormy Judgment EM Bonus",
+    description: "C4: EM+100",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 100.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::Constellation(4),
+    min_constellation: 4,
+    cap: None,
+    activation: None,
+}];
+
+// ===== Lan Yan =====
+// A4: Normal ATK flat DMG = 774% EM (max value). NormalAtkFlatDmg scales_on=Em, base_value=7.74
+// C4: team EM+60 (Team, min_constellation=4)
+static LAN_YAN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Lan Yan A4 Normal ATK Flat DMG",
+        description: "A4: Normal ATK flat DMG up to 774% EM. Toggle = max value (base_value=7.74 × EM)",
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 7.74,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Lan Yan C4 Team EM Bonus",
+        description: "C4: team EM+60",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 60.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Lynette =====
+// A4: team ATK+8~20% based on element diversity. Max AtkPercent 0.20 Toggle (Team)
+// C6: Anemo DMG+20% (self, min_constellation=6)
+static LYNETTE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Sophisticated Synergy ATK Bonus",
+        description: "A4: team ATK+8~20% based on element diversity. Toggle = max 20%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Magic Trick: Astonishing Shift Anemo DMG Bonus",
+        description: "C6: Anemo DMG Bonus+20%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: None,
+    },
+];
+
+// ===== Mizuki =====
+// A1: team EM+100 (Team, always active — AscensionPassive(1), activation=None)
+// C2: team DMG+0.04%/EM (Team, DmgBonus scales_on=Em, base_value=0.0004, min_constellation=2)
+// C6: Swirl CritRate+30% + CritDmg+100% (self, Toggle, min_constellation=6)
+static MIZUKI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Mizuki A1 Team EM Bonus",
+        description: "A1 passive: team EM+100 (always active)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 100.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Mizuki C2 Team DMG Bonus",
+        description: "C2: team DMG+0.04%/EM (base_value=0.0004 × EM)",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.0004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "Mizuki C6 Swirl CritRate Bonus",
+        description: "C6: Swirl CritRate+30%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Mizuki C6 Swirl CritDmg Bonus",
+        description: "C6: Swirl CritDmg+100%",
+        stat: BuffableStat::CritDmg,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Sayu =====
+// C2: Skill DMG up to +66% (self, Toggle, min_constellation=2)
+// C6: EM→Daruma DMG — too complex, skip with TODO
+// TODO: C6 — EM-scaling Daruma DMG; too complex for TalentBuffDef
+static SAYU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Sayu C2 Skill DMG Bonus",
+    description: "C2: Skill DMG up to +66% based on EM. Toggle = max value",
+    stat: BuffableStat::SkillDmgBonus,
+    base_value: 0.66,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::OnlySelf,
+    source: TalentBuffSource::Constellation(2),
+    min_constellation: 2,
+    cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
+}];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static ANEMO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
+    ("chasca", CHASCA_BUFFS),
     ("faruzan", FARUZAN_BUFFS),
+    ("heizou", HEIZOU_BUFFS),
+    ("ifa", IFA_BUFFS),
     ("jahoda", JAHODA_BUFFS),
     ("jean", JEAN_BUFFS),
     ("kazuha", KAZUHA_BUFFS),
+    ("lan_yan", LAN_YAN_BUFFS),
+    ("lynette", LYNETTE_BUFFS),
+    ("mizuki", MIZUKI_BUFFS),
+    ("sayu", SAYU_BUFFS),
     ("sucrose", SUCROSE_BUFFS),
     ("varka", VARKA_BUFFS),
     ("venti", VENTI_BUFFS),
+    ("wanderer", WANDERER_BUFFS),
+    ("xiao", XIAO_BUFFS),
     ("xianyun", XIANYUN_BUFFS),
 ];
 

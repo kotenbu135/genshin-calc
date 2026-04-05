@@ -141,7 +141,7 @@ mod tests {
 
     #[test]
     fn test_find_nonexistent_character() {
-        assert!(find_talent_buffs("diluc").is_none());
+        assert!(find_talent_buffs("nonexistent_character_xyz").is_none());
         assert!(find_talent_buffs("unknown").is_none());
     }
 
@@ -914,7 +914,7 @@ mod tests {
 
     #[test]
     fn test_conditional_nonexistent_character() {
-        let buffs = get_talent_conditional_buffs("diluc", 6, &[10, 10, 10]);
+        let buffs = get_talent_conditional_buffs("nonexistent_character_xyz", 6, &[10, 10, 10]);
         assert!(buffs.is_empty());
     }
 
