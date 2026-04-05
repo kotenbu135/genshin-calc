@@ -514,15 +514,25 @@ mod tests {
     #[test]
     fn test_find_xilonen_buffs() {
         let buffs = find_talent_buffs("xilonen").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 4);
+        // Skill: Geo RES reduction (talent-scaled)
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Geo)
         );
         assert!(buffs[0].scales_with_talent);
-        assert_eq!(buffs[1].stat, BuffableStat::ElementalMastery);
-        assert!((buffs[1].base_value - 120.0).abs() < 1e-6);
+        // C4: flat DMG from DEF for Normal/Charged/Plunging
+        assert_eq!(buffs[1].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((buffs[1].base_value - 0.65).abs() < 1e-6);
+        assert_eq!(buffs[1].scales_on, Some(ScalingStat::Def));
         assert_eq!(buffs[1].min_constellation, 4);
+        assert_eq!(buffs[2].stat, BuffableStat::ChargedAtkFlatDmg);
+        assert_eq!(buffs[3].stat, BuffableStat::PlungingAtkFlatDmg);
+        for b in &buffs[1..] {
+            assert!((b.base_value - 0.65).abs() < 1e-6);
+            assert_eq!(b.scales_on, Some(ScalingStat::Def));
+            assert_eq!(b.min_constellation, 4);
+        }
     }
 
     #[test]
@@ -539,10 +549,14 @@ mod tests {
             buffs[1].stat,
             BuffableStat::ElementalResReduction(Element::Hydro)
         );
-        // A4: EM from own EM
+        // C2: flat EM+250 for party (excl. Citlali)
         assert_eq!(buffs[2].stat, BuffableStat::ElementalMastery);
-        assert_eq!(buffs[2].scales_on, Some(ScalingStat::Em));
-        assert_eq!(buffs[2].cap, Some(120.0));
+        assert!((buffs[2].base_value - 250.0).abs() < 1e-6);
+        assert_eq!(buffs[2].scales_on, None);
+        assert_eq!(buffs[2].cap, None);
+        assert_eq!(buffs[2].target, BuffTarget::TeamExcludeSelf);
+        assert_eq!(buffs[2].min_constellation, 2);
+        assert_eq!(buffs[2].source, TalentBuffSource::Constellation(2));
         // C2: additional RES shred
         assert_eq!(buffs[3].min_constellation, 2);
         assert_eq!(buffs[4].min_constellation, 2);
@@ -565,12 +579,16 @@ mod tests {
     fn test_find_mavuika_buffs() {
         let buffs = find_talent_buffs("mavuika").unwrap();
         assert_eq!(buffs.len(), 2);
+        // A1: Mavuika's own ATK+30% (self-buff)
         assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
         assert!((buffs[0].base_value - 0.30).abs() < 1e-6);
         assert_eq!(buffs[0].source, TalentBuffSource::AscensionPassive(1));
-        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
-        assert!((buffs[1].base_value - 0.60).abs() < 1e-6);
+        assert_eq!(buffs[0].target, BuffTarget::OnlySelf);
+        // A4: DMG Bonus +40% (max, self-buff)
+        assert_eq!(buffs[1].stat, BuffableStat::DmgBonus);
+        assert!((buffs[1].base_value - 0.40).abs() < 1e-6);
         assert_eq!(buffs[1].source, TalentBuffSource::AscensionPassive(4));
+        assert_eq!(buffs[1].target, BuffTarget::OnlySelf);
     }
 
     #[test]

@@ -183,7 +183,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Citlali =====
 // Skill: Pyro/Hydro RES -20%
-// A4: EM = min(Citlali's EM × 0.20, 120)
+// C2 "Heart Devourer's Travail": Party members (excl. Citlali) gain EM+250 while Opal Shield active or Itzpapa following
 // C2: Additional Pyro/Hydro RES -20% (total -40% each)
 static CITLALI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
@@ -213,17 +213,17 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         cap: None,
     },
     TalentBuffDef {
-        name: "The Sunken Years EM Bonus",
-        description: "A4: Party EM = min(Citlali's EM × 20%, 120)",
+        name: "Heart Devourer's Travail EM Bonus",
+        description: "C2: While Opal Shield is active or Itzpapa is following, nearby party members (excl. Citlali) gain EM+250",
         stat: BuffableStat::ElementalMastery,
-        base_value: 0.20,
+        base_value: 250.0,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: Some(ScalingStat::Em),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: Some(120.0),
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
     },
     TalentBuffDef {
         name: "Cold Moon Pyro RES Shred",

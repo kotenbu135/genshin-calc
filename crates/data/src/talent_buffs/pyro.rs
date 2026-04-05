@@ -276,31 +276,31 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Mavuika =====
-// A1: ATK+30% for Nightsoul's Blessing party members
-// A4: ATK+60% max from Fighting Spirit (adopting max value)
+// A1 "Sunfrost Encomium": Mavuika's own ATK+30% while in Nightsoul's Blessing state
+// A4 "Fire-Forged Heritage" "Kiongozi": DMG Bonus +0.2% per Fighting Spirit point consumed (max +40% at C0, 200pt)
 static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Sunfrost Encomium ATK Bonus",
-        description: "A1: Party members under Nightsoul's Blessing gain ATK+30%",
+        description: "A1: Mavuika's own ATK+30% while in Nightsoul's Blessing state",
         stat: BuffableStat::AtkPercent,
         base_value: 0.30,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::Team,
+        target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
-        name: "Fire-Forged Heritage ATK Bonus",
-        description: "A4: ATK bonus from Fighting Spirit consumed (max +60%, adopting max value)",
-        stat: BuffableStat::AtkPercent,
-        base_value: 0.60,
+        name: "Fire-Forged Heritage DMG Bonus",
+        description: "A4: DMG Bonus from Fighting Spirit consumed (max +40% at C0/200pt, adopting max value)",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.40,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::Team,
+        target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
