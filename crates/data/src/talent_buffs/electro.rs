@@ -14,6 +14,7 @@ static INEFFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Sara =====
@@ -36,6 +37,7 @@ static SARA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Sin of Pride",
@@ -49,6 +51,7 @@ static SARA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -66,6 +69,7 @@ static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Flins =====
@@ -84,6 +88,7 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: Some(160.0),
+        activation: None,
     },
     TalentBuffDef {
         name: "Night on Bald Mountain ATK Bonus",
@@ -97,6 +102,7 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
     // C4 also enhances A4: 8%→10% (+2% delta), cap 160→220 (+60 delta)
     TalentBuffDef {
@@ -111,6 +117,7 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: Some(60.0),
+        activation: None,
     },
 ];
 
@@ -136,6 +143,7 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Pledge of Propriety ATK Bonus",
@@ -149,6 +157,7 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -166,6 +175,7 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(6),
     min_constellation: 6,
     cap: None,
+    activation: None,
 }];
 
 // ===== Iansan =====
@@ -191,6 +201,7 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Enhanced Resistance Training ATK Bonus",
@@ -204,6 +215,7 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
 ];
 

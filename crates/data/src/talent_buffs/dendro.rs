@@ -14,6 +14,7 @@ static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: Some(0.32),
+    activation: None,
 }];
 
 // ===== Nahida =====
@@ -32,6 +33,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(1),
     min_constellation: 0,
     cap: Some(250.0),
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
 }];
 
 // ===== Nefer =====
@@ -50,6 +52,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Delusion Ensnares Reason Dendro RES Down",
@@ -63,6 +66,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -80,6 +84,7 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Collei =====
@@ -96,6 +101,7 @@ static COLLEI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(4),
     min_constellation: 4,
     cap: None,
+    activation: None,
 }];
 
 // Registry (pub(super) for cross-element uniqueness test)

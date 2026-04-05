@@ -66,7 +66,7 @@ pub enum ManualCondition {
     /// Simple on/off toggle (e.g. "HP below 50%").
     Toggle,
     /// Stackable buff with max stack count (e.g. CW 4pc max 3).
-    Stacks(u8),
+    Stacks(u16),
 }
 
 /// How a conditional buff is activated.
@@ -107,7 +107,7 @@ pub enum ManualActivation {
     /// Toggle ON.
     Active,
     /// Stackable buff with specified stack count.
-    Stacks(u8),
+    Stacks(u16),
 }
 
 /// A conditional buff with source context, for UI display.
@@ -117,4 +117,13 @@ pub struct AvailableConditional {
     pub source: &'static str,
     /// The conditional buff definition.
     pub buff: &'static ConditionalBuff,
+}
+
+/// A conditional talent buff with source context, for UI display.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct AvailableTalentConditional {
+    /// Source name (character name).
+    pub source: &'static str,
+    /// The talent buff definition (with activation field).
+    pub buff: &'static crate::talent_buffs::TalentBuffDef,
 }

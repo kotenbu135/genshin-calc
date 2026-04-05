@@ -4,8 +4,8 @@ use genshin_calc_core::{
 };
 
 use crate::buff::{
-    Activation, AutoCondition, AvailableConditional, ConditionalBuff, ManualActivation,
-    ManualCondition,
+    Activation, AutoCondition, AvailableConditional, AvailableTalentConditional, ConditionalBuff,
+    ManualActivation, ManualCondition,
 };
 use crate::moonsign_chars::is_moonsign_character;
 use crate::talent_buffs::find_talent_buffs;
@@ -106,7 +106,7 @@ impl TeamMemberBuilder {
     }
 
     /// Activate a stackable conditional buff with stack count.
-    pub fn activate_with_stacks(mut self, name: &str, stacks: u8) -> Self {
+    pub fn activate_with_stacks(mut self, name: &str, stacks: u16) -> Self {
         self.manual_activations
             .push((name.to_string(), ManualActivation::Stacks(stacks)));
         self
@@ -164,6 +164,20 @@ impl TeamMemberBuilder {
             }
         }
         result
+    }
+
+    /// Returns available conditional talent buffs (activation: Some) with source context.
+    pub fn available_talent_conditionals(&self) -> Vec<AvailableTalentConditional> {
+        let Some(defs) = find_talent_buffs(self.character.id) else {
+            return Vec::new();
+        };
+        defs.iter()
+            .filter(|def| def.activation.is_some() && self.constellation >= def.min_constellation)
+            .map(|def| AvailableTalentConditional {
+                source: self.character.name,
+                buff: def,
+            })
+            .collect()
     }
 
     /// Builds the [`TeamMember`].
@@ -386,12 +400,53 @@ impl TeamMemberBuilder {
                 raw_value
             };
 
-            buffs.push(ResolvedBuff {
-                source: def.name.to_string(),
-                stat: def.stat,
-                value,
-                target: def.target,
-            });
+            let final_value = match &def.activation {
+                None => Some(value),
+                Some(activation) => match activation {
+                    crate::buff::Activation::Manual(cond) => {
+                        eval_talent_manual(cond, def.name, &self.manual_activations, value)
+                    }
+                    crate::buff::Activation::Auto(cond) => eval_auto(
+                        cond,
+                        value,
+                        profile,
+                        self.character.weapon_type,
+                        self.character.element,
+                        &self.team_elements,
+                        &self.team_regions,
+                        self.refinement,
+                    ),
+                    crate::buff::Activation::Both(auto_cond, manual_cond) => {
+                        let auto_val = eval_auto(
+                            auto_cond,
+                            value,
+                            profile,
+                            self.character.weapon_type,
+                            self.character.element,
+                            &self.team_elements,
+                            &self.team_regions,
+                            self.refinement,
+                        );
+                        match auto_val {
+                            Some(base) => eval_talent_manual(
+                                manual_cond,
+                                def.name,
+                                &self.manual_activations,
+                                base,
+                            ),
+                            None => None,
+                        }
+                    }
+                },
+            };
+            if let Some(fv) = final_value {
+                buffs.push(ResolvedBuff {
+                    source: def.name.to_string(),
+                    stat: def.stat,
+                    value: fv,
+                    target: def.target,
+                });
+            }
         }
     }
 
@@ -672,6 +727,41 @@ fn eval_manual(
     }
 }
 
+/// Evaluates a Manual condition for a talent buff. Returns Some(value) if user activated it.
+///
+/// Unlike `eval_manual`, this operates on talent buffs where `computed_value` is the
+/// MAX-stacks value. For Stacks(max), per-stack = computed_value / max, so
+/// n stacks = computed_value * n / max.
+fn eval_talent_manual(
+    cond: &ManualCondition,
+    name: &str,
+    activations: &[(String, ManualActivation)],
+    computed_value: f64,
+) -> Option<f64> {
+    let activation = activations.iter().find(|(n, _)| n.as_str() == name);
+    match cond {
+        ManualCondition::Toggle => match activation {
+            Some((_, ManualActivation::Active)) => Some(computed_value),
+            _ => None,
+        },
+        ManualCondition::Stacks(max) => match activation {
+            Some((_, ManualActivation::Stacks(n))) => {
+                let effective = (*n).min(*max);
+                if effective == 0 {
+                    return None;
+                }
+                // computed_value is per-stack value; multiply by n for total
+                Some(computed_value * f64::from(effective))
+            }
+            Some((_, ManualActivation::Active)) => {
+                // Active means full max stacks
+                Some(computed_value * f64::from(*max))
+            }
+            _ => None,
+        },
+    }
+}
+
 pub fn apply_weapon_sub_stat(profile: &mut StatProfile, sub: &WeaponSubStat) {
     apply_weapon_sub_stat_at_level(profile, sub, 3); // Default to Lv90
 }
@@ -700,6 +790,68 @@ mod tests {
 
     const EPSILON: f64 = 1e-4;
 
+    // ---- eval_talent_manual unit tests ----
+
+    #[test]
+    fn test_eval_talent_manual_toggle_active() {
+        let activations = vec![("my_buff".to_string(), ManualActivation::Active)];
+        let result = eval_talent_manual(&ManualCondition::Toggle, "my_buff", &activations, 0.25);
+        assert!((result.unwrap() - 0.25).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_toggle_inactive() {
+        let activations: Vec<(String, ManualActivation)> = vec![];
+        let result = eval_talent_manual(&ManualCondition::Toggle, "my_buff", &activations, 0.25);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_partial() {
+        // computed_value = 0.1 (per-stack). With 2 stacks: 0.1 * 2 = 0.2
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(2))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
+        assert!((result.unwrap() - 0.2).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_max() {
+        // per-stack=0.1, Stacks(3) with max=3 → 0.1 * 3 = 0.3
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(3))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
+        assert!((result.unwrap() - 0.3).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_zero_returns_none() {
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(0))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_active_full_value() {
+        // Active = max stacks: per-stack=0.1, max=3 → 0.1 * 3 = 0.3
+        let activations = vec![("my_buff".to_string(), ManualActivation::Active)];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
+        assert!((result.unwrap() - 0.3).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_clamped_to_max() {
+        // n=5 but max=3 → effective=3: per-stack=0.1 → 0.1 * 3 = 0.3
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(5))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.1);
+        assert!((result.unwrap() - 0.3).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_wrong_name_returns_none() {
+        let activations = vec![("other_buff".to_string(), ManualActivation::Active)];
+        let result = eval_talent_manual(&ManualCondition::Toggle, "my_buff", &activations, 0.25);
+        assert!(result.is_none());
+    }
+
     #[test]
     fn test_basic_build() {
         let bennett = find_character("bennett").unwrap();
@@ -716,6 +868,7 @@ mod tests {
         let weapon = find_weapon("aquila_favonia").unwrap();
         let member = TeamMemberBuilder::new(bennett, weapon)
             .talent_levels([1, 1, 13])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
 
@@ -926,6 +1079,7 @@ mod tests {
         let member = TeamMemberBuilder::new(bennett, weapon)
             .constellation(5)
             .talent_levels([1, 1, 10])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
 
@@ -949,6 +1103,7 @@ mod tests {
         let member = TeamMemberBuilder::new(bennett, weapon)
             .constellation(0)
             .talent_levels([1, 1, 10])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
 
@@ -969,6 +1124,7 @@ mod tests {
         let weapon = find_weapon("favonius_warbow").unwrap();
         let member = TeamMemberBuilder::new(faruzan, weapon)
             .talent_levels([1, 1, 13])
+            .activate("Prayerful Wind's Benefit")
             .build()
             .unwrap();
 
@@ -1018,7 +1174,16 @@ mod tests {
     fn test_shenhe_a1_press_in_buffs_provided() {
         let shenhe = find_character("shenhe").unwrap();
         let weapon = find_weapon("calamity_queller").unwrap();
-        let member = TeamMemberBuilder::new(shenhe, weapon).build().unwrap();
+        let member = TeamMemberBuilder::new(shenhe, weapon)
+            .activate("Deific Embrace Press - Skill DMG")
+            .activate("Deific Embrace Press - Burst DMG")
+            .activate_with_stacks("Spring Spirit Summoning Normal ATK Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Charged ATK Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Plunging ATK Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Skill Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Burst Flat DMG", 5)
+            .build()
+            .unwrap();
 
         assert!(
             member
@@ -1986,6 +2151,7 @@ mod conditional_tests {
         let weapon = find_weapon("aquila_favonia").unwrap();
         let member = TeamMemberBuilder::new(bennett, weapon)
             .talent_levels([1, 1, 13])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
         let burst_buff = member
@@ -2211,6 +2377,391 @@ mod conditional_tests {
             (er_buff.value - 0.30).abs() < EPSILON,
             "ER should be 0.30, got {}",
             er_buff.value
+        );
+    }
+}
+
+#[cfg(test)]
+mod talent_conditional_integration_tests {
+    use super::*;
+    use crate::{find_character, find_weapon};
+
+    const EPSILON: f64 = 1e-4;
+
+    // ---- Test 1: Mavuika — no activations → no A1/A4 buffs; Toggle ON → buffs present ----
+
+    #[test]
+    fn test_mavuika_no_activations_no_talent_buffs() {
+        let mavuika = find_character("mavuika").unwrap();
+        let weapon = find_weapon("wolfs_gravestone").unwrap();
+        let member = TeamMemberBuilder::new(mavuika, weapon).build().unwrap();
+
+        let has_a1 = member
+            .buffs_provided
+            .iter()
+            .any(|b| b.source.contains("Sunfrost Encomium"));
+        let has_a4 = member
+            .buffs_provided
+            .iter()
+            .any(|b| b.source.contains("Fire-Forged Heritage"));
+
+        assert!(
+            !has_a1,
+            "Mavuika A1 buff should NOT be present without activation"
+        );
+        assert!(
+            !has_a4,
+            "Mavuika A4 buff should NOT be present without activation"
+        );
+    }
+
+    #[test]
+    fn test_mavuika_with_activations_has_talent_buffs() {
+        let mavuika = find_character("mavuika").unwrap();
+        let weapon = find_weapon("wolfs_gravestone").unwrap();
+        let member = TeamMemberBuilder::new(mavuika, weapon)
+            .activate("Sunfrost Encomium ATK Bonus")
+            .activate("Fire-Forged Heritage DMG Bonus")
+            .build()
+            .unwrap();
+
+        let a1_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Sunfrost Encomium"))
+            .expect("Mavuika A1 buff should be present when activated");
+        assert!(
+            (a1_buff.value - 0.30).abs() < EPSILON,
+            "A1 ATK% should be 0.30, got {}",
+            a1_buff.value
+        );
+
+        let a4_buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Fire-Forged Heritage"))
+            .expect("Mavuika A4 buff should be present when activated");
+        assert!(
+            (a4_buff.value - 0.40).abs() < EPSILON,
+            "A4 DMG bonus should be 0.40, got {}",
+            a4_buff.value
+        );
+    }
+
+    // ---- Test 2: Bennett — no activations → no Fantastic Voyage; Toggle ON → present ----
+
+    #[test]
+    fn test_bennett_no_activations_no_burst_buff() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let member = TeamMemberBuilder::new(bennett, weapon).build().unwrap();
+
+        let has_burst_buff = member
+            .buffs_provided
+            .iter()
+            .any(|b| b.source.contains("Fantastic Voyage"));
+
+        assert!(
+            !has_burst_buff,
+            "Bennett burst buff should NOT be present without activation"
+        );
+    }
+
+    #[test]
+    fn test_bennett_with_activation_has_burst_buff() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let member = TeamMemberBuilder::new(bennett, weapon)
+            .talent_levels([1, 1, 10])
+            .activate("Fantastic Voyage ATK Bonus")
+            .build()
+            .unwrap();
+
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Fantastic Voyage"))
+            .expect("Bennett burst buff should be present when activated");
+        assert!(buff.value > 0.0, "Buff value should be positive");
+        // Lv10 = index 9 = 1.008, so value = base_atk * 1.008
+        let expected = member.stats.base_atk * 1.008;
+        assert!(
+            (buff.value - expected).abs() < EPSILON,
+            "Expected {expected}, got {}",
+            buff.value
+        );
+    }
+
+    // ---- Test 3: Furina — Stacks(150) → DMG bonus ~0.375 at burst Lv10 ----
+
+    #[test]
+    fn test_furina_stacks_150_at_burst_lv10() {
+        let furina = find_character("furina").unwrap();
+        let weapon = find_weapon("splendor_of_tranquil_waters").unwrap();
+        let member = TeamMemberBuilder::new(furina, weapon)
+            .talent_levels([1, 1, 10])
+            .activate_with_stacks("Let the People Rejoice DMG Bonus (C0 300pt)", 150)
+            .build()
+            .unwrap();
+
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Let the People Rejoice"))
+            .expect("Furina burst buff should be present when activated");
+
+        // per-point at Lv10 = 0.0025, × 150 stacks = 0.375
+        assert!(
+            (buff.value - 0.375).abs() < EPSILON,
+            "Expected 0.375, got {}",
+            buff.value
+        );
+    }
+
+    #[test]
+    fn test_furina_no_activation_no_buff() {
+        let furina = find_character("furina").unwrap();
+        let weapon = find_weapon("splendor_of_tranquil_waters").unwrap();
+        let member = TeamMemberBuilder::new(furina, weapon)
+            .talent_levels([1, 1, 10])
+            .build()
+            .unwrap();
+
+        let has_buff = member
+            .buffs_provided
+            .iter()
+            .any(|b| b.source.contains("Let the People Rejoice"));
+
+        assert!(
+            !has_buff,
+            "Furina buff should NOT be present without activation"
+        );
+    }
+
+    #[test]
+    fn test_furina_stacks_0_no_buff() {
+        let furina = find_character("furina").unwrap();
+        let weapon = find_weapon("splendor_of_tranquil_waters").unwrap();
+        let member = TeamMemberBuilder::new(furina, weapon)
+            .talent_levels([1, 1, 10])
+            .activate_with_stacks("Let the People Rejoice DMG Bonus (C0 300pt)", 0)
+            .build()
+            .unwrap();
+
+        let has_buff = member
+            .buffs_provided
+            .iter()
+            .any(|b| b.source.contains("Let the People Rejoice"));
+
+        assert!(!has_buff, "Furina buff should NOT be present with 0 stacks");
+    }
+
+    // ---- Test 4: Shenhe — Stacks(3) → NormalAtkFlatDmg = per_quill * 3 ----
+
+    #[test]
+    fn test_shenhe_stacks_3_normal_atk_flat_dmg() {
+        let shenhe = find_character("shenhe").unwrap();
+        let weapon = find_weapon("calamity_queller").unwrap();
+        let member = TeamMemberBuilder::new(shenhe, weapon)
+            .talent_levels([1, 10, 1])
+            .activate_with_stacks("Spring Spirit Summoning Normal ATK Flat DMG", 3)
+            .build()
+            .unwrap();
+
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| {
+                b.source
+                    .contains("Spring Spirit Summoning Normal ATK Flat DMG")
+            })
+            .expect("Shenhe Normal ATK FlatDmg buff should be present when activated");
+
+        assert_eq!(
+            buff.stat,
+            genshin_calc_core::BuffableStat::NormalAtkFlatDmg,
+            "Stat should be NormalAtkFlatDmg"
+        );
+        // Skill Lv10: scaling = 0.8219, value = base_atk * 0.8219, then * 3 stacks
+        let per_quill = member.stats.base_atk * 0.8219;
+        let expected = per_quill * 3.0;
+        assert!(
+            (buff.value - expected).abs() < 1.0, // flat DMG value, allow 1 unit tolerance
+            "Expected ~{expected:.2}, got {:.2}",
+            buff.value
+        );
+        assert!(buff.value > 0.0, "Buff value should be positive");
+    }
+
+    #[test]
+    fn test_shenhe_no_activation_no_normal_flat_buff() {
+        let shenhe = find_character("shenhe").unwrap();
+        let weapon = find_weapon("calamity_queller").unwrap();
+        let member = TeamMemberBuilder::new(shenhe, weapon)
+            .talent_levels([1, 10, 1])
+            .build()
+            .unwrap();
+
+        let has_normal_flat = member.buffs_provided.iter().any(|b| {
+            b.source
+                .contains("Spring Spirit Summoning Normal ATK Flat DMG")
+        });
+
+        assert!(
+            !has_normal_flat,
+            "Shenhe Normal ATK FlatDmg buff should NOT be present without activation"
+        );
+    }
+
+    // ---- Test 5: Chevreuse — Both(TeamElementsOnly, Toggle) ----
+
+    #[test]
+    fn test_chevreuse_pyro_electro_team_toggle_on_has_buff() {
+        let chevreuse = find_character("chevreuse").unwrap();
+        let weapon = find_weapon("engulfing_lightning").unwrap();
+        let member = TeamMemberBuilder::new(chevreuse, weapon)
+            .team_elements(vec![
+                Element::Pyro,
+                Element::Electro,
+                Element::Pyro,
+                Element::Pyro,
+            ])
+            .activate("Vanguard's Coordinated Tactics")
+            .build()
+            .unwrap();
+
+        let buff = member
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("Vanguard's Coordinated Tactics"))
+            .expect("Chevreuse ATK buff should be present with Pyro+Electro team and Toggle ON");
+
+        assert_eq!(
+            buff.stat,
+            genshin_calc_core::BuffableStat::AtkPercent,
+            "Stat should be AtkPercent"
+        );
+        assert!(
+            (buff.value - 0.20).abs() < EPSILON,
+            "ATK% should be 0.20, got {}",
+            buff.value
+        );
+    }
+
+    #[test]
+    fn test_chevreuse_mixed_team_toggle_on_no_buff() {
+        let chevreuse = find_character("chevreuse").unwrap();
+        let weapon = find_weapon("engulfing_lightning").unwrap();
+        // Non Pyro/Electro team → auto condition fails
+        let member = TeamMemberBuilder::new(chevreuse, weapon)
+            .team_elements(vec![Element::Pyro, Element::Hydro])
+            .activate("Vanguard's Coordinated Tactics")
+            .build()
+            .unwrap();
+
+        let has_buff = member
+            .buffs_provided
+            .iter()
+            .any(|b| b.source.contains("Vanguard's Coordinated Tactics"));
+
+        assert!(
+            !has_buff,
+            "Chevreuse ATK buff should NOT be present with non Pyro/Electro team"
+        );
+    }
+
+    #[test]
+    fn test_chevreuse_pyro_electro_team_no_activation_no_buff() {
+        let chevreuse = find_character("chevreuse").unwrap();
+        let weapon = find_weapon("engulfing_lightning").unwrap();
+        // Correct team but no manual activation
+        let member = TeamMemberBuilder::new(chevreuse, weapon)
+            .team_elements(vec![
+                Element::Pyro,
+                Element::Electro,
+                Element::Pyro,
+                Element::Pyro,
+            ])
+            .build()
+            .unwrap();
+
+        let has_buff = member
+            .buffs_provided
+            .iter()
+            .any(|b| b.source.contains("Vanguard's Coordinated Tactics"));
+
+        assert!(
+            !has_buff,
+            "Chevreuse ATK buff should NOT be present without manual activation (Toggle not set)"
+        );
+    }
+
+    // ---- Test 6: available_talent_conditionals() ----
+
+    #[test]
+    fn test_bennett_c6_available_talent_conditionals() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let builder = TeamMemberBuilder::new(bennett, weapon).constellation(6);
+        let conditionals = builder.available_talent_conditionals();
+
+        assert_eq!(
+            conditionals.len(),
+            2,
+            "C6 Bennett should have 2 talent conditionals, got {}",
+            conditionals.len()
+        );
+        let names: Vec<&str> = conditionals.iter().map(|c| c.buff.name).collect();
+        assert!(
+            names.contains(&"Fantastic Voyage ATK Bonus"),
+            "Should contain Fantastic Voyage ATK Bonus"
+        );
+        assert!(
+            names.contains(&"Spirit of Pyro"),
+            "Should contain Spirit of Pyro"
+        );
+    }
+
+    #[test]
+    fn test_bennett_c0_available_talent_conditionals() {
+        let bennett = find_character("bennett").unwrap();
+        let weapon = find_weapon("aquila_favonia").unwrap();
+        let builder = TeamMemberBuilder::new(bennett, weapon).constellation(0);
+        let conditionals = builder.available_talent_conditionals();
+
+        assert_eq!(
+            conditionals.len(),
+            1,
+            "C0 Bennett should have 1 talent conditional, got {}",
+            conditionals.len()
+        );
+        assert_eq!(
+            conditionals[0].buff.name, "Fantastic Voyage ATK Bonus",
+            "Should be Fantastic Voyage ATK Bonus"
+        );
+    }
+
+    #[test]
+    fn test_mavuika_available_talent_conditionals() {
+        let mavuika = find_character("mavuika").unwrap();
+        let weapon = find_weapon("wolfs_gravestone").unwrap();
+        let builder = TeamMemberBuilder::new(mavuika, weapon).constellation(0);
+        let conditionals = builder.available_talent_conditionals();
+
+        assert_eq!(
+            conditionals.len(),
+            2,
+            "Mavuika should have 2 talent conditionals (A1 + A4), got {}",
+            conditionals.len()
+        );
+        let names: Vec<&str> = conditionals.iter().map(|c| c.buff.name).collect();
+        assert!(
+            names.contains(&"Sunfrost Encomium ATK Bonus"),
+            "Should contain Sunfrost Encomium ATK Bonus"
+        );
+        assert!(
+            names.contains(&"Fire-Forged Heritage DMG Bonus"),
+            "Should contain Fire-Forged Heritage DMG Bonus"
         );
     }
 }

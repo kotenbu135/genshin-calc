@@ -17,6 +17,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Aino A4 Burst DMG from EM",
@@ -30,6 +31,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
+        activation: None,
     },
     // C6 "The Burden of Creative Genius": Reaction DMG bonus varies by Moonsign level.
     // Lv1 (NascentGleam): +15%, Lv2 (AscendantGleam): +35%
@@ -50,6 +52,7 @@ static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(2),
     min_constellation: 2,
     cap: None,
+    activation: None,
 }];
 
 // ===== Candace =====
@@ -70,18 +73,38 @@ static CANDACE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::ElementalBurst,
     min_constellation: 0,
     cap: None,
+    activation: None,
 }];
 
 // ===== Furina =====
 // Elemental Burst "Let the People Rejoice": Fanfare stacks grant DMG bonus
-// Per-point DMG Bonus (Lv1-15): 0.07%, 0.09%, ..., 0.35%
+// Per-point DMG Bonus coefficient (Lv1-15): each fanfare point grants this much DMG bonus
 // C0 max fanfare: 300pt, C1+ max fanfare: 400pt (C1 adds +100)
-// Split into two defs: C0 base (300 × per_point) + C1 extra (100 × per_point)
-static FURINA_BURST_C0_MAX: [f64; 15] = [
-    0.21, 0.27, 0.33, 0.39, 0.45, 0.51, 0.57, 0.63, 0.69, 0.75, 0.81, 0.87, 0.93, 0.99, 1.05,
+// Split into two defs: C0 base (per_point, max 300) + C1 extra (per_point, max 300)
+// Values are per-stack: multiply by stack count to get total
+static FURINA_BURST_PER_POINT: [f64; 15] = [
+    0.0007, 0.0009, 0.0011, 0.0013, 0.0015, 0.0017, 0.0019, 0.0021, 0.0023, 0.0025, 0.0027, 0.0029,
+    0.0031, 0.0033, 0.0035,
 ];
-static FURINA_BURST_C1_EXTRA: [f64; 15] = [
-    0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25, 0.27, 0.29, 0.31, 0.33, 0.35,
+// C1 extra: same per-point coefficient applied to the additional 100pt capacity,
+// but spread linearly over 300 stacks for UI consistency
+// per_stack = (per_point_coeff * 100) / 300
+static FURINA_BURST_C1_PER_STACK: [f64; 15] = [
+    0.000233333,
+    0.0003,
+    0.000366667,
+    0.000433333,
+    0.0005,
+    0.000566667,
+    0.000633333,
+    0.0007,
+    0.000766667,
+    0.000833333,
+    0.0009,
+    0.000966667,
+    0.001033333,
+    0.0011,
+    0.001166667,
 ];
 
 static FURINA_BUFFS: &[TalentBuffDef] = &[
@@ -91,12 +114,13 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         stat: BuffableStat::DmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
-        talent_scaling: Some(&FURINA_BURST_C0_MAX),
+        talent_scaling: Some(&FURINA_BURST_PER_POINT),
         scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(300))),
     },
     TalentBuffDef {
         name: "Let the People Rejoice DMG Bonus (C1+ extra 100pt)",
@@ -104,12 +128,13 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         stat: BuffableStat::DmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
-        talent_scaling: Some(&FURINA_BURST_C1_EXTRA),
+        talent_scaling: Some(&FURINA_BURST_C1_PER_STACK),
         scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
         cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(300))),
     },
 ];
 
@@ -131,6 +156,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::ElementalBurst,
     min_constellation: 0,
     cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
 }];
 
 // ===== Nilou =====
@@ -149,6 +175,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: Some(4.0),
+    activation: None,
 }];
 
 // ===== Yelan =====
@@ -165,6 +192,7 @@ static YELAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
     cap: None,
+    activation: Some(Activation::Manual(ManualCondition::Toggle)),
 }];
 
 // ===== Columbina =====
@@ -185,6 +213,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Columbina C2 Lunar Brilliance HP",
@@ -198,6 +227,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Columbina C2 Lunar Reaction DMG",
@@ -211,6 +241,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Columbina C3 Lunar Reaction DMG",
@@ -224,6 +255,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(3),
         min_constellation: 3,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Columbina C4 Lunar Reaction DMG",
@@ -237,6 +269,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Columbina C5 Lunar Reaction DMG",
@@ -250,6 +283,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(5),
         min_constellation: 5,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Columbina C6 Elemental CritDMG",
@@ -263,6 +297,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
     TalentBuffDef {
         name: "Columbina C6 Lunar Reaction DMG",
@@ -276,6 +311,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
+        activation: None,
     },
 ];
 
@@ -293,6 +329,7 @@ static XINGQIU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     source: TalentBuffSource::Constellation(2),
     min_constellation: 2,
     cap: None,
+    activation: None,
 }];
 
 // Registry (pub(super) for cross-element uniqueness test)

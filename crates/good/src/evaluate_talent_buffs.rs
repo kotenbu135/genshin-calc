@@ -1,11 +1,23 @@
 use genshin_calc_core::{ResolvedBuff, ScalingStat, combine_stats};
 
 use crate::CharacterBuild;
+use genshin_calc_data::buff::{Activation, ManualActivation, ManualCondition};
 
+/// Evaluates talent buffs for a character.
+///
+/// When `talent_activations` is empty, uses max-value policy:
+/// - `activation: None` buffs are always included
+/// - `activation: Some(Manual(Toggle))` buffs are included at full value
+/// - `activation: Some(Manual(Stacks(max)))` buffs are included at max stacks
+///
+/// When `talent_activations` is provided, uses them to gate conditional buffs:
+/// - `activation: None` buffs are always included
+/// - `activation: Some(...)` buffs require matching activation entry
 pub fn evaluate_talent_buffs(
     build: &CharacterBuild,
     constellation: u8,
     talent_levels: &[u8; 3],
+    talent_activations: &[(String, ManualActivation)],
 ) -> Vec<ResolvedBuff> {
     let character_id = build.character.id;
     let defs = match genshin_calc_data::talent_buffs::find_talent_buffs(character_id) {
@@ -16,21 +28,64 @@ pub fn evaluate_talent_buffs(
     let profile = crate::build_stat_profile(build);
     let stats = combine_stats(&profile).unwrap_or_default();
 
-    // NOTE: No ascension level gating — max-value policy assumes all passives are active.
-    // The constellation parameter from the caller controls which buffs are included.
+    let use_max_value = talent_activations.is_empty();
+
     defs.iter()
         .filter(|def| def.min_constellation <= constellation)
-        .map(|def| {
+        .filter_map(|def| {
             let scaling_value = resolve_scaling_value(def, talent_levels);
-            let final_value = apply_stat_scaling(def, scaling_value, &profile, &stats);
-            ResolvedBuff {
+            let base_value = apply_stat_scaling(def, scaling_value, &profile, &stats);
+
+            let final_value = match &def.activation {
+                None => base_value,
+                // Max-value policy: return full value for all activation types
+                Some(
+                    Activation::Manual(ManualCondition::Stacks(max))
+                    | Activation::Both(_, ManualCondition::Stacks(max)),
+                ) if use_max_value => base_value * f64::from(*max),
+                Some(_) if use_max_value => base_value,
+                // Use provided activations to gate
+                Some(Activation::Manual(cond) | Activation::Both(_, cond)) => {
+                    eval_talent_activation(cond, def.name, talent_activations, base_value)?
+                }
+                Some(Activation::Auto(_)) => base_value,
+            };
+
+            Some(ResolvedBuff {
                 source: format!("{}:{}", character_id, source_label(&def.source)),
                 stat: def.stat,
                 value: final_value,
                 target: def.target,
-            }
+            })
         })
         .collect()
+}
+
+/// Evaluates a manual condition for talent buffs against provided activations.
+fn eval_talent_activation(
+    cond: &ManualCondition,
+    name: &str,
+    activations: &[(String, ManualActivation)],
+    computed_value: f64,
+) -> Option<f64> {
+    let activation = activations.iter().find(|(n, _)| n.as_str() == name);
+    match cond {
+        ManualCondition::Toggle => match activation {
+            Some((_, ManualActivation::Active)) => Some(computed_value),
+            _ => None,
+        },
+        ManualCondition::Stacks(max) => match activation {
+            Some((_, ManualActivation::Stacks(n))) => {
+                let effective = (*n).min(*max);
+                if effective == 0 {
+                    return None;
+                }
+                Some(computed_value * f64::from(effective))
+            }
+            Some((_, ManualActivation::Active)) => Some(computed_value * f64::from(*max)),
+            _ => None,
+        },
+    }
 }
 
 fn resolve_scaling_value(
@@ -155,7 +210,7 @@ mod tests {
     #[test]
     fn test_bennett_c0_burst_lv13() {
         let build = make_bennett_build();
-        let buffs = evaluate_talent_buffs(&build, 0, &[1, 1, 13]);
+        let buffs = evaluate_talent_buffs(&build, 0, &[1, 1, 13], &[]);
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(buffs[0].target, BuffTarget::Team);
@@ -174,7 +229,7 @@ mod tests {
     #[test]
     fn test_bennett_c6_burst_lv13() {
         let build = make_bennett_build();
-        let buffs = evaluate_talent_buffs(&build, 6, &[1, 1, 13]);
+        let buffs = evaluate_talent_buffs(&build, 6, &[1, 1, 13], &[]);
         assert_eq!(buffs.len(), 2);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(
@@ -194,14 +249,14 @@ mod tests {
         }"#;
         let import = import_good(json).unwrap();
         let build = &import.builds[0];
-        let buffs = evaluate_talent_buffs(build, 0, &[10, 10, 10]);
+        let buffs = evaluate_talent_buffs(build, 0, &[10, 10, 10], &[]);
         assert!(buffs.is_empty());
     }
 
     #[test]
     fn test_constellation_gating() {
         let build = make_bennett_build();
-        let buffs = evaluate_talent_buffs(&build, 5, &[1, 1, 13]);
+        let buffs = evaluate_talent_buffs(&build, 5, &[1, 1, 13], &[]);
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
     }
@@ -220,7 +275,7 @@ mod tests {
     #[test]
     fn test_sara_c6_buffs() {
         let build = make_sara_build();
-        let buffs = evaluate_talent_buffs(&build, 6, &[1, 10, 1]);
+        let buffs = evaluate_talent_buffs(&build, 6, &[1, 10, 1], &[]);
         assert_eq!(buffs.len(), 2);
         let atk_buff = buffs
             .iter()
@@ -237,7 +292,7 @@ mod tests {
     #[test]
     fn test_sara_c0_no_crit_buff() {
         let build = make_sara_build();
-        let buffs = evaluate_talent_buffs(&build, 0, &[1, 10, 1]);
+        let buffs = evaluate_talent_buffs(&build, 0, &[1, 10, 1], &[]);
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
     }
@@ -267,7 +322,7 @@ mod tests {
         // Total EM ≈ 595.5 (no extra substats)
         assert!(em > 500.0, "EM should be > 500, got {em}");
 
-        let buffs = evaluate_talent_buffs(&build, 0, &[1, 10, 10]);
+        let buffs = evaluate_talent_buffs(&build, 0, &[1, 10, 10], &[]);
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!(
@@ -298,7 +353,7 @@ mod tests {
         let build = &import.builds[0];
         let profile = crate::build_stat_profile(build);
 
-        let buffs = evaluate_talent_buffs(build, 0, &[1, 10, 10]);
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 10, 10], &[]);
         assert_eq!(buffs.len(), 1);
         let expected = (profile.elemental_mastery * 0.25).min(250.0);
         assert!(
@@ -320,7 +375,7 @@ mod tests {
         }"#;
         let import = import_good(&json).unwrap();
         let build = &import.builds[0];
-        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1], &[]);
         assert_eq!(buffs.len(), 1, "A1 buff should appear even at level 20");
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
     }
@@ -335,7 +390,7 @@ mod tests {
         }"#;
         let import = import_good(json).unwrap();
         let build = &import.builds[0];
-        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1], &[]);
         let a4 = buffs.iter().find(|b| b.source.contains("a4")).unwrap();
         assert_eq!(a4.stat, BuffableStat::ElementalMastery);
         // EM * 0.20 — Sucrose with SacrificialFragments + EM sands should have ~500+ EM
@@ -362,7 +417,7 @@ mod tests {
         }"#;
         let import = import_good(json).unwrap();
         let build = &import.builds[0];
-        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1], &[]);
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::DmgBonus);
         assert!(
@@ -386,7 +441,7 @@ mod tests {
     #[test]
     fn test_furina_c0_burst_lv10() {
         let build = make_furina_build();
-        let buffs = evaluate_talent_buffs(&build, 0, &[1, 1, 10]);
+        let buffs = evaluate_talent_buffs(&build, 0, &[1, 1, 10], &[]);
         assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::DmgBonus);
         assert!(
@@ -399,7 +454,7 @@ mod tests {
     #[test]
     fn test_furina_c1_burst_lv10() {
         let build = make_furina_build();
-        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 10]);
+        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 10], &[]);
         assert_eq!(
             buffs.len(),
             2,
@@ -420,7 +475,7 @@ mod tests {
     #[test]
     fn test_furina_c1_burst_lv13() {
         let build = make_furina_build();
-        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 13]);
+        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 13], &[]);
         let total: f64 = buffs
             .iter()
             .filter(|b| b.stat == BuffableStat::DmgBonus)
