@@ -38,28 +38,17 @@ pub fn evaluate_talent_buffs(
 
             let final_value = match &def.activation {
                 None => base_value,
-                Some(activation) if use_max_value => {
-                    // Max-value policy: return full value for all activation types
-                    match activation {
-                        Activation::Manual(ManualCondition::Stacks(max))
-                        | Activation::Both(_, ManualCondition::Stacks(max)) => {
-                            base_value * f64::from(*max)
-                        }
-                        _ => base_value,
-                    }
+                // Max-value policy: return full value for all activation types
+                Some(
+                    Activation::Manual(ManualCondition::Stacks(max))
+                    | Activation::Both(_, ManualCondition::Stacks(max)),
+                ) if use_max_value => base_value * f64::from(*max),
+                Some(_) if use_max_value => base_value,
+                // Use provided activations to gate
+                Some(Activation::Manual(cond) | Activation::Both(_, cond)) => {
+                    eval_talent_activation(cond, def.name, talent_activations, base_value)?
                 }
-                Some(activation) => {
-                    // Use provided activations to gate
-                    match activation {
-                        Activation::Manual(cond) => {
-                            eval_talent_activation(cond, def.name, talent_activations, base_value)?
-                        }
-                        Activation::Auto(_) => base_value, // Auto always passes in this context
-                        Activation::Both(_, cond) => {
-                            eval_talent_activation(cond, def.name, talent_activations, base_value)?
-                        }
-                    }
-                }
+                Some(Activation::Auto(_)) => base_value,
             };
 
             Some(ResolvedBuff {
