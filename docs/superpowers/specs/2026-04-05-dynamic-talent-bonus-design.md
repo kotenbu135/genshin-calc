@@ -55,6 +55,9 @@ pub struct TalentScaling {
 
 - `Option<&'static DynamicTalentBonus>`: 既存キャラは全て `None`
 - `&'static` 参照型なので `Serialize` のみ（Deserialize なし、conventions 通り）
+- `const` から `static` への参照は Rust 1.83+ で安定化済み（`const_refs_to_static`）。本プロジェクトは edition 2024
+- `max_stacks` は `u16`: マーヴィカの闘志は0-200で `u8`(max 255) に収まるが、将来のゲージ型メカニクスに対応するため `u16` を採用
+- JSON シリアライズ時、`dynamic_bonus` は `None` → `null`、`Some` → オブジェクトとして出力される
 
 ## Character Data
 
@@ -115,6 +118,18 @@ adjusted = values[talentLevel - 1] + stacks * per_stack[talentLevel - 1]
 ```
 
 `dynamic_bonus` が `null` なら従来通り `values[talentLevel - 1]` のみ。
+
+### build_damage_input() への影響
+
+`CharacterData::build_damage_input()` は `scaling.values[talent_level - 1]` を `talent_multiplier` に設定する既存メソッド。`dynamic_bonus` は**無視される**（意図的）。動的ボーナスの適用はフロントエンド側の責務。フロントは `build_damage_input()` の戻り値の `talent_multiplier` を上書きするか、直接 `DamageInput` を構築する。
+
+### 命名規約
+
+`max_stacks` / `per_stack` はゲージ型（マーヴィカの闘志0-200）と離散スタック型（雷電の願力0-60）の両方を統一的に表現する。ゲージ値は整数として扱う。
+
+### 星座との関係
+
+`max_stacks` は基本上限値を定義（雷電: 60）。星座効果（例: 雷電C2の自動60スタック付与）はスタック数の**入力側**の話であり、`DynamicTalentBonus` のデータ定義には影響しない。星座によるスタック上限変更がある場合はフロントで処理する。
 
 ## Testing
 
