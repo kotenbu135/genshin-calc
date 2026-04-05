@@ -342,11 +342,63 @@ pub fn get_character_team_buffs(
     to_js(&buffs)
 }
 
+/// Builds a TeamMember from GOOD JSON with conditional buff activations.
+///
+/// Returns a fully resolved `TeamMember` (element, weapon_type, stats, buffs_provided,
+/// is_moonsign) that can be passed directly to `resolve_team_stats`.
+///
+/// This bridges the gap between `build_member_stats` (no activations) and `build_stats`
+/// (returns final Stats, not TeamMember). Use this when building a team for
+/// `resolve_team_stats` with weapon/artifact conditional buffs enabled.
+///
+/// # Arguments
+/// * `json` - GOOD format JSON string
+/// * `character_id` - Character ID (e.g. "hu_tao")
+/// * `weapon_activations` - JS array of {name, active, stacks?} for weapon conditional buffs
+/// * `artifact_activations` - JS array of {name, active, stacks?} for artifact set conditional buffs
+///
+/// # Returns
+/// TeamMember as a JS object, or throws if character not found or weapon missing.
+#[wasm_bindgen]
+pub fn build_team_member(
+    json: &str,
+    character_id: &str,
+    weapon_activations: JsValue,
+    artifact_activations: JsValue,
+) -> Result<JsValue, JsError> {
+    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let build = import
+        .builds
+        .iter()
+        .find(|b| b.character.id == character_id)
+        .ok_or_else(|| {
+            JsError::new(&format!(
+                "Character '{}' not found in GOOD data",
+                character_id
+            ))
+        })?;
+
+    let w_acts: Vec<WasmManualActivation> =
+        serde_wasm_bindgen::from_value(weapon_activations).unwrap_or_default();
+    let a_acts: Vec<WasmManualActivation> =
+        serde_wasm_bindgen::from_value(artifact_activations).unwrap_or_default();
+    let w_converted = convert_activations(&w_acts);
+    let a_converted = convert_activations(&a_acts);
+
+    let builder = genshin_calc_good::to_team_member_builder(build, &w_converted, &a_converted)
+        .map_err(|e| JsError::new(&e.to_string()))?;
+    let member = builder.build().map_err(|e| JsError::new(&e.to_string()))?;
+    to_js(&member)
+}
+
 /// Builds a StatProfile from GOOD JSON for use with `resolve_team_stats`.
 ///
 /// Unlike `build_stats_from_good` which returns final `Stats`, this returns
 /// the decomposed `StatProfile` (base values, percentages, flats) that
 /// `resolve_team_stats` requires as input.
+///
+/// Note: This function does not support conditional buff activations.
+/// Use `build_team_member` instead for full activation support.
 #[wasm_bindgen]
 pub fn build_member_stats(json: &str, character_id: &str) -> Result<JsValue, JsError> {
     let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
@@ -671,6 +723,131 @@ mod tests {
         let result = apply_debuffs_to_enemy(&enemy, &debuffs, Some(Element::Pyro));
         assert!((result.resistance - (-0.30)).abs() < 1e-6);
         assert!((result.def_reduction - 0.15).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_build_team_member_without_activations() {
+        let char = genshin_calc_data::find_character("hu_tao").unwrap();
+        let weapon = genshin_calc_data::find_weapon("staff_of_homa").unwrap();
+        let build = genshin_calc_good::CharacterBuild {
+            character: char,
+            level: 90,
+            constellation: 0,
+            talent_levels: [10, 10, 10],
+            weapon: Some(genshin_calc_good::WeaponBuild {
+                weapon,
+                level: 90,
+                refinement: 1,
+            }),
+            artifacts: genshin_calc_good::ArtifactsBuild {
+                sets: vec![],
+                stats: genshin_calc_core::StatProfile::default(),
+            },
+        };
+        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let member = builder.build().unwrap();
+
+        assert_eq!(member.element, genshin_calc_core::Element::Pyro);
+        assert_eq!(member.weapon_type, genshin_calc_core::WeaponType::Polearm);
+        assert!(member.stats.base_hp > 0.0);
+        assert!(member.stats.base_atk > 0.0);
+
+        // Should be usable as resolve_team_stats input
+        let result = genshin_calc_core::resolve_team_stats(&[member], 0).unwrap();
+        assert!(result.final_stats.hp > 0.0);
+    }
+
+    #[test]
+    fn test_build_team_member_with_artifact_activation() {
+        use genshin_calc_data::buff::ManualActivation;
+
+        let char = genshin_calc_data::find_character("eula").unwrap();
+        let weapon = genshin_calc_data::find_weapon("wolfs_gravestone").unwrap();
+        let ph = genshin_calc_data::find_artifact_set("marechaussee_hunter").unwrap();
+        let build = genshin_calc_good::CharacterBuild {
+            character: char,
+            level: 90,
+            constellation: 0,
+            talent_levels: [10, 10, 10],
+            weapon: Some(genshin_calc_good::WeaponBuild {
+                weapon,
+                level: 90,
+                refinement: 1,
+            }),
+            artifacts: genshin_calc_good::ArtifactsBuild {
+                sets: vec![ph],
+                stats: genshin_calc_core::StatProfile::default(),
+            },
+        };
+
+        // Without activation
+        let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let member_no = builder_no.build().unwrap();
+
+        // With 3 stacks of Marechaussee Hunter crit buff
+        let artifact_acts = [("marechaussee_crit_stacks", ManualActivation::Stacks(3))];
+        let builder_with =
+            genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts).unwrap();
+        let member_with = builder_with.build().unwrap();
+
+        // member_with should have more buffs (crit rate +0.36)
+        let crit_buff = member_with
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("marechaussee_crit_stacks"));
+        assert!(crit_buff.is_some(), "Should have marechaussee crit buff");
+        let buff = crit_buff.unwrap();
+        assert!(
+            (buff.value - 0.36).abs() < 1e-10,
+            "3 stacks × 0.12 = 0.36, got {}",
+            buff.value
+        );
+
+        // No activation = no buff
+        let no_crit_buff = member_no
+            .buffs_provided
+            .iter()
+            .find(|b| b.source.contains("marechaussee_crit_stacks"));
+        assert!(no_crit_buff.is_none());
+
+        // Both should be valid resolve_team_stats input
+        let result = genshin_calc_core::resolve_team_stats(&[member_with], 0).unwrap();
+        assert!(result.final_stats.crit_rate > member_no.stats.crit_rate);
+    }
+
+    #[test]
+    fn test_build_team_member_serde_roundtrip() {
+        let char = genshin_calc_data::find_character("diluc").unwrap();
+        let weapon = genshin_calc_data::find_weapon("wolfs_gravestone").unwrap();
+        let build = genshin_calc_good::CharacterBuild {
+            character: char,
+            level: 90,
+            constellation: 0,
+            talent_levels: [10, 10, 10],
+            weapon: Some(genshin_calc_good::WeaponBuild {
+                weapon,
+                level: 90,
+                refinement: 1,
+            }),
+            artifacts: genshin_calc_good::ArtifactsBuild {
+                sets: vec![],
+                stats: genshin_calc_core::StatProfile::default(),
+            },
+        };
+        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let member = builder.build().unwrap();
+
+        // Serialize → Deserialize roundtrip (simulates JS boundary)
+        let json = serde_json::to_string(&member).unwrap();
+        let back: genshin_calc_core::TeamMember = serde_json::from_str(&json).unwrap();
+        assert_eq!(member.element, back.element);
+        assert_eq!(member.weapon_type, back.weapon_type);
+        assert!((member.stats.base_atk - back.stats.base_atk).abs() < 1e-10);
+        assert_eq!(member.buffs_provided.len(), back.buffs_provided.len());
+
+        // Deserialized member should work with resolve_team_stats
+        let result = genshin_calc_core::resolve_team_stats(&[back], 0).unwrap();
+        assert!(result.final_stats.atk > 0.0);
     }
 
     #[test]
