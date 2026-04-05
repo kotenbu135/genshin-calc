@@ -26,6 +26,12 @@ fn convert_activations(
         .collect()
 }
 
+fn make_import_options(traveler_element: Option<String>) -> genshin_calc_good::ImportOptions {
+    genshin_calc_good::ImportOptions {
+        traveler_element: traveler_element.and_then(|e| convert::parse_element(&e).ok()),
+    }
+}
+
 /// Serialize a value to JsValue, with None mapped to null (not undefined).
 fn to_js<T: Serialize>(value: &T) -> Result<JsValue, JsError> {
     let serializer = serde_wasm_bindgen::Serializer::new().serialize_missing_as_null(true);
@@ -197,8 +203,14 @@ pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue
 /// Stats with per-element DMG bonuses in separate fields.
 /// Returns null if the character is not found in the GOOD data.
 #[wasm_bindgen]
-pub fn build_stats_from_good(json: &str, character_id: &str) -> Result<JsValue, JsError> {
-    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+pub fn build_stats_from_good(
+    json: &str,
+    character_id: &str,
+    traveler_element: Option<String>,
+) -> Result<JsValue, JsError> {
+    let options = make_import_options(traveler_element);
+    let import = genshin_calc_good::import_good_with_options(json, &options)
+        .map_err(|e| JsError::new(&e.to_string()))?;
     let build = import
         .builds
         .iter()
@@ -233,8 +245,11 @@ pub fn build_stats(
     character_id: &str,
     weapon_activations: JsValue,
     artifact_activations: JsValue,
+    traveler_element: Option<String>,
 ) -> Result<JsValue, JsError> {
-    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let options = make_import_options(traveler_element);
+    let import = genshin_calc_good::import_good_with_options(json, &options)
+        .map_err(|e| JsError::new(&e.to_string()))?;
     let build = import
         .builds
         .iter()
@@ -300,6 +315,7 @@ pub fn get_character_team_buffs(
     character_id: &str,
     constellation: u32,
     talent_levels: Vec<u32>,
+    traveler_element: Option<String>,
 ) -> Result<JsValue, JsError> {
     if talent_levels.len() != 3 {
         return Err(JsError::new(
@@ -321,7 +337,9 @@ pub fn get_character_team_buffs(
         )));
     }
 
-    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let options = make_import_options(traveler_element);
+    let import = genshin_calc_good::import_good_with_options(json, &options)
+        .map_err(|e| JsError::new(&e.to_string()))?;
     let build = import
         .builds
         .iter()
@@ -365,8 +383,11 @@ pub fn build_team_member(
     character_id: &str,
     weapon_activations: JsValue,
     artifact_activations: JsValue,
+    traveler_element: Option<String>,
 ) -> Result<JsValue, JsError> {
-    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    let options = make_import_options(traveler_element);
+    let import = genshin_calc_good::import_good_with_options(json, &options)
+        .map_err(|e| JsError::new(&e.to_string()))?;
     let build = import
         .builds
         .iter()
@@ -400,8 +421,14 @@ pub fn build_team_member(
 /// Note: This function does not support conditional buff activations.
 /// Use `build_team_member` instead for full activation support.
 #[wasm_bindgen]
-pub fn build_member_stats(json: &str, character_id: &str) -> Result<JsValue, JsError> {
-    let import = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+pub fn build_member_stats(
+    json: &str,
+    character_id: &str,
+    traveler_element: Option<String>,
+) -> Result<JsValue, JsError> {
+    let options = make_import_options(traveler_element);
+    let import = genshin_calc_good::import_good_with_options(json, &options)
+        .map_err(|e| JsError::new(&e.to_string()))?;
     let build = import
         .builds
         .iter()
@@ -430,6 +457,22 @@ pub fn build_member_stats(json: &str, character_id: &str) -> Result<JsValue, JsE
 #[wasm_bindgen]
 pub fn import_good(json: &str) -> Result<JsValue, JsError> {
     let result = genshin_calc_good::import_good(json).map_err(|e| JsError::new(&e.to_string()))?;
+    to_js(&result)
+}
+
+/// Imports GOOD JSON with Traveler element support.
+///
+/// # Arguments
+/// * `json` - GOOD format JSON string
+/// * `traveler_element` - Optional element string ("pyro", "dendro", etc.) for Traveler
+#[wasm_bindgen]
+pub fn import_good_with_options(
+    json: &str,
+    traveler_element: Option<String>,
+) -> Result<JsValue, JsError> {
+    let options = make_import_options(traveler_element);
+    let result = genshin_calc_good::import_good_with_options(json, &options)
+        .map_err(|e| JsError::new(&e.to_string()))?;
     to_js(&result)
 }
 
@@ -676,7 +719,10 @@ mod tests {
                 refinement: 1,
             }),
             artifacts: genshin_calc_good::ArtifactsBuild {
-                sets: vec![cw],
+                sets: vec![genshin_calc_good::ArtifactSetEntry {
+                    set: cw,
+                    piece_count: 4,
+                }],
                 stats: genshin_calc_core::StatProfile::default(),
             },
         };
@@ -775,7 +821,10 @@ mod tests {
                 refinement: 1,
             }),
             artifacts: genshin_calc_good::ArtifactsBuild {
-                sets: vec![ph],
+                sets: vec![genshin_calc_good::ArtifactSetEntry {
+                    set: ph,
+                    piece_count: 4,
+                }],
                 stats: genshin_calc_core::StatProfile::default(),
             },
         };

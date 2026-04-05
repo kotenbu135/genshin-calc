@@ -1,3 +1,4 @@
+use genshin_calc_core::Element;
 use genshin_calc_data::types::{ArtifactSet, CharacterData, WeaponData};
 
 /// PascalCase を snake_case に変換
@@ -56,6 +57,32 @@ pub fn lookup_artifact_set(good_key: &str) -> Option<&'static ArtifactSet> {
         return genshin_calc_data::find_artifact_set(alias);
     }
     None
+}
+
+/// GOODキャラクターキーからルックアップ（Traveler対応）。
+/// "Traveler" キーの場合、traveler_element で指定した要素の旅人を返す。
+pub fn lookup_character_with_traveler(
+    good_key: &str,
+    traveler_element: Option<Element>,
+) -> Option<&'static CharacterData> {
+    if good_key == "Traveler" || good_key == "traveler" {
+        let element = traveler_element?;
+        let id = format!("traveler_{}", element_to_suffix(element));
+        return genshin_calc_data::find_character(&id);
+    }
+    lookup_character(good_key)
+}
+
+fn element_to_suffix(element: Element) -> &'static str {
+    match element {
+        Element::Pyro => "pyro",
+        Element::Hydro => "hydro",
+        Element::Electro => "electro",
+        Element::Cryo => "cryo",
+        Element::Dendro => "dendro",
+        Element::Anemo => "anemo",
+        Element::Geo => "geo",
+    }
 }
 
 fn artifact_alias(snake_key: &str) -> Option<&'static str> {

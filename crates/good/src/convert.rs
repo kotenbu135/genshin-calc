@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use genshin_calc_core::StatProfile;
 use genshin_calc_data::buff::ManualActivation;
 use genshin_calc_data::team_builder::TeamMemberBuilder;
-use genshin_calc_data::types::{ArtifactSet, CharacterData, WeaponData};
+use genshin_calc_data::types::{ArtifactSet, ArtifactSetEntry, CharacterData, WeaponData};
 
 use crate::error::ImportWarning;
 use crate::key_map;
@@ -48,7 +48,10 @@ pub fn to_team_member_builder(
     Ok(builder)
 }
 
-pub(crate) fn build_imports(good: GoodFormat) -> GoodImport {
+pub(crate) fn build_imports_with_options(
+    good: GoodFormat,
+    options: &crate::ImportOptions,
+) -> GoodImport {
     let mut warnings = Vec::new();
 
     let weapons = index_weapons(&good, &mut warnings);
@@ -58,13 +61,14 @@ pub(crate) fn build_imports(good: GoodFormat) -> GoodImport {
 
     if let Some(chars) = &good.characters {
         for gc in chars {
-            let character = match key_map::lookup_character(&gc.key) {
-                Some(c) => c,
-                None => {
-                    warnings.push(ImportWarning::UnknownCharacter(gc.key.clone()));
-                    continue;
-                }
-            };
+            let character =
+                match key_map::lookup_character_with_traveler(&gc.key, options.traveler_element) {
+                    Some(c) => c,
+                    None => {
+                        warnings.push(ImportWarning::UnknownCharacter(gc.key.clone()));
+                        continue;
+                    }
+                };
 
             let weapon = weapons.get(gc.key.as_str()).copied();
             let arts = artifacts.get(gc.key.as_str());
@@ -208,15 +212,21 @@ fn build_artifacts(
 
 fn detect_sets(
     counts: &HashMap<&'static str, (&'static ArtifactSet, u8)>,
-) -> Vec<&'static ArtifactSet> {
-    let mut four_piece = None;
-    let mut two_pieces = Vec::new();
+) -> Vec<ArtifactSetEntry> {
+    let mut four_piece: Option<ArtifactSetEntry> = None;
+    let mut two_pieces: Vec<ArtifactSetEntry> = Vec::new();
 
     for &(set, count) in counts.values() {
         if count >= 4 {
-            four_piece = Some(set);
+            four_piece = Some(ArtifactSetEntry {
+                set,
+                piece_count: 4,
+            });
         } else if count >= 2 {
-            two_pieces.push(set);
+            two_pieces.push(ArtifactSetEntry {
+                set,
+                piece_count: 2,
+            });
         }
     }
 
@@ -237,7 +247,13 @@ mod tests {
         weapon: Option<&'static WeaponData>,
         artifact_set: Option<&'static ArtifactSet>,
     ) -> crate::CharacterBuild {
-        let sets: Vec<&'static ArtifactSet> = artifact_set.iter().copied().collect();
+        let sets: Vec<ArtifactSetEntry> = artifact_set
+            .iter()
+            .map(|&set| ArtifactSetEntry {
+                set,
+                piece_count: 4,
+            })
+            .collect();
         crate::CharacterBuild {
             character,
             level: 90,
