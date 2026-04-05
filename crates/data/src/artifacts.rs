@@ -1574,7 +1574,7 @@ pub const OBSIDIAN_CODEX: ArtifactSet = ArtifactSet {
         description: "夜魂の加護状態にあり、かつフィールド上にいるキャラクターの与えるダメージ+15%",
         buffs: &[],
         conditional_buffs: &[ConditionalBuff {
-            name: "obsidian_2pc_nightsoul_dmg",
+            name: "Obsidian Codex Nightsoul DMG Bonus",
             description: "While in Nightsoul's Blessing and on field, DMG +15%",
             stat: BuffableStat::DmgBonus,
             value: 0.15,
@@ -1586,38 +1586,19 @@ pub const OBSIDIAN_CODEX: ArtifactSet = ArtifactSet {
         }],
     },
     four_piece: SetEffect {
-        description: "キャラクターが夜魂バースト状態にある時、与えるダメージ+25%。さらにナイトソウルポイントが50%以下の場合、会心率+40%",
+        description: "夜魂の加護状態にあるキャラクターのナイトソウルポイントが上限の50%以下の場合、会心率+40%",
         buffs: &[],
-        conditional_buffs: &[
-            ConditionalBuff {
-                name: "obsidian_nightsoul_dmg",
-                description: "While in Nightsoul's Blessing state, DMG +25%",
-                stat: BuffableStat::DmgBonus,
-                value: 0.25,
-                nightsoul_value: None,
-                refinement_values: None,
-                stack_values: None,
-                target: BuffTarget::OnlySelf,
-                activation: Activation::Both(
-                    AutoCondition::NightsoulRequired,
-                    ManualCondition::Toggle,
-                ),
-            },
-            ConditionalBuff {
-                name: "obsidian_low_ns_crit",
-                description: "When Nightsoul points below 50%, Crit Rate +40%",
-                stat: BuffableStat::CritRate,
-                value: 0.40,
-                nightsoul_value: None,
-                refinement_values: None,
-                stack_values: None,
-                target: BuffTarget::OnlySelf,
-                activation: Activation::Both(
-                    AutoCondition::NightsoulRequired,
-                    ManualCondition::Toggle,
-                ),
-            },
-        ],
+        conditional_buffs: &[ConditionalBuff {
+            name: "Obsidian Codex Crit Rate Bonus",
+            description: "When Nightsoul points below 50%, Crit Rate +40%",
+            stat: BuffableStat::CritRate,
+            value: 0.40,
+            nightsoul_value: None,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Both(AutoCondition::NightsoulRequired, ManualCondition::Toggle),
+        }],
     },
 };
 

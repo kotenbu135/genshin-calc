@@ -144,6 +144,7 @@ impl TeamMemberBuilder {
             for buff in passive.effect.conditional_buffs {
                 result.push(AvailableConditional {
                     source: self.weapon.name,
+                    piece_label: "",
                     buff,
                 });
             }
@@ -152,6 +153,7 @@ impl TeamMemberBuilder {
             for buff in entry.set.two_piece.conditional_buffs {
                 result.push(AvailableConditional {
                     source: entry.set.name,
+                    piece_label: "2pc",
                     buff,
                 });
             }
@@ -159,6 +161,7 @@ impl TeamMemberBuilder {
                 for buff in entry.set.four_piece.conditional_buffs {
                     result.push(AvailableConditional {
                         source: entry.set.name,
+                        piece_label: "4pc",
                         buff,
                     });
                 }

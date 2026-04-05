@@ -118,8 +118,10 @@ pub enum ManualActivation {
 /// A conditional buff with source context, for UI display.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct AvailableConditional {
-    /// Source name (e.g. "Staff of Homa", "Crimson Witch 4pc").
+    /// Source name (e.g. "Staff of Homa", "黒曜の秘典").
     pub source: &'static str,
+    /// Set piece label (e.g. "2pc", "4pc"). Empty for weapon buffs.
+    pub piece_label: &'static str,
     /// The conditional buff definition.
     pub buff: &'static ConditionalBuff,
 }
