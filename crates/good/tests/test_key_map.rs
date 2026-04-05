@@ -34,6 +34,27 @@ fn lookup_character_unknown() {
 }
 
 #[test]
+fn lookup_character_alias_kazuha() {
+    let result = key_map::lookup_character("KaedeharaKazuha");
+    assert!(result.is_some());
+    assert_eq!(result.unwrap().id, "kazuha");
+}
+
+#[test]
+fn lookup_character_alias_heizou() {
+    let result = key_map::lookup_character("ShikanoinHeizou");
+    assert!(result.is_some());
+    assert_eq!(result.unwrap().id, "heizou");
+}
+
+#[test]
+fn lookup_character_alias_mizuki() {
+    let result = key_map::lookup_character("YumemizukiMizuki");
+    assert!(result.is_some());
+    assert_eq!(result.unwrap().id, "mizuki");
+}
+
+#[test]
 fn lookup_weapon() {
     let result = key_map::lookup_weapon("StaffOfHoma");
     assert!(result.is_some());

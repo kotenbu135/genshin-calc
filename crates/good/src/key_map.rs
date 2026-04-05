@@ -19,7 +19,25 @@ pub fn pascal_to_snake(s: &str) -> String {
 /// GOODキャラクターキーから内部CharacterDataをルックアップ
 pub fn lookup_character(good_key: &str) -> Option<&'static CharacterData> {
     let snake = pascal_to_snake(good_key);
-    genshin_calc_data::find_character(&snake)
+    if let Some(c) = genshin_calc_data::find_character(&snake) {
+        return Some(c);
+    }
+    if let Some(alias) = character_alias(&snake) {
+        return genshin_calc_data::find_character(alias);
+    }
+    None
+}
+
+fn character_alias(snake_key: &str) -> Option<&'static str> {
+    static ALIASES: &[(&str, &str)] = &[
+        ("kaedehara_kazuha", "kazuha"),
+        ("shikanoin_heizou", "heizou"),
+        ("yumemizuki_mizuki", "mizuki"),
+    ];
+    ALIASES
+        .iter()
+        .find(|(k, _)| *k == snake_key)
+        .map(|(_, v)| *v)
 }
 
 /// GOOD武器キーから内部WeaponDataをルックアップ
