@@ -31,6 +31,7 @@
 mod build_stats;
 mod convert;
 pub mod error;
+mod evaluate_talent_buffs;
 pub mod key_map;
 pub mod stat_map;
 mod types;
@@ -38,6 +39,7 @@ mod types;
 pub use build_stats::build_stat_profile;
 pub use convert::to_team_member_builder;
 pub use error::{GoodError, ImportWarning};
+pub use evaluate_talent_buffs::evaluate_talent_buffs;
 pub use types::GoodFormat;
 
 use convert::build_imports;
