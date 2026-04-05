@@ -33,6 +33,7 @@ pub mod characters;
 #[allow(missing_docs)]
 pub mod enemies;
 pub mod moonsign_chars;
+pub mod nightsoul_chars;
 #[allow(missing_docs)]
 pub mod talent_buffs;
 #[allow(missing_docs)]
@@ -56,6 +57,8 @@ pub use moonsign_chars::{
     ALL_MOONSIGN_BENEDICTIONS, MoonsignBenedictionDef, calculate_benediction_bonus,
     find_moonsign_benediction, find_moonsign_talent_enhancements, is_moonsign_character,
 };
+/// Nightsoul character lookup.
+pub use nightsoul_chars::is_nightsoul_character;
 /// Talent buff definitions and lookup.
 pub use talent_buffs::{TalentBuffDef, TalentBuffSource, find_talent_buffs};
 /// Builder pattern for constructing [`genshin_calc_core::TeamMember`] from game data.

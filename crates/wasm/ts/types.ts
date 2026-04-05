@@ -165,6 +165,7 @@ export interface TeamMember {
   stats: StatProfile;
   buffs_provided: ResolvedBuff[];
   is_moonsign: boolean;
+  can_nightsoul: boolean;
 }
 
 // === GOOD Import Types ===

@@ -31,6 +31,7 @@ fn test_bennett_kazuha_team_damage() {
         },
         buffs_provided: vec![],
         is_moonsign: false,
+        can_nightsoul: false,
     };
 
     let team = [bennett, dps];

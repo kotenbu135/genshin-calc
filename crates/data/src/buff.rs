@@ -58,6 +58,8 @@ pub enum AutoCondition {
     /// Buff scales with count of team members from a specific region.
     /// Returns effective_value * count. 0 members → None.
     TeamRegionCount { region: Region },
+    /// Buff only applies to characters that can use Nightsoul's Blessing.
+    NightsoulRequired,
 }
 
 /// Condition requiring user input (game state the builder cannot determine).
@@ -91,6 +93,9 @@ pub struct ConditionalBuff {
     pub stat: BuffableStat,
     /// Buff value (or multiplier for StatScaling).
     pub value: f64,
+    /// Override value when the equipping character can use Nightsoul's Blessing.
+    /// If Some and the character is a nightsoul character, this value is used instead of `value`.
+    pub nightsoul_value: Option<f64>,
     /// Values at refinements 1-5. None for non-weapon / fixed buffs.
     pub refinement_values: Option<[f64; 5]>,
     /// Non-linear stack values. If Some, stack_values[n-1] is used for n stacks instead of value*n.

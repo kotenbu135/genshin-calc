@@ -711,6 +711,7 @@ mod tests {
             },
             buffs_provided: vec![],
             is_moonsign: false,
+            can_nightsoul: false,
         };
         let result = resolve_team_stats(&[dps], 0).unwrap();
         assert!(result.final_stats.atk > 0.0);
