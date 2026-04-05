@@ -280,10 +280,9 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Xilonen =====
 // Skill: Elemental RES Reduction per skill level (element depends on party; Geo always active)
-// C4: EM+120 on Nightsoul Point consumption
+// C4 "Suchitl's Trance": Normal/Charged/Plunging ATK deal additional DMG equal to 65% of Xilonen's DEF
 static XILONEN_SKILL_RES_SCALING: [f64; 15] = [
-    0.1296, 0.1394, 0.1491, 0.1620, 0.1718, 0.1814, 0.1944, 0.2074, 0.2203, 0.2333, 0.2462, 0.2592,
-    0.2754, 0.2916, 0.3078,
+    0.09, 0.12, 0.15, 0.18, 0.21, 0.24, 0.27, 0.30, 0.33, 0.36, 0.39, 0.42, 0.45, 0.48, 0.51,
 ];
 
 static XILONEN_BUFFS: &[TalentBuffDef] = &[
@@ -301,13 +300,39 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
         cap: None,
     },
     TalentBuffDef {
-        name: "Sunken Flame EM Bonus",
-        description: "C4: Party gains EM+120 when Nightsoul Points are consumed",
-        stat: BuffableStat::ElementalMastery,
-        base_value: 120.0,
+        name: "Suchitl's Trance Normal ATK Flat DMG",
+        description: "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF",
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.65,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Suchitl's Trance Charged ATK Flat DMG",
+        description: "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF",
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 0.65,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Suchitl's Trance Plunging ATK Flat DMG",
+        description: "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF",
+        stat: BuffableStat::PlungingAtkFlatDmg,
+        base_value: 0.65,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
