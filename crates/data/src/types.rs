@@ -68,6 +68,18 @@ pub enum ConstellationPattern {
 
 // -- Talent Types --
 
+/// 動的天賦ボーナス（スタック/ゲージ消費で天賦倍率に加算される効果）
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct DynamicTalentBonus {
+    /// ボーナス名（"闘志", "諸願百目の輪"等）
+    pub name: &'static str,
+    /// 最大スタック/ゲージ数
+    pub max_stacks: u16,
+    /// 天賦レベル別のスタック1あたりの加算倍率（小数形式）
+    /// per_stack[talent_level - 1] × stacks を基本倍率に加算
+    pub per_stack: [f64; 15],
+}
+
 /// Talent scaling entry with multipliers at each talent level.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct TalentScaling {
@@ -79,6 +91,8 @@ pub struct TalentScaling {
     pub damage_element: Option<Element>,
     /// Multiplier values at talent levels 1-15.
     pub values: [f64; 15],
+    /// 動的天賦ボーナス。Noneなら静的倍率のみ。
+    pub dynamic_bonus: Option<&'static DynamicTalentBonus>,
 }
 
 /// Talent data for an elemental skill or burst.
@@ -781,6 +795,66 @@ mod tests {
                 );
             }
         }
+    }
+
+    // -- DynamicTalentBonus tests --
+
+    #[test]
+    fn test_dynamic_bonus_serialize_some() {
+        let mavuika = crate::find_character("mavuika").unwrap();
+        let burst = mavuika.talent_scaling(DamageType::Burst, 0).unwrap();
+        let bonus = burst.dynamic_bonus.unwrap();
+        assert_eq!(bonus.name, "闘志");
+        assert_eq!(bonus.max_stacks, 200);
+        assert!((bonus.per_stack[9] - 0.0288).abs() < 1e-6); // Lv10
+
+        let json = serde_json::to_string(burst).unwrap();
+        assert!(json.contains("\"dynamic_bonus\""));
+        assert!(json.contains("\"闘志\""));
+        assert!(json.contains("\"max_stacks\":200"));
+    }
+
+    #[test]
+    fn test_dynamic_bonus_serialize_none() {
+        let diluc = crate::find_character("diluc").unwrap();
+        let skill = diluc.talent_scaling(DamageType::Skill, 0).unwrap();
+        assert!(skill.dynamic_bonus.is_none());
+
+        let json = serde_json::to_string(skill).unwrap();
+        assert!(json.contains("\"dynamic_bonus\":null"));
+    }
+
+    #[test]
+    fn test_mavuika_burst_with_fighting_spirit() {
+        // Lv10, 闘志200: 8.0064 + 200 × 0.0288 = 13.7664
+        let mavuika = crate::find_character("mavuika").unwrap();
+        let burst = mavuika.talent_scaling(DamageType::Burst, 0).unwrap();
+        let bonus = burst.dynamic_bonus.unwrap();
+        let talent_level: usize = 10;
+        let stacks: f64 = 200.0;
+        let adjusted = burst.values[talent_level - 1] + stacks * bonus.per_stack[talent_level - 1];
+        assert!((adjusted - 13.7664).abs() < 1e-4);
+    }
+
+    #[test]
+    fn test_raiden_burst_with_resolve() {
+        // 初撃 Lv10, 願力60: 7.2144 + 60 × 0.069984 = 11.41344
+        let raiden = crate::find_character("raiden_shogun").unwrap();
+        let musou = raiden.talent_scaling(DamageType::Burst, 0).unwrap();
+        let bonus = musou.dynamic_bonus.unwrap();
+        assert_eq!(bonus.max_stacks, 60);
+        let adjusted = musou.values[9] + 60.0 * bonus.per_stack[9];
+        assert!((adjusted - 11.41344).abs() < 1e-4);
+    }
+
+    #[test]
+    fn test_raiden_burst_normal_with_resolve() {
+        // 通常1段 Lv10, 願力60: 0.7982 + 60 × 0.013071 = 1.58246
+        let raiden = crate::find_character("raiden_shogun").unwrap();
+        let n1 = raiden.talent_scaling(DamageType::Burst, 1).unwrap();
+        let bonus = n1.dynamic_bonus.unwrap();
+        let adjusted = n1.values[9] + 60.0 * bonus.per_stack[9];
+        assert!((adjusted - 1.58246).abs() < 1e-4);
     }
 
     #[test]

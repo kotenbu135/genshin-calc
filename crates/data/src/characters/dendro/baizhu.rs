@@ -13,6 +13,7 @@ const BAIZHU_NA_HIT1: TalentScaling = TalentScaling {
         0.373704, 0.401732, 0.42976, 0.46713, 0.495158, 0.523186, 0.560556, 0.597926, 0.635297,
         0.672667, 0.710038, 0.747408, 0.794121, 0.840834, 0.887547,
     ],
+    dynamic_bonus: None,
 };
 
 const BAIZHU_NA_HIT2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const BAIZHU_NA_HIT2: TalentScaling = TalentScaling {
         0.364248, 0.391567, 0.418885, 0.45531, 0.482629, 0.509947, 0.546372, 0.582797, 0.619222,
         0.655646, 0.692071, 0.728496, 0.774027, 0.819558, 0.865089,
     ],
+    dynamic_bonus: None,
 };
 
 const BAIZHU_NA_HIT3: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const BAIZHU_NA_HIT3: TalentScaling = TalentScaling {
         0.225416, 0.242322, 0.259228, 0.28177, 0.298676, 0.315582, 0.338124, 0.360666, 0.383207,
         0.405749, 0.42829, 0.450832, 0.479009, 0.507186, 0.535363,
     ],
+    dynamic_bonus: None,
 };
 
 const BAIZHU_NA_HIT4: TalentScaling = TalentScaling {
@@ -43,6 +46,7 @@ const BAIZHU_NA_HIT4: TalentScaling = TalentScaling {
         0.541376, 0.581979, 0.622582, 0.67672, 0.717323, 0.757926, 0.812064, 0.866202, 0.920339,
         0.974477, 1.028614, 1.082752, 1.150424, 1.218096, 1.285768,
     ],
+    dynamic_bonus: None,
 };
 
 const BAIZHU_CHARGED: TalentScaling = TalentScaling {
@@ -53,6 +57,7 @@ const BAIZHU_CHARGED: TalentScaling = TalentScaling {
         1.2104, 1.30118, 1.39196, 1.513, 1.60378, 1.69456, 1.8156, 1.93664, 2.05768, 2.17872,
         2.29976, 2.4208, 2.5721, 2.7234, 2.8747,
     ],
+    dynamic_bonus: None,
 };
 
 const BAIZHU_PLUNGE: TalentScaling = TalentScaling {
@@ -63,6 +68,7 @@ const BAIZHU_PLUNGE: TalentScaling = TalentScaling {
         0.568288, 0.614544, 0.6608, 0.72688, 0.773136, 0.826, 0.898688, 0.971376, 1.044064,
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
+    dynamic_bonus: None,
 };
 
 const BAIZHU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -73,6 +79,7 @@ const BAIZHU_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.136335, 1.228828, 1.32132, 1.453452, 1.545944, 1.65165, 1.796995, 1.94234, 2.087686,
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
+    dynamic_bonus: None,
 };
 
 const BAIZHU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -83,6 +90,7 @@ const BAIZHU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.419344, 1.534872, 1.6504, 1.81544, 1.930968, 2.063, 2.244544, 2.426088, 2.607632,
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Elemental Skill: Universal Diagnosis ---
@@ -95,6 +103,7 @@ const BAIZHU_SKILL_DMG: TalentScaling = TalentScaling {
         0.792, 0.8514, 0.9108, 0.99, 1.0494, 1.1088, 1.188, 1.2672, 1.3464, 1.4256, 1.5048, 1.584,
         1.683, 1.782, 1.881,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Elemental Burst: Holistic Revivification ---
@@ -107,6 +116,7 @@ const BAIZHU_BURST_SPIRIT: TalentScaling = TalentScaling {
         0.97064, 1.043438, 1.116236, 1.2133, 1.286098, 1.358896, 1.45596, 1.553024, 1.650088,
         1.747152, 1.844216, 1.94128, 2.06261, 2.18394, 2.30527,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Baizhu aggregation ---

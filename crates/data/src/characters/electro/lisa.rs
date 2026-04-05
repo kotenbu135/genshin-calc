@@ -14,6 +14,7 @@ const LISA_NORMAL_1: TalentScaling = TalentScaling {
         0.3960, 0.4257, 0.4554, 0.4950, 0.5247, 0.5544, 0.5940, 0.6336, 0.6732, 0.7128, 0.7540,
         0.8078, 0.8617, 0.9156, 0.9694,
     ],
+    dynamic_bonus: None,
 };
 
 const LISA_NORMAL_2: TalentScaling = TalentScaling {
@@ -24,6 +25,7 @@ const LISA_NORMAL_2: TalentScaling = TalentScaling {
         0.3592, 0.3861, 0.4131, 0.4490, 0.4759, 0.5029, 0.5388, 0.5747, 0.6106, 0.6466, 0.6839,
         0.7328, 0.7816, 0.8305, 0.8793,
     ],
+    dynamic_bonus: None,
 };
 
 const LISA_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const LISA_NORMAL_3: TalentScaling = TalentScaling {
         0.4280, 0.4601, 0.4922, 0.5350, 0.5671, 0.5992, 0.6420, 0.6848, 0.7276, 0.7704, 0.8149,
         0.8731, 0.9313, 0.9895, 1.0477,
     ],
+    dynamic_bonus: None,
 };
 
 const LISA_NORMAL_4: TalentScaling = TalentScaling {
@@ -44,6 +47,7 @@ const LISA_NORMAL_4: TalentScaling = TalentScaling {
         0.5496, 0.5908, 0.6320, 0.6870, 0.7282, 0.7694, 0.8244, 0.8794, 0.9343, 0.9893, 1.0464,
         1.1212, 1.1959, 1.2707, 1.3454,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Electro --
@@ -56,6 +60,7 @@ const LISA_CHARGED: TalentScaling = TalentScaling {
         1.7712, 1.9040, 2.0369, 2.2140, 2.3468, 2.4797, 2.6568, 2.8339, 3.0110, 3.1882, 3.3724,
         3.6132, 3.8541, 4.0950, 4.3359,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Electro (Catalyst) --
@@ -68,6 +73,7 @@ const LISA_PLUNGE: TalentScaling = TalentScaling {
         0.5683, 0.6145, 0.6608, 0.7269, 0.7731, 0.8260, 0.8987, 0.9714, 1.0441, 1.1234, 1.2027,
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
+    dynamic_bonus: None,
 };
 
 const LISA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -78,6 +84,7 @@ const LISA_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.1363, 1.2288, 1.3213, 1.4535, 1.5459, 1.6517, 1.7970, 1.9423, 2.0877, 2.2462, 2.4048,
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
+    dynamic_bonus: None,
 };
 
 const LISA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -88,6 +95,7 @@ const LISA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.4193, 1.5349, 1.6504, 1.8154, 1.9310, 2.0630, 2.2445, 2.4261, 2.6076, 2.8057, 3.0037,
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: 蒼雷 (Violet Arc) -- Electro --
@@ -100,6 +108,7 @@ const LISA_SKILL_PRESS: TalentScaling = TalentScaling {
         3.2000, 3.4400, 3.6800, 4.0000, 4.2400, 4.4800, 4.8000, 5.1200, 5.4400, 5.7600, 6.0800,
         6.4000, 6.8000, 7.2000, 7.6000,
     ],
+    dynamic_bonus: None,
 };
 
 const LISA_SKILL_HOLD_3STACK: TalentScaling = TalentScaling {
@@ -110,6 +119,7 @@ const LISA_SKILL_HOLD_3STACK: TalentScaling = TalentScaling {
         4.8720, 5.2374, 5.6028, 6.0900, 6.4554, 6.8208, 7.3080, 7.9520, 8.2824, 8.7696, 9.2568,
         9.7440, 10.3530, 10.9620, 11.5710,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: 薔薇の雷光 (Lightning Rose) -- Electro --
@@ -122,6 +132,7 @@ const LISA_BURST: TalentScaling = TalentScaling {
         0.3656, 0.3930, 0.4204, 0.4570, 0.4844, 0.5118, 0.5484, 0.5850, 0.6215, 0.6581, 0.6946,
         0.7312, 0.7769, 0.8226, 0.8683,
     ],
+    dynamic_bonus: None,
 };
 
 pub const LISA: CharacterData = CharacterData {

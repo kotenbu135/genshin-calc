@@ -13,6 +13,7 @@ const YAOYAO_NA_HIT1: TalentScaling = TalentScaling {
         0.510014, 0.551527, 0.59304, 0.652344, 0.693857, 0.7413, 0.806534, 0.871769, 0.937003,
         1.008168, 1.079333, 1.150498, 1.221662, 1.292827, 1.363992,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_NA_HIT2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const YAOYAO_NA_HIT2: TalentScaling = TalentScaling {
         0.474428, 0.513044, 0.55166, 0.606826, 0.645442, 0.689575, 0.750258, 0.81094, 0.871623,
         0.937822, 1.004021, 1.07022, 1.13642, 1.202619, 1.268818,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_NA_HIT3A: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const YAOYAO_NA_HIT3A: TalentScaling = TalentScaling {
         0.313771, 0.339311, 0.36485, 0.401335, 0.426874, 0.456063, 0.496196, 0.53633, 0.576463,
         0.620245, 0.664027, 0.707809, 0.751591, 0.795373, 0.839155,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_NA_HIT3B: TalentScaling = TalentScaling {
@@ -43,6 +46,7 @@ const YAOYAO_NA_HIT3B: TalentScaling = TalentScaling {
         0.329457, 0.356274, 0.38309, 0.421399, 0.448215, 0.478862, 0.521002, 0.563142, 0.605282,
         0.651253, 0.697224, 0.743195, 0.789165, 0.835136, 0.881107,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_NA_HIT4: TalentScaling = TalentScaling {
@@ -53,6 +57,7 @@ const YAOYAO_NA_HIT4: TalentScaling = TalentScaling {
         0.779315, 0.842747, 0.90618, 0.996798, 1.060231, 1.132725, 1.232405, 1.332085, 1.431764,
         1.540506, 1.649248, 1.757989, 1.866731, 1.975472, 2.084214,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_CHARGED: TalentScaling = TalentScaling {
@@ -63,6 +68,7 @@ const YAOYAO_CHARGED: TalentScaling = TalentScaling {
         1.1266, 1.2183, 1.31, 1.441, 1.5327, 1.6375, 1.7816, 1.9257, 2.0698, 2.227, 2.3842, 2.5414,
         2.6986, 2.8558, 3.013,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_PLUNGE: TalentScaling = TalentScaling {
@@ -73,6 +79,7 @@ const YAOYAO_PLUNGE: TalentScaling = TalentScaling {
         0.639324, 0.691362, 0.7434, 0.81774, 0.869778, 0.92925, 1.011024, 1.092798, 1.174572,
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -83,6 +90,7 @@ const YAOYAO_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.278377, 1.382431, 1.486485, 1.635134, 1.739187, 1.858106, 2.02162, 2.185133, 2.348646,
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
+    dynamic_bonus: None,
 };
 
 const YAOYAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -93,6 +101,7 @@ const YAOYAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.596762, 1.726731, 1.8567, 2.04237, 2.172339, 2.320875, 2.525112, 2.729349, 2.933586,
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Elemental Skill: Raphanus Sky Cluster ---
@@ -105,6 +114,7 @@ const YAOYAO_SKILL_RADISH: TalentScaling = TalentScaling {
         0.2992, 0.32164, 0.34408, 0.374, 0.39644, 0.41888, 0.4488, 0.47872, 0.50864, 0.53856,
         0.56848, 0.5984, 0.6358, 0.6732, 0.7106,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Elemental Burst: Moonjade Descent ---
@@ -117,6 +127,7 @@ const YAOYAO_BURST_RADISH: TalentScaling = TalentScaling {
         0.7216, 0.77572, 0.82984, 0.902, 0.95612, 1.01024, 1.0824, 1.15456, 1.22672, 1.29888,
         1.37104, 1.4432, 1.5334, 1.6236, 1.7138,
     ],
+    dynamic_bonus: None,
 };
 
 // --- Yaoyao aggregation ---

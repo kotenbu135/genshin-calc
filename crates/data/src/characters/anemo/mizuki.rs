@@ -13,6 +13,7 @@ const MIZUKI_NORMAL_1: TalentScaling = TalentScaling {
         0.522768, 0.561976, 0.601183, 0.65346, 0.692668, 0.731875, 0.784152, 0.836429, 0.888706,
         0.940982, 0.993259, 1.045536, 1.110882, 1.176228, 1.241574,
     ],
+    dynamic_bonus: None,
 };
 
 const MIZUKI_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const MIZUKI_NORMAL_2: TalentScaling = TalentScaling {
         0.469144, 0.50433, 0.539516, 0.58643, 0.621616, 0.656802, 0.703716, 0.75063, 0.797545,
         0.844459, 0.891374, 0.938288, 0.996931, 1.055574, 1.114217,
     ],
+    dynamic_bonus: None,
 };
 
 const MIZUKI_NORMAL_3: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const MIZUKI_NORMAL_3: TalentScaling = TalentScaling {
         0.713688, 0.767215, 0.820741, 0.89211, 0.945637, 0.999163, 1.070532, 1.141901, 1.21327,
         1.284638, 1.356007, 1.427376, 1.516587, 1.605798, 1.695009,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -45,6 +48,7 @@ const MIZUKI_CHARGED: TalentScaling = TalentScaling {
         1.3, 1.3975, 1.495, 1.625, 1.7225, 1.82, 1.95, 2.08, 2.21, 2.34, 2.47, 2.6, 2.7625, 2.925,
         3.0875,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -57,6 +61,7 @@ const MIZUKI_PLUNGE: TalentScaling = TalentScaling {
         0.568288, 0.614544, 0.6608, 0.72688, 0.773136, 0.826, 0.898688, 0.971376, 1.044064,
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
+    dynamic_bonus: None,
 };
 
 const MIZUKI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const MIZUKI_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.136335, 1.228828, 1.32132, 1.453452, 1.545944, 1.65165, 1.796995, 1.94234, 2.087686,
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
+    dynamic_bonus: None,
 };
 
 const MIZUKI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -77,6 +83,7 @@ const MIZUKI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.419344, 1.534872, 1.6504, 1.81544, 1.930968, 2.063, 2.244544, 2.426088, 2.607632,
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: Aisa Utamakura Pilgrimage -- Anemo --
@@ -89,6 +96,7 @@ const MIZUKI_SKILL: TalentScaling = TalentScaling {
         0.57744, 0.620748, 0.664056, 0.7218, 0.765108, 0.808416, 0.86616, 0.923904, 0.981648,
         1.039392, 1.097136, 1.15488, 1.22706, 1.29924, 1.37142,
     ],
+    dynamic_bonus: None,
 };
 
 const MIZUKI_SKILL_CONTINUOUS: TalentScaling = TalentScaling {
@@ -99,6 +107,7 @@ const MIZUKI_SKILL_CONTINUOUS: TalentScaling = TalentScaling {
         0.44912, 0.482804, 0.516488, 0.5614, 0.595084, 0.628768, 0.67368, 0.718592, 0.763504,
         0.808416, 0.853328, 0.89824, 0.95438, 1.01052, 1.06666,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: Anraku Secret Spring Therapy -- Anemo --
@@ -111,6 +120,7 @@ const MIZUKI_BURST: TalentScaling = TalentScaling {
         0.9408, 1.01136, 1.08192, 1.176, 1.24656, 1.31712, 1.4112, 1.50528, 1.59936, 1.69344,
         1.78752, 1.8816, 1.9992, 2.1168, 2.2344,
     ],
+    dynamic_bonus: None,
 };
 
 const MIZUKI_BURST_SHOCKWAVE: TalentScaling = TalentScaling {
@@ -121,6 +131,7 @@ const MIZUKI_BURST_SHOCKWAVE: TalentScaling = TalentScaling {
         0.7056, 0.75852, 0.81144, 0.882, 0.93492, 0.98784, 1.0584, 1.12896, 1.19952, 1.27008,
         1.34064, 1.4112, 1.4994, 1.5876, 1.6758,
     ],
+    dynamic_bonus: None,
 };
 
 pub const MIZUKI: CharacterData = CharacterData {

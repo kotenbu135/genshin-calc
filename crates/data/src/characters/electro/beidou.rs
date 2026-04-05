@@ -14,6 +14,7 @@ const BEIDOU_NORMAL_1: TalentScaling = TalentScaling {
         0.7112, 0.7692, 0.8272, 0.9099, 0.9679, 1.0340, 1.1249, 1.2158, 1.3067, 1.4061, 1.5055,
         1.6049, 1.7043, 1.8037, 1.9031,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_NORMAL_2: TalentScaling = TalentScaling {
@@ -24,6 +25,7 @@ const BEIDOU_NORMAL_2: TalentScaling = TalentScaling {
         0.7086, 0.7664, 0.8242, 0.9066, 0.9644, 1.0302, 1.1208, 1.2114, 1.3020, 1.4010, 1.5000,
         1.5990, 1.6980, 1.7970, 1.8960,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const BEIDOU_NORMAL_3: TalentScaling = TalentScaling {
         0.8832, 0.9550, 1.0268, 1.1295, 1.2013, 1.2835, 1.3963, 1.5091, 1.6219, 1.7454, 1.8689,
         1.9924, 2.1159, 2.2394, 2.3629,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_NORMAL_4: TalentScaling = TalentScaling {
@@ -44,6 +47,7 @@ const BEIDOU_NORMAL_4: TalentScaling = TalentScaling {
         0.8652, 0.9356, 1.0060, 1.1066, 1.1770, 1.2575, 1.3682, 1.4789, 1.5896, 1.7103, 1.8310,
         1.9517, 2.0724, 2.1931, 2.3138,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_NORMAL_5: TalentScaling = TalentScaling {
@@ -54,6 +58,7 @@ const BEIDOU_NORMAL_5: TalentScaling = TalentScaling {
         1.1214, 1.2126, 1.3038, 1.4342, 1.5254, 1.6298, 1.7733, 1.9168, 2.0603, 2.2166, 2.3729,
         2.5292, 2.6855, 2.8418, 2.9981,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Physical --
@@ -66,6 +71,7 @@ const BEIDOU_CHARGED_SPINNING: TalentScaling = TalentScaling {
         0.5624, 0.6082, 0.6540, 0.7194, 0.7652, 0.8175, 0.8894, 0.9614, 1.0333, 1.1118, 1.1903,
         1.2688, 1.3473, 1.4258, 1.5043,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -76,6 +82,7 @@ const BEIDOU_CHARGED_FINAL: TalentScaling = TalentScaling {
         1.0182, 1.1012, 1.1842, 1.3026, 1.3856, 1.4800, 1.6102, 1.7404, 1.8706, 2.0128, 2.1550,
         2.2972, 2.4394, 2.5816, 2.7238,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Physical --
@@ -88,6 +95,7 @@ const BEIDOU_PLUNGE: TalentScaling = TalentScaling {
         0.7459, 0.8066, 0.8673, 0.9541, 1.0148, 1.0841, 1.1795, 1.2749, 1.3702, 1.4744, 1.5786,
         1.6827, 1.7869, 1.8910, 1.9952,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -98,6 +106,7 @@ const BEIDOU_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.4914, 1.6128, 1.7342, 1.9076, 2.0290, 2.1678, 2.3586, 2.5494, 2.7401, 2.9482, 3.1563,
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +117,7 @@ const BEIDOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.8629, 2.0145, 2.1662, 2.3828, 2.5345, 2.7078, 2.9460, 3.1843, 3.4225, 3.6824, 3.9424,
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: 捉浪 (Tidecaller) -- Electro --
@@ -120,6 +130,7 @@ const BEIDOU_SKILL_BASE: TalentScaling = TalentScaling {
         1.2160, 1.3072, 1.3984, 1.5200, 1.6112, 1.7024, 1.8240, 1.9456, 2.0672, 2.1888, 2.3104,
         2.4320, 2.5840, 2.7360, 2.8880,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_SKILL_HIT_BONUS: TalentScaling = TalentScaling {
@@ -130,6 +141,7 @@ const BEIDOU_SKILL_HIT_BONUS: TalentScaling = TalentScaling {
         1.6000, 1.7200, 1.8400, 2.0000, 2.1200, 2.2400, 2.4000, 2.5600, 2.7200, 2.8800, 3.0400,
         3.2000, 3.4000, 3.6000, 3.8000,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: 斫雷 (Stormbreaker) -- Electro --
@@ -142,6 +154,7 @@ const BEIDOU_BURST_SKILL: TalentScaling = TalentScaling {
         1.2160, 1.3072, 1.3984, 1.5200, 1.6112, 1.7024, 1.8240, 1.9456, 2.0672, 2.1888, 2.3104,
         2.4320, 2.5840, 2.7360, 2.8880,
     ],
+    dynamic_bonus: None,
 };
 
 const BEIDOU_BURST_LIGHTNING: TalentScaling = TalentScaling {
@@ -152,6 +165,7 @@ const BEIDOU_BURST_LIGHTNING: TalentScaling = TalentScaling {
         0.9600, 1.0320, 1.1040, 1.2000, 1.2720, 1.3440, 1.4400, 1.5360, 1.6320, 1.7280, 1.8240,
         1.9200, 2.0400, 2.1600, 2.2800,
     ],
+    dynamic_bonus: None,
 };
 
 pub const BEIDOU: CharacterData = CharacterData {

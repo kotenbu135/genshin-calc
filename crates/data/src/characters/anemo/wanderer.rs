@@ -13,6 +13,7 @@ const WANDERER_NORMAL_1: TalentScaling = TalentScaling {
         0.68714, 0.74307, 0.799, 0.8789, 0.93483, 0.99875, 1.08664, 1.17453, 1.26242, 1.3583,
         1.45418, 1.55006, 1.64594, 1.74182, 1.8377,
     ],
+    dynamic_bonus: None,
 };
 
 const WANDERER_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const WANDERER_NORMAL_2: TalentScaling = TalentScaling {
         0.65016, 0.70308, 0.756, 0.8316, 0.88452, 0.945, 1.02816, 1.11132, 1.19448, 1.2852,
         1.37592, 1.46664, 1.55736, 1.64808, 1.7388,
     ],
+    dynamic_bonus: None,
 };
 
 const WANDERER_NORMAL_3: TalentScaling = TalentScaling {
@@ -33,6 +35,7 @@ const WANDERER_NORMAL_3: TalentScaling = TalentScaling {
         0.47644, 0.51522, 0.554, 0.6094, 0.64818, 0.6925, 0.75344, 0.81438, 0.87532, 0.9418,
         1.00828, 1.07476, 1.14124, 1.20772, 1.2742,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -45,6 +48,7 @@ const WANDERER_CHARGED: TalentScaling = TalentScaling {
         1.3208, 1.41986, 1.51892, 1.651, 1.75006, 1.84912, 1.9812, 2.11328, 2.24536, 2.37744,
         2.50952, 2.6416, 2.8067, 2.9718, 3.1369,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -57,6 +61,7 @@ const WANDERER_PLUNGE: TalentScaling = TalentScaling {
         0.568288, 0.614544, 0.6608, 0.72688, 0.773136, 0.826, 0.898688, 0.971376, 1.044064,
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
+    dynamic_bonus: None,
 };
 
 const WANDERER_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const WANDERER_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.136335, 1.228828, 1.32132, 1.453452, 1.545944, 1.65165, 1.796995, 1.94234, 2.087686,
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
+    dynamic_bonus: None,
 };
 
 const WANDERER_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -77,6 +83,7 @@ const WANDERER_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.419344, 1.534872, 1.6504, 1.81544, 1.930968, 2.063, 2.244544, 2.426088, 2.607632,
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: Hanega: Song of the Wind -- Anemo --
@@ -89,6 +96,7 @@ const WANDERER_SKILL: TalentScaling = TalentScaling {
         0.952, 1.0234, 1.0948, 1.19, 1.2614, 1.3328, 1.428, 1.5232, 1.6184, 1.7136, 1.8088, 1.904,
         2.023, 2.142, 2.261,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: Kyougen: Five Ceremonial Plays -- Anemo --
@@ -101,6 +109,7 @@ const WANDERER_BURST: TalentScaling = TalentScaling {
         1.472, 1.5824, 1.6928, 1.84, 1.9504, 2.0608, 2.208, 2.3552, 2.5024, 2.6496, 2.7968, 2.944,
         3.128, 3.312, 3.496,
     ],
+    dynamic_bonus: None,
 };
 
 pub const WANDERER: CharacterData = CharacterData {

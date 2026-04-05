@@ -11,6 +11,7 @@ const AYATO_NORMAL_1: TalentScaling = TalentScaling {
         0.4496, 0.4862, 0.5228, 0.5751, 0.6117, 0.6535, 0.7110, 0.7685, 0.8260, 0.8888, 0.9515,
         1.0143, 1.0770, 1.1397, 1.2025,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_NORMAL_2: TalentScaling = TalentScaling {
@@ -21,6 +22,7 @@ const AYATO_NORMAL_2: TalentScaling = TalentScaling {
         0.4716, 0.5099, 0.5483, 0.6032, 0.6416, 0.6854, 0.7457, 0.8061, 0.8664, 0.9322, 0.9980,
         1.0638, 1.1296, 1.1954, 1.2612,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_NORMAL_3: TalentScaling = TalentScaling {
@@ -31,6 +33,7 @@ const AYATO_NORMAL_3: TalentScaling = TalentScaling {
         0.5861, 0.6338, 0.6815, 0.7497, 0.7974, 0.8519, 0.9269, 1.0019, 1.0768, 1.1586, 1.2404,
         1.3222, 1.4040, 1.4858, 1.5675,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_NORMAL_4: TalentScaling = TalentScaling {
@@ -41,6 +44,7 @@ const AYATO_NORMAL_4: TalentScaling = TalentScaling {
         0.2945, 0.3185, 0.3424, 0.3767, 0.4006, 0.4280, 0.4657, 0.5034, 0.5410, 0.5821, 0.6232,
         0.6643, 0.7054, 0.7465, 0.7876,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_NORMAL_5: TalentScaling = TalentScaling {
@@ -51,6 +55,7 @@ const AYATO_NORMAL_5: TalentScaling = TalentScaling {
         0.7560, 0.8176, 0.8791, 0.9670, 1.0286, 1.0989, 1.1956, 1.2923, 1.3890, 1.4945, 1.6000,
         1.7055, 1.8110, 1.9165, 2.0220,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Charged Attack -- Physical --
@@ -63,6 +68,7 @@ const AYATO_CHARGED: TalentScaling = TalentScaling {
         1.2953, 1.4007, 1.5062, 1.6568, 1.7622, 1.8827, 2.0484, 2.2141, 2.3797, 2.5605, 2.7412,
         2.9219, 3.1027, 3.2834, 3.4642,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Plunging Attack -- Physical --
@@ -75,6 +81,7 @@ const AYATO_PLUNGE: TalentScaling = TalentScaling {
         0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 1.0110, 1.0928, 1.1746, 1.2638, 1.3530,
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -85,6 +92,7 @@ const AYATO_PLUNGE_LOW: TalentScaling = TalentScaling {
         1.2784, 1.3824, 1.4865, 1.6351, 1.7392, 1.8581, 2.0216, 2.1851, 2.3486, 2.5270, 2.7054,
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -95,6 +103,7 @@ const AYATO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         1.5968, 1.7267, 1.8567, 2.0424, 2.1723, 2.3209, 2.5251, 2.7293, 2.9336, 3.1564, 3.3792,
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Skill: 神里流·鏡花 (Kamisato Art: Kyouka) -- Hydro --
@@ -107,6 +116,7 @@ const AYATO_SKILL_1HIT: TalentScaling = TalentScaling {
         0.5289, 0.5719, 0.6150, 0.6765, 0.7195, 0.7687, 0.8364, 0.9040, 0.9717, 1.0455, 1.1193,
         1.1931, 1.2669, 1.3407, 1.4145,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_SKILL_2HIT: TalentScaling = TalentScaling {
@@ -117,6 +127,7 @@ const AYATO_SKILL_2HIT: TalentScaling = TalentScaling {
         0.5891, 0.6371, 0.6850, 0.7535, 0.8015, 0.8562, 0.9316, 1.0070, 1.0823, 1.1645, 1.2467,
         1.3289, 1.4111, 1.4933, 1.5755,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_SKILL_3HIT: TalentScaling = TalentScaling {
@@ -127,6 +138,7 @@ const AYATO_SKILL_3HIT: TalentScaling = TalentScaling {
         0.6493, 0.7022, 0.7550, 0.8305, 0.8834, 0.9437, 1.0268, 1.0999, 1.1929, 1.2835, 1.3741,
         1.4647, 1.5553, 1.6459, 1.7365,
     ],
+    dynamic_bonus: None,
 };
 
 const AYATO_SKILL_ILLUSION: TalentScaling = TalentScaling {
@@ -137,6 +149,7 @@ const AYATO_SKILL_ILLUSION: TalentScaling = TalentScaling {
         1.0148, 1.0974, 1.1800, 1.2980, 1.3806, 1.4750, 1.6048, 1.7346, 1.8644, 2.0060, 2.1476,
         2.2892, 2.4308, 2.5724, 2.7140,
     ],
+    dynamic_bonus: None,
 };
 
 // -- Elemental Burst: 神里流·水囿 (Kamisato Art: Suiyuu) -- Hydro --
@@ -149,6 +162,7 @@ const AYATO_BURST: TalentScaling = TalentScaling {
         0.6646, 0.7144, 0.7642, 0.8307, 0.8805, 0.9304, 0.9968, 1.0633, 1.1298, 1.1962, 1.2626,
         1.3291, 1.4122, 1.4953, 1.5783,
     ],
+    dynamic_bonus: None,
 };
 
 pub const AYATO: CharacterData = CharacterData {
