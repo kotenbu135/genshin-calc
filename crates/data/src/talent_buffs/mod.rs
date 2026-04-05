@@ -199,7 +199,7 @@ mod tests {
             .iter()
             .find(|b| b.source == TalentBuffSource::AscensionPassive(4))
             .unwrap();
-        assert_eq!(a4.stat, BuffableStat::BurstDmgBonus);
+        assert_eq!(a4.stat, BuffableStat::BurstFlatDmg);
         assert!((a4.base_value - 0.50).abs() < 1e-6);
         assert_eq!(a4.scales_on, Some(ScalingStat::Em));
         assert_eq!(a4.target, BuffTarget::OnlySelf);
@@ -230,7 +230,7 @@ mod tests {
     #[test]
     fn test_find_chevreuse_buffs() {
         let buffs = find_talent_buffs("chevreuse").unwrap();
-        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs.len(), 5);
         assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
         assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
     }
@@ -473,7 +473,7 @@ mod tests {
     #[test]
     fn test_find_chevreuse_debuffs() {
         let buffs = find_talent_buffs("chevreuse").unwrap();
-        assert_eq!(buffs.len(), 3); // existing ATK + 2 new res shreds
+        assert_eq!(buffs.len(), 5); // ATK + 2 res shreds + 2 C6 DMG bonus
         let pyro_shred = buffs
             .iter()
             .find(|b| b.stat == BuffableStat::ElementalResReduction(Element::Pyro));

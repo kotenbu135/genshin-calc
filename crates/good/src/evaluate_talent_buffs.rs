@@ -16,9 +16,10 @@ pub fn evaluate_talent_buffs(
     let profile = crate::build_stat_profile(build);
     let stats = combine_stats(&profile).unwrap_or_default();
 
+    // NOTE: No ascension level gating — max-value policy assumes all passives are active.
+    // The constellation parameter from the caller controls which buffs are included.
     defs.iter()
         .filter(|def| def.min_constellation <= constellation)
-        .filter(|def| is_ascension_met(build.level, &def.source))
         .map(|def| {
             let scaling_value = resolve_scaling_value(def, talent_levels);
             let final_value = apply_stat_scaling(def, scaling_value, &profile, &stats);
@@ -30,18 +31,6 @@ pub fn evaluate_talent_buffs(
             }
         })
         .collect()
-}
-
-fn is_ascension_met(
-    level: u32,
-    source: &genshin_calc_data::talent_buffs::TalentBuffSource,
-) -> bool {
-    use genshin_calc_data::talent_buffs::TalentBuffSource;
-    match source {
-        TalentBuffSource::AscensionPassive(1) => level >= 40,
-        TalentBuffSource::AscensionPassive(_) => level >= 70,
-        _ => true,
-    }
 }
 
 fn resolve_scaling_value(
@@ -324,8 +313,9 @@ mod tests {
     }
 
     #[test]
-    fn test_nahida_a1_level_gate() {
-        // Nahida at level 20 (below A1 threshold of 40) should not produce buffs
+    fn test_nahida_a1_low_level_still_returns_buff() {
+        // Max-value policy: ascension passives are always returned regardless of level.
+        // Low-level characters will have low stat values, producing small but valid buff values.
         let json = r#"{
             "format": "GOOD", "version": 3, "source": "Test",
             "characters": [{"key": "Nahida", "level": 20, "constellation": 0, "ascension": 1, "talent": {"auto": 1, "skill": 1, "burst": 1}}],
@@ -335,7 +325,8 @@ mod tests {
         let import = import_good(&json).unwrap();
         let build = &import.builds[0];
         let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
-        assert!(buffs.is_empty(), "A1 buff should not appear at level 20");
+        assert_eq!(buffs.len(), 1, "A1 buff should appear even at level 20");
+        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
     }
 
     #[test]

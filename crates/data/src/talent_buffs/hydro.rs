@@ -21,7 +21,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Aino A4 Burst DMG from EM",
         description: "Burst DMG increased by 50% of Elemental Mastery",
-        stat: BuffableStat::BurstDmgBonus,
+        stat: BuffableStat::BurstFlatDmg,
         base_value: 0.50,
         scales_with_talent: false,
         talent_scaling: None,
@@ -83,24 +83,45 @@ static CANDACE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Furina =====
-// Elemental Burst "Let the People Rejoice": Fanfare stacks grant DMG bonus (max per Lv)
-static FURINA_BURST_DMG_SCALING: [f64; 15] = [
-    0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25, 0.27, 0.29, 0.31, 0.33, 0.35, 0.37,
+// Elemental Burst "Let the People Rejoice": Fanfare stacks grant DMG bonus
+// Per-point DMG Bonus (Lv1-15): 0.07%, 0.09%, ..., 0.35%
+// C0 max fanfare: 300pt, C1+ max fanfare: 400pt (C1 adds +100)
+// Split into two defs: C0 base (300 × per_point) + C1 extra (100 × per_point)
+static FURINA_BURST_C0_MAX: [f64; 15] = [
+    0.21, 0.27, 0.33, 0.39, 0.45, 0.51, 0.57, 0.63, 0.69, 0.75, 0.81, 0.87, 0.93, 0.99, 1.05,
+];
+static FURINA_BURST_C1_EXTRA: [f64; 15] = [
+    0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25, 0.27, 0.29, 0.31, 0.33, 0.35,
 ];
 
-static FURINA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Let the People Rejoice DMG Bonus",
-    description: "Fanfare stacks grant DMG bonus (max based on talent level)",
-    stat: BuffableStat::DmgBonus,
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&FURINA_BURST_DMG_SCALING),
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalBurst,
-    min_constellation: 0,
-    cap: None,
-}];
+static FURINA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Let the People Rejoice DMG Bonus (C0 300pt)",
+        description: "Max fanfare (300pt) DMG bonus based on burst talent level",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&FURINA_BURST_C0_MAX),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Let the People Rejoice DMG Bonus (C1+ extra 100pt)",
+        description: "C1 extra fanfare (+100pt) DMG bonus based on burst talent level",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&FURINA_BURST_C1_EXTRA),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 1,
+        cap: None,
+    },
+];
 
 // ===== Mona =====
 // Elemental Burst "Stellaris Phantasm": DMG bonus from Omen (Lv1-15)

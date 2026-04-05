@@ -95,6 +95,32 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
     },
+    TalentBuffDef {
+        name: "In Pursuit of Ending Evil Pyro DMG Bonus",
+        description: "C6: After healing from skill, Pyro DMG +20% per stack (max 3 stacks = +60%)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "In Pursuit of Ending Evil Electro DMG Bonus",
+        description: "C6: After healing from skill, Electro DMG +20% per stack (max 3 stacks = +60%)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+    },
 ];
 
 // ===== Thoma =====
