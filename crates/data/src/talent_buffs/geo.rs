@@ -13,6 +13,7 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Gorou =====
@@ -34,6 +35,7 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Inuzaka All-Round Defense - Geo DMG",
@@ -46,6 +48,7 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
 ];
 
@@ -62,6 +65,7 @@ static NINGGUANG_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Yun Jin =====
@@ -82,6 +86,7 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::ElementalBurst,
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Zhongli =====
@@ -98,6 +103,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Jade Shield Hydro RES Shred",
@@ -110,6 +116,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Jade Shield Electro RES Shred",
@@ -122,6 +129,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Jade Shield Cryo RES Shred",
@@ -134,6 +142,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Jade Shield Dendro RES Shred",
@@ -146,6 +155,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Jade Shield Anemo RES Shred",
@@ -158,6 +168,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Jade Shield Geo RES Shred",
@@ -170,6 +181,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Jade Shield Physical RES Shred",
@@ -182,6 +194,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
 ];
 
@@ -199,6 +212,7 @@ static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::Constellation(2),
     min_constellation: 2,
+    cap: None,
 }];
 
 // ===== Illuga =====
@@ -221,6 +235,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - CRIT DMG",
@@ -233,6 +248,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - EM (Moonsign)",
@@ -245,6 +261,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Shadowless Reflection - Geo DMG",
@@ -257,6 +274,44 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
+        cap: None,
+    },
+];
+
+// ===== Xilonen =====
+// Skill: Elemental RES Reduction per skill level (element depends on party; Geo always active)
+// C4: EM+120 on Nightsoul Point consumption
+static XILONEN_SKILL_RES_SCALING: [f64; 15] = [
+    0.1296, 0.1394, 0.1491, 0.1620, 0.1718, 0.1814, 0.1944, 0.2074, 0.2203, 0.2333, 0.2462, 0.2592,
+    0.2754, 0.2916, 0.3078,
+];
+
+static XILONEN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Yohualliand Elemental RES Reduction",
+        description: "Skill: Enemy elemental RES reduction based on skill level (Geo always active; other elements per party)",
+        stat: BuffableStat::ElementalResReduction(Element::Geo),
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&XILONEN_SKILL_RES_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Sunken Flame EM Bonus",
+        description: "C4: Party gains EM+120 when Nightsoul Points are consumed",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 120.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
     },
 ];
 
@@ -266,6 +321,7 @@ pub(super) static GEO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("gorou", GOROU_BUFFS),
     ("illuga", ILLUGA_BUFFS),
     ("ningguang", NINGGUANG_BUFFS),
+    ("xilonen", XILONEN_BUFFS),
     ("yun_jin", YUN_JIN_BUFFS),
     ("zhongli", ZHONGLI_BUFFS),
     ("zibai", ZIBAI_BUFFS),

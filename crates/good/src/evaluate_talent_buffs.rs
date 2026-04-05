@@ -66,8 +66,7 @@ fn resolve_scaling_value(
 /// NOTE: `ScalingStat::Atk` here intentionally uses `profile.base_atk` (character + weapon base ATK),
 /// NOT total ATK from `combine_stats`. This is because all current talent buffs that scale on ATK
 /// (Bennett burst, Kujou Sara skill) scale on **base ATK** per game mechanics.
-/// This diverges from `ScalingStat::Atk` usage in `damage.rs` where it means total ATK.
-/// If a future talent buff needs total ATK scaling, introduce `ScalingStat::BaseAtk` to disambiguate.
+/// Use `ScalingStat::TotalAtk` for buffs that scale on total ATK (e.g. Ineffa A4, Flins A4).
 fn apply_stat_scaling(
     def: &genshin_calc_data::talent_buffs::TalentBuffDef,
     scaling_value: f64,
@@ -76,16 +75,57 @@ fn apply_stat_scaling(
 ) -> f64 {
     match def.scales_on {
         // base_atk (character + weapon) — see doc comment above
-        Some(ScalingStat::Atk) => profile.base_atk * scaling_value,
-        Some(ScalingStat::Def) => stats.def * scaling_value,
-        Some(ScalingStat::Hp) => stats.hp * scaling_value,
+        Some(ScalingStat::Atk) => {
+            let raw = profile.base_atk * scaling_value;
+            match def.cap {
+                Some(cap) => raw.min(cap),
+                None => raw,
+            }
+        }
+        Some(ScalingStat::TotalAtk) => {
+            let raw = stats.atk * scaling_value;
+            match def.cap {
+                Some(cap) => raw.min(cap),
+                None => raw,
+            }
+        }
+        Some(ScalingStat::Def) => {
+            let raw = stats.def * scaling_value;
+            match def.cap {
+                Some(cap) => raw.min(cap),
+                None => raw,
+            }
+        }
+        Some(ScalingStat::Hp) => {
+            let raw = if scaling_value == 0.0 {
+                // Nilou A4: floor((total_hp - 30000) / 1000) * 0.09
+                ((stats.hp - 30000.0).max(0.0) / 1000.0).floor() * 0.09
+            } else {
+                stats.hp * scaling_value
+            };
+            match def.cap {
+                Some(cap) => raw.min(cap),
+                None => raw,
+            }
+        }
         Some(ScalingStat::Em) => {
-            // Nahida A1: (em - 200) * coefficient, clamped to [0, 250]
-            // Generic EM scaling: em * coefficient
-            if def.stat == genshin_calc_core::BuffableStat::ElementalMastery {
+            let raw = if def.name == "On All Things Meditated" {
+                // Nahida A1 special: (em - 200) * coefficient, clamped to [0, 250]
                 ((stats.elemental_mastery - 200.0).max(0.0) * scaling_value).min(250.0)
             } else {
+                // Generic EM scaling: em * coefficient (Sucrose A4, Kazuha A4, Citlali A4, etc.)
                 stats.elemental_mastery * scaling_value
+            };
+            match def.cap {
+                Some(cap) => raw.min(cap),
+                None => raw,
+            }
+        }
+        Some(ScalingStat::CritRate) => {
+            let raw = stats.crit_rate * scaling_value;
+            match def.cap {
+                Some(cap) => raw.min(cap),
+                None => raw,
             }
         }
         _ => scaling_value,
@@ -296,5 +336,52 @@ mod tests {
         let build = &import.builds[0];
         let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
         assert!(buffs.is_empty(), "A1 buff should not appear at level 20");
+    }
+
+    #[test]
+    fn test_sucrose_a4_em_sharing() {
+        let json = r#"{
+            "format": "GOOD", "version": 3, "source": "Test",
+            "characters": [{"key": "Sucrose", "level": 90, "constellation": 0, "ascension": 6, "talent": {"auto": 1, "skill": 1, "burst": 1}}],
+            "weapons": [{"key": "SacrificialFragments", "level": 90, "ascension": 6, "refinement": 1, "location": "Sucrose", "lock": false}],
+            "artifacts": [{"setKey": "ViridescentVenerer", "slotKey": "sands", "rarity": 5, "level": 20, "mainStatKey": "eleMas", "substats": [], "location": "Sucrose", "lock": false}]
+        }"#;
+        let import = import_good(json).unwrap();
+        let build = &import.builds[0];
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
+        let a4 = buffs.iter().find(|b| b.source.contains("a4")).unwrap();
+        assert_eq!(a4.stat, BuffableStat::ElementalMastery);
+        // EM * 0.20 — Sucrose with SacrificialFragments + EM sands should have ~500+ EM
+        // so shared value should be ~100+
+        assert!(
+            a4.value > 80.0,
+            "Sucrose A4 should share EM*0.20 (expect >80), got {}",
+            a4.value
+        );
+        assert!(
+            a4.value < 300.0,
+            "Sucrose A4 should be reasonable, got {}",
+            a4.value
+        );
+    }
+
+    #[test]
+    fn test_yelan_a4_returns_max() {
+        let json = r#"{
+            "format": "GOOD", "version": 3, "source": "Test",
+            "characters": [{"key": "Yelan", "level": 90, "constellation": 0, "ascension": 6, "talent": {"auto": 1, "skill": 1, "burst": 1}}],
+            "weapons": [{"key": "FavoniusWarbow", "level": 90, "ascension": 6, "refinement": 1, "location": "Yelan", "lock": false}],
+            "artifacts": []
+        }"#;
+        let import = import_good(json).unwrap();
+        let build = &import.builds[0];
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1]);
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::DmgBonus);
+        assert!(
+            (buffs[0].value - 0.50).abs() < 1e-6,
+            "Yelan A4 should be 0.50, got {}",
+            buffs[0].value
+        );
     }
 }

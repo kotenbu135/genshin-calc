@@ -20,6 +20,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Perfidious Wind's Bale",
@@ -32,6 +33,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
 ];
 
@@ -48,6 +50,7 @@ static JAHODA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Kazuha =====
@@ -56,18 +59,19 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Poetics of Fuubutsu",
     description: "After triggering Swirl, grants 0.04% Elemental DMG Bonus per point of EM",
     stat: BuffableStat::DmgBonus,
-    base_value: 0.0, // EM-dependent — builder computes EM×0.0004 at resolve time
+    base_value: 0.0004,
     scales_with_talent: false,
     talent_scaling: None,
-    scales_on: None,
+    scales_on: Some(ScalingStat::Em),
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Sucrose =====
 // A1 passive "Catalyst Conversion": Swirl triggers EM+50 for team 8s
-// A4 passive "Mollis Favonius": shares 20% of Sucrose's EM to party (builder computes EM * 0.20)
+// A4 passive "Mollis Favonius": shares 20% of Sucrose's EM to party
 static SUCROSE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Catalyst Conversion",
@@ -80,18 +84,20 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Mollis Favonius",
-        description: "Shares 20% of Sucrose's EM to party (builder computes EM * 0.20)",
+        description: "Shares 20% of Sucrose's EM to party",
         stat: BuffableStat::ElementalMastery,
-        base_value: 0.0,
+        base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: None,
+        scales_on: Some(ScalingStat::Em),
         target: BuffTarget::TeamExcludeSelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
 ];
 
@@ -111,6 +117,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Wind's Vanguard Normal ATK DMG",
@@ -123,6 +130,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Wind's Vanguard Charged ATK DMG",
@@ -135,6 +143,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Freedom of Song Anemo DMG",
@@ -147,6 +156,105 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
+        cap: None,
+    },
+];
+
+// ===== Jean =====
+// C4: Anemo RES -40% in burst field
+static JEAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Lands of Dandelion Anemo RES Shred",
+    description: "C4: Enemies inside Dandelion Field have Anemo RES -40%",
+    stat: BuffableStat::ElementalResReduction(Element::Anemo),
+    base_value: 0.40,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(4),
+    min_constellation: 4,
+    cap: None,
+}];
+
+// ===== Venti =====
+// C2: Anemo RES -12% + Physical RES -12%
+static VENTI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Breeze of Reminiscence Anemo RES Shred",
+        description: "C2: Enemies hit by Skyward Sonnet have Anemo RES -12%",
+        stat: BuffableStat::ElementalResReduction(Element::Anemo),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Breeze of Reminiscence Physical RES Shred",
+        description: "C2: Enemies hit by Skyward Sonnet have Physical RES -12%",
+        stat: BuffableStat::PhysicalResReduction,
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+    },
+];
+
+// ===== Xianyun =====
+// Burst: PlungingAtkFlatDmg = total ATK × scaling
+// A4: PlungingAtkDmgBonus max +75% (fixed max value)
+// C2: CritRate +20% for plunge after burst
+static XIANYUN_BURST_PLUNGE_SCALING: [f64; 15] = [
+    2.48, 2.666, 2.852, 3.100, 3.286, 3.472, 3.720, 3.968, 4.216, 4.464, 4.712, 4.960, 5.270,
+    5.580, 5.890,
+];
+
+static XIANYUN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Stars Gather at Dusk Plunging Flat DMG",
+        description: "Burst: Plunging ATK gains flat DMG = total ATK × scaling (3 charges)",
+        stat: BuffableStat::PlungingAtkFlatDmg,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&XIANYUN_BURST_PLUNGE_SCALING),
+        scales_on: Some(ScalingStat::TotalAtk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Crane Form Plunging DMG Bonus",
+        description: "A4: Plunging ATK DMG Bonus max +75% (adopting max value)",
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.75,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Trivial Matters CritRate Bonus",
+        description: "C2: After burst, plunging attacks gain CritRate +20%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
     },
 ];
 
@@ -154,9 +262,12 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
 pub(super) static ANEMO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("faruzan", FARUZAN_BUFFS),
     ("jahoda", JAHODA_BUFFS),
+    ("jean", JEAN_BUFFS),
     ("kazuha", KAZUHA_BUFFS),
     ("sucrose", SUCROSE_BUFFS),
     ("varka", VARKA_BUFFS),
+    ("venti", VENTI_BUFFS),
+    ("xianyun", XIANYUN_BUFFS),
 ];
 
 pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {
