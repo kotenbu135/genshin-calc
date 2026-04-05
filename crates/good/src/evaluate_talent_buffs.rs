@@ -41,6 +41,8 @@ fn resolve_scaling_value(
         let talent_level = match def.source {
             genshin_calc_data::talent_buffs::TalentBuffSource::ElementalSkill => talent_levels[1],
             genshin_calc_data::talent_buffs::TalentBuffSource::ElementalBurst => talent_levels[2],
+            // Constellation buffs with talent scaling (e.g. Furina C1 scales with burst level)
+            _ if def.scales_with_talent => talent_levels[2],
             _ => return def.base_value,
         };
         let idx = (talent_level as usize).saturating_sub(1).min(14);
@@ -373,6 +375,67 @@ mod tests {
             (buffs[0].value - 0.50).abs() < 1e-6,
             "Yelan A4 should be 0.50, got {}",
             buffs[0].value
+        );
+    }
+
+    fn make_furina_build() -> CharacterBuild {
+        let json = r#"{
+            "format": "GOOD", "version": 3, "source": "Test",
+            "characters": [{"key": "Furina", "level": 90, "constellation": 6, "ascension": 6, "talent": {"auto": 1, "skill": 1, "burst": 10}}],
+            "weapons": [{"key": "SplendorOfTranquilWaters", "level": 90, "ascension": 6, "refinement": 1, "location": "Furina", "lock": false}],
+            "artifacts": []
+        }"#;
+        let import = import_good(json).unwrap();
+        import.builds.into_iter().next().unwrap()
+    }
+
+    #[test]
+    fn test_furina_c0_burst_lv10() {
+        let build = make_furina_build();
+        let buffs = evaluate_talent_buffs(&build, 0, &[1, 1, 10]);
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0].stat, BuffableStat::DmgBonus);
+        assert!(
+            (buffs[0].value - 0.75).abs() < 1e-6,
+            "C0 Burst Lv10: 300 × 0.0025 = 0.75, got {}",
+            buffs[0].value
+        );
+    }
+
+    #[test]
+    fn test_furina_c1_burst_lv10() {
+        let build = make_furina_build();
+        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 10]);
+        assert_eq!(
+            buffs.len(),
+            2,
+            "C1 should return 2 buffs (C0 base + C1 extra)"
+        );
+        let total: f64 = buffs
+            .iter()
+            .filter(|b| b.stat == BuffableStat::DmgBonus)
+            .map(|b| b.value)
+            .sum();
+        assert!(
+            (total - 1.00).abs() < 1e-6,
+            "C1 Burst Lv10: 400 × 0.0025 = 1.00, got {}",
+            total
+        );
+    }
+
+    #[test]
+    fn test_furina_c1_burst_lv13() {
+        let build = make_furina_build();
+        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 13]);
+        let total: f64 = buffs
+            .iter()
+            .filter(|b| b.stat == BuffableStat::DmgBonus)
+            .map(|b| b.value)
+            .sum();
+        assert!(
+            (total - 1.24).abs() < 1e-6,
+            "C1 Burst Lv13: 400 × 0.0031 = 1.24, got {}",
+            total
         );
     }
 }

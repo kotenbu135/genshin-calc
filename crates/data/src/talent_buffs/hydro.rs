@@ -117,7 +117,7 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: Some(&FURINA_BURST_C1_EXTRA),
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::ElementalBurst,
+        source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
         cap: None,
     },
