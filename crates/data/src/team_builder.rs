@@ -358,13 +358,19 @@ impl TeamMemberBuilder {
 
             // If scales_on is set, multiply by the provider's base stat
             let value = if let Some(scaling_stat) = def.scales_on {
-                let base = match scaling_stat {
-                    genshin_calc_core::ScalingStat::Atk => profile.base_atk,
-                    genshin_calc_core::ScalingStat::Hp => profile.base_hp,
-                    genshin_calc_core::ScalingStat::Def => profile.base_def,
-                    genshin_calc_core::ScalingStat::Em => profile.elemental_mastery,
+                let raw = match scaling_stat {
+                    genshin_calc_core::ScalingStat::Atk => profile.base_atk * raw_value,
+                    // TotalAtk: best approximation at StatProfile level is base_atk
+                    genshin_calc_core::ScalingStat::TotalAtk => profile.base_atk * raw_value,
+                    genshin_calc_core::ScalingStat::Hp => profile.base_hp * raw_value,
+                    genshin_calc_core::ScalingStat::Def => profile.base_def * raw_value,
+                    genshin_calc_core::ScalingStat::Em => profile.elemental_mastery * raw_value,
+                    genshin_calc_core::ScalingStat::CritRate => profile.crit_rate * raw_value,
                 };
-                base * raw_value
+                match def.cap {
+                    Some(cap) => raw.min(cap),
+                    None => raw,
+                }
             } else {
                 raw_value
             };

@@ -49,6 +49,10 @@ pub enum ScalingStat {
     Def,
     /// Scale on elemental mastery.
     Em,
+    /// Scale on critical rate (e.g. Rosaria A4).
+    CritRate,
+    /// Scale on total ATK (base + bonus). For buffs like Ineffa A4, Flins A4.
+    TotalAtk,
 }
 
 /// Weapon type classification.

@@ -19,6 +19,7 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Spirit of Pyro",
@@ -31,6 +32,7 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
+        cap: None,
     },
 ];
 
@@ -47,6 +49,7 @@ static AMBER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::Constellation(6),
     min_constellation: 6,
+    cap: None,
 }];
 
 // ===== Chevreuse =====
@@ -64,6 +67,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Overloaded Pyro RES Shred",
@@ -76,6 +80,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Overloaded Electro RES Shred",
@@ -88,6 +93,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
 ];
 
@@ -105,6 +111,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
+        cap: None,
     },
     TalentBuffDef {
         name: "Burning Heart - Charged ATK",
@@ -117,6 +124,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
+        cap: None,
     },
     TalentBuffDef {
         name: "Burning Heart - Plunging ATK",
@@ -129,6 +137,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
+        cap: None,
     },
 ];
 
@@ -145,6 +154,7 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::TeamExcludeSelf,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Durin =====
@@ -164,6 +174,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Light Manifest (Darkness) Amplifying Bonus",
@@ -176,6 +187,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Unground Visions Pyro DMG Bonus",
@@ -188,6 +200,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
+        cap: None,
     },
     TalentBuffDef {
         name: "Emanare's Source Burst DMG Bonus",
@@ -200,8 +213,121 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
+        cap: None,
     },
 ];
+
+// ===== Klee =====
+// C2: DEF -23% on mine hit
+// C6: Pyro DMG +10% during burst
+static KLEE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Explosive Frags DEF Reduction",
+        description: "C2: Enemies hit by Jumpy Dumpty mines have DEF -23%",
+        stat: BuffableStat::DefReduction,
+        base_value: 0.23,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Blazing Delight Pyro DMG Bonus",
+        description: "C6: During Sparks 'n' Splash, party gains Pyro DMG +10%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+    },
+];
+
+// ===== Mavuika =====
+// A1: ATK+30% for Nightsoul's Blessing party members
+// A4: ATK+60% max from Fighting Spirit (adopting max value)
+static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Sunfrost Encomium ATK Bonus",
+        description: "A1: Party members under Nightsoul's Blessing gain ATK+30%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Fire-Forged Heritage ATK Bonus",
+        description: "A4: ATK bonus from Fighting Spirit consumed (max +60%, adopting max value)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+    },
+];
+
+// ===== Xiangling =====
+// C1: Pyro RES -15% on Guoba hit
+// C6: Pyro DMG +15% during Pyronado
+static XIANGLING_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Crispy Outside Pyro RES Shred",
+        description: "C1: Enemies hit by Guoba have Pyro RES -15% for 6s",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Condensed Pyronado Pyro DMG Bonus",
+        description: "C6: During Pyronado, party gains Pyro DMG +15%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+    },
+];
+
+// ===== Xinyan =====
+// C4: Physical RES -15% on skill hit
+static XINYAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Blazing Eye Physical RES Shred",
+    description: "C4: Enemies hit by Riff Revolution have Physical RES -15% for 12s",
+    stat: BuffableStat::PhysicalResReduction,
+    base_value: 0.15,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(4),
+    min_constellation: 4,
+    cap: None,
+}];
 
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static PYRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
@@ -209,7 +335,11 @@ pub(super) static PYRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("bennett", BENNETT_BUFFS),
     ("chevreuse", CHEVREUSE_BUFFS),
     ("durin", DURIN_BUFFS),
+    ("klee", KLEE_BUFFS),
+    ("mavuika", MAVUIKA_BUFFS),
     ("thoma", THOMA_BUFFS),
+    ("xiangling", XIANGLING_BUFFS),
+    ("xinyan", XINYAN_BUFFS),
     ("yoimiya", YOIMIYA_BUFFS),
 ];
 

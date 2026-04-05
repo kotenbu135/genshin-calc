@@ -4,15 +4,16 @@ use super::*;
 // A4 passive "Cleansing for the Spring": Elemental Skill DMG +0.04% per point of EM (max +32% at 800 EM)
 static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Cleansing for the Spring",
-    description: "A4: Elemental Skill DMG +0.04% per point of EM (builder computes EM×0.0004 at resolve time, max +32% at 800 EM)",
+    description: "A4: Elemental Skill DMG +0.04% per point of EM (max +32% at 800 EM)",
     stat: BuffableStat::SkillDmgBonus,
-    base_value: 0.0, // EM-dependent — builder computes EM×0.0004 at resolve time
+    base_value: 0.0004,
     scales_with_talent: false,
     talent_scaling: None,
-    scales_on: None,
+    scales_on: Some(ScalingStat::Em),
     target: BuffTarget::OnlySelf,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: Some(0.32),
 }];
 
 // ===== Nahida =====
@@ -29,6 +30,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(1),
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Nefer =====
@@ -46,6 +48,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
+        cap: None,
     },
     TalentBuffDef {
         name: "Delusion Ensnares Reason Dendro RES Down",
@@ -58,6 +61,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
+        cap: None,
     },
 ];
 
@@ -74,10 +78,28 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: None,
+}];
+
+// ===== Collei =====
+// C4: EM+60 in Cuilein-Anbar field
+static COLLEI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Floral Sidewinder EM Bonus",
+    description: "C4: Party gains EM+60 while inside Cuilein-Anbar field",
+    stat: BuffableStat::ElementalMastery,
+    base_value: 60.0,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(4),
+    min_constellation: 4,
+    cap: None,
 }];
 
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static DENDRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
+    ("collei", COLLEI_BUFFS),
     ("lauma", LAUMA_BUFFS),
     ("nahida", NAHIDA_BUFFS),
     ("nefer", NEFER_BUFFS),

@@ -170,10 +170,11 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
     }
 
     let scaling_value = match input.scaling_stat {
-        ScalingStat::Atk => input.stats.atk,
+        ScalingStat::Atk | ScalingStat::TotalAtk => input.stats.atk,
         ScalingStat::Hp => input.stats.hp,
         ScalingStat::Def => input.stats.def,
         ScalingStat::Em => input.stats.elemental_mastery,
+        ScalingStat::CritRate => input.stats.crit_rate,
     };
     let base = scaling_value * input.talent_multiplier + catalyze_flat + input.flat_dmg;
     let non_crit = base

@@ -13,37 +13,72 @@ static DIONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::Constellation(6),
     min_constellation: 6,
+    cap: None,
 }];
 
 // ===== Ganyu =====
 // A4 passive "Harmony between Heaven and Earth": Cryo DMG+20% in burst field
-static GANYU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Harmony between Heaven and Earth",
-    description: "Cryo DMG Bonus +20% for party members in burst field",
-    stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
-    base_value: 0.20,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-}];
+// C4 "Westward Sojourn": DMG+5% every 3s in burst field (max +25%)
+static GANYU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Harmony between Heaven and Earth",
+        description: "Cryo DMG Bonus +20% for party members in burst field",
+        stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Westward Sojourn DmgBonus",
+        description: "C4: In burst field, DMG+5% every 3s (max +25%, adopting max value)",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+    },
+];
 
 // ===== Rosaria =====
 // A4 passive "Shadow Samaritan": grants 15% of Rosaria's CRIT Rate to party after burst
-static ROSARIA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Shadow Samaritan CRIT Rate Share",
-    description: "After burst, grants 15% of Rosaria's CRIT Rate to party",
-    stat: BuffableStat::CritRate,
-    base_value: 0.15, // 15% of own CRIT Rate — builder computes crit_rate * 0.15 at resolve time
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::TeamExcludeSelf,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-}];
+// C6 "Rites of Termination": Physical RES -20% for 10s after burst
+static ROSARIA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Shadow Samaritan CRIT Rate Share",
+        description: "After burst, grants 15% of Rosaria's CRIT Rate to party (max 15%)",
+        stat: BuffableStat::CritRate,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::CritRate),
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.15),
+    },
+    TalentBuffDef {
+        name: "Rites of Termination Physical RES Shred",
+        description: "C6: Enemies hit by burst have Physical RES -20% for 10s",
+        stat: BuffableStat::PhysicalResReduction,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+    },
+];
 
 // ===== Shenhe =====
 // Elemental Skill "Spring Spirit Summoning": flat Cryo DMG based on ATK (Lv1-15)
@@ -64,6 +99,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Charged ATK Flat DMG",
@@ -76,6 +112,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Plunging ATK Flat DMG",
@@ -88,6 +125,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Skill Flat DMG",
@@ -100,6 +138,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Burst Flat DMG",
@@ -112,6 +151,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Deific Embrace Press - Skill DMG",
@@ -124,6 +164,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Deific Embrace Press - Burst DMG",
@@ -136,13 +177,136 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
 ];
 
+// ===== Citlali =====
+// Skill: Pyro/Hydro RES -20%
+// A4: EM = min(Citlali's EM × 0.20, 120)
+// C2: Additional Pyro/Hydro RES -20% (total -40% each)
+static CITLALI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Itzpapa Pyro RES Shred",
+        description: "Skill: Enemy Pyro RES -20% while Itzpapa is active",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Itzpapa Hydro RES Shred",
+        description: "Skill: Enemy Hydro RES -20% while Itzpapa is active",
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "The Sunken Years EM Bonus",
+        description: "A4: Party EM = min(Citlali's EM × 20%, 120)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(120.0),
+    },
+    TalentBuffDef {
+        name: "Cold Moon Pyro RES Shred",
+        description: "C2: Additional Pyro RES -20% (cumulative with Skill: total -40%)",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Cold Moon Hydro RES Shred",
+        description: "C2: Additional Hydro RES -20% (cumulative with Skill: total -40%)",
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+    },
+];
+
+// ===== Eula =====
+// Skill (hold): Cryo RES -50% + Physical RES -50% (max 2 Grimheart stacks)
+static EULA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Icetide Vortex Cryo RES Shred",
+        description: "Hold Skill: Enemy Cryo RES -25% per Grimheart stack (max -50%)",
+        stat: BuffableStat::ElementalResReduction(Element::Cryo),
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+        cap: None,
+    },
+    TalentBuffDef {
+        name: "Icetide Vortex Physical RES Shred",
+        description: "Hold Skill: Enemy Physical RES -25% per Grimheart stack (max -50%)",
+        stat: BuffableStat::PhysicalResReduction,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+        cap: None,
+    },
+];
+
+// ===== Mika =====
+// C6: Physical DMG Bonus +10% during burst recovery (HP>50%)
+static MIKA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Blood-Red Bristles Physical DMG Bonus",
+    description: "C6: During Skyfeather Song recovery, Physical DMG +10% (HP>50%)",
+    stat: BuffableStat::PhysicalDmgBonus,
+    base_value: 0.10,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(6),
+    min_constellation: 6,
+    cap: None,
+}];
+
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static CRYO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
+    ("citlali", CITLALI_BUFFS),
     ("diona", DIONA_BUFFS),
+    ("eula", EULA_BUFFS),
     ("ganyu", GANYU_BUFFS),
+    ("mika", MIKA_BUFFS),
     ("rosaria", ROSARIA_BUFFS),
     ("shenhe", SHENHE_BUFFS),
 ];

@@ -16,6 +16,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
+        cap: None,
     },
     TalentBuffDef {
         name: "Aino A4 Burst DMG from EM",
@@ -28,6 +29,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
     },
     TalentBuffDef {
         name: "Aino C6 Reaction DMG Bonus",
@@ -40,6 +42,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
+        cap: None,
     },
 ];
 
@@ -56,6 +59,7 @@ static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::Constellation(2),
     min_constellation: 2,
+    cap: None,
 }];
 
 // ===== Candace =====
@@ -75,6 +79,7 @@ static CANDACE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::ElementalBurst,
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Furina =====
@@ -94,6 +99,7 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::ElementalBurst,
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Mona =====
@@ -113,6 +119,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     target: BuffTarget::Team,
     source: TalentBuffSource::ElementalBurst,
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Nilou =====
@@ -123,28 +130,30 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Dreaming Dance of the Lotuslight",
     description: "HP30000超過1000ごとにBloom DMG+9%、最大+400%",
     stat: BuffableStat::TransformativeBonus,
-    base_value: 0.0, // HP-dependent — consumer computes value
+    base_value: 0.0, // HP-dependent special formula (scaling_value == 0.0 triggers it)
     scales_with_talent: false,
     talent_scaling: None,
-    scales_on: None,
+    scales_on: Some(ScalingStat::Hp),
     target: BuffTarget::OnlySelf,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: Some(4.0),
 }];
 
 // ===== Yelan =====
-// A4 passive "Adapt With Ease": DMG bonus ramp 1-50% (builder sets desired value)
+// A4 passive "Adapt With Ease": DMG bonus ramp 1-50% (max value 0.50)
 static YELAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Adapt With Ease",
-    description: "DMG Bonus ramps 1-50% over time (builder sets value, max 0.50)",
+    description: "DMG Bonus ramps up to max value 0.50",
     stat: BuffableStat::DmgBonus,
-    base_value: 0.0,
+    base_value: 0.50,
     scales_with_talent: false,
     talent_scaling: None,
     scales_on: None,
     target: BuffTarget::Team,
     source: TalentBuffSource::AscensionPassive(4),
     min_constellation: 0,
+    cap: None,
 }];
 
 // ===== Columbina =====
@@ -164,6 +173,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
+        cap: None,
     },
     TalentBuffDef {
         name: "Columbina C2 Lunar Brilliance HP",
@@ -176,6 +186,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
+        cap: None,
     },
     TalentBuffDef {
         name: "Columbina C2 Lunar Reaction DMG",
@@ -188,6 +199,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
+        cap: None,
     },
     TalentBuffDef {
         name: "Columbina C3 Lunar Reaction DMG",
@@ -200,6 +212,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(3),
         min_constellation: 3,
+        cap: None,
     },
     TalentBuffDef {
         name: "Columbina C4 Lunar Reaction DMG",
@@ -212,6 +225,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(4),
         min_constellation: 4,
+        cap: None,
     },
     TalentBuffDef {
         name: "Columbina C5 Lunar Reaction DMG",
@@ -224,6 +238,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(5),
         min_constellation: 5,
+        cap: None,
     },
     TalentBuffDef {
         name: "Columbina C6 Elemental CritDMG",
@@ -236,6 +251,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
+        cap: None,
     },
     TalentBuffDef {
         name: "Columbina C6 Lunar Reaction DMG",
@@ -248,8 +264,25 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
+        cap: None,
     },
 ];
+
+// ===== Xingqiu =====
+// C2: Hydro RES -15% on Rain Sword hit
+static XINGQIU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
+    name: "Rainbow Upon the Azure Sky Hydro RES Shred",
+    description: "C2: Enemies hit by Rain Swords have Hydro RES -15% for 4s",
+    stat: BuffableStat::ElementalResReduction(Element::Hydro),
+    base_value: 0.15,
+    scales_with_talent: false,
+    talent_scaling: None,
+    scales_on: None,
+    target: BuffTarget::Team,
+    source: TalentBuffSource::Constellation(2),
+    min_constellation: 2,
+    cap: None,
+}];
 
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static HYDRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
@@ -260,6 +293,7 @@ pub(super) static HYDRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("furina", FURINA_BUFFS),
     ("mona", MONA_BUFFS),
     ("nilou", NILOU_BUFFS),
+    ("xingqiu", XINGQIU_BUFFS),
     ("yelan", YELAN_BUFFS),
 ];
 
