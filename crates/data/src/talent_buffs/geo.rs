@@ -216,9 +216,10 @@ static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Illuga =====
-// A4 passive "Torchforger's Covenant": CRIT Rate +5%, CRIT DMG +10%, EM +50 (Moonsign)
-// C6 "Nightmare Orioles": upgrades A4 to CRIT Rate +10%, CRIT DMG +30%, EM +80
-// Burst "Shadowless Reflection": Geo DMG Bonus based on burst talent level
+// A1 passive "Torchforger's Covenant": CRIT Rate +5%, CRIT DMG +10%, EM +50 (Moonsign) — source confirmed A1 by KQM
+// C6 "Nightmare Orioles": upgrades A1 to CRIT Rate +10%, CRIT DMG +30%, EM +80
+// (A4 "Demonhunter's Dusk" is EM × party Hydro/Geo count scaling — complex, not implemented)
+// Burst "Shadowless Reflection": Geo DMG Bonus based on burst talent level (TODO: verify vs KQM EM-scaled formula)
 static ILLUGA_BURST_GEO_DMG_SCALING: [f64; 15] = [
     0.336, 0.3612, 0.3864, 0.42, 0.4452, 0.4704, 0.504, 0.5376, 0.5712, 0.6048, 0.6384, 0.672,
     0.714, 0.756, 0.798,
@@ -234,7 +235,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
@@ -247,26 +248,26 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - EM (Moonsign)",
-        description: "With Moonsign active, party EM +50 for 20s (A4 Ascendant Gleam condition)",
+        description: "With Moonsign active, party EM +50 for 20s (A1 Ascendant Gleam condition)",
         stat: BuffableStat::ElementalMastery,
         base_value: 50.0,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
         name: "Nightmare Orioles - CRIT Rate C6 Upgrade",
-        description: "C6: A4 CRIT Rate bonus increases by +5% (total +10%)",
+        description: "C6: A1 CRIT Rate bonus increases by +5% (total +10%)",
         stat: BuffableStat::CritRate,
         base_value: 0.05,
         scales_with_talent: false,
@@ -279,7 +280,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Nightmare Orioles - CRIT DMG C6 Upgrade",
-        description: "C6: A4 CRIT DMG bonus increases by +20% (total +30%)",
+        description: "C6: A1 CRIT DMG bonus increases by +20% (total +30%)",
         stat: BuffableStat::CritDmg,
         base_value: 0.20,
         scales_with_talent: false,
@@ -292,7 +293,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Nightmare Orioles - EM C6 Upgrade",
-        description: "C6: A4 EM bonus increases by +30 (total +80)",
+        description: "C6: A1 EM bonus increases by +30 (total +80)",
         stat: BuffableStat::ElementalMastery,
         base_value: 30.0,
         scales_with_talent: false,

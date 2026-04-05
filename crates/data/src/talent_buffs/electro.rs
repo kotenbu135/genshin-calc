@@ -169,7 +169,8 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 
 // ===== Iansan =====
 // Burst: AtkFlat bonus per burst level (Iansan's ATK × coefficient; Lv1≈330~Lv15≈890)
-// A4 "Enhanced Resistance Training": Iansan's own ATK +20% for 15s
+// A1 "Enhanced Resistance Training": Iansan's own ATK +20% for 15s
+// A4 "Kinetic Energy Gradient Test": healing effect (ATK×60%) — not a stat buff, not implemented
 static IANSAN_BURST_ATK_FLAT_SCALING: [f64; 15] = [
     330.0, 370.0, 410.0, 450.0, 490.0, 530.0, 570.0, 610.0, 650.0, 690.0, 730.0, 770.0, 810.0,
     850.0, 890.0,
@@ -191,14 +192,14 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Enhanced Resistance Training ATK Bonus",
-        description: "A4: Iansan's own ATK +20% for 15s",
+        description: "A1: Iansan's own ATK +20% for 15s (A4 'Kinetic Energy Gradient Test' is a healing effect, not a stat buff)",
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },
