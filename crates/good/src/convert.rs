@@ -17,6 +17,7 @@ pub fn to_team_member_builder(
     build: &crate::CharacterBuild,
     weapon_activations: &[(&str, ManualActivation)],
     artifact_activations: &[(&str, ManualActivation)],
+    talent_activations: &[(&str, ManualActivation)],
 ) -> Result<TeamMemberBuilder, crate::GoodError> {
     let weapon_build = build
         .weapon
@@ -38,7 +39,11 @@ pub fn to_team_member_builder(
     }
 
     // ManualActivation を登録
-    for (name, activation) in weapon_activations.iter().chain(artifact_activations.iter()) {
+    for (name, activation) in weapon_activations
+        .iter()
+        .chain(artifact_activations.iter())
+        .chain(talent_activations.iter())
+    {
         builder = match activation {
             ManualActivation::Active => builder.activate(name),
             ManualActivation::Stacks(n) => builder.activate_with_stacks(name, *n),
@@ -276,7 +281,7 @@ mod tests {
         let char = genshin_calc_data::find_character("diluc").unwrap();
         let weapon = genshin_calc_data::find_weapon("wolfs_gravestone").unwrap();
         let build = make_build(char, Some(weapon), None);
-        let result = to_team_member_builder(&build, &[], &[]);
+        let result = to_team_member_builder(&build, &[], &[], &[]);
         assert!(result.is_ok());
     }
 
@@ -284,7 +289,7 @@ mod tests {
     fn test_missing_weapon_error() {
         let char = genshin_calc_data::find_character("diluc").unwrap();
         let build = make_build(char, None, None);
-        let result = to_team_member_builder(&build, &[], &[]);
+        let result = to_team_member_builder(&build, &[], &[], &[]);
         match result {
             Err(crate::GoodError::MissingWeapon) => {
                 // Expected error
@@ -301,7 +306,7 @@ mod tests {
         let weapon = genshin_calc_data::find_weapon("wolfs_gravestone").unwrap();
         let cw = genshin_calc_data::find_artifact_set("crimson_witch").unwrap();
         let build = make_build(char, Some(weapon), Some(cw));
-        let result = to_team_member_builder(&build, &[], &[]);
+        let result = to_team_member_builder(&build, &[], &[], &[]);
         assert!(result.is_ok());
         let member = result.unwrap().build().unwrap();
         // CW 2pc: ElementalDmgBonus(Pyro) +15% — source: "燃え盛る炎の魔女 2pc"
@@ -321,7 +326,7 @@ mod tests {
 
         // CW 4pc: cwof_pyro_stacks = ElementalDmgBonus(Pyro) +0.075/stack, max 3
         let activations = [("cwof_pyro_stacks", ManualActivation::Stacks(2))];
-        let result = to_team_member_builder(&build, &[], &activations);
+        let result = to_team_member_builder(&build, &[], &activations, &[]);
         assert!(result.is_ok());
         let member = result.unwrap().build().unwrap();
         // source format: "cwof_pyro_stacks (燃え盛る炎の魔女 4pc)"

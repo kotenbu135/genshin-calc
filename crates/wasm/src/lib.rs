@@ -262,8 +262,9 @@ pub fn build_stats(
                 serde_wasm_bindgen::from_value(artifact_activations).unwrap_or_default();
             let w_converted = convert_activations(&w_acts);
             let a_converted = convert_activations(&a_acts);
-            let builder = genshin_calc_good::to_team_member_builder(b, &w_converted, &a_converted)
-                .map_err(|e| JsError::new(&e.to_string()))?;
+            let builder =
+                genshin_calc_good::to_team_member_builder(b, &w_converted, &a_converted, &[])
+                    .map_err(|e| JsError::new(&e.to_string()))?;
             let member = builder.build().map_err(|e| JsError::new(&e.to_string()))?;
             let result = genshin_calc_core::resolve_team_stats(&[member], 0)
                 .map_err(|e| JsError::new(&e.to_string()))?;
@@ -374,6 +375,7 @@ pub fn get_character_team_buffs(
 /// * `character_id` - Character ID (e.g. "hu_tao")
 /// * `weapon_activations` - JS array of {name, active, stacks?} for weapon conditional buffs
 /// * `artifact_activations` - JS array of {name, active, stacks?} for artifact set conditional buffs
+/// * `talent_activations` - JS array of {name, active, stacks?} for talent conditional buffs
 ///
 /// # Returns
 /// TeamMember as a JS object, or throws if character not found or weapon missing.
@@ -383,6 +385,7 @@ pub fn build_team_member(
     character_id: &str,
     weapon_activations: JsValue,
     artifact_activations: JsValue,
+    talent_activations: JsValue,
     traveler_element: Option<String>,
 ) -> Result<JsValue, JsError> {
     let options = make_import_options(traveler_element);
@@ -403,11 +406,15 @@ pub fn build_team_member(
         serde_wasm_bindgen::from_value(weapon_activations).unwrap_or_default();
     let a_acts: Vec<WasmManualActivation> =
         serde_wasm_bindgen::from_value(artifact_activations).unwrap_or_default();
+    let t_acts: Vec<WasmManualActivation> =
+        serde_wasm_bindgen::from_value(talent_activations).unwrap_or_default();
     let w_converted = convert_activations(&w_acts);
     let a_converted = convert_activations(&a_acts);
+    let t_converted = convert_activations(&t_acts);
 
-    let builder = genshin_calc_good::to_team_member_builder(build, &w_converted, &a_converted)
-        .map_err(|e| JsError::new(&e.to_string()))?;
+    let builder =
+        genshin_calc_good::to_team_member_builder(build, &w_converted, &a_converted, &t_converted)
+            .map_err(|e| JsError::new(&e.to_string()))?;
     let member = builder.build().map_err(|e| JsError::new(&e.to_string()))?;
     to_js(&member)
 }
@@ -693,7 +700,7 @@ mod tests {
                 stats: genshin_calc_core::StatProfile::default(),
             },
         };
-        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[], &[]).unwrap();
         let member = builder.build().unwrap();
         let result = genshin_calc_core::resolve_team_stats(&[member], 0).unwrap();
         let stats = result.final_stats;
@@ -728,7 +735,7 @@ mod tests {
         };
 
         // Without activation
-        let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[], &[]).unwrap();
         let member_no = builder_no.build().unwrap();
         let stats_no = genshin_calc_core::resolve_team_stats(&[member_no], 0)
             .unwrap()
@@ -737,7 +744,7 @@ mod tests {
         // With 2 stacks of CW pyro buff
         let artifact_acts = [("cwof_pyro_stacks", ManualActivation::Stacks(2))];
         let builder_with =
-            genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts).unwrap();
+            genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts, &[]).unwrap();
         let member_with = builder_with.build().unwrap();
         let stats_with = genshin_calc_core::resolve_team_stats(&[member_with], 0)
             .unwrap()
@@ -790,7 +797,7 @@ mod tests {
                 stats: genshin_calc_core::StatProfile::default(),
             },
         };
-        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[], &[]).unwrap();
         let member = builder.build().unwrap();
 
         assert_eq!(member.element, genshin_calc_core::Element::Pyro);
@@ -830,13 +837,13 @@ mod tests {
         };
 
         // Without activation
-        let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[], &[]).unwrap();
         let member_no = builder_no.build().unwrap();
 
         // With 3 stacks of Marechaussee Hunter crit buff
         let artifact_acts = [("marechaussee_crit_stacks", ManualActivation::Stacks(3))];
         let builder_with =
-            genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts).unwrap();
+            genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts, &[]).unwrap();
         let member_with = builder_with.build().unwrap();
 
         // member_with should have more buffs (crit rate +0.36)
@@ -883,7 +890,7 @@ mod tests {
                 stats: genshin_calc_core::StatProfile::default(),
             },
         };
-        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[]).unwrap();
+        let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[], &[]).unwrap();
         let member = builder.build().unwrap();
 
         // Serialize → Deserialize roundtrip (simulates JS boundary)

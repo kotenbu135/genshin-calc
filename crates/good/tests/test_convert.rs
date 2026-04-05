@@ -72,7 +72,7 @@ fn two_piece_two_piece_sets() {
     assert!(set_ids.contains(&"gladiators_finale"));
 
     // Convert to TeamMember and verify 2pc buffs are in buffs_provided
-    let member = to_team_member_builder(build, &[], &[])
+    let member = to_team_member_builder(build, &[], &[], &[])
         .unwrap()
         .build()
         .unwrap();
