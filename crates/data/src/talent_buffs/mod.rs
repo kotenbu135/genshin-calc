@@ -69,9 +69,16 @@ mod tests {
     #[test]
     fn test_find_bennett_buffs() {
         let buffs = find_talent_buffs("bennett").unwrap();
-        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs.len(), 2);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(buffs[0].target, BuffTarget::Team);
+        // C6
+        assert_eq!(
+            buffs[1].stat,
+            BuffableStat::ElementalDmgBonus(Element::Pyro)
+        );
+        assert!((buffs[1].base_value - 0.15).abs() < 1e-6);
+        assert_eq!(buffs[1].min_constellation, 6);
     }
 
     #[test]

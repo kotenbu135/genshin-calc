@@ -7,18 +7,32 @@ static BENNETT_BURST_ATK_SCALING: [f64; 15] = [
     1.33,
 ];
 
-static BENNETT_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Fantastic Voyage ATK Bonus",
-    description: "Characters within the burst field gain ATK bonus based on Bennett's Base ATK",
-    stat: BuffableStat::AtkFlat,
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&BENNETT_BURST_ATK_SCALING),
-    scales_on: Some(ScalingStat::Atk), // base_atk × scaling
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalBurst,
-    min_constellation: 0,
-}];
+static BENNETT_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Fantastic Voyage ATK Bonus",
+        description: "Characters within the burst field gain ATK bonus based on Bennett's Base ATK",
+        stat: BuffableStat::AtkFlat,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&BENNETT_BURST_ATK_SCALING),
+        scales_on: Some(ScalingStat::Atk), // base_atk × scaling
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+    },
+    TalentBuffDef {
+        name: "Spirit of Pyro",
+        description: "C6: Characters within the burst field gain Pyro DMG Bonus +15%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+    },
+];
 
 // ===== Amber =====
 // C6 "Wildfire": ATK+15% for party during burst
