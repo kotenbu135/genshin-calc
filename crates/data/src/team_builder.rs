@@ -386,12 +386,53 @@ impl TeamMemberBuilder {
                 raw_value
             };
 
-            buffs.push(ResolvedBuff {
-                source: def.name.to_string(),
-                stat: def.stat,
-                value,
-                target: def.target,
-            });
+            let final_value = match &def.activation {
+                None => Some(value),
+                Some(activation) => match activation {
+                    crate::buff::Activation::Manual(cond) => {
+                        eval_talent_manual(cond, def.name, &self.manual_activations, value)
+                    }
+                    crate::buff::Activation::Auto(cond) => eval_auto(
+                        cond,
+                        value,
+                        profile,
+                        self.character.weapon_type,
+                        self.character.element,
+                        &self.team_elements,
+                        &self.team_regions,
+                        self.refinement,
+                    ),
+                    crate::buff::Activation::Both(auto_cond, manual_cond) => {
+                        let auto_val = eval_auto(
+                            auto_cond,
+                            value,
+                            profile,
+                            self.character.weapon_type,
+                            self.character.element,
+                            &self.team_elements,
+                            &self.team_regions,
+                            self.refinement,
+                        );
+                        match auto_val {
+                            Some(base) => eval_talent_manual(
+                                manual_cond,
+                                def.name,
+                                &self.manual_activations,
+                                base,
+                            ),
+                            None => None,
+                        }
+                    }
+                },
+            };
+            if let Some(fv) = final_value {
+                buffs.push(ResolvedBuff {
+                    source: def.name.to_string(),
+                    stat: def.stat,
+                    value: fv,
+                    target: def.target,
+                });
+            }
         }
     }
 
@@ -672,6 +713,41 @@ fn eval_manual(
     }
 }
 
+/// Evaluates a Manual condition for a talent buff. Returns Some(value) if user activated it.
+///
+/// Unlike `eval_manual`, this operates on talent buffs where `computed_value` is the
+/// MAX-stacks value. For Stacks(max), per-stack = computed_value / max, so
+/// n stacks = computed_value * n / max.
+fn eval_talent_manual(
+    cond: &ManualCondition,
+    name: &str,
+    activations: &[(String, ManualActivation)],
+    computed_value: f64,
+) -> Option<f64> {
+    let activation = activations.iter().find(|(n, _)| n.as_str() == name);
+    match cond {
+        ManualCondition::Toggle => match activation {
+            Some((_, ManualActivation::Active)) => Some(computed_value),
+            _ => None,
+        },
+        ManualCondition::Stacks(max) => match activation {
+            Some((_, ManualActivation::Stacks(n))) => {
+                let effective = (*n).min(*max);
+                if effective == 0 {
+                    return None;
+                }
+                // computed_value is the MAX value; scale by n/max to get n-stack value
+                Some(computed_value * f64::from(effective) / f64::from(*max))
+            }
+            Some((_, ManualActivation::Active)) => {
+                // Active means full max stacks = full value
+                Some(computed_value)
+            }
+            _ => None,
+        },
+    }
+}
+
 pub fn apply_weapon_sub_stat(profile: &mut StatProfile, sub: &WeaponSubStat) {
     apply_weapon_sub_stat_at_level(profile, sub, 3); // Default to Lv90
 }
@@ -700,6 +776,68 @@ mod tests {
 
     const EPSILON: f64 = 1e-4;
 
+    // ---- eval_talent_manual unit tests ----
+
+    #[test]
+    fn test_eval_talent_manual_toggle_active() {
+        let activations = vec![("my_buff".to_string(), ManualActivation::Active)];
+        let result = eval_talent_manual(&ManualCondition::Toggle, "my_buff", &activations, 0.25);
+        assert!((result.unwrap() - 0.25).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_toggle_inactive() {
+        let activations: Vec<(String, ManualActivation)> = vec![];
+        let result = eval_talent_manual(&ManualCondition::Toggle, "my_buff", &activations, 0.25);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_partial() {
+        // computed_value = 0.3 (= 3 stacks max). With 2 stacks: 0.3 * 2/3 = 0.2
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(2))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        assert!((result.unwrap() - 0.2).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_max() {
+        // Stacks(3) with max=3 → full value
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(3))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        assert!((result.unwrap() - 0.3).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_zero_returns_none() {
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(0))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_active_full_value() {
+        // Active = max stacks = full computed_value
+        let activations = vec![("my_buff".to_string(), ManualActivation::Active)];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        assert!((result.unwrap() - 0.3).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_stacks_clamped_to_max() {
+        // n=5 but max=3 → effective=3 → full value
+        let activations = vec![("my_buff".to_string(), ManualActivation::Stacks(5))];
+        let result = eval_talent_manual(&ManualCondition::Stacks(3), "my_buff", &activations, 0.3);
+        assert!((result.unwrap() - 0.3).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_eval_talent_manual_wrong_name_returns_none() {
+        let activations = vec![("other_buff".to_string(), ManualActivation::Active)];
+        let result = eval_talent_manual(&ManualCondition::Toggle, "my_buff", &activations, 0.25);
+        assert!(result.is_none());
+    }
+
     #[test]
     fn test_basic_build() {
         let bennett = find_character("bennett").unwrap();
@@ -716,6 +854,7 @@ mod tests {
         let weapon = find_weapon("aquila_favonia").unwrap();
         let member = TeamMemberBuilder::new(bennett, weapon)
             .talent_levels([1, 1, 13])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
 
@@ -926,6 +1065,7 @@ mod tests {
         let member = TeamMemberBuilder::new(bennett, weapon)
             .constellation(5)
             .talent_levels([1, 1, 10])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
 
@@ -949,6 +1089,7 @@ mod tests {
         let member = TeamMemberBuilder::new(bennett, weapon)
             .constellation(0)
             .talent_levels([1, 1, 10])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
 
@@ -969,6 +1110,7 @@ mod tests {
         let weapon = find_weapon("favonius_warbow").unwrap();
         let member = TeamMemberBuilder::new(faruzan, weapon)
             .talent_levels([1, 1, 13])
+            .activate("Prayerful Wind's Benefit")
             .build()
             .unwrap();
 
@@ -1018,7 +1160,16 @@ mod tests {
     fn test_shenhe_a1_press_in_buffs_provided() {
         let shenhe = find_character("shenhe").unwrap();
         let weapon = find_weapon("calamity_queller").unwrap();
-        let member = TeamMemberBuilder::new(shenhe, weapon).build().unwrap();
+        let member = TeamMemberBuilder::new(shenhe, weapon)
+            .activate("Deific Embrace Press - Skill DMG")
+            .activate("Deific Embrace Press - Burst DMG")
+            .activate_with_stacks("Spring Spirit Summoning Normal ATK Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Charged ATK Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Plunging ATK Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Skill Flat DMG", 5)
+            .activate_with_stacks("Spring Spirit Summoning Burst Flat DMG", 5)
+            .build()
+            .unwrap();
 
         assert!(
             member
@@ -1986,6 +2137,7 @@ mod conditional_tests {
         let weapon = find_weapon("aquila_favonia").unwrap();
         let member = TeamMemberBuilder::new(bennett, weapon)
             .talent_levels([1, 1, 13])
+            .activate("Fantastic Voyage ATK Bonus")
             .build()
             .unwrap();
         let burst_buff = member

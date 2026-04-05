@@ -11,6 +11,7 @@ fn test_bennett_kazuha_team_damage() {
     .artifact_set(find_artifact_set("noblesse_oblige").unwrap())
     .constellation(6)
     .talent_levels([1, 1, 13])
+    .activate("Fantastic Voyage ATK Bonus")
     .build()
     .unwrap();
 
