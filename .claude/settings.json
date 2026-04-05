@@ -102,6 +102,16 @@
             "statusMessage": "Running cargo check..."
           }
         ]
+      },
+      {
+        "matcher": "LSP",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/lsp-verify.sh",
+            "statusMessage": "Verifying LSP diagnostics with cargo check..."
+          }
+        ]
       }
     ],
     "Stop": [
