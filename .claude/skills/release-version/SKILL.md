@@ -68,9 +68,11 @@ cargo fmt --check
 ### Step 3: コミット
 
 ```bash
-git add crates/core/Cargo.toml crates/data/Cargo.toml crates/good/Cargo.toml crates/wasm/Cargo.toml
+git add crates/core/Cargo.toml crates/data/Cargo.toml crates/good/Cargo.toml crates/wasm/Cargo.toml Cargo.lock
 git commit -m "chore: bump version to vX.Y.Z"
 ```
+
+**重要**: `Cargo.lock`を忘れずにコミットすること。バージョンバンプ時にCargoが自動更新するため、コミットから漏れるとCIやcrates.io公開時に不整合が起きる。
 
 ### Step 4: タグ作成
 
@@ -154,6 +156,7 @@ gh workflow run release.yml --field dry_run=true
 - [ ] `cargo test --workspace` パス
 - [ ] `cargo clippy --workspace -- -D warnings` クリーン
 - [ ] `cargo fmt --check` クリーン
+- [ ] `Cargo.lock`がコミットに含まれている
 - [ ] コミットメッセージが `chore: bump version to vX.Y.Z` 形式
 - [ ] タグが `vX.Y.Z` 形式（`v`プレフィクス必須）
 - [ ] `gh run list` でReleaseワークフロー起動確認
