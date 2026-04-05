@@ -106,7 +106,7 @@ impl TeamMemberBuilder {
     }
 
     /// Activate a stackable conditional buff with stack count.
-    pub fn activate_with_stacks(mut self, name: &str, stacks: u8) -> Self {
+    pub fn activate_with_stacks(mut self, name: &str, stacks: u16) -> Self {
         self.manual_activations
             .push((name.to_string(), ManualActivation::Stacks(stacks)));
         self

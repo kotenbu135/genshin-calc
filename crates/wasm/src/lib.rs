@@ -7,7 +7,7 @@ use wasm_bindgen::prelude::*;
 struct WasmManualActivation {
     name: String,
     active: bool,
-    stacks: Option<u8>,
+    stacks: Option<u16>,
 }
 
 fn convert_activations(

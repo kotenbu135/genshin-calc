@@ -101,7 +101,7 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+        activation: Some(Activation::Manual(ManualCondition::Stacks(300))),
     },
     TalentBuffDef {
         name: "Let the People Rejoice DMG Bonus (C1+ extra 100pt)",
@@ -115,7 +115,7 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
         cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+        activation: Some(Activation::Manual(ManualCondition::Stacks(300))),
     },
 ];
 

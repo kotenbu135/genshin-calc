@@ -66,7 +66,7 @@ pub enum ManualCondition {
     /// Simple on/off toggle (e.g. "HP below 50%").
     Toggle,
     /// Stackable buff with max stack count (e.g. CW 4pc max 3).
-    Stacks(u8),
+    Stacks(u16),
 }
 
 /// How a conditional buff is activated.
@@ -107,7 +107,7 @@ pub enum ManualActivation {
     /// Toggle ON.
     Active,
     /// Stackable buff with specified stack count.
-    Stacks(u8),
+    Stacks(u16),
 }
 
 /// A conditional buff with source context, for UI display.
