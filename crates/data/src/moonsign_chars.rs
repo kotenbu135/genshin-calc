@@ -140,15 +140,28 @@ pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
 }];
 
 /// Talent enhancements for Aino.
-pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
-    character_name: "Aino",
-    required_level: MoonsignLevel::AscendantGleam,
-    description: "At Ascendant Gleam, reaction DMG bonus from C6 increases by +20% (total +35%)",
-    effect: MoonsignTalentEffect::ReactionDmgBonus {
-        reaction: Reaction::LunarElectroCharged,
-        bonus: 0.20,
+/// C6 reaction DMG bonus varies by Moonsign level: Lv1=+15%, Lv2=+35%.
+pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::NascentGleam,
+        description: "C6: At Nascent Gleam+, reaction DMG +15% for 15s after Burst",
+        effect: MoonsignTalentEffect::StatBuff {
+            stat: BuffableStat::TransformativeBonus,
+            value: 0.15,
+            target: BuffTarget::Team,
+        },
     },
-}];
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::AscendantGleam,
+        description: "C6: At Ascendant Gleam, reaction DMG bonus increases by +20% (total +35%)",
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::LunarElectroCharged,
+            bonus: 0.20,
+        },
+    },
+];
 
 /// Returns `true` if the character ID belongs to a moonsign character.
 #[must_use]
@@ -276,17 +289,16 @@ mod tests {
     #[test]
     fn test_aino_talent_enhancements_at_ascendant_gleam() {
         let enhancements = find_moonsign_talent_enhancements("aino", MoonsignLevel::AscendantGleam);
-        assert_eq!(enhancements.len(), 1);
-        assert_eq!(
-            enhancements[0].required_level,
-            MoonsignLevel::AscendantGleam
-        );
+        // NascentGleam (+15%) + AscendantGleam (+20%) = 2 enhancements
+        assert_eq!(enhancements.len(), 2);
     }
 
     #[test]
     fn test_aino_talent_enhancements_at_nascent_gleam() {
         let enhancements = find_moonsign_talent_enhancements("aino", MoonsignLevel::NascentGleam);
-        assert!(enhancements.is_empty());
+        // C6 base +15% activates at NascentGleam
+        assert_eq!(enhancements.len(), 1);
+        assert_eq!(enhancements[0].required_level, MoonsignLevel::NascentGleam);
     }
 
     #[test]

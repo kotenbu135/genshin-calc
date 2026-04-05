@@ -186,7 +186,8 @@ mod tests {
     #[test]
     fn test_find_aino_buffs() {
         let buffs = find_talent_buffs("aino").unwrap();
-        assert_eq!(buffs.len(), 3);
+        // C1 EM + A4 BurstFlatDmg (C6 moved to MoonsignTalentEnhancement)
+        assert_eq!(buffs.len(), 2);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 80.0).abs() < 1e-6);
         assert_eq!(buffs[0].min_constellation, 1);
@@ -206,16 +207,16 @@ mod tests {
     }
 
     #[test]
-    fn test_aino_c6_reaction_dmg_bonus() {
+    fn test_aino_c6_moved_to_moonsign() {
+        // C6 reaction DMG bonus is now Moonsign-level-dependent,
+        // defined in moonsign_chars.rs, not talent_buffs.
         let buffs = find_talent_buffs("aino").unwrap();
-        let c6 = buffs
-            .iter()
-            .find(|b| b.source == TalentBuffSource::Constellation(6))
-            .unwrap();
-        assert_eq!(c6.stat, BuffableStat::TransformativeBonus);
-        assert!((c6.base_value - 0.15).abs() < 1e-6);
-        assert_eq!(c6.min_constellation, 6);
-        assert_eq!(c6.target, BuffTarget::Team);
+        assert!(
+            buffs
+                .iter()
+                .all(|b| b.source != TalentBuffSource::Constellation(6)),
+            "C6 should not be in talent_buffs (moved to MoonsignTalentEnhancement)"
+        );
     }
 
     #[test]
@@ -293,8 +294,8 @@ mod tests {
     #[test]
     fn test_shenhe_skill_flat_dmg_entries() {
         let buffs = find_talent_buffs("shenhe").unwrap();
-        // Should have 5 FlatDmg entries + 2 A4 press entries = 7 total
-        assert_eq!(buffs.len(), 7);
+        // 5 FlatDmg entries + 2 A4 press entries + 3 A4 hold entries = 10 total
+        assert_eq!(buffs.len(), 10);
         assert!(
             buffs.iter().all(|b| b.stat != BuffableStat::AtkFlat),
             "Shenhe should have no AtkFlat entry"
@@ -683,10 +684,14 @@ mod tests {
     fn test_find_iansan_buffs() {
         let buffs = find_talent_buffs("iansan").unwrap();
         assert_eq!(buffs.len(), 2);
-        assert_eq!(buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
+        // Burst: AtkFlat scaling on ATK
+        assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert!(buffs[0].scales_with_talent);
-        assert_eq!(buffs[1].stat, BuffableStat::AtkFlat);
-        assert_eq!(buffs[1].scales_on, Some(ScalingStat::Hp));
+        assert_eq!(buffs[0].scales_on, Some(ScalingStat::Atk));
+        // A1: AtkPercent +20% self
+        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((buffs[1].base_value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[1].target, BuffTarget::OnlySelf);
     }
 
     #[test]

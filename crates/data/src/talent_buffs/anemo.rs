@@ -102,13 +102,16 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Varka =====
-// A1: Dawn Wind's March — Anemo DMG Bonus (ATK1000あたり+10%、最大25%)
+// A1: Dawn Wind's March — ATK1000あたり Anemo DMG +10% AND 対応元素DMG +10%、各最大25%
+//   対応元素優先度: Pyro > Hydro > Electro > Cryo
+//   対応元素DMGは動的選択のためTalentBuffDefでは表現困難。Anemoのみ定義。
+//   TODO: 対応元素DMG+25% を動的に選択する仕組みを検討
 // A4: Wind's Vanguard — Normal/Charged ATK DMG (拡散反応時+7.5%/stack、最大4stack=30%)
-// C4: Freedom of Song — Team Anemo DMG (拡散反応時+20%)
+// C4: Freedom of Song — Team Anemo DMG +20% + 対応元素DMG +20% (対応元素は未実装)
 static VARKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dawn Wind's March Anemo DMG",
-        description: "ATK1000あた��風元素/対応元素DMG+10%、最大25%。Toggle=25%想定",
+        description: "ATK1000あたり風元素DMG+10%、最大25%。対応元素DMG+25%は未実装(動的選択)。Toggle=25%想定",
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
         base_value: 0.25,
         scales_with_talent: false,

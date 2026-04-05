@@ -98,6 +98,20 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 4,
         cap: None,
     },
+    // C4 also enhances A4: 8%→10% (+2% delta), cap 160→220 (+60 delta)
+    TalentBuffDef {
+        name: "Night on Bald Mountain A4 EM Enhancement",
+        description: "C4: A4 EM coefficient enhanced from 8% to 10% (delta +2%, cap raised to 220)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.02,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::TotalAtk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: Some(60.0),
+    },
 ];
 
 // ===== Raiden Shogun =====
@@ -155,37 +169,39 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Iansan =====
-// Burst: NormalAtkDmgBonus per burst level
-// A4: AtkFlat from HP (HP × 0.40 coefficient)
-static IANSAN_BURST_NORMAL_SCALING: [f64; 15] = [
+// Burst "Three Principles of Power": ATK Flat bonus (Iansan ATK × coefficient) to party
+// Max ATK Bonus: Lv1=330 ~ Lv15=890 (4-source confirmed: KQM, game8, genshin.gg, paimon.moe)
+// A1 "Enhanced Resistance Training": Iansan self ATK +20% for 15s
+// A4 "Kinetic Energy Gradient Test": HP recovery (ATK×60%) — not a stat buff, omitted
+static IANSAN_BURST_ATK_SCALING: [f64; 15] = [
     0.30, 0.3225, 0.345, 0.375, 0.3975, 0.42, 0.45, 0.48, 0.51, 0.54, 0.57, 0.60, 0.6375, 0.675,
     0.7125,
 ];
 
 static IANSAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Three Principles NormalAtkDmgBonus",
-        description: "Burst: Party Normal ATK DMG Bonus based on burst talent level",
-        stat: BuffableStat::NormalAtkDmgBonus,
+        name: "Three Principles AtkFlat",
+        description: "Burst: Party gains flat ATK = Iansan ATK × coefficient (scales with burst level)",
+        stat: BuffableStat::AtkFlat,
         base_value: 0.0,
         scales_with_talent: true,
-        talent_scaling: Some(&IANSAN_BURST_NORMAL_SCALING),
-        scales_on: None,
+        talent_scaling: Some(&IANSAN_BURST_ATK_SCALING),
+        scales_on: Some(ScalingStat::Atk),
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalBurst,
         min_constellation: 0,
         cap: None,
     },
     TalentBuffDef {
-        name: "The Law of Power ATK Bonus",
-        description: "A4: Grants ATK Flat = HP × 0.40 coefficient (builder computes at resolve time)",
-        stat: BuffableStat::AtkFlat,
-        base_value: 0.40,
+        name: "Enhanced Resistance Training ATK Bonus",
+        description: "A1: Iansan gains ATK +20% for 15s",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: Some(ScalingStat::Hp),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
     },

@@ -31,19 +31,9 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
     },
-    TalentBuffDef {
-        name: "Aino C6 Reaction DMG Bonus",
-        description: "After Burst, nearby active characters' reaction DMG +15% for 15s",
-        stat: BuffableStat::TransformativeBonus,
-        base_value: 0.15,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-    },
+    // C6 "The Burden of Creative Genius": Reaction DMG bonus varies by Moonsign level.
+    // Lv1 (NascentGleam): +15%, Lv2 (AscendantGleam): +35%
+    // Moved to MoonsignTalentEnhancement in moonsign_chars.rs (not a fixed talent buff).
 ];
 
 // ===== Barbara =====
@@ -198,13 +188,13 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C2 Lunar Brilliance HP",
-        description: "C2: Lunar Brilliance — HP +40% for 8s",
+        description: "C2: Lunar Brilliance — Columbina HP +40% for 8s (self only)",
         stat: BuffableStat::HpPercent,
         base_value: 0.40,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::Team,
+        target: BuffTarget::OnlySelf,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,

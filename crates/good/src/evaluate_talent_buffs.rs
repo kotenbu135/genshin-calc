@@ -100,13 +100,8 @@ fn apply_stat_scaling(
             }
         }
         Some(ScalingStat::Em) => {
-            let raw = if def.name == "On All Things Meditated" {
-                // Nahida A1 special: (em - 200) * coefficient, clamped to [0, 250]
-                ((stats.elemental_mastery - 200.0).max(0.0) * scaling_value).min(250.0)
-            } else {
-                // Generic EM scaling: em * coefficient (Sucrose A4, Kazuha A4, Citlali A4, etc.)
-                stats.elemental_mastery * scaling_value
-            };
+            // Generic EM scaling: em * coefficient (Sucrose A4, Kazuha A4, Nahida A1, Citlali A4, etc.)
+            let raw = stats.elemental_mastery * scaling_value;
             match def.cap {
                 Some(cap) => raw.min(cap),
                 None => raw,
@@ -280,8 +275,8 @@ mod tests {
             "Source should contain 'a1', got: {}",
             buffs[0].source
         );
-        // Expected: (em - 200) * 0.25
-        let expected = (em - 200.0).max(0.0) * 0.25;
+        // Expected: em * 0.25, capped at 250
+        let expected = (em * 0.25).min(250.0);
         assert!(
             (buffs[0].value - expected).abs() < 1.0,
             "Expected ~{expected}, got {}",
@@ -291,8 +286,8 @@ mod tests {
     }
 
     #[test]
-    fn test_nahida_a1_low_em_clamped_to_zero() {
-        // With very low EM (below 200), buff should be 0
+    fn test_nahida_a1_low_em_capped() {
+        // With low EM, buff should be em * 0.25 (no -200 offset)
         let json = r#"{
             "format": "GOOD", "version": 3, "source": "Test",
             "characters": [{"key": "Nahida", "level": 90, "constellation": 0, "ascension": 6, "talent": {"auto": 1, "skill": 10, "burst": 10}}],
@@ -303,15 +298,14 @@ mod tests {
         let build = &import.builds[0];
         let profile = crate::build_stat_profile(build);
 
-        if profile.elemental_mastery < 200.0 {
-            let buffs = evaluate_talent_buffs(build, 0, &[1, 10, 10]);
-            assert_eq!(buffs.len(), 1);
-            assert!(
-                (buffs[0].value - 0.0).abs() < 1e-6,
-                "Below 200 EM, buff should be 0, got {}",
-                buffs[0].value
-            );
-        }
+        let buffs = evaluate_talent_buffs(build, 0, &[1, 10, 10]);
+        assert_eq!(buffs.len(), 1);
+        let expected = (profile.elemental_mastery * 0.25).min(250.0);
+        assert!(
+            (buffs[0].value - expected).abs() < 1.0,
+            "Expected ~{expected}, got {}",
+            buffs[0].value
+        );
     }
 
     #[test]
