@@ -14,13 +14,14 @@ pub fn evaluate_talent_buffs(
     };
 
     let profile = crate::build_stat_profile(build);
+    let stats = combine_stats(&profile).unwrap_or_default();
 
     defs.iter()
         .filter(|def| def.min_constellation <= constellation)
         .filter(|def| is_ascension_met(build.level, &def.source))
         .map(|def| {
             let scaling_value = resolve_scaling_value(def, talent_levels);
-            let final_value = apply_stat_scaling(def, scaling_value, &profile);
+            let final_value = apply_stat_scaling(def, scaling_value, &profile, &stats);
             ResolvedBuff {
                 source: format!("{}:{}", character_id, source_label(&def.source)),
                 stat: def.stat,
@@ -59,25 +60,25 @@ fn resolve_scaling_value(
     }
 }
 
+/// Applies stat scaling (e.g., base_atk × scaling for Bennett).
+///
+/// NOTE: `ScalingStat::Atk` here intentionally uses `profile.base_atk` (character + weapon base ATK),
+/// NOT total ATK from `combine_stats`. This is because all current talent buffs that scale on ATK
+/// (Bennett burst, Kujou Sara skill) scale on **base ATK** per game mechanics.
+/// This diverges from `ScalingStat::Atk` usage in `damage.rs` where it means total ATK.
+/// If a future talent buff needs total ATK scaling, introduce `ScalingStat::BaseAtk` to disambiguate.
 fn apply_stat_scaling(
     def: &genshin_calc_data::talent_buffs::TalentBuffDef,
     scaling_value: f64,
     profile: &genshin_calc_core::StatProfile,
+    stats: &genshin_calc_core::Stats,
 ) -> f64 {
     match def.scales_on {
+        // base_atk (character + weapon) — see doc comment above
         Some(ScalingStat::Atk) => profile.base_atk * scaling_value,
-        Some(ScalingStat::Def) => {
-            let stats = combine_stats(profile).unwrap_or_default();
-            stats.def * scaling_value
-        }
-        Some(ScalingStat::Hp) => {
-            let stats = combine_stats(profile).unwrap_or_default();
-            stats.hp * scaling_value
-        }
-        Some(ScalingStat::Em) => {
-            let stats = combine_stats(profile).unwrap_or_default();
-            stats.elemental_mastery * scaling_value
-        }
+        Some(ScalingStat::Def) => stats.def * scaling_value,
+        Some(ScalingStat::Hp) => stats.hp * scaling_value,
+        Some(ScalingStat::Em) => stats.elemental_mastery * scaling_value,
         _ => scaling_value,
     }
 }
