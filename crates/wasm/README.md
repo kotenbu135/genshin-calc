@@ -81,7 +81,8 @@ console.log(result); // { non_crit, crit, average, reaction }
 | `calculate_damage(input, enemy)` | Standard damage (ATK/HP/DEF scaling) |
 | `calculate_transformative(input, enemy)` | Transformative reactions (overloaded, swirl, etc.) |
 | `calculate_lunar(input, enemy)` | Lunar reactions (Nod-Krai crittable reactions) |
-| `resolve_team_stats(members, target_index)` | Resolve team buffs into final stats |
+| `resolve_team_stats(members, target_index)` | Resolve team buffs into final stats, returns `TeamResolveResult` |
+| `apply_team_debuffs(members, target_element)` | Apply pre-resolved team debuffs to enemy |
 
 ### GOOD Format Import
 

@@ -70,6 +70,95 @@ pub fn superconduct_debuff() -> ResolvedBuff {
     }
 }
 
+/// Aggregated enemy debuffs from team buffs.
+///
+/// Each field represents the total resistance reduction or DEF reduction
+/// collected from all team members' buffs. Use [`apply_debuffs_to_enemy`]
+/// to apply these to a base [`Enemy`].
+#[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
+pub struct EnemyDebuffs {
+    /// Pyro resistance reduction total.
+    pub pyro_res_reduction: f64,
+    /// Hydro resistance reduction total.
+    pub hydro_res_reduction: f64,
+    /// Electro resistance reduction total.
+    pub electro_res_reduction: f64,
+    /// Cryo resistance reduction total.
+    pub cryo_res_reduction: f64,
+    /// Dendro resistance reduction total.
+    pub dendro_res_reduction: f64,
+    /// Anemo resistance reduction total.
+    pub anemo_res_reduction: f64,
+    /// Geo resistance reduction total.
+    pub geo_res_reduction: f64,
+    /// Physical resistance reduction total.
+    pub physical_res_reduction: f64,
+    /// DEF reduction total.
+    pub def_reduction: f64,
+}
+
+/// Collects enemy debuffs from resolved team buffs into an [`EnemyDebuffs`].
+///
+/// Extracts `ElementalResReduction`, `PhysicalResReduction`, and `DefReduction`
+/// buffs. All other buff types are ignored.
+pub(crate) fn collect_enemy_debuffs(buffs: &[ResolvedBuff]) -> EnemyDebuffs {
+    let mut d = EnemyDebuffs::default();
+    for buff in buffs {
+        match buff.stat {
+            BuffableStat::ElementalResReduction(Element::Pyro) => {
+                d.pyro_res_reduction += buff.value
+            }
+            BuffableStat::ElementalResReduction(Element::Hydro) => {
+                d.hydro_res_reduction += buff.value
+            }
+            BuffableStat::ElementalResReduction(Element::Electro) => {
+                d.electro_res_reduction += buff.value
+            }
+            BuffableStat::ElementalResReduction(Element::Cryo) => {
+                d.cryo_res_reduction += buff.value
+            }
+            BuffableStat::ElementalResReduction(Element::Dendro) => {
+                d.dendro_res_reduction += buff.value
+            }
+            BuffableStat::ElementalResReduction(Element::Anemo) => {
+                d.anemo_res_reduction += buff.value
+            }
+            BuffableStat::ElementalResReduction(Element::Geo) => d.geo_res_reduction += buff.value,
+            BuffableStat::PhysicalResReduction => d.physical_res_reduction += buff.value,
+            BuffableStat::DefReduction => d.def_reduction += buff.value,
+            _ => {}
+        }
+    }
+    d
+}
+
+/// Applies pre-collected enemy debuffs to a base enemy for a specific damage element.
+///
+/// Selects the matching resistance reduction by element (or physical if `None`),
+/// subtracts from `enemy.resistance`, and adds `def_reduction` (clamped to 1.0).
+/// Returns a new `Enemy` (immutable pattern).
+pub fn apply_debuffs_to_enemy(
+    enemy: &Enemy,
+    debuffs: &EnemyDebuffs,
+    element: Option<Element>,
+) -> Enemy {
+    let res_reduction = match element {
+        Some(Element::Pyro) => debuffs.pyro_res_reduction,
+        Some(Element::Hydro) => debuffs.hydro_res_reduction,
+        Some(Element::Electro) => debuffs.electro_res_reduction,
+        Some(Element::Cryo) => debuffs.cryo_res_reduction,
+        Some(Element::Dendro) => debuffs.dendro_res_reduction,
+        Some(Element::Anemo) => debuffs.anemo_res_reduction,
+        Some(Element::Geo) => debuffs.geo_res_reduction,
+        None => debuffs.physical_res_reduction,
+    };
+    Enemy {
+        level: enemy.level,
+        resistance: enemy.resistance - res_reduction,
+        def_reduction: f64::min(1.0, enemy.def_reduction + debuffs.def_reduction),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -450,5 +539,279 @@ mod tests {
         let expected_ratio = def_mult_debuffed / def_mult_original;
         let ratio = result_debuffed.non_crit / result_no_debuff.non_crit;
         assert!((ratio - expected_ratio).abs() < 0.001);
+    }
+
+    // Task 2: EnemyDebuffs tests
+    #[test]
+    fn test_collect_enemy_debuffs_empty() {
+        let debuffs = collect_enemy_debuffs(&[]);
+        assert!((debuffs.pyro_res_reduction - 0.0).abs() < EPSILON);
+        assert!((debuffs.def_reduction - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_collect_enemy_debuffs_all_elements() {
+        let buffs = vec![
+            ResolvedBuff {
+                source: "Citlali Q".into(),
+                stat: BuffableStat::ElementalResReduction(Element::Pyro),
+                value: 0.20,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Citlali Q".into(),
+                stat: BuffableStat::ElementalResReduction(Element::Cryo),
+                value: 0.20,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "VV".into(),
+                stat: BuffableStat::ElementalResReduction(Element::Hydro),
+                value: 0.40,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Superconduct".into(),
+                stat: BuffableStat::PhysicalResReduction,
+                value: 0.40,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Lisa A4".into(),
+                stat: BuffableStat::DefReduction,
+                value: 0.15,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Bennett".into(),
+                stat: BuffableStat::AtkFlat,
+                value: 1000.0,
+                target: BuffTarget::Team,
+            },
+        ];
+        let debuffs = collect_enemy_debuffs(&buffs);
+        assert!((debuffs.pyro_res_reduction - 0.20).abs() < EPSILON);
+        assert!((debuffs.cryo_res_reduction - 0.20).abs() < EPSILON);
+        assert!((debuffs.hydro_res_reduction - 0.40).abs() < EPSILON);
+        assert!((debuffs.electro_res_reduction - 0.0).abs() < EPSILON);
+        assert!((debuffs.dendro_res_reduction - 0.0).abs() < EPSILON);
+        assert!((debuffs.anemo_res_reduction - 0.0).abs() < EPSILON);
+        assert!((debuffs.geo_res_reduction - 0.0).abs() < EPSILON);
+        assert!((debuffs.physical_res_reduction - 0.40).abs() < EPSILON);
+        assert!((debuffs.def_reduction - 0.15).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_collect_enemy_debuffs_stacks() {
+        let buffs = vec![
+            ResolvedBuff {
+                source: "VV".into(),
+                stat: BuffableStat::ElementalResReduction(Element::Pyro),
+                value: 0.40,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Zhongli".into(),
+                stat: BuffableStat::ElementalResReduction(Element::Pyro),
+                value: 0.20,
+                target: BuffTarget::Team,
+            },
+        ];
+        let debuffs = collect_enemy_debuffs(&buffs);
+        assert!((debuffs.pyro_res_reduction - 0.60).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_apply_debuffs_to_enemy_pyro() {
+        let enemy = base_enemy();
+        let debuffs = EnemyDebuffs {
+            pyro_res_reduction: 0.40,
+            ..Default::default()
+        };
+        let result = apply_debuffs_to_enemy(&enemy, &debuffs, Some(Element::Pyro));
+        assert!((result.resistance - (-0.30)).abs() < EPSILON);
+        assert!((result.def_reduction - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_apply_debuffs_to_enemy_physical() {
+        let enemy = base_enemy();
+        let debuffs = EnemyDebuffs {
+            physical_res_reduction: 0.40,
+            ..Default::default()
+        };
+        let result = apply_debuffs_to_enemy(&enemy, &debuffs, None);
+        assert!((result.resistance - (-0.30)).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_apply_debuffs_to_enemy_wrong_element_no_effect() {
+        let enemy = base_enemy();
+        let debuffs = EnemyDebuffs {
+            pyro_res_reduction: 0.40,
+            ..Default::default()
+        };
+        let result = apply_debuffs_to_enemy(&enemy, &debuffs, Some(Element::Cryo));
+        assert!((result.resistance - 0.10).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_apply_debuffs_to_enemy_def_reduction_clamped() {
+        let enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.80,
+        };
+        let debuffs = EnemyDebuffs {
+            def_reduction: 0.50,
+            ..Default::default()
+        };
+        let result = apply_debuffs_to_enemy(&enemy, &debuffs, Some(Element::Pyro));
+        assert!((result.def_reduction - 1.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_apply_debuffs_to_enemy_combined() {
+        let enemy = base_enemy();
+        let debuffs = EnemyDebuffs {
+            pyro_res_reduction: 0.40,
+            cryo_res_reduction: 0.20,
+            def_reduction: 0.15,
+            ..Default::default()
+        };
+        let result = apply_debuffs_to_enemy(&enemy, &debuffs, Some(Element::Pyro));
+        assert!((result.resistance - (-0.30)).abs() < EPSILON);
+        assert!((result.def_reduction - 0.15).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_full_pipeline_resolve_debuffs_damage() {
+        use crate::damage::{DamageInput, calculate_damage};
+        use crate::stat_profile::StatProfile;
+        use crate::stats::Stats;
+        use crate::team::{BuffTarget, ResolvedBuff, TeamMember, resolve_team_stats};
+        use crate::types::{DamageType, ScalingStat, WeaponType};
+
+        let dps = TeamMember {
+            element: Element::Pyro,
+            weapon_type: WeaponType::Claymore,
+            stats: StatProfile {
+                base_atk: 900.0,
+                crit_rate: 0.70,
+                crit_dmg: 1.50,
+                energy_recharge: 1.0,
+                ..Default::default()
+            },
+            buffs_provided: vec![],
+            is_moonsign: false,
+        };
+
+        let support = TeamMember {
+            element: Element::Cryo,
+            weapon_type: WeaponType::Catalyst,
+            stats: StatProfile {
+                base_atk: 600.0,
+                energy_recharge: 1.0,
+                ..Default::default()
+            },
+            buffs_provided: vec![
+                ResolvedBuff {
+                    source: "Bennett Burst".into(),
+                    stat: BuffableStat::AtkFlat,
+                    value: 1000.0,
+                    target: BuffTarget::Team,
+                },
+                ResolvedBuff {
+                    source: "VV Pyro".into(),
+                    stat: BuffableStat::ElementalResReduction(Element::Pyro),
+                    value: 0.40,
+                    target: BuffTarget::Team,
+                },
+                ResolvedBuff {
+                    source: "Shenhe E".into(),
+                    stat: BuffableStat::NormalAtkFlatDmg,
+                    value: 2500.0,
+                    target: BuffTarget::Team,
+                },
+                ResolvedBuff {
+                    source: "Freedom-Sworn".into(),
+                    stat: BuffableStat::NormalAtkDmgBonus,
+                    value: 0.16,
+                    target: BuffTarget::Team,
+                },
+            ],
+            is_moonsign: false,
+        };
+
+        let team = vec![dps, support];
+        let result = resolve_team_stats(&team, 0).unwrap();
+
+        // Verify stats: base_atk 900 + Bennett 1000 = 1900
+        assert!((result.final_stats.atk - 1900.0).abs() < EPSILON);
+
+        // Verify damage_context
+        assert!((result.damage_context.normal_atk_dmg_bonus - 0.16).abs() < EPSILON);
+        assert!((result.damage_context.normal_atk_flat_dmg - 2500.0).abs() < EPSILON);
+
+        // Verify enemy_debuffs
+        assert!((result.enemy_debuffs.pyro_res_reduction - 0.40).abs() < EPSILON);
+
+        // Build DamageInput using the resolved data
+        let mut stats = result.final_stats.clone();
+        stats.dmg_bonus += result.damage_context.normal_atk_dmg_bonus;
+
+        let input = DamageInput {
+            character_level: 90,
+            stats,
+            talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Normal,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+            flat_dmg: result.damage_context.normal_atk_flat_dmg,
+        };
+
+        let base_enemy = Enemy {
+            level: 90,
+            resistance: 0.10,
+            def_reduction: 0.0,
+        };
+        let debuffed_enemy =
+            apply_debuffs_to_enemy(&base_enemy, &result.enemy_debuffs, Some(Element::Pyro));
+
+        // Verify debuffed enemy: 0.10 - 0.40 = -0.30
+        assert!((debuffed_enemy.resistance - (-0.30)).abs() < EPSILON);
+
+        // Calculate damage with and without the full pipeline
+        let result_full = calculate_damage(&input, &debuffed_enemy).unwrap();
+
+        // Compare with no-buff baseline
+        let baseline_input = DamageInput {
+            character_level: 90,
+            stats: Stats {
+                atk: 900.0,
+                crit_rate: 0.70,
+                crit_dmg: 1.50,
+                ..Default::default()
+            },
+            talent_multiplier: 1.76,
+            scaling_stat: ScalingStat::Atk,
+            damage_type: DamageType::Normal,
+            element: Some(Element::Pyro),
+            reaction: None,
+            reaction_bonus: 0.0,
+            flat_dmg: 0.0,
+        };
+        let result_baseline = calculate_damage(&baseline_input, &base_enemy).unwrap();
+
+        // Hand-calculated golden values:
+        // base = 1900 * 1.76 + 2500 = 5844
+        // dmg_bonus = 0.16, res = -0.30 → res_mult = 1.15, def_mult = 0.5
+        // non_crit = 5844 * 1.16 * 0.5 * 1.15 = 3897.948
+        let expected_non_crit = 3897.948;
+        assert!((result_full.non_crit - expected_non_crit).abs() < 0.01);
+        assert!(result_full.non_crit > 0.0);
+        assert!(result_full.crit > result_full.non_crit);
     }
 }

@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::buff_types::BuffableStat;
+use crate::enemy::{EnemyDebuffs, collect_enemy_debuffs};
 use crate::error::CalcError;
 use crate::resonance::{ElementalResonance, determine_resonances, resonance_buffs};
 use crate::stat_profile::{StatProfile, combine_stats};
@@ -46,6 +47,65 @@ pub struct TeamMember {
     pub is_moonsign: bool,
 }
 
+/// Aggregated attack-type-specific DMG bonuses, flat DMG, and reaction bonuses
+/// from team buffs. These cannot be applied to `StatProfile`/`Stats` because they
+/// depend on `DamageType` or reaction context.
+#[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
+pub struct DamageContext {
+    /// Normal attack DMG bonus from team buffs.
+    pub normal_atk_dmg_bonus: f64,
+    /// Charged attack DMG bonus from team buffs.
+    pub charged_atk_dmg_bonus: f64,
+    /// Plunging attack DMG bonus from team buffs.
+    pub plunging_atk_dmg_bonus: f64,
+    /// Elemental skill DMG bonus from team buffs.
+    pub skill_dmg_bonus: f64,
+    /// Elemental burst DMG bonus from team buffs.
+    pub burst_dmg_bonus: f64,
+    /// Flat damage added to normal attacks from team buffs.
+    pub normal_atk_flat_dmg: f64,
+    /// Flat damage added to charged attacks from team buffs.
+    pub charged_atk_flat_dmg: f64,
+    /// Flat damage added to plunging attacks from team buffs.
+    pub plunging_atk_flat_dmg: f64,
+    /// Flat damage added to elemental skill from team buffs.
+    pub skill_flat_dmg: f64,
+    /// Flat damage added to elemental burst from team buffs.
+    pub burst_flat_dmg: f64,
+    /// Amplifying reaction (vaporize/melt) DMG bonus from team buffs.
+    pub amplifying_bonus: f64,
+    /// Transformative reaction DMG bonus from team buffs.
+    pub transformative_bonus: f64,
+    /// Additive (catalyze) reaction DMG bonus from team buffs.
+    pub additive_bonus: f64,
+}
+
+impl DamageContext {
+    /// Aggregates conditional buffs from resolved buff list into a `DamageContext`.
+    pub fn from_buffs(buffs: &[ResolvedBuff]) -> Self {
+        let mut ctx = Self::default();
+        for buff in buffs {
+            match buff.stat {
+                BuffableStat::NormalAtkDmgBonus => ctx.normal_atk_dmg_bonus += buff.value,
+                BuffableStat::ChargedAtkDmgBonus => ctx.charged_atk_dmg_bonus += buff.value,
+                BuffableStat::PlungingAtkDmgBonus => ctx.plunging_atk_dmg_bonus += buff.value,
+                BuffableStat::SkillDmgBonus => ctx.skill_dmg_bonus += buff.value,
+                BuffableStat::BurstDmgBonus => ctx.burst_dmg_bonus += buff.value,
+                BuffableStat::NormalAtkFlatDmg => ctx.normal_atk_flat_dmg += buff.value,
+                BuffableStat::ChargedAtkFlatDmg => ctx.charged_atk_flat_dmg += buff.value,
+                BuffableStat::PlungingAtkFlatDmg => ctx.plunging_atk_flat_dmg += buff.value,
+                BuffableStat::SkillFlatDmg => ctx.skill_flat_dmg += buff.value,
+                BuffableStat::BurstFlatDmg => ctx.burst_flat_dmg += buff.value,
+                BuffableStat::AmplifyingBonus => ctx.amplifying_bonus += buff.value,
+                BuffableStat::TransformativeBonus => ctx.transformative_bonus += buff.value,
+                BuffableStat::AdditiveBonus => ctx.additive_bonus += buff.value,
+                _ => {}
+            }
+        }
+        ctx
+    }
+}
+
 /// Detailed result of team buff resolution.
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct TeamResolveResult {
@@ -57,6 +117,10 @@ pub struct TeamResolveResult {
     pub resonances: Vec<ElementalResonance>,
     /// Final stats after all buffs.
     pub final_stats: Stats,
+    /// Attack-type-specific DMG bonuses, flat DMG, and reaction bonuses.
+    pub damage_context: DamageContext,
+    /// Enemy resistance and DEF reduction from team debuffs.
+    pub enemy_debuffs: EnemyDebuffs,
 }
 
 /// Returns true if the buff is unconditional (can be applied to StatProfile directly).
@@ -163,10 +227,10 @@ fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> 
     buffs
 }
 
-/// Resolves team buffs and returns final stats for the target member.
+/// Resolves team buffs and returns a [`TeamResolveResult`] for the target member.
 ///
-/// Note: DamageType/Element-dependent buffs are NOT included.
-/// Use [`resolve_team_stats_detailed`] to see all collected buffs.
+/// The result includes final stats, applied buffs, elemental resonances,
+/// attack-type-specific damage context, and enemy debuffs.
 ///
 /// # Errors
 ///
@@ -189,12 +253,14 @@ fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> 
 ///     buffs_provided: vec![],
 ///     is_moonsign: false,
 /// };
-/// let stats = resolve_team_stats(&[member], 0).unwrap();
-/// assert!(stats.atk > 0.0);
+/// let result = resolve_team_stats(&[member], 0).unwrap();
+/// assert!(result.final_stats.atk > 0.0);
 /// ```
-pub fn resolve_team_stats(team: &[TeamMember], target_index: usize) -> Result<Stats, CalcError> {
-    let result = resolve_team_stats_detailed(team, target_index)?;
-    Ok(result.final_stats)
+pub fn resolve_team_stats(
+    team: &[TeamMember],
+    target_index: usize,
+) -> Result<TeamResolveResult, CalcError> {
+    resolve_team_stats_detailed(team, target_index)
 }
 
 /// Resolves team buffs with detailed breakdown.
@@ -221,11 +287,16 @@ pub fn resolve_team_stats_detailed(
     let elements: Vec<Element> = team.iter().map(|m| m.element).collect();
     let resonances = determine_resonances(&elements);
 
+    let damage_context = DamageContext::from_buffs(&applied_buffs);
+    let enemy_debuffs = collect_enemy_debuffs(&applied_buffs);
+
     Ok(TeamResolveResult {
         base_stats,
         applied_buffs,
         resonances,
         final_stats,
+        damage_context,
+        enemy_debuffs,
     })
 }
 
@@ -282,8 +353,8 @@ mod tests {
     #[test]
     fn test_single_member_no_buffs() {
         let team = vec![make_member(Element::Pyro, 800.0)];
-        let stats = resolve_team_stats(&team, 0).unwrap();
-        assert!((stats.atk - 800.0).abs() < EPSILON);
+        let result = resolve_team_stats(&team, 0).unwrap();
+        assert!((result.final_stats.atk - 800.0).abs() < EPSILON);
     }
 
     #[test]
@@ -298,12 +369,12 @@ mod tests {
         let team = vec![member, make_member(Element::Hydro, 700.0)];
 
         // Member 0 gets the self buff
-        let stats0 = resolve_team_stats(&team, 0).unwrap();
-        assert!((stats0.atk - 800.0 * (1.0 + 0.20)).abs() < EPSILON);
+        let result0 = resolve_team_stats(&team, 0).unwrap();
+        assert!((result0.final_stats.atk - 800.0 * (1.0 + 0.20)).abs() < EPSILON);
 
         // Member 1 does NOT get it
-        let stats1 = resolve_team_stats(&team, 1).unwrap();
-        assert!((stats1.atk - 700.0).abs() < EPSILON);
+        let result1 = resolve_team_stats(&team, 1).unwrap();
+        assert!((result1.final_stats.atk - 700.0).abs() < EPSILON);
     }
 
     #[test]
@@ -319,11 +390,11 @@ mod tests {
         let team = vec![bennett, dps];
 
         // Both members get the team buff
-        let stats0 = resolve_team_stats(&team, 0).unwrap();
-        assert!((stats0.atk - (800.0 + 1000.0)).abs() < EPSILON);
+        let result0 = resolve_team_stats(&team, 0).unwrap();
+        assert!((result0.final_stats.atk - (800.0 + 1000.0)).abs() < EPSILON);
 
-        let stats1 = resolve_team_stats(&team, 1).unwrap();
-        assert!((stats1.atk - (900.0 + 1000.0)).abs() < EPSILON);
+        let result1 = resolve_team_stats(&team, 1).unwrap();
+        assert!((result1.final_stats.atk - (900.0 + 1000.0)).abs() < EPSILON);
     }
 
     #[test]
@@ -339,12 +410,12 @@ mod tests {
         let team = vec![rosaria, dps];
 
         // Rosaria does NOT get her own buff
-        let stats0 = resolve_team_stats(&team, 0).unwrap();
-        assert!((stats0.crit_rate - 0.50).abs() < EPSILON);
+        let result0 = resolve_team_stats(&team, 0).unwrap();
+        assert!((result0.final_stats.crit_rate - 0.50).abs() < EPSILON);
 
         // DPS gets the buff
-        let stats1 = resolve_team_stats(&team, 1).unwrap();
-        assert!((stats1.crit_rate - 0.65).abs() < EPSILON);
+        let result1 = resolve_team_stats(&team, 1).unwrap();
+        assert!((result1.final_stats.crit_rate - 0.65).abs() < EPSILON);
     }
 
     #[test]
@@ -355,9 +426,9 @@ mod tests {
             make_member(Element::Hydro, 600.0),
             make_member(Element::Cryo, 500.0),
         ];
-        let stats = resolve_team_stats(&team, 0).unwrap();
+        let result = resolve_team_stats(&team, 0).unwrap();
         // base_atk=800, atk_percent=0.25 from resonance → 800*(1+0.25)=1000
-        assert!((stats.atk - 1000.0).abs() < EPSILON);
+        assert!((result.final_stats.atk - 1000.0).abs() < EPSILON);
     }
 
     #[test]
@@ -367,9 +438,9 @@ mod tests {
             make_member(Element::Pyro, 700.0),
             make_member(Element::Hydro, 600.0),
         ];
-        let stats = resolve_team_stats(&team, 0).unwrap();
+        let result = resolve_team_stats(&team, 0).unwrap();
         // No resonance — base_atk only
-        assert!((stats.atk - 800.0).abs() < EPSILON);
+        assert!((result.final_stats.atk - 800.0).abs() < EPSILON);
     }
 
     #[test]
@@ -442,5 +513,208 @@ mod tests {
         // AtkPercent applied, NormalAtkDmgBonus skipped
         assert!((result.atk_percent - 0.20).abs() < EPSILON);
         assert!((result.dmg_bonus - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_damage_context_from_buffs_empty() {
+        let ctx = DamageContext::from_buffs(&[]);
+        assert!((ctx.normal_atk_dmg_bonus - 0.0).abs() < EPSILON);
+        assert!((ctx.skill_flat_dmg - 0.0).abs() < EPSILON);
+        assert!((ctx.amplifying_bonus - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_damage_context_from_buffs_mixed() {
+        let buffs = vec![
+            ResolvedBuff {
+                source: "Yelan A4".into(),
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.25,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Shenhe E".into(),
+                stat: BuffableStat::SkillFlatDmg,
+                value: 3000.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Shenhe E".into(),
+                stat: BuffableStat::BurstFlatDmg,
+                value: 3000.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Bennett Burst".into(),
+                stat: BuffableStat::AtkFlat,
+                value: 1000.0,
+                target: BuffTarget::Team,
+            },
+        ];
+        let ctx = DamageContext::from_buffs(&buffs);
+        assert!((ctx.normal_atk_dmg_bonus - 0.25).abs() < EPSILON);
+        assert!((ctx.charged_atk_dmg_bonus - 0.0).abs() < EPSILON);
+        assert!((ctx.skill_flat_dmg - 3000.0).abs() < EPSILON);
+        assert!((ctx.burst_flat_dmg - 3000.0).abs() < EPSILON);
+        assert!((ctx.normal_atk_flat_dmg - 0.0).abs() < EPSILON);
+        assert!((ctx.amplifying_bonus - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_damage_context_reaction_bonuses() {
+        let buffs = vec![
+            ResolvedBuff {
+                source: "4pc CW".into(),
+                stat: BuffableStat::AmplifyingBonus,
+                value: 0.15,
+                target: BuffTarget::OnlySelf,
+            },
+            ResolvedBuff {
+                source: "Sucrose C6".into(),
+                stat: BuffableStat::AdditiveBonus,
+                value: 0.20,
+                target: BuffTarget::Team,
+            },
+        ];
+        let ctx = DamageContext::from_buffs(&buffs);
+        assert!((ctx.amplifying_bonus - 0.15).abs() < EPSILON);
+        assert!((ctx.additive_bonus - 0.20).abs() < EPSILON);
+        assert!((ctx.transformative_bonus - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_damage_context_all_type_dmg_bonuses() {
+        let buffs = vec![
+            ResolvedBuff {
+                source: "a".into(),
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.10,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "b".into(),
+                stat: BuffableStat::ChargedAtkDmgBonus,
+                value: 0.20,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "c".into(),
+                stat: BuffableStat::PlungingAtkDmgBonus,
+                value: 0.30,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "d".into(),
+                stat: BuffableStat::SkillDmgBonus,
+                value: 0.40,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "e".into(),
+                stat: BuffableStat::BurstDmgBonus,
+                value: 0.50,
+                target: BuffTarget::Team,
+            },
+        ];
+        let ctx = DamageContext::from_buffs(&buffs);
+        assert!((ctx.normal_atk_dmg_bonus - 0.10).abs() < EPSILON);
+        assert!((ctx.charged_atk_dmg_bonus - 0.20).abs() < EPSILON);
+        assert!((ctx.plunging_atk_dmg_bonus - 0.30).abs() < EPSILON);
+        assert!((ctx.skill_dmg_bonus - 0.40).abs() < EPSILON);
+        assert!((ctx.burst_dmg_bonus - 0.50).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_damage_context_all_type_flat_dmgs() {
+        let buffs = vec![
+            ResolvedBuff {
+                source: "a".into(),
+                stat: BuffableStat::NormalAtkFlatDmg,
+                value: 100.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "b".into(),
+                stat: BuffableStat::ChargedAtkFlatDmg,
+                value: 200.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "c".into(),
+                stat: BuffableStat::PlungingAtkFlatDmg,
+                value: 300.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "d".into(),
+                stat: BuffableStat::SkillFlatDmg,
+                value: 400.0,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "e".into(),
+                stat: BuffableStat::BurstFlatDmg,
+                value: 500.0,
+                target: BuffTarget::Team,
+            },
+        ];
+        let ctx = DamageContext::from_buffs(&buffs);
+        assert!((ctx.normal_atk_flat_dmg - 100.0).abs() < EPSILON);
+        assert!((ctx.charged_atk_flat_dmg - 200.0).abs() < EPSILON);
+        assert!((ctx.plunging_atk_flat_dmg - 300.0).abs() < EPSILON);
+        assert!((ctx.skill_flat_dmg - 400.0).abs() < EPSILON);
+        assert!((ctx.burst_flat_dmg - 500.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_damage_context_stacks_same_type() {
+        let buffs = vec![
+            ResolvedBuff {
+                source: "Freedom-Sworn".into(),
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.16,
+                target: BuffTarget::Team,
+            },
+            ResolvedBuff {
+                source: "Yun Jin A4".into(),
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.05,
+                target: BuffTarget::Team,
+            },
+        ];
+        let ctx = DamageContext::from_buffs(&buffs);
+        assert!((ctx.normal_atk_dmg_bonus - 0.21).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_resolve_team_stats_returns_full_result() {
+        let mut support = make_member(Element::Cryo, 700.0);
+        support.buffs_provided.push(ResolvedBuff {
+            source: "Citlali Q".into(),
+            stat: BuffableStat::ElementalResReduction(Element::Pyro),
+            value: 0.20,
+            target: BuffTarget::Team,
+        });
+        support.buffs_provided.push(ResolvedBuff {
+            source: "Freedom-Sworn".into(),
+            stat: BuffableStat::NormalAtkDmgBonus,
+            value: 0.16,
+            target: BuffTarget::Team,
+        });
+        support.buffs_provided.push(ResolvedBuff {
+            source: "Shenhe E".into(),
+            stat: BuffableStat::NormalAtkFlatDmg,
+            value: 2500.0,
+            target: BuffTarget::Team,
+        });
+        let dps = make_member(Element::Pyro, 900.0);
+        let team = vec![support, dps];
+
+        let result = resolve_team_stats(&team, 1).unwrap();
+        assert!(result.final_stats.atk > 0.0);
+        assert!((result.damage_context.normal_atk_dmg_bonus - 0.16).abs() < EPSILON);
+        assert!((result.damage_context.normal_atk_flat_dmg - 2500.0).abs() < EPSILON);
+        assert!((result.enemy_debuffs.pyro_res_reduction - 0.20).abs() < EPSILON);
+        assert!((result.enemy_debuffs.cryo_res_reduction - 0.0).abs() < EPSILON);
     }
 }
