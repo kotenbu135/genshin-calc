@@ -5,7 +5,7 @@ use crate::types::Region;
 pub use genshin_calc_core::BuffTarget;
 /// Re-export of [`genshin_calc_core::BuffableStat`] for convenience.
 pub use genshin_calc_core::BuffableStat;
-use genshin_calc_core::{Element, WeaponType};
+use genshin_calc_core::{Element, ScalingStat, WeaponType};
 
 /// A stat buff with a value and optional refinement scaling.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -126,4 +126,28 @@ pub struct AvailableTalentConditional {
     pub source: &'static str,
     /// The talent buff definition (with activation field).
     pub buff: &'static crate::talent_buffs::TalentBuffDef,
+}
+
+/// Resolved talent conditional buff for WASM/frontend consumption.
+///
+/// Mirrors [`ConditionalBuff`] structure so frontends can handle talent, weapon,
+/// and artifact conditional buffs uniformly.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct TalentConditionalBuff {
+    /// Machine-readable identifier (matches `TalentBuffDef::name`).
+    pub name: &'static str,
+    /// Human-readable description.
+    pub description: &'static str,
+    /// Which stat is buffed.
+    pub stat: BuffableStat,
+    /// Resolved buff value at the given talent level.
+    /// For `scales_on` buffs (e.g. Bennett), this is the scaling multiplier.
+    pub value: f64,
+    /// Who receives this buff when resolved.
+    pub target: BuffTarget,
+    /// Activation condition.
+    pub activation: Activation,
+    /// Base stat the scaling multiplier applies to, if any.
+    /// E.g. `Some(Atk)` for Bennett means `value` is a multiplier on base ATK.
+    pub scales_on: Option<ScalingStat>,
 }
