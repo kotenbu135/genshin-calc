@@ -1571,20 +1571,19 @@ pub const OBSIDIAN_CODEX: ArtifactSet = ArtifactSet {
     name: "黒曜の秘典",
     rarity: ArtifactRarity::Star5,
     two_piece: SetEffect {
-        description: "通常攻撃と重撃ダメージ+15%",
-        buffs: &[
-            StatBuff {
-                stat: BuffableStat::NormalAtkDmgBonus,
-                value: 0.15,
-                refinement_values: None,
-            },
-            StatBuff {
-                stat: BuffableStat::ChargedAtkDmgBonus,
-                value: 0.15,
-                refinement_values: None,
-            },
-        ],
-        conditional_buffs: &[],
+        description: "夜魂の加護状態にあり、かつフィールド上にいるキャラクターの与えるダメージ+15%",
+        buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "obsidian_2pc_nightsoul_dmg",
+            description: "While in Nightsoul's Blessing and on field, DMG +15%",
+            stat: BuffableStat::DmgBonus,
+            value: 0.15,
+            nightsoul_value: None,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Both(AutoCondition::NightsoulRequired, ManualCondition::Toggle),
+        }],
     },
     four_piece: SetEffect {
         description: "キャラクターが夜魂バースト状態にある時、与えるダメージ+25%。さらにナイトソウルポイントが50%以下の場合、会心率+40%",

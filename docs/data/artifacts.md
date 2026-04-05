@@ -41,7 +41,7 @@
 | Fragment of Harmonic Whimsy | fragment_of_harmonic_whimsy | StatBuff | ConditionalBuff |
 | Unfinished Reverie | unfinished_reverie | StatBuff | ConditionalBuff |
 | Scroll of the Hero of Cinder City | scroll_of_the_hero | StatBuff | ConditionalBuff |
-| Obsidian Codex | obsidian_codex | StatBuff | ConditionalBuff |
+| Obsidian Codex | obsidian_codex | ConditionalBuff | ConditionalBuff |
 | Glory of the Ancient Sea | glory_of_the_ancient_sea | StatBuff | ConditionalBuff |
 | Chronicled Sands and Water | chronicled_sands_and_water | StatBuff | ConditionalBuff |
 | Night of the Sky's Unveiling | night_of_the_skys_unveiling | StatBuff | ConditionalBuff |
