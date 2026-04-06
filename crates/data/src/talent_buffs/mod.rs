@@ -121,16 +121,20 @@ mod tests {
     #[test]
     fn test_find_bennett_buffs() {
         let buffs = find_talent_buffs("bennett").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(buffs[0].target, BuffTarget::Team);
+        // C1 Grand Expectation
+        assert_eq!(buffs[1].stat, BuffableStat::AtkFlat);
+        assert!((buffs[1].base_value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[1].min_constellation, 1);
         // C6
         assert_eq!(
-            buffs[1].stat,
+            buffs[2].stat,
             BuffableStat::ElementalDmgBonus(Element::Pyro)
         );
-        assert!((buffs[1].base_value - 0.15).abs() < 1e-6);
-        assert_eq!(buffs[1].min_constellation, 6);
+        assert!((buffs[2].base_value - 0.15).abs() < 1e-6);
+        assert_eq!(buffs[2].min_constellation, 6);
     }
 
     #[test]
@@ -860,9 +864,9 @@ mod tests {
     // --- get_talent_conditional_buffs tests ---
 
     #[test]
-    fn test_conditional_bennett_c6_returns_both_buffs() {
+    fn test_conditional_bennett_c6_returns_all_buffs() {
         let buffs = get_talent_conditional_buffs("bennett", 6, &[6, 8, 10]);
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
         // ATK buff from burst, value resolved at burst lv10
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(buffs[0].scales_on, Some(ScalingStat::Atk));
@@ -871,12 +875,16 @@ mod tests {
             buffs[0].activation,
             Activation::Manual(ManualCondition::Toggle)
         ));
+        // C1 Grand Expectation: +20% Base ATK
+        assert_eq!(buffs[1].stat, BuffableStat::AtkFlat);
+        assert!((buffs[1].value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[1].scales_on, Some(ScalingStat::Atk));
         // C6 pyro DMG bonus
         assert_eq!(
-            buffs[1].stat,
+            buffs[2].stat,
             BuffableStat::ElementalDmgBonus(Element::Pyro)
         );
-        assert!((buffs[1].value - 0.15).abs() < 1e-6);
+        assert!((buffs[2].value - 0.15).abs() < 1e-6);
     }
 
     #[test]

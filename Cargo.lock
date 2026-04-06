@@ -32,7 +32,7 @@ checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
 name = "genshin-calc-core"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "glob",
  "serde",
@@ -43,7 +43,7 @@ dependencies = [
 
 [[package]]
 name = "genshin-calc-data"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "genshin-calc-core",
  "glob",
@@ -53,7 +53,7 @@ dependencies = [
 
 [[package]]
 name = "genshin-calc-good"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "genshin-calc-core",
  "genshin-calc-data",
@@ -64,7 +64,7 @@ dependencies = [
 
 [[package]]
 name = "genshin-calc-wasm"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "console_error_panic_hook",
  "genshin-calc-core",

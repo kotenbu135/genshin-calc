@@ -22,6 +22,21 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
+    // C1 "Grand Expectation": +20% of Base ATK added to Fantastic Voyage ATK bonus
+    TalentBuffDef {
+        name: "Grand Expectation",
+        description: "C1: Fantastic Voyage ATK bonus gains additional 20% of Bennett's Base ATK",
+        stat: BuffableStat::AtkFlat,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk), // base_atk × 0.20
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Spirit of Pyro",
         description: "C6: Characters within the burst field gain Pyro DMG Bonus +15%",

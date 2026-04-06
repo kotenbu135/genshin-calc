@@ -2776,14 +2776,18 @@ mod talent_conditional_integration_tests {
 
         assert_eq!(
             conditionals.len(),
-            2,
-            "C6 Bennett should have 2 talent conditionals, got {}",
+            3,
+            "C6 Bennett should have 3 talent conditionals, got {}",
             conditionals.len()
         );
         let names: Vec<&str> = conditionals.iter().map(|c| c.buff.name).collect();
         assert!(
             names.contains(&"Fantastic Voyage ATK Bonus"),
             "Should contain Fantastic Voyage ATK Bonus"
+        );
+        assert!(
+            names.contains(&"Grand Expectation"),
+            "Should contain Grand Expectation (C1)"
         );
         assert!(
             names.contains(&"Spirit of Pyro"),
