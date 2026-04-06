@@ -10,8 +10,8 @@ pub enum CalcError {
     #[error("character level must be 1..=90, got {0}")]
     InvalidCharacterLevel(u32),
 
-    /// Enemy level is outside the valid range of 1..=100.
-    #[error("enemy level must be 1..=100, got {0}")]
+    /// Enemy level is outside the valid range of 1..=200.
+    #[error("enemy level must be 1..=200, got {0}")]
     InvalidEnemyLevel(u32),
 
     /// Crit rate is outside the valid range of 0.0..=1.0.

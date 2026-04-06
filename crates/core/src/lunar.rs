@@ -44,7 +44,7 @@ fn validate(input: &LunarInput, enemy: &Enemy) -> Result<(), CalcError> {
     if !(1..=100).contains(&input.character_level) {
         return Err(CalcError::InvalidReactionLevel(input.character_level));
     }
-    if !(1..=100).contains(&enemy.level) {
+    if !(1..=200).contains(&enemy.level) {
         return Err(CalcError::InvalidEnemyLevel(enemy.level));
     }
     if input.elemental_mastery < 0.0 {

@@ -52,7 +52,7 @@ fn validate(input: &DamageInput, enemy: &Enemy) -> Result<(), CalcError> {
     if !(1..=100).contains(&input.character_level) {
         return Err(CalcError::InvalidCharacterLevel(input.character_level));
     }
-    if !(1..=100).contains(&enemy.level) {
+    if !(1..=200).contains(&enemy.level) {
         return Err(CalcError::InvalidEnemyLevel(enemy.level));
     }
     if !(0.0..=1.0).contains(&input.stats.crit_rate) {
@@ -285,11 +285,11 @@ mod tests {
     #[test]
     fn test_invalid_enemy_level_too_high() {
         let enemy = Enemy {
-            level: 101,
+            level: 201,
             ..valid_enemy()
         };
         let result = calculate_damage(&valid_input(), &enemy);
-        assert_eq!(result, Err(CalcError::InvalidEnemyLevel(101)));
+        assert_eq!(result, Err(CalcError::InvalidEnemyLevel(201)));
     }
 
     #[test]

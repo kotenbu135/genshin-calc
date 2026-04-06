@@ -1,6 +1,6 @@
 [package]
 name = "genshin-calc-data"
-version = "0.5.6"
+version = "0.5.7"
 edition = "2024"
 description = "Genshin Impact game data for genshin-calc"
 license = "MIT"
@@ -12,7 +12,7 @@ rust-version = "1.85"
 readme = "README.md"
 
 [dependencies]
-genshin-calc-core = { version = "0.5.6", path = "../core" }
+genshin-calc-core = { version = "0.5.7", path = "../core" }
 serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]
