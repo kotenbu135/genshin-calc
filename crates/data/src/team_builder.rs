@@ -2407,11 +2407,12 @@ mod conditional_tests {
         };
         let member = TeamMemberBuilder::new(cyno, weapon)
             .artifact_stats(em_stats)
+            .activate("scarlet_sands_em_atk")
             .activate_with_stacks("scarlet_sands_skill_stacks", 2)
             .build()
             .unwrap();
 
-        // Primary: Auto(StatScaling EM) should exist
+        // Primary: Both(StatScaling EM, Toggle) should exist when activated
         let primary = member
             .buffs_provided
             .iter()

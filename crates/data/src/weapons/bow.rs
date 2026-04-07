@@ -200,11 +200,14 @@ pub const HUNTERS_PATH: WeaponData = WeaponData {
                 refinement_values: Some([1.60, 2.00, 2.40, 2.80, 3.20]),
                 stack_values: None,
                 target: BuffTarget::OnlySelf,
-                activation: Activation::Auto(AutoCondition::StatScaling {
-                    stat: BuffableStat::ElementalMastery,
-                    offset: None,
-                    cap: None,
-                }),
+                activation: Activation::Both(
+                    AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    },
+                    ManualCondition::Toggle,
+                ),
             }],
         },
     }),
@@ -1436,11 +1439,14 @@ mod tests {
         assert!((buff.value - 1.60).abs() < 1e-6);
         assert!(matches!(
             buff.activation,
-            Activation::Auto(AutoCondition::StatScaling {
-                stat: BuffableStat::ElementalMastery,
-                offset: None,
-                cap: None,
-            })
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Toggle
+            )
         ));
     }
 

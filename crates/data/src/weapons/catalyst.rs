@@ -1409,11 +1409,14 @@ pub const WANDERING_EVENSTAR: WeaponData = WeaponData {
                     refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
                     stack_values: None,
                     target: BuffTarget::OnlySelf,
-                    activation: Activation::Auto(AutoCondition::StatScaling {
-                        stat: BuffableStat::ElementalMastery,
-                        offset: None,
-                        cap: None,
-                    }),
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::ElementalMastery,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
                 },
                 ConditionalBuff {
                     name: "wandering_evenstar_team_atk",
@@ -1424,11 +1427,14 @@ pub const WANDERING_EVENSTAR: WeaponData = WeaponData {
                     refinement_values: Some([0.072, 0.090, 0.108, 0.126, 0.144]),
                     stack_values: None,
                     target: BuffTarget::TeamExcludeSelf,
-                    activation: Activation::Auto(AutoCondition::StatScaling {
-                        stat: BuffableStat::ElementalMastery,
-                        offset: None,
-                        cap: None,
-                    }),
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::ElementalMastery,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
                 },
             ],
         },

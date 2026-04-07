@@ -435,6 +435,7 @@ fn team04_cyno_aggravate() {
     .artifact_set(find_artifact_set("gilded_dreams").unwrap())
     .constellation(0)
     .talent_levels([9, 1, 9])
+    .activate("scarlet_sands_em_atk")
     .artifact_stats(StatProfile {
         elemental_mastery: 200.0,
         crit_rate: 0.30,

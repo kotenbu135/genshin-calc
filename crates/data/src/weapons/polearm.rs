@@ -385,11 +385,14 @@ pub const STAFF_OF_THE_SCARLET_SANDS: WeaponData = WeaponData {
                     refinement_values: Some([0.52, 0.65, 0.78, 0.91, 1.04]),
                     stack_values: None,
                     target: BuffTarget::OnlySelf,
-                    activation: Activation::Auto(AutoCondition::StatScaling {
-                        stat: BuffableStat::ElementalMastery,
-                        offset: None,
-                        cap: None,
-                    }),
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::ElementalMastery,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
                 },
                 ConditionalBuff {
                     name: "scarlet_sands_skill_stacks",
@@ -1326,18 +1329,21 @@ mod tests {
         let cond_buffs = passive.effect.conditional_buffs;
         assert_eq!(cond_buffs.len(), 2);
 
-        // Primary: EM → ATK flat (Auto StatScaling)
+        // Primary: EM → ATK flat (Both StatScaling + Toggle)
         let buff = &cond_buffs[0];
         assert_eq!(buff.name, "scarlet_sands_em_atk");
         assert_eq!(buff.stat, BuffableStat::AtkFlat);
         assert!((buff.value - 0.52).abs() < 1e-6);
         assert!(matches!(
             buff.activation,
-            Activation::Auto(AutoCondition::StatScaling {
-                stat: BuffableStat::ElementalMastery,
-                offset: None,
-                cap: None,
-            })
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::ElementalMastery,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Toggle
+            )
         ));
 
         // Secondary: EM → ATK flat × stacks (Both StatScaling + Stacks)

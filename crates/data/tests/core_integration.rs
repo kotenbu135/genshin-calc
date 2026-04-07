@@ -123,6 +123,7 @@ fn test_staff_of_scarlet_sands_em_atk_resolved() {
     let char = genshin_calc_data::find_character("cyno").unwrap();
     let weapon = genshin_calc_data::find_weapon("staff_of_the_scarlet_sands").unwrap();
     let member = genshin_calc_data::TeamMemberBuilder::new(char, weapon)
+        .activate("scarlet_sands_em_atk")
         .build()
         .unwrap();
 
@@ -131,6 +132,6 @@ fn test_staff_of_scarlet_sands_em_atk_resolved() {
     });
     assert!(
         atk_flat_buff.is_some(),
-        "Staff of Scarlet Sands should resolve AtkFlat StatScaling buff"
+        "Staff of Scarlet Sands should resolve AtkFlat StatScaling buff when activated"
     );
 }

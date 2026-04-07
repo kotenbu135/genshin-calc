@@ -290,11 +290,14 @@ pub const LIGHT_OF_FOLIAR_INCISION: WeaponData = WeaponData {
                     refinement_values: Some([1.20, 1.50, 1.80, 2.10, 2.40]),
                     stack_values: None,
                     target: BuffTarget::OnlySelf,
-                    activation: Activation::Auto(AutoCondition::StatScaling {
-                        stat: BuffableStat::ElementalMastery,
-                        offset: None,
-                        cap: None,
-                    }),
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::ElementalMastery,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
                 },
                 ConditionalBuff {
                     name: "foliar_em_skill_flat",
@@ -305,11 +308,14 @@ pub const LIGHT_OF_FOLIAR_INCISION: WeaponData = WeaponData {
                     refinement_values: Some([1.20, 1.50, 1.80, 2.10, 2.40]),
                     stack_values: None,
                     target: BuffTarget::OnlySelf,
-                    activation: Activation::Auto(AutoCondition::StatScaling {
-                        stat: BuffableStat::ElementalMastery,
-                        offset: None,
-                        cap: None,
-                    }),
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::ElementalMastery,
+                            offset: None,
+                            cap: None,
+                        },
+                        ManualCondition::Toggle,
+                    ),
                 },
             ],
         },
@@ -397,23 +403,50 @@ pub const PEAK_PATROL_SONG: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Peak Patrol Song",
         effect: PassiveEffect {
-            description: "Conditional: DEFに基づき元素DMGアップ。フルスタックでチームにDEF%/元素DMG付与",
+            description: "Ode to Flowers: スタックごとにDEF%/元素DMGアップ。2スタック時チームにDEFベース元素DMG付与",
             buffs: &[],
-            conditional_buffs: &[ConditionalBuff {
-                name: "peak_patrol_def_dmg",
-                description: "DEF×8-16%分を元素DMGボーナスに加算",
-                stat: BuffableStat::DmgBonus,
-                value: 0.08,
-                nightsoul_value: None,
-                refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
-                stack_values: None,
-                target: BuffTarget::OnlySelf,
-                activation: Activation::Auto(AutoCondition::StatScaling {
+            conditional_buffs: &[
+                ConditionalBuff {
+                    name: "peak_patrol_self_def",
+                    description: "Ode to Flowers: DEF+8-16% per stack (max 2)",
                     stat: BuffableStat::DefPercent,
-                    offset: None,
-                    cap: None,
-                }),
-            }],
+                    value: 0.08,
+                    nightsoul_value: None,
+                    refinement_values: Some([0.08, 0.10, 0.12, 0.14, 0.16]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(2)),
+                },
+                ConditionalBuff {
+                    name: "peak_patrol_self_dmg",
+                    description: "Ode to Flowers: All Elemental DMG+10-20% per stack (max 2)",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.10,
+                    nightsoul_value: None,
+                    refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
+                    stack_values: None,
+                    target: BuffTarget::OnlySelf,
+                    activation: Activation::Manual(ManualCondition::Stacks(2)),
+                },
+                ConditionalBuff {
+                    name: "peak_patrol_team_dmg",
+                    description: "2 stacks: party All Elemental DMG based on 8-16% of DEF (cap 25.6-51.2%)",
+                    stat: BuffableStat::DmgBonus,
+                    value: 0.00008,
+                    nightsoul_value: None,
+                    refinement_values: Some([0.00008, 0.00010, 0.00012, 0.00014, 0.00016]),
+                    stack_values: None,
+                    target: BuffTarget::Team,
+                    activation: Activation::Both(
+                        AutoCondition::StatScaling {
+                            stat: BuffableStat::DefPercent,
+                            offset: None,
+                            cap: Some([0.256, 0.32, 0.384, 0.448, 0.512]),
+                        },
+                        ManualCondition::Toggle,
+                    ),
+                },
+            ],
         },
     }),
 };
@@ -876,11 +909,14 @@ pub const FLUTE_OF_EZPITZAL: WeaponData = WeaponData {
                 refinement_values: Some([0.24, 0.30, 0.36, 0.42, 0.48]),
                 stack_values: None,
                 target: BuffTarget::OnlySelf,
-                activation: Activation::Auto(AutoCondition::StatScaling {
-                    stat: BuffableStat::DefPercent,
-                    offset: None,
-                    cap: None,
-                }),
+                activation: Activation::Both(
+                    AutoCondition::StatScaling {
+                        stat: BuffableStat::DefPercent,
+                        offset: None,
+                        cap: None,
+                    },
+                    ManualCondition::Toggle,
+                ),
             }],
         },
     }),
@@ -1726,31 +1762,62 @@ mod tests {
         for buff in cond_buffs {
             assert!(matches!(
                 buff.activation,
-                Activation::Auto(AutoCondition::StatScaling {
-                    stat: BuffableStat::ElementalMastery,
-                    offset: None,
-                    cap: None,
-                })
+                Activation::Both(
+                    AutoCondition::StatScaling {
+                        stat: BuffableStat::ElementalMastery,
+                        offset: None,
+                        cap: None,
+                    },
+                    ManualCondition::Toggle
+                )
             ));
         }
     }
 
     #[test]
-    fn peak_patrol_song_has_def_dmgbonus_conditional() {
+    fn peak_patrol_song_has_three_conditional_buffs() {
         let passive = PEAK_PATROL_SONG.passive.unwrap();
         let cond_buffs = passive.effect.conditional_buffs;
-        assert_eq!(cond_buffs.len(), 1);
-        let buff = &cond_buffs[0];
-        assert_eq!(buff.name, "peak_patrol_def_dmg");
-        assert_eq!(buff.stat, BuffableStat::DmgBonus);
-        assert!((buff.value - 0.08).abs() < 1e-6);
+        assert_eq!(cond_buffs.len(), 3);
+
+        // Buff 1: Self DEF% per stack
+        let self_def = &cond_buffs[0];
+        assert_eq!(self_def.name, "peak_patrol_self_def");
+        assert_eq!(self_def.stat, BuffableStat::DefPercent);
+        assert!((self_def.value - 0.08).abs() < 1e-6);
+        assert_eq!(self_def.target, BuffTarget::OnlySelf);
         assert!(matches!(
-            buff.activation,
-            Activation::Auto(AutoCondition::StatScaling {
-                stat: BuffableStat::DefPercent,
-                offset: None,
-                cap: None,
-            })
+            self_def.activation,
+            Activation::Manual(ManualCondition::Stacks(2))
+        ));
+
+        // Buff 2: Self All Elemental DMG% per stack
+        let self_dmg = &cond_buffs[1];
+        assert_eq!(self_dmg.name, "peak_patrol_self_dmg");
+        assert_eq!(self_dmg.stat, BuffableStat::DmgBonus);
+        assert!((self_dmg.value - 0.10).abs() < 1e-6);
+        assert_eq!(self_dmg.target, BuffTarget::OnlySelf);
+        assert!(matches!(
+            self_dmg.activation,
+            Activation::Manual(ManualCondition::Stacks(2))
+        ));
+
+        // Buff 3: Team All Elemental DMG based on DEF
+        let team_dmg = &cond_buffs[2];
+        assert_eq!(team_dmg.name, "peak_patrol_team_dmg");
+        assert_eq!(team_dmg.stat, BuffableStat::DmgBonus);
+        assert!((team_dmg.value - 0.00008).abs() < 1e-8);
+        assert_eq!(team_dmg.target, BuffTarget::Team);
+        assert!(matches!(
+            team_dmg.activation,
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: Some(_),
+                },
+                ManualCondition::Toggle
+            )
         ));
     }
 
@@ -1899,11 +1966,14 @@ mod tests {
         assert!((rv[4] - 0.48).abs() < 1e-6);
         assert!(matches!(
             buff.activation,
-            Activation::Auto(AutoCondition::StatScaling {
-                stat: BuffableStat::DefPercent,
-                offset: None,
-                cap: None,
-            })
+            Activation::Both(
+                AutoCondition::StatScaling {
+                    stat: BuffableStat::DefPercent,
+                    offset: None,
+                    cap: None,
+                },
+                ManualCondition::Toggle
+            )
         ));
     }
 
