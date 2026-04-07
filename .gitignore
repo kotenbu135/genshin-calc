@@ -26,3 +26,7 @@ target
 # Claude Code local settings (user-specific, auto-generated)
 .claude/settings.local.json
 .claude/worktrees/
+
+# Honey Hunter mirror (local cache, not tracked)
+honeyhunter-mirror/
+scripts/honeyhunter-mirror.sh
