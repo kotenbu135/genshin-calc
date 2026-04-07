@@ -90,7 +90,48 @@ git push origin main --tags
 
 mainブランチとタグを同時にプッシュ。
 
-### Step 6: ワークフロー確認
+### Step 6: GitHub Release 作成
+
+前バージョンのタグからの差分コミットを取得し、リリースノートを作成する:
+
+```bash
+# 前バージョンのタグを取得
+PREV_TAG=$(git tag --sort=-v:refname | sed -n '2p')
+
+# 差分コミットを確認
+git log ${PREV_TAG}..vX.Y.Z --oneline
+```
+
+リリースノートの形式:
+```markdown
+## New Features
+- 新機能の説明 (#issue番号)
+
+## Bug Fixes
+- バグ修正の説明 (#issue番号)
+
+## Breaking Changes
+- 破壊的変更があれば記載
+```
+
+リリースノート作成ルール:
+- `chore:` コミット（バージョンバンプ、docs削除等）はリリースノートに含めない
+- `feat:` → "New Features"、`fix:` → "Bug Fixes"、`refactor:` → 必要に応じて記載
+- Issue/PR番号を `(#番号)` で参照する
+- 日本語で記述する（ゲームの仕様用語は原文に従う）
+
+```bash
+gh release create vX.Y.Z --title "vX.Y.Z" --latest --notes "$(cat <<'EOF'
+## New Features
+- ...
+
+## Bug Fixes
+- ...
+EOF
+)" --verify-tag
+```
+
+### Step 7: ワークフロー確認
 
 ```bash
 gh run list --limit 5
@@ -159,4 +200,5 @@ gh workflow run release.yml --field dry_run=true
 - [ ] `Cargo.lock`がコミットに含まれている
 - [ ] コミットメッセージが `chore: bump version to vX.Y.Z` 形式
 - [ ] タグが `vX.Y.Z` 形式（`v`プレフィクス必須）
+- [ ] GitHub Release がリリースノート付きで作成されている
 - [ ] `gh run list` でReleaseワークフロー起動確認
