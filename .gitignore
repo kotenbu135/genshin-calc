@@ -29,4 +29,4 @@ target
 
 # Honey Hunter mirror (local cache, not tracked)
 honeyhunter-mirror/
-scripts/honeyhunter-mirror.sh
+scripts/
