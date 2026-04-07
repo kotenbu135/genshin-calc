@@ -21,24 +21,85 @@ static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // A1 passive "Compassion Illuminated": grants highest_party_EM × 25%, max 250
 // Note: Game uses highest party EM; single-character eval uses own EM (known simplification).
 // The -200 offset previously reported does not exist (confirmed by Fandom + KQM).
-static NAHIDA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Compassion Illuminated",
-    description: "A1: Grants EM to party = highest_party_EM × 25%, max 250",
-    stat: BuffableStat::ElementalMastery,
-    base_value: 0.25,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: Some(ScalingStat::Em),
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive(1),
-    min_constellation: 0,
-    cap: Some(250.0),
-    activation: Some(Activation::Manual(ManualCondition::Toggle)),
-}];
+// C2 "The Root of All Fullness": Reaction CRIT Rate +20%, CRIT DMG +100%, DEF -30%
+// C4 "Wakening Elucidation": EM +100 per nearby Skandha enemy (max 4)
+static NAHIDA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Compassion Illuminated",
+        description: "A1: Grants EM to party = highest_party_EM × 25%, max 250",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: Some(250.0),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nahida_c2_crit_rate",
+        description: "C2: Reaction CRIT Rate +20%",
+        stat: BuffableStat::CritRate,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nahida_c2_crit_dmg",
+        description: "C2: Reaction CRIT DMG +100%",
+        stat: BuffableStat::CritDmg,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nahida_c2_def_reduction",
+        description: "C2: DEF -30% on Quicken/Aggravate/Spread",
+        stat: BuffableStat::DefReduction,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nahida_c4_em",
+        description: "C4: EM +100 per nearby Skandha enemy (max 4)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 100.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(4))),
+    },
+];
 
 // ===== Nefer =====
 // C2 "Observation Feeds Strategy": EM +200 at 5 Veil stacks (Toggle)
 // C4 "Delusion Ensnares Reason": Dendro RES -20% during Shadow Dance (Toggle)
+// C6 "A Thousand Faces of Naught": Party Lunar-Bloom DMG +15% at Ascendant Gleam
 static NEFER_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Observation Feeds Strategy EM Bonus",
@@ -68,24 +129,83 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    TalentBuffDef {
+        name: "nefer_c2_em",
+        description: "C2: EM +200 at 5 Veil stacks",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 200.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nefer_c4_dendro_res_shred",
+        description: "C4: Opponents' Dendro RES -20% in Shadow Dance state",
+        stat: BuffableStat::ElementalResReduction(Element::Dendro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nefer_c6_lunar_bloom_dmg",
+        description: "C6: Party Lunar-Bloom DMG +15% at Ascendant Gleam",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Dendro Traveler =====
 // A4 passive "Verdant Luxury": EM+60 in Lea Lotus Lamp field
-static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Verdant Luxury",
-    description: "Characters within Lea Lotus Lamp field gain EM+60",
-    stat: BuffableStat::ElementalMastery,
-    base_value: 60.0,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-    cap: None,
-    activation: None,
-}];
+// C6 "The Planted Seed": Party Dendro DMG +12% inside Lamp
+static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Verdant Luxury",
+        description: "Characters within Lea Lotus Lamp field gain EM+60",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 60.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "traveler_dendro_c6_dendro_dmg",
+        description: "C6: Party Dendro DMG Bonus +12% inside Lamp",
+        stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Alhaitham =====
 // A4 "Four-Causal Correction": DMG +0.1% per EM, max +100%
@@ -168,6 +288,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
 // ===== Baizhu =====
 // A4 "Five Fortunes Forever": HP → Bloom/Hyperbloom/Burgeon DMG bonus, simplified as 2% per 1000 HP, max +50%
 // C4 "Ancient Art of Perception": Team EM +80
+// C6 "Weal and Woe Twain": Skill DMG +8% of Max HP (flat)
 static BAIZHU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Five Fortunes Forever Reaction DMG",
@@ -197,24 +318,68 @@ static BAIZHU_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    TalentBuffDef {
+        name: "baizhu_c4_em",
+        description: "C4: Party EM +80 after Burst",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 80.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "baizhu_c6_skill_flat_dmg",
+        description: "C6: Skill DMG bonus based on 8% of Max HP",
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 0.08,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Collei =====
-// C4: EM+60 in Cuilein-Anbar field
-static COLLEI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Floral Sidewinder EM Bonus",
-    description: "C4: Party gains EM+60 while inside Cuilein-Anbar field",
-    stat: BuffableStat::ElementalMastery,
-    base_value: 60.0,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(4),
-    min_constellation: 4,
-    cap: None,
-    activation: None,
-}];
+// C4: EM+60 in Cuilein-Anbar field (excludes self)
+static COLLEI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Floral Sidewinder EM Bonus",
+        description: "C4: Party gains EM+60 while inside Cuilein-Anbar field",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 60.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "collei_c4_em",
+        description: "C4: Party EM +60 after Burst (excludes self)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 60.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Emilie =====
 // A4 "Rectification": ATK → DMG bonus (0.1% per ATK, max +36%)
@@ -381,6 +546,20 @@ static KIRARA_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    TalentBuffDef {
+        name: "kirara_c6_dmg_bonus",
+        description: "C6: All Elemental DMG +12% (approximation)",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Tighnari =====
@@ -507,6 +686,34 @@ static YAOYAO_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 4,
         cap: Some(120.0),
         activation: None,
+    },
+    TalentBuffDef {
+        name: "yaoyao_c1_dendro_dmg",
+        description: "C1: Party Dendro DMG Bonus +15% on radish explosion",
+        stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "yaoyao_c4_em",
+        description: "C4: EM bonus based on 0.3% of Max HP (max 120)",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.003,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: Some(120.0),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 

@@ -2,20 +2,37 @@ use super::*;
 
 // ===== Ineffa =====
 // A4 passive: EM share based on total ATK (6% of ATK)
-static INEFFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Ineffa A4 EM Share",
-    description: "Grants EM equal to 6% of Ineffa's total ATK",
-    stat: BuffableStat::ElementalMastery,
-    base_value: 0.06,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: Some(ScalingStat::TotalAtk),
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-    cap: None,
-    activation: None,
-}];
+// C1: Party Lunar-Charged DMG +2.5% per 100 ATK (max +50%)
+static INEFFA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Ineffa A4 EM Share",
+        description: "Grants EM equal to 6% of Ineffa's total ATK",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 0.06,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::TotalAtk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "ineffa_c1_lunar_charged_dmg",
+        description: "C1: Party Lunar-Charged DMG +2.5% per 100 ATK (max +50%)",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.025,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::TotalAtk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: Some(0.50),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Sara =====
 // Elemental Skill/Burst "Tengu Juurai": ATK bonus based on Sara's Base ATK (Lv1-15)
@@ -75,6 +92,8 @@ static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // ===== Flins =====
 // A4 passive "Whispering Flame": EM += total ATK × 0.08, capped at 160
 // C4 "Night on Bald Mountain": ATK +20%
+// C2: Opponents' Electro RES -25% during Ascendant Gleam Moonsign
+// C6: Flins's Lunar-Charged DMG +35%, Party Lunar-Charged DMG +10% during Moonsign
 static FLINS_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Whispering Flame EM Bonus",
@@ -118,6 +137,48 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 4,
         cap: Some(60.0),
         activation: None,
+    },
+    TalentBuffDef {
+        name: "flins_c2_electro_res_shred",
+        description: "C2: Opponents' Electro RES -25% during Ascendant Gleam Moonsign",
+        stat: BuffableStat::ElementalResReduction(Element::Electro),
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "flins_c6_lunar_charged_self",
+        description: "C6: Flins's Lunar-Charged DMG +35%",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "flins_c6_lunar_charged_team",
+        description: "C6: Party Lunar-Charged DMG +10% during Moonsign",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -178,26 +239,45 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Beidou =====
 // C6 "Bane of Evil": Electro RES -15% during burst
-static BEIDOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Bane of Evil Electro RES Shred",
-    description: "C6: During Stormbreaker, enemies have Electro RES -15%",
-    stat: BuffableStat::ElementalResReduction(Element::Electro),
-    base_value: 0.15,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(6),
-    min_constellation: 6,
-    cap: None,
-    activation: None,
-}];
+// C4 "Stunning Revenge": Normal ATK Electro DMG Bonus +20% on hit
+static BEIDOU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Bane of Evil Electro RES Shred",
+        description: "C6: During Stormbreaker, enemies have Electro RES -15%",
+        stat: BuffableStat::ElementalResReduction(Element::Electro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "beidou_c4_electro_dmg",
+        description: "C4: Normal ATK Electro DMG Bonus +20% on hit",
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Iansan =====
 // Burst "Three Principles of Power": ATK Flat bonus (Iansan ATK × coefficient) to party
 // Max ATK Bonus: Lv1=330 ~ Lv15=890 (4-source confirmed: KQM, game8, genshin.gg, paimon.moe)
 // A1 "Enhanced Resistance Training": Iansan self ATK +20% for 15s
 // A4 "Kinetic Energy Gradient Test": HP recovery (ATK×60%) — not a stat buff, omitted
+// C2: Off-field grants active character ATK +30%
+// C6: Active character DMG Bonus +25% on Nightsoul overflow
 static IANSAN_BURST_ATK_SCALING: [f64; 15] = [
     0.30, 0.3225, 0.345, 0.375, 0.3975, 0.42, 0.45, 0.48, 0.51, 0.54, 0.57, 0.60, 0.6375, 0.675,
     0.7125,
@@ -231,6 +311,34 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "iansan_c2_atk",
+        description: "C2: Off-field grants active character ATK +30%",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "iansan_c6_dmg_bonus",
+        description: "C6: Active character DMG Bonus +25% on Nightsoul overflow",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -411,6 +519,7 @@ static KEQING_BUFFS: &[TalentBuffDef] = &[
 // ===== Yae Miko =====
 // A4: Skill DMG +0.15% per point of EM (self, always active via scaling)
 // C4: Team Electro DMG +20% (Team, min_constellation=4)
+// C6: Sesshou Sakura attacks ignore 60% of opponents' DEF
 static YAE_MIKO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Yae Miko A4 Skill DMG Bonus",
@@ -439,6 +548,20 @@ static YAE_MIKO_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 4,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "yae_miko_c6_def_ignore",
+        description: "C6: Sesshou Sakura attacks ignore 60% of opponents' DEF",
+        stat: BuffableStat::DefIgnore,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 

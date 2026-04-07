@@ -19,6 +19,7 @@ static DIONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 
 // ===== Ganyu =====
 // A4 passive "Harmony between Heaven and Earth": Cryo DMG+20% in burst field
+// C1 "Dew-Drinker": Frostflake Arrow hit reduces Cryo RES -15%
 // C4 "Westward Sojourn": DMG+5% every 3s in burst field (max +25%)
 static GANYU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
@@ -49,10 +50,58 @@ static GANYU_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    TalentBuffDef {
+        name: "ganyu_c1_cryo_res_shred",
+        description: "C1: Frostflake Arrow hit reduces Cryo RES -15%",
+        stat: BuffableStat::ElementalResReduction(Element::Cryo),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
+// ===== Qiqi =====
+// C2 "Frozen to the Bone": Normal/Charged ATK DMG +15% vs Cryo-affected opponents
+static QIQI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "qiqi_c2_normal_dmg",
+        description: "C2: Normal ATK DMG +15% vs Cryo-affected opponents",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "qiqi_c2_charged_dmg",
+        description: "C2: Charged ATK DMG +15% vs Cryo-affected opponents",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Rosaria =====
 // A4 passive "Shadow Samaritan": grants 15% of Rosaria's CRIT Rate to party after burst
+// C1 "Unholy Revelation": Normal ATK DMG +10% on CRIT hit
 // C6 "Rites of Termination": Physical RES -20% for 10s after burst
 static ROSARIA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
@@ -82,6 +131,20 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 6,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "rosaria_c1_normal_dmg",
+        description: "C1: Normal ATK DMG +10% on CRIT hit",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -235,6 +298,21 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
+    // C2 "Centered Spirit": Cryo CRIT DMG +15% in Burst field
+    TalentBuffDef {
+        name: "shenhe_c2_cryo_crit_dmg",
+        description: "C2: Cryo CRIT DMG +15% in Burst field",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Citlali =====
@@ -345,6 +423,8 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Eula =====
 // Skill (hold): Cryo RES -50% + Physical RES -50% (max 2 Grimheart stacks)
+// C1 "Dance of the One in Bliss": Physical DMG Bonus +30% on Grimheart consume
+// C4 "Gleaming Tempest": Burst DMG +25% vs opponents below 50% HP
 static EULA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Icetide Vortex Cryo RES Shred",
@@ -374,24 +454,69 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Stacks(2))),
     },
+    TalentBuffDef {
+        name: "eula_c1_physical_dmg",
+        description: "C1: Physical DMG Bonus +30% on Grimheart consume",
+        stat: BuffableStat::PhysicalDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "eula_c4_burst_dmg",
+        description: "C4: Burst DMG +25% vs opponents below 50% HP",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Mika =====
 // C6: Physical DMG Bonus +10% during burst recovery (HP>50%)
-static MIKA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Blood-Red Bristles Physical DMG Bonus",
-    description: "C6: During Skyfeather Song recovery, Physical DMG +10% (HP>50%)",
-    stat: BuffableStat::PhysicalDmgBonus,
-    base_value: 0.10,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(6),
-    min_constellation: 6,
-    cap: None,
-    activation: None,
-}];
+// C6 "Blood-Red Bristles": Physical CRIT DMG +60%
+static MIKA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Blood-Red Bristles Physical DMG Bonus",
+        description: "C6: During Skyfeather Song recovery, Physical DMG +10% (HP>50%)",
+        stat: BuffableStat::PhysicalDmgBonus,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "mika_c6_physical_crit_dmg",
+        description: "C6: Physical CRIT DMG +60%",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Aloy =====
 // A1 "Easy Does It": ATK+16% (self) and ATK+8% (team excl. self) after receiving Coil stacks
@@ -589,22 +714,51 @@ static CHONGYUN_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Escoffier =====
 // C1 "Amuse-bouche de Saveur": Team Cryo CD+60%
-// C2 "Sauté de Fantôme": flat DMG scaling — too complex, skipped (TODO)
-static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Amuse-bouche de Saveur Cryo CD",
-    description: "C1: Party Cryo CRIT DMG+60%",
-    stat: BuffableStat::CritDmg,
-    base_value: 0.60,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(1),
-    min_constellation: 1,
-    cap: None,
-    activation: None,
-    // TODO: C2 "Sauté de Fantôme" — flat DMG = 240% ATK per stack; too complex for current model
-}];
+// C2 "Sauté de Fantôme": Skill flat DMG = 240% of Total ATK
+static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Amuse-bouche de Saveur Cryo CD",
+        description: "C1: Party Cryo CRIT DMG+60%",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "escoffier_c1_cryo_crit_dmg",
+        description: "C1: Cryo CRIT DMG +60% (requires 4 Hydro/Cryo party members)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "escoffier_c2_skill_flat_dmg",
+        description: "C2: Skill DMG bonus based on 240% of Total ATK",
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 2.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::TotalAtk),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Freminet =====
 // A4 "Deepwater Swim": Shatter DMG+40%
@@ -862,6 +1016,7 @@ pub(super) static CRYO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("kaeya", KAEYA_BUFFS),
     ("layla", LAYLA_BUFFS),
     ("mika", MIKA_BUFFS),
+    ("qiqi", QIQI_BUFFS),
     ("rosaria", ROSARIA_BUFFS),
     ("shenhe", SHENHE_BUFFS),
     ("skirk", SKIRK_BUFFS),

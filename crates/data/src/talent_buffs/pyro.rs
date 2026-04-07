@@ -120,10 +120,10 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
-        name: "In Pursuit of Ending Evil Pyro DMG Bonus",
-        description: "C6: After healing from skill, Pyro DMG +20% per stack (max 3 stacks = +60%)",
+        name: "chevreuse_c6_pyro_dmg",
+        description: "C6: Party Pyro DMG Bonus +20% per stack (max 3)",
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
-        base_value: 0.60,
+        base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
@@ -131,13 +131,13 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
-        activation: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
     },
     TalentBuffDef {
-        name: "In Pursuit of Ending Evil Electro DMG Bonus",
-        description: "C6: After healing from skill, Electro DMG +20% per stack (max 3 stacks = +60%)",
+        name: "chevreuse_c6_electro_dmg",
+        description: "C6: Party Electro DMG Bonus +20% per stack (max 3)",
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
-        base_value: 0.60,
+        base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
@@ -145,7 +145,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
-        activation: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
     },
 ];
 
@@ -198,20 +198,54 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Yoimiya =====
 // A4 passive "Summer Night's Dawn": ATK+20% to party (excl. self) after burst
-static YOIMIYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Summer Night's Dawn",
-    description: "After burst, party members (excluding Yoimiya) gain ATK+20% (max assumption)",
-    stat: BuffableStat::AtkPercent,
-    base_value: 0.20,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::TeamExcludeSelf,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-    cap: None,
-    activation: None,
-}];
+// C1: ATK +20% on Aurous Blaze defeat
+// C2: Pyro DMG +25% on Pyro CRIT
+static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Summer Night's Dawn",
+        description: "After burst, party members (excluding Yoimiya) gain ATK+20% (max assumption)",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    // C1: ATK +20% on Aurous Blaze defeat
+    TalentBuffDef {
+        name: "yoimiya_c1_atk",
+        description: "C1: ATK +20% for 20s when Aurous Blaze-affected opponent defeated",
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // C2: Pyro DMG +25% on Pyro CRIT
+    TalentBuffDef {
+        name: "yoimiya_c2_pyro_dmg",
+        description: "C2: Pyro DMG Bonus +25% for 6s on Pyro CRIT hit",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Durin =====
 // A1 (Purity) "Light Manifest of the Divine Calculus": Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize
@@ -276,6 +310,51 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    // C4 "Emanare's Source": Burst DMG +40% (conditional toggle)
+    TalentBuffDef {
+        name: "durin_c4_burst_dmg",
+        description: "C4: Elemental Burst DMG +40%",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // C6: DEF Ignore 30%
+    TalentBuffDef {
+        name: "durin_c6_def_ignore",
+        description: "C6: Burst DMG ignores 30% of opponents' DEF",
+        stat: BuffableStat::DefIgnore,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // C6: DEF Reduction 30% (Light form)
+    TalentBuffDef {
+        name: "durin_c6_def_reduction",
+        description: "C6: Light form decreases opponent DEF by 30%",
+        stat: BuffableStat::DefReduction,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Klee =====
@@ -309,6 +388,36 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 6,
         cap: None,
         activation: None,
+    },
+    // C2: Mine DEF reduction 23% (conditional toggle)
+    TalentBuffDef {
+        name: "klee_c2_def_reduction",
+        description: "C2: Jumpy Dumpty mines reduce opponent DEF by 23%",
+        stat: BuffableStat::DefReduction,
+        base_value: 0.23,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // C6: Party Pyro DMG +10% (conditional toggle)
+    TalentBuffDef {
+        name: "klee_c6_pyro_dmg",
+        description: "C6: Sparks 'n' Splash grants party Pyro DMG Bonus +10%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
@@ -697,24 +806,88 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    // C1: Guoba Pyro RES shred -15% (conditional toggle)
+    TalentBuffDef {
+        name: "xiangling_c1_pyro_res_shred",
+        description: "C1: Opponents hit by Guoba have Pyro RES -15%",
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // C6: Pyronado Pyro DMG +15% (conditional toggle)
+    TalentBuffDef {
+        name: "xiangling_c6_pyro_dmg",
+        description: "C6: During Pyronado, party gains Pyro DMG Bonus +15%",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Xinyan =====
+// C2: Burst Physical CRIT Rate +100%
 // C4: Physical RES -15% on skill hit
-static XINYAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Blazing Eye Physical RES Shred",
-    description: "C4: Enemies hit by Riff Revolution have Physical RES -15% for 12s",
-    stat: BuffableStat::PhysicalResReduction,
-    base_value: 0.15,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(4),
-    min_constellation: 4,
-    cap: None,
-    activation: None,
-}];
+// C6: Charged ATK gains ATK bonus equal to 50% of DEF
+static XINYAN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Blazing Eye Physical RES Shred",
+        description: "C4: Enemies hit by Riff Revolution have Physical RES -15% for 12s",
+        stat: BuffableStat::PhysicalResReduction,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+    // C2: Burst Physical CRIT Rate +100% (approximation)
+    TalentBuffDef {
+        name: "xinyan_c2_burst_crit",
+        description: "C2: Riff Revolution Physical DMG CRIT Rate +100% (approximation)",
+        stat: BuffableStat::CritRate,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // C6: Charged ATK flat DMG = 50% DEF
+    TalentBuffDef {
+        name: "xinyan_c6_charged_def_scaling",
+        description: "C6: Charged ATK gains ATK bonus equal to 50% of DEF",
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Lyney =====
 // A4 "Prestidigitation": DMG Bonus based on Pyro party count (60-100%); adopting max value 1.00 with Toggle

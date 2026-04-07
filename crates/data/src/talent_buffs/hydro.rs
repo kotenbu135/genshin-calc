@@ -57,24 +57,41 @@ static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 
 // ===== Candace =====
 // Burst "Sacred Rite: Heron's Sanctum": Normal ATK DMG bonus per level (Lv1-15)
+// C2 "The Forgiving Stars": Max HP +20% for 15s when Skill hits opponents
 static CANDACE_BURST_NORMAL_SCALING: [f64; 15] = [
     0.20, 0.215, 0.23, 0.25, 0.265, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38, 0.40, 0.425, 0.45, 0.475,
 ];
 
-static CANDACE_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Sacred Rite: Heron's Sanctum",
-    description: "Normal ATK DMG Bonus based on burst talent level",
-    stat: BuffableStat::NormalAtkDmgBonus,
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&CANDACE_BURST_NORMAL_SCALING),
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalBurst,
-    min_constellation: 0,
-    cap: None,
-    activation: None,
-}];
+static CANDACE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Sacred Rite: Heron's Sanctum",
+        description: "Normal ATK DMG Bonus based on burst talent level",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&CANDACE_BURST_NORMAL_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "candace_c2_hp",
+        description: "C2: Max HP +20% for 15s when Skill hits",
+        stat: BuffableStat::HpPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Furina =====
 // Elemental Burst "Let the People Rejoice": Fanfare stacks grant DMG bonus
@@ -140,60 +157,228 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Mona =====
 // Elemental Burst "Stellaris Phantasm": DMG bonus from Omen (Lv1-15)
+// C1 "Prophecy of Submersion": Reaction DMG +15% vs Omen-affected opponents
+// C2 "Lunar Chain": Party EM +80 on Charged ATK hit
+// C4 "Prophecy of Oblivion": CRIT Rate +15% and CRIT DMG +15% vs Omen-affected opponents
+// C6 "Rhetorics of Calamitas": Charged ATK DMG +180% (max in Illusory Torrent)
 static MONA_BURST_DMG_SCALING: [f64; 15] = [
     0.42, 0.44, 0.46, 0.50, 0.52, 0.54, 0.58, 0.62, 0.66, 0.70, 0.74, 0.78, 0.82, 0.86, 0.90,
 ];
 
-static MONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Stellaris Phantasm DMG Bonus",
-    description: "Omen increases DMG taken by opponents",
-    stat: BuffableStat::DmgBonus,
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&MONA_BURST_DMG_SCALING),
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalBurst,
-    min_constellation: 0,
-    cap: None,
-    activation: Some(Activation::Manual(ManualCondition::Toggle)),
-}];
+static MONA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Stellaris Phantasm DMG Bonus",
+        description: "Omen increases DMG taken by opponents",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&MONA_BURST_DMG_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "mona_c1_reaction_dmg",
+        description: "C1: Reaction DMG +15% vs Omen-affected opponents",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "mona_c2_em",
+        description: "C2: Party EM +80 on Charged ATK hit",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 80.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "mona_c4_crit_rate",
+        description: "C4: CRIT Rate +15% vs Omen-affected opponents",
+        stat: BuffableStat::CritRate,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "mona_c4_crit_dmg",
+        description: "C4: CRIT DMG +15% vs Omen-affected opponents (approximation)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "mona_c6_charged_dmg",
+        description: "C6: Charged ATK DMG +180% (max in Illusory Torrent)",
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 1.80,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Nilou =====
 // A2 passive "Dreaming Dance of the Lotuslight":
 // For every 1000 HP above 30000, Bloom DMG +9%, max +400%
 // Formula: min(floor((total_hp - 30000) / 1000) * 0.09, 4.0)
-static NILOU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Dreaming Dance of the Lotuslight",
-    description: "HP30000超過1000ごとにBloom DMG+9%、最大+400%",
-    stat: BuffableStat::TransformativeBonus,
-    base_value: 0.0, // HP-dependent special formula (scaling_value == 0.0 triggers it)
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: Some(ScalingStat::Hp),
-    target: BuffTarget::OnlySelf,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-    cap: Some(4.0),
-    activation: None,
-}];
+// C2 "The Starry Skies Their Flowers Rain": Hydro RES -35% and Dendro RES -35% after relevant DMG
+// C4 "Elegy of Rites": Dance of Abzendegi DMG +50% after 3rd dance step
+// C6 "Frostbreaker's Melody": CRIT Rate +0.6% and CRIT DMG +1.2% per 1000 Max HP (max +30%/+60%)
+static NILOU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Dreaming Dance of the Lotuslight",
+        description: "HP30000超過1000ごとにBloom DMG+9%、最大+400%",
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.0, // HP-dependent special formula (scaling_value == 0.0 triggers it)
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(4.0),
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "nilou_c2_hydro_res_shred",
+        description: "C2: Opponents' Hydro RES -35% after Hydro DMG",
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nilou_c2_dendro_res_shred",
+        description: "C2: Opponents' Dendro RES -35% after Bloom DMG",
+        stat: BuffableStat::ElementalResReduction(Element::Dendro),
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nilou_c4_burst_dmg",
+        description: "C4: Dance of Abzendegi DMG +50% after 3rd dance step",
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nilou_c6_crit_rate",
+        description: "C6: CRIT Rate +0.6% per 1000 Max HP (max +30%)",
+        stat: BuffableStat::CritRate,
+        base_value: 0.006,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: Some(0.30),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "nilou_c6_crit_dmg",
+        description: "C6: CRIT DMG +1.2% per 1000 Max HP (max +60%)",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.012,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: Some(0.60),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Yelan =====
 // A4 passive "Adapt With Ease": DMG bonus ramp 1-50% (max value 0.50)
-static YELAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Adapt With Ease",
-    description: "DMG Bonus ramps up to max value 0.50",
-    stat: BuffableStat::DmgBonus,
-    base_value: 0.50,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-    cap: None,
-    activation: Some(Activation::Manual(ManualCondition::Toggle)),
-}];
+// C4 "Brocaded Nets": Party Max HP +10% per marked opponent (max 4 marks)
+static YELAN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Adapt With Ease",
+        description: "DMG Bonus ramps up to max value 0.50",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "yelan_c4_hp",
+        description: "C4: Party Max HP +10% per marked opponent (max 4)",
+        stat: BuffableStat::HpPercent,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(4))),
+    },
+];
 
 // ===== Columbina =====
 // Each constellation grants passive Lunar Reaction DMG bonus (TransformativeBonus)
@@ -545,20 +730,37 @@ static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Xingqiu =====
 // C2: Hydro RES -15% on Rain Sword hit
-static XINGQIU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Rainbow Upon the Azure Sky Hydro RES Shred",
-    description: "C2: Enemies hit by Rain Swords have Hydro RES -15% for 4s",
-    stat: BuffableStat::ElementalResReduction(Element::Hydro),
-    base_value: 0.15,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(2),
-    min_constellation: 2,
-    cap: None,
-    activation: None,
-}];
+// C4 "Evilsoother": Skill DMG +50% during Burst
+static XINGQIU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Rainbow Upon the Azure Sky Hydro RES Shred",
+        description: "C2: Enemies hit by Rain Swords have Hydro RES -15% for 4s",
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "xingqiu_c4_skill_dmg",
+        description: "C4: Skill DMG +50% during Burst",
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // Registry (pub(super) for cross-element uniqueness test)
 pub(super) static HYDRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[

@@ -2,20 +2,67 @@ use super::*;
 
 // ===== Albedo =====
 // A4 passive "Homuncular Nature": EM+125 for team after burst
-static ALBEDO_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Homuncular Nature",
-    description: "After burst, grants EM+125 to nearby party members for 10s",
-    stat: BuffableStat::ElementalMastery,
-    base_value: 125.0,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::AscensionPassive(4),
-    min_constellation: 0,
-    cap: None,
-    activation: None,
-}];
+// C1 "Flower of Eden": DEF +50% on Skill use
+// C4 "Descent of Divinity": Plunging ATK DMG +30% in Solar Isotoma
+// C6 "Dust of Purification": DMG Bonus +17% with Crystallize shield
+static ALBEDO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Homuncular Nature",
+        description: "After burst, grants EM+125 to nearby party members for 10s",
+        stat: BuffableStat::ElementalMastery,
+        base_value: 125.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "albedo_c1_def",
+        description: "C1: DEF +50% on Skill use",
+        stat: BuffableStat::DefPercent,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "albedo_c4_plunging_dmg",
+        description: "C4: Plunging ATK DMG +30% in Solar Isotoma",
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "albedo_c6_dmg_bonus",
+        description: "C6: DMG Bonus +17% with Crystallize shield",
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.17,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Gorou =====
 // Skill "Inuzaka All-Round Defense": DEF flat per level (Lv1-15) + Geo DMG+15% (3 Geo)
@@ -53,6 +100,20 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    TalentBuffDef {
+        name: "gorou_c6_geo_crit_dmg",
+        description: "C6: Geo CRIT DMG +40% at Crunch",
+        stat: BuffableStat::CritDmg,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Ningguang =====
@@ -74,25 +135,57 @@ static NINGGUANG_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 
 // ===== Yun Jin =====
 // Elemental Burst "Cliffbreaker's Banner": flat Normal ATK DMG based on DEF (Lv1-15)
+// C2 "Myriad Mise-En-Scène": Normal ATK DMG +15% after Burst
+// C4 "Flower Stage": DEF +20% on Crystallize
 static YUN_JIN_BURST_SCALING: [f64; 15] = [
     0.3216, 0.3457, 0.3699, 0.4020, 0.4262, 0.4503, 0.4824, 0.5145, 0.5466, 0.5789, 0.6110, 0.6431,
     0.6833, 0.7234, 0.7636,
 ];
 
-static YUN_JIN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Cliffbreaker's Banner Normal ATK Bonus",
-    description: "Normal Attack DMG increased based on Yun Jin's DEF",
-    stat: BuffableStat::NormalAtkFlatDmg,
-    base_value: 0.0,
-    scales_with_talent: true,
-    talent_scaling: Some(&YUN_JIN_BURST_SCALING),
-    scales_on: Some(ScalingStat::Def),
-    target: BuffTarget::Team,
-    source: TalentBuffSource::ElementalBurst,
-    min_constellation: 0,
-    cap: None,
-    activation: None,
-}];
+static YUN_JIN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Cliffbreaker's Banner Normal ATK Bonus",
+        description: "Normal Attack DMG increased based on Yun Jin's DEF",
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&YUN_JIN_BURST_SCALING),
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "yun_jin_c2_normal_dmg",
+        description: "C2: Normal ATK DMG +15% after Burst",
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "yun_jin_c4_def",
+        description: "C4: DEF +20% on Crystallize",
+        stat: BuffableStat::DefPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Zhongli =====
 // Jade Shield "Dominus Lapidis": All RES -20% for nearby enemies while shield is active
@@ -288,6 +381,21 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     // Complex scaling (1人=7%, 2人=14%, 3人=24%) — not expressible with TalentBuffDef.
     // TODO: Implement dedicated mechanic for Illuga A4.
     //
+    // C4 "Unfolding of Starlight": Party DEF +200 during Burst
+    TalentBuffDef {
+        name: "illuga_c4_def_flat",
+        description: "C4: Party DEF +200 during Burst",
+        stat: BuffableStat::DefFlat,
+        base_value: 200.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     // C6 "Nightmare Orioles": Enhances A1 values
     TalentBuffDef {
         name: "Nightmare Orioles - CRIT Rate",
