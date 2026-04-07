@@ -148,7 +148,7 @@ fn team01_arlecchino_vaporize() {
     .unwrap();
 
     let team = [arlecchino, yelan, bennett, kazuha];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Arlecchino");
 
@@ -257,7 +257,7 @@ fn team02_ganyu_melt() {
     .unwrap();
 
     let team = [ganyu, bennett, kazuha, rosaria];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Ganyu");
 
@@ -376,7 +376,7 @@ fn team03_skirk_freeze() {
     .unwrap();
 
     let team = [skirk, escoffier, furina, yelan];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Skirk");
 
@@ -489,7 +489,7 @@ fn team04_cyno_aggravate() {
     .unwrap();
 
     let team = [cyno, nahida, fischl, baizhu];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Cyno");
 
@@ -621,7 +621,7 @@ fn team05_hyperbloom() {
     let team = [alhaitham, nahida, yelan, kuki];
 
     // Resolve for Kuki (Hyperbloom trigger)
-    let kuki_result = resolve_team_stats_detailed(&team, 3).unwrap();
+    let kuki_result = resolve_team_stats_detailed(&team, 3, &[]).unwrap();
     assert_stats_sane(&kuki_result.final_stats, "Kuki");
 
     // Dendro resonance (Alhaitham + Nahida)
@@ -651,7 +651,7 @@ fn team05_hyperbloom() {
     );
 
     // Also resolve for Alhaitham (on-field DPS)
-    let al_result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let al_result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
     assert_stats_sane(&al_result.final_stats, "Alhaitham");
 
     let char_data = find_character("alhaitham").unwrap();
@@ -748,7 +748,7 @@ fn team06_burgeon() {
     let team = [nahida, thoma, xingqiu, kazuha];
 
     // Resolve for Thoma (Burgeon trigger)
-    let thoma_result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let thoma_result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
     assert_stats_sane(&thoma_result.final_stats, "Thoma");
 
     // Calculate Burgeon damage
@@ -842,7 +842,7 @@ fn team07_raiden_national() {
     let team = [raiden, xiangling, xingqiu, bennett];
 
     // Pyro resonance
-    let raiden_result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let raiden_result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
     assert!(
         raiden_result
             .resonances
@@ -886,7 +886,7 @@ fn team07_raiden_national() {
     assert_damage_sane(&damage, "Raiden Burst initial hit");
 
     // Resolve for Xiangling (check Bennett buff reaches her)
-    let xl_result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let xl_result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
     assert_stats_sane(&xl_result.final_stats, "Xiangling");
 
     let has_bennett_for_xl = xl_result
@@ -991,7 +991,7 @@ fn team08_mono_pyro_mavuika() {
     .unwrap();
 
     let team = [mavuika, xilonen, kazuha, bennett];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Mavuika");
 
@@ -1110,7 +1110,7 @@ fn team09_eula_physical() {
     .unwrap();
 
     let team = [eula, raiden, shenhe, zhongli];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Eula");
 
@@ -1240,7 +1240,7 @@ fn team10_mavuika_nightsoul_melt() {
     .unwrap();
 
     let team = [mavuika, citlali, xilonen, bennett];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Mavuika Nightsoul");
 
@@ -1374,8 +1374,8 @@ fn cross_team_bennett_buff_consistency() {
     let team1 = [bennett.clone(), dps1];
     let team2 = [bennett, dps2];
 
-    let result1 = resolve_team_stats_detailed(&team1, 1).unwrap();
-    let result2 = resolve_team_stats_detailed(&team2, 1).unwrap();
+    let result1 = resolve_team_stats_detailed(&team1, 1, &[]).unwrap();
+    let result2 = resolve_team_stats_detailed(&team2, 1, &[]).unwrap();
 
     // Both should receive the same ATK buff
     let atk_diff = (result1.final_stats.atk - result2.final_stats.atk).abs();
@@ -1399,7 +1399,7 @@ fn cross_team_all_members_resolve_without_panic() {
 
     for (name, team) in &teams {
         for i in 0..team.len() {
-            let result = resolve_team_stats_detailed(team, i);
+            let result = resolve_team_stats_detailed(team, i, &[]);
             assert!(
                 result.is_ok(),
                 "Team {name} member {i} failed to resolve: {:?}",

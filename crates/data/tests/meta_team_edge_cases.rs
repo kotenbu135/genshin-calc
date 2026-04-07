@@ -64,7 +64,7 @@ fn edge_res_shred_stacking() {
     };
 
     let team = [dps, kazuha, zhongli];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     // Check enemy debuffs are accumulated
     let pyro_shred = result.enemy_debuffs.pyro_res_reduction;
@@ -158,7 +158,7 @@ fn edge_def_scaling_redhorn_itto() {
     .unwrap();
 
     let team = [itto, gorou];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     // Redhorn should add flat DMG to Normal/Charged based on DEF
     let has_normal_flat = result.damage_context.normal_atk_flat_dmg > 0.0;
@@ -271,8 +271,8 @@ fn edge_engulfing_lightning_er_cap() {
     let team_low = [raiden_low_er];
     let team_high = [raiden_high_er];
 
-    let result_low = resolve_team_stats_detailed(&team_low, 0).unwrap();
-    let result_high = resolve_team_stats_detailed(&team_high, 0).unwrap();
+    let result_low = resolve_team_stats_detailed(&team_low, 0, &[]).unwrap();
+    let result_high = resolve_team_stats_detailed(&team_high, 0, &[]).unwrap();
 
     // Higher ER should give more ATK
     assert!(
@@ -319,7 +319,7 @@ fn edge_emblem_burst_dmg_cap() {
     .unwrap();
 
     let team = [raiden_300er];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     // Burst DMG bonus from Emblem should not exceed 0.75
     let burst_bonus = result.damage_context.burst_dmg_bonus;
@@ -382,8 +382,8 @@ fn edge_furina_fanfare_scaling() {
     let team_no_stacks = [furina, dps.clone()];
     let team_max_stacks = [furina_max, dps];
 
-    let result_no = resolve_team_stats_detailed(&team_no_stacks, 1).unwrap();
-    let result_max = resolve_team_stats_detailed(&team_max_stacks, 1).unwrap();
+    let result_no = resolve_team_stats_detailed(&team_no_stacks, 1, &[]).unwrap();
+    let result_max = resolve_team_stats_detailed(&team_max_stacks, 1, &[]).unwrap();
 
     // With 0 stacks, should have no DMG bonus from Furina
     let furina_buff_no: f64 = result_no
@@ -454,7 +454,7 @@ fn edge_shenhe_flat_dmg_per_type() {
     .unwrap();
 
     let team = [shenhe, ayaka];
-    let result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
 
     // Shenhe should add flat DMG to Normal, Charged, Skill, and Burst
     assert!(
@@ -524,7 +524,7 @@ fn edge_xilonen_res_reduction() {
     .unwrap();
 
     let team = [mavuika, xilonen];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     // Xilonen should provide RES reduction via enemy debuffs
     // Check that debuffs exist
@@ -694,7 +694,7 @@ fn edge_gilded_dreams_element_counting() {
     // Same element as Cyno: Fischl (1)
     // Different element: Nahida, Baizhu (2)
     let team = [cyno, fischl, nahida, baizhu];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     // Check that Gilded Dreams buffs are applied
     let gilded_buffs: Vec<&ResolvedBuff> = result
@@ -747,7 +747,7 @@ fn edge_bennett_c6_pyro_dmg() {
     };
 
     let team = [bennett_c6, dps];
-    let result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
 
     // C6 Bennett should provide Pyro DMG bonus
     let has_pyro_bonus = result
@@ -783,7 +783,7 @@ fn edge_single_member_team() {
     .unwrap();
 
     let team = [solo];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     // No resonances for 1-member team
     assert!(
@@ -1166,7 +1166,7 @@ fn edge_raiden_burst_resolve_stacks() {
     .unwrap();
 
     let team = [raiden];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     // Engulfing Lightning ATK% from ER should be applied
     // Emblem 4pc burst DMG should be applied

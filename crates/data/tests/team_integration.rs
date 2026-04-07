@@ -37,7 +37,7 @@ fn test_bennett_kazuha_team_damage() {
     let team = [bennett, dps];
 
     // Resolve stats for DPS (index 1)
-    let result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
 
     // DPS should have received Bennett's ATK flat buff
     let has_bennett_buff = result
@@ -106,7 +106,7 @@ fn test_four_member_team_with_resonance() {
     .unwrap();
 
     let team = [pyro1, pyro2, hydro, cryo];
-    let result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
 
     // Should have Pyro resonance (FerventFlames)
     assert!(

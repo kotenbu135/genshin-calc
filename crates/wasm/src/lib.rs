@@ -188,7 +188,7 @@ pub fn calculate_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsErro
 pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue, JsError> {
     let members: Vec<genshin_calc_core::TeamMember> = serde_wasm_bindgen::from_value(members)
         .map_err(|e| JsError::new(&format!("Invalid members: {e}")))?;
-    let result = genshin_calc_core::resolve_team_stats(&members, target_index as usize)
+    let result = genshin_calc_core::resolve_team_stats(&members, target_index as usize, &[])
         .map_err(|e| JsError::new(&e.to_string()))?;
     to_js(&result)
 }
@@ -266,7 +266,7 @@ pub fn build_stats(
                 genshin_calc_good::to_team_member_builder(b, &w_converted, &a_converted, &[])
                     .map_err(|e| JsError::new(&e.to_string()))?;
             let member = builder.build().map_err(|e| JsError::new(&e.to_string()))?;
-            let result = genshin_calc_core::resolve_team_stats(&[member], 0)
+            let result = genshin_calc_core::resolve_team_stats(&[member], 0, &[])
                 .map_err(|e| JsError::new(&e.to_string()))?;
             let stats = result.final_stats;
             to_js(&stats)
@@ -716,7 +716,7 @@ mod tests {
             is_moonsign: false,
             can_nightsoul: false,
         };
-        let result = resolve_team_stats(&[dps], 0).unwrap();
+        let result = resolve_team_stats(&[dps], 0, &[]).unwrap();
         assert!(result.final_stats.atk > 0.0);
     }
 
@@ -757,7 +757,7 @@ mod tests {
         };
         let builder = genshin_calc_good::to_team_member_builder(&build, &[], &[], &[]).unwrap();
         let member = builder.build().unwrap();
-        let result = genshin_calc_core::resolve_team_stats(&[member], 0).unwrap();
+        let result = genshin_calc_core::resolve_team_stats(&[member], 0, &[]).unwrap();
         let stats = result.final_stats;
         assert!(stats.atk > 0.0, "ATK should be positive");
         assert!(stats.hp > 0.0, "HP should be positive");
@@ -792,7 +792,7 @@ mod tests {
         // Without activation
         let builder_no = genshin_calc_good::to_team_member_builder(&build, &[], &[], &[]).unwrap();
         let member_no = builder_no.build().unwrap();
-        let stats_no = genshin_calc_core::resolve_team_stats(&[member_no], 0)
+        let stats_no = genshin_calc_core::resolve_team_stats(&[member_no], 0, &[])
             .unwrap()
             .final_stats;
 
@@ -801,7 +801,7 @@ mod tests {
         let builder_with =
             genshin_calc_good::to_team_member_builder(&build, &[], &artifact_acts, &[]).unwrap();
         let member_with = builder_with.build().unwrap();
-        let stats_with = genshin_calc_core::resolve_team_stats(&[member_with], 0)
+        let stats_with = genshin_calc_core::resolve_team_stats(&[member_with], 0, &[])
             .unwrap()
             .final_stats;
 
@@ -862,7 +862,7 @@ mod tests {
         assert!(member.stats.base_atk > 0.0);
 
         // Should be usable as resolve_team_stats input
-        let result = genshin_calc_core::resolve_team_stats(&[member], 0).unwrap();
+        let result = genshin_calc_core::resolve_team_stats(&[member], 0, &[]).unwrap();
         assert!(result.final_stats.hp > 0.0);
     }
 
@@ -923,7 +923,7 @@ mod tests {
         assert!(no_crit_buff.is_none());
 
         // Both should be valid resolve_team_stats input
-        let result = genshin_calc_core::resolve_team_stats(&[member_with], 0).unwrap();
+        let result = genshin_calc_core::resolve_team_stats(&[member_with], 0, &[]).unwrap();
         assert!(result.final_stats.crit_rate > member_no.stats.crit_rate);
     }
 
@@ -958,7 +958,7 @@ mod tests {
         assert_eq!(member.buffs_provided.len(), back.buffs_provided.len());
 
         // Deserialized member should work with resolve_team_stats
-        let result = genshin_calc_core::resolve_team_stats(&[back], 0).unwrap();
+        let result = genshin_calc_core::resolve_team_stats(&[back], 0, &[]).unwrap();
         assert!(result.final_stats.atk > 0.0);
     }
 
