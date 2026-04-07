@@ -3,7 +3,9 @@ use serde::{Deserialize, Serialize};
 use crate::buff_types::BuffableStat;
 use crate::enemy::{EnemyDebuffs, collect_enemy_debuffs};
 use crate::error::CalcError;
-use crate::resonance::{ElementalResonance, determine_resonances, resonance_buffs};
+use crate::resonance::{
+    ElementalResonance, determine_resonances, resonance_buffs, resonance_conditional_buffs,
+};
 use crate::stat_profile::{StatProfile, combine_stats};
 use crate::stats::Stats;
 use crate::types::{Element, WeaponType};
@@ -200,7 +202,11 @@ fn validate_team(team: &[TeamMember], target_index: usize) -> Result<(), CalcErr
     Ok(())
 }
 
-fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> {
+fn collect_buffs(
+    team: &[TeamMember],
+    target_index: usize,
+    resonance_activations: &[(ElementalResonance, bool)],
+) -> Vec<ResolvedBuff> {
     let mut buffs = Vec::new();
 
     for (i, member) in team.iter().enumerate() {
@@ -228,6 +234,22 @@ fn collect_buffs(team: &[TeamMember], target_index: usize) -> Vec<ResolvedBuff> 
                 target: BuffTarget::Team,
                 origin: None,
             });
+        }
+
+        // Conditional resonance buffs (only when activated)
+        let is_active = resonance_activations
+            .iter()
+            .any(|(r, active)| r == resonance && *active);
+        if is_active {
+            for (stat, value) in resonance_conditional_buffs(*resonance) {
+                buffs.push(ResolvedBuff {
+                    source: format!("{:?}(conditional)", resonance),
+                    stat,
+                    value,
+                    target: BuffTarget::Team,
+                    origin: None,
+                });
+            }
         }
     }
 
@@ -311,14 +333,15 @@ fn dedup_by_origin(buffs: &mut Vec<ResolvedBuff>) {
 ///     is_moonsign: false,
 ///     can_nightsoul: false,
 /// };
-/// let result = resolve_team_stats(&[member], 0).unwrap();
+/// let result = resolve_team_stats(&[member], 0, &[]).unwrap();
 /// assert!(result.final_stats.atk > 0.0);
 /// ```
 pub fn resolve_team_stats(
     team: &[TeamMember],
     target_index: usize,
+    resonance_activations: &[(ElementalResonance, bool)],
 ) -> Result<TeamResolveResult, CalcError> {
-    resolve_team_stats_detailed(team, target_index)
+    resolve_team_stats_detailed(team, target_index, resonance_activations)
 }
 
 /// Resolves team buffs with detailed breakdown.
@@ -332,13 +355,14 @@ pub fn resolve_team_stats(
 pub fn resolve_team_stats_detailed(
     team: &[TeamMember],
     target_index: usize,
+    resonance_activations: &[(ElementalResonance, bool)],
 ) -> Result<TeamResolveResult, CalcError> {
     validate_team(team, target_index)?;
 
     let base_profile = &team[target_index].stats;
     let base_stats = combine_stats(base_profile)?;
 
-    let applied_buffs = collect_buffs(team, target_index);
+    let applied_buffs = collect_buffs(team, target_index, resonance_activations);
     let buffed_profile = apply_buffs_to_profile(base_profile, &applied_buffs);
     let final_stats = combine_stats(&buffed_profile)?;
 
@@ -385,21 +409,21 @@ mod tests {
 
     #[test]
     fn test_empty_team_error() {
-        let result = resolve_team_stats(&[], 0);
+        let result = resolve_team_stats(&[], 0, &[]);
         assert_eq!(result, Err(CalcError::InvalidTeamSize(0)));
     }
 
     #[test]
     fn test_five_member_team_error() {
         let team: Vec<TeamMember> = (0..5).map(|_| make_member(Element::Pyro, 800.0)).collect();
-        let result = resolve_team_stats(&team, 0);
+        let result = resolve_team_stats(&team, 0, &[]);
         assert_eq!(result, Err(CalcError::InvalidTeamSize(5)));
     }
 
     #[test]
     fn test_target_index_out_of_bounds() {
         let team = vec![make_member(Element::Pyro, 800.0)];
-        let result = resolve_team_stats(&team, 1);
+        let result = resolve_team_stats(&team, 1, &[]);
         assert_eq!(
             result,
             Err(CalcError::InvalidTargetIndex {
@@ -412,7 +436,7 @@ mod tests {
     #[test]
     fn test_single_member_no_buffs() {
         let team = vec![make_member(Element::Pyro, 800.0)];
-        let result = resolve_team_stats(&team, 0).unwrap();
+        let result = resolve_team_stats(&team, 0, &[]).unwrap();
         assert!((result.final_stats.atk - 800.0).abs() < EPSILON);
     }
 
@@ -429,11 +453,11 @@ mod tests {
         let team = vec![member, make_member(Element::Hydro, 700.0)];
 
         // Member 0 gets the self buff
-        let result0 = resolve_team_stats(&team, 0).unwrap();
+        let result0 = resolve_team_stats(&team, 0, &[]).unwrap();
         assert!((result0.final_stats.atk - 800.0 * (1.0 + 0.20)).abs() < EPSILON);
 
         // Member 1 does NOT get it
-        let result1 = resolve_team_stats(&team, 1).unwrap();
+        let result1 = resolve_team_stats(&team, 1, &[]).unwrap();
         assert!((result1.final_stats.atk - 700.0).abs() < EPSILON);
     }
 
@@ -451,10 +475,10 @@ mod tests {
         let team = vec![bennett, dps];
 
         // Both members get the team buff
-        let result0 = resolve_team_stats(&team, 0).unwrap();
+        let result0 = resolve_team_stats(&team, 0, &[]).unwrap();
         assert!((result0.final_stats.atk - (800.0 + 1000.0)).abs() < EPSILON);
 
-        let result1 = resolve_team_stats(&team, 1).unwrap();
+        let result1 = resolve_team_stats(&team, 1, &[]).unwrap();
         assert!((result1.final_stats.atk - (900.0 + 1000.0)).abs() < EPSILON);
     }
 
@@ -472,11 +496,11 @@ mod tests {
         let team = vec![rosaria, dps];
 
         // Rosaria does NOT get her own buff
-        let result0 = resolve_team_stats(&team, 0).unwrap();
+        let result0 = resolve_team_stats(&team, 0, &[]).unwrap();
         assert!((result0.final_stats.crit_rate - 0.50).abs() < EPSILON);
 
         // DPS gets the buff
-        let result1 = resolve_team_stats(&team, 1).unwrap();
+        let result1 = resolve_team_stats(&team, 1, &[]).unwrap();
         assert!((result1.final_stats.crit_rate - 0.65).abs() < EPSILON);
     }
 
@@ -488,7 +512,7 @@ mod tests {
             make_member(Element::Hydro, 600.0),
             make_member(Element::Cryo, 500.0),
         ];
-        let result = resolve_team_stats(&team, 0).unwrap();
+        let result = resolve_team_stats(&team, 0, &[]).unwrap();
         // base_atk=800, atk_percent=0.25 from resonance → 800*(1+0.25)=1000
         assert!((result.final_stats.atk - 1000.0).abs() < EPSILON);
     }
@@ -500,7 +524,7 @@ mod tests {
             make_member(Element::Pyro, 700.0),
             make_member(Element::Hydro, 600.0),
         ];
-        let result = resolve_team_stats(&team, 0).unwrap();
+        let result = resolve_team_stats(&team, 0, &[]).unwrap();
         // No resonance — base_atk only
         assert!((result.final_stats.atk - 800.0).abs() < EPSILON);
     }
@@ -513,7 +537,7 @@ mod tests {
             make_member(Element::Hydro, 600.0),
             make_member(Element::Cryo, 500.0),
         ];
-        let result = resolve_team_stats_detailed(&team, 0).unwrap();
+        let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
         assert!(
             result
                 .resonances
@@ -797,7 +821,7 @@ mod tests {
         let dps = make_member(Element::Pyro, 900.0);
         let team = vec![support, dps];
 
-        let result = resolve_team_stats(&team, 1).unwrap();
+        let result = resolve_team_stats(&team, 1, &[]).unwrap();
         assert!(result.final_stats.atk > 0.0);
         assert!((result.damage_context.normal_atk_dmg_bonus - 0.16).abs() < EPSILON);
         assert!((result.damage_context.normal_atk_flat_dmg - 2500.0).abs() < EPSILON);
@@ -830,7 +854,7 @@ mod tests {
         let dps = make_member(Element::Cryo, 900.0);
         let team = vec![member1, member2, dps];
 
-        let result = resolve_team_stats(&team, 2).unwrap();
+        let result = resolve_team_stats(&team, 2, &[]).unwrap();
         // Only max (0.25) applies; lower (0.20) is deduped
         // base_atk=900, atk_percent=0.25 → 900 * 1.25 = 1125
         assert!((result.final_stats.atk - 1125.0).abs() < EPSILON);
@@ -869,7 +893,7 @@ mod tests {
         let dps = make_member(Element::Cryo, 900.0);
         let team = vec![member1, member2, dps];
 
-        let result = resolve_team_stats(&team, 2).unwrap();
+        let result = resolve_team_stats(&team, 2, &[]).unwrap();
         // Both apply: 900 * (1 + 0.20 + 0.20) = 900 * 1.40 = 1260
         assert!((result.final_stats.atk - 1260.0).abs() < EPSILON);
         assert_eq!(
@@ -907,7 +931,7 @@ mod tests {
         let dps = make_member(Element::Cryo, 900.0);
         let team = vec![member1, member2, dps];
 
-        let result = resolve_team_stats(&team, 2).unwrap();
+        let result = resolve_team_stats(&team, 2, &[]).unwrap();
         // Both apply: 900 * (1 + 0.20 + 0.20) = 900 * 1.40 = 1260
         assert!((result.final_stats.atk - 1260.0).abs() < EPSILON);
         // Both origin=None buffs present
@@ -917,5 +941,109 @@ mod tests {
             .filter(|b| b.origin.is_none() && b.stat == BuffableStat::AtkPercent)
             .collect();
         assert_eq!(no_origin_atk_buffs.len(), 2);
+    }
+
+    #[test]
+    fn test_cryo_resonance_activation_applies_crit_rate() {
+        let team = vec![
+            make_member(Element::Cryo, 800.0),
+            make_member(Element::Cryo, 600.0),
+            make_member(Element::Pyro, 700.0),
+            make_member(Element::Hydro, 500.0),
+        ];
+        let activations = [(ElementalResonance::ShatteringIce, true)];
+        let result = resolve_team_stats(&team, 0, &activations).unwrap();
+        let has_crit = result
+            .applied_buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::CritRate && (b.value - 0.15).abs() < EPSILON);
+        assert!(
+            has_crit,
+            "ShatteringIce conditional CritRate +0.15 should be in applied_buffs"
+        );
+    }
+
+    #[test]
+    fn test_resonance_activation_false_does_not_apply() {
+        let team = vec![
+            make_member(Element::Cryo, 800.0),
+            make_member(Element::Cryo, 600.0),
+            make_member(Element::Pyro, 700.0),
+            make_member(Element::Hydro, 500.0),
+        ];
+        let activations = [(ElementalResonance::ShatteringIce, false)];
+        let result = resolve_team_stats(&team, 0, &activations).unwrap();
+        let has_crit = result
+            .applied_buffs
+            .iter()
+            .any(|b| b.source.contains("ShatteringIce") && b.stat == BuffableStat::CritRate);
+        assert!(
+            !has_crit,
+            "ShatteringIce with active=false should not appear"
+        );
+    }
+
+    #[test]
+    fn test_empty_activations_backward_compatible() {
+        let team = vec![
+            make_member(Element::Cryo, 800.0),
+            make_member(Element::Cryo, 600.0),
+            make_member(Element::Pyro, 700.0),
+            make_member(Element::Hydro, 500.0),
+        ];
+        let result = resolve_team_stats(&team, 0, &[]).unwrap();
+        let has_crit = result
+            .applied_buffs
+            .iter()
+            .any(|b| b.source.contains("ShatteringIce"));
+        assert!(
+            !has_crit,
+            "Empty activations should not apply conditional buffs"
+        );
+    }
+
+    #[test]
+    fn test_activation_ignored_when_resonance_not_detected() {
+        let team = vec![
+            make_member(Element::Cryo, 800.0),
+            make_member(Element::Cryo, 600.0),
+            make_member(Element::Pyro, 700.0),
+        ];
+        let activations = [(ElementalResonance::ShatteringIce, true)];
+        let result = resolve_team_stats(&team, 0, &activations).unwrap();
+        assert!(result.resonances.is_empty());
+        let has_crit = result
+            .applied_buffs
+            .iter()
+            .any(|b| b.source.contains("ShatteringIce"));
+        assert!(
+            !has_crit,
+            "Activation without detected resonance should be ignored"
+        );
+    }
+
+    #[test]
+    fn test_double_resonance_partial_activation() {
+        let team = vec![
+            make_member(Element::Cryo, 800.0),
+            make_member(Element::Cryo, 600.0),
+            make_member(Element::Geo, 700.0),
+            make_member(Element::Geo, 500.0),
+        ];
+        let activations = [(ElementalResonance::ShatteringIce, true)];
+        let result = resolve_team_stats(&team, 0, &activations).unwrap();
+        let has_crit = result
+            .applied_buffs
+            .iter()
+            .any(|b| b.stat == BuffableStat::CritRate && (b.value - 0.15).abs() < EPSILON);
+        assert!(has_crit, "ShatteringIce should be active");
+        let has_dmg = result
+            .applied_buffs
+            .iter()
+            .any(|b| b.source.contains("EnduringRock"));
+        assert!(
+            !has_dmg,
+            "EnduringRock should NOT be active (not in activations)"
+        );
     }
 }
