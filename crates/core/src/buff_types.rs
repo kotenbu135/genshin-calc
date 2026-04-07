@@ -26,6 +26,8 @@ pub enum BuffableStat {
     EnergyRecharge,
     /// General DMG bonus (all elements and physical).
     DmgBonus,
+    /// All Elemental DMG bonus (all 7 elements, excluding physical).
+    AllElementalDmgBonus,
     /// Elemental DMG bonus for a specific element.
     ElementalDmgBonus(Element),
     /// Physical DMG bonus.
@@ -100,6 +102,14 @@ mod tests {
     #[test]
     fn test_def_reduction_serde_roundtrip() {
         let stat = BuffableStat::DefReduction;
+        let json = serde_json::to_string(&stat).unwrap();
+        let deser: BuffableStat = serde_json::from_str(&json).unwrap();
+        assert_eq!(stat, deser);
+    }
+
+    #[test]
+    fn test_all_elemental_dmg_bonus_serde_roundtrip() {
+        let stat = BuffableStat::AllElementalDmgBonus;
         let json = serde_json::to_string(&stat).unwrap();
         let deser: BuffableStat = serde_json::from_str(&json).unwrap();
         assert_eq!(stat, deser);

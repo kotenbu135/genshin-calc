@@ -420,7 +420,7 @@ pub const PEAK_PATROL_SONG: WeaponData = WeaponData {
                 ConditionalBuff {
                     name: "peak_patrol_self_dmg",
                     description: "Ode to Flowers: All Elemental DMG+10-20% per stack (max 2)",
-                    stat: BuffableStat::DmgBonus,
+                    stat: BuffableStat::AllElementalDmgBonus,
                     value: 0.10,
                     nightsoul_value: None,
                     refinement_values: Some([0.10, 0.125, 0.15, 0.175, 0.20]),
@@ -431,7 +431,7 @@ pub const PEAK_PATROL_SONG: WeaponData = WeaponData {
                 ConditionalBuff {
                     name: "peak_patrol_team_dmg",
                     description: "2 stacks: party All Elemental DMG based on 8-16% of DEF (cap 25.6-51.2%)",
-                    stat: BuffableStat::DmgBonus,
+                    stat: BuffableStat::AllElementalDmgBonus,
                     value: 0.00008,
                     nightsoul_value: None,
                     refinement_values: Some([0.00008, 0.00010, 0.00012, 0.00014, 0.00016]),
@@ -1794,7 +1794,7 @@ mod tests {
         // Buff 2: Self All Elemental DMG% per stack
         let self_dmg = &cond_buffs[1];
         assert_eq!(self_dmg.name, "peak_patrol_self_dmg");
-        assert_eq!(self_dmg.stat, BuffableStat::DmgBonus);
+        assert_eq!(self_dmg.stat, BuffableStat::AllElementalDmgBonus);
         assert!((self_dmg.value - 0.10).abs() < 1e-6);
         assert_eq!(self_dmg.target, BuffTarget::OnlySelf);
         assert!(matches!(
@@ -1805,7 +1805,7 @@ mod tests {
         // Buff 3: Team All Elemental DMG based on DEF
         let team_dmg = &cond_buffs[2];
         assert_eq!(team_dmg.name, "peak_patrol_team_dmg");
-        assert_eq!(team_dmg.stat, BuffableStat::DmgBonus);
+        assert_eq!(team_dmg.stat, BuffableStat::AllElementalDmgBonus);
         assert!((team_dmg.value - 0.00008).abs() < 1e-8);
         assert_eq!(team_dmg.target, BuffTarget::Team);
         assert!(matches!(
