@@ -138,7 +138,9 @@ pub use moonsign::{
     non_moonsign_scaling, resolve_moonsign_context, select_non_moonsign_buff,
 };
 pub use reaction::{Reaction, ReactionCategory, determine_reaction};
-pub use resonance::{ElementalResonance, determine_resonances, resonance_buffs};
+pub use resonance::{
+    ElementalResonance, determine_resonances, resonance_buffs, resonance_conditional_buffs,
+};
 pub use stat_profile::{StatProfile, combine_stats};
 pub use stats::Stats;
 pub use team::{
