@@ -18,12 +18,14 @@ pub const BLOODSOAKED_RUINS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Mournful Tribute",
         effect: PassiveEffect {
-            description: "爆発使用後3.5秒間、月感電DMG+36-84%。月感電反応トリガー後6秒間CRIT DMG+28-56%。エネルギー12-16回復（14秒に1回）",
+            description: desc!(
+                "爆発使用後3.5秒間、月感電DMG+36-84%。月感電反応トリガー後6秒間CRIT DMG+28-56%。エネルギー12-16回復（14秒に1回）"
+            ),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "bloodsoaked_ruins_lunar_dmg",
-                    description: "爆発使用後3.5秒間、月感電DMG+36-84%（DmgBonusで近似）",
+                    description: desc!("爆発使用後3.5秒間、月感電DMG+36-84%（DmgBonusで近似）"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.36,
                     nightsoul_value: None,
@@ -34,7 +36,7 @@ pub const BLOODSOAKED_RUINS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "bloodsoaked_ruins_crit_dmg",
-                    description: "月感電反応トリガー後6秒間CRIT DMG+28-56%",
+                    description: desc!("月感電反応トリガー後6秒間CRIT DMG+28-56%"),
                     stat: BuffableStat::CritDmg,
                     value: 0.28,
                     nightsoul_value: None,
@@ -58,7 +60,9 @@ pub const CALAMITY_QUELLER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "息災",
         effect: PassiveEffect {
-            description: "Ele DMG+12-24%。元素スキル使用後ATK+3.2-6.4%/スタック、未出場時は2倍（最大6スタック）",
+            description: desc!(
+                "Ele DMG+12-24%。元素スキル使用後ATK+3.2-6.4%/スタック、未出場時は2倍（最大6スタック）"
+            ),
             buffs: &[StatBuff {
                 stat: BuffableStat::DmgBonus,
                 value: 0.12,
@@ -67,7 +71,9 @@ pub const CALAMITY_QUELLER: WeaponData = WeaponData {
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "calamity_queller_atk_onfield",
-                    description: "元素スキル使用後ATK+3.2-6.4%（1スタック）、最大6スタック（フィールド上）",
+                    description: desc!(
+                        "元素スキル使用後ATK+3.2-6.4%（1スタック）、最大6スタック（フィールド上）"
+                    ),
                     stat: BuffableStat::AtkPercent,
                     value: 0.032,
                     nightsoul_value: None,
@@ -78,7 +84,7 @@ pub const CALAMITY_QUELLER: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "calamity_queller_atk_offfield",
-                    description: "未出場時はATKスタック効果2倍（追加ATK+3.2-6.4%/スタック）",
+                    description: desc!("未出場時はATKスタック効果2倍（追加ATK+3.2-6.4%/スタック）"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.032,
                     nightsoul_value: None,
@@ -102,12 +108,14 @@ pub const CRIMSON_MOONS_SEMBLANCE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Ashen Sun's Shadow",
         effect: PassiveEffect {
-            description: "Bond of Life時DMG+12-28%。BoLがHP上限30%以上の時さらにDMG+24-56%。重撃命中でHP上限の25%分BoL付与（14秒に1回）",
+            description: desc!(
+                "Bond of Life時DMG+12-28%。BoLがHP上限30%以上の時さらにDMG+24-56%。重撃命中でHP上限の25%分BoL付与（14秒に1回）"
+            ),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "crimson_moons_semblance_bol_dmg",
-                    description: "Bond of Life保有時にDMG+12-28%",
+                    description: desc!("Bond of Life保有時にDMG+12-28%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.12,
                     nightsoul_value: None,
@@ -118,7 +126,7 @@ pub const CRIMSON_MOONS_SEMBLANCE: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "crimson_moons_semblance_bol_high_dmg",
-                    description: "BoLがHP上限の30%以上の時さらにDMG+24-56%",
+                    description: desc!("BoLがHP上限の30%以上の時さらにDMG+24-56%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.24,
                     nightsoul_value: None,
@@ -142,12 +150,12 @@ pub const ENGULFING_LIGHTNING: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "漁獲の雷",
         effect: PassiveEffect {
-            description: "Conditional: ERに基づきATKアップ。元素爆発後にER+30%",
+            description: desc!("Conditional: ERに基づきATKアップ。元素爆発後にER+30%"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "engulfing_er_atk",
-                    description: "ER超過分の28-56%をATK%に変換 (cap: 80-120%)",
+                    description: desc!("ER超過分の28-56%をATK%に変換 (cap: 80-120%)"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.28,
                     nightsoul_value: None,
@@ -162,7 +170,7 @@ pub const ENGULFING_LIGHTNING: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "engulfing_burst_er",
-                    description: "元素爆発後12秒間ER+30-50%",
+                    description: desc!("元素爆発後12秒間ER+30-50%"),
                     stat: BuffableStat::EnergyRecharge,
                     value: 0.30,
                     nightsoul_value: None,
@@ -186,12 +194,14 @@ pub const FRACTURED_HALO: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Purifying Crown",
         effect: PassiveEffect {
-            description: "スキル/爆発使用後20秒間ATK+24-48%。シールド生成時に20秒間、チーム全員の月感電DMG+40-80%",
+            description: desc!(
+                "スキル/爆発使用後20秒間ATK+24-48%。シールド生成時に20秒間、チーム全員の月感電DMG+40-80%"
+            ),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "fractured_halo_atk",
-                    description: "スキル/爆発使用後20秒間ATK+24-48%",
+                    description: desc!("スキル/爆発使用後20秒間ATK+24-48%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.24,
                     nightsoul_value: None,
@@ -202,7 +212,9 @@ pub const FRACTURED_HALO: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "fractured_halo_team_lunar_dmg",
-                    description: "シールド生成時チーム全員の月感電DMG+40-80%（DmgBonusで近似）",
+                    description: desc!(
+                        "シールド生成時チーム全員の月感電DMG+40-80%（DmgBonusで近似）"
+                    ),
                     stat: BuffableStat::DmgBonus,
                     value: 0.40,
                     nightsoul_value: None,
@@ -226,7 +238,9 @@ pub const LUMIDOUCE_ELEGY: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Bright Dawn Overture",
         effect: PassiveEffect {
-            description: "ATK+15-31%。燃焼反応トリガー後/燃焼状態の敵に草元素DMG後8秒間ダメージ+18-38%（最大2スタック）。2スタック時/更新時エネルギー12-16回復（12秒に1回）",
+            description: desc!(
+                "ATK+15-31%。燃焼反応トリガー後/燃焼状態の敵に草元素DMG後8秒間ダメージ+18-38%（最大2スタック）。2スタック時/更新時エネルギー12-16回復（12秒に1回）"
+            ),
             buffs: &[StatBuff {
                 stat: BuffableStat::AtkPercent,
                 value: 0.15,
@@ -234,7 +248,9 @@ pub const LUMIDOUCE_ELEGY: WeaponData = WeaponData {
             }],
             conditional_buffs: &[ConditionalBuff {
                 name: "lumidouce_elegy_burning_dmg",
-                description: "燃焼反応トリガー/燃焼状態の敵に草元素DMG後8秒間DMG+18-38%（1スタック）、最大2スタック",
+                description: desc!(
+                    "燃焼反応トリガー/燃焼状態の敵に草元素DMG後8秒間DMG+18-38%（1スタック）、最大2スタック"
+                ),
                 stat: BuffableStat::DmgBonus,
                 value: 0.18,
                 nightsoul_value: None,
@@ -257,12 +273,12 @@ pub const PRIMORDIAL_JADE_WINGED_SPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "昭理の鳶",
         effect: PassiveEffect {
-            description: "命中時にATK+3.2-6%、6スタックまで。フルスタックでDMG+12-24%",
+            description: desc!("命中時にATK+3.2-6%、6スタックまで。フルスタックでDMG+12-24%"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "pjws_atk_stacks",
-                    description: "命中時にATK+3.2-6%（1スタック）、最大6スタック",
+                    description: desc!("命中時にATK+3.2-6%（1スタック）、最大6スタック"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.032,
                     nightsoul_value: None,
@@ -273,7 +289,7 @@ pub const PRIMORDIAL_JADE_WINGED_SPEAR: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "pjws_full_stack_dmg",
-                    description: "フルスタック時にDMG+12-24%",
+                    description: desc!("フルスタック時にDMG+12-24%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.12,
                     nightsoul_value: None,
@@ -297,7 +313,7 @@ pub const SKYWARD_SPINE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "天空の脊",
         effect: PassiveEffect {
-            description: "CRIT Rate+8-16%。攻撃速度+12%。通常/重撃命中時に追加ダメージ",
+            description: desc!("CRIT Rate+8-16%。攻撃速度+12%。通常/重撃命中時に追加ダメージ"),
             buffs: &[StatBuff {
                 stat: BuffableStat::CritRate,
                 value: 0.08,
@@ -318,7 +334,9 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "護摩の杖",
         effect: PassiveEffect {
-            description: "HP+20-40%。HP上限の0.8-1.6%分ATKアップ。HP50%以下でさらに1.0-1.8%分アップ",
+            description: desc!(
+                "HP+20-40%。HP上限の0.8-1.6%分ATKアップ。HP50%以下でさらに1.0-1.8%分アップ"
+            ),
             buffs: &[StatBuff {
                 stat: BuffableStat::HpPercent,
                 value: 0.20,
@@ -327,7 +345,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "homa_hp_atk",
-                    description: "HP上限の0.8%分ATKアップ（常時）",
+                    description: desc!("HP上限の0.8%分ATKアップ（常時）"),
                     stat: BuffableStat::AtkFlat,
                     value: 0.008,
                     nightsoul_value: None,
@@ -342,7 +360,7 @@ pub const STAFF_OF_HOMA: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "homa_low_hp_atk",
-                    description: "HP50%以下の時、さらにHP上限の1.0%分ATKアップ",
+                    description: desc!("HP50%以下の時、さらにHP上限の1.0%分ATKアップ"),
                     stat: BuffableStat::AtkFlat,
                     value: 0.010,
                     nightsoul_value: None,
@@ -373,12 +391,12 @@ pub const STAFF_OF_THE_SCARLET_SANDS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "赤砂の杖",
         effect: PassiveEffect {
-            description: "Conditional: EMに基づきATKアップ。スキル命中でさらにATKアップ",
+            description: desc!("Conditional: EMに基づきATKアップ。スキル命中でさらにATKアップ"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "scarlet_sands_em_atk",
-                    description: "EM×52-104%分をATKフラットに加算",
+                    description: desc!("EM×52-104%分をATKフラットに加算"),
                     stat: BuffableStat::AtkFlat,
                     value: 0.52,
                     nightsoul_value: None,
@@ -396,7 +414,7 @@ pub const STAFF_OF_THE_SCARLET_SANDS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "scarlet_sands_skill_stacks",
-                    description: "スキル命中後10秒間、EM×28-56%分ATKアップ。最大2スタック",
+                    description: desc!("スキル命中後10秒間、EM×28-56%分ATKアップ。最大2スタック"),
                     stat: BuffableStat::AtkFlat,
                     value: 0.28,
                     nightsoul_value: None,
@@ -427,7 +445,9 @@ pub const SYMPHONIST_OF_SCENTS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Seasoned Symphony",
         effect: PassiveEffect {
-            description: "ATK+12-24%。未出場時さらにATK+12-24%。ヒール発動後に装備者とヒール対象のATK+32-64%（3秒間）",
+            description: desc!(
+                "ATK+12-24%。未出場時さらにATK+12-24%。ヒール発動後に装備者とヒール対象のATK+32-64%（3秒間）"
+            ),
             buffs: &[StatBuff {
                 stat: BuffableStat::AtkPercent,
                 value: 0.12,
@@ -436,7 +456,7 @@ pub const SYMPHONIST_OF_SCENTS: WeaponData = WeaponData {
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "symphonist_of_scents_offfield_atk",
-                    description: "未出場時さらにATK+12-24%",
+                    description: desc!("未出場時さらにATK+12-24%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.12,
                     nightsoul_value: None,
@@ -447,7 +467,7 @@ pub const SYMPHONIST_OF_SCENTS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "symphonist_of_scents_sweet_echoes",
-                    description: "ヒール発動後に装備者とヒール対象のATK+32-64%（3秒間）",
+                    description: desc!("ヒール発動後に装備者とヒール対象のATK+32-64%（3秒間）"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.32,
                     nightsoul_value: None,
@@ -471,12 +491,12 @@ pub const VORTEX_VANQUISHER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "金璋の槍",
         effect: PassiveEffect {
-            description: "攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍",
+            description: desc!("攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "vortex_vanquisher_atk_stacks",
-                    description: "攻撃命中でATK+4-8%（1スタック）、最大5スタック",
+                    description: desc!("攻撃命中でATK+4-8%（1スタック）、最大5スタック"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.04,
                     nightsoul_value: None,
@@ -487,7 +507,7 @@ pub const VORTEX_VANQUISHER: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "vortex_vanquisher_shield_atk_stacks",
-                    description: "シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）",
+                    description: desc!("シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.04,
                     nightsoul_value: None,
@@ -515,11 +535,11 @@ pub const BALLAD_OF_THE_FJORDS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Ballad of the Fjords",
         effect: PassiveEffect {
-            description: "チーム内に3種以上の異なる元素があるときEM+120-240",
+            description: desc!("チーム内に3種以上の異なる元素があるときEM+120-240"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "ballad_of_the_fjords_em",
-                description: "チーム内に3種以上の異なる元素があるときEM+120-240",
+                description: desc!("チーム内に3種以上の異なる元素があるときEM+120-240"),
                 stat: BuffableStat::ElementalMastery,
                 value: 120.0,
                 nightsoul_value: None,
@@ -544,7 +564,7 @@ pub const CRESCENT_PIKE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "白月の槍",
         effect: PassiveEffect {
-            description: "Conditional: 元素粒子取得後に通常/重撃で追加ATKダメージ",
+            description: desc!("Conditional: 元素粒子取得後に通常/重撃で追加ATKダメージ"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -561,12 +581,12 @@ pub const DEATHMATCH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "闘志",
         effect: PassiveEffect {
-            description: "敵2体以上: ATK/DEF+16-32%。敵1体以下: ATK+24-48%",
+            description: desc!("敵2体以上: ATK/DEF+16-32%。敵1体以下: ATK+24-48%"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "deathmatch_atk_multi",
-                    description: "敵2体以上でATK+16-32%",
+                    description: desc!("敵2体以上でATK+16-32%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.16,
                     nightsoul_value: None,
@@ -577,7 +597,7 @@ pub const DEATHMATCH: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "deathmatch_def_multi",
-                    description: "敵2体以上でDEF+16-32%",
+                    description: desc!("敵2体以上でDEF+16-32%"),
                     stat: BuffableStat::DefPercent,
                     value: 0.16,
                     nightsoul_value: None,
@@ -588,7 +608,7 @@ pub const DEATHMATCH: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "deathmatch_atk_1enemy",
-                    description: "敵1体以下でATK+24-48%",
+                    description: desc!("敵1体以下でATK+24-48%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.24,
                     nightsoul_value: None,
@@ -612,7 +632,9 @@ pub const DIALOGUES_OF_THE_DESERT_SAGES: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Principle of Equilibrium",
         effect: PassiveEffect {
-            description: "SKIP: ヒール発動時にエネルギー8-16回復（10秒に1回、未出場時も有効）",
+            description: desc!(
+                "SKIP: ヒール発動時にエネルギー8-16回復（10秒に1回、未出場時も有効）"
+            ),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -629,11 +651,11 @@ pub const DRAGONS_BANE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "炎と水の滅竜",
         effect: PassiveEffect {
-            description: "水/炎元素影響下の敵へのDMG+20-36%",
+            description: desc!("水/炎元素影響下の敵へのDMG+20-36%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "dragons_bane_dmg",
-                description: "水/炎元素の影響下の敵へのDMG+20-36%",
+                description: desc!("水/炎元素の影響下の敵へのDMG+20-36%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.20,
                 nightsoul_value: None,
@@ -658,7 +680,9 @@ pub const DRAGONSPINE_SPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "霜葬の槍",
         effect: PassiveEffect {
-            description: "Conditional: 通常/重撃命中時に氷柱落下、氷元素影響下の敵には追加ダメージ",
+            description: desc!(
+                "Conditional: 通常/重撃命中時に氷柱落下、氷元素影響下の敵には追加ダメージ"
+            ),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -675,7 +699,7 @@ pub const FAVONIUS_LANCE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "西風の息吹",
         effect: PassiveEffect {
-            description: "Conditional: 会心命中時に元素粒子を生成、12-6秒に1回",
+            description: desc!("Conditional: 会心命中時に元素粒子を生成、12-6秒に1回"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -692,11 +716,11 @@ pub const FOOTPRINT_OF_THE_RAINBOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Pact of Flowing Springs",
         effect: PassiveEffect {
-            description: "元素スキル使用後15秒間DEF+16-32%",
+            description: desc!("元素スキル使用後15秒間DEF+16-32%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "footprint_of_the_rainbow_def",
-                description: "元素スキル使用後15秒間DEF+16-32%",
+                description: desc!("元素スキル使用後15秒間DEF+16-32%"),
                 stat: BuffableStat::DefPercent,
                 value: 0.16,
                 nightsoul_value: None,
@@ -719,7 +743,7 @@ pub const KITAIN_CROSS_SPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "名刀・北谷の十字槍",
         effect: PassiveEffect {
-            description: "Skill DMG+6-12%。スキル命中で元素エネルギー消費後に回復",
+            description: desc!("Skill DMG+6-12%。スキル命中で元素エネルギー消費後に回復"),
             buffs: &[StatBuff {
                 stat: BuffableStat::SkillDmgBonus,
                 value: 0.06,
@@ -740,12 +764,12 @@ pub const LITHIC_SPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "千岩の槍",
         effect: PassiveEffect {
-            description: "Conditional: チーム内の璃月キャラ人数に応じてATK/CRIT Rateアップ",
+            description: desc!("Conditional: チーム内の璃月キャラ人数に応じてATK/CRIT Rateアップ"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "lithic_spear_atk",
-                    description: "璃月キャラ1人につきATK+7-11%",
+                    description: desc!("璃月キャラ1人につきATK+7-11%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.07,
                     nightsoul_value: None,
@@ -758,7 +782,7 @@ pub const LITHIC_SPEAR: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "lithic_spear_crit",
-                    description: "璃月キャラ1人につきCR+3-7%",
+                    description: desc!("璃月キャラ1人につきCR+3-7%"),
                     stat: BuffableStat::CritRate,
                     value: 0.03,
                     nightsoul_value: None,
@@ -784,12 +808,12 @@ pub const MISSIVE_WINDSPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Missive Windspear",
         effect: PassiveEffect {
-            description: "元素反応トリガー後10秒間ATK+12-24%、EM+48-96",
+            description: desc!("元素反応トリガー後10秒間ATK+12-24%、EM+48-96"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "missive_windspear_atk",
-                    description: "元素反応トリガー後10秒間ATK+12-24%",
+                    description: desc!("元素反応トリガー後10秒間ATK+12-24%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.12,
                     nightsoul_value: None,
@@ -800,7 +824,7 @@ pub const MISSIVE_WINDSPEAR: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "missive_windspear_em",
-                    description: "元素反応トリガー後10秒間EM+48-96",
+                    description: desc!("元素反応トリガー後10秒間EM+48-96"),
                     stat: BuffableStat::ElementalMastery,
                     value: 48.0,
                     nightsoul_value: None,
@@ -824,11 +848,11 @@ pub const MOONPIERCER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "月穿ち",
         effect: PassiveEffect {
-            description: "草元素反応で種を生成、種を取得するとATK+16-32%",
+            description: desc!("草元素反応で種を生成、種を取得するとATK+16-32%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "moonpiercer_atk",
-                description: "草元素反応で生成した種を取得するとATK+16-32%",
+                description: desc!("草元素反応で生成した種を取得するとATK+16-32%"),
                 stat: BuffableStat::AtkPercent,
                 value: 0.16,
                 nightsoul_value: None,
@@ -851,7 +875,9 @@ pub const MOUNTAIN_BRACING_BOLT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Hope Beyond the Peaks",
         effect: PassiveEffect {
-            description: "Skill DMG+12-24%（常時）。他のパーティメンバーがスキル使用後8秒間、さらにSkill DMG+12-24%。登山スタミナ消費-15%",
+            description: desc!(
+                "Skill DMG+12-24%（常時）。他のパーティメンバーがスキル使用後8秒間、さらにSkill DMG+12-24%。登山スタミナ消費-15%"
+            ),
             buffs: &[StatBuff {
                 stat: BuffableStat::SkillDmgBonus,
                 value: 0.12,
@@ -859,7 +885,9 @@ pub const MOUNTAIN_BRACING_BOLT: WeaponData = WeaponData {
             }],
             conditional_buffs: &[ConditionalBuff {
                 name: "mountain_bracing_bolt_skill_dmg_team",
-                description: "他のパーティメンバーがスキル使用後8秒間、さらにSkill DMG+12-24%",
+                description: desc!(
+                    "他のパーティメンバーがスキル使用後8秒間、さらにSkill DMG+12-24%"
+                ),
                 stat: BuffableStat::SkillDmgBonus,
                 value: 0.12,
                 nightsoul_value: None,
@@ -882,12 +910,14 @@ pub const PROSPECTORS_DRILL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Masons' Ditty",
         effect: PassiveEffect {
-            description: "ヒール時にUnityの印蓄積（最大3）。スキル/爆発使用で全スタック消費→1スタックごとにATK+3-7%+全元素DMG+7-13%（Struggle効果、15秒に1回）",
+            description: desc!(
+                "ヒール時にUnityの印蓄積（最大3）。スキル/爆発使用で全スタック消費→1スタックごとにATK+3-7%+全元素DMG+7-13%（Struggle効果、15秒に1回）"
+            ),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "prospectors_drill_atk",
-                    description: "Unityの印消費時（1スタックごと）ATK+3-7%、最大3スタック",
+                    description: desc!("Unityの印消費時（1スタックごと）ATK+3-7%、最大3スタック"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.03,
                     nightsoul_value: None,
@@ -898,7 +928,9 @@ pub const PROSPECTORS_DRILL: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "prospectors_drill_ele_dmg",
-                    description: "Unityの印消費時（1スタックごと）全元素DMG+7-13%、最大3スタック",
+                    description: desc!(
+                        "Unityの印消費時（1スタックごと）全元素DMG+7-13%、最大3スタック"
+                    ),
                     stat: BuffableStat::DmgBonus,
                     value: 0.07,
                     nightsoul_value: None,
@@ -922,7 +954,9 @@ pub const PROSPECTORS_SHOVEL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Swift and Sure",
         effect: PassiveEffect {
-            description: "SKIP(反応特化): 感電DMG+48-96%、月感電DMG+12-24%（常時）。Nod-Kraiキャラ2人以上時さらに月感電DMG+12-24%。反応特化BuffableStatなし→実装対象外",
+            description: desc!(
+                "SKIP(反応特化): 感電DMG+48-96%、月感電DMG+12-24%（常時）。Nod-Kraiキャラ2人以上時さらに月感電DMG+12-24%。反応特化BuffableStatなし→実装対象外"
+            ),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -939,12 +973,14 @@ pub const PROTOTYPE_STARGLITTER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "魔力の導き",
         effect: PassiveEffect {
-            description: "元素スキル使用後に通常/重撃DMG+8-16%（最大2スタック）",
+            description: desc!("元素スキル使用後に通常/重撃DMG+8-16%（最大2スタック）"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "prototype_starglitter_na_dmg",
-                    description: "元素スキル使用後に通常攻撃DMG+8-16%（1スタック）、最大2スタック",
+                    description: desc!(
+                        "元素スキル使用後に通常攻撃DMG+8-16%（1スタック）、最大2スタック"
+                    ),
                     stat: BuffableStat::NormalAtkDmgBonus,
                     value: 0.08,
                     nightsoul_value: None,
@@ -955,7 +991,9 @@ pub const PROTOTYPE_STARGLITTER: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "prototype_starglitter_ca_dmg",
-                    description: "元素スキル使用後に重撃DMG+8-16%（1スタック）、最大2スタック",
+                    description: desc!(
+                        "元素スキル使用後に重撃DMG+8-16%（1スタック）、最大2スタック"
+                    ),
                     stat: BuffableStat::ChargedAtkDmgBonus,
                     value: 0.08,
                     nightsoul_value: None,
@@ -979,7 +1017,7 @@ pub const RIGHTFUL_REWARD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Rightful Reward",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル命中でHP回復",
+            description: desc!("Conditional: 元素スキル命中でHP回復"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -996,11 +1034,15 @@ pub const ROYAL_SPEAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "集中",
         effect: PassiveEffect {
-            description: "ダメージを与えるとCRIT Rate+8-16%（最大5スタック）、会心発生でリセット",
+            description: desc!(
+                "ダメージを与えるとCRIT Rate+8-16%（最大5スタック）、会心発生でリセット"
+            ),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "royal_spear_cr",
-                description: "ダメージを与えるとCRIT Rate+8-16%（1スタック）、最大5スタック（会心でリセット）",
+                description: desc!(
+                    "ダメージを与えるとCRIT Rate+8-16%（1スタック）、最大5スタック（会心でリセット）"
+                ),
                 stat: BuffableStat::CritRate,
                 value: 0.08,
                 nightsoul_value: None,
@@ -1023,12 +1065,14 @@ pub const SACRIFICERS_STAFF: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Untainted Desire",
         effect: PassiveEffect {
-            description: "スキル命中後6秒間、ATK+8-16%・ER+6-12%（最大3スタック、未出場時も有効）",
+            description: desc!(
+                "スキル命中後6秒間、ATK+8-16%・ER+6-12%（最大3スタック、未出場時も有効）"
+            ),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "sacrificers_staff_atk",
-                    description: "スキル命中後6秒間ATK+8-16%（1スタック）、最大3スタック",
+                    description: desc!("スキル命中後6秒間ATK+8-16%（1スタック）、最大3スタック"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.08,
                     nightsoul_value: None,
@@ -1039,7 +1083,7 @@ pub const SACRIFICERS_STAFF: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "sacrificers_staff_er",
-                    description: "スキル命中後6秒間ER+6-12%（1スタック）、最大3スタック",
+                    description: desc!("スキル命中後6秒間ER+6-12%（1スタック）、最大3スタック"),
                     stat: BuffableStat::EnergyRecharge,
                     value: 0.06,
                     nightsoul_value: None,
@@ -1063,11 +1107,13 @@ pub const TAMAYURATEI_NO_OHANASHI: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Busybody's Running Light",
         effect: PassiveEffect {
-            description: "元素スキル使用後10秒間ATK+20-40%。移動速度+10%（ダメージ計算無関係）",
+            description: desc!(
+                "元素スキル使用後10秒間ATK+20-40%。移動速度+10%（ダメージ計算無関係）"
+            ),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "tamayuratei_no_ohanashi_atk",
-                description: "元素スキル使用後10秒間ATK+20-40%",
+                description: desc!("元素スキル使用後10秒間ATK+20-40%"),
                 stat: BuffableStat::AtkPercent,
                 value: 0.20,
                 nightsoul_value: None,
@@ -1090,7 +1136,7 @@ pub const THE_CATCH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "漁獲",
         effect: PassiveEffect {
-            description: "Burst DMG+16-32%、Burst CRIT Rate+6-12%",
+            description: desc!("Burst DMG+16-32%、Burst CRIT Rate+6-12%"),
             buffs: &[
                 StatBuff {
                     stat: BuffableStat::BurstDmgBonus,
@@ -1118,11 +1164,15 @@ pub const WAVEBREAKERS_FIN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "波乗りの鰭",
         effect: PassiveEffect {
-            description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（総EP240超時）",
+            description: desc!(
+                "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（総EP240超時）"
+            ),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "wavebreakers_fin_burst_dmg",
-                description: "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（240EP基準）",
+                description: desc!(
+                    "チーム全員の元素エネルギー上限合計に基づきBurst DMG+最大40-80%（240EP基準）"
+                ),
                 stat: BuffableStat::BurstDmgBonus,
                 value: 0.40,
                 nightsoul_value: None,
@@ -1149,11 +1199,11 @@ pub const BLACK_TASSEL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "黒纓の槍",
         effect: PassiveEffect {
-            description: "スライムへのDMG+40-80%",
+            description: desc!("スライムへのDMG+40-80%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "black_tassel_slime_dmg",
-                description: "スライムへのDMG+40-80%",
+                description: desc!("スライムへのDMG+40-80%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.40,
                 nightsoul_value: None,
@@ -1176,7 +1226,7 @@ pub const HALBERD: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "鉤戟",
         effect: PassiveEffect {
-            description: "Conditional: 通常攻撃命中時に追加ATKダメージ、10秒に1回",
+            description: desc!("Conditional: 通常攻撃命中時に追加ATKダメージ、10秒に1回"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -1193,7 +1243,7 @@ pub const WHITE_TASSEL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "白纓の槍",
         effect: PassiveEffect {
-            description: "NA DMG+24-48%",
+            description: desc!("NA DMG+24-48%"),
             buffs: &[StatBuff {
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.24,

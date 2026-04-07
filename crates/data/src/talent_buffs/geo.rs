@@ -8,7 +8,7 @@ use super::*;
 static ALBEDO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Homuncular Nature",
-        description: "After burst, grants EM+125 to nearby party members for 10s",
+        description: desc!("After burst, grants EM+125 to nearby party members for 10s"),
         stat: BuffableStat::ElementalMastery,
         base_value: 125.0,
         scales_with_talent: false,
@@ -22,7 +22,7 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "albedo_c1_def",
-        description: "C1: DEF +50% on Skill use",
+        description: desc!("C1: DEF +50% on Skill use"),
         stat: BuffableStat::DefPercent,
         base_value: 0.50,
         scales_with_talent: false,
@@ -36,7 +36,7 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "albedo_c4_plunging_dmg",
-        description: "C4: Plunging ATK DMG +30% in Solar Isotoma",
+        description: desc!("C4: Plunging ATK DMG +30% in Solar Isotoma"),
         stat: BuffableStat::PlungingAtkDmgBonus,
         base_value: 0.30,
         scales_with_talent: false,
@@ -50,7 +50,7 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "albedo_c6_dmg_bonus",
-        description: "C6: DMG Bonus +17% with Crystallize shield",
+        description: desc!("C6: DMG Bonus +17% with Crystallize shield"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.17,
         scales_with_talent: false,
@@ -74,7 +74,7 @@ static GOROU_SKILL_DEF_SCALING: [f64; 15] = [
 static GOROU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Inuzaka All-Round Defense",
-        description: "DEF increase based on skill talent level",
+        description: desc!("DEF increase based on skill talent level"),
         stat: BuffableStat::DefFlat,
         base_value: 0.0,
         scales_with_talent: true,
@@ -88,7 +88,9 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Inuzaka All-Round Defense - Geo DMG",
-        description: "With 3 Geo members, Geo DMG Bonus +15% (approximation: always registered)",
+        description: desc!(
+            "With 3 Geo members, Geo DMG Bonus +15% (approximation: always registered)"
+        ),
         stat: BuffableStat::ElementalDmgBonus(Element::Geo),
         base_value: 0.15,
         scales_with_talent: false,
@@ -102,7 +104,7 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "gorou_c6_geo_crit_dmg",
-        description: "C6: Geo CRIT DMG +40% at Crunch",
+        description: desc!("C6: Geo CRIT DMG +40% at Crunch"),
         stat: BuffableStat::CritDmg,
         base_value: 0.40,
         scales_with_talent: false,
@@ -120,7 +122,7 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
 // A4 passive "Strategic Reserve": Geo DMG+12% when passing through Jade Screen
 static NINGGUANG_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Strategic Reserve",
-    description: "Characters passing through Jade Screen gain Geo DMG Bonus +12%",
+    description: desc!("Characters passing through Jade Screen gain Geo DMG Bonus +12%"),
     stat: BuffableStat::ElementalDmgBonus(Element::Geo),
     base_value: 0.12,
     scales_with_talent: false,
@@ -145,7 +147,7 @@ static YUN_JIN_BURST_SCALING: [f64; 15] = [
 static YUN_JIN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Cliffbreaker's Banner Normal ATK Bonus",
-        description: "Normal Attack DMG increased based on Yun Jin's DEF",
+        description: desc!("Normal Attack DMG increased based on Yun Jin's DEF"),
         stat: BuffableStat::NormalAtkFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
@@ -159,7 +161,7 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "yun_jin_c2_normal_dmg",
-        description: "C2: Normal ATK DMG +15% after Burst",
+        description: desc!("C2: Normal ATK DMG +15% after Burst"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -173,7 +175,7 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "yun_jin_c4_def",
-        description: "C4: DEF +20% on Crystallize",
+        description: desc!("C4: DEF +20% on Crystallize"),
         stat: BuffableStat::DefPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -192,7 +194,7 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[
 static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Jade Shield Pyro RES Shred",
-        description: "Nearby enemies' Pyro RES -20%",
+        description: desc!("Nearby enemies' Pyro RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -206,7 +208,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Jade Shield Hydro RES Shred",
-        description: "Nearby enemies' Hydro RES -20%",
+        description: desc!("Nearby enemies' Hydro RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Hydro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -220,7 +222,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Jade Shield Electro RES Shred",
-        description: "Nearby enemies' Electro RES -20%",
+        description: desc!("Nearby enemies' Electro RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Electro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -234,7 +236,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Jade Shield Cryo RES Shred",
-        description: "Nearby enemies' Cryo RES -20%",
+        description: desc!("Nearby enemies' Cryo RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Cryo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -248,7 +250,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Jade Shield Dendro RES Shred",
-        description: "Nearby enemies' Dendro RES -20%",
+        description: desc!("Nearby enemies' Dendro RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Dendro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -262,7 +264,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Jade Shield Anemo RES Shred",
-        description: "Nearby enemies' Anemo RES -20%",
+        description: desc!("Nearby enemies' Anemo RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Anemo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -276,7 +278,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Jade Shield Geo RES Shred",
-        description: "Nearby enemies' Geo RES -20%",
+        description: desc!("Nearby enemies' Geo RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Geo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -290,7 +292,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Jade Shield Physical RES Shred",
-        description: "Nearby enemies' Physical RES -20%",
+        description: desc!("Nearby enemies' Physical RES -20%"),
         stat: BuffableStat::PhysicalResReduction,
         base_value: 0.20,
         scales_with_talent: false,
@@ -309,7 +311,7 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
 // Lunar-Crystallize Reaction DMG +30% for nearby party members
 static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "At Birth Are Souls Born C2 Reaction DMG",
-    description: "C2: Lunar-Crystallize Reaction DMG +30% for nearby party members",
+    description: desc!("C2: Lunar-Crystallize Reaction DMG +30% for nearby party members"),
     stat: BuffableStat::TransformativeBonus,
     base_value: 0.30,
     scales_with_talent: false,
@@ -337,7 +339,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     // A1 "Torchforger's Covenant": After Geo DMG hits, party CRIT/EM buff
     TalentBuffDef {
         name: "Torchforger's Covenant - CRIT Rate",
-        description: "A1: After Geo DMG hits opponent, party CRIT Rate +5% for 20s",
+        description: desc!("A1: After Geo DMG hits opponent, party CRIT Rate +5% for 20s"),
         stat: BuffableStat::CritRate,
         base_value: 0.05,
         scales_with_talent: false,
@@ -351,7 +353,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - CRIT DMG",
-        description: "A1: After Geo DMG hits opponent, party CRIT DMG +10% for 20s",
+        description: desc!("A1: After Geo DMG hits opponent, party CRIT DMG +10% for 20s"),
         stat: BuffableStat::CritDmg,
         base_value: 0.10,
         scales_with_talent: false,
@@ -365,7 +367,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Torchforger's Covenant - EM (Moonsign)",
-        description: "A1: With Moonsign active, party EM +50 for 20s",
+        description: desc!("A1: With Moonsign active, party EM +50 for 20s"),
         stat: BuffableStat::ElementalMastery,
         base_value: 50.0,
         scales_with_talent: false,
@@ -384,7 +386,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     // C4 "Unfolding of Starlight": Party DEF +200 during Burst
     TalentBuffDef {
         name: "illuga_c4_def_flat",
-        description: "C4: Party DEF +200 during Burst",
+        description: desc!("C4: Party DEF +200 during Burst"),
         stat: BuffableStat::DefFlat,
         base_value: 200.0,
         scales_with_talent: false,
@@ -399,7 +401,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     // C6 "Nightmare Orioles": Enhances A1 values
     TalentBuffDef {
         name: "Nightmare Orioles - CRIT Rate",
-        description: "C6: A1 CRIT Rate enhanced to +10%",
+        description: desc!("C6: A1 CRIT Rate enhanced to +10%"),
         stat: BuffableStat::CritRate,
         base_value: 0.05,
         scales_with_talent: false,
@@ -413,7 +415,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Nightmare Orioles - CRIT DMG",
-        description: "C6: A1 CRIT DMG enhanced to +30%",
+        description: desc!("C6: A1 CRIT DMG enhanced to +30%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.20,
         scales_with_talent: false,
@@ -427,7 +429,7 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Nightmare Orioles - EM",
-        description: "C6: A1 EM enhanced to +80",
+        description: desc!("C6: A1 EM enhanced to +80"),
         stat: BuffableStat::ElementalMastery,
         base_value: 30.0,
         scales_with_talent: false,
@@ -453,7 +455,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     // Geo is always active; up to 3 Geo Samplers convert to Pyro/Hydro/Cryo/Electro per party members.
     TalentBuffDef {
         name: "Yohual's Scratch Geo RES Reduction",
-        description: "Skill: Geo Sampler reduces nearby enemy Geo RES (always active)",
+        description: desc!("Skill: Geo Sampler reduces nearby enemy Geo RES (always active)"),
         stat: BuffableStat::ElementalResReduction(Element::Geo),
         base_value: 0.0,
         scales_with_talent: true,
@@ -467,7 +469,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Yohual's Scratch Pyro RES Reduction",
-        description: "Skill: Pyro Sampler reduces nearby enemy Pyro RES (if Pyro party member present)",
+        description: desc!(
+            "Skill: Pyro Sampler reduces nearby enemy Pyro RES (if Pyro party member present)"
+        ),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.0,
         scales_with_talent: true,
@@ -481,7 +485,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Yohual's Scratch Hydro RES Reduction",
-        description: "Skill: Hydro Sampler reduces nearby enemy Hydro RES (if Hydro party member present)",
+        description: desc!(
+            "Skill: Hydro Sampler reduces nearby enemy Hydro RES (if Hydro party member present)"
+        ),
         stat: BuffableStat::ElementalResReduction(Element::Hydro),
         base_value: 0.0,
         scales_with_talent: true,
@@ -495,7 +501,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Yohual's Scratch Cryo RES Reduction",
-        description: "Skill: Cryo Sampler reduces nearby enemy Cryo RES (if Cryo party member present)",
+        description: desc!(
+            "Skill: Cryo Sampler reduces nearby enemy Cryo RES (if Cryo party member present)"
+        ),
         stat: BuffableStat::ElementalResReduction(Element::Cryo),
         base_value: 0.0,
         scales_with_talent: true,
@@ -509,7 +517,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Yohual's Scratch Electro RES Reduction",
-        description: "Skill: Electro Sampler reduces nearby enemy Electro RES (if Electro party member present)",
+        description: desc!(
+            "Skill: Electro Sampler reduces nearby enemy Electro RES (if Electro party member present)"
+        ),
         stat: BuffableStat::ElementalResReduction(Element::Electro),
         base_value: 0.0,
         scales_with_talent: true,
@@ -526,7 +536,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     // Electro effect (energy restore + burst CD) is not a stat buff, omitted
     TalentBuffDef {
         name: "Chiucue Mix Geo DMG Bonus",
-        description: "C2: Geo Source Sample grants nearby active character Geo DMG +50%",
+        description: desc!("C2: Geo Source Sample grants nearby active character Geo DMG +50%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Geo),
         base_value: 0.50,
         scales_with_talent: false,
@@ -540,7 +550,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Chiucue Mix Pyro ATK Bonus",
-        description: "C2: Pyro Source Sample grants nearby active Pyro character ATK +45%",
+        description: desc!("C2: Pyro Source Sample grants nearby active Pyro character ATK +45%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.45,
         scales_with_talent: false,
@@ -554,7 +564,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Chiucue Mix Hydro Max HP Bonus",
-        description: "C2: Hydro Source Sample grants nearby active Hydro character Max HP +45%",
+        description: desc!(
+            "C2: Hydro Source Sample grants nearby active Hydro character Max HP +45%"
+        ),
         stat: BuffableStat::HpPercent,
         base_value: 0.45,
         scales_with_talent: false,
@@ -568,7 +580,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Chiucue Mix Cryo CRIT DMG Bonus",
-        description: "C2: Cryo Source Sample grants nearby active Cryo character CRIT DMG +60%",
+        description: desc!(
+            "C2: Cryo Source Sample grants nearby active Cryo character CRIT DMG +60%"
+        ),
         stat: BuffableStat::CritDmg,
         base_value: 0.60,
         scales_with_talent: false,
@@ -582,7 +596,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Suchitl's Trance Normal ATK Flat DMG",
-        description: "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF",
+        description: desc!(
+            "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF"
+        ),
         stat: BuffableStat::NormalAtkFlatDmg,
         base_value: 0.65,
         scales_with_talent: false,
@@ -596,7 +612,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Suchitl's Trance Charged ATK Flat DMG",
-        description: "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF",
+        description: desc!(
+            "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF"
+        ),
         stat: BuffableStat::ChargedAtkFlatDmg,
         base_value: 0.65,
         scales_with_talent: false,
@@ -610,7 +628,9 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Suchitl's Trance Plunging ATK Flat DMG",
-        description: "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF",
+        description: desc!(
+            "C4: Normal, Charged, and Plunging Attacks deal additional DMG equal to 65% of Xilonen's DEF"
+        ),
         stat: BuffableStat::PlungingAtkFlatDmg,
         base_value: 0.65,
         scales_with_talent: false,
@@ -628,7 +648,7 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
 // C6 "A Guru's Inbred Nature": NA DMG +235% DEF as flat DMG
 static CHIORI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "A Guru's Inbred Nature - NA Flat DMG",
-    description: "C6: Normal Attack DMG +235% of Chiori's DEF as flat DMG",
+    description: desc!("C6: Normal Attack DMG +235% of Chiori's DEF as flat DMG"),
     stat: BuffableStat::NormalAtkFlatDmg,
     base_value: 2.35,
     scales_with_talent: false,
@@ -648,7 +668,7 @@ static CHIORI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static ITTO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Bloodline of the Crimson Oni",
-        description: "A4: Arataki Kesagiri DMG +35% of Itto's DEF as flat DMG",
+        description: desc!("A4: Arataki Kesagiri DMG +35% of Itto's DEF as flat DMG"),
         stat: BuffableStat::ChargedAtkFlatDmg,
         base_value: 0.35,
         scales_with_talent: false,
@@ -662,7 +682,7 @@ static ITTO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Alright More Dumplings DEF Bonus",
-        description: "C4: After Raging Oni King ends, team DEF +20%",
+        description: desc!("C4: After Raging Oni King ends, team DEF +20%"),
         stat: BuffableStat::DefPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -676,7 +696,7 @@ static ITTO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Alright More Dumplings ATK Bonus",
-        description: "C4: After Raging Oni King ends, team ATK +20%",
+        description: desc!("C4: After Raging Oni King ends, team ATK +20%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -690,7 +710,7 @@ static ITTO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Crimson Oni King's Legacy CA CRIT DMG",
-        description: "C6: Arataki Kesagiri CRIT DMG +70%",
+        description: desc!("C6: Arataki Kesagiri CRIT DMG +70%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.70,
         scales_with_talent: false,
@@ -710,7 +730,7 @@ static ITTO_BUFFS: &[TalentBuffDef] = &[
 static KACHINA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Flowy Mountain Geo DMG Bonus",
-        description: "A4: Geo DMG Bonus +20%",
+        description: desc!("A4: Geo DMG Bonus +20%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Geo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -724,7 +744,7 @@ static KACHINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Stand Together DEF Bonus",
-        description: "C4: DEF +8~20% based on nearby enemies (max 20%)",
+        description: desc!("C4: DEF +8~20% based on nearby enemies (max 20%)"),
         stat: BuffableStat::DefPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -746,7 +766,7 @@ static KACHINA_BUFFS: &[TalentBuffDef] = &[
 static NAVIA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "That Shard's Ours - NA DMG Bonus",
-        description: "A1: After burst, Normal Attack DMG +40%",
+        description: desc!("A1: After burst, Normal Attack DMG +40%"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -760,7 +780,7 @@ static NAVIA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "That Shard's Ours - CA DMG Bonus",
-        description: "A1: After burst, Charged Attack DMG +40%",
+        description: desc!("A1: After burst, Charged Attack DMG +40%"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -774,7 +794,7 @@ static NAVIA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "That Shard's Ours - Plunge DMG Bonus",
-        description: "A1: After burst, Plunging Attack DMG +40%",
+        description: desc!("A1: After burst, Plunging Attack DMG +40%"),
         stat: BuffableStat::PlungingAtkDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -788,7 +808,7 @@ static NAVIA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Turns Out She's a Damn Good Miner ATK Bonus",
-        description: "A4: ATK +20% per Shockwave stack (max +40%)",
+        description: desc!("A4: ATK +20% per Shockwave stack (max +40%)"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.40,
         scales_with_talent: false,
@@ -802,7 +822,7 @@ static NAVIA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Candlelight CRIT Rate",
-        description: "C2: CRIT Rate +12% per Shockwave stack, up to 3 stacks (+36% max)",
+        description: desc!("C2: CRIT Rate +12% per Shockwave stack, up to 3 stacks (+36% max)"),
         stat: BuffableStat::CritRate,
         base_value: 0.12,
         scales_with_talent: false,
@@ -816,7 +836,7 @@ static NAVIA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "The Little Bit of Kindness Geo RES Reduction",
-        description: "C4: Enemy Geo RES -20%",
+        description: desc!("C4: Enemy Geo RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Geo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -836,7 +856,7 @@ static NAVIA_BUFFS: &[TalentBuffDef] = &[
 static NOELLE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Combat Maid CA DMG Bonus",
-        description: "C2: Charged Attack DMG +15%",
+        description: desc!("C2: Charged Attack DMG +15%"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -850,7 +870,7 @@ static NOELLE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Must Be Spotless ATK Flat",
-        description: "C6: During burst, ATK +50% of Noelle's DEF as flat ATK",
+        description: desc!("C6: During burst, ATK +50% of Noelle's DEF as flat ATK"),
         stat: BuffableStat::AtkFlat,
         base_value: 0.50,
         scales_with_talent: false,

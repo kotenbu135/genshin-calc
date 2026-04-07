@@ -11,8 +11,12 @@ categories = ["game-engines", "data-structures"]
 rust-version = "1.85"
 readme = "README.md"
 
+[features]
+default = ["descriptions"]
+descriptions = ["genshin-calc-core/descriptions"]
+
 [dependencies]
-genshin-calc-core = { version = "0.5.11", path = "../core" }
+genshin-calc-core = { version = "0.5.11", path = "../core", default-features = false }
 serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]

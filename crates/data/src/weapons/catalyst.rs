@@ -18,12 +18,12 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "A Thousand Floating Dreams",
         effect: PassiveEffect {
-            description: "同元素1人毎にEM+32-64、異元素1人毎にDMG+10-26%。チームにEM+40-56",
+            description: desc!("同元素1人毎にEM+32-64、異元素1人毎にDMG+10-26%。チームにEM+40-56"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "thousand_dreams_same1_em",
-                    description: "1+同元素チームメンバーでEM+32-64",
+                    description: desc!("1+同元素チームメンバーでEM+32-64"),
                     stat: BuffableStat::ElementalMastery,
                     value: 32.0,
                     nightsoul_value: None,
@@ -36,7 +36,7 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "thousand_dreams_same2_em",
-                    description: "2+同元素チームメンバーでEM+32-64",
+                    description: desc!("2+同元素チームメンバーでEM+32-64"),
                     stat: BuffableStat::ElementalMastery,
                     value: 32.0,
                     nightsoul_value: None,
@@ -49,7 +49,7 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "thousand_dreams_same3_em",
-                    description: "3+同元素チームメンバーでEM+32-64",
+                    description: desc!("3+同元素チームメンバーでEM+32-64"),
                     stat: BuffableStat::ElementalMastery,
                     value: 32.0,
                     nightsoul_value: None,
@@ -62,7 +62,7 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "thousand_dreams_diff1_dmg",
-                    description: "1+異元素チームメンバーでDMG+10-26%",
+                    description: desc!("1+異元素チームメンバーでDMG+10-26%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.10,
                     nightsoul_value: None,
@@ -75,7 +75,7 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "thousand_dreams_diff2_dmg",
-                    description: "2+異元素チームメンバーでDMG+10-26%",
+                    description: desc!("2+異元素チームメンバーでDMG+10-26%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.10,
                     nightsoul_value: None,
@@ -88,7 +88,7 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "thousand_dreams_diff3_dmg",
-                    description: "3+異元素チームメンバーでDMG+10-26%",
+                    description: desc!("3+異元素チームメンバーでDMG+10-26%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.10,
                     nightsoul_value: None,
@@ -101,7 +101,7 @@ pub const A_THOUSAND_FLOATING_DREAMS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "thousand_dreams_team_em",
-                    description: "チームメンバーにEM+40-56",
+                    description: desc!("チームメンバーにEM+40-56"),
                     stat: BuffableStat::ElementalMastery,
                     value: 40.0,
                     nightsoul_value: None,
@@ -125,7 +125,7 @@ pub const CASHFLOW_SUPERVISION: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Cashflow Supervision",
         effect: PassiveEffect {
-            description: "ATK+16-32%、NA/CA DMG+16-32%。HP変動後CA DMG追加+16-32%",
+            description: desc!("ATK+16-32%、NA/CA DMG+16-32%。HP変動後CA DMG追加+16-32%"),
             buffs: &[
                 StatBuff {
                     stat: BuffableStat::AtkPercent,
@@ -145,7 +145,7 @@ pub const CASHFLOW_SUPERVISION: WeaponData = WeaponData {
             ],
             conditional_buffs: &[ConditionalBuff {
                 name: "cashflow_supervision_ca_dmg",
-                description: "HP変動（回復/被ダメ）後にCA DMG追加+16-32%",
+                description: desc!("HP変動（回復/被ダメ）後にCA DMG追加+16-32%"),
                 stat: BuffableStat::ChargedAtkDmgBonus,
                 value: 0.16,
                 nightsoul_value: None,
@@ -168,7 +168,7 @@ pub const CRANES_ECHOING_CALL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Crane's Echoing Call",
         effect: PassiveEffect {
-            description: "Plunging DMG+28-56%。落下攻撃命中後チーム全員の落下攻撃DMG+28-56%",
+            description: desc!("Plunging DMG+28-56%。落下攻撃命中後チーム全員の落下攻撃DMG+28-56%"),
             buffs: &[StatBuff {
                 stat: BuffableStat::PlungingAtkDmgBonus,
                 value: 0.28,
@@ -176,7 +176,7 @@ pub const CRANES_ECHOING_CALL: WeaponData = WeaponData {
             }],
             conditional_buffs: &[ConditionalBuff {
                 name: "cranes_echoing_call_team_plunge",
-                description: "落下攻撃命中後にチーム全員の落下攻撃DMG+28-56%",
+                description: desc!("落下攻撃命中後にチーム全員の落下攻撃DMG+28-56%"),
                 stat: BuffableStat::PlungingAtkDmgBonus,
                 value: 0.28,
                 nightsoul_value: None,
@@ -199,7 +199,9 @@ pub const EVERLASTING_MOONGLOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Everlasting Moonglow",
         effect: PassiveEffect {
-            description: "Heal+10-20%。NA DMG+HP上限の1-2%。元素爆発後12秒間NA DMG+HP上限の0.7-1.4%",
+            description: desc!(
+                "Heal+10-20%。NA DMG+HP上限の1-2%。元素爆発後12秒間NA DMG+HP上限の0.7-1.4%"
+            ),
             buffs: &[StatBuff {
                 stat: BuffableStat::HealingBonus,
                 value: 0.10,
@@ -208,7 +210,7 @@ pub const EVERLASTING_MOONGLOW: WeaponData = WeaponData {
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "everlasting_moonglow_na_hp",
-                    description: "HP上限の1-2%分、通常攻撃に追加ダメージ（常時）",
+                    description: desc!("HP上限の1-2%分、通常攻撃に追加ダメージ（常時）"),
                     stat: BuffableStat::NormalAtkFlatDmg,
                     value: 0.010,
                     nightsoul_value: None,
@@ -223,7 +225,9 @@ pub const EVERLASTING_MOONGLOW: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "everlasting_moonglow_burst_na_hp",
-                    description: "元素爆発後12秒間、HP上限の0.7-1.4%分の通常攻撃追加ダメージ",
+                    description: desc!(
+                        "元素爆発後12秒間、HP上限の0.7-1.4%分の通常攻撃追加ダメージ"
+                    ),
                     stat: BuffableStat::NormalAtkFlatDmg,
                     value: 0.007,
                     nightsoul_value: None,
@@ -254,11 +258,11 @@ pub const JADEFALLS_SPLENDOR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Jadefall's Splendor",
         effect: PassiveEffect {
-            description: "元素エネルギー消費後にEM+32-64",
+            description: desc!("元素エネルギー消費後にEM+32-64"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "jadefall_em",
-                description: "元素エネルギー消費後にEM+32-64",
+                description: desc!("元素エネルギー消費後にEM+32-64"),
                 stat: BuffableStat::ElementalMastery,
                 value: 32.0,
                 nightsoul_value: None,
@@ -281,12 +285,16 @@ pub const KAGURAS_VERITY: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Kagura's Verity",
         effect: PassiveEffect {
-            description: "元素スキル使用でスキルDMG+12-24%スタック（最大3）、3スタックで元素DMG+12-24%",
+            description: desc!(
+                "元素スキル使用でスキルDMG+12-24%スタック（最大3）、3スタックで元素DMG+12-24%"
+            ),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "kagura_skill_dmg_stacks",
-                    description: "元素スキル使用でスキルDMG+12-24%（1スタック）、最大3スタック",
+                    description: desc!(
+                        "元素スキル使用でスキルDMG+12-24%（1スタック）、最大3スタック"
+                    ),
                     stat: BuffableStat::SkillDmgBonus,
                     value: 0.12,
                     nightsoul_value: None,
@@ -297,7 +305,7 @@ pub const KAGURAS_VERITY: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "kagura_full_stack_elemental_dmg",
-                    description: "3スタック時に元素DMG+12-24%（DmgBonus近似値、物理除外）",
+                    description: desc!("3スタック時に元素DMG+12-24%（DmgBonus近似値、物理除外）"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.12,
                     nightsoul_value: None,
@@ -321,11 +329,13 @@ pub const LOST_PRAYER_TO_THE_SACRED_WINDS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Lost Prayer to the Sacred Winds",
         effect: PassiveEffect {
-            description: "フィールド上で4秒毎に元素DMG+8-16%スタック（最大4スタック）",
+            description: desc!("フィールド上で4秒毎に元素DMG+8-16%スタック（最大4スタック）"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "lost_prayer_dmg",
-                description: "フィールド上で4秒毎に元素DMG+8-16%（1スタック）、最大4スタック",
+                description: desc!(
+                    "フィールド上で4秒毎に元素DMG+8-16%（1スタック）、最大4スタック"
+                ),
                 stat: BuffableStat::DmgBonus,
                 value: 0.08,
                 nightsoul_value: None,
@@ -348,12 +358,12 @@ pub const MEMORY_OF_DUST: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Memory of Dust",
         effect: PassiveEffect {
-            description: "攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍",
+            description: desc!("攻撃命中でATK+4-8%スタック（最大5）、シールド時は2倍"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "memory_of_dust_atk_stacks",
-                    description: "攻撃命中でATK+4-8%（1スタック）、最大5スタック",
+                    description: desc!("攻撃命中でATK+4-8%（1スタック）、最大5スタック"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.04,
                     nightsoul_value: None,
@@ -364,7 +374,7 @@ pub const MEMORY_OF_DUST: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "memory_of_dust_shield_atk_stacks",
-                    description: "シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）",
+                    description: desc!("シールド時にATKスタック効果2倍分（追加ATK+4-8%/スタック）"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.04,
                     nightsoul_value: None,
@@ -388,12 +398,12 @@ pub const NIGHTWEAVERS_LOOKING_GLASS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Nightweaver's Looking Glass",
         effect: PassiveEffect {
-            description: "夜魂消費でNA DMG+16-32%/CA DMG+16-32%",
+            description: desc!("夜魂消費でNA DMG+16-32%/CA DMG+16-32%"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "nightweaver_na_dmg",
-                    description: "夜魂消費でNA DMG+16-32%",
+                    description: desc!("夜魂消費でNA DMG+16-32%"),
                     stat: BuffableStat::NormalAtkDmgBonus,
                     value: 0.16,
                     nightsoul_value: None,
@@ -404,7 +414,7 @@ pub const NIGHTWEAVERS_LOOKING_GLASS: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "nightweaver_ca_dmg",
-                    description: "夜魂消費でCA DMG+16-32%",
+                    description: desc!("夜魂消費でCA DMG+16-32%"),
                     stat: BuffableStat::ChargedAtkDmgBonus,
                     value: 0.16,
                     nightsoul_value: None,
@@ -428,11 +438,11 @@ pub const NOCTURNES_CURTAIN_CALL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Nocturne's Curtain Call",
         effect: PassiveEffect {
-            description: "元素スキル/爆発命中でDMG+8-16%スタック（最大5スタック）",
+            description: desc!("元素スキル/爆発命中でDMG+8-16%スタック（最大5スタック）"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "nocturne_dmg_stacks",
-                description: "元素スキル/爆発命中でDMG+8-16%（1スタック）、最大5スタック",
+                description: desc!("元素スキル/爆発命中でDMG+8-16%（1スタック）、最大5スタック"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.08,
                 nightsoul_value: None,
@@ -455,11 +465,11 @@ pub const RELIQUARY_OF_TRUTH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Reliquary of Truth",
         effect: PassiveEffect {
-            description: "元素反応後にDMG+12-36%",
+            description: desc!("元素反応後にDMG+12-36%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "reliquary_truth_dmg",
-                description: "元素反応後にDMG+12-36%",
+                description: desc!("元素反応後にDMG+12-36%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.12,
                 nightsoul_value: None,
@@ -482,7 +492,7 @@ pub const SKYWARD_ATLAS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Skyward Atlas",
         effect: PassiveEffect {
-            description: "Ele DMG+12-24%。通常攻撃命中時に追加攻撃",
+            description: desc!("Ele DMG+12-24%。通常攻撃命中時に追加攻撃"),
             buffs: &[StatBuff {
                 stat: BuffableStat::DmgBonus,
                 value: 0.12,
@@ -503,11 +513,11 @@ pub const STARCALLERS_WATCH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Starcaller's Watch",
         effect: PassiveEffect {
-            description: "チームの元素反応でDMG+20-40%",
+            description: desc!("チームの元素反応でDMG+20-40%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "starcaller_dmg",
-                description: "チームが元素反応を起こした後にDMG+20-40%",
+                description: desc!("チームが元素反応を起こした後にDMG+20-40%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.20,
                 nightsoul_value: None,
@@ -530,12 +540,12 @@ pub const SUNNY_MORNING_SLEEP_IN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Sunny Morning Sleep-In",
         effect: PassiveEffect {
-            description: "元素反応時にATK+14-28%/DMG+18-36%",
+            description: desc!("元素反応時にATK+14-28%/DMG+18-36%"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "sunny_morning_atk",
-                    description: "元素反応時にATK+14-28%",
+                    description: desc!("元素反応時にATK+14-28%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.14,
                     nightsoul_value: None,
@@ -546,7 +556,7 @@ pub const SUNNY_MORNING_SLEEP_IN: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "sunny_morning_dmg",
-                    description: "元素反応時にDMG+18-36%",
+                    description: desc!("元素反応時にDMG+18-36%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.18,
                     nightsoul_value: None,
@@ -570,7 +580,7 @@ pub const SURFS_UP: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Surf's Up",
         effect: PassiveEffect {
-            description: "HP+20-40%。通常攻撃DMGスタック効果",
+            description: desc!("HP+20-40%。通常攻撃DMGスタック効果"),
             buffs: &[StatBuff {
                 stat: BuffableStat::HpPercent,
                 value: 0.20,
@@ -578,7 +588,9 @@ pub const SURFS_UP: WeaponData = WeaponData {
             }],
             conditional_buffs: &[ConditionalBuff {
                 name: "surfs_up_na_stacks",
-                description: "夜魂バースト時にNA DMG+10-20%（1スタック/1000HP基準）、最大5スタック",
+                description: desc!(
+                    "夜魂バースト時にNA DMG+10-20%（1スタック/1000HP基準）、最大5スタック"
+                ),
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.10,
                 nightsoul_value: None,
@@ -601,7 +613,7 @@ pub const TOME_OF_THE_ETERNAL_FLOW: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Tome of the Eternal Flow",
         effect: PassiveEffect {
-            description: "HP+16-32%。HP変動時にCA DMGスタック",
+            description: desc!("HP+16-32%。HP変動時にCA DMGスタック"),
             buffs: &[StatBuff {
                 stat: BuffableStat::HpPercent,
                 value: 0.16,
@@ -609,7 +621,7 @@ pub const TOME_OF_THE_ETERNAL_FLOW: WeaponData = WeaponData {
             }],
             conditional_buffs: &[ConditionalBuff {
                 name: "tome_eternal_flow_ca",
-                description: "HP変動時にCA DMG+14-28%スタック、最大3スタック",
+                description: desc!("HP変動時にCA DMG+14-28%スタック、最大3スタック"),
                 stat: BuffableStat::ChargedAtkDmgBonus,
                 value: 0.14,
                 nightsoul_value: None,
@@ -632,11 +644,13 @@ pub const TULAYTULLAHS_REMEMBRANCE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Tulaytullah's Remembrance",
         effect: PassiveEffect {
-            description: "通常攻撃DMG+4.8-9.6%スタック（最大10スタック、1秒毎）。攻撃速度バフは非対応",
+            description: desc!(
+                "通常攻撃DMG+4.8-9.6%スタック（最大10スタック、1秒毎）。攻撃速度バフは非対応"
+            ),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "tulaytullah_na_dmg_stacks",
-                description: "通常攻撃DMG+4.8-9.6%（1スタック）、最大10スタック",
+                description: desc!("通常攻撃DMG+4.8-9.6%（1スタック）、最大10スタック"),
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.048,
                 nightsoul_value: None,
@@ -659,11 +673,11 @@ pub const VIVID_NOTIONS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Vivid Notions",
         effect: PassiveEffect {
-            description: "夜魂バースト時にDMG+8-16%スタック（最大3スタック）",
+            description: desc!("夜魂バースト時にDMG+8-16%スタック（最大3スタック）"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "vivid_notions_dmg_stacks",
-                description: "夜魂バースト時にDMG+8-16%（1スタック）、最大3スタック",
+                description: desc!("夜魂バースト時にDMG+8-16%（1スタック）、最大3スタック"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.08,
                 nightsoul_value: None,
@@ -690,12 +704,12 @@ pub const ASH_GRAVEN_DRINKING_HORN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Ash-Graven Drinking Horn",
         effect: PassiveEffect {
-            description: "夜魂バースト中に全攻撃にフラットDMG+HP上限の2-4%",
+            description: desc!("夜魂バースト中に全攻撃にフラットDMG+HP上限の2-4%"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "ash_graven_na_hp",
-                    description: "夜魂バースト中に通常攻撃フラットDMG+HP上限の2-4%",
+                    description: desc!("夜魂バースト中に通常攻撃フラットDMG+HP上限の2-4%"),
                     stat: BuffableStat::NormalAtkFlatDmg,
                     value: 0.02,
                     nightsoul_value: None,
@@ -713,7 +727,7 @@ pub const ASH_GRAVEN_DRINKING_HORN: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "ash_graven_ca_hp",
-                    description: "夜魂バースト中に重撃フラットDMG+HP上限の2-4%",
+                    description: desc!("夜魂バースト中に重撃フラットDMG+HP上限の2-4%"),
                     stat: BuffableStat::ChargedAtkFlatDmg,
                     value: 0.02,
                     nightsoul_value: None,
@@ -731,7 +745,7 @@ pub const ASH_GRAVEN_DRINKING_HORN: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "ash_graven_plunge_hp",
-                    description: "夜魂バースト中に落下攻撃フラットDMG+HP上限の2-4%",
+                    description: desc!("夜魂バースト中に落下攻撃フラットDMG+HP上限の2-4%"),
                     stat: BuffableStat::PlungingAtkFlatDmg,
                     value: 0.02,
                     nightsoul_value: None,
@@ -749,7 +763,7 @@ pub const ASH_GRAVEN_DRINKING_HORN: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "ash_graven_skill_hp",
-                    description: "夜魂バースト中に元素スキルフラットDMG+HP上限の2-4%",
+                    description: desc!("夜魂バースト中に元素スキルフラットDMG+HP上限の2-4%"),
                     stat: BuffableStat::SkillFlatDmg,
                     value: 0.02,
                     nightsoul_value: None,
@@ -767,7 +781,7 @@ pub const ASH_GRAVEN_DRINKING_HORN: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "ash_graven_burst_hp",
-                    description: "夜魂バースト中に元素爆発フラットDMG+HP上限の2-4%",
+                    description: desc!("夜魂バースト中に元素爆発フラットDMG+HP上限の2-4%"),
                     stat: BuffableStat::BurstFlatDmg,
                     value: 0.02,
                     nightsoul_value: None,
@@ -798,7 +812,7 @@ pub const BALLAD_OF_THE_BOUNDLESS_BLUE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Ballad of the Boundless Blue",
         effect: PassiveEffect {
-            description: "NA/CA DMG+8-16%",
+            description: desc!("NA/CA DMG+8-16%"),
             buffs: &[
                 StatBuff {
                     stat: BuffableStat::NormalAtkDmgBonus,
@@ -826,11 +840,11 @@ pub const BLACKCLIFF_AGATE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Blackcliff Agate",
         effect: PassiveEffect {
-            description: "Conditional: 敵撃破時にATK%スタック",
+            description: desc!("Conditional: 敵撃破時にATK%スタック"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "blackcliff_agate_atk",
-                description: "敵撃破後にATK+12-24%、最大3スタック",
+                description: desc!("敵撃破後にATK+12-24%、最大3スタック"),
                 stat: BuffableStat::AtkPercent,
                 value: 0.12,
                 nightsoul_value: None,
@@ -853,11 +867,11 @@ pub const BLACKMARROW_LANTERN: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Blackmarrow Lantern",
         effect: PassiveEffect {
-            description: "Conditional: 夜魂ポイント消費でDMGアップ",
+            description: desc!("Conditional: 夜魂ポイント消費でDMGアップ"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "blackmarrow_dmg",
-                description: "夜魂ポイント消費時にDMG+12-24%",
+                description: desc!("夜魂ポイント消費時にDMG+12-24%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.12,
                 nightsoul_value: None,
@@ -880,11 +894,11 @@ pub const DAWNING_FROST: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Dawning Frost",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル命中でDMGアップ",
+            description: desc!("Conditional: 元素スキル命中でDMGアップ"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "dawning_frost_dmg",
-                description: "元素スキル命中後にDMG+16-32%",
+                description: desc!("元素スキル命中後にDMG+16-32%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.16,
                 nightsoul_value: None,
@@ -907,12 +921,12 @@ pub const DODOCO_TALES: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Dodoco Tales",
         effect: PassiveEffect {
-            description: "Conditional: 通常攻撃命中でCA DMGアップ、CA命中でATKアップ",
+            description: desc!("Conditional: 通常攻撃命中でCA DMGアップ、CA命中でATKアップ"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "dodoco_ca_dmg",
-                    description: "通常攻撃命中時にCA DMG+16-32%",
+                    description: desc!("通常攻撃命中時にCA DMG+16-32%"),
                     stat: BuffableStat::ChargedAtkDmgBonus,
                     value: 0.16,
                     nightsoul_value: None,
@@ -923,7 +937,7 @@ pub const DODOCO_TALES: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "dodoco_atk",
-                    description: "重撃命中時にATK+8-16%",
+                    description: desc!("重撃命中時にATK+8-16%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.08,
                     nightsoul_value: None,
@@ -947,11 +961,11 @@ pub const ETHERLIGHT_SPINDLELUTE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Etherlight Spindlelute",
         effect: PassiveEffect {
-            description: "Conditional: 元素爆発後にDMGアップ",
+            description: desc!("Conditional: 元素爆発後にDMGアップ"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "etherlight_dmg",
-                description: "元素爆発命中後にDMG+16-32%",
+                description: desc!("元素爆発命中後にDMG+16-32%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.16,
                 nightsoul_value: None,
@@ -974,7 +988,7 @@ pub const EYE_OF_PERCEPTION: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Eye of Perception",
         effect: PassiveEffect {
-            description: "Conditional: 通常/重撃命中時に追加ダメージ弾発射",
+            description: desc!("Conditional: 通常/重撃命中時に追加ダメージ弾発射"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -991,7 +1005,7 @@ pub const FAVONIUS_CODEX: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Favonius Codex",
         effect: PassiveEffect {
-            description: "Conditional: 会心命中時に元素粒子生成",
+            description: desc!("Conditional: 会心命中時に元素粒子生成"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -1008,11 +1022,11 @@ pub const FLOWING_PURITY: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Flowing Purity",
         effect: PassiveEffect {
-            description: "Conditional: HP消費時にDMGアップ、治療効果でバフ延長",
+            description: desc!("Conditional: HP消費時にDMGアップ、治療効果でバフ延長"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "flowing_purity_dmg",
-                description: "HP増減時にDMG+8-16%",
+                description: desc!("HP増減時にDMG+8-16%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.08,
                 nightsoul_value: None,
@@ -1035,7 +1049,9 @@ pub const FROSTBEARER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Frostbearer",
         effect: PassiveEffect {
-            description: "Conditional: 通常/重撃命中時に氷柱ダメージ、氷/凍結時にダメージ増加",
+            description: desc!(
+                "Conditional: 通常/重撃命中時に氷柱ダメージ、氷/凍結時にダメージ増加"
+            ),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -1052,11 +1068,13 @@ pub const FRUIT_OF_FULFILLMENT: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Fruit of Fulfillment",
         effect: PassiveEffect {
-            description: "Conditional: 元素反応時にEM獲得/ATK減少スタック",
+            description: desc!("Conditional: 元素反応時にEM獲得/ATK減少スタック"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "fruit_of_fulfillment_em",
-                description: "元素反応発動時にEM+24-48スタック（最大5スタック）。ATK減少は非対応",
+                description: desc!(
+                    "元素反応発動時にEM+24-48スタック（最大5スタック）。ATK減少は非対応"
+                ),
                 stat: BuffableStat::ElementalMastery,
                 value: 24.0,
                 nightsoul_value: None,
@@ -1079,11 +1097,11 @@ pub const HAKUSHIN_RING: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Hakushin Ring",
         effect: PassiveEffect {
-            description: "Conditional: 雷元素反応時に関連元素のDMGアップ",
+            description: desc!("Conditional: 雷元素反応時に関連元素のDMGアップ"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "hakushin_ring_elem_dmg",
-                description: "雷元素反応発動後、関連元素DMG+10-20%（チームメンバーも対象）",
+                description: desc!("雷元素反応発動後、関連元素DMG+10-20%（チームメンバーも対象）"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.10,
                 nightsoul_value: None,
@@ -1106,11 +1124,11 @@ pub const MAPPA_MARE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Mappa Mare",
         effect: PassiveEffect {
-            description: "元素反応発動後に元素DMG+8-16%スタック（最大2スタック、10秒）",
+            description: desc!("元素反応発動後に元素DMG+8-16%スタック（最大2スタック、10秒）"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "mappa_mare_dmg",
-                description: "元素反応後に元素DMG+8-16%（1スタック）、最大2スタック",
+                description: desc!("元素反応後に元素DMG+8-16%（1スタック）、最大2スタック"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.08,
                 nightsoul_value: None,
@@ -1133,11 +1151,11 @@ pub const OATHSWORN_EYE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Oathsworn Eye",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル使用後にER+24%",
+            description: desc!("Conditional: 元素スキル使用後にER+24%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "oathsworn_eye_er",
-                description: "元素スキル使用後にER+24-48%",
+                description: desc!("元素スキル使用後にER+24-48%"),
                 stat: BuffableStat::EnergyRecharge,
                 value: 0.24,
                 nightsoul_value: None,
@@ -1160,7 +1178,7 @@ pub const PROTOTYPE_AMBER: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Prototype Amber",
         effect: PassiveEffect {
-            description: "Conditional: 元素爆発使用後にHP回復とエネルギー回復",
+            description: desc!("Conditional: 元素爆発使用後にHP回復とエネルギー回復"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -1177,11 +1195,11 @@ pub const RING_OF_YAXCHE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Ring of Yaxche",
         effect: PassiveEffect {
-            description: "夜魂バースト中にNA DMG+HP上限の2-4%",
+            description: desc!("夜魂バースト中にNA DMG+HP上限の2-4%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "ring_of_yaxche_na_hp",
-                description: "夜魂バースト中にNA DMG+HP上限の2-4%（フラットダメージ）",
+                description: desc!("夜魂バースト中にNA DMG+HP上限の2-4%（フラットダメージ）"),
                 stat: BuffableStat::NormalAtkFlatDmg,
                 value: 0.02,
                 nightsoul_value: None,
@@ -1211,11 +1229,13 @@ pub const ROYAL_GRIMOIRE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Royal Grimoire",
         effect: PassiveEffect {
-            description: "Conditional: ダメージ時にCRIT Rate+8%スタック、会心時リセット",
+            description: desc!("Conditional: ダメージ時にCRIT Rate+8%スタック、会心時リセット"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "royal_grimoire_cr",
-                description: "ダメージ時にCRIT Rate+8-16%、最大5スタック（会心命中でリセット）",
+                description: desc!(
+                    "ダメージ時にCRIT Rate+8-16%、最大5スタック（会心命中でリセット）"
+                ),
                 stat: BuffableStat::CritRate,
                 value: 0.08,
                 nightsoul_value: None,
@@ -1238,7 +1258,7 @@ pub const SACRIFICIAL_FRAGMENTS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Sacrificial Fragments",
         effect: PassiveEffect {
-            description: "Conditional: 元素スキル命中時にCD即リセット",
+            description: desc!("Conditional: 元素スキル命中時にCD即リセット"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -1255,12 +1275,12 @@ pub const SACRIFICIAL_JADE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Sacrificial Jade",
         effect: PassiveEffect {
-            description: "Conditional: フィールドに出た時にHP%/EM獲得",
+            description: desc!("Conditional: フィールドに出た時にHP%/EM獲得"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "sacrificial_jade_hp",
-                    description: "フィールドに出た時にHP+32-64%",
+                    description: desc!("フィールドに出た時にHP+32-64%"),
                     stat: BuffableStat::HpPercent,
                     value: 0.32,
                     nightsoul_value: None,
@@ -1271,7 +1291,7 @@ pub const SACRIFICIAL_JADE: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "sacrificial_jade_em",
-                    description: "フィールドに出た時にEM+40-80",
+                    description: desc!("フィールドに出た時にEM+40-80"),
                     stat: BuffableStat::ElementalMastery,
                     value: 40.0,
                     nightsoul_value: None,
@@ -1295,12 +1315,14 @@ pub const SOLAR_PEARL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Solar Pearl",
         effect: PassiveEffect {
-            description: "Conditional: NA命中でSkill/Burst DMGアップ、Skill/Burst命中でNA DMGアップ",
+            description: desc!(
+                "Conditional: NA命中でSkill/Burst DMGアップ、Skill/Burst命中でNA DMGアップ"
+            ),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "solar_pearl_skill_dmg",
-                    description: "通常攻撃命中後にSkill DMG+20-40%",
+                    description: desc!("通常攻撃命中後にSkill DMG+20-40%"),
                     stat: BuffableStat::SkillDmgBonus,
                     value: 0.20,
                     nightsoul_value: None,
@@ -1311,7 +1333,7 @@ pub const SOLAR_PEARL: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "solar_pearl_burst_dmg",
-                    description: "通常攻撃命中後にBurst DMG+20-40%",
+                    description: desc!("通常攻撃命中後にBurst DMG+20-40%"),
                     stat: BuffableStat::BurstDmgBonus,
                     value: 0.20,
                     nightsoul_value: None,
@@ -1322,7 +1344,7 @@ pub const SOLAR_PEARL: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "solar_pearl_na_dmg",
-                    description: "元素スキル/爆発命中後にNA DMG+20-40%",
+                    description: desc!("元素スキル/爆発命中後にNA DMG+20-40%"),
                     stat: BuffableStat::NormalAtkDmgBonus,
                     value: 0.20,
                     nightsoul_value: None,
@@ -1346,12 +1368,12 @@ pub const THE_WIDSITH: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "The Widsith",
         effect: PassiveEffect {
-            description: "Conditional: フィールドに出た時にランダムバフ（ATK%/元素DMG/EM）",
+            description: desc!("Conditional: フィールドに出た時にランダムバフ（ATK%/元素DMG/EM）"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "widsith_atk",
-                    description: "登場時にランダム: ATK+60-120%",
+                    description: desc!("登場時にランダム: ATK+60-120%"),
                     stat: BuffableStat::AtkPercent,
                     value: 0.60,
                     nightsoul_value: None,
@@ -1362,7 +1384,7 @@ pub const THE_WIDSITH: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "widsith_dmg",
-                    description: "登場時にランダム: 全元素DMG+48-96%",
+                    description: desc!("登場時にランダム: 全元素DMG+48-96%"),
                     stat: BuffableStat::DmgBonus,
                     value: 0.48,
                     nightsoul_value: None,
@@ -1373,7 +1395,7 @@ pub const THE_WIDSITH: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "widsith_em",
-                    description: "登場時にランダム: EM+240-480",
+                    description: desc!("登場時にランダム: EM+240-480"),
                     stat: BuffableStat::ElementalMastery,
                     value: 240.0,
                     nightsoul_value: None,
@@ -1397,12 +1419,12 @@ pub const WANDERING_EVENSTAR: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Wandering Evenstar",
         effect: PassiveEffect {
-            description: "Conditional: EM基準でATKアップ、チームにも付与",
+            description: desc!("Conditional: EM基準でATKアップ、チームにも付与"),
             buffs: &[],
             conditional_buffs: &[
                 ConditionalBuff {
                     name: "wandering_evenstar_atk",
-                    description: "スキル使用後: EM×0.24-0.48分をATKフラットに加算",
+                    description: desc!("スキル使用後: EM×0.24-0.48分をATKフラットに加算"),
                     stat: BuffableStat::AtkFlat,
                     value: 0.24,
                     nightsoul_value: None,
@@ -1420,7 +1442,9 @@ pub const WANDERING_EVENSTAR: WeaponData = WeaponData {
                 },
                 ConditionalBuff {
                     name: "wandering_evenstar_team_atk",
-                    description: "スキル使用後: EM×0.072-0.144分をチームメンバーのATKフラットに加算（30%）",
+                    description: desc!(
+                        "スキル使用後: EM×0.072-0.144分をチームメンバーのATKフラットに加算（30%）"
+                    ),
                     stat: BuffableStat::AtkFlat,
                     value: 0.072,
                     nightsoul_value: None,
@@ -1451,11 +1475,11 @@ pub const WAVERIDING_WHIRL: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Waveriding Whirl",
         effect: PassiveEffect {
-            description: "Conditional: 元素反応時にEMアップ",
+            description: desc!("Conditional: 元素反応時にEMアップ"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "waveriding_whirl_em",
-                description: "元素反応発動時にEM+24-48",
+                description: desc!("元素反応発動時にEM+24-48"),
                 stat: BuffableStat::ElementalMastery,
                 value: 24.0,
                 nightsoul_value: None,
@@ -1478,11 +1502,11 @@ pub const WINE_AND_SONG: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Wine and Song",
         effect: PassiveEffect {
-            description: "Conditional: ダッシュ後にATKアップ",
+            description: desc!("Conditional: ダッシュ後にATKアップ"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "wine_and_song_atk",
-                description: "ダッシュ後にATK+20-40%",
+                description: desc!("ダッシュ後にATK+20-40%"),
                 stat: BuffableStat::AtkPercent,
                 value: 0.20,
                 nightsoul_value: None,
@@ -1509,11 +1533,11 @@ pub const EMERALD_ORB: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Emerald Orb",
         effect: PassiveEffect {
-            description: "水元素反応トリガー後10秒間ATK+20-40%",
+            description: desc!("水元素反応トリガー後10秒間ATK+20-40%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "emerald_orb_atk",
-                description: "水元素反応トリガー後10秒間ATK+20-40%",
+                description: desc!("水元素反応トリガー後10秒間ATK+20-40%"),
                 stat: BuffableStat::AtkPercent,
                 value: 0.20,
                 nightsoul_value: None,
@@ -1536,11 +1560,11 @@ pub const MAGIC_GUIDE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Magic Guide",
         effect: PassiveEffect {
-            description: "Conditional: 水/雷の影響を受けた敵にDMG+12%",
+            description: desc!("Conditional: 水/雷の影響を受けた敵にDMG+12%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "magic_guide_dmg",
-                description: "水/雷の影響を受けた敵へのDMG+12-24%",
+                description: desc!("水/雷の影響を受けた敵へのDMG+12-24%"),
                 stat: BuffableStat::DmgBonus,
                 value: 0.12,
                 nightsoul_value: None,
@@ -1563,7 +1587,7 @@ pub const OTHERWORLDLY_STORY: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Otherworldly Story",
         effect: PassiveEffect {
-            description: "Conditional: 元素オーブ/粒子獲得時にHP回復",
+            description: desc!("Conditional: 元素オーブ/粒子獲得時にHP回復"),
             buffs: &[],
             conditional_buffs: &[],
         },
@@ -1580,11 +1604,11 @@ pub const THRILLING_TALES_OF_DRAGON_SLAYERS: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Thrilling Tales of Dragon Slayers",
         effect: PassiveEffect {
-            description: "Conditional: キャラ交代時に次のキャラのATK+24%",
+            description: desc!("Conditional: キャラ交代時に次のキャラのATK+24%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "ttds_team_atk",
-                description: "キャラ交代時、次の出場キャラATK+24-48%",
+                description: desc!("キャラ交代時、次の出場キャラATK+24-48%"),
                 stat: BuffableStat::AtkPercent,
                 value: 0.24,
                 nightsoul_value: None,
@@ -1607,11 +1631,11 @@ pub const TWIN_NEPHRITE: WeaponData = WeaponData {
     passive: Some(WeaponPassive {
         name: "Twin Nephrite",
         effect: PassiveEffect {
-            description: "敵撃破後10秒間ATK+12-24%",
+            description: desc!("敵撃破後10秒間ATK+12-24%"),
             buffs: &[],
             conditional_buffs: &[ConditionalBuff {
                 name: "twin_nephrite_atk",
-                description: "敵撃破後10秒間ATK+12-24%",
+                description: desc!("敵撃破後10秒間ATK+12-24%"),
                 stat: BuffableStat::AtkPercent,
                 value: 0.12,
                 nightsoul_value: None,

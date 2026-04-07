@@ -11,7 +11,7 @@ static FARUZAN_BURST_ANEMO_SCALING: [f64; 15] = [
 static FARUZAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Prayerful Wind's Benefit",
-        description: "Anemo DMG Bonus based on burst talent level",
+        description: desc!("Anemo DMG Bonus based on burst talent level"),
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
         base_value: 0.0,
         scales_with_talent: true,
@@ -25,7 +25,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Perfidious Wind's Bale",
-        description: "A4: Enemies hit by Pressurized Collapse have Anemo RES -30%",
+        description: desc!("A4: Enemies hit by Pressurized Collapse have Anemo RES -30%"),
         stat: BuffableStat::ElementalResReduction(Element::Anemo),
         base_value: 0.30,
         scales_with_talent: false,
@@ -39,7 +39,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "faruzan_c6_anemo_crit_dmg",
-        description: "C6: Anemo DMG CRIT DMG +40%",
+        description: desc!("C6: Anemo DMG CRIT DMG +40%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.40,
         scales_with_talent: false,
@@ -58,7 +58,7 @@ static FARUZAN_BUFFS: &[TalentBuffDef] = &[
 static JAHODA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Jahoda A4 EM Buff",
-        description: "When burst heal target has HP>70%, EM+100 for 6s (assumes active)",
+        description: desc!("When burst heal target has HP>70%, EM+100 for 6s (assumes active)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 100.0,
         scales_with_talent: false,
@@ -72,7 +72,7 @@ static JAHODA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "jahoda_c6_crit_rate",
-        description: "C6: Moonsign characters CRIT Rate +5%",
+        description: desc!("C6: Moonsign characters CRIT Rate +5%"),
         stat: BuffableStat::CritRate,
         base_value: 0.05,
         scales_with_talent: false,
@@ -86,7 +86,7 @@ static JAHODA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "jahoda_c6_crit_dmg",
-        description: "C6: Moonsign characters CRIT DMG +40%",
+        description: desc!("C6: Moonsign characters CRIT DMG +40%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.40,
         scales_with_talent: false,
@@ -107,7 +107,9 @@ static JAHODA_BUFFS: &[TalentBuffDef] = &[
 static KAZUHA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Poetics of Fuubutsu",
-        description: "After triggering Swirl, grants 0.04% Elemental DMG Bonus per point of EM",
+        description: desc!(
+            "After triggering Swirl, grants 0.04% Elemental DMG Bonus per point of EM"
+        ),
         stat: BuffableStat::DmgBonus,
         base_value: 0.0004,
         scales_with_talent: false,
@@ -121,7 +123,7 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "kazuha_c2_em",
-        description: "C2: Party EM +200 in Burst field",
+        description: desc!("C2: Party EM +200 in Burst field"),
         stat: BuffableStat::ElementalMastery,
         base_value: 200.0,
         scales_with_talent: false,
@@ -135,7 +137,7 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "kazuha_c6_normal_dmg",
-        description: "C6: Normal ATK DMG bonus based on 0.2% of EM",
+        description: desc!("C6: Normal ATK DMG bonus based on 0.2% of EM"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.002,
         scales_with_talent: false,
@@ -149,7 +151,7 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "kazuha_c6_charged_dmg",
-        description: "C6: Charged ATK DMG bonus based on 0.2% of EM",
+        description: desc!("C6: Charged ATK DMG bonus based on 0.2% of EM"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.002,
         scales_with_talent: false,
@@ -163,7 +165,7 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "kazuha_c6_plunging_dmg",
-        description: "C6: Plunging ATK DMG bonus based on 0.2% of EM",
+        description: desc!("C6: Plunging ATK DMG bonus based on 0.2% of EM"),
         stat: BuffableStat::PlungingAtkDmgBonus,
         base_value: 0.002,
         scales_with_talent: false,
@@ -183,7 +185,9 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[
 static SUCROSE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Catalyst Conversion",
-        description: "After triggering Swirl, grants EM+50 to party members with matching element",
+        description: desc!(
+            "After triggering Swirl, grants EM+50 to party members with matching element"
+        ),
         stat: BuffableStat::ElementalMastery,
         base_value: 50.0,
         scales_with_talent: false,
@@ -197,7 +201,7 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Mollis Favonius",
-        description: "Shares 20% of Sucrose's EM to party",
+        description: desc!("Shares 20% of Sucrose's EM to party"),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.20,
         scales_with_talent: false,
@@ -221,7 +225,9 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
 static VARKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dawn Wind's March Anemo DMG",
-        description: "ATK1000あたり風元素DMG+10%、最大25%。対応元素DMG+25%は未実装(動的選択)。Toggle=25%想定",
+        description: desc!(
+            "ATK1000あたり風元素DMG+10%、最大25%。対応元素DMG+25%は未実装(動的選択)。Toggle=25%想定"
+        ),
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
         base_value: 0.25,
         scales_with_talent: false,
@@ -235,7 +241,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Wind's Vanguard Normal ATK DMG",
-        description: "拡散反応時+7.5%/stack、最大4stack=30%。Toggle=4stack想定",
+        description: desc!("拡散反応時+7.5%/stack、最大4stack=30%。Toggle=4stack想定"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.30,
         scales_with_talent: false,
@@ -249,7 +255,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Wind's Vanguard Charged ATK DMG",
-        description: "拡散反応時+7.5%/stack、最大4stack=30%。Toggle=4stack想定",
+        description: desc!("拡散反応時+7.5%/stack、最大4stack=30%。Toggle=4stack想定"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.30,
         scales_with_talent: false,
@@ -263,7 +269,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Freedom of Song Anemo DMG",
-        description: "C4: On Swirl, team Anemo DMG +20%",
+        description: desc!("C4: On Swirl, team Anemo DMG +20%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -278,7 +284,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     // C4 swirled element DMG +20% (element selected by Toggle; priority: Pyro > Hydro > Electro > Cryo)
     TalentBuffDef {
         name: "Freedom of Song Pyro DMG",
-        description: "C4: On Swirl, team Pyro DMG +20% (if Pyro swirled)",
+        description: desc!("C4: On Swirl, team Pyro DMG +20% (if Pyro swirled)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -292,7 +298,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Freedom of Song Hydro DMG",
-        description: "C4: On Swirl, team Hydro DMG +20% (if Hydro swirled)",
+        description: desc!("C4: On Swirl, team Hydro DMG +20% (if Hydro swirled)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -306,7 +312,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Freedom of Song Electro DMG",
-        description: "C4: On Swirl, team Electro DMG +20% (if Electro swirled)",
+        description: desc!("C4: On Swirl, team Electro DMG +20% (if Electro swirled)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -320,7 +326,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Freedom of Song Cryo DMG",
-        description: "C4: On Swirl, team Cryo DMG +20% (if Cryo swirled)",
+        description: desc!("C4: On Swirl, team Cryo DMG +20% (if Cryo swirled)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -338,7 +344,7 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
 // C4: Anemo RES -40% in burst field
 static JEAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Lands of Dandelion Anemo RES Shred",
-    description: "C4: Enemies inside Dandelion Field have Anemo RES -40%",
+    description: desc!("C4: Enemies inside Dandelion Field have Anemo RES -40%"),
     stat: BuffableStat::ElementalResReduction(Element::Anemo),
     base_value: 0.40,
     scales_with_talent: false,
@@ -358,7 +364,7 @@ static JEAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static VENTI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Breeze of Reminiscence Anemo RES Shred",
-        description: "C2: Enemies hit by Skyward Sonnet have Anemo RES -12%",
+        description: desc!("C2: Enemies hit by Skyward Sonnet have Anemo RES -12%"),
         stat: BuffableStat::ElementalResReduction(Element::Anemo),
         base_value: 0.12,
         scales_with_talent: false,
@@ -372,7 +378,7 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Breeze of Reminiscence Physical RES Shred",
-        description: "C2: Enemies hit by Skyward Sonnet have Physical RES -12%",
+        description: desc!("C2: Enemies hit by Skyward Sonnet have Physical RES -12%"),
         stat: BuffableStat::PhysicalResReduction,
         base_value: 0.12,
         scales_with_talent: false,
@@ -386,7 +392,7 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "venti_c4_anemo_dmg",
-        description: "C4: Anemo DMG Bonus +25% on pickup",
+        description: desc!("C4: Anemo DMG Bonus +25% on pickup"),
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
         base_value: 0.25,
         scales_with_talent: false,
@@ -400,7 +406,7 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "venti_c6_anemo_res_shred",
-        description: "C6: Opponents hit by Wind's Grand Ode have Anemo RES -20%",
+        description: desc!("C6: Opponents hit by Wind's Grand Ode have Anemo RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Anemo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -426,7 +432,7 @@ static XIANYUN_BURST_PLUNGE_SCALING: [f64; 15] = [
 static XIANYUN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Stars Gather at Dusk Plunging Flat DMG",
-        description: "Burst: Plunging ATK gains flat DMG = total ATK × scaling (3 charges)",
+        description: desc!("Burst: Plunging ATK gains flat DMG = total ATK × scaling (3 charges)"),
         stat: BuffableStat::PlungingAtkFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
@@ -440,7 +446,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Crane Form Plunging DMG Bonus",
-        description: "A4: Plunging ATK DMG Bonus max +75% (adopting max value)",
+        description: desc!("A4: Plunging ATK DMG Bonus max +75% (adopting max value)"),
         stat: BuffableStat::PlungingAtkDmgBonus,
         base_value: 0.75,
         scales_with_talent: false,
@@ -454,7 +460,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Trivial Matters CritRate Bonus",
-        description: "C2: After burst, plunging attacks gain CritRate +20%",
+        description: desc!("C2: After burst, plunging attacks gain CritRate +20%"),
         stat: BuffableStat::CritRate,
         base_value: 0.20,
         scales_with_talent: false,
@@ -468,7 +474,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "xianyun_c2_atk",
-        description: "C2: ATK +20% after Skyladder",
+        description: desc!("C2: ATK +20% after Skyladder"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -482,7 +488,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "xianyun_c6_crit_dmg",
-        description: "C6: Max Driftcloud Wave CRIT DMG +70%",
+        description: desc!("C6: Max Driftcloud Wave CRIT DMG +70%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.70,
         scales_with_talent: false,
@@ -502,7 +508,7 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
 static WANDERER_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Gales of Reverie ATK Bonus",
-        description: "A1: On Pyro contact during Windfavored state, ATK+30%",
+        description: desc!("A1: On Pyro contact during Windfavored state, ATK+30%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.30,
         scales_with_talent: false,
@@ -516,7 +522,7 @@ static WANDERER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Gales of Reverie CritRate Bonus",
-        description: "A1: On Cryo contact during Windfavored state, CritRate+20%",
+        description: desc!("A1: On Cryo contact during Windfavored state, CritRate+20%"),
         stat: BuffableStat::CritRate,
         base_value: 0.20,
         scales_with_talent: false,
@@ -530,7 +536,7 @@ static WANDERER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Stormborne Burst DMG Bonus",
-        description: "C2: Hanega: Song of the Wind DMG up to +200% (max value)",
+        description: desc!("C2: Hanega: Song of the Wind DMG up to +200% (max value)"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 2.00,
         scales_with_talent: false,
@@ -551,7 +557,9 @@ static WANDERER_BUFFS: &[TalentBuffDef] = &[
 static XIAO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Transcension: Gravity Defier DMG Bonus",
-        description: "A4: DMG+5% every 3s in Yaksha's Mask, max 5 stacks (+25%). Toggle = max value",
+        description: desc!(
+            "A4: DMG+5% every 3s in Yaksha's Mask, max 5 stacks (+25%). Toggle = max value"
+        ),
         stat: BuffableStat::DmgBonus,
         base_value: 0.25,
         scales_with_talent: false,
@@ -565,7 +573,7 @@ static XIAO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Conqueror of Evil: Tamer of Demons DEF Bonus",
-        description: "C4: When HP<50%, DEF+100%",
+        description: desc!("C4: When HP<50%, DEF+100%"),
         stat: BuffableStat::DefPercent,
         base_value: 1.00,
         scales_with_talent: false,
@@ -585,7 +593,7 @@ static XIAO_BUFFS: &[TalentBuffDef] = &[
 static CHASCA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Galesplitting Soulseeker Shell Skill DMG Bonus",
-        description: "A1: Skill DMG+15/35/65% based on element count. Toggle = max 65%",
+        description: desc!("A1: Skill DMG+15/35/65% based on element count. Toggle = max 65%"),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.65,
         scales_with_talent: false,
@@ -599,7 +607,7 @@ static CHASCA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Ride the Wind CritDmg Bonus",
-        description: "C6: CritDmg+120%",
+        description: desc!("C6: CritDmg+120%"),
         stat: BuffableStat::CritDmg,
         base_value: 1.20,
         scales_with_talent: false,
@@ -619,7 +627,7 @@ static CHASCA_BUFFS: &[TalentBuffDef] = &[
 static HEIZOU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Penetrative Reasoning EM Bonus",
-        description: "A4: After using Elemental Burst, team EM+80 for 10s",
+        description: desc!("A4: After using Elemental Burst, team EM+80 for 10s"),
         stat: BuffableStat::ElementalMastery,
         base_value: 80.0,
         scales_with_talent: false,
@@ -633,7 +641,9 @@ static HEIZOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Paradoxical Practice CritRate Bonus",
-        description: "C6: CritRate+4%/Declension stack, max 4 stacks (+16%). Toggle = max value",
+        description: desc!(
+            "C6: CritRate+4%/Declension stack, max 4 stacks (+16%). Toggle = max value"
+        ),
         stat: BuffableStat::CritRate,
         base_value: 0.16,
         scales_with_talent: false,
@@ -647,7 +657,7 @@ static HEIZOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Paradoxical Practice CritDmg Bonus",
-        description: "C6: CritDmg+32% at max Declension stacks",
+        description: desc!("C6: CritDmg+32% at max Declension stacks"),
         stat: BuffableStat::CritDmg,
         base_value: 0.32,
         scales_with_talent: false,
@@ -667,7 +677,7 @@ static HEIZOU_BUFFS: &[TalentBuffDef] = &[
 // TODO: A4 — Swirl/EC DMG scaling from Nightsoul points; too complex for TalentBuffDef
 static IFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Eye of Stormy Judgment EM Bonus",
-    description: "C4: EM+100",
+    description: desc!("C4: EM+100"),
     stat: BuffableStat::ElementalMastery,
     base_value: 100.0,
     scales_with_talent: false,
@@ -686,7 +696,9 @@ static IFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static LAN_YAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Lan Yan A4 Normal ATK Flat DMG",
-        description: "A4: Normal ATK flat DMG up to 774% EM. Toggle = max value (base_value=7.74 × EM)",
+        description: desc!(
+            "A4: Normal ATK flat DMG up to 774% EM. Toggle = max value (base_value=7.74 × EM)"
+        ),
         stat: BuffableStat::NormalAtkFlatDmg,
         base_value: 7.74,
         scales_with_talent: false,
@@ -700,7 +712,7 @@ static LAN_YAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Lan Yan C4 Team EM Bonus",
-        description: "C4: team EM+60",
+        description: desc!("C4: team EM+60"),
         stat: BuffableStat::ElementalMastery,
         base_value: 60.0,
         scales_with_talent: false,
@@ -720,7 +732,7 @@ static LAN_YAN_BUFFS: &[TalentBuffDef] = &[
 static LYNETTE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Sophisticated Synergy ATK Bonus",
-        description: "A4: team ATK+8~20% based on element diversity. Toggle = max 20%",
+        description: desc!("A4: team ATK+8~20% based on element diversity. Toggle = max 20%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -734,7 +746,7 @@ static LYNETTE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Magic Trick: Astonishing Shift Anemo DMG Bonus",
-        description: "C6: Anemo DMG Bonus+20%",
+        description: desc!("C6: Anemo DMG Bonus+20%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -755,7 +767,7 @@ static LYNETTE_BUFFS: &[TalentBuffDef] = &[
 static MIZUKI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Mizuki A1 Team EM Bonus",
-        description: "A1 passive: team EM+100 (always active)",
+        description: desc!("A1 passive: team EM+100 (always active)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 100.0,
         scales_with_talent: false,
@@ -769,7 +781,7 @@ static MIZUKI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Mizuki C2 Team DMG Bonus",
-        description: "C2: team DMG+0.04%/EM (base_value=0.0004 × EM)",
+        description: desc!("C2: team DMG+0.04%/EM (base_value=0.0004 × EM)"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.0004,
         scales_with_talent: false,
@@ -783,7 +795,7 @@ static MIZUKI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Mizuki C6 Swirl CritRate Bonus",
-        description: "C6: Swirl CritRate+30%",
+        description: desc!("C6: Swirl CritRate+30%"),
         stat: BuffableStat::CritRate,
         base_value: 0.30,
         scales_with_talent: false,
@@ -797,7 +809,7 @@ static MIZUKI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Mizuki C6 Swirl CritDmg Bonus",
-        description: "C6: Swirl CritDmg+100%",
+        description: desc!("C6: Swirl CritDmg+100%"),
         stat: BuffableStat::CritDmg,
         base_value: 1.00,
         scales_with_talent: false,
@@ -817,7 +829,7 @@ static MIZUKI_BUFFS: &[TalentBuffDef] = &[
 // TODO: C6 — EM-scaling Daruma DMG; too complex for TalentBuffDef
 static SAYU_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Sayu C2 Skill DMG Bonus",
-    description: "C2: Skill DMG up to +66% based on EM. Toggle = max value",
+    description: desc!("C2: Skill DMG up to +66% based on EM. Toggle = max value"),
     stat: BuffableStat::SkillDmgBonus,
     base_value: 0.66,
     scales_with_talent: false,

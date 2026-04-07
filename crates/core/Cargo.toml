@@ -12,6 +12,10 @@ exclude = ["tests/"]
 rust-version = "1.85"
 readme = "README.md"
 
+[features]
+default = ["descriptions"]
+descriptions = []
+
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 thiserror = "2"

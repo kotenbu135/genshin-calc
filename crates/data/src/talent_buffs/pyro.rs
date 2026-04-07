@@ -10,7 +10,9 @@ static BENNETT_BURST_ATK_SCALING: [f64; 15] = [
 static BENNETT_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Fantastic Voyage ATK Bonus",
-        description: "Characters within the burst field gain ATK bonus based on Bennett's Base ATK",
+        description: desc!(
+            "Characters within the burst field gain ATK bonus based on Bennett's Base ATK"
+        ),
         stat: BuffableStat::AtkFlat,
         base_value: 0.0,
         scales_with_talent: true,
@@ -25,7 +27,9 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
     // C1 "Grand Expectation": +20% of Base ATK added to Fantastic Voyage ATK bonus
     TalentBuffDef {
         name: "Grand Expectation",
-        description: "C1: Fantastic Voyage ATK bonus gains additional 20% of Bennett's Base ATK",
+        description: desc!(
+            "C1: Fantastic Voyage ATK bonus gains additional 20% of Bennett's Base ATK"
+        ),
         stat: BuffableStat::AtkFlat,
         base_value: 0.20,
         scales_with_talent: false,
@@ -39,7 +43,7 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Spirit of Pyro",
-        description: "C6: Characters within the burst field gain Pyro DMG Bonus +15%",
+        description: desc!("C6: Characters within the burst field gain Pyro DMG Bonus +15%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -57,7 +61,7 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
 // C6 "Wildfire": ATK+15% for party during burst
 static AMBER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Wildfire",
-    description: "During burst, party members gain ATK+15%",
+    description: desc!("During burst, party members gain ATK+15%"),
     stat: BuffableStat::AtkPercent,
     base_value: 0.15,
     scales_with_talent: false,
@@ -76,7 +80,9 @@ static AMBER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Vanguard's Coordinated Tactics",
-        description: "After Overloaded, ATK+20% for party (Pyro+Electro teams only, approximation)",
+        description: desc!(
+            "After Overloaded, ATK+20% for party (Pyro+Electro teams only, approximation)"
+        ),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -93,7 +99,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Overloaded Pyro RES Shred",
-        description: "After Overloaded reaction, enemy Pyro RES -40% for 6s",
+        description: desc!("After Overloaded reaction, enemy Pyro RES -40% for 6s"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.40,
         scales_with_talent: false,
@@ -107,7 +113,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Overloaded Electro RES Shred",
-        description: "After Overloaded reaction, enemy Electro RES -40% for 6s",
+        description: desc!("After Overloaded reaction, enemy Electro RES -40% for 6s"),
         stat: BuffableStat::ElementalResReduction(Element::Electro),
         base_value: 0.40,
         scales_with_talent: false,
@@ -121,7 +127,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "chevreuse_c6_pyro_dmg",
-        description: "C6: Party Pyro DMG Bonus +20% per stack (max 3)",
+        description: desc!("C6: Party Pyro DMG Bonus +20% per stack (max 3)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -135,7 +141,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "chevreuse_c6_electro_dmg",
-        description: "C6: Party Electro DMG Bonus +20% per stack (max 3)",
+        description: desc!("C6: Party Electro DMG Bonus +20% per stack (max 3)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -154,7 +160,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
 static THOMA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Burning Heart - Normal ATK",
-        description: "After burst, party Normal ATK DMG +15%",
+        description: desc!("After burst, party Normal ATK DMG +15%"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -168,7 +174,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Burning Heart - Charged ATK",
-        description: "After burst, party Charged ATK DMG +15%",
+        description: desc!("After burst, party Charged ATK DMG +15%"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -182,7 +188,7 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Burning Heart - Plunging ATK",
-        description: "After burst, party Plunging ATK DMG +15%",
+        description: desc!("After burst, party Plunging ATK DMG +15%"),
         stat: BuffableStat::PlungingAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -203,7 +209,9 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
 static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Summer Night's Dawn",
-        description: "After burst, party members (excluding Yoimiya) gain ATK+20% (max assumption)",
+        description: desc!(
+            "After burst, party members (excluding Yoimiya) gain ATK+20% (max assumption)"
+        ),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -218,7 +226,7 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
     // C1: ATK +20% on Aurous Blaze defeat
     TalentBuffDef {
         name: "yoimiya_c1_atk",
-        description: "C1: ATK +20% for 20s when Aurous Blaze-affected opponent defeated",
+        description: desc!("C1: ATK +20% for 20s when Aurous Blaze-affected opponent defeated"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -233,7 +241,7 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
     // C2: Pyro DMG +25% on Pyro CRIT
     TalentBuffDef {
         name: "yoimiya_c2_pyro_dmg",
-        description: "C2: Pyro DMG Bonus +25% for 6s on Pyro CRIT hit",
+        description: desc!("C2: Pyro DMG Bonus +25% for 6s on Pyro CRIT hit"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.25,
         scales_with_talent: false,
@@ -256,7 +264,9 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
 static DURIN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Light Manifest (Purity) Pyro RES Down",
-        description: "A1: Enemy Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize",
+        description: desc!(
+            "A1: Enemy Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize"
+        ),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -270,7 +280,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Light Manifest (Darkness) Amplifying Bonus",
-        description: "A1: Vaporize/Melt DMG +40% in Darkness form",
+        description: desc!("A1: Vaporize/Melt DMG +40% in Darkness form"),
         stat: BuffableStat::AmplifyingBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -284,7 +294,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Unground Visions Pyro DMG Bonus",
-        description: "C2: Pyro DMG +50% for party after triggering reactions",
+        description: desc!("C2: Pyro DMG +50% for party after triggering reactions"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.50,
         scales_with_talent: false,
@@ -298,7 +308,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Emanare's Source Burst DMG Bonus",
-        description: "C4: Elemental Burst DMG +40%",
+        description: desc!("C4: Elemental Burst DMG +40%"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -313,7 +323,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
     // C4 "Emanare's Source": Burst DMG +40% (conditional toggle)
     TalentBuffDef {
         name: "durin_c4_burst_dmg",
-        description: "C4: Elemental Burst DMG +40%",
+        description: desc!("C4: Elemental Burst DMG +40%"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -328,7 +338,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
     // C6: DEF Ignore 30%
     TalentBuffDef {
         name: "durin_c6_def_ignore",
-        description: "C6: Burst DMG ignores 30% of opponents' DEF",
+        description: desc!("C6: Burst DMG ignores 30% of opponents' DEF"),
         stat: BuffableStat::DefIgnore,
         base_value: 0.30,
         scales_with_talent: false,
@@ -343,7 +353,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
     // C6: DEF Reduction 30% (Light form)
     TalentBuffDef {
         name: "durin_c6_def_reduction",
-        description: "C6: Light form decreases opponent DEF by 30%",
+        description: desc!("C6: Light form decreases opponent DEF by 30%"),
         stat: BuffableStat::DefReduction,
         base_value: 0.30,
         scales_with_talent: false,
@@ -363,7 +373,7 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
 static KLEE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Explosive Frags DEF Reduction",
-        description: "C2: Enemies hit by Jumpy Dumpty mines have DEF -23%",
+        description: desc!("C2: Enemies hit by Jumpy Dumpty mines have DEF -23%"),
         stat: BuffableStat::DefReduction,
         base_value: 0.23,
         scales_with_talent: false,
@@ -377,7 +387,7 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Blazing Delight Pyro DMG Bonus",
-        description: "C6: During Sparks 'n' Splash, party gains Pyro DMG +10%",
+        description: desc!("C6: During Sparks 'n' Splash, party gains Pyro DMG +10%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.10,
         scales_with_talent: false,
@@ -392,7 +402,7 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
     // C2: Mine DEF reduction 23% (conditional toggle)
     TalentBuffDef {
         name: "klee_c2_def_reduction",
-        description: "C2: Jumpy Dumpty mines reduce opponent DEF by 23%",
+        description: desc!("C2: Jumpy Dumpty mines reduce opponent DEF by 23%"),
         stat: BuffableStat::DefReduction,
         base_value: 0.23,
         scales_with_talent: false,
@@ -407,7 +417,7 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
     // C6: Party Pyro DMG +10% (conditional toggle)
     TalentBuffDef {
         name: "klee_c6_pyro_dmg",
-        description: "C6: Sparks 'n' Splash grants party Pyro DMG Bonus +10%",
+        description: desc!("C6: Sparks 'n' Splash grants party Pyro DMG Bonus +10%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.10,
         scales_with_talent: false,
@@ -428,7 +438,7 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
     // C2 "The Ashen Price": Ring of Searing Radiance form reduces nearby enemies' DEF -20%
     TalentBuffDef {
         name: "The Ashen Price DEF Reduction",
-        description: "C2: In Ring of Searing Radiance form, nearby enemies' DEF -20%",
+        description: desc!("C2: In Ring of Searing Radiance form, nearby enemies' DEF -20%"),
         stat: BuffableStat::DefReduction,
         base_value: 0.20,
         scales_with_talent: false,
@@ -442,7 +452,7 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sunfrost Encomium ATK Bonus",
-        description: "A1: Mavuika's own ATK+30% while in Nightsoul's Blessing state",
+        description: desc!("A1: Mavuika's own ATK+30% while in Nightsoul's Blessing state"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.30,
         scales_with_talent: false,
@@ -456,7 +466,9 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Fire-Forged Heritage DMG Bonus",
-        description: "A4: DMG Bonus from Fighting Spirit consumed (max +40% at C0/200pt, adopting max value)",
+        description: desc!(
+            "A4: DMG Bonus from Fighting Spirit consumed (max +40% at C0/200pt, adopting max value)"
+        ),
         stat: BuffableStat::DmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -477,7 +489,7 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
 static ARLECCHINO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Crimson Flower Pyro DMG Bonus",
-        description: "A1: Arlecchino gains Pyro DMG Bonus +40%",
+        description: desc!("A1: Arlecchino gains Pyro DMG Bonus +40%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.40,
         scales_with_talent: false,
@@ -492,7 +504,7 @@ static ARLECCHINO_BUFFS: &[TalentBuffDef] = &[
     // TODO: A4 "The Balemoon Alone May Know" — ATK scales into All RES reduction; complex, not implemented
     TalentBuffDef {
         name: "Foul Legacy CRIT Rate Bonus",
-        description: "C6: CRIT Rate +10%",
+        description: desc!("C6: CRIT Rate +10%"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -506,7 +518,7 @@ static ARLECCHINO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Foul Legacy CRIT DMG Bonus",
-        description: "C6: CRIT DMG +70%",
+        description: desc!("C6: CRIT DMG +70%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.70,
         scales_with_talent: false,
@@ -527,7 +539,7 @@ static ARLECCHINO_BUFFS: &[TalentBuffDef] = &[
 static DEHYA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "The Flame Incandescent HP Bonus",
-        description: "C1: Dehya's Max HP +20%",
+        description: desc!("C1: Dehya's Max HP +20%"),
         stat: BuffableStat::HpPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -541,7 +553,7 @@ static DEHYA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "The Sand-Blanketed Fortress Skill DMG Bonus",
-        description: "C2: Skill DMG +50%",
+        description: desc!("C2: Skill DMG +50%"),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.50,
         scales_with_talent: false,
@@ -555,7 +567,7 @@ static DEHYA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "The Burning Claws Cleave CRIT Rate Bonus",
-        description: "C6: CRIT Rate +10% (max value)",
+        description: desc!("C6: CRIT Rate +10% (max value)"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -569,7 +581,7 @@ static DEHYA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "The Burning Claws Cleave CRIT DMG Bonus",
-        description: "C6: CRIT DMG +60% (max value)",
+        description: desc!("C6: CRIT DMG +60% (max value)"),
         stat: BuffableStat::CritDmg,
         base_value: 0.60,
         scales_with_talent: false,
@@ -592,7 +604,7 @@ static DEHYA_BUFFS: &[TalentBuffDef] = &[
 static DILUC_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Flowing Flame Pyro DMG Bonus",
-        description: "A4: After using Elemental Skill, Pyro DMG +20%",
+        description: desc!("A4: After using Elemental Skill, Pyro DMG +20%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -606,7 +618,7 @@ static DILUC_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Conviction DMG Bonus",
-        description: "C1: DMG +15% when enemy HP is above 50%",
+        description: desc!("C1: DMG +15% when enemy HP is above 50%"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -620,7 +632,7 @@ static DILUC_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Searing Ember ATK Bonus",
-        description: "C2: ATK +10% per stack, max 3 stacks",
+        description: desc!("C2: ATK +10% per stack, max 3 stacks"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.10,
         scales_with_talent: false,
@@ -634,7 +646,7 @@ static DILUC_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Flowing Ember Skill DMG Bonus",
-        description: "C4: After skill combo, Skill DMG +40%",
+        description: desc!("C4: After skill combo, Skill DMG +40%"),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -648,7 +660,7 @@ static DILUC_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Flaming Sword Normal ATK DMG Bonus",
-        description: "C6: Normal ATK DMG +30% during burst",
+        description: desc!("C6: Normal ATK DMG +30% during burst"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.30,
         scales_with_talent: false,
@@ -669,7 +681,7 @@ static DILUC_BUFFS: &[TalentBuffDef] = &[
 static GAMING_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dance of Amity Plunging ATK DMG Bonus",
-        description: "A4: Plunging ATK DMG +20% when HP is 50% or above",
+        description: desc!("A4: Plunging ATK DMG +20% when HP is 50% or above"),
         stat: BuffableStat::PlungingAtkDmgBonus,
         base_value: 0.20,
         scales_with_talent: false,
@@ -683,7 +695,7 @@ static GAMING_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Savage Hunting Fangs ATK Bonus",
-        description: "C2: ATK +20%",
+        description: desc!("C2: ATK +20%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -697,7 +709,7 @@ static GAMING_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Dance of Auspicious Crane CRIT Rate Bonus",
-        description: "C6: CRIT Rate +20%",
+        description: desc!("C6: CRIT Rate +20%"),
         stat: BuffableStat::CritRate,
         base_value: 0.20,
         scales_with_talent: false,
@@ -711,7 +723,7 @@ static GAMING_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Dance of Auspicious Crane CRIT DMG Bonus",
-        description: "C6: CRIT DMG +40%",
+        description: desc!("C6: CRIT DMG +40%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.40,
         scales_with_talent: false,
@@ -732,7 +744,9 @@ static GAMING_BUFFS: &[TalentBuffDef] = &[
 static HU_TAO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Flutter By CRIT Rate Bonus",
-        description: "A1: After Paramita Papilio ends, party members (excl. Hu Tao) gain CRIT Rate +12%",
+        description: desc!(
+            "A1: After Paramita Papilio ends, party members (excl. Hu Tao) gain CRIT Rate +12%"
+        ),
         stat: BuffableStat::CritRate,
         base_value: 0.12,
         scales_with_talent: false,
@@ -746,7 +760,7 @@ static HU_TAO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sanguine Rouge Pyro DMG Bonus",
-        description: "A4: When HP is 50% or lower, Pyro DMG Bonus +33%",
+        description: desc!("A4: When HP is 50% or lower, Pyro DMG Bonus +33%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.33,
         scales_with_talent: false,
@@ -760,7 +774,9 @@ static HU_TAO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Garden of Eternal Rest",
-        description: "C4: After defeating Blood Blossom enemy, party (excl. Hu Tao) CRIT Rate +12% for 15s",
+        description: desc!(
+            "C4: After defeating Blood Blossom enemy, party (excl. Hu Tao) CRIT Rate +12% for 15s"
+        ),
         stat: BuffableStat::CritRate,
         base_value: 0.12,
         scales_with_talent: false,
@@ -780,7 +796,7 @@ static HU_TAO_BUFFS: &[TalentBuffDef] = &[
 static XIANGLING_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Crispy Outside Pyro RES Shred",
-        description: "C1: Enemies hit by Guoba have Pyro RES -15% for 6s",
+        description: desc!("C1: Enemies hit by Guoba have Pyro RES -15% for 6s"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -794,7 +810,7 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Condensed Pyronado Pyro DMG Bonus",
-        description: "C6: During Pyronado, party gains Pyro DMG +15%",
+        description: desc!("C6: During Pyronado, party gains Pyro DMG +15%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -809,7 +825,7 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
     // C1: Guoba Pyro RES shred -15% (conditional toggle)
     TalentBuffDef {
         name: "xiangling_c1_pyro_res_shred",
-        description: "C1: Opponents hit by Guoba have Pyro RES -15%",
+        description: desc!("C1: Opponents hit by Guoba have Pyro RES -15%"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -824,7 +840,7 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
     // C6: Pyronado Pyro DMG +15% (conditional toggle)
     TalentBuffDef {
         name: "xiangling_c6_pyro_dmg",
-        description: "C6: During Pyronado, party gains Pyro DMG Bonus +15%",
+        description: desc!("C6: During Pyronado, party gains Pyro DMG Bonus +15%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -845,7 +861,7 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
 static XINYAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Blazing Eye Physical RES Shred",
-        description: "C4: Enemies hit by Riff Revolution have Physical RES -15% for 12s",
+        description: desc!("C4: Enemies hit by Riff Revolution have Physical RES -15% for 12s"),
         stat: BuffableStat::PhysicalResReduction,
         base_value: 0.15,
         scales_with_talent: false,
@@ -860,7 +876,7 @@ static XINYAN_BUFFS: &[TalentBuffDef] = &[
     // C2: Burst Physical CRIT Rate +100% (approximation)
     TalentBuffDef {
         name: "xinyan_c2_burst_crit",
-        description: "C2: Riff Revolution Physical DMG CRIT Rate +100% (approximation)",
+        description: desc!("C2: Riff Revolution Physical DMG CRIT Rate +100% (approximation)"),
         stat: BuffableStat::CritRate,
         base_value: 1.00,
         scales_with_talent: false,
@@ -875,7 +891,7 @@ static XINYAN_BUFFS: &[TalentBuffDef] = &[
     // C6: Charged ATK flat DMG = 50% DEF
     TalentBuffDef {
         name: "xinyan_c6_charged_def_scaling",
-        description: "C6: Charged ATK gains ATK bonus equal to 50% of DEF",
+        description: desc!("C6: Charged ATK gains ATK bonus equal to 50% of DEF"),
         stat: BuffableStat::ChargedAtkFlatDmg,
         base_value: 0.50,
         scales_with_talent: false,
@@ -896,7 +912,9 @@ static XINYAN_BUFFS: &[TalentBuffDef] = &[
 static LYNEY_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Prestidigitation DMG Bonus",
-        description: "A4: DMG Bonus based on number of Pyro party members (max value 100% with all Pyro, Toggle)",
+        description: desc!(
+            "A4: DMG Bonus based on number of Pyro party members (max value 100% with all Pyro, Toggle)"
+        ),
         stat: BuffableStat::DmgBonus,
         base_value: 1.00,
         scales_with_talent: false,
@@ -910,7 +928,7 @@ static LYNEY_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Locquacious Cajoling CRIT DMG Bonus",
-        description: "C2: CRIT DMG +20% per stack, max 3 stacks",
+        description: desc!("C2: CRIT DMG +20% per stack, max 3 stacks"),
         stat: BuffableStat::CritDmg,
         base_value: 0.20,
         scales_with_talent: false,
@@ -924,7 +942,7 @@ static LYNEY_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Seated Next to Polished Nacre Pyro RES Shred",
-        description: "C4: Enemy Pyro RES -20%",
+        description: desc!("C4: Enemy Pyro RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -944,7 +962,9 @@ static LYNEY_BUFFS: &[TalentBuffDef] = &[
 static YANFEI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Encyclopedic Expertise Pyro DMG Bonus",
-        description: "A1: Pyro DMG Bonus +5% per Scarlet Seal (max 4 seals = +20%, adopting max value)",
+        description: desc!(
+            "A1: Pyro DMG Bonus +5% per Scarlet Seal (max 4 seals = +20%, adopting max value)"
+        ),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -958,7 +978,7 @@ static YANFEI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Blazing Eye Charged ATK CRIT Rate Bonus",
-        description: "C2: Charged ATK CRIT Rate +20%",
+        description: desc!("C2: Charged ATK CRIT Rate +20%"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.20,
         scales_with_talent: false,

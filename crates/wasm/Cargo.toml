@@ -8,12 +8,15 @@ authors = ["kotenbu135"]
 repository = "https://github.com/kotenbu135/genshin-calc"
 rust-version = "1.85"
 
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-genshin-calc-core = { version = "0.5.11", path = "../core" }
-genshin-calc-data = { version = "0.5.11", path = "../data" }
+genshin-calc-core = { version = "0.5.11", path = "../core", default-features = false }
+genshin-calc-data = { version = "0.5.11", path = "../data", default-features = false }
 genshin-calc-good = { version = "0.5.11", path = "../good" }
 wasm-bindgen = "0.2"
 serde-wasm-bindgen = "0.6"
