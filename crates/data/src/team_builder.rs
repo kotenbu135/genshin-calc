@@ -600,6 +600,7 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         | BuffableStat::CritRate
         | BuffableStat::CritDmg
         | BuffableStat::DmgBonus
+        | BuffableStat::AllElementalDmgBonus
         | BuffableStat::ElementalDmgBonus(_)
         | BuffableStat::PhysicalDmgBonus
         | BuffableStat::NormalAtkDmgBonus

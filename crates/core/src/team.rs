@@ -146,6 +146,7 @@ fn is_unconditional(stat: &BuffableStat) -> bool {
             | BuffableStat::ElementalMastery
             | BuffableStat::EnergyRecharge
             | BuffableStat::DmgBonus
+            | BuffableStat::AllElementalDmgBonus
             | BuffableStat::ElementalDmgBonus(_)
             | BuffableStat::PhysicalDmgBonus
     )
@@ -173,6 +174,15 @@ pub fn apply_buffs_to_profile(profile: &StatProfile, buffs: &[ResolvedBuff]) -> 
             BuffableStat::ElementalMastery => p.elemental_mastery += buff.value,
             BuffableStat::EnergyRecharge => p.energy_recharge += buff.value,
             BuffableStat::DmgBonus => p.dmg_bonus += buff.value,
+            BuffableStat::AllElementalDmgBonus => {
+                p.pyro_dmg_bonus += buff.value;
+                p.hydro_dmg_bonus += buff.value;
+                p.electro_dmg_bonus += buff.value;
+                p.cryo_dmg_bonus += buff.value;
+                p.dendro_dmg_bonus += buff.value;
+                p.anemo_dmg_bonus += buff.value;
+                p.geo_dmg_bonus += buff.value;
+            }
             BuffableStat::ElementalDmgBonus(elem) => match elem {
                 Element::Pyro => p.pyro_dmg_bonus += buff.value,
                 Element::Hydro => p.hydro_dmg_bonus += buff.value,
@@ -1050,5 +1060,31 @@ mod tests {
             !has_dmg,
             "EnduringRock should NOT be active (not in activations)"
         );
+    }
+
+    #[test]
+    fn all_elemental_dmg_bonus_applies_to_seven_elements_not_physical() {
+        let profile = StatProfile::default();
+        let buffs = vec![ResolvedBuff {
+            stat: BuffableStat::AllElementalDmgBonus,
+            value: 0.20,
+            source: "test".to_string(),
+            target: BuffTarget::Team,
+            origin: None,
+        }];
+        let result = apply_buffs_to_profile(&profile, &buffs);
+
+        // Should apply to all 7 elemental bonuses
+        assert!((result.pyro_dmg_bonus - 0.20).abs() < EPSILON);
+        assert!((result.hydro_dmg_bonus - 0.20).abs() < EPSILON);
+        assert!((result.electro_dmg_bonus - 0.20).abs() < EPSILON);
+        assert!((result.cryo_dmg_bonus - 0.20).abs() < EPSILON);
+        assert!((result.dendro_dmg_bonus - 0.20).abs() < EPSILON);
+        assert!((result.anemo_dmg_bonus - 0.20).abs() < EPSILON);
+        assert!((result.geo_dmg_bonus - 0.20).abs() < EPSILON);
+
+        // Should NOT apply to generic dmg_bonus or physical
+        assert!(result.dmg_bonus.abs() < EPSILON);
+        assert!(result.physical_dmg_bonus.abs() < EPSILON);
     }
 }
