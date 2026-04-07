@@ -188,6 +188,7 @@ pub fn calculate_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsErro
 pub fn resolve_team_stats(members: JsValue, target_index: u32) -> Result<JsValue, JsError> {
     let members: Vec<genshin_calc_core::TeamMember> = serde_wasm_bindgen::from_value(members)
         .map_err(|e| JsError::new(&format!("Invalid members: {e}")))?;
+    // TODO(#52): expose resonance_activations to JS callers
     let result = genshin_calc_core::resolve_team_stats(&members, target_index as usize, &[])
         .map_err(|e| JsError::new(&e.to_string()))?;
     to_js(&result)

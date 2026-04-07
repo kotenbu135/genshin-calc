@@ -311,6 +311,11 @@ fn dedup_by_origin(buffs: &mut Vec<ResolvedBuff>) {
 /// The result includes final stats, applied buffs, elemental resonances,
 /// attack-type-specific damage context, and enemy debuffs.
 ///
+/// `resonance_activations` controls conditional resonance buffs (e.g. ShatteringIce CritRate).
+/// Pass `&[]` to skip all conditional resonance buffs. If duplicate entries exist for the
+/// same resonance, the buff is applied if any entry for that resonance is `true`.
+/// Activations for undetected resonances are silently ignored.
+///
 /// # Errors
 ///
 /// Returns [`CalcError::InvalidTeamSize`] if team is empty or has >4 members.
