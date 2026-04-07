@@ -606,7 +606,7 @@ mod tests {
     #[test]
     fn test_find_citlali_buffs() {
         let buffs = find_talent_buffs("citlali").unwrap();
-        assert_eq!(buffs.len(), 5);
+        assert_eq!(buffs.len(), 7);
         // Skill: Pyro + Hydro RES shred
         assert_eq!(
             buffs[0].stat,
@@ -628,6 +628,28 @@ mod tests {
         // C2: additional RES shred
         assert_eq!(buffs[3].min_constellation, 2);
         assert_eq!(buffs[4].min_constellation, 2);
+        // C6: Pyro/Hydro DMG +1.5%/stack (max 40)
+        assert_eq!(
+            buffs[5].stat,
+            BuffableStat::ElementalDmgBonus(Element::Pyro)
+        );
+        assert!((buffs[5].base_value - 0.015).abs() < 1e-6);
+        assert_eq!(buffs[5].min_constellation, 6);
+        assert_eq!(buffs[5].target, BuffTarget::Team);
+        assert_eq!(
+            buffs[5].activation,
+            Some(Activation::Manual(ManualCondition::Stacks(40)))
+        );
+        assert_eq!(
+            buffs[6].stat,
+            BuffableStat::ElementalDmgBonus(Element::Hydro)
+        );
+        assert!((buffs[6].base_value - 0.015).abs() < 1e-6);
+        assert_eq!(buffs[6].min_constellation, 6);
+        assert_eq!(
+            buffs[6].activation,
+            Some(Activation::Manual(ManualCondition::Stacks(40)))
+        );
     }
 
     #[test]

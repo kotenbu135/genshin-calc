@@ -241,6 +241,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
 // Skill: Pyro/Hydro RES -20%
 // C2 "Heart Devourer's Travail": Party members (excl. Citlali) gain EM+250 while Opal Shield active or Itzpapa following
 // C2: Additional Pyro/Hydro RES -20% (total -40% each)
+// C6 "Secret Pact of the Primal Flame": Mystic Counts grant Pyro/Hydro DMG +1.5%/count (max 40 = +60%)
 static CITLALI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Itzpapa Pyro RES Shred",
@@ -311,6 +312,34 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 2,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Secret Pact Pyro DMG Bonus",
+        description: "C6: Mystic Counts grant Pyro DMG +1.5% per count (max 40 counts = +60%)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.015,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(40))),
+    },
+    TalentBuffDef {
+        name: "Secret Pact Hydro DMG Bonus",
+        description: "C6: Mystic Counts grant Hydro DMG +1.5% per count (max 40 counts = +60%)",
+        stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+        base_value: 0.015,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(40))),
     },
 ];
 
