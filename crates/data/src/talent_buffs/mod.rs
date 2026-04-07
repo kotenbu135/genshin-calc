@@ -573,30 +573,54 @@ mod tests {
     #[test]
     fn test_find_xilonen_buffs() {
         let buffs = find_talent_buffs("xilonen").unwrap();
-        assert_eq!(buffs.len(), 8);
-        // Skill: Geo RES reduction (talent-scaled)
+        assert_eq!(buffs.len(), 12);
+        // Skill: Elemental RES reduction per Sampler (Geo/Pyro/Hydro/Cryo/Electro)
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Geo)
         );
         assert!(buffs[0].scales_with_talent);
+        assert_eq!(
+            buffs[1].stat,
+            BuffableStat::ElementalResReduction(Element::Pyro)
+        );
+        assert!(buffs[1].scales_with_talent);
+        assert_eq!(
+            buffs[2].stat,
+            BuffableStat::ElementalResReduction(Element::Hydro)
+        );
+        assert!(buffs[2].scales_with_talent);
+        assert_eq!(
+            buffs[3].stat,
+            BuffableStat::ElementalResReduction(Element::Cryo)
+        );
+        assert!(buffs[3].scales_with_talent);
+        assert_eq!(
+            buffs[4].stat,
+            BuffableStat::ElementalResReduction(Element::Electro)
+        );
+        assert!(buffs[4].scales_with_talent);
+        for b in &buffs[0..5] {
+            assert_eq!(b.min_constellation, 0);
+            assert!(b.activation.is_some());
+        }
         // C2 buffs: Geo DMG, Pyro ATK, Hydro HP, Cryo Crit DMG
-        assert_eq!(buffs[1].stat, BuffableStat::ElementalDmgBonus(Element::Geo));
-        assert_eq!(buffs[1].min_constellation, 2);
-        assert_eq!(buffs[2].stat, BuffableStat::AtkPercent);
-        assert_eq!(buffs[2].min_constellation, 2);
-        assert_eq!(buffs[3].stat, BuffableStat::HpPercent);
-        assert_eq!(buffs[3].min_constellation, 2);
-        assert_eq!(buffs[4].stat, BuffableStat::CritDmg);
-        assert_eq!(buffs[4].min_constellation, 2);
+        assert_eq!(buffs[5].stat, BuffableStat::ElementalDmgBonus(Element::Geo));
+        assert_eq!(buffs[5].min_constellation, 2);
+        assert_eq!(buffs[6].stat, BuffableStat::AtkPercent);
+        assert_eq!(buffs[6].min_constellation, 2);
+        assert_eq!(buffs[7].stat, BuffableStat::HpPercent);
+        assert_eq!(buffs[7].min_constellation, 2);
+        assert_eq!(buffs[8].stat, BuffableStat::CritDmg);
+        assert_eq!(buffs[8].min_constellation, 2);
         // C4: flat DMG from DEF for Normal/Charged/Plunging
-        assert_eq!(buffs[5].stat, BuffableStat::NormalAtkFlatDmg);
-        assert!((buffs[5].base_value - 0.65).abs() < 1e-6);
-        assert_eq!(buffs[5].scales_on, Some(ScalingStat::Def));
-        assert_eq!(buffs[5].min_constellation, 4);
-        assert_eq!(buffs[6].stat, BuffableStat::ChargedAtkFlatDmg);
-        assert_eq!(buffs[7].stat, BuffableStat::PlungingAtkFlatDmg);
-        for b in &buffs[5..] {
+        assert_eq!(buffs[9].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((buffs[9].base_value - 0.65).abs() < 1e-6);
+        assert_eq!(buffs[9].scales_on, Some(ScalingStat::Def));
+        assert_eq!(buffs[9].min_constellation, 4);
+        assert_eq!(buffs[10].stat, BuffableStat::ChargedAtkFlatDmg);
+        assert_eq!(buffs[11].stat, BuffableStat::PlungingAtkFlatDmg);
+        for b in &buffs[9..] {
             assert!((b.base_value - 0.65).abs() < 1e-6);
             assert_eq!(b.scales_on, Some(ScalingStat::Def));
             assert_eq!(b.min_constellation, 4);
@@ -928,18 +952,26 @@ mod tests {
     }
 
     #[test]
-    fn test_conditional_furina_returns_stacks() {
-        // C0: only the base 300pt entry; C1+ adds the extra 100pt entry
+    fn test_conditional_furina_c0_stacks_c1_toggle() {
+        // C0: only the base 300pt Stacks entry
         let buffs_c0 = get_talent_conditional_buffs("furina", 0, &[1, 1, 10]);
         assert_eq!(buffs_c0.len(), 1);
+        assert!(matches!(
+            buffs_c0[0].activation,
+            Activation::Manual(ManualCondition::Stacks(300))
+        ));
+
+        // C1+: base Stacks(300) + extra Toggle
         let buffs = get_talent_conditional_buffs("furina", 1, &[1, 1, 10]);
         assert_eq!(buffs.len(), 2);
-        for b in &buffs {
-            assert!(matches!(
-                b.activation,
-                Activation::Manual(ManualCondition::Stacks(300))
-            ));
-        }
+        assert!(matches!(
+            buffs[0].activation,
+            Activation::Manual(ManualCondition::Stacks(300))
+        ));
+        assert!(matches!(
+            buffs[1].activation,
+            Activation::Manual(ManualCondition::Toggle)
+        ));
     }
 
     #[test]

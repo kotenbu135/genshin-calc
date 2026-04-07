@@ -953,7 +953,8 @@ fn team08_mono_pyro_mavuika() {
     .artifact_set(find_artifact_set("scroll_of_the_hero_of_cinder_city").unwrap())
     .constellation(0)
     .talent_levels([1, 9, 9])
-    .activate("Yohualliand Elemental RES Reduction")
+    .activate("Yohual's Scratch Geo RES Reduction")
+    .activate("Yohual's Scratch Pyro RES Reduction")
     .activate("scroll_pyro_dmg")
     .artifact_stats(StatProfile {
         def_percent: 0.60,
@@ -1219,7 +1220,8 @@ fn team10_mavuika_nightsoul_melt() {
     .artifact_set(find_artifact_set("scroll_of_the_hero_of_cinder_city").unwrap())
     .constellation(0)
     .talent_levels([1, 9, 9])
-    .activate("Yohualliand Elemental RES Reduction")
+    .activate("Yohual's Scratch Geo RES Reduction")
+    .activate("Yohual's Scratch Pyro RES Reduction")
     .activate("scroll_pyro_dmg")
     .artifact_stats(StatProfile {
         def_percent: 0.60,

@@ -494,4 +494,45 @@ mod tests {
             total
         );
     }
+
+    #[test]
+    fn test_furina_c1_toggle_active_with_stacks() {
+        // C1 Toggle ON + C0 Stacks 300 → full 400pt equivalent
+        let build = make_furina_build();
+        let activations = vec![
+            (
+                "Let the People Rejoice DMG Bonus (C0 300pt)".to_string(),
+                ManualActivation::Stacks(300),
+            ),
+            (
+                "Let the People Rejoice DMG Bonus (C1+ extra 100pt)".to_string(),
+                ManualActivation::Active,
+            ),
+        ];
+        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 10], &activations);
+        let total: f64 = buffs.iter().map(|b| b.value).sum();
+        assert!(
+            (total - 1.00).abs() < 1e-6,
+            "C1 active + 300 stacks at Lv10: 300×0.0025 + 100×0.0025 = 1.00, got {}",
+            total
+        );
+    }
+
+    #[test]
+    fn test_furina_c1_toggle_inactive_only_stacks() {
+        // C1 Toggle not activated → only C0 stacks count
+        let build = make_furina_build();
+        let activations = vec![(
+            "Let the People Rejoice DMG Bonus (C0 300pt)".to_string(),
+            ManualActivation::Stacks(300),
+        )];
+        let buffs = evaluate_talent_buffs(&build, 1, &[1, 1, 10], &activations);
+        // C1 Toggle not in activations → filtered out, only C0 buff remains
+        assert_eq!(buffs.len(), 1, "Only C0 buff should be present");
+        assert!(
+            (buffs[0].value - 0.75).abs() < 1e-6,
+            "C0 only: 300 × 0.0025 = 0.75, got {}",
+            buffs[0].value
+        );
+    }
 }

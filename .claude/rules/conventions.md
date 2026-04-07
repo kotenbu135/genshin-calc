@@ -23,3 +23,4 @@
 
 ## Critical Change Warning
 - `DamageInput`/`LunarInput`/`TeamMember`変更時は全構築箇所（テスト・docコメント・README・examples含む）を一括修正すること（コンパイル不能防止）
+- `TalentBuffDef.name`変更時は全`.activate()`呼び出し箇所をGrepで検索・一括更新すること（テスト内の`.activate("旧名")`が残ると実行時に無視される）

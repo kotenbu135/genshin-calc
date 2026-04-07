@@ -103,25 +103,10 @@ static FURINA_BURST_PER_POINT: [f64; 15] = [
     0.0007, 0.0009, 0.0011, 0.0013, 0.0015, 0.0017, 0.0019, 0.0021, 0.0023, 0.0025, 0.0027, 0.0029,
     0.0031, 0.0033, 0.0035,
 ];
-// C1 extra: same per-point coefficient applied to the additional 100pt capacity,
-// but spread linearly over 300 stacks for UI consistency
-// per_stack = (per_point_coeff * 100) / 300
-static FURINA_BURST_C1_PER_STACK: [f64; 15] = [
-    0.000233333,
-    0.0003,
-    0.000366667,
-    0.000433333,
-    0.0005,
-    0.000566667,
-    0.000633333,
-    0.0007,
-    0.000766667,
-    0.000833333,
-    0.0009,
-    0.000966667,
-    0.001033333,
-    0.0011,
-    0.001166667,
+// C1 extra: Toggle activation grants fixed bonus equal to 100 × per_point
+// (the extra 100pt fanfare capacity from C1)
+static FURINA_BURST_C1_BONUS: [f64; 15] = [
+    0.07, 0.09, 0.11, 0.13, 0.15, 0.17, 0.19, 0.21, 0.23, 0.25, 0.27, 0.29, 0.31, 0.33, 0.35,
 ];
 
 static FURINA_BUFFS: &[TalentBuffDef] = &[
@@ -145,13 +130,13 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         stat: BuffableStat::DmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
-        talent_scaling: Some(&FURINA_BURST_C1_PER_STACK),
+        talent_scaling: Some(&FURINA_BURST_C1_BONUS),
         scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
         cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Stacks(300))),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
