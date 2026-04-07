@@ -148,7 +148,7 @@ fn team01_arlecchino_vaporize() {
     .unwrap();
 
     let team = [arlecchino, yelan, bennett, kazuha];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Arlecchino");
 
@@ -257,7 +257,7 @@ fn team02_ganyu_melt() {
     .unwrap();
 
     let team = [ganyu, bennett, kazuha, rosaria];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Ganyu");
 
@@ -376,7 +376,7 @@ fn team03_skirk_freeze() {
     .unwrap();
 
     let team = [skirk, escoffier, furina, yelan];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Skirk");
 
@@ -489,7 +489,7 @@ fn team04_cyno_aggravate() {
     .unwrap();
 
     let team = [cyno, nahida, fischl, baizhu];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Cyno");
 
@@ -621,7 +621,7 @@ fn team05_hyperbloom() {
     let team = [alhaitham, nahida, yelan, kuki];
 
     // Resolve for Kuki (Hyperbloom trigger)
-    let kuki_result = resolve_team_stats_detailed(&team, 3).unwrap();
+    let kuki_result = resolve_team_stats_detailed(&team, 3, &[]).unwrap();
     assert_stats_sane(&kuki_result.final_stats, "Kuki");
 
     // Dendro resonance (Alhaitham + Nahida)
@@ -651,7 +651,7 @@ fn team05_hyperbloom() {
     );
 
     // Also resolve for Alhaitham (on-field DPS)
-    let al_result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let al_result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
     assert_stats_sane(&al_result.final_stats, "Alhaitham");
 
     let char_data = find_character("alhaitham").unwrap();
@@ -748,7 +748,7 @@ fn team06_burgeon() {
     let team = [nahida, thoma, xingqiu, kazuha];
 
     // Resolve for Thoma (Burgeon trigger)
-    let thoma_result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let thoma_result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
     assert_stats_sane(&thoma_result.final_stats, "Thoma");
 
     // Calculate Burgeon damage
@@ -842,7 +842,7 @@ fn team07_raiden_national() {
     let team = [raiden, xiangling, xingqiu, bennett];
 
     // Pyro resonance
-    let raiden_result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let raiden_result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
     assert!(
         raiden_result
             .resonances
@@ -886,7 +886,7 @@ fn team07_raiden_national() {
     assert_damage_sane(&damage, "Raiden Burst initial hit");
 
     // Resolve for Xiangling (check Bennett buff reaches her)
-    let xl_result = resolve_team_stats_detailed(&team, 1).unwrap();
+    let xl_result = resolve_team_stats_detailed(&team, 1, &[]).unwrap();
     assert_stats_sane(&xl_result.final_stats, "Xiangling");
 
     let has_bennett_for_xl = xl_result
@@ -992,7 +992,7 @@ fn team08_mono_pyro_mavuika() {
     .unwrap();
 
     let team = [mavuika, xilonen, kazuha, bennett];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Mavuika");
 
@@ -1111,7 +1111,7 @@ fn team09_eula_physical() {
     .unwrap();
 
     let team = [eula, raiden, shenhe, zhongli];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Eula");
 
@@ -1242,7 +1242,7 @@ fn team10_mavuika_nightsoul_melt() {
     .unwrap();
 
     let team = [mavuika, citlali, xilonen, bennett];
-    let result = resolve_team_stats_detailed(&team, 0).unwrap();
+    let result = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
 
     assert_stats_sane(&result.final_stats, "Mavuika Nightsoul");
 
@@ -1376,8 +1376,8 @@ fn cross_team_bennett_buff_consistency() {
     let team1 = [bennett.clone(), dps1];
     let team2 = [bennett, dps2];
 
-    let result1 = resolve_team_stats_detailed(&team1, 1).unwrap();
-    let result2 = resolve_team_stats_detailed(&team2, 1).unwrap();
+    let result1 = resolve_team_stats_detailed(&team1, 1, &[]).unwrap();
+    let result2 = resolve_team_stats_detailed(&team2, 1, &[]).unwrap();
 
     // Both should receive the same ATK buff
     let atk_diff = (result1.final_stats.atk - result2.final_stats.atk).abs();
@@ -1401,7 +1401,7 @@ fn cross_team_all_members_resolve_without_panic() {
 
     for (name, team) in &teams {
         for i in 0..team.len() {
-            let result = resolve_team_stats_detailed(team, i);
+            let result = resolve_team_stats_detailed(team, i, &[]);
             assert!(
                 result.is_ok(),
                 "Team {name} member {i} failed to resolve: {:?}",
@@ -1502,4 +1502,307 @@ fn build_team_physical() -> Vec<TeamMember> {
         .build()
         .unwrap(),
     ]
+}
+
+// =============================================================================
+// Conditional Resonance Activation Integration Tests
+// =============================================================================
+
+/// Build the Freeze team (Skirk / Escoffier / Furina / Yelan)
+/// Provides Cryo×2 (ShatteringIce) + Hydro×2 (SoothingWater) resonances.
+fn build_team_freeze() -> Vec<TeamMember> {
+    let skirk = TeamMemberBuilder::new(
+        find_character("skirk").unwrap(),
+        find_weapon("mistsplitter_reforged").unwrap(),
+    )
+    .artifact_set(find_artifact_set("marechaussee_hunter").unwrap())
+    .constellation(0)
+    .talent_levels([1, 9, 9])
+    .activate_with_stacks("marechaussee_crit_stacks", 3)
+    .artifact_stats(StatProfile {
+        crit_rate: 0.20,
+        crit_dmg: 0.80,
+        atk_percent: 0.15,
+        ..Default::default()
+    })
+    .build()
+    .unwrap();
+
+    let escoffier = TeamMemberBuilder::new(
+        find_character("escoffier").unwrap(),
+        find_weapon("jadefalls_splendor").unwrap(),
+    )
+    .artifact_set(find_artifact_set("noblesse_oblige").unwrap())
+    .constellation(0)
+    .talent_levels([1, 9, 9])
+    .activate("noblesse_atk_bonus")
+    .build()
+    .unwrap();
+
+    let furina = TeamMemberBuilder::new(
+        find_character("furina").unwrap(),
+        find_weapon("splendor_of_tranquil_waters").unwrap(),
+    )
+    .artifact_set(find_artifact_set("golden_troupe").unwrap())
+    .constellation(0)
+    .talent_levels([1, 9, 9])
+    .activate_with_stacks("Let the People Rejoice DMG Bonus (C0 300pt)", 300)
+    .build()
+    .unwrap();
+
+    let yelan = TeamMemberBuilder::new(
+        find_character("yelan").unwrap(),
+        find_weapon("aqua_simulacra").unwrap(),
+    )
+    .artifact_set(find_artifact_set("emblem_of_severed_fate").unwrap())
+    .constellation(0)
+    .talent_levels([1, 9, 9])
+    .activate("Adapt With Ease")
+    .build()
+    .unwrap();
+
+    vec![skirk, escoffier, furina, yelan]
+}
+
+/// Build the Aggravate team (Cyno / Nahida / Fischl / Baizhu)
+/// Provides Dendro×2 (SprawlingGreenery) resonance.
+fn build_team_aggravate() -> Vec<TeamMember> {
+    let cyno = TeamMemberBuilder::new(
+        find_character("cyno").unwrap(),
+        find_weapon("staff_of_the_scarlet_sands").unwrap(),
+    )
+    .artifact_set(find_artifact_set("gilded_dreams").unwrap())
+    .constellation(0)
+    .talent_levels([9, 1, 9])
+    .activate("scarlet_sands_em_atk")
+    .artifact_stats(StatProfile {
+        elemental_mastery: 200.0,
+        crit_rate: 0.30,
+        crit_dmg: 0.60,
+        ..Default::default()
+    })
+    .build()
+    .unwrap();
+
+    let nahida = TeamMemberBuilder::new(
+        find_character("nahida").unwrap(),
+        find_weapon("a_thousand_floating_dreams").unwrap(),
+    )
+    .artifact_set(find_artifact_set("deepwood_memories").unwrap())
+    .constellation(0)
+    .talent_levels([1, 9, 9])
+    .activate("deepwood_dendro_res_shred")
+    .activate("Compassion Illuminated")
+    .artifact_stats(StatProfile {
+        elemental_mastery: 400.0,
+        ..Default::default()
+    })
+    .build()
+    .unwrap();
+
+    let fischl = TeamMemberBuilder::new(
+        find_character("fischl").unwrap(),
+        find_weapon("the_stringless").unwrap(),
+    )
+    .artifact_set(find_artifact_set("thundering_fury").unwrap())
+    .constellation(6)
+    .talent_levels([1, 9, 1])
+    .activate("tf_additive")
+    .artifact_stats(StatProfile {
+        crit_rate: 0.30,
+        crit_dmg: 0.60,
+        atk_percent: 0.20,
+        ..Default::default()
+    })
+    .build()
+    .unwrap();
+
+    let baizhu = TeamMemberBuilder::new(
+        find_character("baizhu").unwrap(),
+        find_weapon("jadefalls_splendor").unwrap(),
+    )
+    .artifact_set(find_artifact_set("deepwood_memories").unwrap())
+    .constellation(0)
+    .talent_levels([1, 9, 9])
+    .build()
+    .unwrap();
+
+    vec![cyno, nahida, fischl, baizhu]
+}
+
+/// Test 1: Cryo resonance (ShatteringIce) conditional activation
+///
+/// Verifies that activating ShatteringIce adds CritRate +15% to final_stats
+/// and appears in applied_buffs, while the off result has neither.
+#[test]
+fn conditional_resonance_cryo_shattering_ice() {
+    const EPSILON: f64 = 1e-4;
+
+    let team = build_team_freeze();
+
+    let result_off = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
+    let result_on =
+        resolve_team_stats_detailed(&team, 0, &[(ElementalResonance::ShatteringIce, true)])
+            .unwrap();
+
+    // CritRate should be +0.15 when activated
+    let crit_diff = result_on.final_stats.crit_rate - result_off.final_stats.crit_rate;
+    assert!(
+        (crit_diff - 0.15).abs() < EPSILON,
+        "ShatteringIce activation should add CritRate +0.15, got diff={}",
+        crit_diff
+    );
+
+    // Conditional buff must appear in result_on
+    let has_conditional_on = result_on.applied_buffs.iter().any(|b| {
+        b.source.contains("ShatteringIce(conditional)") && b.stat == BuffableStat::CritRate
+    });
+    assert!(
+        has_conditional_on,
+        "result_on should contain ShatteringIce(conditional) CritRate buff"
+    );
+
+    // Conditional buff must NOT appear in result_off
+    let has_conditional_off = result_off.applied_buffs.iter().any(|b| {
+        b.source.contains("ShatteringIce(conditional)") && b.stat == BuffableStat::CritRate
+    });
+    assert!(
+        !has_conditional_off,
+        "result_off should NOT contain ShatteringIce(conditional) CritRate buff"
+    );
+}
+
+/// Test 2: Dendro resonance (SprawlingGreenery) conditional activation — extra EM
+///
+/// Verifies that:
+/// - Unconditional EM +50 buff is present in both results
+/// - Conditional EM +30 buff only appears when activated
+/// - final_stats.elemental_mastery difference is approximately 30.0
+#[test]
+fn conditional_resonance_dendro_sprawling_greenery() {
+    const EPSILON: f64 = 1e-4;
+
+    let team = build_team_aggravate();
+
+    let result_off = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
+    let result_on =
+        resolve_team_stats_detailed(&team, 0, &[(ElementalResonance::SprawlingGreenery, true)])
+            .unwrap();
+
+    // EM difference should be ~30.0
+    let em_diff =
+        result_on.final_stats.elemental_mastery - result_off.final_stats.elemental_mastery;
+    assert!(
+        (em_diff - 30.0).abs() < EPSILON,
+        "SprawlingGreenery activation should add EM +30, got diff={}",
+        em_diff
+    );
+
+    // Unconditional EM +50 buff present in BOTH results
+    let unconditional_source = "SprawlingGreenery";
+    let has_unconditional_off = result_off
+        .applied_buffs
+        .iter()
+        .any(|b| b.source == unconditional_source && b.stat == BuffableStat::ElementalMastery);
+    assert!(
+        has_unconditional_off,
+        "result_off should contain unconditional SprawlingGreenery EM buff"
+    );
+    let has_unconditional_on = result_on
+        .applied_buffs
+        .iter()
+        .any(|b| b.source == unconditional_source && b.stat == BuffableStat::ElementalMastery);
+    assert!(
+        has_unconditional_on,
+        "result_on should contain unconditional SprawlingGreenery EM buff"
+    );
+
+    // Conditional EM +30 buff only in result_on
+    let conditional_source = "SprawlingGreenery(conditional)";
+    let has_conditional_on = result_on
+        .applied_buffs
+        .iter()
+        .any(|b| b.source == conditional_source && b.stat == BuffableStat::ElementalMastery);
+    assert!(
+        has_conditional_on,
+        "result_on should contain SprawlingGreenery(conditional) EM buff"
+    );
+    let has_conditional_off = result_off
+        .applied_buffs
+        .iter()
+        .any(|b| b.source == conditional_source && b.stat == BuffableStat::ElementalMastery);
+    assert!(
+        !has_conditional_off,
+        "result_off should NOT contain SprawlingGreenery(conditional) EM buff"
+    );
+}
+
+/// Test 3: Double resonance partial activation (Freeze team: Cryo×2 + Hydro×2)
+///
+/// Activating only ShatteringIce should:
+/// - Apply CritRate conditional buff from ShatteringIce
+/// - NOT create any unexpected conditional buff from SoothingWater (it has none)
+/// - Still apply the unconditional HP% buff from SoothingWater
+#[test]
+fn conditional_resonance_double_partial_activation() {
+    const EPSILON: f64 = 1e-4;
+
+    let team = build_team_freeze();
+
+    // Activate ONLY ShatteringIce
+    let result =
+        resolve_team_stats_detailed(&team, 0, &[(ElementalResonance::ShatteringIce, true)])
+            .unwrap();
+
+    // ShatteringIce conditional CritRate buff IS present
+    let has_shattering_crit = result.applied_buffs.iter().any(|b| {
+        b.source.contains("ShatteringIce(conditional)") && b.stat == BuffableStat::CritRate
+    });
+    assert!(
+        has_shattering_crit,
+        "ShatteringIce(conditional) CritRate buff should be active"
+    );
+
+    // SoothingWater has no conditional buffs — verify none appear
+    let has_soothing_conditional = result
+        .applied_buffs
+        .iter()
+        .any(|b| b.source.contains("SoothingWater(conditional)"));
+    assert!(
+        !has_soothing_conditional,
+        "SoothingWater should have no conditional buffs"
+    );
+
+    // Unconditional SoothingWater HP% buff IS still present
+    let has_soothing_hp = result
+        .applied_buffs
+        .iter()
+        .any(|b| b.source == "SoothingWater" && b.stat == BuffableStat::HpPercent);
+    assert!(
+        has_soothing_hp,
+        "Unconditional SoothingWater HpPercent buff should still be present"
+    );
+
+    // Both resonances are detected
+    assert!(
+        result
+            .resonances
+            .contains(&ElementalResonance::ShatteringIce),
+        "ShatteringIce resonance should be detected"
+    );
+    assert!(
+        result
+            .resonances
+            .contains(&ElementalResonance::SoothingWater),
+        "SoothingWater resonance should be detected"
+    );
+
+    // CritRate difference from baseline is ~0.15
+    let result_off = resolve_team_stats_detailed(&team, 0, &[]).unwrap();
+    let crit_diff = result.final_stats.crit_rate - result_off.final_stats.crit_rate;
+    assert!(
+        (crit_diff - 0.15).abs() < EPSILON,
+        "Partial activation should only add CritRate +0.15 from ShatteringIce, got diff={}",
+        crit_diff
+    );
 }

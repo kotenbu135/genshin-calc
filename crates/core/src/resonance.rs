@@ -82,6 +82,25 @@ pub fn resonance_buffs(resonance: ElementalResonance) -> Vec<(BuffableStat, f64)
     }
 }
 
+/// Returns conditional stat buffs for a resonance.
+///
+/// These require user activation (e.g. enemy affected by Cryo, shielded, post-reaction).
+/// Returns empty for resonances with no conditional effect.
+pub fn resonance_conditional_buffs(resonance: ElementalResonance) -> Vec<(BuffableStat, f64)> {
+    match resonance {
+        ElementalResonance::ShatteringIce => {
+            vec![(BuffableStat::CritRate, 0.15)]
+        }
+        ElementalResonance::EnduringRock => {
+            vec![(BuffableStat::DmgBonus, 0.15)]
+        }
+        ElementalResonance::SprawlingGreenery => {
+            vec![(BuffableStat::ElementalMastery, 30.0)]
+        }
+        _ => vec![],
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -158,5 +177,35 @@ mod tests {
         assert!(resonance_buffs(ElementalResonance::HighVoltage).is_empty());
         assert!(resonance_buffs(ElementalResonance::ImpetuousWinds).is_empty());
         assert!(resonance_buffs(ElementalResonance::ProtectiveCanopy).is_empty());
+    }
+
+    #[test]
+    fn test_shattering_ice_conditional_buffs() {
+        let buffs = resonance_conditional_buffs(ElementalResonance::ShatteringIce);
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0], (BuffableStat::CritRate, 0.15));
+    }
+
+    #[test]
+    fn test_enduring_rock_conditional_buffs() {
+        let buffs = resonance_conditional_buffs(ElementalResonance::EnduringRock);
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0], (BuffableStat::DmgBonus, 0.15));
+    }
+
+    #[test]
+    fn test_sprawling_greenery_conditional_buffs() {
+        let buffs = resonance_conditional_buffs(ElementalResonance::SprawlingGreenery);
+        assert_eq!(buffs.len(), 1);
+        assert_eq!(buffs[0], (BuffableStat::ElementalMastery, 30.0));
+    }
+
+    #[test]
+    fn test_unconditional_resonances_have_no_conditional_buffs() {
+        assert!(resonance_conditional_buffs(ElementalResonance::FerventFlames).is_empty());
+        assert!(resonance_conditional_buffs(ElementalResonance::SoothingWater).is_empty());
+        assert!(resonance_conditional_buffs(ElementalResonance::HighVoltage).is_empty());
+        assert!(resonance_conditional_buffs(ElementalResonance::ImpetuousWinds).is_empty());
+        assert!(resonance_conditional_buffs(ElementalResonance::ProtectiveCanopy).is_empty());
     }
 }

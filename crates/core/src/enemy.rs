@@ -793,7 +793,7 @@ mod tests {
         };
 
         let team = vec![dps, support];
-        let result = resolve_team_stats(&team, 0).unwrap();
+        let result = resolve_team_stats(&team, 0, &[]).unwrap();
 
         // Verify stats: base_atk 900 + Bennett 1000 = 1900
         assert!((result.final_stats.atk - 1900.0).abs() < EPSILON);

@@ -76,7 +76,7 @@ fn test_pipeline_build_member_stats_to_resolve_team() {
         can_nightsoul: false,
     };
 
-    let result = genshin_calc_core::resolve_team_stats(&[member], 0);
+    let result = genshin_calc_core::resolve_team_stats(&[member], 0, &[]);
     assert!(result.is_ok());
     let resolved = result.unwrap();
     assert!(resolved.final_stats.atk >= base_atk);
