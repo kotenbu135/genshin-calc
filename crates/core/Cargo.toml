@@ -1,6 +1,6 @@
 [package]
 name = "genshin-calc-core"
-version = "0.5.11"
+version = "0.5.12"
 edition = "2024"
 description = "Genshin Impact damage calculation engine"
 license = "MIT"
@@ -11,6 +11,10 @@ categories = ["game-engines", "algorithms"]
 exclude = ["tests/"]
 rust-version = "1.85"
 readme = "README.md"
+
+[features]
+default = ["descriptions"]
+descriptions = []
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }

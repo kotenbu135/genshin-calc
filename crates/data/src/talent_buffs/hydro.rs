@@ -7,7 +7,7 @@ use super::*;
 static AINO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Aino C1 EM Share",
-        description: "After Skill or Burst, Aino and active character gain EM+80 for 15s",
+        description: desc!("After Skill or Burst, Aino and active character gain EM+80 for 15s"),
         stat: BuffableStat::ElementalMastery,
         base_value: 80.0,
         scales_with_talent: false,
@@ -21,7 +21,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Aino A4 Burst DMG from EM",
-        description: "Burst DMG increased by 50% of Elemental Mastery",
+        description: desc!("Burst DMG increased by 50% of Elemental Mastery"),
         stat: BuffableStat::BurstFlatDmg,
         base_value: 0.50,
         scales_with_talent: false,
@@ -42,7 +42,7 @@ static AINO_BUFFS: &[TalentBuffDef] = &[
 // C2 "Vitality Burst": Hydro DMG+15% during skill
 static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Vitality Burst",
-    description: "During skill, active character gains Hydro DMG Bonus +15%",
+    description: desc!("During skill, active character gains Hydro DMG Bonus +15%"),
     stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
     base_value: 0.15,
     scales_with_talent: false,
@@ -65,7 +65,7 @@ static CANDACE_BURST_NORMAL_SCALING: [f64; 15] = [
 static CANDACE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Sacred Rite: Heron's Sanctum",
-        description: "Normal ATK DMG Bonus based on burst talent level",
+        description: desc!("Normal ATK DMG Bonus based on burst talent level"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
@@ -79,7 +79,7 @@ static CANDACE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "candace_c2_hp",
-        description: "C2: Max HP +20% for 15s when Skill hits",
+        description: desc!("C2: Max HP +20% for 15s when Skill hits"),
         stat: BuffableStat::HpPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -112,7 +112,7 @@ static FURINA_BURST_C1_BONUS: [f64; 15] = [
 static FURINA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Let the People Rejoice DMG Bonus (C0 300pt)",
-        description: "Max fanfare (300pt) DMG bonus based on burst talent level",
+        description: desc!("Max fanfare (300pt) DMG bonus based on burst talent level"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
@@ -126,7 +126,7 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Let the People Rejoice DMG Bonus (C1+ extra 100pt)",
-        description: "C1 extra fanfare (+100pt) DMG bonus based on burst talent level",
+        description: desc!("C1 extra fanfare (+100pt) DMG bonus based on burst talent level"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
@@ -153,7 +153,7 @@ static MONA_BURST_DMG_SCALING: [f64; 15] = [
 static MONA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Stellaris Phantasm DMG Bonus",
-        description: "Omen increases DMG taken by opponents",
+        description: desc!("Omen increases DMG taken by opponents"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
@@ -167,7 +167,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "mona_c1_reaction_dmg",
-        description: "C1: Reaction DMG +15% vs Omen-affected opponents",
+        description: desc!("C1: Reaction DMG +15% vs Omen-affected opponents"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -181,7 +181,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "mona_c2_em",
-        description: "C2: Party EM +80 on Charged ATK hit",
+        description: desc!("C2: Party EM +80 on Charged ATK hit"),
         stat: BuffableStat::ElementalMastery,
         base_value: 80.0,
         scales_with_talent: false,
@@ -195,7 +195,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "mona_c4_crit_rate",
-        description: "C4: CRIT Rate +15% vs Omen-affected opponents",
+        description: desc!("C4: CRIT Rate +15% vs Omen-affected opponents"),
         stat: BuffableStat::CritRate,
         base_value: 0.15,
         scales_with_talent: false,
@@ -209,7 +209,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "mona_c4_crit_dmg",
-        description: "C4: CRIT DMG +15% vs Omen-affected opponents (approximation)",
+        description: desc!("C4: CRIT DMG +15% vs Omen-affected opponents (approximation)"),
         stat: BuffableStat::CritDmg,
         base_value: 0.15,
         scales_with_talent: false,
@@ -223,7 +223,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "mona_c6_charged_dmg",
-        description: "C6: Charged ATK DMG +180% (max in Illusory Torrent)",
+        description: desc!("C6: Charged ATK DMG +180% (max in Illusory Torrent)"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 1.80,
         scales_with_talent: false,
@@ -247,7 +247,7 @@ static MONA_BUFFS: &[TalentBuffDef] = &[
 static NILOU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dreaming Dance of the Lotuslight",
-        description: "HP30000超過1000ごとにBloom DMG+9%、最大+400%",
+        description: desc!("HP30000超過1000ごとにBloom DMG+9%、最大+400%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.0, // HP-dependent special formula (scaling_value == 0.0 triggers it)
         scales_with_talent: false,
@@ -261,7 +261,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nilou_c2_hydro_res_shred",
-        description: "C2: Opponents' Hydro RES -35% after Hydro DMG",
+        description: desc!("C2: Opponents' Hydro RES -35% after Hydro DMG"),
         stat: BuffableStat::ElementalResReduction(Element::Hydro),
         base_value: 0.35,
         scales_with_talent: false,
@@ -275,7 +275,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nilou_c2_dendro_res_shred",
-        description: "C2: Opponents' Dendro RES -35% after Bloom DMG",
+        description: desc!("C2: Opponents' Dendro RES -35% after Bloom DMG"),
         stat: BuffableStat::ElementalResReduction(Element::Dendro),
         base_value: 0.35,
         scales_with_talent: false,
@@ -289,7 +289,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nilou_c4_burst_dmg",
-        description: "C4: Dance of Abzendegi DMG +50% after 3rd dance step",
+        description: desc!("C4: Dance of Abzendegi DMG +50% after 3rd dance step"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.50,
         scales_with_talent: false,
@@ -303,7 +303,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nilou_c6_crit_rate",
-        description: "C6: CRIT Rate +0.6% per 1000 Max HP (max +30%)",
+        description: desc!("C6: CRIT Rate +0.6% per 1000 Max HP (max +30%)"),
         stat: BuffableStat::CritRate,
         base_value: 0.006,
         scales_with_talent: false,
@@ -317,7 +317,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nilou_c6_crit_dmg",
-        description: "C6: CRIT DMG +1.2% per 1000 Max HP (max +60%)",
+        description: desc!("C6: CRIT DMG +1.2% per 1000 Max HP (max +60%)"),
         stat: BuffableStat::CritDmg,
         base_value: 0.012,
         scales_with_talent: false,
@@ -337,7 +337,7 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[
 static YELAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Adapt With Ease",
-        description: "DMG Bonus ramps up to max value 0.50",
+        description: desc!("DMG Bonus ramps up to max value 0.50"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.50,
         scales_with_talent: false,
@@ -351,7 +351,7 @@ static YELAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "yelan_c4_hp",
-        description: "C4: Party Max HP +10% per marked opponent (max 4)",
+        description: desc!("C4: Party Max HP +10% per marked opponent (max 4)"),
         stat: BuffableStat::HpPercent,
         base_value: 0.10,
         scales_with_talent: false,
@@ -373,7 +373,7 @@ static YELAN_BUFFS: &[TalentBuffDef] = &[
 static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Columbina C1 Lunar Reaction DMG",
-        description: "C1: Lunar Reaction DMG +1.5%",
+        description: desc!("C1: Lunar Reaction DMG +1.5%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.015,
         scales_with_talent: false,
@@ -387,7 +387,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C2 Lunar Brilliance HP",
-        description: "C2: Lunar Brilliance — Columbina HP +40% for 8s (self only)",
+        description: desc!("C2: Lunar Brilliance — Columbina HP +40% for 8s (self only)"),
         stat: BuffableStat::HpPercent,
         base_value: 0.40,
         scales_with_talent: false,
@@ -401,7 +401,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C2 Lunar Reaction DMG",
-        description: "C2: Lunar Reaction DMG +7%",
+        description: desc!("C2: Lunar Reaction DMG +7%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.07,
         scales_with_talent: false,
@@ -415,7 +415,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C3 Lunar Reaction DMG",
-        description: "C3: Lunar Reaction DMG +1.5%",
+        description: desc!("C3: Lunar Reaction DMG +1.5%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.015,
         scales_with_talent: false,
@@ -429,7 +429,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C4 Lunar Reaction DMG",
-        description: "C4: Lunar Reaction DMG +1.5%",
+        description: desc!("C4: Lunar Reaction DMG +1.5%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.015,
         scales_with_talent: false,
@@ -443,7 +443,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C5 Lunar Reaction DMG",
-        description: "C5: Lunar Reaction DMG +1.5%",
+        description: desc!("C5: Lunar Reaction DMG +1.5%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.015,
         scales_with_talent: false,
@@ -457,7 +457,9 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C6 Elemental CritDMG",
-        description: "After Lunar reaction in domain, corresponding element CritDMG +80% for 8s",
+        description: desc!(
+            "After Lunar reaction in domain, corresponding element CritDMG +80% for 8s"
+        ),
         stat: BuffableStat::CritDmg,
         base_value: 0.80,
         scales_with_talent: false,
@@ -471,7 +473,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Columbina C6 Lunar Reaction DMG",
-        description: "C6: Lunar Reaction DMG +7%",
+        description: desc!("C6: Lunar Reaction DMG +7%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.07,
         scales_with_talent: false,
@@ -495,7 +497,7 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
 static AYATO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Namisen Max Stacks NA DMG Bonus",
-        description: "A1: Namisen at max stacks grants NA DMG Bonus +56% (approximated max)",
+        description: desc!("A1: Namisen at max stacks grants NA DMG Bonus +56% (approximated max)"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.56,
         scales_with_talent: false,
@@ -509,7 +511,7 @@ static AYATO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Kyouka Fuushi Shunsuiken DMG",
-        description: "C1: Shunsuiken DMG +40% (approximated as Normal ATK DMG Bonus)",
+        description: desc!("C1: Shunsuiken DMG +40% (approximated as Normal ATK DMG Bonus)"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -523,7 +525,7 @@ static AYATO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "World Source Max HP",
-        description: "C2: Max HP +50%",
+        description: desc!("C2: Max HP +50%"),
         stat: BuffableStat::HpPercent,
         base_value: 0.50,
         scales_with_talent: false,
@@ -545,7 +547,7 @@ static AYATO_BUFFS: &[TalentBuffDef] = &[
 //   TODO: C6 ATK SPD buff not implementable (no AtkSpd BuffableStat)
 static DAHLIA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Petal Rain Shield Strength",
-    description: "C2: Shield Strength +25%",
+    description: desc!("C2: Shield Strength +25%"),
     stat: BuffableStat::ShieldStrength,
     base_value: 0.25,
     scales_with_talent: false,
@@ -567,7 +569,7 @@ static DAHLIA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // C6 "Tamanooya's Casket": Hydro DMG +40% during Burst when NA/CA hit
 static KOKOMI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Tamanooya's Casket Hydro DMG",
-    description: "C6: Hydro DMG Bonus +40% during Burst when Normal/Charged Attacks hit",
+    description: desc!("C6: Hydro DMG Bonus +40% during Burst when Normal/Charged Attacks hit"),
     stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
     base_value: 0.40,
     scales_with_talent: false,
@@ -586,7 +588,7 @@ static KOKOMI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // C4 "Sharky's Pal": Burst DMG +75%
 static MUALANI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Sharky's Pal Burst DMG",
-    description: "C4: Elemental Burst DMG +75%",
+    description: desc!("C4: Elemental Burst DMG +75%"),
     stat: BuffableStat::BurstDmgBonus,
     base_value: 0.75,
     scales_with_talent: false,
@@ -606,7 +608,7 @@ static MUALANI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Tidal Affinity CA DMG Bonus",
-        description: "A1: CA DMG Bonus at 3 Sourcewater Droplets (max value +60%)",
+        description: desc!("A1: CA DMG Bonus at 3 Sourcewater Droplets (max value +60%)"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.60,
         scales_with_talent: false,
@@ -620,7 +622,7 @@ static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Heir to the Ancient Sea's Authority Hydro DMG",
-        description: "A4: Hydro DMG Bonus +30% when HP conditions are met",
+        description: desc!("A4: Hydro DMG Bonus +30% when HP conditions are met"),
         stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
         base_value: 0.30,
         scales_with_talent: false,
@@ -634,7 +636,7 @@ static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "The Law's Final Remains CRIT DMG",
-        description: "C2: CRIT DMG +14% per stack, max 3 stacks (+42%)",
+        description: desc!("C2: CRIT DMG +14% per stack, max 3 stacks (+42%)"),
         stat: BuffableStat::CritDmg,
         base_value: 0.14,
         scales_with_talent: false,
@@ -657,7 +659,7 @@ static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
 static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "A Friendly Rivalry Hydro DMG",
-        description: "A1: After Skill, team Hydro DMG Bonus +8%",
+        description: desc!("A1: After Skill, team Hydro DMG Bonus +8%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
         base_value: 0.08,
         scales_with_talent: false,
@@ -671,7 +673,7 @@ static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Targeted Treatment Hydro RES Shred",
-        description: "C2: Enemy Hydro RES -35%",
+        description: desc!("C2: Enemy Hydro RES -35%"),
         stat: BuffableStat::ElementalResReduction(Element::Hydro),
         base_value: 0.35,
         scales_with_talent: false,
@@ -685,7 +687,7 @@ static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Whirlpool Wisdom CRIT Rate",
-        description: "C6: CRIT Rate +20% (max value from HP scaling)",
+        description: desc!("C6: CRIT Rate +20% (max value from HP scaling)"),
         stat: BuffableStat::CritRate,
         base_value: 0.20,
         scales_with_talent: false,
@@ -699,7 +701,7 @@ static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Whirlpool Wisdom CRIT DMG",
-        description: "C6: CRIT DMG +110% (max value from HP scaling)",
+        description: desc!("C6: CRIT DMG +110% (max value from HP scaling)"),
         stat: BuffableStat::CritDmg,
         base_value: 1.10,
         scales_with_talent: false,
@@ -719,7 +721,7 @@ static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
 static XINGQIU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Rainbow Upon the Azure Sky Hydro RES Shred",
-        description: "C2: Enemies hit by Rain Swords have Hydro RES -15% for 4s",
+        description: desc!("C2: Enemies hit by Rain Swords have Hydro RES -15% for 4s"),
         stat: BuffableStat::ElementalResReduction(Element::Hydro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -733,7 +735,7 @@ static XINGQIU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "xingqiu_c4_skill_dmg",
-        description: "C4: Skill DMG +50% during Burst",
+        description: desc!("C4: Skill DMG +50% during Burst"),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.50,
         scales_with_talent: false,

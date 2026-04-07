@@ -29,4 +29,5 @@ target
 
 # Honey Hunter mirror (local cache, not tracked)
 honeyhunter-mirror/
-scripts/
+scripts/honeyhunter-mirror.sh
+scripts/honeyhunter-to-md.py

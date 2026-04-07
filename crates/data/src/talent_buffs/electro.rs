@@ -6,7 +6,7 @@ use super::*;
 static INEFFA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Ineffa A4 EM Share",
-        description: "Grants EM equal to 6% of Ineffa's total ATK",
+        description: desc!("Grants EM equal to 6% of Ineffa's total ATK"),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.06,
         scales_with_talent: false,
@@ -20,7 +20,7 @@ static INEFFA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "ineffa_c1_lunar_charged_dmg",
-        description: "C1: Party Lunar-Charged DMG +2.5% per 100 ATK (max +50%)",
+        description: desc!("C1: Party Lunar-Charged DMG +2.5% per 100 ATK (max +50%)"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.025,
         scales_with_talent: false,
@@ -44,7 +44,7 @@ static SARA_ATK_SCALING: [f64; 15] = [
 static SARA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Tengu Juurai ATK Bonus",
-        description: "ATK bonus based on Sara's Base ATK",
+        description: desc!("ATK bonus based on Sara's Base ATK"),
         stat: BuffableStat::AtkFlat,
         base_value: 0.0,
         scales_with_talent: true,
@@ -58,7 +58,9 @@ static SARA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sin of Pride",
-        description: "Electro CRIT DMG +60% (approximated as generic CritDmg; Electro-only in game)",
+        description: desc!(
+            "Electro CRIT DMG +60% (approximated as generic CritDmg; Electro-only in game)"
+        ),
         stat: BuffableStat::CritDmg,
         base_value: 0.60,
         scales_with_talent: false,
@@ -76,7 +78,7 @@ static SARA_BUFFS: &[TalentBuffDef] = &[
 // A4 "Static Electricity Field": Enemies hit by burst have DEF -15% for 10s
 static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Static Electricity Field",
-    description: "Enemies hit by Lightning Rose have DEF -15% for 10s",
+    description: desc!("Enemies hit by Lightning Rose have DEF -15% for 10s"),
     stat: BuffableStat::DefReduction,
     base_value: 0.15,
     scales_with_talent: false,
@@ -97,7 +99,7 @@ static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static FLINS_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Whispering Flame EM Bonus",
-        description: "A4: Flins gains EM equal to 8% of her total ATK (max 160)",
+        description: desc!("A4: Flins gains EM equal to 8% of her total ATK (max 160)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.08,
         scales_with_talent: false,
@@ -111,7 +113,7 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Night on Bald Mountain ATK Bonus",
-        description: "C4: Flins gains ATK +20%",
+        description: desc!("C4: Flins gains ATK +20%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -126,7 +128,9 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
     // C4 also enhances A4: 8%→10% (+2% delta), cap 160→220 (+60 delta)
     TalentBuffDef {
         name: "Night on Bald Mountain A4 EM Enhancement",
-        description: "C4: A4 EM coefficient enhanced from 8% to 10% (delta +2%, cap raised to 220)",
+        description: desc!(
+            "C4: A4 EM coefficient enhanced from 8% to 10% (delta +2%, cap raised to 220)"
+        ),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.02,
         scales_with_talent: false,
@@ -140,7 +144,7 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "flins_c2_electro_res_shred",
-        description: "C2: Opponents' Electro RES -25% during Ascendant Gleam Moonsign",
+        description: desc!("C2: Opponents' Electro RES -25% during Ascendant Gleam Moonsign"),
         stat: BuffableStat::ElementalResReduction(Element::Electro),
         base_value: 0.25,
         scales_with_talent: false,
@@ -154,7 +158,7 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "flins_c6_lunar_charged_self",
-        description: "C6: Flins's Lunar-Charged DMG +35%",
+        description: desc!("C6: Flins's Lunar-Charged DMG +35%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.35,
         scales_with_talent: false,
@@ -168,7 +172,7 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "flins_c6_lunar_charged_team",
-        description: "C6: Party Lunar-Charged DMG +10% during Moonsign",
+        description: desc!("C6: Party Lunar-Charged DMG +10% during Moonsign"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.10,
         scales_with_talent: false,
@@ -194,7 +198,9 @@ static RAIDEN_SKILL_BURST_BONUS_SCALING: [f64; 15] = [
 static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Eye of Stormy Judgment BurstDmgBonus",
-        description: "Skill: BurstDmgBonus coefficient per energy cost point (multiply by target burst cost)",
+        description: desc!(
+            "Skill: BurstDmgBonus coefficient per energy cost point (multiply by target burst cost)"
+        ),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.0,
         scales_with_talent: true,
@@ -209,7 +215,7 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
     // C2 "Steelbreaker": During Musou Isshin, ignore 60% of enemy DEF
     TalentBuffDef {
         name: "Steelbreaker DEF Ignore",
-        description: "C2: During Musou Isshin state, ignore 60% of enemy DEF",
+        description: desc!("C2: During Musou Isshin state, ignore 60% of enemy DEF"),
         stat: BuffableStat::DefIgnore,
         base_value: 0.60,
         scales_with_talent: false,
@@ -223,7 +229,9 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Pledge of Propriety ATK Bonus",
-        description: "C4: After Musou Isshin ends, nearby party members gain ATK+30% for 10s",
+        description: desc!(
+            "C4: After Musou Isshin ends, nearby party members gain ATK+30% for 10s"
+        ),
         stat: BuffableStat::AtkPercent,
         base_value: 0.30,
         scales_with_talent: false,
@@ -243,7 +251,7 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
 static BEIDOU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Bane of Evil Electro RES Shred",
-        description: "C6: During Stormbreaker, enemies have Electro RES -15%",
+        description: desc!("C6: During Stormbreaker, enemies have Electro RES -15%"),
         stat: BuffableStat::ElementalResReduction(Element::Electro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -257,7 +265,7 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "beidou_c4_electro_dmg",
-        description: "C4: Normal ATK Electro DMG Bonus +20% on hit",
+        description: desc!("C4: Normal ATK Electro DMG Bonus +20% on hit"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -286,7 +294,9 @@ static IANSAN_BURST_ATK_SCALING: [f64; 15] = [
 static IANSAN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Three Principles AtkFlat",
-        description: "Burst: Party gains flat ATK = Iansan ATK × coefficient (scales with burst level)",
+        description: desc!(
+            "Burst: Party gains flat ATK = Iansan ATK × coefficient (scales with burst level)"
+        ),
         stat: BuffableStat::AtkFlat,
         base_value: 0.0,
         scales_with_talent: true,
@@ -300,7 +310,7 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Enhanced Resistance Training ATK Bonus",
-        description: "A1: Iansan gains ATK +20% for 15s",
+        description: desc!("A1: Iansan gains ATK +20% for 15s"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
         scales_with_talent: false,
@@ -314,7 +324,7 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "iansan_c2_atk",
-        description: "C2: Off-field grants active character ATK +30%",
+        description: desc!("C2: Off-field grants active character ATK +30%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.30,
         scales_with_talent: false,
@@ -328,7 +338,7 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "iansan_c6_dmg_bonus",
-        description: "C6: Active character DMG Bonus +25% on Nightsoul overflow",
+        description: desc!("C6: Active character DMG Bonus +25% on Nightsoul overflow"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.25,
         scales_with_talent: false,
@@ -349,7 +359,9 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
 static CLORINDE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Clorinde A1 Electro Flat DMG",
-        description: "A1: Normal Attack deals additional Electro DMG equal to 20% of ATK (per stack, max 1800)",
+        description: desc!(
+            "A1: Normal Attack deals additional Electro DMG equal to 20% of ATK (per stack, max 1800)"
+        ),
         stat: BuffableStat::NormalAtkFlatDmg,
         base_value: 0.20,
         scales_with_talent: false,
@@ -363,7 +375,7 @@ static CLORINDE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Clorinde A4 CRIT Rate Bonus",
-        description: "A4: CRIT Rate +10% while in Ominous Inscription state",
+        description: desc!("A4: CRIT Rate +10% while in Ominous Inscription state"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -377,7 +389,7 @@ static CLORINDE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Clorinde C6 CRIT Rate",
-        description: "C6: CRIT Rate +10%",
+        description: desc!("C6: CRIT Rate +10%"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -391,7 +403,7 @@ static CLORINDE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Clorinde C6 CRIT DMG",
-        description: "C6: CRIT DMG +70%",
+        description: desc!("C6: CRIT DMG +70%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.70,
         scales_with_talent: false,
@@ -411,7 +423,9 @@ static CLORINDE_BUFFS: &[TalentBuffDef] = &[
 static CYNO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Cyno A4 Normal Atk Flat DMG",
-        description: "A4: During Pactsworn Pathclearer, Normal Attacks deal additional DMG equal to 150% of EM",
+        description: desc!(
+            "A4: During Pactsworn Pathclearer, Normal Attacks deal additional DMG equal to 150% of EM"
+        ),
         stat: BuffableStat::NormalAtkFlatDmg,
         base_value: 1.50,
         scales_with_talent: false,
@@ -425,7 +439,9 @@ static CYNO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Cyno A4 Skill Flat DMG",
-        description: "A4: During Pactsworn Pathclearer, Skill deals additional DMG equal to 250% of EM",
+        description: desc!(
+            "A4: During Pactsworn Pathclearer, Skill deals additional DMG equal to 250% of EM"
+        ),
         stat: BuffableStat::SkillFlatDmg,
         base_value: 2.50,
         scales_with_talent: false,
@@ -439,7 +455,7 @@ static CYNO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Cyno C2 Electro DMG Bonus",
-        description: "C2: Electro DMG Bonus +10% per stack, max 5 stacks (50% total)",
+        description: desc!("C2: Electro DMG Bonus +10% per stack, max 5 stacks (50% total)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.10,
         scales_with_talent: false,
@@ -460,7 +476,7 @@ static CYNO_BUFFS: &[TalentBuffDef] = &[
 static KEQING_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Keqing A4 CRIT Rate",
-        description: "A4: After using Starward Sword, CRIT Rate +15% for 8s",
+        description: desc!("A4: After using Starward Sword, CRIT Rate +15% for 8s"),
         stat: BuffableStat::CritRate,
         base_value: 0.15,
         scales_with_talent: false,
@@ -474,7 +490,7 @@ static KEQING_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Keqing A4 Energy Recharge",
-        description: "A4: After using Starward Sword, Energy Recharge +15% for 8s",
+        description: desc!("A4: After using Starward Sword, Energy Recharge +15% for 8s"),
         stat: BuffableStat::EnergyRecharge,
         base_value: 0.15,
         scales_with_talent: false,
@@ -488,7 +504,7 @@ static KEQING_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Keqing C4 ATK Bonus",
-        description: "C4: Triggering an Electro-related reaction grants ATK +25% for 10s",
+        description: desc!("C4: Triggering an Electro-related reaction grants ATK +25% for 10s"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.25,
         scales_with_talent: false,
@@ -502,7 +518,9 @@ static KEQING_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Keqing C6 Electro DMG Bonus",
-        description: "C6: Electro DMG Bonus +6% per Electro-related reaction triggered, max 4 stacks (24% total)",
+        description: desc!(
+            "C6: Electro DMG Bonus +6% per Electro-related reaction triggered, max 4 stacks (24% total)"
+        ),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.24,
         scales_with_talent: false,
@@ -523,7 +541,9 @@ static KEQING_BUFFS: &[TalentBuffDef] = &[
 static YAE_MIKO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Yae Miko A4 Skill DMG Bonus",
-        description: "A4: Sesshou Sakura DMG increased by 0.15% for every point of Elemental Mastery",
+        description: desc!(
+            "A4: Sesshou Sakura DMG increased by 0.15% for every point of Elemental Mastery"
+        ),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.0015,
         scales_with_talent: false,
@@ -537,7 +557,7 @@ static YAE_MIKO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Yae Miko C4 Electro DMG Bonus",
-        description: "C4: All nearby party members' Electro DMG Bonus increased by 20%",
+        description: desc!("C4: All nearby party members' Electro DMG Bonus increased by 20%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -551,7 +571,7 @@ static YAE_MIKO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "yae_miko_c6_def_ignore",
-        description: "C6: Sesshou Sakura attacks ignore 60% of opponents' DEF",
+        description: desc!("C6: Sesshou Sakura attacks ignore 60% of opponents' DEF"),
         stat: BuffableStat::DefIgnore,
         base_value: 0.60,
         scales_with_talent: false,
@@ -571,7 +591,7 @@ static YAE_MIKO_BUFFS: &[TalentBuffDef] = &[
 static DORI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dori C4 Healing Bonus",
-        description: "C4: When HP falls below 50%, Healing Bonus +50%",
+        description: desc!("C4: When HP falls below 50%, Healing Bonus +50%"),
         stat: BuffableStat::HealingBonus,
         base_value: 0.50,
         scales_with_talent: false,
@@ -585,7 +605,7 @@ static DORI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Dori C4 Energy Recharge",
-        description: "C4: When Energy falls below 50%, Energy Recharge +30%",
+        description: desc!("C4: When Energy falls below 50%, Energy Recharge +30%"),
         stat: BuffableStat::EnergyRecharge,
         base_value: 0.30,
         scales_with_talent: false,
@@ -606,7 +626,7 @@ static DORI_BUFFS: &[TalentBuffDef] = &[
 static KUKI_SHINOBU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Kuki Shinobu A1 Healing Bonus",
-        description: "A1: When HP is at or below 50%, Healing Bonus +15%",
+        description: desc!("A1: When HP is at or below 50%, Healing Bonus +15%"),
         stat: BuffableStat::HealingBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -620,7 +640,7 @@ static KUKI_SHINOBU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Kuki Shinobu A4 Skill Flat DMG",
-        description: "A4: Sanctifying Ring deals additional DMG equal to 25% of Kuki's EM",
+        description: desc!("A4: Sanctifying Ring deals additional DMG equal to 25% of Kuki's EM"),
         stat: BuffableStat::SkillFlatDmg,
         base_value: 0.25,
         scales_with_talent: false,
@@ -634,7 +654,7 @@ static KUKI_SHINOBU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Kuki Shinobu C6 Elemental Mastery",
-        description: "C6: Elemental Mastery +150 for 15s after using Elemental Skill",
+        description: desc!("C6: Elemental Mastery +150 for 15s after using Elemental Skill"),
         stat: BuffableStat::ElementalMastery,
         base_value: 150.0,
         scales_with_talent: false,
@@ -655,7 +675,9 @@ static KUKI_SHINOBU_BUFFS: &[TalentBuffDef] = &[
 static RAZOR_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Razor C1 DMG Bonus",
-        description: "C1: After picking up an Electro Sigil from Wolf's Instinct, DMG +10% for 8s",
+        description: desc!(
+            "C1: After picking up an Electro Sigil from Wolf's Instinct, DMG +10% for 8s"
+        ),
         stat: BuffableStat::DmgBonus,
         base_value: 0.10,
         scales_with_talent: false,
@@ -669,7 +691,7 @@ static RAZOR_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Razor C2 CRIT Rate vs Low HP",
-        description: "C2: CRIT Rate +10% against enemies with HP below 30%",
+        description: desc!("C2: CRIT Rate +10% against enemies with HP below 30%"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -692,7 +714,7 @@ static RAZOR_BUFFS: &[TalentBuffDef] = &[
 static SETHOS_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Sethos A4 Charged Atk Flat DMG",
-        description: "A4: Charged Attack deals additional DMG equal to 700% of EM",
+        description: desc!("A4: Charged Attack deals additional DMG equal to 700% of EM"),
         stat: BuffableStat::ChargedAtkFlatDmg,
         base_value: 7.00,
         scales_with_talent: false,
@@ -706,7 +728,7 @@ static SETHOS_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sethos C1 CRIT Rate",
-        description: "C1: CRIT Rate +15% for Charged Attacks",
+        description: desc!("C1: CRIT Rate +15% for Charged Attacks"),
         stat: BuffableStat::CritRate,
         base_value: 0.15,
         scales_with_talent: false,
@@ -720,7 +742,7 @@ static SETHOS_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sethos C2 Electro DMG Bonus",
-        description: "C2: Electro DMG Bonus +15% per stack, max 2 stacks (30% total)",
+        description: desc!("C2: Electro DMG Bonus +15% per stack, max 2 stacks (30% total)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -734,7 +756,7 @@ static SETHOS_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sethos C4 Team Elemental Mastery",
-        description: "C4: All nearby party members gain EM +80",
+        description: desc!("C4: All nearby party members gain EM +80"),
         stat: BuffableStat::ElementalMastery,
         base_value: 80.0,
         scales_with_talent: false,
@@ -755,7 +777,9 @@ static SETHOS_BUFFS: &[TalentBuffDef] = &[
 static VARESA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Varesa A1 Plunging Atk Flat DMG",
-        description: "A1: Plunging Attack deals additional DMG equal to 180% of ATK (max value)",
+        description: desc!(
+            "A1: Plunging Attack deals additional DMG equal to 180% of ATK (max value)"
+        ),
         stat: BuffableStat::PlungingAtkFlatDmg,
         base_value: 1.80,
         scales_with_talent: false,
@@ -769,7 +793,7 @@ static VARESA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Varesa A4 ATK Bonus",
-        description: "A4: ATK +35% per stack, max 2 stacks (70% total)",
+        description: desc!("A4: ATK +35% per stack, max 2 stacks (70% total)"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.35,
         scales_with_talent: false,
@@ -783,7 +807,7 @@ static VARESA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Varesa C6 CRIT Rate",
-        description: "C6: CRIT Rate +10%",
+        description: desc!("C6: CRIT Rate +10%"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -797,7 +821,7 @@ static VARESA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Varesa C6 CRIT DMG",
-        description: "C6: CRIT DMG +100%",
+        description: desc!("C6: CRIT DMG +100%"),
         stat: BuffableStat::CritDmg,
         base_value: 1.00,
         scales_with_talent: false,
@@ -817,7 +841,7 @@ static VARESA_BUFFS: &[TalentBuffDef] = &[
 static ORORON_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Ororon C2 Electro DMG Bonus",
-        description: "C2: Electro DMG Bonus +40% (max value)",
+        description: desc!("C2: Electro DMG Bonus +40% (max value)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.40,
         scales_with_talent: false,
@@ -831,7 +855,9 @@ static ORORON_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Ororon C6 Team ATK Bonus",
-        description: "C6: Active character gains ATK +10% per stack, max 3 stacks (30% total)",
+        description: desc!(
+            "C6: Active character gains ATK +10% per stack, max 3 stacks (30% total)"
+        ),
         stat: BuffableStat::AtkPercent,
         base_value: 0.10,
         scales_with_talent: false,

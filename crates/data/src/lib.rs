@@ -8,6 +8,12 @@
 //! - 52 artifact sets
 //! - 15 enemies with resistance templates
 //!
+//! ## Features
+//!
+//! - `descriptions` (default): Include human-readable description strings for
+//!   weapon passives, artifact set effects, and talent buffs. Disable to reduce
+//!   binary size (saves ~100-150 KB in WASM builds).
+//!
 //! ## Example
 //!
 //! ```
@@ -21,6 +27,23 @@
 //! ```
 
 #![deny(missing_docs)]
+
+/// Returns the description string when the `descriptions` feature is enabled,
+/// or an empty string when disabled (to reduce binary size).
+#[cfg(feature = "descriptions")]
+macro_rules! desc {
+    ($s:expr) => {
+        $s
+    };
+}
+
+/// Returns an empty string when the `descriptions` feature is disabled.
+#[cfg(not(feature = "descriptions"))]
+macro_rules! desc {
+    ($s:expr) => {
+        ""
+    };
+}
 
 #[allow(missing_docs)]
 pub mod artifact_stats;

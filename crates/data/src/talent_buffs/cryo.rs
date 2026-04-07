@@ -4,7 +4,7 @@ use super::*;
 // C6 "Cat's Tail Closing Time": EM+200 in burst field
 static DIONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Cat's Tail Closing Time",
-    description: "Characters within burst field gain EM+200",
+    description: desc!("Characters within burst field gain EM+200"),
     stat: BuffableStat::ElementalMastery,
     base_value: 200.0,
     scales_with_talent: false,
@@ -24,7 +24,7 @@ static DIONA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static GANYU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Harmony between Heaven and Earth",
-        description: "Cryo DMG Bonus +20% for party members in burst field",
+        description: desc!("Cryo DMG Bonus +20% for party members in burst field"),
         stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
         base_value: 0.20,
         scales_with_talent: false,
@@ -38,7 +38,7 @@ static GANYU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Westward Sojourn DmgBonus",
-        description: "C4: In burst field, DMG+5% every 3s (max +25%, adopting max value)",
+        description: desc!("C4: In burst field, DMG+5% every 3s (max +25%, adopting max value)"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.25,
         scales_with_talent: false,
@@ -52,7 +52,7 @@ static GANYU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "ganyu_c1_cryo_res_shred",
-        description: "C1: Frostflake Arrow hit reduces Cryo RES -15%",
+        description: desc!("C1: Frostflake Arrow hit reduces Cryo RES -15%"),
         stat: BuffableStat::ElementalResReduction(Element::Cryo),
         base_value: 0.15,
         scales_with_talent: false,
@@ -71,7 +71,7 @@ static GANYU_BUFFS: &[TalentBuffDef] = &[
 static QIQI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "qiqi_c2_normal_dmg",
-        description: "C2: Normal ATK DMG +15% vs Cryo-affected opponents",
+        description: desc!("C2: Normal ATK DMG +15% vs Cryo-affected opponents"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -85,7 +85,7 @@ static QIQI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "qiqi_c2_charged_dmg",
-        description: "C2: Charged ATK DMG +15% vs Cryo-affected opponents",
+        description: desc!("C2: Charged ATK DMG +15% vs Cryo-affected opponents"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -106,7 +106,7 @@ static QIQI_BUFFS: &[TalentBuffDef] = &[
 static ROSARIA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Shadow Samaritan CRIT Rate Share",
-        description: "After burst, grants 15% of Rosaria's CRIT Rate to party (max 15%)",
+        description: desc!("After burst, grants 15% of Rosaria's CRIT Rate to party (max 15%)"),
         stat: BuffableStat::CritRate,
         base_value: 0.15,
         scales_with_talent: false,
@@ -120,7 +120,7 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Rites of Termination Physical RES Shred",
-        description: "C6: Enemies hit by burst have Physical RES -20% for 10s",
+        description: desc!("C6: Enemies hit by burst have Physical RES -20% for 10s"),
         stat: BuffableStat::PhysicalResReduction,
         base_value: 0.20,
         scales_with_talent: false,
@@ -134,7 +134,7 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "rosaria_c1_normal_dmg",
-        description: "C1: Normal ATK DMG +10% on CRIT hit",
+        description: desc!("C1: Normal ATK DMG +10% on CRIT hit"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.10,
         scales_with_talent: false,
@@ -158,7 +158,7 @@ static SHENHE_SKILL_SCALING: [f64; 15] = [
 static SHENHE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Spring Spirit Summoning Normal ATK Flat DMG",
-        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Normal Attacks",
+        description: desc!("Adds flat Cryo DMG based on Shenhe's ATK to party's Normal Attacks"),
         stat: BuffableStat::NormalAtkFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
@@ -172,7 +172,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Charged ATK Flat DMG",
-        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Charged Attacks",
+        description: desc!("Adds flat Cryo DMG based on Shenhe's ATK to party's Charged Attacks"),
         stat: BuffableStat::ChargedAtkFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
@@ -186,7 +186,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Plunging ATK Flat DMG",
-        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Plunging Attacks",
+        description: desc!("Adds flat Cryo DMG based on Shenhe's ATK to party's Plunging Attacks"),
         stat: BuffableStat::PlungingAtkFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
@@ -200,7 +200,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Skill Flat DMG",
-        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Elemental Skills",
+        description: desc!("Adds flat Cryo DMG based on Shenhe's ATK to party's Elemental Skills"),
         stat: BuffableStat::SkillFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
@@ -214,7 +214,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Spring Spirit Summoning Burst Flat DMG",
-        description: "Adds flat Cryo DMG based on Shenhe's ATK to party's Elemental Bursts",
+        description: desc!("Adds flat Cryo DMG based on Shenhe's ATK to party's Elemental Bursts"),
         stat: BuffableStat::BurstFlatDmg,
         base_value: 0.0,
         scales_with_talent: true,
@@ -229,7 +229,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     // A4 "Deific Embrace" Press E: Skill/Burst DMG +15%
     TalentBuffDef {
         name: "Deific Embrace Press - Skill DMG",
-        description: "After press E, party Skill DMG +15% for 10s",
+        description: desc!("After press E, party Skill DMG +15% for 10s"),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -243,7 +243,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Deific Embrace Press - Burst DMG",
-        description: "After press E, party Burst DMG +15% for 10s",
+        description: desc!("After press E, party Burst DMG +15% for 10s"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -258,7 +258,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     // A4 "Deific Embrace" Hold E: Normal/Charged/Plunging ATK DMG +15%
     TalentBuffDef {
         name: "Deific Embrace Hold - Normal ATK DMG",
-        description: "After hold E, party Normal ATK DMG +15% for 15s",
+        description: desc!("After hold E, party Normal ATK DMG +15% for 15s"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -272,7 +272,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Deific Embrace Hold - Charged ATK DMG",
-        description: "After hold E, party Charged ATK DMG +15% for 15s",
+        description: desc!("After hold E, party Charged ATK DMG +15% for 15s"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -286,7 +286,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Deific Embrace Hold - Plunging ATK DMG",
-        description: "After hold E, party Plunging ATK DMG +15% for 15s",
+        description: desc!("After hold E, party Plunging ATK DMG +15% for 15s"),
         stat: BuffableStat::PlungingAtkDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -301,7 +301,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     // C2 "Centered Spirit": Cryo CRIT DMG +15% in Burst field
     TalentBuffDef {
         name: "shenhe_c2_cryo_crit_dmg",
-        description: "C2: Cryo CRIT DMG +15% in Burst field",
+        description: desc!("C2: Cryo CRIT DMG +15% in Burst field"),
         stat: BuffableStat::CritDmg,
         base_value: 0.15,
         scales_with_talent: false,
@@ -323,7 +323,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
 static CITLALI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Itzpapa Pyro RES Shred",
-        description: "Skill: Enemy Pyro RES -20% while Itzpapa is active",
+        description: desc!("Skill: Enemy Pyro RES -20% while Itzpapa is active"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -337,7 +337,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Itzpapa Hydro RES Shred",
-        description: "Skill: Enemy Hydro RES -20% while Itzpapa is active",
+        description: desc!("Skill: Enemy Hydro RES -20% while Itzpapa is active"),
         stat: BuffableStat::ElementalResReduction(Element::Hydro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -351,7 +351,9 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Heart Devourer's Travail EM Bonus",
-        description: "C2: While Opal Shield is active or Itzpapa is following, nearby party members (excl. Citlali) gain EM+250",
+        description: desc!(
+            "C2: While Opal Shield is active or Itzpapa is following, nearby party members (excl. Citlali) gain EM+250"
+        ),
         stat: BuffableStat::ElementalMastery,
         base_value: 250.0,
         scales_with_talent: false,
@@ -365,7 +367,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Cold Moon Pyro RES Shred",
-        description: "C2: Additional Pyro RES -20% (cumulative with Skill: total -40%)",
+        description: desc!("C2: Additional Pyro RES -20% (cumulative with Skill: total -40%)"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -379,7 +381,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Cold Moon Hydro RES Shred",
-        description: "C2: Additional Hydro RES -20% (cumulative with Skill: total -40%)",
+        description: desc!("C2: Additional Hydro RES -20% (cumulative with Skill: total -40%)"),
         stat: BuffableStat::ElementalResReduction(Element::Hydro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -393,7 +395,9 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Secret Pact Pyro DMG Bonus",
-        description: "C6: Mystic Counts grant Pyro DMG +1.5% per count (max 40 counts = +60%)",
+        description: desc!(
+            "C6: Mystic Counts grant Pyro DMG +1.5% per count (max 40 counts = +60%)"
+        ),
         stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
         base_value: 0.015,
         scales_with_talent: false,
@@ -407,7 +411,9 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Secret Pact Hydro DMG Bonus",
-        description: "C6: Mystic Counts grant Hydro DMG +1.5% per count (max 40 counts = +60%)",
+        description: desc!(
+            "C6: Mystic Counts grant Hydro DMG +1.5% per count (max 40 counts = +60%)"
+        ),
         stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
         base_value: 0.015,
         scales_with_talent: false,
@@ -428,7 +434,7 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
 static EULA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Icetide Vortex Cryo RES Shred",
-        description: "Hold Skill: Enemy Cryo RES -25% per Grimheart stack (max 2)",
+        description: desc!("Hold Skill: Enemy Cryo RES -25% per Grimheart stack (max 2)"),
         stat: BuffableStat::ElementalResReduction(Element::Cryo),
         base_value: 0.25,
         scales_with_talent: false,
@@ -442,7 +448,7 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Icetide Vortex Physical RES Shred",
-        description: "Hold Skill: Enemy Physical RES -25% per Grimheart stack (max 2)",
+        description: desc!("Hold Skill: Enemy Physical RES -25% per Grimheart stack (max 2)"),
         stat: BuffableStat::PhysicalResReduction,
         base_value: 0.25,
         scales_with_talent: false,
@@ -456,7 +462,7 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "eula_c1_physical_dmg",
-        description: "C1: Physical DMG Bonus +30% on Grimheart consume",
+        description: desc!("C1: Physical DMG Bonus +30% on Grimheart consume"),
         stat: BuffableStat::PhysicalDmgBonus,
         base_value: 0.30,
         scales_with_talent: false,
@@ -470,7 +476,7 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "eula_c4_burst_dmg",
-        description: "C4: Burst DMG +25% vs opponents below 50% HP",
+        description: desc!("C4: Burst DMG +25% vs opponents below 50% HP"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.25,
         scales_with_talent: false,
@@ -490,7 +496,7 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
 static MIKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Blood-Red Bristles Physical DMG Bonus",
-        description: "C6: During Skyfeather Song recovery, Physical DMG +10% (HP>50%)",
+        description: desc!("C6: During Skyfeather Song recovery, Physical DMG +10% (HP>50%)"),
         stat: BuffableStat::PhysicalDmgBonus,
         base_value: 0.10,
         scales_with_talent: false,
@@ -504,7 +510,7 @@ static MIKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "mika_c6_physical_crit_dmg",
-        description: "C6: Physical CRIT DMG +60%",
+        description: desc!("C6: Physical CRIT DMG +60%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.60,
         scales_with_talent: false,
@@ -524,7 +530,7 @@ static MIKA_BUFFS: &[TalentBuffDef] = &[
 static ALOY_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Easy Does It ATK Self",
-        description: "A1: After receiving Coil stacks, Aloy's ATK +16%",
+        description: desc!("A1: After receiving Coil stacks, Aloy's ATK +16%"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.16,
         scales_with_talent: false,
@@ -538,7 +544,9 @@ static ALOY_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Easy Does It ATK Team",
-        description: "A1: After receiving Coil stacks, nearby party members (excl. Aloy) gain ATK+8%",
+        description: desc!(
+            "A1: After receiving Coil stacks, nearby party members (excl. Aloy) gain ATK+8%"
+        ),
         stat: BuffableStat::AtkPercent,
         base_value: 0.08,
         scales_with_talent: false,
@@ -552,7 +560,9 @@ static ALOY_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Strong Strike Cryo DMG",
-        description: "A4: In Rushing Ice state, Cryo DMG+3.5%/s (max +35%, adopting max value)",
+        description: desc!(
+            "A4: In Rushing Ice state, Cryo DMG+3.5%/s (max +35%, adopting max value)"
+        ),
         stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
         base_value: 0.35,
         scales_with_talent: false,
@@ -574,7 +584,7 @@ static ALOY_BUFFS: &[TalentBuffDef] = &[
 static AYAKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Amatsumi Kunitsumi Sanctification Normal ATK",
-        description: "A1: After using Skill, Normal ATK DMG+30% for 6s",
+        description: desc!("A1: After using Skill, Normal ATK DMG+30% for 6s"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.30,
         scales_with_talent: false,
@@ -588,7 +598,7 @@ static AYAKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Amatsumi Kunitsumi Sanctification Charged ATK",
-        description: "A1: After using Skill, Charged ATK DMG+30% for 6s",
+        description: desc!("A1: After using Skill, Charged ATK DMG+30% for 6s"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.30,
         scales_with_talent: false,
@@ -602,7 +612,7 @@ static AYAKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Kanten Senmyou Blessing Cryo DMG",
-        description: "A4: After using Burst, Cryo DMG+18% for 10s",
+        description: desc!("A4: After using Burst, Cryo DMG+18% for 10s"),
         stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
         base_value: 0.18,
         scales_with_talent: false,
@@ -616,7 +626,7 @@ static AYAKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Ebb and Flow DEF Shred",
-        description: "C4: Enemies hit by burst have DEF-30% for 6s",
+        description: desc!("C4: Enemies hit by burst have DEF-30% for 6s"),
         stat: BuffableStat::DefReduction,
         base_value: 0.30,
         scales_with_talent: false,
@@ -630,7 +640,7 @@ static AYAKA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Flowers of the Freesia State CA DMG",
-        description: "C6: During Burst, Charged ATK DMG+298%",
+        description: desc!("C6: During Burst, Charged ATK DMG+298%"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 2.98,
         scales_with_talent: false,
@@ -650,7 +660,7 @@ static AYAKA_BUFFS: &[TalentBuffDef] = &[
 static CHARLOTTE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Cherished Discourse ATK",
-        description: "C2: Each time Skill hits, ATK+10% per stack (max 3 stacks)",
+        description: desc!("C2: Each time Skill hits, ATK+10% per stack (max 3 stacks)"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.10,
         scales_with_talent: false,
@@ -664,7 +674,7 @@ static CHARLOTTE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Biting Cold Burst DMG",
-        description: "C4: Burst DMG+10%",
+        description: desc!("C4: Burst DMG+10%"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.10,
         scales_with_talent: false,
@@ -684,7 +694,7 @@ static CHARLOTTE_BUFFS: &[TalentBuffDef] = &[
 static CHONGYUN_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Rimechaser Blade Cryo RES Shred",
-        description: "A4: After Skill field ends, enemy Cryo RES -10% for 8s",
+        description: desc!("A4: After Skill field ends, enemy Cryo RES -10% for 8s"),
         stat: BuffableStat::ElementalResReduction(Element::Cryo),
         base_value: 0.10,
         scales_with_talent: false,
@@ -698,7 +708,7 @@ static CHONGYUN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Rally of Four Blades DMG Bonus",
-        description: "C6: DMG+15% (self)",
+        description: desc!("C6: DMG+15% (self)"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -718,7 +728,7 @@ static CHONGYUN_BUFFS: &[TalentBuffDef] = &[
 static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Amuse-bouche de Saveur Cryo CD",
-        description: "C1: Party Cryo CRIT DMG+60%",
+        description: desc!("C1: Party Cryo CRIT DMG+60%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.60,
         scales_with_talent: false,
@@ -732,7 +742,7 @@ static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "escoffier_c1_cryo_crit_dmg",
-        description: "C1: Cryo CRIT DMG +60% (requires 4 Hydro/Cryo party members)",
+        description: desc!("C1: Cryo CRIT DMG +60% (requires 4 Hydro/Cryo party members)"),
         stat: BuffableStat::CritDmg,
         base_value: 0.60,
         scales_with_talent: false,
@@ -746,7 +756,7 @@ static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "escoffier_c2_skill_flat_dmg",
-        description: "C2: Skill DMG bonus based on 240% of Total ATK",
+        description: desc!("C2: Skill DMG bonus based on 240% of Total ATK"),
         stat: BuffableStat::SkillFlatDmg,
         base_value: 2.40,
         scales_with_talent: false,
@@ -768,7 +778,7 @@ static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[
 static FREMINET_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Deepwater Swim Shatter DMG",
-        description: "A4: Shatter DMG+40%",
+        description: desc!("A4: Shatter DMG+40%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -782,7 +792,7 @@ static FREMINET_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Dreams of the Foamy Deep CR",
-        description: "C1: CR+15%",
+        description: desc!("C1: CR+15%"),
         stat: BuffableStat::CritRate,
         base_value: 0.15,
         scales_with_talent: false,
@@ -796,7 +806,7 @@ static FREMINET_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Secret Plan to Freeze ATK",
-        description: "C4: ATK+9% per stack when Pers Timer hits (max 2 stacks)",
+        description: desc!("C4: ATK+9% per stack when Pers Timer hits (max 2 stacks)"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.09,
         scales_with_talent: false,
@@ -810,7 +820,7 @@ static FREMINET_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Moment of Waking CD",
-        description: "C6: CD+12% per Shattering hit (max 3 stacks)",
+        description: desc!("C6: CD+12% per Shattering hit (max 3 stacks)"),
         stat: BuffableStat::CritDmg,
         base_value: 0.12,
         scales_with_talent: false,
@@ -828,7 +838,7 @@ static FREMINET_BUFFS: &[TalentBuffDef] = &[
 // C1 "Excellent Blood": CR+15% vs Cryo-affected enemies (Team)
 static KAEYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Excellent Blood CR",
-    description: "C1: CR+15% vs Cryo-affected enemies (Team)",
+    description: desc!("C1: CR+15% vs Cryo-affected enemies (Team)"),
     stat: BuffableStat::CritRate,
     base_value: 0.15,
     scales_with_talent: false,
@@ -849,7 +859,9 @@ static KAEYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static LAYLA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Like Nascent Light Shield Strength",
-        description: "A1: Shield Str+6%/stack when Night Star is absorbed (max 4 stacks, adopting max +24%)",
+        description: desc!(
+            "A1: Shield Str+6%/stack when Night Star is absorbed (max 4 stacks, adopting max +24%)"
+        ),
         stat: BuffableStat::ShieldStrength,
         base_value: 0.24,
         scales_with_talent: false,
@@ -863,7 +875,7 @@ static LAYLA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sweet Slumber Undisturbed Shooting Star DMG",
-        description: "A4: Shooting Stars deal flat DMG = 1.5% of Layla's HP",
+        description: desc!("A4: Shooting Stars deal flat DMG = 1.5% of Layla's HP"),
         stat: BuffableStat::SkillFlatDmg,
         base_value: 0.015,
         scales_with_talent: false,
@@ -877,7 +889,7 @@ static LAYLA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Starry Illumination Normal ATK Flat DMG",
-        description: "C4: Normal ATK flat DMG = 5% of Layla's HP",
+        description: desc!("C4: Normal ATK flat DMG = 5% of Layla's HP"),
         stat: BuffableStat::NormalAtkFlatDmg,
         base_value: 0.05,
         scales_with_talent: false,
@@ -891,7 +903,7 @@ static LAYLA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Starry Illumination Charged ATK Flat DMG",
-        description: "C4: Charged ATK flat DMG = 5% of Layla's HP",
+        description: desc!("C4: Charged ATK flat DMG = 5% of Layla's HP"),
         stat: BuffableStat::ChargedAtkFlatDmg,
         base_value: 0.05,
         scales_with_talent: false,
@@ -905,7 +917,7 @@ static LAYLA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Boundless Radiance Shooting Star DMG",
-        description: "C6: Shooting Stars DMG+40%",
+        description: desc!("C6: Shooting Stars DMG+40%"),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.40,
         scales_with_talent: false,
@@ -925,7 +937,7 @@ static LAYLA_BUFFS: &[TalentBuffDef] = &[
 static SKIRK_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Liminal Crossing ATK",
-        description: "C2: ATK+70% (self)",
+        description: desc!("C2: ATK+70% (self)"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.70,
         scales_with_talent: false,
@@ -939,7 +951,7 @@ static SKIRK_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Fractured Boundary ATK",
-        description: "C4: ATK+10/20/40% based on stacks (adopting max +40%, self)",
+        description: desc!("C4: ATK+10/20/40% based on stacks (adopting max +40%, self)"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.40,
         scales_with_talent: false,
@@ -959,7 +971,7 @@ static SKIRK_BUFFS: &[TalentBuffDef] = &[
 static WRIOTHESLEY_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "There Shall Be a Plea for Justice ATK",
-        description: "A4: ATK+6% per stack on consecutive CA hits (max 5 stacks = +30%)",
+        description: desc!("A4: ATK+6% per stack on consecutive CA hits (max 5 stacks = +30%)"),
         stat: BuffableStat::AtkPercent,
         base_value: 0.06,
         scales_with_talent: false,
@@ -973,7 +985,7 @@ static WRIOTHESLEY_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Pax Perpetua CR",
-        description: "C6: During Darkgold state, CR+10%",
+        description: desc!("C6: During Darkgold state, CR+10%"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -987,7 +999,7 @@ static WRIOTHESLEY_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Pax Perpetua CD",
-        description: "C6: During Darkgold state, CD+80%",
+        description: desc!("C6: During Darkgold state, CD+80%"),
         stat: BuffableStat::CritDmg,
         base_value: 0.80,
         scales_with_talent: false,

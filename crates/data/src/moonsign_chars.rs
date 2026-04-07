@@ -108,7 +108,7 @@ pub const ALL_MOONSIGN_BENEDICTIONS: &[MoonsignBenedictionDef] = &[
 pub const LAUMA_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Lauma",
     required_level: MoonsignLevel::NascentGleam,
-    description: "Bloom gains crit at Nascent Gleam",
+    description: desc!("Bloom gains crit at Nascent Gleam"),
     effect: MoonsignTalentEffect::GrantReactionCrit {
         reaction: Reaction::LunarBloom,
         crit_rate: 0.15,
@@ -120,7 +120,7 @@ pub const LAUMA_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
 pub const FLINS_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Flins",
     required_level: MoonsignLevel::AscendantGleam,
-    description: "Lunar-Charged DMG +20% at Ascendant Gleam",
+    description: desc!("Lunar-Charged DMG +20% at Ascendant Gleam"),
     effect: MoonsignTalentEffect::ReactionDmgBonus {
         reaction: Reaction::LunarElectroCharged,
         bonus: 0.20,
@@ -131,7 +131,9 @@ pub const FLINS_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
 pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
     character_name: "Nefer",
     required_level: MoonsignLevel::AscendantGleam,
-    description: "At Ascendant Gleam, absorbing Seeds of Deceit grants Veil of Falsehood stacks (max 3). At 3 stacks, EM +100 for 8s",
+    description: desc!(
+        "At Ascendant Gleam, absorbing Seeds of Deceit grants Veil of Falsehood stacks (max 3). At 3 stacks, EM +100 for 8s"
+    ),
     effect: MoonsignTalentEffect::StatBuff {
         stat: BuffableStat::ElementalMastery,
         value: 100.0,
@@ -145,7 +147,7 @@ pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[
     MoonsignTalentEnhancement {
         character_name: "Aino",
         required_level: MoonsignLevel::NascentGleam,
-        description: "C6: At Nascent Gleam+, reaction DMG +15% for 15s after Burst",
+        description: desc!("C6: At Nascent Gleam+, reaction DMG +15% for 15s after Burst"),
         effect: MoonsignTalentEffect::StatBuff {
             stat: BuffableStat::TransformativeBonus,
             value: 0.15,
@@ -155,7 +157,9 @@ pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[
     MoonsignTalentEnhancement {
         character_name: "Aino",
         required_level: MoonsignLevel::AscendantGleam,
-        description: "C6: At Ascendant Gleam, reaction DMG bonus increases by +20% (total +35%)",
+        description: desc!(
+            "C6: At Ascendant Gleam, reaction DMG bonus increases by +20% (total +35%)"
+        ),
         effect: MoonsignTalentEffect::ReactionDmgBonus {
             reaction: Reaction::LunarElectroCharged,
             bonus: 0.20,

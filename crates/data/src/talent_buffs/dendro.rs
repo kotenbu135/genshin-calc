@@ -4,7 +4,7 @@ use super::*;
 // A4 passive "Cleansing for the Spring": Elemental Skill DMG +0.04% per point of EM (max +32% at 800 EM)
 static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Cleansing for the Spring",
-    description: "A4: Elemental Skill DMG +0.04% per point of EM (max +32% at 800 EM)",
+    description: desc!("A4: Elemental Skill DMG +0.04% per point of EM (max +32% at 800 EM)"),
     stat: BuffableStat::SkillDmgBonus,
     base_value: 0.0004,
     scales_with_talent: false,
@@ -26,7 +26,7 @@ static LAUMA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 static NAHIDA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Compassion Illuminated",
-        description: "A1: Grants EM to party = highest_party_EM × 25%, max 250",
+        description: desc!("A1: Grants EM to party = highest_party_EM × 25%, max 250"),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.25,
         scales_with_talent: false,
@@ -40,7 +40,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nahida_c2_crit_rate",
-        description: "C2: Reaction CRIT Rate +20%",
+        description: desc!("C2: Reaction CRIT Rate +20%"),
         stat: BuffableStat::CritRate,
         base_value: 0.20,
         scales_with_talent: false,
@@ -54,7 +54,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nahida_c2_crit_dmg",
-        description: "C2: Reaction CRIT DMG +100%",
+        description: desc!("C2: Reaction CRIT DMG +100%"),
         stat: BuffableStat::CritDmg,
         base_value: 1.00,
         scales_with_talent: false,
@@ -68,7 +68,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nahida_c2_def_reduction",
-        description: "C2: DEF -30% on Quicken/Aggravate/Spread",
+        description: desc!("C2: DEF -30% on Quicken/Aggravate/Spread"),
         stat: BuffableStat::DefReduction,
         base_value: 0.30,
         scales_with_talent: false,
@@ -82,7 +82,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nahida_c4_em",
-        description: "C4: EM +100 per nearby Skandha enemy (max 4)",
+        description: desc!("C4: EM +100 per nearby Skandha enemy (max 4)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 100.0,
         scales_with_talent: false,
@@ -103,7 +103,7 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[
 static NEFER_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Observation Feeds Strategy EM Bonus",
-        description: "C2: EM +200 at 5 Veil of Falsehood stacks",
+        description: desc!("C2: EM +200 at 5 Veil of Falsehood stacks"),
         stat: BuffableStat::ElementalMastery,
         base_value: 200.0,
         scales_with_talent: false,
@@ -117,7 +117,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Delusion Ensnares Reason Dendro RES Down",
-        description: "C4: Enemy Dendro RES -20% during Shadow Dance",
+        description: desc!("C4: Enemy Dendro RES -20% during Shadow Dance"),
         stat: BuffableStat::ElementalResReduction(Element::Dendro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -131,7 +131,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nefer_c2_em",
-        description: "C2: EM +200 at 5 Veil stacks",
+        description: desc!("C2: EM +200 at 5 Veil stacks"),
         stat: BuffableStat::ElementalMastery,
         base_value: 200.0,
         scales_with_talent: false,
@@ -145,7 +145,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nefer_c4_dendro_res_shred",
-        description: "C4: Opponents' Dendro RES -20% in Shadow Dance state",
+        description: desc!("C4: Opponents' Dendro RES -20% in Shadow Dance state"),
         stat: BuffableStat::ElementalResReduction(Element::Dendro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -159,7 +159,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "nefer_c6_lunar_bloom_dmg",
-        description: "C6: Party Lunar-Bloom DMG +15% at Ascendant Gleam",
+        description: desc!("C6: Party Lunar-Bloom DMG +15% at Ascendant Gleam"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -179,7 +179,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
 static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Verdant Luxury",
-        description: "Characters within Lea Lotus Lamp field gain EM+60",
+        description: desc!("Characters within Lea Lotus Lamp field gain EM+60"),
         stat: BuffableStat::ElementalMastery,
         base_value: 60.0,
         scales_with_talent: false,
@@ -193,7 +193,7 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "traveler_dendro_c6_dendro_dmg",
-        description: "C6: Party Dendro DMG Bonus +12% inside Lamp",
+        description: desc!("C6: Party Dendro DMG Bonus +12% inside Lamp"),
         stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
         base_value: 0.12,
         scales_with_talent: false,
@@ -215,7 +215,7 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[
 static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Four-Causal Correction DMG Bonus",
-        description: "A4: DMG +0.1% per point of EM, max +100%",
+        description: desc!("A4: DMG +0.1% per point of EM, max +100%"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.001,
         scales_with_talent: false,
@@ -229,7 +229,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Chisel-Light Mirror EM Bonus",
-        description: "C2: EM +50 per Chisel-Light Mirror (max 3 mirrors)",
+        description: desc!("C2: EM +50 per Chisel-Light Mirror (max 3 mirrors)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 50.0,
         scales_with_talent: false,
@@ -243,7 +243,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Insight Team EM Bonus",
-        description: "C4: Team EM +120 while 3 Chisel-Light Mirrors are active",
+        description: desc!("C4: Team EM +120 while 3 Chisel-Light Mirrors are active"),
         stat: BuffableStat::ElementalMastery,
         base_value: 120.0,
         scales_with_talent: false,
@@ -257,7 +257,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Structuring Crit Rate Bonus",
-        description: "C6: CR +10% (Toggle)",
+        description: desc!("C6: CR +10% (Toggle)"),
         stat: BuffableStat::CritRate,
         base_value: 0.10,
         scales_with_talent: false,
@@ -271,7 +271,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Structuring Crit DMG Bonus",
-        description: "C6: CD +70% (Toggle)",
+        description: desc!("C6: CD +70% (Toggle)"),
         stat: BuffableStat::CritDmg,
         base_value: 0.70,
         scales_with_talent: false,
@@ -292,7 +292,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
 static BAIZHU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Five Fortunes Forever Reaction DMG",
-        description: "A4: Reaction DMG bonus scales with HP (~2% per 1000 HP), max +50%",
+        description: desc!("A4: Reaction DMG bonus scales with HP (~2% per 1000 HP), max +50%"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.00002,
         scales_with_talent: false,
@@ -306,7 +306,7 @@ static BAIZHU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Ancient Art of Perception EM Bonus",
-        description: "C4: Team EM +80",
+        description: desc!("C4: Team EM +80"),
         stat: BuffableStat::ElementalMastery,
         base_value: 80.0,
         scales_with_talent: false,
@@ -320,7 +320,7 @@ static BAIZHU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "baizhu_c4_em",
-        description: "C4: Party EM +80 after Burst",
+        description: desc!("C4: Party EM +80 after Burst"),
         stat: BuffableStat::ElementalMastery,
         base_value: 80.0,
         scales_with_talent: false,
@@ -334,7 +334,7 @@ static BAIZHU_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "baizhu_c6_skill_flat_dmg",
-        description: "C6: Skill DMG bonus based on 8% of Max HP",
+        description: desc!("C6: Skill DMG bonus based on 8% of Max HP"),
         stat: BuffableStat::SkillFlatDmg,
         base_value: 0.08,
         scales_with_talent: false,
@@ -353,7 +353,7 @@ static BAIZHU_BUFFS: &[TalentBuffDef] = &[
 static COLLEI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Floral Sidewinder EM Bonus",
-        description: "C4: Party gains EM+60 while inside Cuilein-Anbar field",
+        description: desc!("C4: Party gains EM+60 while inside Cuilein-Anbar field"),
         stat: BuffableStat::ElementalMastery,
         base_value: 60.0,
         scales_with_talent: false,
@@ -367,7 +367,7 @@ static COLLEI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "collei_c4_em",
-        description: "C4: Party EM +60 after Burst (excludes self)",
+        description: desc!("C4: Party EM +60 after Burst (excludes self)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 60.0,
         scales_with_talent: false,
@@ -388,7 +388,7 @@ static COLLEI_BUFFS: &[TalentBuffDef] = &[
 static EMILIE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Rectification DMG Bonus",
-        description: "A4: DMG +0.1% per ATK, max +36%",
+        description: desc!("A4: DMG +0.1% per ATK, max +36%"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.001,
         scales_with_talent: false,
@@ -402,7 +402,7 @@ static EMILIE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Consequence of Karma Skill DMG Bonus",
-        description: "C1: Elemental Skill DMG +20%",
+        description: desc!("C1: Elemental Skill DMG +20%"),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.20,
         scales_with_talent: false,
@@ -416,7 +416,7 @@ static EMILIE_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "The Controlled Blaze Dendro RES Down",
-        description: "C2: Enemy Dendro RES -30%",
+        description: desc!("C2: Enemy Dendro RES -30%"),
         stat: BuffableStat::ElementalResReduction(Element::Dendro),
         base_value: 0.30,
         scales_with_talent: false,
@@ -437,7 +437,7 @@ static EMILIE_BUFFS: &[TalentBuffDef] = &[
 static KAVEH_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "An Architect's Undertaking EM Bonus",
-        description: "A4: EM +25 per Bloom core consumed (max 4 stacks)",
+        description: desc!("A4: EM +25 per Bloom core consumed (max 4 stacks)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 25.0,
         scales_with_talent: false,
@@ -451,7 +451,7 @@ static KAVEH_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sublime Salvo Healing Bonus",
-        description: "C1: Healing Bonus +25%",
+        description: desc!("C1: Healing Bonus +25%"),
         stat: BuffableStat::HealingBonus,
         base_value: 0.25,
         scales_with_talent: false,
@@ -465,7 +465,7 @@ static KAVEH_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Feast of Apadana Bloom DMG Bonus",
-        description: "C4: Bloom DMG +60% (Toggle)",
+        description: desc!("C4: Bloom DMG +60% (Toggle)"),
         stat: BuffableStat::TransformativeBonus,
         base_value: 0.60,
         scales_with_talent: false,
@@ -485,7 +485,7 @@ static KAVEH_BUFFS: &[TalentBuffDef] = &[
 static KINICH_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Parrot Squawks Dendro RES Down",
-        description: "C2: Enemy Dendro RES -30% (Toggle)",
+        description: desc!("C2: Enemy Dendro RES -30% (Toggle)"),
         stat: BuffableStat::ElementalResReduction(Element::Dendro),
         base_value: 0.30,
         scales_with_talent: false,
@@ -499,7 +499,7 @@ static KINICH_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Parrot Squawks DMG Bonus",
-        description: "C2: DMG +100% (Toggle)",
+        description: desc!("C2: DMG +100% (Toggle)"),
         stat: BuffableStat::DmgBonus,
         base_value: 1.00,
         scales_with_talent: false,
@@ -513,7 +513,7 @@ static KINICH_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Canopy Hunter Burst DMG Bonus",
-        description: "C4: Burst DMG +70%",
+        description: desc!("C4: Burst DMG +70%"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.70,
         scales_with_talent: false,
@@ -534,7 +534,7 @@ static KIRARA_BUFFS: &[TalentBuffDef] = &[
     // TODO: A4 "Kindred Spirit": HP → Skill/Burst DMG bonus (complex formula, skipped)
     TalentBuffDef {
         name: "Kindred of the Sinovamakara DMG Bonus",
-        description: "C6: Team All Element DMG +12%",
+        description: desc!("C6: Team All Element DMG +12%"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.12,
         scales_with_talent: false,
@@ -548,7 +548,7 @@ static KIRARA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "kirara_c6_dmg_bonus",
-        description: "C6: All Elemental DMG +12% (approximation)",
+        description: desc!("C6: All Elemental DMG +12% (approximation)"),
         stat: BuffableStat::DmgBonus,
         base_value: 0.12,
         scales_with_talent: false,
@@ -571,7 +571,7 @@ static KIRARA_BUFFS: &[TalentBuffDef] = &[
 static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Keen Sight EM Bonus",
-        description: "A1: EM +50",
+        description: desc!("A1: EM +50"),
         stat: BuffableStat::ElementalMastery,
         base_value: 50.0,
         scales_with_talent: false,
@@ -585,7 +585,7 @@ static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Scholarly Blade CA DMG Bonus",
-        description: "A4: Charged Attack DMG +0.06% per EM, max +60%",
+        description: desc!("A4: Charged Attack DMG +0.06% per EM, max +60%"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.0006,
         scales_with_talent: false,
@@ -599,7 +599,7 @@ static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Scholarly Blade Burst DMG Bonus",
-        description: "A4: Burst DMG +0.06% per EM, max +60%",
+        description: desc!("A4: Burst DMG +0.06% per EM, max +60%"),
         stat: BuffableStat::BurstDmgBonus,
         base_value: 0.0006,
         scales_with_talent: false,
@@ -613,7 +613,7 @@ static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Beginners' Luck CA Crit Rate",
-        description: "C1: Charged Attack CR +15%",
+        description: desc!("C1: Charged Attack CR +15%"),
         stat: BuffableStat::CritRate,
         base_value: 0.15,
         scales_with_talent: false,
@@ -627,7 +627,7 @@ static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Ingenuity of the Smiths Dendro DMG Bonus",
-        description: "C2: Dendro DMG +20%",
+        description: desc!("C2: Dendro DMG +20%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
         base_value: 0.20,
         scales_with_talent: false,
@@ -641,7 +641,7 @@ static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Fortuitous Arrival Team EM Bonus",
-        description: "C4: Team EM +60 (Toggle)",
+        description: desc!("C4: Team EM +60 (Toggle)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 60.0,
         scales_with_talent: false,
@@ -661,7 +661,7 @@ static TIGHNARI_BUFFS: &[TalentBuffDef] = &[
 static YAOYAO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Nutcracker Dendro DMG Bonus",
-        description: "C1: Dendro DMG +15%",
+        description: desc!("C1: Dendro DMG +15%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -675,7 +675,7 @@ static YAOYAO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Whitesun Wheel EM Bonus",
-        description: "C4: EM +0.08% per HP, max +120 EM",
+        description: desc!("C4: EM +0.08% per HP, max +120 EM"),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.0008,
         scales_with_talent: false,
@@ -689,7 +689,7 @@ static YAOYAO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "yaoyao_c1_dendro_dmg",
-        description: "C1: Party Dendro DMG Bonus +15% on radish explosion",
+        description: desc!("C1: Party Dendro DMG Bonus +15% on radish explosion"),
         stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
         base_value: 0.15,
         scales_with_talent: false,
@@ -703,7 +703,7 @@ static YAOYAO_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "yaoyao_c4_em",
-        description: "C4: EM bonus based on 0.3% of Max HP (max 120)",
+        description: desc!("C4: EM bonus based on 0.3% of Max HP (max 120)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.003,
         scales_with_talent: false,
