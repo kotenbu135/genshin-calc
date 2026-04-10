@@ -7,7 +7,7 @@ use crate::buff::{
     Activation, AutoCondition, BuffableStat, ConditionalBuff, ManualCondition, StatBuff,
 };
 use crate::types::{ArtifactRarity, ArtifactSet, SetEffect};
-use genshin_calc_core::{BuffTarget, Element, WeaponType};
+use genshin_calc_core::{BuffTarget, Element, Reaction, WeaponType};
 
 // =============================================================================
 // 5-star Artifact Sets
@@ -220,11 +220,9 @@ pub const THUNDERING_FURY: ArtifactSet = ArtifactSet {
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {
-                name: "tf_transformative",
-                description: desc!(
-                    "Electro reaction DMG (Overloaded/Superconduct/Electro-Charged/Hyperbloom) +40%"
-                ),
-                stat: BuffableStat::TransformativeBonus,
+                name: "tf_overloaded_bonus",
+                description: desc!("Overloaded reaction DMG +40%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Overloaded),
                 value: 0.40,
                 nightsoul_value: None,
                 refinement_values: None,
@@ -233,9 +231,53 @@ pub const THUNDERING_FURY: ArtifactSet = ArtifactSet {
                 activation: Activation::Manual(ManualCondition::Toggle),
             },
             ConditionalBuff {
-                name: "tf_additive",
-                description: desc!("Quicken reaction DMG (Aggravate/Spread) +20%"),
-                stat: BuffableStat::AdditiveBonus,
+                name: "tf_electro_charged_bonus",
+                description: desc!("Electro-Charged reaction DMG +40%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::ElectroCharged),
+                value: 0.40,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "tf_superconduct_bonus",
+                description: desc!("Superconduct reaction DMG +40%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Superconduct),
+                value: 0.40,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "tf_hyperbloom_bonus",
+                description: desc!("Hyperbloom reaction DMG +40%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Hyperbloom),
+                value: 0.40,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "tf_aggravate_bonus",
+                description: desc!("Aggravate reaction DMG +20%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Aggravate),
+                value: 0.20,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "tf_lunar_electro_charged_bonus",
+                description: desc!("Lunar-Electro-Charged reaction DMG +20%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::LunarElectroCharged),
                 value: 0.20,
                 nightsoul_value: None,
                 refinement_values: None,
@@ -297,9 +339,42 @@ pub const VIRIDESCENT_VENERER: ArtifactSet = ArtifactSet {
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {
-                name: "vv_swirl_bonus",
-                description: desc!("Swirl DMG +60%"),
-                stat: BuffableStat::TransformativeBonus,
+                name: "vv_swirl_pyro_bonus",
+                description: desc!("Pyro Swirl DMG +60%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Pyro)),
+                value: 0.60,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vv_swirl_hydro_bonus",
+                description: desc!("Hydro Swirl DMG +60%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Hydro)),
+                value: 0.60,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vv_swirl_electro_bonus",
+                description: desc!("Electro Swirl DMG +60%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Electro)),
+                value: 0.60,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "vv_swirl_cryo_bonus",
+                description: desc!("Cryo Swirl DMG +60%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Cryo)),
                 value: 0.60,
                 nightsoul_value: None,
                 refinement_values: None,
@@ -392,13 +467,13 @@ pub const ARCHAIC_PETRA: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "結晶反応で形成された欠片を獲得すると、チーム全員の該当元素ダメージ+35%、継続時間10秒。同時に1つの元素ダメージボーナスのみ獲得可能"
+            "結晶反応またはLunar-Crystallizeで形成された欠片を獲得すると、チーム全員の該当元素ダメージ+35%、継続時間10秒。同時に1つの元素ダメージボーナスのみ獲得可能"
         ),
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {
                 name: "archaic_petra_pyro",
-                description: desc!("Pyro Crystallize shard: team Pyro DMG +35%"),
+                description: desc!("Pyro Crystallize/Lunar-Crystallize shard: team Pyro DMG +35%"),
                 stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
                 value: 0.35,
                 nightsoul_value: None,
@@ -409,7 +484,9 @@ pub const ARCHAIC_PETRA: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "archaic_petra_hydro",
-                description: desc!("Hydro Crystallize shard: team Hydro DMG +35%"),
+                description: desc!(
+                    "Hydro Crystallize/Lunar-Crystallize shard: team Hydro DMG +35%"
+                ),
                 stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
                 value: 0.35,
                 nightsoul_value: None,
@@ -420,7 +497,9 @@ pub const ARCHAIC_PETRA: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "archaic_petra_electro",
-                description: desc!("Electro Crystallize shard: team Electro DMG +35%"),
+                description: desc!(
+                    "Electro Crystallize/Lunar-Crystallize shard: team Electro DMG +35%"
+                ),
                 stat: BuffableStat::ElementalDmgBonus(Element::Electro),
                 value: 0.35,
                 nightsoul_value: None,
@@ -431,7 +510,7 @@ pub const ARCHAIC_PETRA: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "archaic_petra_cryo",
-                description: desc!("Cryo Crystallize shard: team Cryo DMG +35%"),
+                description: desc!("Cryo Crystallize/Lunar-Crystallize shard: team Cryo DMG +35%"),
                 stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
                 value: 0.35,
                 nightsoul_value: None,
@@ -1138,8 +1217,8 @@ pub const FLOWER_OF_PARADISE_LOST: ArtifactSet = ArtifactSet {
         conditional_buffs: &[
             ConditionalBuff {
                 name: "fopl_bloom_base",
-                description: desc!("Bloom/Hyperbloom/Burgeon DMG +40%"),
-                stat: BuffableStat::TransformativeBonus,
+                description: desc!("Bloom DMG +40%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Bloom),
                 value: 0.40,
                 nightsoul_value: None,
                 refinement_values: None,
@@ -1148,10 +1227,76 @@ pub const FLOWER_OF_PARADISE_LOST: ArtifactSet = ArtifactSet {
                 activation: Activation::Manual(ManualCondition::Toggle),
             },
             ConditionalBuff {
-                name: "fopl_bloom_stacks",
-                description: desc!("After triggering Bloom reaction, +10% per stack, max 4"),
-                stat: BuffableStat::TransformativeBonus,
+                name: "fopl_hyperbloom_base",
+                description: desc!("Hyperbloom DMG +40%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Hyperbloom),
+                value: 0.40,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "fopl_burgeon_base",
+                description: desc!("Burgeon DMG +40%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Burgeon),
+                value: 0.40,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "fopl_lunar_bloom_base",
+                description: desc!("Lunar-Bloom DMG +10%"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::LunarBloom),
                 value: 0.10,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "fopl_bloom_stacks",
+                description: desc!("After triggering Bloom: Bloom DMG +25% per stack, max 4"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Bloom),
+                value: 0.25,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            },
+            ConditionalBuff {
+                name: "fopl_hyperbloom_stacks",
+                description: desc!("After triggering Bloom: Hyperbloom DMG +25% per stack, max 4"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Hyperbloom),
+                value: 0.25,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            },
+            ConditionalBuff {
+                name: "fopl_burgeon_stacks",
+                description: desc!("After triggering Bloom: Burgeon DMG +25% per stack, max 4"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Burgeon),
+                value: 0.25,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Stacks(4)),
+            },
+            ConditionalBuff {
+                name: "fopl_lunar_bloom_stacks",
+                description: desc!("After triggering Bloom: Lunar-Bloom DMG +25% per stack, max 4"),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::LunarBloom),
+                value: 0.25,
                 nightsoul_value: None,
                 refinement_values: None,
                 stack_values: None,
@@ -1177,29 +1322,29 @@ pub const NYMPHS_DREAM: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "通常攻撃、重撃、元素スキル、元素爆発が命中した後、1/2/3スタックでそれぞれ水元素ダメージ+7%/16%/25%、攻撃力+4%/9%/15%。各攻撃が命中するたびに、他種類のスタックの持続時間をリセット。各種類のスタックは0.8秒に1回のみ獲得可能"
+            "通常攻撃、重撃、元素スキル、元素爆発が命中した後、1/2/3スタックでそれぞれ攻撃力+7%/16%/25%、水元素ダメージ+4%/9%/15%。各攻撃が命中するたびに、他種類のスタックの持続時間をリセット。各種類のスタックは0.8秒に1回のみ獲得可能"
         ),
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {
                 name: "nymphs_dream_atk_stacks",
-                description: desc!("Attack hits: ATK +4%/9%/15% at 1/2/3 stacks"),
+                description: desc!("Attack hits: ATK +7%/16%/25% at 1/2/3 stacks"),
                 stat: BuffableStat::AtkPercent,
-                value: 0.04,
+                value: 0.07,
                 nightsoul_value: None,
                 refinement_values: None,
-                stack_values: Some(&[0.04, 0.09, 0.15]),
+                stack_values: Some(&[0.07, 0.16, 0.25]),
                 target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Stacks(3)),
             },
             ConditionalBuff {
                 name: "nymphs_dream_hydro_stacks",
-                description: desc!("Attack hits: Hydro DMG +7%/16%/25% at 1/2/3 stacks"),
+                description: desc!("Attack hits: Hydro DMG +4%/9%/15% at 1/2/3 stacks"),
                 stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
-                value: 0.07,
+                value: 0.04,
                 nightsoul_value: None,
                 refinement_values: None,
-                stack_values: Some(&[0.07, 0.16, 0.25]),
+                stack_values: Some(&[0.04, 0.09, 0.15]),
                 target: BuffTarget::OnlySelf,
                 activation: Activation::Manual(ManualCondition::Stacks(3)),
             },
@@ -1429,7 +1574,7 @@ pub const NIGHTTIME_WHISPERS_IN_THE_ECHOING_WOODS: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "元素スキルを使用した後、岩元素ダメージ+20%。夜魂ポイントを消費したとき、岩元素ダメージがさらに+20%、継続時間20秒"
+            "元素スキルを使用した後、岩元素ダメージ+20%。Crystallize shieldまたはLunar-Crystallize Moondriftsを受けている時、この効果がさらに+30%"
         ),
         buffs: &[],
         conditional_buffs: &[
@@ -1446,17 +1591,16 @@ pub const NIGHTTIME_WHISPERS_IN_THE_ECHOING_WOODS: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "nighttime_geo_nightsoul",
-                description: desc!("While consuming Nightsoul points, Geo DMG +20% extra"),
+                description: desc!(
+                    "While protected by Crystallize shield/Moondrifts, Geo DMG +30% extra"
+                ),
                 stat: BuffableStat::ElementalDmgBonus(Element::Geo),
-                value: 0.20,
+                value: 0.30,
                 nightsoul_value: None,
                 refinement_values: None,
                 stack_values: None,
                 target: BuffTarget::OnlySelf,
-                activation: Activation::Both(
-                    AutoCondition::NightsoulRequired,
-                    ManualCondition::Toggle,
-                ),
+                activation: Activation::Manual(ManualCondition::Toggle),
             },
         ],
     },
@@ -1477,12 +1621,12 @@ pub const FRAGMENT_OF_HARMONIC_WHIMSY: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "キャラクターのHPが変動した時、与えるダメージ+18%、継続時間6秒、最大3スタック。0.2秒ごとに1回のみ発動可能。待機中でも効果を発動可能"
+            "命の契約の数値が変動した時、与えるダメージ+18%、継続時間6秒、最大3スタック。0.2秒ごとに1回のみ発動可能。待機中でも効果を発動可能"
         ),
         buffs: &[],
         conditional_buffs: &[ConditionalBuff {
             name: "harmonic_whimsy_dmg_stacks",
-            description: desc!("HP changes: DMG +18% per stack, max 3"),
+            description: desc!("Bond of Life changes: DMG +18% per stack, max 3"),
             stat: BuffableStat::DmgBonus,
             value: 0.18,
             nightsoul_value: None,
@@ -1509,12 +1653,12 @@ pub const UNFINISHED_REVERIE: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "燃焼反応または烈開花反応を起こした後、与えるダメージ+50%、継続時間10秒。上記の効果の継続中にフィールド上にいる場合、3秒後に効果が消える"
+            "戦闘状態を離れて3秒後、与えるダメージ+50%。戦闘中、近くに燃焼状態の敵がいない場合は徐々に低下し、燃焼状態の敵がいる場合は最大+50%まで上昇する"
         ),
         buffs: &[],
         conditional_buffs: &[ConditionalBuff {
             name: "unfinished_reverie_dmg_bonus",
-            description: desc!("After Burning/Burgeon reaction, DMG +50%"),
+            description: desc!("Out of combat or maintained near Burning enemy: DMG +50%"),
             stat: BuffableStat::DmgBonus,
             value: 0.50,
             nightsoul_value: None,
@@ -1531,12 +1675,10 @@ pub const SCROLL_OF_THE_HERO_OF_CINDER_CITY: ArtifactSet = ArtifactSet {
     name: "灰燼の都の英雄譚",
     rarity: ArtifactRarity::Star5,
     two_piece: SetEffect {
-        description: desc!("元素熟知+80"),
-        buffs: &[StatBuff {
-            stat: BuffableStat::ElementalMastery,
-            value: 80.0,
-            refinement_values: None,
-        }],
+        description: desc!(
+            "夜魂バースト発生時に元素エネルギーを6回復。エネルギーのみの効果のためダメージステータスとしては表現しない"
+        ),
+        buffs: &[],
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
@@ -1649,12 +1791,12 @@ pub const OBSIDIAN_CODEX: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "夜魂の加護状態にあるキャラクターのナイトソウルポイントが上限の50%以下の場合、会心率+40%"
+            "装備キャラクターがフィールド上で夜魂ポイントを1消費した後、会心率+40%、継続時間6秒。1秒ごとに1回のみ発動可能"
         ),
         buffs: &[],
         conditional_buffs: &[ConditionalBuff {
             name: "Obsidian Codex Crit Rate Bonus",
-            description: desc!("When Nightsoul points below 50%, Crit Rate +40%"),
+            description: desc!("After on-field Nightsoul point consumption, Crit Rate +40%"),
             stat: BuffableStat::CritRate,
             value: 0.40,
             nightsoul_value: None,
@@ -1662,6 +1804,119 @@ pub const OBSIDIAN_CODEX: ArtifactSet = ArtifactSet {
             stack_values: None,
             target: BuffTarget::OnlySelf,
             activation: Activation::Both(AutoCondition::NightsoulRequired, ManualCondition::Toggle),
+        }],
+    },
+};
+
+pub const ADVENTURER: ArtifactSet = ArtifactSet {
+    id: "adventurer",
+    name: "冒険者",
+    rarity: ArtifactRarity::Star4,
+    two_piece: SetEffect {
+        description: desc!("HP上限+1000"),
+        buffs: &[StatBuff {
+            stat: BuffableStat::HpFlat,
+            value: 1000.0,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: desc!("宝箱を開けた後、HPを回復。治療効果のためダメージ計算では未対応"),
+        buffs: &[],
+        conditional_buffs: &[],
+    },
+};
+
+pub const LUCKY_DOG: ArtifactSet = ArtifactSet {
+    id: "lucky_dog",
+    name: "幸運",
+    rarity: ArtifactRarity::Star4,
+    two_piece: SetEffect {
+        description: desc!("防御力+100"),
+        buffs: &[StatBuff {
+            stat: BuffableStat::DefFlat,
+            value: 100.0,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: desc!("モラを拾得した時、HPを回復。治療効果のためダメージ計算では未対応"),
+        buffs: &[],
+        conditional_buffs: &[],
+    },
+};
+
+pub const FINALE_OF_THE_DEEP_GALLERIES: ArtifactSet = ArtifactSet {
+    id: "finale_of_the_deep_galleries",
+    name: "深廊の終曲",
+    rarity: ArtifactRarity::Star5,
+    two_piece: SetEffect {
+        description: desc!("氷元素ダメージ+15%"),
+        buffs: &[StatBuff {
+            stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+            value: 0.15,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: desc!("条件達成時、通常攻撃ダメージ+60%、元素爆発ダメージ+60%"),
+        buffs: &[],
+        conditional_buffs: &[
+            ConditionalBuff {
+                name: "finale_deep_galleries_normal_bonus",
+                description: desc!("Conditional: Normal Attack DMG +60%"),
+                stat: BuffableStat::NormalAtkDmgBonus,
+                value: 0.60,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+            ConditionalBuff {
+                name: "finale_deep_galleries_burst_bonus",
+                description: desc!("Conditional: Burst DMG +60%"),
+                stat: BuffableStat::BurstDmgBonus,
+                value: 0.60,
+                nightsoul_value: None,
+                refinement_values: None,
+                stack_values: None,
+                target: BuffTarget::OnlySelf,
+                activation: Activation::Manual(ManualCondition::Toggle),
+            },
+        ],
+    },
+};
+
+pub const LONG_NIGHTS_OATH: ArtifactSet = ArtifactSet {
+    id: "long_nights_oath",
+    name: "長き夜の誓い",
+    rarity: ArtifactRarity::Star5,
+    two_piece: SetEffect {
+        description: desc!("落下攻撃ダメージ+25%"),
+        buffs: &[StatBuff {
+            stat: BuffableStat::PlungingAtkDmgBonus,
+            value: 0.25,
+            refinement_values: None,
+        }],
+        conditional_buffs: &[],
+    },
+    four_piece: SetEffect {
+        description: desc!("条件達成時、落下攻撃ダメージ+15%、最大5スタック"),
+        buffs: &[],
+        conditional_buffs: &[ConditionalBuff {
+            name: "long_nights_oath_plunging_stacks",
+            description: desc!("Conditional: Plunging Attack DMG +15% per stack, max 5"),
+            stat: BuffableStat::PlungingAtkDmgBonus,
+            value: 0.15,
+            nightsoul_value: None,
+            refinement_values: None,
+            stack_values: None,
+            target: BuffTarget::OnlySelf,
+            activation: Activation::Manual(ManualCondition::Stacks(5)),
         }],
     },
 };
@@ -1931,14 +2186,12 @@ pub const MARTIAL_ARTIST: ArtifactSet = ArtifactSet {
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
-        description: desc!(
-            "元素スキルまたは元素爆発を発動した後、通常攻撃と重撃のダメージ+25%、継続時間8秒"
-        ),
+        description: desc!("元素スキルを発動した後、通常攻撃と重撃のダメージ+25%、継続時間8秒"),
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {
                 name: "martial_artist_normal_bonus",
-                description: desc!("After Skill/Burst use, Normal Attack DMG +25%"),
+                description: desc!("After Elemental Skill use, Normal Attack DMG +25%"),
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.25,
                 nightsoul_value: None,
@@ -1949,7 +2202,7 @@ pub const MARTIAL_ARTIST: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "martial_artist_charged_bonus",
-                description: desc!("After Skill/Burst use, Charged Attack DMG +25%"),
+                description: desc!("After Elemental Skill use, Charged Attack DMG +25%"),
                 stat: BuffableStat::ChargedAtkDmgBonus,
                 value: 0.25,
                 nightsoul_value: None,
@@ -2591,6 +2844,10 @@ pub const ALL_ARTIFACT_SETS: &[&ArtifactSet] = &[
     &AUBADE_OF_MORNINGSTAR_AND_MOON,
     &A_DAY_CARVED_FROM_RISING_WINDS,
     // 4-star / mixed rarity sets
+    &ADVENTURER,
+    &LUCKY_DOG,
+    &FINALE_OF_THE_DEEP_GALLERIES,
+    &LONG_NIGHTS_OATH,
     &RESOLUTION_OF_SOJOURNER,
     &TINY_MIRACLE,
     &BERSERKER,
