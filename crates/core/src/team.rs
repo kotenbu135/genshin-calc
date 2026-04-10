@@ -88,6 +88,7 @@ pub struct DamageContext {
     /// Additive (catalyze) reaction DMG bonus from team buffs.
     pub additive_bonus: f64,
     /// Exact reaction DMG bonuses that only apply to the matching reaction.
+    #[serde(default)]
     pub reaction_dmg_bonuses: Vec<(Reaction, f64)>,
 }
 
@@ -653,6 +654,29 @@ mod tests {
         assert!((ctx.normal_atk_dmg_bonus - 0.0).abs() < EPSILON);
         assert!((ctx.skill_flat_dmg - 0.0).abs() < EPSILON);
         assert!((ctx.amplifying_bonus - 0.0).abs() < EPSILON);
+    }
+
+    #[test]
+    fn test_damage_context_deserializes_without_reaction_dmg_bonuses() {
+        let json = r#"{
+            "normal_atk_dmg_bonus": 0.0,
+            "charged_atk_dmg_bonus": 0.0,
+            "plunging_atk_dmg_bonus": 0.0,
+            "skill_dmg_bonus": 0.0,
+            "burst_dmg_bonus": 0.0,
+            "normal_atk_flat_dmg": 0.0,
+            "charged_atk_flat_dmg": 0.0,
+            "plunging_atk_flat_dmg": 0.0,
+            "skill_flat_dmg": 0.0,
+            "burst_flat_dmg": 0.0,
+            "amplifying_bonus": 0.0,
+            "transformative_bonus": 0.0,
+            "additive_bonus": 0.0
+        }"#;
+
+        let ctx: DamageContext = serde_json::from_str(json).unwrap();
+
+        assert!(ctx.reaction_dmg_bonuses.is_empty());
     }
 
     #[test]
