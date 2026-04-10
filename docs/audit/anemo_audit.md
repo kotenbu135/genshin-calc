@@ -70,6 +70,8 @@ All subsequent indices similarly contain wrong values.
 
 **Talent Scalings: OK** — Lv1 values match within tolerance.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Ifa (ifa.rs / ifa_113.md)
@@ -94,6 +96,8 @@ All subsequent indices similarly contain wrong values.
 **Base Stats: OK** — Lv1 HP/ATK/DEF values match mirror.
 
 **Talent Scalings: OK** — Numerical values match within tolerance. (Note: element assignment per-scaling may be affected by the weapon/element issues above but the numbers themselves are correct.)
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -137,6 +141,8 @@ All subsequent indices similarly contain wrong values.
 
 **Base Stats: OK** — All HP/ATK/DEF values match mirror exactly.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Jean (jean.rs / qin_003.md)
@@ -160,6 +166,8 @@ Same scrambled-array pattern as Heizou:
 - Difference: 0.05 percentage points (exceeds 0.02% tolerance)
 
 **Talent Scalings: OK** — Lv1 values match within tolerance.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -188,6 +196,8 @@ All three Lv1 values are wrong, and values from index 1 onward contain Lv80+ sta
 
 **Talent Scalings: OK** — Values match within tolerance.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Lynette (lynette.rs / linette_083.md)
@@ -206,6 +216,8 @@ Same scrambled-array pattern:
 
 **Talent Scalings: OK** — Values match within tolerance.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Mizuki (mizuki.rs / mizuki_109.md)
@@ -220,6 +232,8 @@ Same scrambled-array pattern:
 **Base Stats: OK** — Lv1 HP/ATK/DEF values match mirror.
 
 **Talent Scalings: OK** — Values match within tolerance.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -285,6 +299,8 @@ Example:
 - Diff: ~0.04 pp > 0.02% tolerance
 
 **Ascension Stat: OK** — `AscensionStat::Atk(0.288)` = 28.8% matches mirror ✓.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

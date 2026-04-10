@@ -54,12 +54,16 @@ Also note Lv10–Lv12 in the mirror show `.09`, `.7`, `.32` (e.g., `371.09`, `39
 - **Source**: AscensionPassive (this is listed as a 4th passive on the mirror — likely a special unlockable passive)
 - **Note**: The Hexerei Silver Isotoma variant (+10% per 1000 DEF for Hexerei members, cap 30%) is also not implemented.
 
+**Implementation status:** Fixed in this branch.
+
 ### Ningguang — C4 "Exquisite be the Jade, Outshining All Beneath"
 
 **Mirror description**: Jade Screen increases nearby characters' Elemental RES by 10%.
 
 - **Code**: NINGGUANG_BUFFS only contains the A4 "Strategic Reserve" Geo DMG +12% buff. C4 is not present.
 - **Status**: MISSING. This is a flat +10% all-element RES buff for the active character near the screen. Should be added as a C4 buff (stat: some AllElementalResBonus or per-element, target: Team, toggle).
+
+**Implementation status:** Fixed in this branch.
 
 ### Noelle — Elemental Burst "Sweeping Time" ATK Scaling Buff
 
@@ -68,12 +72,16 @@ Also note Lv10–Lv12 in the mirror show `.09`, `.7`, `.32` (e.g., `371.09`, `39
 - **Code**: NOELLE_BUFFS only has C2 (CA DMG +15%) and C6 (ATK flat = 50% DEF). The burst's core ATK scaling buff (DEF-based ATK bonus) is absent.
 - **Status**: MISSING. Noelle's most important buff — during burst, ATK +X% of DEF (scaling with talent level) — is not implemented. This is a talent-scaling self-buff that requires a scaling table similar to Gorou's DEF table. It is her primary damage mechanism during burst. **High priority to implement.**
 
+**Implementation status:** Fixed in this branch.
+
 ### Gorou — A4 "Heedless of the Wind and Weather"
 
 **Mirror description**: After using Juuga: Forward Unto Victory, all nearby party members' DEF is increased by 25% for 12s.
 
 - **Code**: This buff is NOT in GOROU_BUFFS.
 - **Status**: MISSING. This is a post-burst team DEF +25% passive. Should be added as AscensionPassive(4), BuffTarget::Team, Toggle or auto.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

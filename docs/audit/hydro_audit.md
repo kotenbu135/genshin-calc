@@ -62,6 +62,8 @@ Wrong structure (single vs 2-stage) and wrong values.
 
 Rust value is approximately 10× too large (201.6% vs 20.11%).
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### DAHLIA (`dahlia.rs` ↔ `dahlia_115.md`)
@@ -76,6 +78,8 @@ Rust value is approximately 10× too large (201.6% vs 20.11%).
 
 The entire normal attack structure is wrong because the weapon type is Bow instead of Sword. Skill DMG (232.8% Lv1) and Burst DMG (406.4% Lv1) values happen to match the mirror, but the character is fundamentally mis-categorized.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### TARTAGLIA (`tartaglia.rs` ↔ `tartaglia_033.md`)
@@ -88,6 +92,8 @@ The entire normal attack structure is wrong because the weapon type is Bow inste
 
 Plunge Lv4: Rust = 0.8178, Mirror = 81.77% (diff = 0.01%, within tolerance ✓)
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### MUALANI (`mualani.rs` ↔ `mualani_102.md`)
@@ -99,6 +105,8 @@ Plunge Lv4: Rust = 0.8178, Mirror = 81.77% (diff = 0.01%, within tolerance ✓)
 | Normal 2 | 44.60% | 44.63% | 0.03% (just outside 0.02% tolerance) |
 
 Likely a rounding artifact in the source data. All other values match exactly.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

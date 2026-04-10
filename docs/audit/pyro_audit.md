@@ -35,6 +35,8 @@ Lv11–Lv15 are significantly lower in Rust than mirror. The Rust array appears 
 | base_hp | Lv60 (index 7) | 8392 | 8421 | -29 |
 | base_atk | Lv60 (index 7) | 216.22 | 217.22 | -1.00 |
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Lyney
@@ -58,6 +60,8 @@ Examples comparing Rust array values vs mirror expected values:
 All 17 base stat values from index 1 onward are using Lv80+ level data instead of the correct progression starting at Lv20.
 
 Talent scaling values are correct.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -83,6 +87,8 @@ All 17 base stat values from index 1 onward are using Lv80+ level data instead o
 
 Talent scaling values are correct.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Yanfei
@@ -106,6 +112,8 @@ Examples comparing Rust array values vs mirror expected values:
 All 17 base stat values from index 1 onward are using Lv80+ level data instead of the correct progression starting at Lv20.
 
 Talent scaling values are correct.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

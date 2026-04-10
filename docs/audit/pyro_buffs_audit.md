@@ -29,6 +29,8 @@ Sources checked:
 
 The RES shred buffs `Overloaded Pyro RES Shred` and `Overloaded Electro RES Shred` at AscensionPassive(4) are also mislabeled — they belong to A1, not A4.
 
+**Implementation status:** Fixed in this branch.
+
 ### Yanfei — C2 "Right of Final Interpretation"
 
 **Problem**: Wrong stat type.
@@ -38,12 +40,16 @@ The RES shred buffs `Overloaded Pyro RES Shred` and `Overloaded Electro RES Shre
 
 The buff is **CRIT Rate +20%** (conditional), not Charged ATK DMG Bonus +20%.
 
+**Implementation status:** Fixed in this branch.
+
 ### Yoimiya — A4 "Summer Night's Dawn"
 
 **Partial discrepancy**: Mirror says base ATK +10% plus 1% per stack of "Tricks of the Trouble-Maker" (max 10 stacks = +10% more), for a total max of +20%.
 
 - **Rust**: `base_value: 0.20` (flat +20%) — this models the maximum correctly but does not track the stack-dependent component separately.
 - The minimum value with 0 stacks is actually +10%, not +20%. For static max-value modelling this may be acceptable, but the base value is technically wrong if stacks are 0.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -54,15 +60,21 @@ The buff is **CRIT Rate +20%** (conditional), not Charged ATK DMG Bonus +20%.
 - Rust `Crimson Flower Pyro DMG Bonus` at `AscensionPassive(1)` — correct value (+40%), but the actual passive name is **"The Balemoon Alone May Know"**, not "Crimson Flower". Comment in code says "Crimson Flower Flutters Freely" which does not match the mirror.
 - The TODO comment for A4 also has the names swapped: "The Balemoon Alone May Know" in the comment refers to the A1 passive; the actual A4 is "Agony Alone May Be Repaid" (Bond of Life mechanics, correctly not implemented).
 
+**Implementation status:** Fixed in this branch.
+
 ### Mavuika
 
 - Rust `Sunfrost Encomium ATK Bonus` at `AscensionPassive(1)` — mirror's A1 passive name is **"Gift of Flaming Flowers"** (ATK +30% after party Nightsoul Burst). Value is correct.
 - Rust `Fire-Forged Heritage DMG Bonus` at `AscensionPassive(4)` — mirror's A4 passive name is **"Kiongozi"** (DMG bonus based on Fighting Spirit consumed, max +40%). Value is correct.
 
+**Implementation status:** Fixed in this branch.
+
 ### Diluc
 
 - Rust `Flowing Flame Pyro DMG Bonus` at `AscensionPassive(4)` — mirror's A4 passive name is **"Blessing of Phoenix"**, not "Flowing Flame". Value (+20% Pyro DMG) is correct.
 - Mirror C4 is named "Flowing Flame / 流火焼灼" (≈ +40% to the next Searing Onslaught if cast in rhythm). Rust labels it "Flowing Ember Skill DMG Bonus" at C4 — name does not match but the modeled effect (+40% Skill DMG) is a reasonable approximation.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -79,6 +91,8 @@ Both have `stat: BurstDmgBonus, base_value: 0.40, source: Constellation(4), min_
 
 If both are applied simultaneously, Durin's Burst DMG will be double-buffed (+80% total instead of +40%).
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ## Missing Buff Implementations
@@ -93,10 +107,14 @@ No missing buff-type effects. C2 ER+30% (utility), C4 proc damage — correctly 
   - Source: AscensionPassive(4) | Stat: AtkPercent +15% | Target: OnlySelf | Toggle
   - **NOT IMPLEMENTED**
 
+**Implementation status:** Fixed in this branch.
+
 ### Chevreuse
 
 - **A4 ATK value wrong** (see Value Discrepancies above; should be max +40%, source AscensionPassive(4)).
 - No additional missing buffs beyond what's noted.
+
+**Implementation status:** Fixed in this branch.
 
 ### Xiangling
 
@@ -108,6 +126,8 @@ No missing buff-type effects. C2 proc damage, C4 duration extension — correctl
   - Source: AscensionPassive(1) | Stat: ElementalDmgBonus(Pyro) | max +20% | Target: OnlySelf | Stacks(10)
   - **NOT IMPLEMENTED**
 
+**Implementation status:** Fixed in this branch.
+
 ### Diluc
 
 No additional missing buffs. C3/C5 skill levels, C4 proc DMG increase — C4 as approximation is OK. **OK.**
@@ -118,6 +138,8 @@ No additional missing buffs. C3/C5 skill levels, C4 proc DMG increase — C4 as 
   - Source: Constellation(6) | Stat: CritRate +1.00 | Target: OnlySelf | Toggle
   - **NOT IMPLEMENTED** (significant CRIT Rate buff)
 
+**Implementation status:** Fixed in this branch.
+
 ### Klee
 
 - **C1 "Chained Reactions" (Buffed State)**: After sparks bombard opponents, Klee's ATK +60% for 12s.
@@ -125,6 +147,8 @@ No additional missing buffs. C3/C5 skill levels, C4 proc DMG increase — C4 as 
   - **NOT IMPLEMENTED** (base game C1 is proc damage only, but Buffed State adds an ATK buff)
 - **C6 "Blazing Delight" (Buffed State)**: Klee herself gains Pyro DMG +50% (self); other party members get +10%. The implementation only has +10% for Team (party), missing Klee's personal +50% in Buffed State.
   - **PARTIALLY IMPLEMENTED** (team +10% OK, Klee's +50% self-buff missing)
+
+**Implementation status:** Fixed in this branch.
 
 ### Yanfei
 
@@ -136,6 +160,8 @@ No additional missing buffs. C3/C5 skill levels, C4 proc DMG increase — C4 as 
 - **A4 "...Now That's Rock 'N' Roll!"**: When shielded by Sweeping Fervor (Level 3), party members deal 15% increased Physical DMG.
   - Source: AscensionPassive(4) | Stat: PhysicalDmgBonus +0.15 | Target: Team | Toggle
   - **NOT IMPLEMENTED**
+
+**Implementation status:** Fixed in this branch.
 
 ### Thoma
 
@@ -171,9 +197,13 @@ No missing buff-type effects. C1/C4 are healing/energy. **OK.**
   - Source: Constellation(4) | Stat: DmgBonus +0.10 additional | Target: OnlySelf | Toggle
   - **NOT IMPLEMENTED** (the base A4 max +40% is already implemented, but C4 enhancement is not)
 
+**Implementation status:** Fixed in this branch.
+
 ### Durin
 
 - **C1 "Adamah's Redemption" — Purity form**: Party members gain Cycle of Enlightenment stacks → flat ATK-based DMG increase (60% of Durin's ATK per stack consumed). This is a flat DMG add scaling on Durin's ATK, which is complex. Marking as not implemented / intentional skip.
+
+**Implementation status:** Out of scope for this pass because this is an added-damage/proc-damage or non-damage effect.
 
 ---
 

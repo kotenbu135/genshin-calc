@@ -41,6 +41,8 @@ cap: 0.50
 
 > **Severity: HIGH** — cap is wrong (0.50 vs 1.00), and two sub-bonuses (Aggravate/Spread, Lunar-Bloom) are entirely absent.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Emilie — A4 "Rectification"
@@ -62,6 +64,8 @@ Mirror says 15% per 1000 ATK → 0.015 per 100 ATK → 0.00015 per 1 ATK.
 Correct `base_value` should be `0.00015` (0.015% per ATK = 15% per 1000 ATK).
 
 > **Severity: CRITICAL** — value is 15× too low. A character with 1500 ATK would get 1.5% instead of 22.5%.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -86,6 +90,8 @@ The **A1 passive** "An Architect's Undertaking" is:
 The implementation has the **wrong passive name** (should be "A Craftsman's Curious Conceptions", not "An Architect's Undertaking"). The EM value (+25 per stack, max 4 stacks) and stat type are correct. This is a naming mislabel — does not affect computation but affects identification.
 
 > **Severity: LOW** (name only, values correct)
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -118,6 +124,8 @@ Entry 1 (`Whitesun Wheel EM Bonus`) has `base_value: 0.0008` which corresponds t
 
 > **Severity: HIGH** — one of two duplicate entries has an incorrect base_value (0.0008 vs 0.003). The non-toggle duplicate should be removed; the toggle version is correct.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ## Missing Implementations
@@ -136,6 +144,8 @@ Entry 1 (`Whitesun Wheel EM Bonus`) has `base_value: 0.0008` which corresponds t
 
 > **Severity: HIGH** — C4 team EM value is wrong (+120 vs max +90), and Alhaitham's personal Dendro DMG Bonus from C4 is absent.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Kaveh — Burst "Painted Dome" Bloom DMG Bonus (talent scaling)
@@ -151,6 +161,8 @@ The Burst itself provides a per-talent-level Bloom DMG bonus when Painted Dome i
 
 > **Severity: MEDIUM** — the Burst's inherent Bloom bonus (which scales with talent level) is absent.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Kinich — C1 "Parrot's Beak"
@@ -161,6 +173,8 @@ The Burst itself provides a per-talent-level Bloom DMG bonus when Painted Dome i
 **Implementation**: Only has C2 (Dendro RES -30% + DMG +100%) and C4 (Burst DMG +70%). C1 **CRIT DMG +100% on Scalespiker Cannon** is missing.
 
 > **Severity: MEDIUM** — C1 CritDMG buff is absent.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -181,6 +195,8 @@ The A4 "Cleansing for the Spring" Skill DMG buff IS correctly implemented. But n
 
 > **Severity: HIGH** — A4 Moonsign CRIT buffs missing; C2 Lunar-Bloom +40% missing; C6 Lunar-Bloom +25% missing.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Nahida — A4 "Awakening Elucidated"
@@ -191,6 +207,8 @@ The A4 "Cleansing for the Spring" Skill DMG buff IS correctly implemented. But n
 **Implementation**: Only A1 (EM buff) and C2/C4 constellations. The A4 "Awakening Elucidated" — which grants Nahida herself scaled Tri-Karma Purification DMG bonus and CRIT Rate based on her own EM exceeding 200 — is **entirely missing**.
 
 > **Severity: HIGH** — A4 self-scaling CRIT Rate and Bonus DMG (tied to EM > 200) not implemented.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -206,11 +224,15 @@ The non-toggle versions (lines 104–131) are duplicates that will always apply 
 
 > **Severity: MEDIUM** — double-counting when toggle is active.
 
+**Implementation status:** Fixed in this branch.
+
 ### Baizhu — Duplicate C4 entries
 
 Similarly, `"Ancient Art of Perception EM Bonus"` (no activation) and `"baizhu_c4_em"` (Toggle) both implement C4. The non-toggle version should be removed.
 
 > **Severity: MEDIUM**
+
+**Implementation status:** Fixed in this branch.
 
 ### Collei — C4 Target
 
@@ -226,6 +248,8 @@ The toggle version (`"collei_c4_em"`) correctly uses `TeamExcludeSelf`. The non-
 
 > **Severity: LOW** (only affects non-toggle duplicate)
 
+**Implementation status:** Fixed in this branch.
+
 ### Tighnari — C4 "Withering Glimpsed in the Leaves"
 
 **Mirror** (C4):
@@ -236,6 +260,8 @@ The toggle version (`"collei_c4_em"`) correctly uses `TeamExcludeSelf`. The non-
 The second conditional +60 EM (reaction-triggered, max 120 total) is not captured. The base +60 is correct.
 
 > **Severity: LOW** — the reaction-triggered bonus (+60 additional) is absent.
+
+**Implementation status:** Fixed in this branch.
 
 ### Kirara — Duplicate C6 entries
 
@@ -248,6 +274,8 @@ Mirror (C6): Party All Elemental DMG +12% after Kirara uses Skill or Burst (15s)
 Both are identical in value. The non-toggle entry will always apply. Remove the non-toggle entry.
 
 > **Severity: MEDIUM** — double-counting.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

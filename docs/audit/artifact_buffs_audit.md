@@ -36,6 +36,8 @@ SubAgent split:
 - Rust: `AtkPercent` uses 4%/9%/15%; `ElementalDmgBonus(Hydro)` uses 7%/16%/25%.
 - Refs: `crates/data/src/artifacts.rs:1179`, `crates/data/src/artifacts.rs:1185`, `crates/data/src/artifacts.rs:1196`
 
+**Implementation status:** Fixed in this branch.
+
 ### Scroll of the Hero of Cinder City
 
 **Problem**: 2pc is implemented as EM +80, but the mirror says Elemental Energy +6 after nearby party Nightsoul Burst.
@@ -46,6 +48,8 @@ SubAgent split:
 - Rust 4pc: values are represented as `0.12` with `nightsoul_value: Some(0.40)`, but the description/trigger duration is outdated.
 - Refs: `crates/data/src/artifacts.rs:1533`, `crates/data/src/artifacts.rs:1535`, `crates/data/src/artifacts.rs:1543`
 
+**Implementation status:** Fixed in this branch.
+
 ### Finale of the Deep Galleries
 
 **Problem**: Entire damage-relevant set is missing.
@@ -55,6 +59,8 @@ SubAgent split:
 - Rust: no `finale_of_the_deep_galleries` artifact set and no registration in `ALL_ARTIFACT_SETS`.
 - Refs: `crates/data/src/artifacts.rs:2549`
 
+**Implementation status:** Fixed in this branch.
+
 ### Long Night's Oath
 
 **Problem**: Entire damage-relevant set is missing.
@@ -63,6 +69,8 @@ SubAgent split:
 - Mirror 4pc: Plunging/Charged/Skill hits grant 1/2/2 stacks; Plunging Attack DMG +15% per stack, max 5.
 - Rust: no `long_night_s_oath` artifact set and no registration in `ALL_ARTIFACT_SETS`.
 - Refs: `crates/data/src/artifacts.rs:2549`
+
+**Implementation status:** Fixed in this branch.
 
 ## Other Discrepancies
 
@@ -74,6 +82,8 @@ Values are correct, but the trigger text is incomplete.
 - Rust: implements Pyro/Hydro/Electro/Cryo Elemental DMG +35% for Team, but the description only covers normal Crystallize shard pickup.
 - Refs: `crates/data/src/artifacts.rs:393`
 
+**Implementation status:** Fixed in this branch.
+
 ### Flower of Paradise Lost
 
 Lunar-Bloom handling is not represented accurately.
@@ -83,6 +93,8 @@ Lunar-Bloom handling is not represented accurately.
 - Issues: Lunar-Bloom base +10% and its +25% stack scaling are not separately modeled; generic `TransformativeBonus` may apply wider than the listed reactions.
 - Refs: `crates/data/src/artifacts.rs:1133`, `crates/data/src/artifacts.rs:1140`, `crates/data/src/artifacts.rs:1151`
 
+**Implementation status:** Fixed in this branch.
+
 ### Fragment of Harmonic Whimsy
 
 Values are correct, but the activation text is wrong.
@@ -90,6 +102,8 @@ Values are correct, but the activation text is wrong.
 - Mirror: Bond of Life value increases/decreases -> DMG +18% per stack, max 3.
 - Rust: `DmgBonus +18%` per stack, max 3, but the description says HP changes.
 - Refs: `crates/data/src/artifacts.rs:1480`, `crates/data/src/artifacts.rs:1485`
+
+**Implementation status:** Fixed in this branch.
 
 ### Gilded Dreams
 
@@ -99,6 +113,8 @@ Values are correct, but activation timing is simplified as always-on team compos
 - Rust: same values, but uses auto team same/different element counts rather than the reaction-triggered 8s window.
 - Refs: `crates/data/src/artifacts.rs:989`, `crates/data/src/artifacts.rs:995`, `crates/data/src/artifacts.rs:1028`
 
+**Implementation status:** Fixed in this branch.
+
 ### Martial Artist
 
 Values are correct, but the activation condition is too broad.
@@ -106,6 +122,8 @@ Values are correct, but the activation condition is too broad.
 - Mirror: after using Elemental Skill, Normal/Charged Attack DMG +25%.
 - Rust: description/condition says after Skill/Burst use.
 - Refs: `crates/data/src/artifacts.rs:1934`, `crates/data/src/artifacts.rs:1940`, `crates/data/src/artifacts.rs:1951`
+
+**Implementation status:** Fixed in this branch.
 
 ### Nighttime Whispers in the Echoing Woods
 
@@ -115,6 +133,8 @@ Values are correct, but the activation condition is too broad.
 - Rust: base +20% is correct, but the extra condition is Nightsoul point consumption and the extra value is +20%, total +40%.
 - Refs: `crates/data/src/artifacts.rs:1431`, `crates/data/src/artifacts.rs:1448`
 
+**Implementation status:** Fixed in this branch.
+
 ### Obsidian Codex
 
 Values are correct, but the 4pc trigger text is outdated.
@@ -122,6 +142,8 @@ Values are correct, but the 4pc trigger text is outdated.
 - Mirror: after consuming 1 Nightsoul point while on field, CRIT Rate +40% for 6s.
 - Rust: `CritRate +40%`, but the description says Nightsoul points below 50%.
 - Refs: `crates/data/src/artifacts.rs:1651`, `crates/data/src/artifacts.rs:1656`
+
+**Implementation status:** Fixed in this branch.
 
 ### Thundering Fury
 
@@ -132,6 +154,8 @@ Reaction coverage is too generic and Lunar-Charged is not represented separately
 - Issues: generic transformative/additive stats can apply outside the listed reactions; Spread may receive the +20% even though only Aggravate is listed; Lunar-Charged +20% is not distinct and may be missing or over-buffed depending on engine mapping.
 - Refs: `crates/data/src/artifacts.rs:217`, `crates/data/src/artifacts.rs:223`, `crates/data/src/artifacts.rs:235`
 
+**Implementation status:** Fixed in this branch.
+
 ### Unfinished Reverie
 
 4pc condition/maintenance logic is outdated.
@@ -140,6 +164,8 @@ Reaction coverage is too generic and Lunar-Charged is not represented separately
 - Rust: `DmgBonus +50%`, but description/condition is after Burning/Burgeon reaction, with different duration/off-field behavior.
 - Refs: `crates/data/src/artifacts.rs:1511`, `crates/data/src/artifacts.rs:1516`
 
+**Implementation status:** Fixed in this branch.
+
 ### Viridescent Venerer
 
 Swirl damage bonus is too generic.
@@ -147,6 +173,8 @@ Swirl damage bonus is too generic.
 - Mirror: Swirl DMG +60%; RES -40% to the element infused in Swirl.
 - Rust: Anemo DMG +15% and Pyro/Hydro/Electro/Cryo RES -40% are correct, but `TransformativeBonus +60%` may apply to all transformative reactions instead of Swirl only.
 - Refs: `crates/data/src/artifacts.rs:294`, `crates/data/src/artifacts.rs:299`
+
+**Implementation status:** Fixed in this branch.
 
 ## Missing Sets From HoneyHunter md
 
@@ -157,12 +185,16 @@ Swirl damage bonus is too generic.
 - 4pc healing is out of scope.
 - Refs: `crates/data/src/artifacts.rs:2549`
 
+**Implementation status:** Fixed in this branch.
+
 ### Lucky Dog
 
 - Mirror: 2pc DEF +100. This can be damage-relevant for DEF-scaling characters.
 - Rust: no `lucky_dog` set.
 - 4pc healing is out of scope.
 - Refs: `crates/data/src/artifacts.rs:2549`
+
+**Implementation status:** Fixed in this branch.
 
 ### Finale of the Deep Galleries
 
@@ -179,6 +211,8 @@ See High-Priority Issues.
 - Assessment: missing set, but no checked damage-related effect.
 - Refs: `crates/data/src/artifacts.rs:2549`
 
+**Implementation status:** Out of scope for this pass because this is an added-damage/proc-damage or non-damage effect.
+
 ## Added-Damage / Proc Effects Excluded
 
 These were checked against the request and intentionally excluded from discrepancy counts.
@@ -188,6 +222,8 @@ These were checked against the request and intentionally excluded from discrepan
 | Echoes of an Offering | Valley Rite increases Normal Attack DMG by 70% of ATK | Implemented as `NormalAtkFlatDmg`; 2pc ATK +18% is OK |
 | Ocean-Hued Clam | Sea-Dyed Foam deals separate damage based on healing | 2pc Healing Bonus is implemented; 4pc is out of scope |
 | Song of Days Past | healing record adds flat damage to Normal/Charged/Plunging/Skill/Burst hits | Implemented as flat-damage buffs; excluded |
+
+**Implementation status:** Out of scope for this pass because this is an added-damage/proc-damage or non-damage effect.
 
 ## Full Per-File Status
 

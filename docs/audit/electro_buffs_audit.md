@@ -45,27 +45,41 @@ No duplicate talent-buff entries were found in `electro.rs`, so there is no obvi
 - `beidou_c4_electro_dmg` is not a safe stand-in for the mirror C4. The mirror effect is an extra Electro hit on Normal Attacks after Beidou is hit, which is out of scope here. Keeping it as `ElementalDmgBonus(Electro)` would over-buff every Electro hit instead of only the conditional follow-up instance.
 - `Lightning Storm` is missing entirely. The mirror A4 grants Normal and Charged Attack DMG +15% for 10s after Beidou unleashes Tidecaller at maximum bonus.
 
+**Implementation status:** Fixed in this branch.
+
 ### Clorinde
 - `Clorinde A1 Electro Flat DMG` only covers Normal Attacks. The mirror passive also affects `Last Lightfall`, so the Burst half is missing from the current stat model.
 - `Dark-Shattering Flame` is not upgraded by C2. The mirror C2 raises the ATK scaling to 30% and keeps the same max cap behavior.
 - `To Enshrine Tears, Life, and Love` is missing. The mirror C4 adds Bond of Life based `Last Lightfall` DMG scaling.
 
+**Implementation status:** Fixed in this branch.
+
 ### Kujou Sara
 - `Sin of Pride` is too broad. The mirror gives Electro-only CRIT DMG to the character buffed by Tengu Juurai, but the code uses generic `CritDmg` on the whole team.
 
+**Implementation status:** Fixed in this branch.
+
 ### Kuki Shinobu
 - `Kuki Shinobu C6 Elemental Mastery` is unconditional in code. The mirror only grants EM +150 when Shinobu drops below 25% HP, and that effect has a 60s cooldown.
+
+**Implementation status:** Fixed in this branch.
 
 ### Iansan
 - `iansan_c2_atk` targets `Team`, but the mirror C2 applies ATK +30% only to the current active character while Iansan is off-field.
 - `iansan_c6_dmg_bonus` also targets `Team`, but the mirror C6 applies DMG +25% only to the current active character after overflow.
 
+**Implementation status:** Fixed in this branch.
+
 ### Ororon
 - `Ororon C2 Electro DMG Bonus` uses 40%, but the mirror caps the bonus at 32%.
 - `Ororon C6 Team ATK Bonus` is targeted too broadly. The mirror grants ATK to the current active character only, not the whole team.
 
+**Implementation status:** Fixed in this branch.
+
 ### Varesa
 - `Varesa A1 Plunging Atk Flat DMG` is modeled at the ceiling only. The mirror A1 is state-dependent, and the C1 upgrade that makes the ceiling unconditional is not represented separately.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -76,20 +90,30 @@ No duplicate talent-buff entries were found in `electro.rs`, so there is no obvi
 - The C6 buffed-state amplification is also missing. In the mirror, Oz coordinated attacks further increase those ATK and EM bonuses.
 - I excluded Fischl's coordinated attack hits themselves because they are proc damage.
 
+**Implementation status:** Fixed in this branch.
+
 ### Beidou
 - A4 `Lightning Storm` is missing. The mirror grants Normal and Charged Attack DMG +15% for 10s after a max Tidecaller counter.
+
+**Implementation status:** Fixed in this branch.
 
 ### Clorinde
 - C2 `Dark-Shattering Flame` enhancement is missing. The mirror raises the ATK scaling from 20% to 30% per stack and keeps the same stack cap / max-damage ceiling.
 - C4 `To Enshrine Tears, Life, and Love` is missing. The mirror adds `Last Lightfall` DMG scaling based on Bond of Life.
 
+**Implementation status:** Fixed in this branch.
+
 ### Razor
 - The Hexerei burst enhancement is missing. The mirror adds a burst DMG bonus equal to 70% of Razor's ATK when `Lightning Fang` is active.
 - The C6 crit buff after Electro Sigil consumption is also missing. The lightning strike proc itself stays out of scope.
 
+**Implementation status:** Fixed in this branch.
+
 ### Varesa
 - C1 `Undying Passion` is not represented separately. The current A1 ceiling-only modeling does not capture the base 50% state or the mirror's C1 special-plunge upgrade cleanly.
 - C4 `The Courage to Press On` is missing. The mirror grants either plunge ground-impact DMG based on 500% ATK up to 20,000 damage, or a 100% Burst DMG increase in Fiery Passion / Apex Drive.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

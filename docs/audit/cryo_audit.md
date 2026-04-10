@@ -53,6 +53,8 @@ The **4th hit** (Hit 4) is entirely absent from the Rust file.
 
 **Fix**: Add a new `ALOY_NORMAL_4` constant with these 15 values and include it in the normal attack `TalentScaling` definition.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Eula — CRITICAL: Wrong Plunge Scaling at Lv11–15
@@ -104,6 +106,8 @@ EULA_PLUNGE_LOW Lv11–15: 3.1873, 3.4693, 3.7512, 4.0332, 4.3355
 EULA_PLUNGE_HIGH Lv11–15: 3.9818, 4.3323, 4.6828, 5.0333, 5.4147
 ```
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Skirk — CRITICAL: Digit Transposition at Normal 4 Lv14
@@ -123,6 +127,8 @@ The surrounding values confirm a monotonically increasing sequence; 144.13% brea
 
 **Fix**: Change `SKIRK_NORMAL_4[13]` from `1.4413` to `1.5413`.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Layla — MINOR: Normal 3 Lv13 Rounding Error
@@ -137,6 +143,8 @@ Mirror: `honeyhunter-mirror/md/characters/layla_077.md`
 All other levels in LAYLA_NORMAL_3 match within tolerance. This appears to be a rounding artifact (175.00 is a "round" number while the mirror shows 174.80).
 
 **Fix**: Change `LAYLA_NORMAL_3[12]` from `1.7500` to `1.7480`.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

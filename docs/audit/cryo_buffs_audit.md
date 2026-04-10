@@ -63,6 +63,8 @@ Description in code: "C1: Normal ATK DMG +10% on CRIT hit"
 
 **Verdict**: The Normal ATK DMG +10% value is correct. However, the mirror also grants **ATK SPD +10%**. ATK SPD is typically excluded from damage calculators as it affects animation speed, not raw damage multipliers, so this omission is acceptable by design. The buff value itself (10%) is correct.
 
+**Implementation status:** Fixed in this branch.
+
 ### Mika — C6 "Companion's Counsel" (MISSING CONDITION DETAIL)
 
 **Implementation** (`cryo.rs` lines 510-524):
@@ -79,6 +81,8 @@ The CRIT DMG buff is for **Physical CRIT DMG specifically**, not general CRIT DM
 
 **Verdict**: Potential over-application. Ideally this should be `PhysicalCritDmg` if that stat variant exists. This is worth investigating whether the stat type `CritDmg` correctly narrows to Physical only or is element-agnostic.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ## Missing Implementations
@@ -92,6 +96,8 @@ This is a straightforward Cryo DMG bonus (up to +15%) based on party composition
 
 **Verdict**: Missing implementation. Should add a buff for `ElementalDmgBonus(Element::Cryo)` with `base_value: 0.05`, `Stacks(3)`, `target: OnlySelf`, `source: AscensionPassive(4)`.
 
+**Implementation status:** Fixed in this branch.
+
 ### Chongyun — C2 "Atmospheric Revolution" (MISSING)
 
 **Mirror** (`chongyun_036.md`):
@@ -100,6 +106,8 @@ This is a straightforward Cryo DMG bonus (up to +15%) based on party composition
 CD reduction is a utility effect, but in practice the C6 "Rally of Four Blades" description in the implementation is arguably wrong in scope (see below). C2 is a CD reduction — excluded per task scope.
 
 **Verdict**: Correctly excluded (CD reduction, utility).
+
+**Implementation status:** Out of scope for this pass because this is an added-damage/proc-damage or non-damage effect.
 
 ### Chongyun — C6 "Rally of Four Blades" (WRONG CONDITION)
 
@@ -118,6 +126,8 @@ The buff only applies to **Cloud-Parting Star's burst damage** when enemies are 
 
 **Verdict**: Implementation overgeneralizes. Should be `BurstDmgBonus` at minimum, with a Toggle for the HP condition. Currently applying as a general `DmgBonus` to all damage types.
 
+**Implementation status:** Fixed in this branch.
+
 ### Citlali — C6 "Secret Pact" includes self DMG bonus (MISSING)
 
 **Implementation** (`cryo.rs` lines 396-427):
@@ -129,6 +139,8 @@ Only implements Pyro DMG +1.5%/stack and Hydro DMG +1.5%/stack for team.
 The +2.5% per count self DMG bonus for Citlali is missing.
 
 **Verdict**: Missing self DMG buff. Should add `DmgBonus` +0.025/stack (max 40 stacks) targeting `OnlySelf` from C6.
+
+**Implementation status:** Fixed in this branch.
 
 ### Escoffier — Duplicate C1 Entry (BUG)
 
@@ -144,6 +156,8 @@ The first entry (always-on, no activation) is incorrect and double-counts the C1
 
 **Verdict**: BUG — the always-on `"Amuse-bouche de Saveur Cryo CD"` entry should be removed. Only the Toggle version with the condition note is correct.
 
+**Implementation status:** Fixed in this branch.
+
 ### Escoffier — A4 "Inspiration-Immersed Seasoning" (MISSING)
 
 **Mirror** (`escoffier_112.md`):
@@ -154,6 +168,8 @@ This A4 passive provides Hydro RES and Cryo RES reduction — a significant dama
 **Verdict**: Missing implementation. Should add two buffs (`ElementalResReduction(Hydro)` and `ElementalResReduction(Cryo)`) with Stacks(4) × 0.55 max or simplified to the max value, `source: AscensionPassive(4)`.
 
 Note: The C1 conditional Cryo CRIT DMG buff also depends on A4 being unlocked (the mirror states "You must first unlock the Ascension Talent 'Inspiration-Immersed Seasoning'").
+
+**Implementation status:** Fixed in this branch.
 
 ### Freminet — C1 Scope Incorrect (WRONG SCOPE)
 
@@ -171,12 +187,16 @@ This is a CRIT Rate bonus **specifically for Shattering Pressure (Skill)**, not 
 
 **Verdict**: Should be `SkillCritRate` or handled as a conditional if that stat variant exists, otherwise acceptable as approximation with user understanding.
 
+**Implementation status:** Fixed in this branch.
+
 ### Shenhe — C6 "Mystical Abandon" (MISSING)
 
 **Mirror** (`shenhe_063.md`):
 > "When characters trigger Icy Quill's effects using Normal and Charged Attack DMG, it does not count toward the Trigger Quota."
 
 This is a utility/quota mechanic, not a direct stat buff. Correctly excluded.
+
+**Implementation status:** Out of scope for this pass because this is an added-damage/proc-damage or non-damage effect.
 
 ### Shenhe — C4 "Insight" (MISSING)
 
@@ -186,6 +206,8 @@ This is a utility/quota mechanic, not a direct stat buff. Correctly excluded.
 This is a skill DMG scaling mechanic (Shenhe's own skill gets +5% DMG per Skyfrost Mantra stack consumed, up to 50 stacks = +250%). Since it affects Shenhe's own skill DMG output, it is damage-relevant.
 
 **Verdict**: Missing implementation for Shenhe C4. Self Skill DMG bonus +0.05 per stack (max 50). Source: Constellation(4), `SkillDmgBonus` or `DmgBonus` self.
+
+**Implementation status:** Fixed in this branch.
 
 ### Skirk — C4 "Fractured Flow" (VALUE INCONSISTENCY)
 
@@ -219,6 +241,8 @@ The implementation only adds Shooting Star DMG+40% (`SkillDmgBonus`). The Starli
 
 **Verdict**: Missing `BurstDmgBonus` +0.40 from C6, `source: Constellation(6)`, `target: OnlySelf`.
 
+**Implementation status:** Fixed in this branch.
+
 ### Kaeya — C1 Scope (OVERGENERALIZED)
 
 **Implementation** (`cryo.rs` lines 839-852):
@@ -235,6 +259,8 @@ This is specifically Kaeya's own Normal/Charged Attack CRIT Rate, not a general 
 
 **Verdict**: Wrong target (`Team` should be `OnlySelf`) and wrong stat (should be `NormalAtkCritRate` + `ChargedAtkCritRate` if those variants exist, else a Toggle on `CritRate`). Currently applies a general 15% CRIT Rate to the entire team, which is a significant over-application.
 
+**Implementation status:** Fixed in this branch.
+
 ### Mika — A1 "Suppressive Barrage" Physical DMG Stacks (MISSING)
 
 **Mirror** (`mika_080.md`):
@@ -243,6 +269,8 @@ This is specifically Kaeya's own Normal/Charged Attack CRIT Rate, not a general 
 So Mika's A1 grants up to 3 × Physical DMG stacks = effectively up to 30% Physical DMG (with A4 "Topographical Mapping" adding 1 more stack for 4 total = 40%). This is not implemented in `MIKA_BUFFS`.
 
 **Verdict**: Missing. Should add `PhysicalDmgBonus` +0.10 per stack (max 3 or 4 with A4), `source: AscensionPassive(1)`, `target: Team`.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

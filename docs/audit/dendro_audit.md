@@ -44,6 +44,8 @@ Audit of all 13 Dendro characters in `crates/data/src/characters/dendro/*.rs` ag
 - Direct damage rows for the normal attack, skill thrust, and burst match the mirror.
 - Additional projection-attack rows in the mirror are excluded from this audit.
 
+**Implementation status:** Fixed in this branch.
+
 ### Baizhu (`baizhu.rs` / `baizhuer_082.md`)
 
 **Status: PASS**
@@ -79,6 +81,8 @@ Base stats, ascension stat, weapon/element, and direct damage rows match within 
 
 **Base Stats / Ascension / Weapon / Element: OK**
 
+**Implementation status:** Fixed in this branch.
+
 ### Kirara (`kirara.rs` / `momoka_061.md`)
 
 **Status: FAIL**
@@ -96,6 +100,8 @@ Base stats, ascension stat, weapon/element, and direct damage rows match within 
   - `Urgent Neko Parcel Hit DMG`
   - `Flipclaw Strike DMG`
 - Shield rows in the mirror are excluded from this audit.
+
+**Implementation status:** Fixed in this branch.
 
 ### Lauma (`lauma.rs` / `lauma_119.md`)
 
@@ -118,6 +124,8 @@ Base stats, ascension stat, weapon/element, and direct damage rows match within 
 - `Tri-Karma Purification DMG` is excluded as proc/additional damage.
 
 **Base Stats / Ascension / Weapon / Element: OK**
+
+**Implementation status:** Fixed in this branch.
 
 ### Nefer (`nefer.rs` / `nefer_122.md`)
 
@@ -144,6 +152,8 @@ Base stats, ascension stat, weapon/element, and direct damage rows match within 
 - `playerboy_005.md` is the correct Dendro Traveler mirror mapping; `playerboy_041.md` is just a generic traveler stub and was not the right file.
 
 **Talent Scalings: OK**
+
+**Implementation status:** Fixed in this branch.
 
 ### Yaoyao (`yaoyao.rs` / `yaoyao_077.md`)
 

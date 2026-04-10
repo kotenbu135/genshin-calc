@@ -46,6 +46,8 @@
 
 **Assessment**: The comment is correct that the base tier is +15% and Ascendant Gleam adds a further +20% (total 35%). If the Moonsign-enhanced tier is handled in moonsign_chars.rs, that needs verification — the base +15% buff should appear somewhere as a TalentBuffDef unless moonsign_chars.rs covers both tiers.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Candace — Burst DMG Bonus (NormalAtkDmgBonus) scaling table incorrect
@@ -67,6 +69,8 @@ The mirror shows the Normal Attack DMG Bonus from Sacred Rite: Wagtail's Tide is
 **Assessment**: The code has incorrect scaling values for Lv2–15. The buff should be a constant `base_value: 0.20` with `scales_with_talent: false`, or the scaling array should be all 0.20.
 
 Additionally, the A4 passive "Celestial Dome of Sand" provides an extra damage bonus: **0.5% per 1,000 points of Candace Max HP** when characters deal Elemental DMG with Normal Attacks under the Crimson Crown effect. This is an HP-scaling flat DMG bonus — currently missing as a TalentBuffDef.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -90,6 +94,8 @@ Lv7: 54%, Lv8: 56%, Lv9: 58%, Lv10: 60%, Lv11: 60%, Lv12: 60%, Lv13: 60%, Lv14: 
 [0.42, 0.44, 0.46, 0.48, 0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.60, 0.60, 0.60, 0.60, 0.60]
 ```
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Mona — C4 CRIT DMG: gated to Hexerei party members (Buffed State only)
@@ -110,6 +116,8 @@ TalentBuffDef {
 > When any Hexerei party member attacks an opponent affected by an Omen, their CRIT DMG is increased by 15%.
 
 **Assessment**: The CRIT DMG bonus is only for Hexerei (magic/spellcaster) party members, not the whole team. The base C4 (non-Buffed State) only gives CRIT Rate +15% to all party members; the CRIT DMG +15% is an added Buffed State effect restricted to Hexerei characters. The code applies it as a Team buff unconditionally, which is an approximation documented in the description but worth flagging. The description says "(approximation)" — this should be noted more clearly or restricted to OnlySelf if Mona herself counts as Hexerei.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -139,6 +147,8 @@ At max stacks Lv10: 4 × 1.11% = 4.44% of Max HP.
 
 Note: C2 (World Source, HP+50%) is already handled correctly, and C1 (Shunsuiken +40% against opponents ≤50% HP) is correctly implemented as a conditional NormalAtkDmgBonus.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Ayato — C1 condition missing (≤50% HP opponent)
@@ -149,6 +159,8 @@ The C1 buff "Kyouka Fuushi" grants Shunsuiken DMG +40%, but the mirror specifies
 **Mirror** (ayato_066.md, C1): "Shunsuiken DMG is increased by 40% against opponents with 50% HP or less."
 
 **Assessment**: The conditional (enemy HP threshold) cannot currently be modelled in TalentBuffDef. This is a known limitation — the code approximates it as always-on, which is a valid engineering trade-off. Should be documented with a TODO comment.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -173,6 +185,8 @@ Looking at the mirror more carefully: The passive "Discipline of the Supreme Arb
 
 The A4 passive "Heir to the Ancient Sea's Authority" is correctly modelled as Hydro DMG Bonus +30% (Toggle), sourced from `AscensionPassive(4)`.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Sigewinne — A1 "Requires Appropriate Rest" is self-only Hydro DMG
@@ -194,6 +208,8 @@ TalentBuffDef {
 
 **Assessment**: The Hydro DMG Bonus is **self-only** (Sigewinne only), not a team buff. The `target: BuffTarget::Team` is incorrect. Should be `BuffTarget::OnlySelf`.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Sigewinne — C6 "Whirlpool Wisdom" max values incorrect
@@ -212,6 +228,8 @@ TalentBuffDef {
 - At max: 110% CD ÷ 2.2% per 1000 HP = 50,000 HP threshold for max CD
 
 The code stores only the max values (Toggle), which is a valid simplification. The values themselves (+20% CR, +110% CD) are **correct** per the mirror.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -232,6 +250,8 @@ TalentBuffDef {
 
 **Assessment**: This buff increases the damage of Bountiful Cores created by party members under Golden Chalice's Bounty — it is effectively a party-wide buff (all characters who have the Bounty status). Setting `target: BuffTarget::OnlySelf` is incorrect if the intent is to model the Bountiful Core DMG bonus. However, since Bountiful Cores are a transformative reaction product and the damage calculation may be applied separately, this may be an acceptable simplification for `TransformativeBonus` on Nilou herself as proxy. Still, the description should clarify this is a party-wide reaction DMG increase, not a self-only buff.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ## Missing Implementations
@@ -248,6 +268,8 @@ Constellations: C1 CD reduction, C2 energy on kill, C3/C5 talent level up, C4 au
 
 **Assessment**: Tartaglia correctly has no TalentBuffDefs. His absence from the registry is intentional (no applicable buffs). No action needed.
 
+**Implementation status:** Out of scope for this pass because this is an added-damage/proc-damage or non-damage effect.
+
 ---
 
 ### Candace — A4 "Celestial Dome of Sand" HP-scaling DMG bonus missing
@@ -256,6 +278,8 @@ Constellations: C1 CD reduction, C2 energy on kill, C3/C5 talent level up, C4 au
 > Characters affected by the Prayer of the Crimson Crown will deal 0.5% increased DMG for every 1,000 points of Candace's Max HP when they deal Elemental DMG with their Normal Attacks.
 
 This is an HP-scaling percentage DMG bonus similar to Nilou's A4. It is currently not implemented as a TalentBuffDef. The HP-scaling variant (0.5% per 1,000 HP) would require `scales_on: Some(ScalingStat::Hp)` with a stacking formula. Given Candace's typical HP range (~30,000 HP), this could yield roughly 15% extra DMG. It should be added as a separate HP-scaling buff.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -278,6 +302,8 @@ TalentBuffDef {
 
 **Assessment**: The mirror file for Aino (`aino_121.md`) does not contain a "Structured Power Booster" passive talent description. This buff may be from game data not yet captured in the mirror, or it may be incorrectly attributed. Requires verification against a more complete mirror update.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Furina — C6 DMG from HP% not implemented
@@ -287,6 +313,8 @@ TalentBuffDef {
 
 These are HP-scaling flat DMG bonuses on Furina's own attacks during C6 "Center of Attention." They are not implemented as TalentBuffDefs. The HP-flat DMG bonuses are complex (Arkhe-alignment dependent, 6 triggers max) and appropriately skipped, but a TODO comment should exist.
 
+**Implementation status:** Out of scope for this pass because this is an added-damage/proc-damage or non-damage effect.
+
 ---
 
 ### Furina — C2 HP% increase from Fanfare overflow not implemented
@@ -295,6 +323,8 @@ These are HP-scaling flat DMG bonuses on Furina's own attacks during C6 "Center 
 > Each point of Fanfare above the limit will increase Furina's Max HP by 0.35%. Her maximum Max HP increase is 140%.
 
 This is a self-only HP% buff (max +140%) when Fanfare exceeds the cap. Currently not implemented. Given its complexity (depends on real-time Fanfare over-cap), a TODO comment should exist.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 

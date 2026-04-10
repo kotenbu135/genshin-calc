@@ -70,6 +70,8 @@ The following files have incorrect base HP/ATK/DEF arrays starting at index 1. I
 | Raiden Shogun (`raiden_shogun.rs` / `shougun_052.md`) | Lv1 ATK 26.00 vs 26.25; Lv1 DEF 61.00 vs 61.45; index 1 onward is wrong |
 | Yae Miko (`yae_miko.rs` / `yae_058.md`) | Lv1 ATK 26.00 vs 26.44; Lv1 DEF 44.00 vs 44.27; index 1 onward is wrong |
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Ineffa
@@ -95,6 +97,8 @@ The following files have incorrect base HP/ATK/DEF arrays starting at index 1. I
 
 Refs: `crates/data/src/characters/electro/ineffa.rs`, `honeyhunter-mirror/md/characters/ineffa_116.md`
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Lisa
@@ -115,6 +119,8 @@ Refs: `crates/data/src/characters/electro/ineffa.rs`, `honeyhunter-mirror/md/cha
 
 Refs: `crates/data/src/characters/electro/lisa.rs`, `honeyhunter-mirror/md/characters/lisa_006.md`
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Dori
@@ -131,3 +137,5 @@ Refs: `crates/data/src/characters/electro/lisa.rs`, `honeyhunter-mirror/md/chara
 - Both diffs are small, but they exceed the configured tolerance.
 
 Refs: `crates/data/src/characters/electro/dori.rs`, `honeyhunter-mirror/md/characters/dori_068.md`
+
+**Implementation status:** Fixed in this branch.

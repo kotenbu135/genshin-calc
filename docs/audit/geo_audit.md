@@ -40,6 +40,8 @@ Recurring issue: the standard Plunge DMG row is `0.1011` in Rust but `101.1%` in
 
 The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror shows `101.1%`. All other base stats, ascension stat, weapon/element, and damage rows match.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Chiori (`crates/data/src/characters/geo/chiori.rs` ↔ `honeyhunter-mirror/md/characters/chiori_094.md`)
@@ -50,6 +52,8 @@ The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror
 - `CHIORI_CHARGED_1` / `_2` are `54.25%` each in Rust, while the mirror shows `54.31% + 54.31%`.
 - `CHIORI_PLUNGE` has the shared `0.1011` typo at Lv7; the mirror shows `101.1%`.
 - Base stats, ascension stat, weapon type, element, skill rows, and burst row match.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -66,6 +70,8 @@ The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror
 - `KACHINA_PLUNGE` also has the shared `0.1011` typo at Lv7; the mirror shows `101.1%`.
 - Base stats and ascension stat match; the listed skill and burst rows are the ones with value drift.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Navia (`crates/data/src/characters/geo/navia.rs` ↔ `honeyhunter-mirror/md/characters/navia_091.md`)
@@ -74,6 +80,8 @@ The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror
 
 - `NAVIA_NORMAL_3` is stored as one hit (`0.3485`), but the mirror’s 3rd normal stage is `34.89%×3`.
 - Other normal hits, charged attack, skill rows, burst rows, base stats, and ascension stat match.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -86,6 +94,8 @@ The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror
 - `XILONEN_PLUNGE` has the shared `0.1011` typo at Lv7; the mirror shows `101.1%`.
 - Base stats, ascension stat, skill rows, and burst rows match.
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Yun Jin (`crates/data/src/characters/geo/yun_jin.rs` ↔ `honeyhunter-mirror/md/characters/yunjin_064.md`)
@@ -97,6 +107,8 @@ The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror
 - The Lv100 row is also wrong: Rust ends at `11509.56 HP / 206.28 ATK / 792.72 DEF`, while the mirror shows `11395 / 239.93 / 785.19`.
 - Talent scalings match aside from the shared plunge typo (`0.1011` vs `101.1%`).
 
+**Implementation status:** Fixed in this branch.
+
 ---
 
 ### Zhongli (`crates/data/src/characters/geo/zhongli.rs` ↔ `honeyhunter-mirror/md/characters/zhongli_030.md`)
@@ -106,6 +118,8 @@ The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror
 - `ZHONGLI_NORMAL_5_1` is a single `0.1075` entry, but the mirror’s 5th normal stage is `10.75%×4`.
 - `ZHONGLI_PLUNGE` has the shared `0.1011` typo at Lv7; the mirror shows `101.1%`.
 - Base stats, ascension stat, weapon type, element, and the other talent rows match.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
@@ -119,6 +133,8 @@ The only mismatch is `ALBEDO_PLUNGE`: Rust has `0.1011` at Lv7, while the mirror
 - `ZIBAI_SKILL_LPS_HIT3` collapses the mirrored `34.57% + 34.57% DEF` stage into a single entry.
 - `ZIBAI_SKILL_LPS_CHARGED` collapses the mirrored `65.95% + 65.95% DEF` charged attack into a single entry.
 - Burst rows match. The `4th-hit additional damage` row is out of scope and was not audited.
+
+**Implementation status:** Fixed in this branch.
 
 ---
 
