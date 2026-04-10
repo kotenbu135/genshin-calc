@@ -57,6 +57,7 @@ static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Candace =====
+// A4 "Celestial Dome of Sand": Normal ATK DMG +0.5% per 1000 Max HP
 // Burst "Sacred Rite: Heron's Sanctum": Normal ATK DMG bonus per level (Lv1-15)
 // C2 "The Forgiving Stars": Max HP +20% for 15s when Skill hits opponents
 static CANDACE_BURST_NORMAL_SCALING: [f64; 15] = [
@@ -64,6 +65,20 @@ static CANDACE_BURST_NORMAL_SCALING: [f64; 15] = [
 ];
 
 static CANDACE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Celestial Dome of Sand",
+        description: desc!("A4: Normal Attack DMG +0.5% per 1000 Max HP"),
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.000005,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Sacred Rite: Wagtail's Tide",
         description: desc!("Normal ATK DMG Bonus based on burst talent level"),
@@ -126,6 +141,20 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Stacks(300))),
     },
     TalentBuffDef {
+        name: "furina_c2_hp",
+        description: desc!("C2: Furina Max HP +140% while burst is active"),
+        stat: BuffableStat::HpPercent,
+        base_value: 1.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "Let the People Rejoice DMG Bonus (C1+ extra 100pt)",
         description: desc!("C1 extra fanfare (+100pt) DMG bonus based on burst talent level"),
         stat: BuffableStat::DmgBonus,
@@ -136,6 +165,54 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(1),
         min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Furina C6 Normal ATK Flat DMG",
+        description: desc!(
+            "C6: Normal Attacks deal additional DMG equal to 18% of Furina's Max HP"
+        ),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.18,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Furina C6 Charged ATK Flat DMG",
+        description: desc!(
+            "C6: Charged Attacks deal additional DMG equal to 18% of Furina's Max HP"
+        ),
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 0.18,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Furina C6 Plunging ATK Flat DMG",
+        description: desc!(
+            "C6: Plunging Attacks deal additional DMG equal to 18% of Furina's Max HP"
+        ),
+        stat: BuffableStat::PlungingAtkFlatDmg,
+        base_value: 0.18,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
@@ -489,23 +566,28 @@ static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Ayato =====
-// A1 "Kamisato Art: Daily Cooking": Namisen at max stacks grants NA DMG Bonus
-//   Simplified to max value (5 stacks): ~56% NA DMG Bonus (Toggle)
+// Elemental Skill "Kamisato Art: Kyouka": Namisen at max stacks grants flat NA DMG scaling on HP
+//   Simplified to max-stack total using the Lv1-15 table from the talent page (Toggle)
 // C1 "Kyouka Fuushi": Shunsuiken (E) DMG +40% — approximated as NormalAtkDmgBonus
 // C2 "World Source": MaxHP +50%
 // C4 "Boundless Origin": team NA ATK SPD — ATK SPD not a buffable stat, skip
 //   TODO: C4 team NA ATK SPD +15% not implementable (no AtkSpd BuffableStat)
 static AYATO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Namisen Max Stacks NA DMG Bonus",
-        description: desc!("A1: Namisen at max stacks grants NA DMG Bonus +56% (approximated max)"),
-        stat: BuffableStat::NormalAtkDmgBonus,
-        base_value: 0.56,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
+        name: "Namisen Max Stacks Flat DMG",
+        description: desc!(
+            "Elemental Skill: Namisen at max stacks grants additional flat DMG based on Ayato's Max HP"
+        ),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&[
+            0.0224, 0.0244, 0.0260, 0.0288, 0.0304, 0.0328, 0.0356, 0.0384, 0.0412, 0.0444, 0.0476,
+            0.0508, 0.0536, 0.0568, 0.0600,
+        ]),
+        scales_on: Some(ScalingStat::Hp),
         target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive(1),
+        source: TalentBuffSource::ElementalSkill,
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
@@ -774,4 +856,93 @@ pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {
         .iter()
         .find(|(id, _)| *id == character_id)
         .map(|(_, buffs)| *buffs)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn find_buff(
+        buffs: &[TalentBuffDef],
+        stat: BuffableStat,
+        source: TalentBuffSource,
+    ) -> &TalentBuffDef {
+        buffs
+            .iter()
+            .find(|buff| buff.stat == stat && buff.source == source)
+            .expect("expected buff to exist")
+    }
+
+    #[test]
+    fn test_find_candace_a4_team_normal_attack_damage_bonus() {
+        let buffs = find("candace").expect("Candace talent buffs should exist");
+        let buff = find_buff(
+            buffs,
+            BuffableStat::NormalAtkDmgBonus,
+            TalentBuffSource::AscensionPassive(4),
+        );
+        assert_eq!(buff.target, BuffTarget::Team);
+        assert_eq!(
+            buff.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert_eq!(buff.scales_on, Some(ScalingStat::Hp));
+        assert!((buff.base_value - 0.000005).abs() < 1e-12);
+    }
+
+    #[test]
+    fn test_find_ayato_a1_normal_attack_flat_damage_scaling() {
+        let buffs = find("ayato").expect("Ayato talent buffs should exist");
+        let buff = find_buff(
+            buffs,
+            BuffableStat::NormalAtkFlatDmg,
+            TalentBuffSource::ElementalSkill,
+        );
+        assert_eq!(buff.target, BuffTarget::OnlySelf);
+        assert_eq!(
+            buff.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert_eq!(buff.scales_on, Some(ScalingStat::Hp));
+        assert!(buff.scales_with_talent);
+        let scaling = buff.talent_scaling.expect("expected scaling table");
+        let expected = [
+            0.0224, 0.0244, 0.0260, 0.0288, 0.0304, 0.0328, 0.0356, 0.0384, 0.0412, 0.0444, 0.0476,
+            0.0508, 0.0536, 0.0568, 0.0600,
+        ];
+        for (actual, expected) in scaling.iter().zip(expected.iter()) {
+            assert!((actual - expected).abs() < 1e-6);
+        }
+    }
+
+    #[test]
+    fn test_find_furina_c2_and_c6_buffs() {
+        let buffs = find("furina").expect("Furina talent buffs should exist");
+        let c2 = find_buff(
+            buffs,
+            BuffableStat::HpPercent,
+            TalentBuffSource::Constellation(2),
+        );
+        assert_eq!(c2.target, BuffTarget::OnlySelf);
+        assert_eq!(
+            c2.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert!((c2.base_value - 1.40).abs() < 1e-6);
+
+        for stat in [
+            BuffableStat::NormalAtkFlatDmg,
+            BuffableStat::ChargedAtkFlatDmg,
+            BuffableStat::PlungingAtkFlatDmg,
+        ] {
+            let buff = find_buff(buffs, stat, TalentBuffSource::Constellation(6));
+            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert_eq!(buff.scales_on, Some(ScalingStat::Hp));
+            assert!((buff.base_value - 0.18).abs() < 1e-6);
+        }
+    }
 }

@@ -21,6 +21,86 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
         activation: None,
     },
     TalentBuffDef {
+        name: "Hexerei Solar Isotoma Normal DMG",
+        description: desc!(
+            "After creating Solar Isotoma, nearby party members' Normal Attack DMG increases by 4% of Albedo's DEF per 1000, max 12%"
+        ),
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.00004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.12),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Hexerei Solar Isotoma Charged DMG",
+        description: desc!(
+            "After creating Solar Isotoma, nearby party members' Charged Attack DMG increases by 4% of Albedo's DEF per 1000, max 12%"
+        ),
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.00004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.12),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Hexerei Solar Isotoma Plunging DMG",
+        description: desc!(
+            "After creating Solar Isotoma, nearby party members' Plunging Attack DMG increases by 4% of Albedo's DEF per 1000, max 12%"
+        ),
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.00004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.12),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Hexerei Solar Isotoma Skill DMG",
+        description: desc!(
+            "After creating Solar Isotoma, nearby party members' Elemental Skill DMG increases by 4% of Albedo's DEF per 1000, max 12%"
+        ),
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.00004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.12),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Hexerei Solar Isotoma Burst DMG",
+        description: desc!(
+            "After creating Solar Isotoma, nearby party members' Elemental Burst DMG increases by 4% of Albedo's DEF per 1000, max 12%"
+        ),
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.00004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.12),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "albedo_c1_def",
         description: desc!("C1: DEF +50% on Skill use"),
         stat: BuffableStat::DefPercent,
@@ -101,6 +181,22 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "Heedless of the Wind and Weather",
+        description: desc!(
+            "After using Juuga: Forward Unto Victory, nearby party members gain DEF +25%"
+        ),
+        stat: BuffableStat::DefPercent,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "gorou_c6_geo_crit_dmg",
@@ -645,21 +741,40 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Chiori =====
+// A4 "The Finishing Touch": Geo DMG +20% after nearby party member creates a Geo Construct
 // C6 "A Guru's Inbred Nature": NA DMG +235% DEF as flat DMG
-static CHIORI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "A Guru's Inbred Nature - NA Flat DMG",
-    description: desc!("C6: Normal Attack DMG +235% of Chiori's DEF as flat DMG"),
-    stat: BuffableStat::NormalAtkFlatDmg,
-    base_value: 2.35,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: Some(ScalingStat::Def),
-    target: BuffTarget::OnlySelf,
-    source: TalentBuffSource::Constellation(6),
-    min_constellation: 6,
-    cap: None,
-    activation: Some(Activation::Manual(ManualCondition::Toggle)),
-}];
+static CHIORI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "The Finishing Touch Geo DMG Bonus",
+        description: desc!(
+            "After a nearby party member creates a Geo Construct, Chiori gains Geo DMG Bonus +20%"
+        ),
+        stat: BuffableStat::ElementalDmgBonus(Element::Geo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "A Guru's Inbred Nature - NA Flat DMG",
+        description: desc!("C6: Normal Attack DMG +235% of Chiori's DEF as flat DMG"),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 2.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Itto =====
 // A4 "Bloodline of the Crimson Oni": Kesagiri (Charged ATK) +35% DEF as flat DMG
@@ -851,9 +966,27 @@ static NAVIA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Noelle =====
+// Elemental Burst "Sweeping Time": ATK +DEF-based flat ATK (Lv1-15)
 // C2 "Combat Maid": CA DMG +15%
 // C6 "Must Be Spotless": ATK +50% DEF as flat ATK
 static NOELLE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Sweeping Time ATK Flat",
+        description: desc!("Elemental Burst: ATK increases based on Noelle's DEF"),
+        stat: BuffableStat::AtkFlat,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&[
+            0.40, 0.43, 0.46, 0.50, 0.53, 0.56, 0.60, 0.64, 0.68, 0.72, 0.76, 0.80, 0.85, 0.90,
+            0.95,
+        ]),
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Combat Maid CA DMG Bonus",
         description: desc!("C2: Charged Attack DMG +15%"),
@@ -906,4 +1039,99 @@ pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {
         .iter()
         .find(|(id, _)| *id == character_id)
         .map(|(_, buffs)| *buffs)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn find_buff(
+        buffs: &[TalentBuffDef],
+        stat: BuffableStat,
+        source: TalentBuffSource,
+    ) -> &TalentBuffDef {
+        buffs
+            .iter()
+            .find(|buff| buff.stat == stat && buff.source == source)
+            .expect("expected buff to exist")
+    }
+
+    #[test]
+    fn test_find_albedo_hexerei_solar_isotoma_team_buffs() {
+        let buffs = find("albedo").expect("Albedo talent buffs should exist");
+        for stat in [
+            BuffableStat::NormalAtkDmgBonus,
+            BuffableStat::ChargedAtkDmgBonus,
+            BuffableStat::PlungingAtkDmgBonus,
+            BuffableStat::SkillDmgBonus,
+            BuffableStat::BurstDmgBonus,
+        ] {
+            let buff = find_buff(buffs, stat, TalentBuffSource::AscensionPassive(4));
+            assert_eq!(buff.target, BuffTarget::Team);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert_eq!(buff.scales_on, Some(ScalingStat::Def));
+            assert!((buff.base_value - 0.00004).abs() < 1e-12);
+            assert_eq!(buff.cap, Some(0.12));
+        }
+    }
+
+    #[test]
+    fn test_find_chiori_a4_geo_damage_bonus() {
+        let buffs = find("chiori").expect("Chiori talent buffs should exist");
+        let buff = find_buff(
+            buffs,
+            BuffableStat::ElementalDmgBonus(Element::Geo),
+            TalentBuffSource::AscensionPassive(4),
+        );
+        assert_eq!(buff.target, BuffTarget::OnlySelf);
+        assert_eq!(
+            buff.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert!((buff.base_value - 0.20).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_gorou_a4_team_def_bonus() {
+        let buffs = find("gorou").expect("Gorou talent buffs should exist");
+        let buff = find_buff(
+            buffs,
+            BuffableStat::DefPercent,
+            TalentBuffSource::AscensionPassive(4),
+        );
+        assert_eq!(buff.target, BuffTarget::Team);
+        assert_eq!(
+            buff.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert!((buff.base_value - 0.25).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_noelle_burst_flat_atk_scaling() {
+        let buffs = find("noelle").expect("Noelle talent buffs should exist");
+        let buff = find_buff(
+            buffs,
+            BuffableStat::AtkFlat,
+            TalentBuffSource::ElementalBurst,
+        );
+        assert_eq!(buff.target, BuffTarget::OnlySelf);
+        assert_eq!(
+            buff.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert_eq!(buff.scales_on, Some(ScalingStat::Def));
+        assert!(buff.scales_with_talent);
+        let scaling = buff.talent_scaling.expect("expected scaling table");
+        let expected = [
+            0.40, 0.43, 0.46, 0.50, 0.53, 0.56, 0.60, 0.64, 0.68, 0.72, 0.76, 0.80, 0.85, 0.90,
+            0.95,
+        ];
+        for (actual, expected) in scaling.iter().zip(expected.iter()) {
+            assert!((actual - expected).abs() < 1e-6);
+        }
+    }
 }

@@ -246,9 +246,38 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Beidou =====
-// C6 "Bane of Evil": Electro RES -15% during burst
+// A4 "Stunning Revenge": Normal/Charged ATK DMG +15% after being attacked
 // C4 "Stunning Revenge": Normal ATK Electro DMG Bonus +20% on hit
+// C6 "Bane of Evil": Electro RES -15% during burst
 static BEIDOU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "beidou_a4_normal_dmg",
+        description: desc!("A4: Normal Attack DMG Bonus +15%"),
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "beidou_a4_charged_dmg",
+        description: desc!("A4: Charged Attack DMG Bonus +15%"),
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Bane of Evil Electro RES Shred",
         description: desc!("C6: During Stormbreaker, enemies have Electro RES -15%"),
@@ -389,6 +418,7 @@ static IANSAN_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Clorinde =====
 // A1: Electro flat DMG = 20% ATK/stack (self, Toggle)
+// C2: Electro flat DMG = 10% ATK/stack (self, Toggle, cap 900 per attack)
 // A4: CR+10% (self, Toggle — simplified from per-stack)
 // C6: CR+10% / CD+70% (self, Toggle)
 static CLORINDE_BUFFS: &[TalentBuffDef] = &[
@@ -406,6 +436,54 @@ static CLORINDE_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: Some(1800.0),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Clorinde A1 Burst Flat DMG",
+        description: desc!(
+            "A1: Last Lightfall deals additional Electro DMG equal to 20% of ATK (max 1800)"
+        ),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: Some(1800.0),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Clorinde C2 Normal Flat DMG",
+        description: desc!(
+            "C2: Normal Attacks deal additional Electro DMG equal to 10% of ATK (max 900)"
+        ),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: Some(900.0),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Clorinde C2 Burst Flat DMG",
+        description: desc!(
+            "C2: Last Lightfall deals additional Electro DMG equal to 10% of ATK (max 900)"
+        ),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: Some(900.0),
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
@@ -657,7 +735,7 @@ static DORI_BUFFS: &[TalentBuffDef] = &[
 // ===== Kuki Shinobu =====
 // A1: Healing Bonus +15% when HP<=50% (self, Toggle)
 // A4: Skill flat DMG = 25% EM (self, always active)
-// C6: EM +150 (self, min_constellation=6)
+// C6: EM +150 (self, Toggle, min_constellation=6)
 static KUKI_SHINOBU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Kuki Shinobu A1 Healing Bonus",
@@ -699,14 +777,15 @@ static KUKI_SHINOBU_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
-        activation: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
 ];
 
 // ===== Razor =====
 // C1: DMG +10% after picking up Electro Sigil (self, Toggle)
 // C2: CR +10% vs HP<30% enemies (self, Toggle, min_constellation=2)
-// C6: Electro flat DMG on NA — TODO: proc damage, skip
+// Hexerei burst enhancement: Burst flat DMG +70% ATK (self, Toggle)
+// C6: CRIT Rate +10% / CRIT DMG +50% (self, Toggle)
 static RAZOR_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Razor C1 DMG Bonus",
@@ -738,7 +817,48 @@ static RAZOR_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
-    // C6: Electro proc DMG on NA — skipped (proc/companion damage, not a stat buff)
+    TalentBuffDef {
+        name: "Razor Hexerei Burst Flat DMG",
+        description: desc!("Hexerei: Wolf Within's DMG increased by 70% of ATK"),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.70,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Atk),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Razor C6 CRIT Rate",
+        description: desc!("C6: CRIT Rate +10% for 15s after using Burst"),
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Razor C6 CRIT DMG",
+        description: desc!("C6: CRIT DMG +50% for 15s after using Burst"),
+        stat: BuffableStat::CritDmg,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Sethos =====
@@ -871,14 +991,14 @@ static VARESA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Ororon =====
-// C2: Electro DMG +40% max (self, Toggle, min_constellation=2)
+// C2: Electro DMG +32% max (self, Toggle, min_constellation=2)
 // C6: Team ATK +10%/stack max 3 (Team, Stacks(3), min_constellation=6)
 static ORORON_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Ororon C2 Electro DMG Bonus",
-        description: desc!("C2: Electro DMG Bonus +40% (max value)"),
+        description: desc!("C2: Electro DMG Bonus +32% (max value)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
-        base_value: 0.40,
+        base_value: 0.32,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
@@ -933,4 +1053,154 @@ pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {
         .iter()
         .find(|(id, _)| *id == character_id)
         .map(|(_, buffs)| *buffs)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn find_buff(
+        buffs: &[TalentBuffDef],
+        stat: BuffableStat,
+        source: TalentBuffSource,
+    ) -> &TalentBuffDef {
+        buffs
+            .iter()
+            .find(|buff| buff.stat == stat && buff.source == source)
+            .expect("expected buff to exist")
+    }
+
+    #[test]
+    fn test_find_beidou_a4_normal_and_charged_dmg_bonus() {
+        let buffs = find("beidou").expect("Beidou talent buffs should exist");
+        let normal = find_buff(
+            buffs,
+            BuffableStat::NormalAtkDmgBonus,
+            TalentBuffSource::AscensionPassive(4),
+        );
+        let charged = find_buff(
+            buffs,
+            BuffableStat::ChargedAtkDmgBonus,
+            TalentBuffSource::AscensionPassive(4),
+        );
+        for buff in [normal, charged] {
+            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert!((buff.base_value - 0.15).abs() < 1e-6);
+        }
+    }
+
+    #[test]
+    fn test_find_clorinde_a1_and_c2_flat_damage_buffs() {
+        let buffs = find("clorinde").expect("Clorinde talent buffs should exist");
+        let a1_normal = find_buff(
+            buffs,
+            BuffableStat::NormalAtkFlatDmg,
+            TalentBuffSource::AscensionPassive(1),
+        );
+        let a1_burst = find_buff(
+            buffs,
+            BuffableStat::BurstFlatDmg,
+            TalentBuffSource::AscensionPassive(1),
+        );
+        let c2_normal = find_buff(
+            buffs,
+            BuffableStat::NormalAtkFlatDmg,
+            TalentBuffSource::Constellation(2),
+        );
+        let c2_burst = find_buff(
+            buffs,
+            BuffableStat::BurstFlatDmg,
+            TalentBuffSource::Constellation(2),
+        );
+
+        for buff in [a1_normal, a1_burst] {
+            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert_eq!(buff.scales_on, Some(ScalingStat::Atk));
+            assert!((buff.base_value - 0.20).abs() < 1e-6);
+            assert_eq!(buff.cap, Some(1800.0));
+        }
+        for buff in [c2_normal, c2_burst] {
+            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert_eq!(buff.scales_on, Some(ScalingStat::Atk));
+            assert!((buff.base_value - 0.10).abs() < 1e-6);
+            assert_eq!(buff.cap, Some(900.0));
+            assert_eq!(buff.min_constellation, 2);
+        }
+    }
+
+    #[test]
+    fn test_find_kuki_c6_is_manual_toggle() {
+        let buffs = find("kuki_shinobu").expect("Kuki Shinobu talent buffs should exist");
+        let buff = find_buff(
+            buffs,
+            BuffableStat::ElementalMastery,
+            TalentBuffSource::Constellation(6),
+        );
+        assert_eq!(
+            buff.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert!((buff.base_value - 150.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_ororon_c2_electro_dmg_bonus() {
+        let buffs = find("ororon").expect("Ororon talent buffs should exist");
+        let buff = find_buff(
+            buffs,
+            BuffableStat::ElementalDmgBonus(Element::Electro),
+            TalentBuffSource::Constellation(2),
+        );
+        assert!((buff.base_value - 0.32).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_razor_hexerei_burst_and_c6_buffs() {
+        let buffs = find("razor").expect("Razor talent buffs should exist");
+        let burst = find_buff(
+            buffs,
+            BuffableStat::BurstFlatDmg,
+            TalentBuffSource::ElementalBurst,
+        );
+        assert_eq!(burst.target, BuffTarget::OnlySelf);
+        assert_eq!(
+            burst.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert_eq!(burst.scales_on, Some(ScalingStat::Atk));
+        assert!((burst.base_value - 0.70).abs() < 1e-6);
+
+        let crit_rate = find_buff(
+            buffs,
+            BuffableStat::CritRate,
+            TalentBuffSource::Constellation(6),
+        );
+        let crit_dmg = find_buff(
+            buffs,
+            BuffableStat::CritDmg,
+            TalentBuffSource::Constellation(6),
+        );
+        for buff in [crit_rate, crit_dmg] {
+            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert_eq!(buff.source, TalentBuffSource::Constellation(6));
+        }
+        assert!((crit_rate.base_value - 0.10).abs() < 1e-6);
+        assert!((crit_dmg.base_value - 0.50).abs() < 1e-6);
+    }
 }
