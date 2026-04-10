@@ -38,6 +38,17 @@ const KINICH_NA_HIT3: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const KINICH_NA_MID_AIR: TalentScaling = TalentScaling {
+    name: "空中の通常攻撃ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        1.6770, 1.8135, 1.9500, 2.1450, 2.2815, 2.4375, 2.6520, 2.8665, 3.0810, 3.3150, 3.5490,
+        3.7830, 4.0170, 4.2510, 4.4850,
+    ],
+    dynamic_bonus: None,
+};
+
 const KINICH_CHARGED: TalentScaling = TalentScaling {
     name: "重撃ダメージ",
     scaling_stat: ScalingStat::Atk,
@@ -132,7 +143,12 @@ const KINICH_BURST_BREATH: TalentScaling = TalentScaling {
 
 // --- Kinich aggregation ---
 
-static KINICH_NA_HITS: &[TalentScaling] = &[KINICH_NA_HIT1, KINICH_NA_HIT2, KINICH_NA_HIT3];
+static KINICH_NA_HITS: &[TalentScaling] = &[
+    KINICH_NA_HIT1,
+    KINICH_NA_HIT2,
+    KINICH_NA_HIT3,
+    KINICH_NA_MID_AIR,
+];
 static KINICH_CHARGED_ATTACKS: &[TalentScaling] = &[KINICH_CHARGED];
 static KINICH_PLUNGING: &[TalentScaling] = &[KINICH_PLUNGE, KINICH_PLUNGE_LOW, KINICH_PLUNGE_HIGH];
 static KINICH_SKILL_SCALINGS: &[TalentScaling] = &[KINICH_SKILL_LOOP, KINICH_SKILL_CANNON];

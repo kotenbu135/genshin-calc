@@ -54,8 +54,8 @@ const NAHIDA_CHARGED: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Dendro),
     values: [
-        0.66, 0.7095, 0.759, 0.825, 0.8745, 0.924, 0.99, 1.056, 1.122, 1.188, 1.254, 1.32, 1.4025,
-        1.485, 1.5675,
+        1.3200, 1.4190, 1.5180, 1.6500, 1.7490, 1.8480, 1.9800, 2.1120, 2.2440, 2.3760, 2.5080,
+        2.6400, 2.8050, 2.9700, 3.1350,
     ],
     dynamic_bonus: None,
 };
@@ -93,15 +93,26 @@ const NAHIDA_PLUNGE_HIGH: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-// --- Elemental Skill: All Schemes to Know (ATK portion of Tri-Karma Purification) ---
+// --- Elemental Skill: All Schemes to Know ---
 
 const NAHIDA_SKILL_PRESS: TalentScaling = TalentScaling {
-    name: "滅浄三業ダメージ(攻撃力)",
+    name: "一回押しダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Dendro),
     values: [
-        1.032, 1.1094, 1.1868, 1.29, 1.3674, 1.4448, 1.548, 1.6512, 1.7544, 1.8576, 1.9608, 2.064,
-        2.193, 2.322, 2.451,
+        0.9840, 1.0578, 1.1316, 1.2300, 1.3038, 1.3776, 1.4760, 1.5744, 1.6728, 1.7712, 1.8696,
+        1.9680, 2.0910, 2.2140, 2.3370,
+    ],
+    dynamic_bonus: None,
+};
+
+const NAHIDA_SKILL_HOLD: TalentScaling = TalentScaling {
+    name: "長押しダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.3040, 1.4018, 1.4996, 1.6300, 1.7278, 1.8256, 1.9560, 2.0864, 2.2168, 2.3472, 2.4776,
+        2.6080, 2.7710, 2.9340, 3.0970,
     ],
     dynamic_bonus: None,
 };
@@ -119,7 +130,7 @@ static NAHIDA_NA_HITS: &[TalentScaling] = &[
 ];
 static NAHIDA_CHARGED_ATTACKS: &[TalentScaling] = &[NAHIDA_CHARGED];
 static NAHIDA_PLUNGING: &[TalentScaling] = &[NAHIDA_PLUNGE, NAHIDA_PLUNGE_LOW, NAHIDA_PLUNGE_HIGH];
-static NAHIDA_SKILL_SCALINGS: &[TalentScaling] = &[NAHIDA_SKILL_PRESS];
+static NAHIDA_SKILL_SCALINGS: &[TalentScaling] = &[NAHIDA_SKILL_PRESS, NAHIDA_SKILL_HOLD];
 static NAHIDA_BURST_SCALINGS: &[TalentScaling] = &[];
 
 pub const NAHIDA: CharacterData = CharacterData {

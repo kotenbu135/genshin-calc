@@ -44,7 +44,7 @@ const SKIRK_NORMAL_4: TalentScaling = TalentScaling {
     damage_element: None,
     values: [
         0.6080, 0.6575, 0.7070, 0.7777, 0.8272, 0.8838, 0.9615, 1.0393, 1.1171, 1.2019, 1.2867,
-        1.3716, 1.4564, 1.4413, 1.6261,
+        1.3716, 1.4564, 1.5413, 1.6261,
     ],
     dynamic_bonus: None,
 };

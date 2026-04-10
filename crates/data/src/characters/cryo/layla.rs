@@ -33,7 +33,7 @@ const LAYLA_NORMAL_3: TalentScaling = TalentScaling {
     damage_element: None,
     values: [
         0.7298, 0.7892, 0.8486, 0.9335, 0.9929, 1.0608, 1.1541, 1.2475, 1.3408, 1.4427, 1.5445,
-        1.6464, 1.7500, 1.8500, 1.9520,
+        1.6464, 1.7480, 1.8500, 1.9520,
     ],
     dynamic_bonus: None,
 };

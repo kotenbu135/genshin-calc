@@ -6,12 +6,12 @@ use genshin_calc_core::{Element, ScalingStat};
 // -- Normal Attack: Rapid Fire -- Physical --
 
 const ALOY_NORMAL_1: TalentScaling = TalentScaling {
-    name: "1段ダメージ",
+    name: "1段ダメージ (合計)",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.2112, 0.2256, 0.2400, 0.2592, 0.2736, 0.2904, 0.3120, 0.3336, 0.3552, 0.3768, 0.3984,
-        0.4200, 0.4416, 0.4632, 0.4848,
+        0.4488, 0.4794, 0.5100, 0.5508, 0.5814, 0.6171, 0.6630, 0.7089, 0.7548, 0.8007, 0.8466,
+        0.8925, 0.9384, 0.9843, 1.0302,
     ],
     dynamic_bonus: None,
 };
@@ -21,8 +21,8 @@ const ALOY_NORMAL_2: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.2376, 0.2538, 0.2700, 0.2916, 0.3078, 0.3267, 0.3510, 0.3753, 0.3996, 0.4239, 0.4482,
-        0.4725, 0.4968, 0.5211, 0.5454,
+        0.4312, 0.4606, 0.4900, 0.5292, 0.5586, 0.5929, 0.6370, 0.6811, 0.7252, 0.7693, 0.8134,
+        0.8575, 0.9016, 0.9457, 0.9898,
     ],
     dynamic_bonus: None,
 };
@@ -32,8 +32,8 @@ const ALOY_NORMAL_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.4312, 0.4606, 0.4900, 0.5292, 0.5586, 0.5929, 0.6370, 0.6811, 0.7252, 0.7693, 0.8134,
-        0.8575, 0.9016, 0.9457, 0.9898,
+        0.5280, 0.5640, 0.6000, 0.6480, 0.6840, 0.7260, 0.7800, 0.8340, 0.8880, 0.9420, 0.9960,
+        1.0500, 1.1040, 1.1580, 1.2120,
     ],
     dynamic_bonus: None,
 };
@@ -43,8 +43,8 @@ const ALOY_NORMAL_4: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.5280, 0.5640, 0.6000, 0.6480, 0.6840, 0.7260, 0.7800, 0.8340, 0.8880, 0.9420, 0.9960,
-        1.0500, 1.1040, 1.1580, 1.2120,
+        0.6565, 0.7012, 0.7460, 0.8057, 0.8504, 0.9027, 0.9698, 1.0369, 1.1041, 1.1712, 1.2384,
+        1.3055, 1.3726, 1.4398, 1.5069,
     ],
     dynamic_bonus: None,
 };

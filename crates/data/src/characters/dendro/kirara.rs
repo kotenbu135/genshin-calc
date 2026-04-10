@@ -117,6 +117,28 @@ const KIRARA_SKILL_KICK: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const KIRARA_SKILL_PARCEL_HIT: TalentScaling = TalentScaling {
+    name: "ネコ箱急便突進ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.3360, 0.3612, 0.3864, 0.4200, 0.4452, 0.4704, 0.5040, 0.5376, 0.5712, 0.6048, 0.6384,
+        0.6720, 0.7140, 0.7560, 0.7980,
+    ],
+    dynamic_bonus: None,
+};
+
+const KIRARA_SKILL_FLIPCLAW: TalentScaling = TalentScaling {
+    name: "くるりん爪撃のダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.4400, 1.5480, 1.6560, 1.8000, 1.9080, 2.0160, 2.1600, 2.3040, 2.4480, 2.5920, 2.7360,
+        2.8800, 3.0600, 3.2400, 3.4200,
+    ],
+    dynamic_bonus: None,
+};
+
 // --- Elemental Burst: Secret Art: Surprise Dispatch ---
 
 const KIRARA_BURST_DMG: TalentScaling = TalentScaling {
@@ -152,7 +174,11 @@ static KIRARA_NA_HITS: &[TalentScaling] = &[
 ];
 static KIRARA_CHARGED_ATTACKS: &[TalentScaling] = &[KIRARA_CHARGED];
 static KIRARA_PLUNGING: &[TalentScaling] = &[KIRARA_PLUNGE, KIRARA_PLUNGE_LOW, KIRARA_PLUNGE_HIGH];
-static KIRARA_SKILL_SCALINGS: &[TalentScaling] = &[KIRARA_SKILL_KICK];
+static KIRARA_SKILL_SCALINGS: &[TalentScaling] = &[
+    KIRARA_SKILL_KICK,
+    KIRARA_SKILL_PARCEL_HIT,
+    KIRARA_SKILL_FLIPCLAW,
+];
 static KIRARA_BURST_SCALINGS: &[TalentScaling] = &[KIRARA_BURST_DMG, KIRARA_BURST_EXPLOSION];
 
 pub const KIRARA: CharacterData = CharacterData {
@@ -163,23 +189,22 @@ pub const KIRARA: CharacterData = CharacterData {
     rarity: Rarity::Star4,
     region: Region::Inazuma,
     base_hp: [
-        1021.00, 10794.00, 10794.00, 11065.00, 11065.00, 11200.50, 11200.50, 11155.33, 11155.33,
-        11757.50, 11757.50, 11336.00, 11336.00, 12179.00, 12179.00,
-        12666.16, // Lv95/Lv95+/Lv100
-        12666.16, // Lv95/Lv95+/Lv100
-        13153.32, // Lv95/Lv95+/Lv100
+        1021.00, 2623.00, 3386.00, 5072.00, 5614.00, 6458.00, 7181.00, 8024.00, 8566.00, 9409.00,
+        9951.00, 10794.00, 11336.00, 12180.00, 12180.00, 12601.00, // Lv95/Lv95+/Lv100
+        12601.00, // Lv95/Lv95+/Lv100
+        13022.00, // Lv95/Lv95+/Lv100
     ],
     base_atk: [
-        19.00, 198.00, 198.00, 203.00, 203.00, 205.50, 205.50, 204.67, 204.67, 215.50, 215.50,
-        208.00, 208.00, 223.00, 223.00, 231.92, // Lv95/Lv95+/Lv100
-        231.92, // Lv95/Lv95+/Lv100
-        240.84, // Lv95/Lv95+/Lv100
+        18.70, 48.04, 62.01, 92.88, 102.80, 118.25, 131.48, 146.93, 156.85, 172.28, 182.20, 197.65,
+        207.57, 223.02, 223.02, 251.47, // Lv95/Lv95+/Lv100
+        251.47, // Lv95/Lv95+/Lv100
+        279.92, // Lv95/Lv95+/Lv100
     ],
     base_def: [
-        46.00, 484.00, 484.00, 496.00, 496.00, 502.00, 502.00, 500.00, 500.00, 527.00, 527.00,
-        508.00, 508.00, 546.00, 546.00, 567.84, // Lv95/Lv95+/Lv100
-        567.84, // Lv95/Lv95+/Lv100
-        589.68, // Lv95/Lv95+/Lv100
+        45.78, 117.61, 151.81, 227.39, 251.69, 289.51, 321.91, 359.72, 384.02, 421.79, 446.09,
+        483.90, 508.20, 546.02, 546.02, 564.91, // Lv95/Lv95+/Lv100
+        564.91, // Lv95/Lv95+/Lv100
+        583.79, // Lv95/Lv95+/Lv100
     ],
     ascension_stat: AscensionStat::Hp(0.24),
     talents: TalentSet {
