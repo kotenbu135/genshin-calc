@@ -135,7 +135,8 @@ const JAHODA_SKILL_FILLED_FLASK: TalentScaling = TalentScaling {
 const JAHODA_SKILL_MEOWBALL: TalentScaling = TalentScaling {
     name: "ニャンコボールダメージ",
     scaling_stat: ScalingStat::Atk,
-    damage_element: Some(Element::Anemo),
+    // Variable Pyro/Hydro/Electro/Cryo from the stored Flask element; no dynamic element model yet.
+    damage_element: None,
     values: [
         1.28, 1.376, 1.472, 1.6, 1.696, 1.792, 1.92, 2.048, 2.176, 2.304, 2.432, 2.56, 2.72, 2.88,
         3.04,
