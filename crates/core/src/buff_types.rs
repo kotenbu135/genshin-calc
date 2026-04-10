@@ -52,6 +52,8 @@ pub enum BuffableStat {
     TransformativeBonus,
     /// Additive (catalyze) reaction DMG bonus.
     AdditiveBonus,
+    /// Exact elemental reaction DMG bonus.
+    ReactionDmgBonus(crate::reaction::Reaction),
     /// Player-side elemental resistance for a specific element.
     ElementalRes(Element),
     /// Enemy elemental resistance reduction for a specific element.
@@ -113,6 +115,23 @@ mod tests {
         let json = serde_json::to_string(&stat).unwrap();
         let deser: BuffableStat = serde_json::from_str(&json).unwrap();
         assert_eq!(stat, deser);
+    }
+
+    #[test]
+    fn test_reaction_dmg_bonus_serde_roundtrip() {
+        use crate::reaction::Reaction;
+        use crate::types::Element;
+
+        for stat in [
+            BuffableStat::ReactionDmgBonus(Reaction::Bloom),
+            BuffableStat::ReactionDmgBonus(Reaction::Aggravate),
+            BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Pyro)),
+            BuffableStat::ReactionDmgBonus(Reaction::LunarBloom),
+        ] {
+            let json = serde_json::to_string(&stat).unwrap();
+            let deser: BuffableStat = serde_json::from_str(&json).unwrap();
+            assert_eq!(stat, deser);
+        }
     }
 
     #[test]

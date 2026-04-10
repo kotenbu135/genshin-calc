@@ -613,6 +613,7 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         | BuffableStat::AmplifyingBonus
         | BuffableStat::TransformativeBonus
         | BuffableStat::AdditiveBonus
+        | BuffableStat::ReactionDmgBonus(_)
         | BuffableStat::ElementalRes(_)
         | BuffableStat::ElementalResReduction(_)
         | BuffableStat::PhysicalResReduction

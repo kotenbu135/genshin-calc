@@ -56,6 +56,7 @@ export type BuffTarget = "OnlySelf" | "Team" | "TeamExcludeSelf";
 type ElementalDmgBonusStat = { ElementalDmgBonus: Element };
 type ElementalResStat = { ElementalRes: Element };
 type ElementalResReductionStat = { ElementalResReduction: Element };
+type ReactionDmgBonusStat = { ReactionDmgBonus: Reaction };
 
 export type BuffableStat =
   | "HpPercent" | "AtkPercent" | "DefPercent"
@@ -64,6 +65,7 @@ export type BuffableStat =
   | "ElementalMastery" | "EnergyRecharge"
   | "DmgBonus"
   | ElementalDmgBonusStat
+  | ReactionDmgBonusStat
   | "PhysicalDmgBonus"
   | "NormalAtkDmgBonus" | "ChargedAtkDmgBonus" | "PlungingAtkDmgBonus"
   | "SkillDmgBonus" | "BurstDmgBonus"

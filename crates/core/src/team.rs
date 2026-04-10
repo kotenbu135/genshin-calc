@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::buff_types::BuffableStat;
 use crate::enemy::{EnemyDebuffs, collect_enemy_debuffs};
 use crate::error::CalcError;
+use crate::reaction::{Reaction, ReactionCategory};
 use crate::resonance::{
     ElementalResonance, determine_resonances, resonance_buffs, resonance_conditional_buffs,
 };
@@ -86,6 +87,8 @@ pub struct DamageContext {
     pub transformative_bonus: f64,
     /// Additive (catalyze) reaction DMG bonus from team buffs.
     pub additive_bonus: f64,
+    /// Exact reaction DMG bonuses that only apply to the matching reaction.
+    pub reaction_dmg_bonuses: Vec<(Reaction, f64)>,
 }
 
 impl DamageContext {
@@ -107,10 +110,34 @@ impl DamageContext {
                 BuffableStat::AmplifyingBonus => ctx.amplifying_bonus += buff.value,
                 BuffableStat::TransformativeBonus => ctx.transformative_bonus += buff.value,
                 BuffableStat::AdditiveBonus => ctx.additive_bonus += buff.value,
+                BuffableStat::ReactionDmgBonus(reaction) => {
+                    ctx.reaction_dmg_bonuses.push((reaction, buff.value));
+                }
                 _ => {}
             }
         }
         ctx
+    }
+
+    /// Returns the total reaction bonus for a specific reaction, including
+    /// backward-compatible broad category bonuses and exact reaction bonuses.
+    pub fn reaction_bonus_for(&self, reaction: Reaction) -> f64 {
+        self.broad_reaction_bonus_for(reaction)
+            + self
+                .reaction_dmg_bonuses
+                .iter()
+                .filter(|(r, _)| *r == reaction)
+                .map(|(_, value)| *value)
+                .sum::<f64>()
+    }
+
+    fn broad_reaction_bonus_for(&self, reaction: Reaction) -> f64 {
+        match reaction.category() {
+            ReactionCategory::Amplifying => self.amplifying_bonus,
+            ReactionCategory::Catalyze => self.additive_bonus,
+            ReactionCategory::Transformative => self.transformative_bonus,
+            ReactionCategory::Lunar => self.transformative_bonus,
+        }
     }
 }
 
@@ -807,6 +834,84 @@ mod tests {
         ];
         let ctx = DamageContext::from_buffs(&buffs);
         assert!((ctx.normal_atk_dmg_bonus - 0.21).abs() < EPSILON);
+    }
+
+    #[test]
+    fn reaction_dmg_bonus_exact_match_does_not_over_apply() {
+        use crate::reaction::Reaction;
+        use crate::types::Element;
+
+        let ctx = DamageContext::from_buffs(&[
+            ResolvedBuff {
+                source: "Bloom Only".to_string(),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Bloom),
+                value: 0.40,
+                target: BuffTarget::OnlySelf,
+                origin: None,
+            },
+            ResolvedBuff {
+                source: "Aggravate Only".to_string(),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Aggravate),
+                value: 0.20,
+                target: BuffTarget::OnlySelf,
+                origin: None,
+            },
+            ResolvedBuff {
+                source: "Pyro Swirl Only".to_string(),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Pyro)),
+                value: 0.60,
+                target: BuffTarget::OnlySelf,
+                origin: None,
+            },
+        ]);
+
+        assert!((ctx.reaction_bonus_for(Reaction::Bloom) - 0.40).abs() < 1e-9);
+        assert!((ctx.reaction_bonus_for(Reaction::Overloaded) - 0.0).abs() < 1e-9);
+        assert!((ctx.reaction_bonus_for(Reaction::Aggravate) - 0.20).abs() < 1e-9);
+        assert!((ctx.reaction_bonus_for(Reaction::Spread) - 0.0).abs() < 1e-9);
+        assert!((ctx.reaction_bonus_for(Reaction::Swirl(Element::Pyro)) - 0.60).abs() < 1e-9);
+        assert!((ctx.reaction_bonus_for(Reaction::Swirl(Element::Hydro)) - 0.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn reaction_dmg_bonus_combines_broad_and_exact_values() {
+        use crate::reaction::Reaction;
+
+        let ctx = DamageContext::from_buffs(&[
+            ResolvedBuff {
+                source: "Broad Transformative".to_string(),
+                stat: BuffableStat::TransformativeBonus,
+                value: 0.10,
+                target: BuffTarget::OnlySelf,
+                origin: None,
+            },
+            ResolvedBuff {
+                source: "Bloom Exact".to_string(),
+                stat: BuffableStat::ReactionDmgBonus(Reaction::Bloom),
+                value: 0.40,
+                target: BuffTarget::OnlySelf,
+                origin: None,
+            },
+        ]);
+
+        assert!((ctx.reaction_bonus_for(Reaction::Bloom) - 0.50).abs() < 1e-9);
+        assert!((ctx.reaction_bonus_for(Reaction::Overloaded) - 0.10).abs() < 1e-9);
+    }
+
+    #[test]
+    fn reaction_dmg_bonus_lunar_exact_match_does_not_over_apply() {
+        use crate::reaction::Reaction;
+
+        let ctx = DamageContext::from_buffs(&[ResolvedBuff {
+            source: "Lunar Bloom Only".to_string(),
+            stat: BuffableStat::ReactionDmgBonus(Reaction::LunarBloom),
+            value: 0.15,
+            target: BuffTarget::OnlySelf,
+            origin: None,
+        }]);
+
+        assert!((ctx.reaction_bonus_for(Reaction::LunarBloom) - 0.15).abs() < 1e-9);
+        assert!((ctx.reaction_bonus_for(Reaction::LunarElectroCharged) - 0.0).abs() < 1e-9);
     }
 
     #[test]
