@@ -58,21 +58,38 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Amber =====
+// A4 "Implosive Puppet": ATK+15% for self during burst
 // C6 "Wildfire": ATK+15% for party during burst
-static AMBER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Wildfire",
-    description: desc!("During burst, party members gain ATK+15%"),
-    stat: BuffableStat::AtkPercent,
-    base_value: 0.15,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(6),
-    min_constellation: 6,
-    cap: None,
-    activation: None,
-}];
+static AMBER_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Implosive Puppet ATK Bonus",
+        description: desc!("A4: During burst, Amber gains ATK+15%"),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Wildfire",
+        description: desc!("During burst, party members gain ATK+15%"),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: None,
+    },
+];
 
 // ===== Chevreuse =====
 // A1 passive "Vanguard's Coordinated Tactics": ATK+20% after Overloaded (Pyro+Electro team)
@@ -98,6 +115,20 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         )),
     },
     TalentBuffDef {
+        name: "Coordinated Power ATK Bonus",
+        description: desc!("A4: ATK bonus based on Max HP (max +40%, approximation)"),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.00001,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Hp),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.40),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "Overloaded Pyro RES Shred",
         description: desc!("After Overloaded reaction, enemy Pyro RES -40% for 6s"),
         stat: BuffableStat::ElementalResReduction(Element::Pyro),
@@ -106,7 +137,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
@@ -120,7 +151,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
@@ -207,6 +238,20 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
 // C1: ATK +20% on Aurous Blaze defeat
 // C2: Pyro DMG +25% on Pyro CRIT
 static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Niwabi Fire-Dance Pyro DMG Bonus",
+        description: desc!("A1: Yoimiya gains Pyro DMG Bonus +2% per stack (max 10 stacks)"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.02,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(10))),
+    },
     TalentBuffDef {
         name: "Summer Night's Dawn",
         description: desc!(
@@ -306,20 +351,6 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
-    TalentBuffDef {
-        name: "Emanare's Source Burst DMG Bonus",
-        description: desc!("C4: Elemental Burst DMG +40%"),
-        stat: BuffableStat::BurstDmgBonus,
-        base_value: 0.40,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::Constellation(4),
-        min_constellation: 4,
-        cap: None,
-        activation: None,
-    },
     // C4 "Emanare's Source": Burst DMG +40% (conditional toggle)
     TalentBuffDef {
         name: "durin_c4_burst_dmg",
@@ -372,6 +403,20 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
 // C6: Pyro DMG +10% during burst
 static KLEE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
+        name: "Sparkling Burst ATK Bonus",
+        description: desc!("C1: Klee gains ATK+60% (self, approximation)"),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "Explosive Frags DEF Reduction",
         description: desc!("C2: Enemies hit by Jumpy Dumpty mines have DEF -23%"),
         stat: BuffableStat::DefReduction,
@@ -398,6 +443,20 @@ static KLEE_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 6,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "Sparkling Burst Self Pyro DMG Bonus",
+        description: desc!("C6: During Sparks 'n' Splash, Klee gains Pyro DMG +50%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     // C2: Mine DEF reduction 23% (conditional toggle)
     TalentBuffDef {
@@ -461,6 +520,20 @@ static MAVUIKA_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Kiongozi DMG Bonus",
+        description: desc!("C4: DMG Bonus +10% (approximation, self)"),
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
@@ -788,6 +861,20 @@ static HU_TAO_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
+    TalentBuffDef {
+        name: "Moment of Death CRIT Rate Bonus",
+        description: desc!("C6: When triggered, Hu Tao gains CRIT Rate +100% (max value)"),
+        stat: BuffableStat::CritRate,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Xiangling =====
@@ -859,6 +946,20 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
 // C4: Physical RES -15% on skill hit
 // C6: Charged ATK gains ATK bonus equal to 50% of DEF
 static XINYAN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Fatal Acceleration Physical DMG Bonus",
+        description: desc!("A4: Party Physical DMG +15%"),
+        stat: BuffableStat::PhysicalDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Blazing Eye Physical RES Shred",
         description: desc!("C4: Enemies hit by Riff Revolution have Physical RES -15% for 12s"),
@@ -978,8 +1079,8 @@ static YANFEI_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Blazing Eye Charged ATK CRIT Rate Bonus",
-        description: desc!("C2: Charged ATK CRIT Rate +20%"),
-        stat: BuffableStat::ChargedAtkDmgBonus,
+        description: desc!("C2: Charged-attack-only CRIT Rate +20% (approximation)"),
+        stat: BuffableStat::CritRate,
         base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
@@ -1018,4 +1119,167 @@ pub fn find(character_id: &str) -> Option<&'static [TalentBuffDef]> {
         .iter()
         .find(|(id, _)| *id == character_id)
         .map(|(_, buffs)| *buffs)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn audit_pyro_remaining_items() {
+        let amber = find("amber").unwrap();
+        assert_eq!(amber.len(), 2);
+        assert!(
+            amber.iter().any(|b| {
+                b.source == TalentBuffSource::AscensionPassive(4)
+                    && b.stat == BuffableStat::AtkPercent
+                    && (b.base_value - 0.15).abs() < 1e-6
+                    && b.target == BuffTarget::OnlySelf
+                    && matches!(
+                        b.activation,
+                        Some(Activation::Manual(ManualCondition::Toggle))
+                    )
+            }),
+            "Amber A4 self ATK buff missing"
+        );
+
+        let chevreuse = find("chevreuse").unwrap();
+        assert_eq!(chevreuse.len(), 6);
+        assert!(
+            chevreuse.iter().any(|b| {
+                b.source == TalentBuffSource::AscensionPassive(4)
+                    && b.stat == BuffableStat::AtkPercent
+                    && (b.base_value - 0.00001).abs() < 1e-10
+                    && b.scales_on == Some(ScalingStat::Hp)
+                    && b.cap == Some(0.40)
+                    && b.target == BuffTarget::Team
+                    && matches!(
+                        b.activation,
+                        Some(Activation::Manual(ManualCondition::Toggle))
+                    )
+            }),
+            "Chevreuse A4 ATK buff missing"
+        );
+        assert!(chevreuse.iter().all(|b| {
+            b.stat != BuffableStat::ElementalResReduction(Element::Pyro)
+                || b.source == TalentBuffSource::AscensionPassive(1)
+        }));
+        assert!(chevreuse.iter().all(|b| {
+            b.stat != BuffableStat::ElementalResReduction(Element::Electro)
+                || b.source == TalentBuffSource::AscensionPassive(1)
+        }));
+
+        let durin = find("durin").unwrap();
+        assert_eq!(durin.len(), 6);
+        assert!(durin.iter().any(|b| b.name == "durin_c4_burst_dmg"
+            && matches!(
+                b.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            )));
+        assert!(!durin
+            .iter()
+            .any(|b| b.name == "Emanare's Source Burst DMG Bonus" && b.activation.is_none()));
+
+        let hu_tao = find("hu_tao").unwrap();
+        assert_eq!(hu_tao.len(), 4);
+        assert!(
+            hu_tao.iter().any(|b| {
+                b.source == TalentBuffSource::Constellation(6)
+                    && b.stat == BuffableStat::CritRate
+                    && (b.base_value - 1.0).abs() < 1e-6
+                    && b.target == BuffTarget::OnlySelf
+                    && matches!(
+                        b.activation,
+                        Some(Activation::Manual(ManualCondition::Toggle))
+                    )
+            }),
+            "Hu Tao C6 self CRIT Rate buff missing"
+        );
+
+        let klee = find("klee").unwrap();
+        assert_eq!(klee.len(), 6);
+        assert!(klee.iter().any(|b| {
+            b.source == TalentBuffSource::Constellation(1)
+                && b.stat == BuffableStat::AtkPercent
+                && (b.base_value - 0.60).abs() < 1e-6
+                && b.target == BuffTarget::OnlySelf
+                && matches!(
+                    b.activation,
+                    Some(Activation::Manual(ManualCondition::Toggle))
+                )
+        }));
+        assert!(klee.iter().any(|b| {
+            b.source == TalentBuffSource::Constellation(6)
+                && b.stat == BuffableStat::ElementalDmgBonus(Element::Pyro)
+                && (b.base_value - 0.50).abs() < 1e-6
+                && b.target == BuffTarget::OnlySelf
+                && matches!(
+                    b.activation,
+                    Some(Activation::Manual(ManualCondition::Toggle))
+                )
+        }));
+        assert!(klee.iter().any(|b| {
+            b.source == TalentBuffSource::Constellation(6)
+                && b.stat == BuffableStat::ElementalDmgBonus(Element::Pyro)
+                && (b.base_value - 0.10).abs() < 1e-6
+                && b.target == BuffTarget::Team
+                && b.activation.is_none()
+        }));
+    }
+
+    #[test]
+    fn audit_pyro_more_remaining_items() {
+        let mavuika = find("mavuika").unwrap();
+        assert_eq!(mavuika.len(), 4);
+        assert!(mavuika.iter().any(|b| {
+            b.source == TalentBuffSource::Constellation(4)
+                && b.stat == BuffableStat::DmgBonus
+                && (b.base_value - 0.10).abs() < 1e-6
+                && b.target == BuffTarget::OnlySelf
+                && matches!(
+                    b.activation,
+                    Some(Activation::Manual(ManualCondition::Toggle))
+                )
+        }));
+
+        let xinyan = find("xinyan").unwrap();
+        assert_eq!(xinyan.len(), 4);
+        assert!(xinyan.iter().any(|b| {
+            b.source == TalentBuffSource::AscensionPassive(4)
+                && b.stat == BuffableStat::PhysicalDmgBonus
+                && (b.base_value - 0.15).abs() < 1e-6
+                && b.target == BuffTarget::Team
+                && matches!(
+                    b.activation,
+                    Some(Activation::Manual(ManualCondition::Toggle))
+                )
+        }));
+
+        let yanfei = find("yanfei").unwrap();
+        assert_eq!(yanfei.len(), 2);
+        assert!(yanfei.iter().any(|b| {
+            b.source == TalentBuffSource::Constellation(2)
+                && b.stat == BuffableStat::CritRate
+                && (b.base_value - 0.20).abs() < 1e-6
+                && b.target == BuffTarget::OnlySelf
+                && matches!(
+                    b.activation,
+                    Some(Activation::Manual(ManualCondition::Toggle))
+                )
+                && b.description.contains("approximation")
+        }));
+
+        let yoimiya = find("yoimiya").unwrap();
+        assert_eq!(yoimiya.len(), 4);
+        assert!(yoimiya.iter().any(|b| {
+            b.source == TalentBuffSource::AscensionPassive(1)
+                && b.stat == BuffableStat::ElementalDmgBonus(Element::Pyro)
+                && (b.base_value - 0.02).abs() < 1e-6
+                && b.target == BuffTarget::OnlySelf
+                && matches!(
+                    b.activation,
+                    Some(Activation::Manual(ManualCondition::Stacks(10)))
+                )
+        }));
+    }
 }
