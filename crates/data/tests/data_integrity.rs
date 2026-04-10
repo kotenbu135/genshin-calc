@@ -13,29 +13,63 @@ fn artifact_set(id: &str) -> &'static genshin_calc_data::types::ArtifactSet {
         .unwrap_or_else(|| panic!("artifact set not found: {id}"))
 }
 
-fn conditional_values(
-    set: &genshin_calc_data::types::ArtifactSet,
-    stat: BuffableStat,
-) -> Vec<f64> {
-    set.four_piece
+fn stack_values_for(set: &genshin_calc_data::types::ArtifactSet, stat: BuffableStat) -> Vec<f64> {
+    let matching_buffs: Vec<&ConditionalBuff> = set
+        .four_piece
         .conditional_buffs
         .iter()
         .filter(|buff| buff.stat == stat)
-        .map(|buff| buff.value)
-        .collect()
+        .collect();
+
+    assert_eq!(
+        matching_buffs.len(),
+        1,
+        "{}: expected exactly one stacked conditional buff for {:?}",
+        set.id,
+        stat
+    );
+
+    matching_buffs[0]
+        .stack_values
+        .unwrap_or_else(|| panic!("{}: missing stack_values for {:?}", set.id, stat))
+        .to_vec()
 }
 
 fn reaction_bonus_entries(
     set: &genshin_calc_data::types::ArtifactSet,
+    condition: ManualCondition,
 ) -> Vec<(Reaction, f64)> {
     set.four_piece
         .conditional_buffs
         .iter()
-        .filter_map(|buff| match buff.stat {
-            BuffableStat::ReactionDmgBonus(reaction) => Some((reaction, buff.value)),
+        .filter_map(|buff| match (buff.stat, &buff.activation) {
+            (BuffableStat::ReactionDmgBonus(reaction), Activation::Manual(actual_condition))
+                if *actual_condition == condition =>
+            {
+                Some((reaction, buff.value))
+            }
             _ => None,
         })
         .collect()
+}
+
+fn assert_reaction_bonus_entries(
+    actual: &[(Reaction, f64)],
+    expected: &[(Reaction, f64)],
+    label: &str,
+) {
+    assert_eq!(
+        actual.len(),
+        expected.len(),
+        "{label}: reaction bonus entry count mismatch; actual entries: {actual:?}"
+    );
+
+    for entry in expected {
+        assert!(
+            actual.contains(entry),
+            "{label}: missing reaction bonus entry {entry:?}; actual entries: {actual:?}"
+        );
+    }
 }
 
 #[test]
@@ -163,11 +197,11 @@ fn artifact_audit_nymphs_dream_stack_values_match_mirror() {
     let set = artifact_set("nymphs_dream");
 
     assert_eq!(
-        conditional_values(set, BuffableStat::AtkPercent),
+        stack_values_for(set, BuffableStat::AtkPercent),
         vec![0.07, 0.16, 0.25]
     );
     assert_eq!(
-        conditional_values(set, BuffableStat::ElementalDmgBonus(Element::Hydro)),
+        stack_values_for(set, BuffableStat::ElementalDmgBonus(Element::Hydro)),
         vec![0.04, 0.09, 0.15]
     );
 }
@@ -177,11 +211,12 @@ fn artifact_audit_scroll_of_cinder_city_two_piece_has_no_damage_relevant_em_bonu
     let set = artifact_set("scroll_of_the_hero_of_cinder_city");
 
     assert!(
-        set.two_piece
-            .buffs
-            .iter()
-            .all(|buff| buff.stat != BuffableStat::ElementalMastery),
-        "Scroll 2pc is energy-only in the mirror and must not grant EM"
+        set.two_piece.buffs.is_empty(),
+        "Scroll 2pc is energy-only in the mirror and must not grant represented damage stats"
+    );
+    assert!(
+        set.two_piece.conditional_buffs.is_empty(),
+        "Scroll 2pc is energy-only in the mirror and must not grant conditional represented damage stats"
     );
 }
 
@@ -200,16 +235,17 @@ fn artifact_audit_missing_damage_relevant_artifact_sets_are_registered() {
 #[test]
 fn artifact_audit_reaction_specific_buffs_are_not_generic() {
     let thundering_fury = artifact_set("thundering_fury");
-    assert_eq!(
-        reaction_bonus_entries(thundering_fury),
-        vec![
+    assert_reaction_bonus_entries(
+        &reaction_bonus_entries(thundering_fury, ManualCondition::Toggle),
+        &[
             (Reaction::Overloaded, 0.40),
             (Reaction::ElectroCharged, 0.40),
             (Reaction::Superconduct, 0.40),
             (Reaction::Hyperbloom, 0.40),
             (Reaction::Aggravate, 0.20),
             (Reaction::LunarElectroCharged, 0.20),
-        ]
+        ],
+        "Thundering Fury 4pc base reactions",
     );
     assert!(
         thundering_fury
@@ -219,43 +255,58 @@ fn artifact_audit_reaction_specific_buffs_are_not_generic() {
             .all(|buff| {
                 buff.stat != BuffableStat::TransformativeBonus
                     && buff.stat != BuffableStat::AdditiveBonus
-            })
+            }),
+        "Thundering Fury 4pc must use reaction-specific bonuses, not generic TransformativeBonus or AdditiveBonus"
     );
 
     let viridescent = artifact_set("viridescent_venerer");
-    assert_eq!(
-        reaction_bonus_entries(viridescent),
-        vec![
+    assert_reaction_bonus_entries(
+        &reaction_bonus_entries(viridescent, ManualCondition::Toggle),
+        &[
             (Reaction::Swirl(Element::Pyro), 0.60),
             (Reaction::Swirl(Element::Hydro), 0.60),
             (Reaction::Swirl(Element::Electro), 0.60),
             (Reaction::Swirl(Element::Cryo), 0.60),
-        ]
+        ],
+        "Viridescent Venerer 4pc Swirl reactions",
     );
     assert!(
         viridescent
             .four_piece
             .conditional_buffs
             .iter()
-            .all(|buff| buff.stat != BuffableStat::TransformativeBonus)
+            .all(|buff| buff.stat != BuffableStat::TransformativeBonus),
+        "Viridescent Venerer 4pc must use reaction-specific Swirl bonuses, not generic TransformativeBonus"
     );
 
     let paradise = artifact_set("flower_of_paradise_lost");
-    assert_eq!(
-        reaction_bonus_entries(paradise),
-        vec![
+    assert_reaction_bonus_entries(
+        &reaction_bonus_entries(paradise, ManualCondition::Toggle),
+        &[
             (Reaction::Bloom, 0.40),
             (Reaction::Hyperbloom, 0.40),
             (Reaction::Burgeon, 0.40),
             (Reaction::LunarBloom, 0.10),
-        ]
+        ],
+        "Flower of Paradise Lost 4pc base reactions",
+    );
+    assert_reaction_bonus_entries(
+        &reaction_bonus_entries(paradise, ManualCondition::Stacks(4)),
+        &[
+            (Reaction::Bloom, 0.25),
+            (Reaction::Hyperbloom, 0.25),
+            (Reaction::Burgeon, 0.25),
+            (Reaction::LunarBloom, 0.25),
+        ],
+        "Flower of Paradise Lost 4pc stack reactions",
     );
     assert!(
         paradise
             .four_piece
             .conditional_buffs
             .iter()
-            .all(|buff| buff.stat != BuffableStat::TransformativeBonus)
+            .all(|buff| buff.stat != BuffableStat::TransformativeBonus),
+        "Flower of Paradise Lost 4pc must use reaction-specific bonuses, not generic TransformativeBonus"
     );
 }
 
