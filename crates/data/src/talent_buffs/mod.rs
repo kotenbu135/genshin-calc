@@ -988,7 +988,8 @@ mod tests {
                     && b.stat == BuffableStat::ElementalMastery
                     && (b.base_value - 90.0).abs() < 1e-6
                     && b.target == BuffTarget::OnlySelf
-                    && (b.name.contains("Electro-Charged") || b.description.contains("Electro-Charged")
+                    && (b.name.contains("Electro-Charged")
+                        || b.description.contains("Electro-Charged")
                         || b.name.contains("Lunar-Charged")
                         || b.description.contains("Lunar-Charged"))
                     && (b.name.contains("Oz") || b.description.contains("Oz"))
@@ -1011,7 +1012,8 @@ mod tests {
 
     #[test]
     fn talent_buff_audit_targets_are_not_overbroad() {
-        let sigewinne = find_talent_buffs("sigewinne").expect("Sigewinne talent buffs should exist");
+        let sigewinne =
+            find_talent_buffs("sigewinne").expect("Sigewinne talent buffs should exist");
         let sigewinne_a1: Vec<_> = sigewinne
             .iter()
             .filter(|b| {
@@ -1027,7 +1029,9 @@ mod tests {
         let sigewinne_a1 = sigewinne_a1[0];
         assert!(
             sigewinne_a1.name.contains("Requires Appropriate Rest")
-                || sigewinne_a1.description.contains("Requires Appropriate Rest"),
+                || sigewinne_a1
+                    .description
+                    .contains("Requires Appropriate Rest"),
             "Sigewinne A1 Hydro DMG audit should match the corrected A1 identity"
         );
         assert!(
@@ -1095,8 +1099,8 @@ mod tests {
                     && b.stat == BuffableStat::NormalAtkDmgBonus
                     && b.target == BuffTarget::Team
                     && b.scales_with_talent
-                    && (b.name.contains("Sacred Rite: Heron's Sanctum")
-                        || b.description.contains("Sacred Rite: Heron's Sanctum"))
+                    && (b.name.contains("Sacred Rite: Wagtail's Tide")
+                        || b.description.contains("Sacred Rite: Wagtail's Tide"))
             })
             .collect();
         assert_eq!(
@@ -1109,8 +1113,7 @@ mod tests {
             .talent_scaling
             .expect("Candace burst buff should use a talent scaling table");
         assert_eq!(
-            burst_scaling,
-            &[0.20; 15],
+            burst_scaling, &[0.20; 15],
             "Candace burst scaling should match the audited table"
         );
 
@@ -1123,7 +1126,8 @@ mod tests {
                     && b.target == BuffTarget::Team
                     && b.scales_with_talent
                     && (b.name.contains("Stellaris Phantasm DMG Bonus")
-                        || b.description.contains("Omen increases DMG taken by opponents"))
+                        || b.description
+                            .contains("Omen increases DMG taken by opponents"))
             })
             .collect();
         assert_eq!(
@@ -1138,8 +1142,8 @@ mod tests {
         assert_eq!(
             omen_scaling,
             &[
-                0.42, 0.44, 0.46, 0.48, 0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.60, 0.60, 0.60,
-                0.60, 0.60,
+                0.42, 0.44, 0.46, 0.48, 0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.60, 0.60, 0.60, 0.60,
+                0.60,
             ],
             "Mona Omen scaling should match the audited table"
         );
