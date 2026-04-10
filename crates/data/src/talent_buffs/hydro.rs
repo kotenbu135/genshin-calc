@@ -86,7 +86,7 @@ static CANDACE_BUFFS: &[TalentBuffDef] = &[
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::Team,
+        target: BuffTarget::OnlySelf,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
