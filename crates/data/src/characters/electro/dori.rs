@@ -44,8 +44,8 @@ const DORI_NORMAL_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        1.2836, 1.3883, 1.4930, 1.6423, 1.7470, 1.8663, 2.0303, 2.1944, 2.3584, 2.5379, 2.7174,
-        2.8969, 3.0764, 3.2559, 3.4354,
+        1.2840, 1.3885, 1.4930, 1.6423, 1.7468, 1.8663, 2.0305, 2.1947, 2.3589, 2.5381, 2.7173,
+        2.8964, 3.0756, 3.2547, 3.4339,
     ],
     dynamic_bonus: None,
 };
@@ -140,8 +140,8 @@ const DORI_BURST_CONNECTOR: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Electro),
     values: [
-        0.1592, 0.1711, 0.1831, 0.1990, 0.2110, 0.2229, 0.2388, 0.2547, 0.2706, 0.2866, 0.3025,
-        0.3184, 0.3383, 0.3582, 0.3781,
+        0.1588, 0.1707, 0.1826, 0.1985, 0.2104, 0.2224, 0.2382, 0.2541, 0.2700, 0.2859, 0.3018,
+        0.3176, 0.3375, 0.3574, 0.3772,
     ],
     dynamic_bonus: None,
 };

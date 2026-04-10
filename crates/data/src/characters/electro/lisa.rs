@@ -101,12 +101,45 @@ const LISA_PLUNGE_HIGH: TalentScaling = TalentScaling {
 // -- Elemental Skill: 蒼雷 (Violet Arc) -- Electro --
 
 const LISA_SKILL_PRESS: TalentScaling = TalentScaling {
+    name: "一回押しダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    values: [
+        0.8000, 0.8600, 0.9200, 1.0000, 1.0600, 1.1200, 1.2000, 1.2800, 1.3600, 1.4400, 1.5200,
+        1.6000, 1.7000, 1.8000, 1.9000,
+    ],
+    dynamic_bonus: None,
+};
+
+const LISA_SKILL_HOLD_0STACK: TalentScaling = TalentScaling {
     name: "長押しダメージ (0重)",
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Electro),
     values: [
         3.2000, 3.4400, 3.6800, 4.0000, 4.2400, 4.4800, 4.8000, 5.1200, 5.4400, 5.7600, 6.0800,
         6.4000, 6.8000, 7.2000, 7.6000,
+    ],
+    dynamic_bonus: None,
+};
+
+const LISA_SKILL_HOLD_1STACK: TalentScaling = TalentScaling {
+    name: "長押しダメージ (1重)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    values: [
+        3.6800, 3.9560, 4.2320, 4.6000, 4.8760, 5.1520, 5.5200, 5.8880, 6.2560, 6.6240, 6.9920,
+        7.3600, 7.8200, 8.2800, 8.7400,
+    ],
+    dynamic_bonus: None,
+};
+
+const LISA_SKILL_HOLD_2STACK: TalentScaling = TalentScaling {
+    name: "長押しダメージ (2重)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    values: [
+        4.2400, 4.5580, 4.8760, 5.3000, 5.6180, 5.9360, 6.3600, 6.7840, 7.2080, 7.6320, 8.0560,
+        8.4800, 9.0100, 9.5400, 10.0700,
     ],
     dynamic_bonus: None,
 };
@@ -170,7 +203,13 @@ pub const LISA: CharacterData = CharacterData {
         },
         elemental_skill: TalentData {
             name: "蒼雷",
-            scalings: &[LISA_SKILL_PRESS, LISA_SKILL_HOLD_3STACK],
+            scalings: &[
+                LISA_SKILL_PRESS,
+                LISA_SKILL_HOLD_0STACK,
+                LISA_SKILL_HOLD_1STACK,
+                LISA_SKILL_HOLD_2STACK,
+                LISA_SKILL_HOLD_3STACK,
+            ],
         },
         elemental_burst: TalentData {
             name: "薔薇の雷光",
