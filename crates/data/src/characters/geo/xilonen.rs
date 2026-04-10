@@ -58,8 +58,8 @@ const XILONEN_BLADE_ROLLER_1: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        0.5609, 0.6065, 0.6521, 0.7173, 0.7629, 0.8151, 0.8869, 0.9586, 1.0303, 1.1086, 1.1869,
-        1.2652, 1.3434, 1.4217, 1.5000,
+        0.5602, 0.6058, 0.6514, 0.7166, 0.7622, 0.8143, 0.8859, 0.9576, 1.0292, 1.1074, 1.1856,
+        1.2638, 1.3419, 1.4201, 1.4983,
     ],
     dynamic_bonus: None,
 };
@@ -69,8 +69,8 @@ const XILONEN_BLADE_ROLLER_2: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        0.5543, 0.5993, 0.6444, 0.7088, 0.7539, 0.8055, 0.8764, 0.9474, 1.0183, 1.0956, 1.1729,
-        1.2502, 1.3275, 1.4048, 1.4821,
+        0.5505, 0.5953, 0.6401, 0.7041, 0.7489, 0.8001, 0.8705, 0.9409, 1.0113, 1.0882, 1.1650,
+        1.2418, 1.3186, 1.3954, 1.4722,
     ],
     dynamic_bonus: None,
 };
@@ -80,8 +80,19 @@ const XILONEN_BLADE_ROLLER_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        0.7303, 0.7897, 0.8491, 0.9340, 0.9934, 1.0614, 1.1549, 1.2484, 1.3419, 1.4437, 1.5455,
-        1.6474, 1.7492, 1.8511, 1.9529,
+        0.6582, 0.7117, 0.7653, 0.8418, 0.8954, 0.9566, 1.0408, 1.1250, 1.2092, 1.3010, 1.3928,
+        1.4847, 1.5765, 1.6684, 1.7602,
+    ],
+    dynamic_bonus: None,
+};
+
+const XILONEN_BLADE_ROLLER_4: TalentScaling = TalentScaling {
+    name: "刃ローラー4段",
+    scaling_stat: ScalingStat::Def,
+    damage_element: Some(Element::Geo),
+    values: [
+        0.8603, 0.9303, 1.0003, 1.1004, 1.1704, 1.2504, 1.3604, 1.4705, 1.5805, 1.7005, 1.8206,
+        1.9406, 2.0607, 2.1807, 2.3007,
     ],
     dynamic_bonus: None,
 };
@@ -103,7 +114,7 @@ const XILONEN_CHARGED: TalentScaling = TalentScaling {
 
 const XILONEN_PLUNGE: TalentScaling = TalentScaling {
     name: "落下期間のダメージ",
-    scaling_stat: ScalingStat::Atk,
+    scaling_stat: ScalingStat::Def,
     damage_element: None,
     values: [
         0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 1.0110, 1.0928, 1.1746, 1.2638, 1.3530,
@@ -114,7 +125,7 @@ const XILONEN_PLUNGE: TalentScaling = TalentScaling {
 
 const XILONEN_PLUNGE_LOW: TalentScaling = TalentScaling {
     name: "低空落下攻撃ダメージ",
-    scaling_stat: ScalingStat::Atk,
+    scaling_stat: ScalingStat::Def,
     damage_element: None,
     values: [
         1.2784, 1.3824, 1.4865, 1.6351, 1.7392, 1.8581, 2.0216, 2.1851, 2.3486, 2.5271, 2.7055,
@@ -125,7 +136,7 @@ const XILONEN_PLUNGE_LOW: TalentScaling = TalentScaling {
 
 const XILONEN_PLUNGE_HIGH: TalentScaling = TalentScaling {
     name: "高空落下攻撃ダメージ",
-    scaling_stat: ScalingStat::Atk,
+    scaling_stat: ScalingStat::Def,
     damage_element: None,
     values: [
         1.5968, 1.7267, 1.8567, 2.0424, 2.1723, 2.3209, 2.5251, 2.7293, 2.9336, 3.1564, 3.3792,
@@ -227,6 +238,7 @@ pub const XILONEN: CharacterData = CharacterData {
                 XILONEN_BLADE_ROLLER_1,
                 XILONEN_BLADE_ROLLER_2,
                 XILONEN_BLADE_ROLLER_3,
+                XILONEN_BLADE_ROLLER_4,
             ],
         },
         elemental_burst: TalentData {
