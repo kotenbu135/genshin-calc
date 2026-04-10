@@ -215,7 +215,7 @@ pub const THUNDERING_FURY: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "過負荷、感電、超電導、超激化反応ダメージ+40%。超開花反応ダメージ+20%。上記反応発生後、元素スキルのクールタイム-1秒。0.8秒ごとに1回のみ発動可能"
+            "過負荷、感電、超電導、超開花反応ダメージ+40%。超激化、Lunar-Charged反応ダメージ+20%。上記反応発生後、元素スキルのクールタイム-1秒。0.8秒ごとに1回のみ発動可能"
         ),
         buffs: &[],
         conditional_buffs: &[
@@ -276,7 +276,7 @@ pub const THUNDERING_FURY: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "tf_lunar_electro_charged_bonus",
-                description: desc!("Lunar-Electro-Charged reaction DMG +20%"),
+                description: desc!("Lunar-Charged reaction DMG +20%"),
                 stat: BuffableStat::ReactionDmgBonus(Reaction::LunarElectroCharged),
                 value: 0.20,
                 nightsoul_value: None,
@@ -1211,7 +1211,7 @@ pub const FLOWER_OF_PARADISE_LOST: ArtifactSet = ArtifactSet {
     },
     four_piece: SetEffect {
         description: desc!(
-            "開花、超開花、烈開花反応ダメージ+40%。さらに装備キャラクターが開花、超開花、烈開花反応を起こした後、上記効果+25%、最大4スタック、継続時間10秒。0.8秒ごとに1回のみスタック獲得可能。待機中でも効果を発動可能"
+            "開花、超開花、烈開花反応ダメージ+40%、Lunar-Bloom反応ダメージ+10%。さらに装備キャラクターがこれらの反応を起こした後、上記効果+25%、最大4スタック、継続時間10秒。0.8秒ごとに1回のみスタック獲得可能。待機中でも効果を発動可能"
         ),
         buffs: &[],
         conditional_buffs: &[
@@ -1272,7 +1272,9 @@ pub const FLOWER_OF_PARADISE_LOST: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "fopl_hyperbloom_stacks",
-                description: desc!("After triggering Bloom: Hyperbloom DMG +25% per stack, max 4"),
+                description: desc!(
+                    "After triggering Hyperbloom: Hyperbloom DMG +25% per stack, max 4"
+                ),
                 stat: BuffableStat::ReactionDmgBonus(Reaction::Hyperbloom),
                 value: 0.25,
                 nightsoul_value: None,
@@ -1283,7 +1285,7 @@ pub const FLOWER_OF_PARADISE_LOST: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "fopl_burgeon_stacks",
-                description: desc!("After triggering Bloom: Burgeon DMG +25% per stack, max 4"),
+                description: desc!("After triggering Burgeon: Burgeon DMG +25% per stack, max 4"),
                 stat: BuffableStat::ReactionDmgBonus(Reaction::Burgeon),
                 value: 0.25,
                 nightsoul_value: None,
@@ -1294,7 +1296,9 @@ pub const FLOWER_OF_PARADISE_LOST: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "fopl_lunar_bloom_stacks",
-                description: desc!("After triggering Bloom: Lunar-Bloom DMG +25% per stack, max 4"),
+                description: desc!(
+                    "After triggering Lunar-Bloom: Lunar-Bloom DMG +25% per stack, max 4"
+                ),
                 stat: BuffableStat::ReactionDmgBonus(Reaction::LunarBloom),
                 value: 0.25,
                 nightsoul_value: None,
@@ -1862,12 +1866,14 @@ pub const FINALE_OF_THE_DEEP_GALLERIES: ArtifactSet = ArtifactSet {
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
-        description: desc!("条件達成時、通常攻撃ダメージ+60%、元素爆発ダメージ+60%"),
+        description: desc!(
+            "元素エネルギーが0の時、通常攻撃ダメージ+60%、元素爆発ダメージ+60%。通常攻撃または元素爆発ダメージを与えた後、片方ずつクールタイムに入る"
+        ),
         buffs: &[],
         conditional_buffs: &[
             ConditionalBuff {
                 name: "finale_deep_galleries_normal_bonus",
-                description: desc!("Conditional: Normal Attack DMG +60%"),
+                description: desc!("At 0 Elemental Energy: Normal Attack DMG +60%"),
                 stat: BuffableStat::NormalAtkDmgBonus,
                 value: 0.60,
                 nightsoul_value: None,
@@ -1878,7 +1884,7 @@ pub const FINALE_OF_THE_DEEP_GALLERIES: ArtifactSet = ArtifactSet {
             },
             ConditionalBuff {
                 name: "finale_deep_galleries_burst_bonus",
-                description: desc!("Conditional: Burst DMG +60%"),
+                description: desc!("At 0 Elemental Energy: Burst DMG +60%"),
                 stat: BuffableStat::BurstDmgBonus,
                 value: 0.60,
                 nightsoul_value: None,
@@ -1905,11 +1911,15 @@ pub const LONG_NIGHTS_OATH: ArtifactSet = ArtifactSet {
         conditional_buffs: &[],
     },
     four_piece: SetEffect {
-        description: desc!("条件達成時、落下攻撃ダメージ+15%、最大5スタック"),
+        description: desc!(
+            "落下攻撃、重撃、元素スキルが命中した時、それぞれ1/2/2スタックを獲得。落下攻撃ダメージ+15%、最大5スタック"
+        ),
         buffs: &[],
         conditional_buffs: &[ConditionalBuff {
             name: "long_nights_oath_plunging_stacks",
-            description: desc!("Conditional: Plunging Attack DMG +15% per stack, max 5"),
+            description: desc!(
+                "Plunging/Charged/Skill hits grant 1/2/2 stacks: Plunging Attack DMG +15% per stack, max 5"
+            ),
             stat: BuffableStat::PlungingAtkDmgBonus,
             value: 0.15,
             nightsoul_value: None,
