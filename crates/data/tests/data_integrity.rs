@@ -25,6 +25,19 @@ fn conditional_values(
         .collect()
 }
 
+fn reaction_bonus_entries(
+    set: &genshin_calc_data::types::ArtifactSet,
+) -> Vec<(Reaction, f64)> {
+    set.four_piece
+        .conditional_buffs
+        .iter()
+        .filter_map(|buff| match buff.stat {
+            BuffableStat::ReactionDmgBonus(reaction) => Some((reaction, buff.value)),
+            _ => None,
+        })
+        .collect()
+}
+
 #[test]
 fn all_characters_have_positive_base_stats() {
     for c in all_characters() {
@@ -187,37 +200,62 @@ fn artifact_audit_missing_damage_relevant_artifact_sets_are_registered() {
 #[test]
 fn artifact_audit_reaction_specific_buffs_are_not_generic() {
     let thundering_fury = artifact_set("thundering_fury");
-    assert!(
-        thundering_fury
-            .four_piece
-            .conditional_buffs
-            .iter()
-            .any(|buff| buff.stat == BuffableStat::ReactionDmgBonus(Reaction::Aggravate))
+    assert_eq!(
+        reaction_bonus_entries(thundering_fury),
+        vec![
+            (Reaction::Overloaded, 0.40),
+            (Reaction::ElectroCharged, 0.40),
+            (Reaction::Superconduct, 0.40),
+            (Reaction::Hyperbloom, 0.40),
+            (Reaction::Aggravate, 0.20),
+            (Reaction::LunarElectroCharged, 0.20),
+        ]
     );
     assert!(
         thundering_fury
             .four_piece
             .conditional_buffs
             .iter()
-            .all(|buff| buff.stat != BuffableStat::AdditiveBonus)
+            .all(|buff| {
+                buff.stat != BuffableStat::TransformativeBonus
+                    && buff.stat != BuffableStat::AdditiveBonus
+            })
     );
 
     let viridescent = artifact_set("viridescent_venerer");
+    assert_eq!(
+        reaction_bonus_entries(viridescent),
+        vec![
+            (Reaction::Swirl(Element::Pyro), 0.60),
+            (Reaction::Swirl(Element::Hydro), 0.60),
+            (Reaction::Swirl(Element::Electro), 0.60),
+            (Reaction::Swirl(Element::Cryo), 0.60),
+        ]
+    );
     assert!(
         viridescent
             .four_piece
             .conditional_buffs
             .iter()
-            .any(|buff| buff.stat == BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Pyro)))
+            .all(|buff| buff.stat != BuffableStat::TransformativeBonus)
     );
 
     let paradise = artifact_set("flower_of_paradise_lost");
+    assert_eq!(
+        reaction_bonus_entries(paradise),
+        vec![
+            (Reaction::Bloom, 0.40),
+            (Reaction::Hyperbloom, 0.40),
+            (Reaction::Burgeon, 0.40),
+            (Reaction::LunarBloom, 0.10),
+        ]
+    );
     assert!(
         paradise
             .four_piece
             .conditional_buffs
             .iter()
-            .any(|buff| buff.stat == BuffableStat::ReactionDmgBonus(Reaction::LunarBloom))
+            .all(|buff| buff.stat != BuffableStat::TransformativeBonus)
     );
 }
 
