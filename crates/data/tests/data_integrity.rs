@@ -13,6 +13,13 @@ fn artifact_set(id: &str) -> &'static genshin_calc_data::types::ArtifactSet {
         .unwrap_or_else(|| panic!("artifact set not found: {id}"))
 }
 
+fn character(id: &str) -> &'static genshin_calc_data::types::CharacterData {
+    all_characters()
+        .copied()
+        .find(|c| c.id == id)
+        .unwrap_or_else(|| panic!("character not found: {id}"))
+}
+
 fn stack_values_for(set: &genshin_calc_data::types::ArtifactSet, stat: BuffableStat) -> Vec<f64> {
     let matching_buffs: Vec<&ConditionalBuff> = set
         .four_piece
@@ -190,6 +197,70 @@ fn all_talent_values_non_negative() {
             }
         }
     }
+}
+
+#[test]
+fn character_audit_metadata_matches_mirror() {
+    let ifa = character("ifa");
+    assert_eq!(ifa.weapon_type, genshin_calc_core::WeaponType::Catalyst);
+    assert_eq!(ifa.element, genshin_calc_core::Element::Anemo);
+
+    let ineffa = character("ineffa");
+    assert_eq!(ineffa.weapon_type, genshin_calc_core::WeaponType::Polearm);
+
+    let dahlia = character("dahlia");
+    assert_eq!(dahlia.weapon_type, genshin_calc_core::WeaponType::Sword);
+}
+
+#[test]
+fn character_audit_base_stats_are_not_scrambled() {
+    let heizou = character("heizou");
+    assert!(heizou.base_hp[1] < heizou.base_hp[13], "Heizou Lv20 HP must be below Lv90 HP");
+    assert!(heizou.base_atk[1] < heizou.base_atk[13], "Heizou Lv20 ATK must be below Lv90 ATK");
+    assert!(heizou.base_def[1] < heizou.base_def[13], "Heizou Lv20 DEF must be below Lv90 DEF");
+
+    let kujou_sara = character("kujou_sara");
+    assert!(
+        kujou_sara.base_hp[1] < kujou_sara.base_hp[13],
+        "Kujou Sara Lv20 HP must be below Lv90 HP"
+    );
+
+    let traveler_dendro = character("traveler_dendro");
+    assert!(
+        traveler_dendro.base_hp[1] < traveler_dendro.base_hp[13],
+        "Traveler Dendro Lv20 HP must be below Lv90 HP"
+    );
+}
+
+#[test]
+fn character_audit_talent_structures_include_required_rows() {
+    let aloy = character("aloy");
+    assert_eq!(
+        aloy.talents.normal_attack.hits.len(),
+        4,
+        "Aloy mirror has four normal attack rows"
+    );
+
+    let lisa = character("lisa");
+    assert!(
+        lisa.talents
+            .elemental_skill
+            .scalings
+            .iter()
+            .any(|s| s.name.contains("長押し") || s.name.to_ascii_lowercase().contains("hold")),
+        "Lisa skill must include hold/stack scaling rows"
+    );
+
+    let kinich = character("kinich");
+    assert!(
+        kinich
+            .talents
+            .normal_attack
+            .hits
+            .iter()
+            .any(|s| s.name.contains("空中") || s.name.to_ascii_lowercase().contains("mid-air")),
+        "Kinich must include mid-air normal attack damage row"
+    );
 }
 
 #[test]
