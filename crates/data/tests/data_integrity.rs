@@ -252,10 +252,27 @@ fn character_audit_base_stats_are_not_scrambled() {
 #[test]
 fn character_audit_talent_structures_include_required_rows() {
     let aloy = character("aloy");
-    assert_eq!(
-        aloy.talents.normal_attack.hits.len(),
-        4,
-        "Aloy mirror has four normal attack rows"
+    let aloy_normals = aloy.talents.normal_attack.hits;
+    assert!(
+        aloy_normals
+            .iter()
+            .any(|s| s.name.contains("1段") && (s.values[0] - 0.2112).abs() <= 0.0002),
+        "Aloy first normal attack component A must remain a separate row"
+    );
+    assert!(
+        aloy_normals
+            .iter()
+            .any(|s| s.name.contains("1段") && (s.values[0] - 0.2376).abs() <= 0.0002),
+        "Aloy first normal attack component B must remain a separate row"
+    );
+    let aloy_fourth_hit = aloy_normals
+        .iter()
+        .find(|s| s.name.contains("4段"))
+        .expect("Aloy mirror has a 4th normal attack hit row");
+    assert_close(
+        aloy_fourth_hit.values[0],
+        0.6565,
+        "Aloy 4th normal attack Lv1 must match honeyhunter-mirror/md/characters/aloy_062.md",
     );
 
     let lisa = character("lisa");

@@ -6,17 +6,28 @@ use genshin_calc_core::{Element, ScalingStat};
 // -- Normal Attack: Rapid Fire -- Physical --
 
 const ALOY_NORMAL_1: TalentScaling = TalentScaling {
-    name: "1段ダメージ (合計)",
+    name: "1段ダメージ・1",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.4488, 0.4794, 0.5100, 0.5508, 0.5814, 0.6171, 0.6630, 0.7089, 0.7548, 0.8007, 0.8466,
-        0.8925, 0.9384, 0.9843, 1.0302,
+        0.2112, 0.2256, 0.2400, 0.2592, 0.2736, 0.2904, 0.3120, 0.3336, 0.3552, 0.3768, 0.3984,
+        0.4200, 0.4416, 0.4632, 0.4848,
     ],
     dynamic_bonus: None,
 };
 
 const ALOY_NORMAL_2: TalentScaling = TalentScaling {
+    name: "1段ダメージ・2",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.2376, 0.2538, 0.2700, 0.2916, 0.3078, 0.3267, 0.3510, 0.3753, 0.3996, 0.4239, 0.4482,
+        0.4725, 0.4968, 0.5211, 0.5454,
+    ],
+    dynamic_bonus: None,
+};
+
+const ALOY_NORMAL_3: TalentScaling = TalentScaling {
     name: "2段ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
@@ -27,7 +38,7 @@ const ALOY_NORMAL_2: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const ALOY_NORMAL_3: TalentScaling = TalentScaling {
+const ALOY_NORMAL_4: TalentScaling = TalentScaling {
     name: "3段ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
@@ -38,7 +49,7 @@ const ALOY_NORMAL_3: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const ALOY_NORMAL_4: TalentScaling = TalentScaling {
+const ALOY_NORMAL_5: TalentScaling = TalentScaling {
     name: "4段ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
@@ -174,7 +185,13 @@ pub const ALOY: CharacterData = CharacterData {
     talents: TalentSet {
         normal_attack: NormalAttackData {
             name: "ラピッドファイア",
-            hits: &[ALOY_NORMAL_1, ALOY_NORMAL_2, ALOY_NORMAL_3, ALOY_NORMAL_4],
+            hits: &[
+                ALOY_NORMAL_1,
+                ALOY_NORMAL_2,
+                ALOY_NORMAL_3,
+                ALOY_NORMAL_4,
+                ALOY_NORMAL_5,
+            ],
             charged: &[ALOY_AIMED, ALOY_AIMED_FULL],
             plunging: &[ALOY_PLUNGE, ALOY_PLUNGE_LOW, ALOY_PLUNGE_HIGH],
         },
