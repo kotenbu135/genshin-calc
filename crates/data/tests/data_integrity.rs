@@ -20,6 +20,14 @@ fn character(id: &str) -> &'static genshin_calc_data::types::CharacterData {
         .unwrap_or_else(|| panic!("character not found: {id}"))
 }
 
+fn assert_close(actual: f64, expected: f64, context: &str) {
+    let tolerance = 0.01;
+    assert!(
+        (actual - expected).abs() <= tolerance,
+        "{context}: expected {expected}, got {actual}"
+    );
+}
+
 fn stack_values_for(set: &genshin_calc_data::types::ArtifactSet, stat: BuffableStat) -> Vec<f64> {
     let matching_buffs: Vec<&ConditionalBuff> = set
         .four_piece
@@ -215,20 +223,29 @@ fn character_audit_metadata_matches_mirror() {
 #[test]
 fn character_audit_base_stats_are_not_scrambled() {
     let heizou = character("heizou");
-    assert!(heizou.base_hp[1] < heizou.base_hp[13], "Heizou Lv20 HP must be below Lv90 HP");
-    assert!(heizou.base_atk[1] < heizou.base_atk[13], "Heizou Lv20 ATK must be below Lv90 ATK");
-    assert!(heizou.base_def[1] < heizou.base_def[13], "Heizou Lv20 DEF must be below Lv90 DEF");
-
-    let kujou_sara = character("kujou_sara");
-    assert!(
-        kujou_sara.base_hp[1] < kujou_sara.base_hp[13],
-        "Kujou Sara Lv20 HP must be below Lv90 HP"
+    assert_close(
+        heizou.base_hp[1],
+        2672.0,
+        "Heizou Lv20 HP must match docs/audit/anemo_audit.md",
     );
 
     let traveler_dendro = character("traveler_dendro");
-    assert!(
-        traveler_dendro.base_hp[1] < traveler_dendro.base_hp[13],
-        "Traveler Dendro Lv20 HP must be below Lv90 HP"
+    assert_close(
+        traveler_dendro.base_hp[1],
+        2342.0,
+        "Traveler Dendro Lv20 HP must match docs/audit/dendro_audit.md",
+    );
+
+    let kujou_sara = character("kujou_sara");
+    assert_close(
+        kujou_sara.base_atk[0],
+        16.38,
+        "Kujou Sara Lv1 ATK must match docs/audit/electro_audit.md",
+    );
+    assert_close(
+        kujou_sara.base_def[0],
+        52.65,
+        "Kujou Sara Lv1 DEF must match docs/audit/electro_audit.md",
     );
 }
 
