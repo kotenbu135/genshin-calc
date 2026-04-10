@@ -29,13 +29,24 @@ const CHIORI_NORMAL_2: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const CHIORI_NORMAL_3: TalentScaling = TalentScaling {
-    name: "3段ダメージ",
+const CHIORI_NORMAL_3_1: TalentScaling = TalentScaling {
+    name: "3段ダメージ1",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.3048, 0.3296, 0.3545, 0.3899, 0.4148, 0.4431, 0.4821, 0.5211, 0.5601, 0.6026, 0.6451,
-        0.6876, 0.7301, 0.7726, 0.8151,
+        0.3042, 0.3289, 0.3537, 0.3890, 0.4138, 0.4421, 0.4810, 0.5199, 0.5588, 0.6013, 0.6437,
+        0.6861, 0.7286, 0.7710, 0.8135,
+    ],
+    dynamic_bonus: None,
+};
+
+const CHIORI_NORMAL_3_2: TalentScaling = TalentScaling {
+    name: "3段ダメージ2",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3042, 0.3289, 0.3537, 0.3890, 0.4138, 0.4421, 0.4810, 0.5199, 0.5588, 0.6013, 0.6437,
+        0.6861, 0.7286, 0.7710, 0.8135,
     ],
     dynamic_bonus: None,
 };
@@ -58,8 +69,8 @@ const CHIORI_CHARGED_1: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.5425, 0.5867, 0.6310, 0.6941, 0.7383, 0.7887, 0.8582, 0.9277, 0.9972, 1.0728, 1.1483,
-        1.2239, 1.2995, 1.3750, 1.4506,
+        0.5431, 0.5873, 0.6315, 0.6947, 0.7389, 0.7894, 0.8588, 0.9283, 0.9978, 1.0736, 1.1493,
+        1.2251, 1.3009, 1.3767, 1.4525,
     ],
     dynamic_bonus: None,
 };
@@ -69,8 +80,8 @@ const CHIORI_CHARGED_2: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.5425, 0.5867, 0.6310, 0.6941, 0.7383, 0.7887, 0.8582, 0.9277, 0.9972, 1.0728, 1.1483,
-        1.2239, 1.2995, 1.3750, 1.4506,
+        0.5431, 0.5873, 0.6315, 0.6947, 0.7389, 0.7894, 0.8588, 0.9283, 0.9978, 1.0736, 1.1493,
+        1.2251, 1.3009, 1.3767, 1.4525,
     ],
     dynamic_bonus: None,
 };
@@ -82,7 +93,7 @@ const CHIORI_PLUNGE: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 0.1011, 1.0928, 1.1746, 1.2638, 1.3530,
+        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 1.0110, 1.0928, 1.1746, 1.2638, 1.3530,
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
@@ -190,7 +201,8 @@ pub const CHIORI: CharacterData = CharacterData {
             hits: &[
                 CHIORI_NORMAL_1,
                 CHIORI_NORMAL_2,
-                CHIORI_NORMAL_3,
+                CHIORI_NORMAL_3_1,
+                CHIORI_NORMAL_3_2,
                 CHIORI_NORMAL_4,
             ],
             charged: &[CHIORI_CHARGED_1, CHIORI_CHARGED_2],

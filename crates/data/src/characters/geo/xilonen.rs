@@ -18,13 +18,24 @@ const XILONEN_NORMAL_1: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const XILONEN_NORMAL_2: TalentScaling = TalentScaling {
-    name: "2段ダメージ",
+const XILONEN_NORMAL_2_1: TalentScaling = TalentScaling {
+    name: "2段ダメージ1",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.2741, 0.2964, 0.3187, 0.3506, 0.3729, 0.3984, 0.4334, 0.4684, 0.5034, 0.5417, 0.5801,
-        0.6184, 0.6567, 0.6951, 0.7334,
+        0.2737, 0.2960, 0.3183, 0.3501, 0.3724, 0.3979, 0.4329, 0.4679, 0.5029, 0.5411, 0.5793,
+        0.6175, 0.6557, 0.6939, 0.7321,
+    ],
+    dynamic_bonus: None,
+};
+
+const XILONEN_NORMAL_2_2: TalentScaling = TalentScaling {
+    name: "2段ダメージ2",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.2737, 0.2960, 0.3183, 0.3501, 0.3724, 0.3979, 0.4329, 0.4679, 0.5029, 0.5411, 0.5793,
+        0.6175, 0.6557, 0.6939, 0.7321,
     ],
     dynamic_bonus: None,
 };
@@ -77,24 +88,13 @@ const XILONEN_BLADE_ROLLER_3: TalentScaling = TalentScaling {
 
 // -- Charged Attack -- Physical --
 
-const XILONEN_CHARGED_1: TalentScaling = TalentScaling {
-    name: "重撃ダメージ1",
+const XILONEN_CHARGED: TalentScaling = TalentScaling {
+    name: "重撃ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.5413, 0.5854, 0.6296, 0.6926, 0.7367, 0.7870, 0.8562, 0.9254, 0.9947, 1.0703, 1.1458,
-        1.2214, 1.2969, 1.3725, 1.4480,
-    ],
-    dynamic_bonus: None,
-};
-
-const XILONEN_CHARGED_2: TalentScaling = TalentScaling {
-    name: "重撃ダメージ2",
-    scaling_stat: ScalingStat::Atk,
-    damage_element: None,
-    values: [
-        0.5413, 0.5854, 0.6296, 0.6926, 0.7367, 0.7870, 0.8562, 0.9254, 0.9947, 1.0703, 1.1458,
-        1.2214, 1.2969, 1.3725, 1.4480,
+        0.9133, 0.9877, 1.0620, 1.1682, 1.2425, 1.3275, 1.4443, 1.5611, 1.6780, 1.8054, 1.9328,
+        2.0603, 2.1877, 2.3152, 2.4426,
     ],
     dynamic_bonus: None,
 };
@@ -106,7 +106,7 @@ const XILONEN_PLUNGE: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 0.1011, 1.0928, 1.1746, 1.2638, 1.3530,
+        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 1.0110, 1.0928, 1.1746, 1.2638, 1.3530,
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
@@ -211,8 +211,13 @@ pub const XILONEN: CharacterData = CharacterData {
     talents: TalentSet {
         normal_attack: NormalAttackData {
             name: "エケカトルの音",
-            hits: &[XILONEN_NORMAL_1, XILONEN_NORMAL_2, XILONEN_NORMAL_3],
-            charged: &[XILONEN_CHARGED_1, XILONEN_CHARGED_2],
+            hits: &[
+                XILONEN_NORMAL_1,
+                XILONEN_NORMAL_2_1,
+                XILONEN_NORMAL_2_2,
+                XILONEN_NORMAL_3,
+            ],
+            charged: &[XILONEN_CHARGED],
             plunging: &[XILONEN_PLUNGE, XILONEN_PLUNGE_LOW, XILONEN_PLUNGE_HIGH],
         },
         elemental_skill: TalentData {

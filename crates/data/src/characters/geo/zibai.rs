@@ -33,8 +33,19 @@ const ZIBAI_NA_HIT2: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const ZIBAI_NA_HIT3: TalentScaling = TalentScaling {
-    name: "3段ダメージ(x2)",
+const ZIBAI_NA_HIT3_1: TalentScaling = TalentScaling {
+    name: "3段ダメージ1",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3089, 0.3340, 0.3592, 0.3951, 0.4202, 0.4490, 0.4885, 0.5280, 0.5675, 0.6106, 0.6537,
+        0.6968, 0.7399, 0.7830, 0.8261,
+    ],
+    dynamic_bonus: None,
+};
+
+const ZIBAI_NA_HIT3_2: TalentScaling = TalentScaling {
+    name: "3段ダメージ2",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
@@ -57,13 +68,24 @@ const ZIBAI_NA_HIT4: TalentScaling = TalentScaling {
 
 // --- Charged Attack --- ATK, Physical ---
 
-const ZIBAI_CHARGED: TalentScaling = TalentScaling {
-    name: "重撃ダメージ(x2)",
+const ZIBAI_CHARGED_1: TalentScaling = TalentScaling {
+    name: "重撃ダメージ1",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.7366, 0.7965, 0.8565, 0.9421, 1.0021, 1.0706, 1.1648, 1.2591, 1.3533, 1.4561, 1.5588,
-        1.6616, 1.7644, 1.8672, 1.9699,
+        0.7366, 0.7965, 0.8565, 0.9422, 1.0021, 1.0706, 1.1648, 1.2591, 1.3533, 1.4561, 1.5588,
+        1.6616, 1.7644, 1.8672, 1.9700,
+    ],
+    dynamic_bonus: None,
+};
+
+const ZIBAI_CHARGED_2: TalentScaling = TalentScaling {
+    name: "重撃ダメージ2",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.7366, 0.7965, 0.8565, 0.9422, 1.0021, 1.0706, 1.1648, 1.2591, 1.3533, 1.4561, 1.5588,
+        1.6616, 1.7644, 1.8672, 1.9700,
     ],
     dynamic_bonus: None,
 };
@@ -128,8 +150,19 @@ const ZIBAI_SKILL_LPS_HIT2: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const ZIBAI_SKILL_LPS_HIT3: TalentScaling = TalentScaling {
-    name: "月相転移3段ダメージ(x2)",
+const ZIBAI_SKILL_LPS_HIT3_1: TalentScaling = TalentScaling {
+    name: "月相転移3段ダメージ1",
+    scaling_stat: ScalingStat::Def,
+    damage_element: Some(Element::Geo),
+    values: [
+        0.3457, 0.3716, 0.3975, 0.4321, 0.4580, 0.4840, 0.5185, 0.5531, 0.5877, 0.6222, 0.6568,
+        0.6914, 0.7346, 0.7778, 0.8210,
+    ],
+    dynamic_bonus: None,
+};
+
+const ZIBAI_SKILL_LPS_HIT3_2: TalentScaling = TalentScaling {
+    name: "月相転移3段ダメージ2",
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
@@ -150,23 +183,23 @@ const ZIBAI_SKILL_LPS_HIT4: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const ZIBAI_SKILL_LPS_HIT4_EXTRA: TalentScaling = TalentScaling {
-    name: "月相転移4段追加ダメージ",
+const ZIBAI_SKILL_LPS_CHARGED_1: TalentScaling = TalentScaling {
+    name: "月相転移重撃ダメージ1",
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        0.2946, 0.3167, 0.3387, 0.3682, 0.3903, 0.4124, 0.4418, 0.4713, 0.5008, 0.5302, 0.5597,
-        0.5891, 0.6259, 0.6628, 0.6996,
+        0.6595, 0.7090, 0.7584, 0.8244, 0.8738, 0.9233, 0.9893, 1.0552, 1.1212, 1.1871, 1.2531,
+        1.3190, 1.4014, 1.4839, 1.5663,
     ],
     dynamic_bonus: None,
 };
 
-const ZIBAI_SKILL_LPS_CHARGED: TalentScaling = TalentScaling {
-    name: "月相転移重撃ダメージ(x2)",
+const ZIBAI_SKILL_LPS_CHARGED_2: TalentScaling = TalentScaling {
+    name: "月相転移重撃ダメージ2",
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        0.6595, 0.7090, 0.7584, 0.8244, 0.8738, 0.9233, 0.9893, 1.0552, 1.1212, 1.1871, 1.2530,
+        0.6595, 0.7090, 0.7584, 0.8244, 0.8738, 0.9233, 0.9893, 1.0552, 1.1212, 1.1871, 1.2531,
         1.3190, 1.4014, 1.4839, 1.5663,
     ],
     dynamic_bonus: None,
@@ -232,26 +265,32 @@ pub const ZIBAI: CharacterData = CharacterData {
         1006.00, 2609.00, 3471.00, 5194.00, 5807.00, 6681.00, 7498.00, 8381.00, 8994.00, 9885.00,
         10497.00, 11399.00, 12011.00, 12919.00, 12919.00, 13435.76, // Lv95/Lv95+/Lv100
         13435.76, // Lv95/Lv95+/Lv100
-        13952.52, // Lv95/Lv95+/Lv100
+        13838.00, // Lv95/Lv95+/Lv100
     ],
     base_atk: [
         17.50, 45.40, 60.41, 90.39, 101.05, 116.26, 130.48, 145.85, 156.51, 172.02, 182.68, 198.36,
         209.02, 224.83, 224.83, 233.82, // Lv95/Lv95+/Lv100
         233.82, // Lv95/Lv95+/Lv100
-        242.82, // Lv95/Lv95+/Lv100
+        275.41, // Lv95/Lv95+/Lv100
     ],
     base_def: [
         74.49, 193.22, 257.09, 384.69, 430.07, 494.80, 555.31, 620.71, 666.09, 732.09, 777.47,
         844.21, 889.59, 956.85, 956.85, 995.12,  // Lv95/Lv95+/Lv100
         995.12,  // Lv95/Lv95+/Lv100
-        1033.40, // Lv95/Lv95+/Lv100
+        1024.86, // Lv95/Lv95+/Lv100
     ],
     ascension_stat: AscensionStat::CritDmg(0.384),
     talents: TalentSet {
         normal_attack: NormalAttackData {
             name: "Golden Blade's Petaled Touch",
-            hits: &[ZIBAI_NA_HIT1, ZIBAI_NA_HIT2, ZIBAI_NA_HIT3, ZIBAI_NA_HIT4],
-            charged: &[ZIBAI_CHARGED],
+            hits: &[
+                ZIBAI_NA_HIT1,
+                ZIBAI_NA_HIT2,
+                ZIBAI_NA_HIT3_1,
+                ZIBAI_NA_HIT3_2,
+                ZIBAI_NA_HIT4,
+            ],
+            charged: &[ZIBAI_CHARGED_1, ZIBAI_CHARGED_2],
             plunging: &[ZIBAI_PLUNGE, ZIBAI_PLUNGE_LOW, ZIBAI_PLUNGE_HIGH],
         },
         elemental_skill: TalentData {
@@ -259,10 +298,11 @@ pub const ZIBAI: CharacterData = CharacterData {
             scalings: &[
                 ZIBAI_SKILL_LPS_HIT1,
                 ZIBAI_SKILL_LPS_HIT2,
-                ZIBAI_SKILL_LPS_HIT3,
+                ZIBAI_SKILL_LPS_HIT3_1,
+                ZIBAI_SKILL_LPS_HIT3_2,
                 ZIBAI_SKILL_LPS_HIT4,
-                ZIBAI_SKILL_LPS_HIT4_EXTRA,
-                ZIBAI_SKILL_LPS_CHARGED,
+                ZIBAI_SKILL_LPS_CHARGED_1,
+                ZIBAI_SKILL_LPS_CHARGED_2,
                 ZIBAI_SKILL_STRIDE_HIT1,
                 ZIBAI_SKILL_STRIDE_HIT2,
             ],

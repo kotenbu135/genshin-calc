@@ -29,13 +29,35 @@ const NAVIA_NORMAL_2: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const NAVIA_NORMAL_3: TalentScaling = TalentScaling {
+const NAVIA_NORMAL_3_1: TalentScaling = TalentScaling {
     name: "3段ダメージ1",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.3485, 0.3769, 0.4053, 0.4458, 0.4742, 0.5066, 0.5511, 0.5956, 0.6401, 0.6889, 0.7377,
-        0.7865, 0.8353, 0.8841, 0.9329,
+        0.3489, 0.3773, 0.4057, 0.4462, 0.4746, 0.5071, 0.5517, 0.5963, 0.6409, 0.6896, 0.7383,
+        0.7870, 0.8356, 0.8843, 0.9330,
+    ],
+    dynamic_bonus: None,
+};
+
+const NAVIA_NORMAL_3_2: TalentScaling = TalentScaling {
+    name: "3段ダメージ2",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3489, 0.3773, 0.4057, 0.4462, 0.4746, 0.5071, 0.5517, 0.5963, 0.6409, 0.6896, 0.7383,
+        0.7870, 0.8356, 0.8843, 0.9330,
+    ],
+    dynamic_bonus: None,
+};
+
+const NAVIA_NORMAL_3_3: TalentScaling = TalentScaling {
+    name: "3段ダメージ3",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3489, 0.3773, 0.4057, 0.4462, 0.4746, 0.5071, 0.5517, 0.5963, 0.6409, 0.6896, 0.7383,
+        0.7870, 0.8356, 0.8843, 0.9330,
     ],
     dynamic_bonus: None,
 };
@@ -190,7 +212,9 @@ pub const NAVIA: CharacterData = CharacterData {
             hits: &[
                 NAVIA_NORMAL_1,
                 NAVIA_NORMAL_2,
-                NAVIA_NORMAL_3,
+                NAVIA_NORMAL_3_1,
+                NAVIA_NORMAL_3_2,
+                NAVIA_NORMAL_3_3,
                 NAVIA_NORMAL_4,
             ],
             charged: &[NAVIA_CHARGED_SPINNING, NAVIA_CHARGED_FINAL],

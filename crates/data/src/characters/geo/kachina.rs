@@ -18,13 +18,24 @@ const KACHINA_NORMAL_1: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const KACHINA_NORMAL_2: TalentScaling = TalentScaling {
-    name: "2段ダメージ",
+const KACHINA_NORMAL_2_1: TalentScaling = TalentScaling {
+    name: "2段ダメージ1",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.4466, 0.4829, 0.5193, 0.5712, 0.6076, 0.6491, 0.7064, 0.7636, 0.8208, 0.8830, 0.9451,
-        1.0073, 1.0694, 1.1316, 1.1937,
+        0.2757, 0.2981, 0.3206, 0.3526, 0.3751, 0.4007, 0.4360, 0.4712, 0.5065, 0.5450, 0.5834,
+        0.6219, 0.6604, 0.6988, 0.7373,
+    ],
+    dynamic_bonus: None,
+};
+
+const KACHINA_NORMAL_2_2: TalentScaling = TalentScaling {
+    name: "2段ダメージ2",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3063, 0.3313, 0.3562, 0.3918, 0.4167, 0.4452, 0.4844, 0.5236, 0.5628, 0.6055, 0.6483,
+        0.6910, 0.7338, 0.7765, 0.8192,
     ],
     dynamic_bonus: None,
 };
@@ -34,8 +45,19 @@ const KACHINA_NORMAL_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6505, 0.7034, 0.7563, 0.8319, 0.8848, 0.9454, 1.0285, 1.1117, 1.1948, 1.2857, 1.3765,
-        1.4674, 1.5582, 1.6491, 1.7399,
+        0.7043, 0.7616, 0.8189, 0.9008, 0.9581, 1.0237, 1.1137, 1.2038, 1.2939, 1.3922, 1.4904,
+        1.5887, 1.6870, 1.7852, 1.8835,
+    ],
+    dynamic_bonus: None,
+};
+
+const KACHINA_NORMAL_4: TalentScaling = TalentScaling {
+    name: "4段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.7744, 0.8374, 0.9004, 0.9905, 1.0535, 1.1255, 1.2246, 1.3236, 1.4227, 1.5307, 1.6388,
+        1.7468, 1.8549, 1.9629, 2.0710,
     ],
     dynamic_bonus: None,
 };
@@ -60,7 +82,7 @@ const KACHINA_PLUNGE: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 0.1011, 1.0928, 1.1746, 1.2638, 1.3530,
+        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 1.0110, 1.0928, 1.1746, 1.2638, 1.3530,
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
@@ -95,8 +117,8 @@ const KACHINA_SKILL_TURBO: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        0.8768, 0.9426, 1.0083, 1.0960, 1.1618, 1.2275, 1.3152, 1.4029, 1.4906, 1.5782, 1.6659,
-        1.7536, 1.8632, 1.9728, 2.0824,
+        0.8776, 0.9434, 1.0092, 1.0970, 1.1628, 1.2286, 1.3164, 1.4042, 1.4919, 1.5797, 1.6674,
+        1.7552, 1.8649, 1.9746, 2.0843,
     ],
     dynamic_bonus: None,
 };
@@ -106,8 +128,8 @@ const KACHINA_SKILL_DASH: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        0.6400, 0.6880, 0.7360, 0.8000, 0.8480, 0.8960, 0.9600, 1.0240, 1.0880, 1.1520, 1.2160,
-        1.2800, 1.3600, 1.4400, 1.5200,
+        0.6376, 0.6854, 0.7332, 0.7970, 0.8448, 0.8926, 0.9564, 1.0202, 1.0839, 1.1477, 1.2114,
+        1.2752, 1.3549, 1.4346, 1.5143,
     ],
     dynamic_bonus: None,
 };
@@ -119,8 +141,8 @@ const KACHINA_BURST: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Def,
     damage_element: Some(Element::Geo),
     values: [
-        3.8076, 4.0932, 4.3788, 4.7595, 5.0451, 5.3307, 5.7114, 6.0922, 6.4729, 6.8537, 7.2344,
-        7.6152, 8.0912, 8.5671, 9.0431,
+        3.8057, 4.1366, 4.4252, 4.8100, 5.0986, 5.3872, 5.7720, 6.1568, 6.5416, 6.9264, 7.3112,
+        7.6960, 8.1770, 8.6580, 9.1390,
     ],
     dynamic_bonus: None,
 };
@@ -154,7 +176,13 @@ pub const KACHINA: CharacterData = CharacterData {
     talents: TalentSet {
         normal_attack: NormalAttackData {
             name: "石紡ぎの拳",
-            hits: &[KACHINA_NORMAL_1, KACHINA_NORMAL_2, KACHINA_NORMAL_3],
+            hits: &[
+                KACHINA_NORMAL_1,
+                KACHINA_NORMAL_2_1,
+                KACHINA_NORMAL_2_2,
+                KACHINA_NORMAL_3,
+                KACHINA_NORMAL_4,
+            ],
             charged: &[KACHINA_CHARGED],
             plunging: &[KACHINA_PLUNGE, KACHINA_PLUNGE_LOW, KACHINA_PLUNGE_HIGH],
         },

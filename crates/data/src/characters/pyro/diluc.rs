@@ -52,8 +52,8 @@ const DILUC_CHARGED_SPINNING: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6880, 0.7440, 0.8000, 0.8800, 0.9360, 1.0000, 1.0880, 1.1760, 1.2640, 1.3600, 1.4560,
-        1.5520, 1.6480, 1.7440, 1.8400,
+        0.6880, 0.7440, 0.8000, 0.8800, 0.9360, 1.0000, 1.0880, 1.1760, 1.2640, 1.3600, 1.4700,
+        1.5994, 1.7287, 1.8581, 1.9992,
     ],
     dynamic_bonus: None,
 };
@@ -191,7 +191,7 @@ pub const DILUC: CharacterData = CharacterData {
         5834.0,  // Lv40+
         6713.0,  // Lv50
         7533.0,  // Lv50+
-        8392.0,  // Lv60
+        8421.0,  // Lv60
         9036.0,  // Lv60+
         9932.0,  // Lv70
         10547.0, // Lv70+
@@ -201,7 +201,7 @@ pub const DILUC: CharacterData = CharacterData {
         12981.0, // Lv90+
         13500.0, // Lv95 (Lv90*1.04)
         13500.0, // Lv95+
-        14019.0, // Lv100 (Lv90*1.08)
+        13903.0, // Lv100
     ],
     base_atk: [
         26.07,  // Lv1
@@ -211,8 +211,8 @@ pub const DILUC: CharacterData = CharacterData {
         150.5,  // Lv40+
         173.16, // Lv50
         194.33, // Lv50+
-        216.22, // Lv60
-        233.15, // Lv60+
+        217.22, // Lv60
+        233.10, // Lv60+
         256.19, // Lv70
         272.07, // Lv70+
         295.43, // Lv80
@@ -221,7 +221,7 @@ pub const DILUC: CharacterData = CharacterData {
         334.85, // Lv90+
         348.24, // Lv95 (Lv90*1.04)
         348.24, // Lv95+
-        361.64, // Lv100 (Lv90*1.08)
+        410.19, // Lv100
     ],
     base_def: [
         61.03,  // Lv1
@@ -241,7 +241,7 @@ pub const DILUC: CharacterData = CharacterData {
         783.93, // Lv90+
         815.29, // Lv95 (Lv90*1.04)
         815.29, // Lv95+
-        846.64, // Lv100 (Lv90*1.08)
+        839.64, // Lv100
     ],
     ascension_stat: AscensionStat::CritRate(0.192),
     talents: TalentSet {

@@ -19,8 +19,8 @@ const MUALANI_NORMAL_2: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Hydro),
     values: [
-        0.4460, 0.4800, 0.5130, 0.5580, 0.5910, 0.6250, 0.6690, 0.7140, 0.7590, 0.8030, 0.8480,
-        0.8930, 0.9480, 1.0040, 1.0600,
+        0.4463, 0.4797, 0.5132, 0.5578, 0.5913, 0.6248, 0.6694, 0.7140, 0.7586, 0.8033, 0.8479,
+        0.8925, 0.9483, 1.0041, 1.0599,
     ],
     dynamic_bonus: None,
 };

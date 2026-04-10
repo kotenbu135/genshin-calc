@@ -130,6 +130,17 @@ const TARTAGLIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
 
 // -- Elemental Skill: 魔王の武装·荒波 (Foul Legacy: Raging Tide) -- Hydro (Melee stance) --
 
+const TARTAGLIA_STANCE_CHANGE: TalentScaling = TalentScaling {
+    name: "状態切替時に与えるダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Hydro),
+    values: [
+        0.7200, 0.7740, 0.8280, 0.9000, 0.9540, 1.0080, 1.0800, 1.1520, 1.2240, 1.2960, 1.3680,
+        1.4400, 1.5300, 1.6200, 1.7100,
+    ],
+    dynamic_bonus: None,
+};
+
 const TARTAGLIA_MELEE_1: TalentScaling = TalentScaling {
     name: "1段ダメージ",
     scaling_stat: ScalingStat::Atk,
@@ -322,6 +333,7 @@ pub const TARTAGLIA: CharacterData = CharacterData {
         elemental_skill: TalentData {
             name: "魔王の武装·荒波",
             scalings: &[
+                TARTAGLIA_STANCE_CHANGE,
                 TARTAGLIA_MELEE_1,
                 TARTAGLIA_MELEE_2,
                 TARTAGLIA_MELEE_3,

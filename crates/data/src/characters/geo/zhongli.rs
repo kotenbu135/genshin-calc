@@ -62,6 +62,39 @@ const ZHONGLI_NORMAL_5_1: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const ZHONGLI_NORMAL_5_2: TalentScaling = TalentScaling {
+    name: "5段ダメージ2",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.1075, 0.1163, 0.1250, 0.1375, 0.1463, 0.1563, 0.1700, 0.1838, 0.1975, 0.2125, 0.2275,
+        0.2425, 0.2575, 0.2725, 0.2875,
+    ],
+    dynamic_bonus: None,
+};
+
+const ZHONGLI_NORMAL_5_3: TalentScaling = TalentScaling {
+    name: "5段ダメージ3",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.1075, 0.1163, 0.1250, 0.1375, 0.1463, 0.1563, 0.1700, 0.1838, 0.1975, 0.2125, 0.2275,
+        0.2425, 0.2575, 0.2725, 0.2875,
+    ],
+    dynamic_bonus: None,
+};
+
+const ZHONGLI_NORMAL_5_4: TalentScaling = TalentScaling {
+    name: "5段ダメージ4",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.1075, 0.1163, 0.1250, 0.1375, 0.1463, 0.1563, 0.1700, 0.1838, 0.1975, 0.2125, 0.2275,
+        0.2425, 0.2575, 0.2725, 0.2875,
+    ],
+    dynamic_bonus: None,
+};
+
 const ZHONGLI_NORMAL_6: TalentScaling = TalentScaling {
     name: "6段ダメージ",
     scaling_stat: ScalingStat::Atk,
@@ -93,7 +126,7 @@ const ZHONGLI_PLUNGE: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 0.1011, 1.0928, 1.1746, 1.2638, 1.3530,
+        0.6393, 0.6914, 0.7434, 0.8177, 0.8698, 0.9293, 1.0110, 1.0928, 1.1746, 1.2638, 1.3530,
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
@@ -204,6 +237,9 @@ pub const ZHONGLI: CharacterData = CharacterData {
                 ZHONGLI_NORMAL_3,
                 ZHONGLI_NORMAL_4,
                 ZHONGLI_NORMAL_5_1,
+                ZHONGLI_NORMAL_5_2,
+                ZHONGLI_NORMAL_5_3,
+                ZHONGLI_NORMAL_5_4,
                 ZHONGLI_NORMAL_6,
             ],
             charged: &[ZHONGLI_CHARGED],
