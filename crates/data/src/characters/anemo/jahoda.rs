@@ -132,11 +132,44 @@ const JAHODA_SKILL_FILLED_FLASK: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const JAHODA_SKILL_MEOWBALL: TalentScaling = TalentScaling {
-    name: "ニャンコボールダメージ",
+// Mirror uses the stored Flask element; expose one selectable row per supported element.
+const JAHODA_SKILL_MEOWBALL_PYRO: TalentScaling = TalentScaling {
+    name: "ニャンコボールダメージ（炎）",
     scaling_stat: ScalingStat::Atk,
-    // Variable Pyro/Hydro/Electro/Cryo from the stored Flask element; no dynamic element model yet.
-    damage_element: None,
+    damage_element: Some(Element::Pyro),
+    values: [
+        1.28, 1.376, 1.472, 1.6, 1.696, 1.792, 1.92, 2.048, 2.176, 2.304, 2.432, 2.56, 2.72, 2.88,
+        3.04,
+    ],
+    dynamic_bonus: None,
+};
+
+const JAHODA_SKILL_MEOWBALL_HYDRO: TalentScaling = TalentScaling {
+    name: "ニャンコボールダメージ（水）",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Hydro),
+    values: [
+        1.28, 1.376, 1.472, 1.6, 1.696, 1.792, 1.92, 2.048, 2.176, 2.304, 2.432, 2.56, 2.72, 2.88,
+        3.04,
+    ],
+    dynamic_bonus: None,
+};
+
+const JAHODA_SKILL_MEOWBALL_ELECTRO: TalentScaling = TalentScaling {
+    name: "ニャンコボールダメージ（雷）",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    values: [
+        1.28, 1.376, 1.472, 1.6, 1.696, 1.792, 1.92, 2.048, 2.176, 2.304, 2.432, 2.56, 2.72, 2.88,
+        3.04,
+    ],
+    dynamic_bonus: None,
+};
+
+const JAHODA_SKILL_MEOWBALL_CRYO: TalentScaling = TalentScaling {
+    name: "ニャンコボールダメージ（氷）",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Cryo),
     values: [
         1.28, 1.376, 1.472, 1.6, 1.696, 1.792, 1.92, 2.048, 2.176, 2.304, 2.432, 2.56, 2.72, 2.88,
         3.04,
@@ -207,7 +240,10 @@ pub const JAHODA: CharacterData = CharacterData {
                 JAHODA_SKILL_SMOKE_BOMB,
                 JAHODA_SKILL_UNFILLED_FLASK,
                 JAHODA_SKILL_FILLED_FLASK,
-                JAHODA_SKILL_MEOWBALL,
+                JAHODA_SKILL_MEOWBALL_PYRO,
+                JAHODA_SKILL_MEOWBALL_HYDRO,
+                JAHODA_SKILL_MEOWBALL_ELECTRO,
+                JAHODA_SKILL_MEOWBALL_CRYO,
             ],
         },
         elemental_burst: TalentData {
