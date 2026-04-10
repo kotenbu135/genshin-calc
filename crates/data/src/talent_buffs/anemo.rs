@@ -213,62 +213,6 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
-    TalentBuffDef {
-        name: "Chaotic Entropy Pyro DMG",
-        description: desc!("C6: On Absorption, team Pyro DMG +20%"),
-        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "Chaotic Entropy Hydro DMG",
-        description: desc!("C6: On Absorption, team Hydro DMG +20%"),
-        stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "Chaotic Entropy Cryo DMG",
-        description: desc!("C6: On Absorption, team Cryo DMG +20%"),
-        stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "Chaotic Entropy Electro DMG",
-        description: desc!("C6: On Absorption, team Electro DMG +20%"),
-        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
 ];
 
 // ===== Varka =====
@@ -526,68 +470,12 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
-    TalentBuffDef {
-        name: "venti_c6_pyro_res_shred",
-        description: desc!("C6: Opponents hit by Wind's Grand Ode have Pyro RES -20%"),
-        stat: BuffableStat::ElementalResReduction(Element::Pyro),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "venti_c6_hydro_res_shred",
-        description: desc!("C6: Opponents hit by Wind's Grand Ode have Hydro RES -20%"),
-        stat: BuffableStat::ElementalResReduction(Element::Hydro),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "venti_c6_cryo_res_shred",
-        description: desc!("C6: Opponents hit by Wind's Grand Ode have Cryo RES -20%"),
-        stat: BuffableStat::ElementalResReduction(Element::Cryo),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "venti_c6_electro_res_shred",
-        description: desc!("C6: Opponents hit by Wind's Grand Ode have Electro RES -20%"),
-        stat: BuffableStat::ElementalResReduction(Element::Electro),
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
 ];
 
 // ===== Xianyun =====
 // Burst: PlungingAtkFlatDmg = total ATK × scaling
-// A4: PlungingAtkFlatDmg max +200% ATK, cap 9000
-// C2: PlungingAtkFlatDmg max +200% ATK, cap 9000
+// A4: PlungingAtkDmgBonus +75%
+// C2: CritRate +20% for plunging attacks
 static XIANYUN_BURST_PLUNGE_SCALING: [f64; 15] = [
     2.48, 2.666, 2.852, 3.100, 3.286, 3.472, 3.720, 3.968, 4.216, 4.464, 4.712, 4.960, 5.270,
     5.580, 5.890,
@@ -610,34 +498,30 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Consider, the Adeptus in Her Realm Plunging Flat DMG",
-        description: desc!(
-            "A4: Nearby active characters' Plunging Attack shockwave DMG +200% of Xianyun's ATK, max 9000"
-        ),
-        stat: BuffableStat::PlungingAtkFlatDmg,
-        base_value: 2.00,
+        description: desc!("A4: Nearby active characters' Plunging ATK DMG +75%"),
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.75,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: Some(ScalingStat::TotalAtk),
+        scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
-        cap: Some(9000.0),
+        cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Aloof From the World Plunging Flat DMG Bonus",
-        description: desc!(
-            "C2: Nearby active characters' Plunging Attack shockwave DMG +200% of Xianyun's ATK, max 9000"
-        ),
-        stat: BuffableStat::PlungingAtkFlatDmg,
-        base_value: 2.00,
+        description: desc!("C2: CRIT Rate +20% for Plunging Attacks"),
+        stat: BuffableStat::CritRate,
+        base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: Some(ScalingStat::TotalAtk),
+        scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
-        cap: Some(9000.0),
+        cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
@@ -730,7 +614,9 @@ static XIAO_BANE_OF_ALL_EVIL_SCALING: [f64; 15] = [
 static XIAO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Transcension: Gravity Defier Skill DMG Bonus",
-        description: desc!("A4: Using Lemniscatic Wind Cycling increases subsequent Skill DMG by 15% per stack, max 3 stacks"),
+        description: desc!(
+            "A4: Using Lemniscatic Wind Cycling increases subsequent Skill DMG by 15% per stack, max 3 stacks"
+        ),
         stat: BuffableStat::SkillDmgBonus,
         base_value: 0.15,
         scales_with_talent: false,
@@ -1124,63 +1010,6 @@ mod tests {
     }
 
     #[test]
-    fn venti_c6_includes_absorbed_element_res_shreds() {
-        let buffs = find_buffs("venti");
-        let c6_buffs: Vec<_> = buffs
-            .iter()
-            .filter(|buff| buff.source == TalentBuffSource::Constellation(6))
-            .collect();
-
-        assert_eq!(c6_buffs.len(), 5);
-        for element in [
-            Element::Anemo,
-            Element::Pyro,
-            Element::Hydro,
-            Element::Cryo,
-            Element::Electro,
-        ] {
-            let buff = c6_buffs
-                .iter()
-                .find(|buff| buff.stat == BuffableStat::ElementalResReduction(element))
-                .unwrap();
-            assert!((buff.base_value - 0.20).abs() < 1e-6);
-            assert_eq!(buff.target, BuffTarget::Team);
-            assert_eq!(
-                buff.activation,
-                Some(Activation::Manual(ManualCondition::Toggle))
-            );
-        }
-    }
-
-    #[test]
-    fn sucrose_c6_includes_absorbed_element_dmg_buffs() {
-        let buffs = find_buffs("sucrose");
-        let c6_buffs: Vec<_> = buffs
-            .iter()
-            .filter(|buff| buff.source == TalentBuffSource::Constellation(6))
-            .collect();
-
-        assert_eq!(c6_buffs.len(), 4);
-        for element in [
-            Element::Pyro,
-            Element::Hydro,
-            Element::Cryo,
-            Element::Electro,
-        ] {
-            let buff = c6_buffs
-                .iter()
-                .find(|buff| buff.stat == BuffableStat::ElementalDmgBonus(element))
-                .unwrap();
-            assert!((buff.base_value - 0.20).abs() < 1e-6);
-            assert_eq!(buff.target, BuffTarget::Team);
-            assert_eq!(
-                buff.activation,
-                Some(Activation::Manual(ManualCondition::Toggle))
-            );
-        }
-    }
-
-    #[test]
     fn varka_a1_scales_on_total_atk_and_covers_all_elements() {
         let buffs = find_buffs("varka");
         let a1_buffs: Vec<_> = buffs
@@ -1251,42 +1080,6 @@ mod tests {
             );
             assert_eq!(buff.talent_scaling.unwrap(), &expected_scaling);
         }
-    }
-
-    #[test]
-    fn xianyun_a4_and_c2_are_flat_plunging_dmg_additions() {
-        let buffs = find_buffs("xianyun");
-
-        let a4 = buffs
-            .iter()
-            .find(|buff| buff.source == TalentBuffSource::AscensionPassive(4))
-            .unwrap();
-        assert_eq!(a4.stat, BuffableStat::PlungingAtkFlatDmg);
-        assert!((a4.base_value - 2.00).abs() < 1e-6);
-        assert_eq!(a4.scales_on, Some(ScalingStat::TotalAtk));
-        assert_eq!(a4.target, BuffTarget::Team);
-        assert_eq!(a4.cap, Some(9000.0));
-        assert_eq!(
-            a4.activation,
-            Some(Activation::Manual(ManualCondition::Toggle))
-        );
-
-        let c2 = buffs
-            .iter()
-            .find(|buff| {
-                buff.source == TalentBuffSource::Constellation(2)
-                    && buff.stat == BuffableStat::PlungingAtkFlatDmg
-            })
-            .unwrap();
-        assert_eq!(c2.stat, BuffableStat::PlungingAtkFlatDmg);
-        assert!((c2.base_value - 2.00).abs() < 1e-6);
-        assert_eq!(c2.scales_on, Some(ScalingStat::TotalAtk));
-        assert_eq!(c2.target, BuffTarget::Team);
-        assert_eq!(c2.cap, Some(9000.0));
-        assert_eq!(
-            c2.activation,
-            Some(Activation::Manual(ManualCondition::Toggle))
-        );
     }
 
     #[test]

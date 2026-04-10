@@ -66,20 +66,6 @@ static CANDACE_BURST_NORMAL_SCALING: [f64; 15] = [
 
 static CANDACE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Celestial Dome of Sand",
-        description: desc!("A4: Normal Attack DMG +0.5% per 1000 Max HP"),
-        stat: BuffableStat::NormalAtkDmgBonus,
-        base_value: 0.000005,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: Some(ScalingStat::Hp),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
         name: "Sacred Rite: Wagtail's Tide",
         description: desc!("Normal ATK DMG Bonus based on burst talent level"),
         stat: BuffableStat::NormalAtkDmgBonus,
@@ -871,23 +857,6 @@ mod tests {
             .iter()
             .find(|buff| buff.stat == stat && buff.source == source)
             .expect("expected buff to exist")
-    }
-
-    #[test]
-    fn test_find_candace_a4_team_normal_attack_damage_bonus() {
-        let buffs = find("candace").expect("Candace talent buffs should exist");
-        let buff = find_buff(
-            buffs,
-            BuffableStat::NormalAtkDmgBonus,
-            TalentBuffSource::AscensionPassive(4),
-        );
-        assert_eq!(buff.target, BuffTarget::Team);
-        assert_eq!(
-            buff.activation,
-            Some(Activation::Manual(ManualCondition::Toggle))
-        );
-        assert_eq!(buff.scales_on, Some(ScalingStat::Hp));
-        assert!((buff.base_value - 0.000005).abs() < 1e-12);
     }
 
     #[test]

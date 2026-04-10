@@ -439,20 +439,37 @@ static BAIZHU_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Collei =====
 // C4: EM+60 in Cuilein-Anbar field (excludes self)
-static COLLEI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "collei_c4_em",
-    description: desc!("C4: Party EM +60 after Burst (excludes self)"),
-    stat: BuffableStat::ElementalMastery,
-    base_value: 60.0,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::TeamExcludeSelf,
-    source: TalentBuffSource::Constellation(4),
-    min_constellation: 4,
-    cap: None,
-    activation: Some(Activation::Manual(ManualCondition::Toggle)),
-}];
+// C6 "Light Comes from the Depths": Dendro DMG +35% (self) when in Sprout state
+static COLLEI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "collei_c4_em",
+        description: desc!("C4: Party EM +60 after Burst (excludes self)"),
+        stat: BuffableStat::ElementalMastery,
+        base_value: 60.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::TeamExcludeSelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "collei_c6_dendro_dmg",
+        description: desc!("C6: Dendro DMG Bonus +35% while in Sprout state"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Emilie =====
 // A4 "Rectification": ATK → DMG bonus (0.015% per ATK, max +36%)

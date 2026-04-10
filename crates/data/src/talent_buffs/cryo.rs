@@ -226,21 +226,6 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
     },
-    // C4 "Insight": Skill DMG +5% per stack (max 50 stacks)
-    TalentBuffDef {
-        name: "Spring Spirit Summoning Skill DMG Bonus",
-        description: desc!("C4: Skill DMG +5% per stack (max 50 stacks)"),
-        stat: BuffableStat::SkillDmgBonus,
-        base_value: 0.05,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::Constellation(4),
-        min_constellation: 4,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Stacks(50))),
-    },
     // A4 "Deific Embrace" Press E: Skill/Burst DMG +15%
     TalentBuffDef {
         name: "Deific Embrace Press - Skill DMG",
@@ -409,20 +394,6 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
-        name: "Secret Pact DMG Bonus",
-        description: desc!("C6: Mystic Counts grant DMG Bonus +2.5% per count (max 40 counts)"),
-        stat: BuffableStat::DmgBonus,
-        base_value: 0.025,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Stacks(40))),
-    },
-    TalentBuffDef {
         name: "Secret Pact Pyro DMG Bonus",
         description: desc!(
             "C6: Mystic Counts grant Pyro DMG +1.5% per count (max 40 counts = +60%)"
@@ -520,38 +491,9 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Mika =====
-// A1/A4 "Detector": Physical DMG Bonus +10% stacks + extra +10%
 // C6: Physical DMG Bonus +10% during burst recovery (HP>50%)
 // C6 "Blood-Red Bristles": Physical CRIT DMG +60%
 static MIKA_BUFFS: &[TalentBuffDef] = &[
-    TalentBuffDef {
-        name: "Detector Physical DMG Bonus",
-        description: desc!("A1: Detector grants Physical DMG +10% per stack (max 3 stacks)"),
-        stat: BuffableStat::PhysicalDmgBonus,
-        base_value: 0.10,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(1),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
-    },
-    TalentBuffDef {
-        name: "Detector Physical DMG Bonus Extra",
-        description: desc!("A4: Detector grants an additional Physical DMG +10%"),
-        stat: BuffableStat::PhysicalDmgBonus,
-        base_value: 0.10,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
     TalentBuffDef {
         name: "Blood-Red Bristles Physical DMG Bonus",
         description: desc!("C6: During Skyfeather Song recovery, Physical DMG +10% (HP>50%)"),
@@ -1175,23 +1117,15 @@ mod tests {
         }));
 
         let citlali = find("citlali").unwrap();
-        assert_eq!(citlali.len(), 8);
-        assert!(citlali.iter().any(|b| {
-            b.source == TalentBuffSource::Constellation(6)
-                && b.stat == BuffableStat::DmgBonus
-                && (b.base_value - 0.025).abs() < 1e-6
-                && b.target == BuffTarget::OnlySelf
-                && matches!(
-                    b.activation,
-                    Some(Activation::Manual(ManualCondition::Stacks(40)))
-                )
-        }));
+        assert_eq!(citlali.len(), 7);
 
         let escoffier = find("escoffier").unwrap();
         assert_eq!(escoffier.len(), 4);
-        assert!(!escoffier
-            .iter()
-            .any(|b| b.name == "Amuse-bouche de Saveur Cryo CD" && b.activation.is_none()));
+        assert!(
+            !escoffier
+                .iter()
+                .any(|b| b.name == "Amuse-bouche de Saveur Cryo CD" && b.activation.is_none())
+        );
         assert!(escoffier.iter().any(|b| {
             b.name == "escoffier_c1_cryo_crit_dmg"
                 && b.source == TalentBuffSource::Constellation(1)
@@ -1239,38 +1173,9 @@ mod tests {
         }));
 
         let mika = find("mika").unwrap();
-        assert_eq!(mika.len(), 4);
-        assert!(mika.iter().any(|b| {
-            b.source == TalentBuffSource::AscensionPassive(1)
-                && b.stat == BuffableStat::PhysicalDmgBonus
-                && (b.base_value - 0.10).abs() < 1e-6
-                && b.target == BuffTarget::Team
-                && matches!(
-                    b.activation,
-                    Some(Activation::Manual(ManualCondition::Stacks(3)))
-                )
-        }));
-        assert!(mika.iter().any(|b| {
-            b.source == TalentBuffSource::AscensionPassive(4)
-                && b.stat == BuffableStat::PhysicalDmgBonus
-                && (b.base_value - 0.10).abs() < 1e-6
-                && b.target == BuffTarget::Team
-                && matches!(
-                    b.activation,
-                    Some(Activation::Manual(ManualCondition::Toggle))
-                )
-        }));
+        assert_eq!(mika.len(), 2);
 
         let shenhe = find("shenhe").unwrap();
-        assert!(shenhe.iter().any(|b| {
-            b.source == TalentBuffSource::Constellation(4)
-                && b.stat == BuffableStat::SkillDmgBonus
-                && (b.base_value - 0.05).abs() < 1e-6
-                && b.target == BuffTarget::OnlySelf
-                && matches!(
-                    b.activation,
-                    Some(Activation::Manual(ManualCondition::Stacks(50)))
-                )
-        }));
+        assert_eq!(shenhe.len(), 11);
     }
 }

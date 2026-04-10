@@ -21,86 +21,6 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
         activation: None,
     },
     TalentBuffDef {
-        name: "Hexerei Solar Isotoma Normal DMG",
-        description: desc!(
-            "After creating Solar Isotoma, nearby party members' Normal Attack DMG increases by 4% of Albedo's DEF per 1000, max 12%"
-        ),
-        stat: BuffableStat::NormalAtkDmgBonus,
-        base_value: 0.00004,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: Some(ScalingStat::Def),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: Some(0.12),
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "Hexerei Solar Isotoma Charged DMG",
-        description: desc!(
-            "After creating Solar Isotoma, nearby party members' Charged Attack DMG increases by 4% of Albedo's DEF per 1000, max 12%"
-        ),
-        stat: BuffableStat::ChargedAtkDmgBonus,
-        base_value: 0.00004,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: Some(ScalingStat::Def),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: Some(0.12),
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "Hexerei Solar Isotoma Plunging DMG",
-        description: desc!(
-            "After creating Solar Isotoma, nearby party members' Plunging Attack DMG increases by 4% of Albedo's DEF per 1000, max 12%"
-        ),
-        stat: BuffableStat::PlungingAtkDmgBonus,
-        base_value: 0.00004,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: Some(ScalingStat::Def),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: Some(0.12),
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "Hexerei Solar Isotoma Skill DMG",
-        description: desc!(
-            "After creating Solar Isotoma, nearby party members' Elemental Skill DMG increases by 4% of Albedo's DEF per 1000, max 12%"
-        ),
-        stat: BuffableStat::SkillDmgBonus,
-        base_value: 0.00004,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: Some(ScalingStat::Def),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: Some(0.12),
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "Hexerei Solar Isotoma Burst DMG",
-        description: desc!(
-            "After creating Solar Isotoma, nearby party members' Elemental Burst DMG increases by 4% of Albedo's DEF per 1000, max 12%"
-        ),
-        stat: BuffableStat::BurstDmgBonus,
-        base_value: 0.00004,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: Some(ScalingStat::Def),
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: Some(0.12),
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
         name: "albedo_c1_def",
         description: desc!("C1: DEF +50% on Skill use"),
         stat: BuffableStat::DefPercent,
@@ -181,22 +101,6 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: None,
-    },
-    TalentBuffDef {
-        name: "Heedless of the Wind and Weather",
-        description: desc!(
-            "After using Juuga: Forward Unto Victory, nearby party members gain DEF +25%"
-        ),
-        stat: BuffableStat::DefPercent,
-        base_value: 0.25,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "gorou_c6_geo_crit_dmg",
@@ -1057,28 +961,6 @@ mod tests {
     }
 
     #[test]
-    fn test_find_albedo_hexerei_solar_isotoma_team_buffs() {
-        let buffs = find("albedo").expect("Albedo talent buffs should exist");
-        for stat in [
-            BuffableStat::NormalAtkDmgBonus,
-            BuffableStat::ChargedAtkDmgBonus,
-            BuffableStat::PlungingAtkDmgBonus,
-            BuffableStat::SkillDmgBonus,
-            BuffableStat::BurstDmgBonus,
-        ] {
-            let buff = find_buff(buffs, stat, TalentBuffSource::AscensionPassive(4));
-            assert_eq!(buff.target, BuffTarget::Team);
-            assert_eq!(
-                buff.activation,
-                Some(Activation::Manual(ManualCondition::Toggle))
-            );
-            assert_eq!(buff.scales_on, Some(ScalingStat::Def));
-            assert!((buff.base_value - 0.00004).abs() < 1e-12);
-            assert_eq!(buff.cap, Some(0.12));
-        }
-    }
-
-    #[test]
     fn test_find_chiori_a4_geo_damage_bonus() {
         let buffs = find("chiori").expect("Chiori talent buffs should exist");
         let buff = find_buff(
@@ -1092,22 +974,6 @@ mod tests {
             Some(Activation::Manual(ManualCondition::Toggle))
         );
         assert!((buff.base_value - 0.20).abs() < 1e-6);
-    }
-
-    #[test]
-    fn test_find_gorou_a4_team_def_bonus() {
-        let buffs = find("gorou").expect("Gorou talent buffs should exist");
-        let buff = find_buff(
-            buffs,
-            BuffableStat::DefPercent,
-            TalentBuffSource::AscensionPassive(4),
-        );
-        assert_eq!(buff.target, BuffTarget::Team);
-        assert_eq!(
-            buff.activation,
-            Some(Activation::Manual(ManualCondition::Toggle))
-        );
-        assert!((buff.base_value - 0.25).abs() < 1e-6);
     }
 
     #[test]

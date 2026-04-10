@@ -251,34 +251,6 @@ static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
 // C6 "Bane of Evil": Electro RES -15% during burst
 static BEIDOU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "beidou_a4_normal_dmg",
-        description: desc!("A4: Normal Attack DMG Bonus +15%"),
-        stat: BuffableStat::NormalAtkDmgBonus,
-        base_value: 0.15,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
-        name: "beidou_a4_charged_dmg",
-        description: desc!("A4: Charged Attack DMG Bonus +15%"),
-        stat: BuffableStat::ChargedAtkDmgBonus,
-        base_value: 0.15,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive(4),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
-    TalentBuffDef {
         name: "Bane of Evil Electro RES Shred",
         description: desc!("C6: During Stormbreaker, enemies have Electro RES -15%"),
         stat: BuffableStat::ElementalResReduction(Element::Electro),
@@ -1068,29 +1040,6 @@ mod tests {
             .iter()
             .find(|buff| buff.stat == stat && buff.source == source)
             .expect("expected buff to exist")
-    }
-
-    #[test]
-    fn test_find_beidou_a4_normal_and_charged_dmg_bonus() {
-        let buffs = find("beidou").expect("Beidou talent buffs should exist");
-        let normal = find_buff(
-            buffs,
-            BuffableStat::NormalAtkDmgBonus,
-            TalentBuffSource::AscensionPassive(4),
-        );
-        let charged = find_buff(
-            buffs,
-            BuffableStat::ChargedAtkDmgBonus,
-            TalentBuffSource::AscensionPassive(4),
-        );
-        for buff in [normal, charged] {
-            assert_eq!(buff.target, BuffTarget::OnlySelf);
-            assert_eq!(
-                buff.activation,
-                Some(Activation::Manual(ManualCondition::Toggle))
-            );
-            assert!((buff.base_value - 0.15).abs() < 1e-6);
-        }
     }
 
     #[test]
