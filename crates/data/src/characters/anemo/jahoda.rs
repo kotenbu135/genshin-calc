@@ -3,26 +3,26 @@ use genshin_calc_core::{Element, ScalingStat};
 
 // =============================================================================
 
-// -- Normal Attack: [Placeholder] -- Physical --
+// -- Normal Attack: Strike While the Arrow's Hot -- Physical --
 
 const JAHODA_NORMAL_1: TalentScaling = TalentScaling {
     name: "1段ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.3612, 0.3906, 0.4200, 0.4620, 0.4914, 0.5250, 0.5712, 0.6174, 0.6636, 0.7140, 0.7718,
-        0.8397, 0.9076, 0.9755, 1.0496,
+        0.4167, 0.4507, 0.4846, 0.533, 0.567, 0.6057, 0.659, 0.7123, 0.7656, 0.8238, 0.8819,
+        0.9401, 0.9982, 1.0564, 1.1145,
     ],
     dynamic_bonus: None,
 };
 
 const JAHODA_NORMAL_2: TalentScaling = TalentScaling {
-    name: "2段ダメージ",
+    name: "2段ダメージ(x2)",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.3354, 0.3627, 0.3900, 0.4290, 0.4563, 0.4875, 0.5304, 0.5733, 0.6162, 0.6630, 0.7166,
-        0.7797, 0.8428, 0.9058, 0.9746,
+        0.1923, 0.208, 0.2236, 0.246, 0.2616, 0.2795, 0.3041, 0.3287, 0.3533, 0.3802, 0.407,
+        0.4338, 0.4607, 0.4875, 0.5143,
     ],
     dynamic_bonus: None,
 };
@@ -32,30 +32,8 @@ const JAHODA_NORMAL_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.4558, 0.4929, 0.5300, 0.5830, 0.6201, 0.6625, 0.7208, 0.7791, 0.8374, 0.9010, 0.9739,
-        1.0596, 1.1453, 1.2310, 1.3245,
-    ],
-    dynamic_bonus: None,
-};
-
-const JAHODA_NORMAL_4: TalentScaling = TalentScaling {
-    name: "4段ダメージ",
-    scaling_stat: ScalingStat::Atk,
-    damage_element: None,
-    values: [
-        0.4300, 0.4650, 0.5000, 0.5500, 0.5850, 0.6250, 0.6800, 0.7350, 0.7900, 0.8500, 0.9188,
-        0.9996, 1.0805, 1.1613, 1.2495,
-    ],
-    dynamic_bonus: None,
-};
-
-const JAHODA_NORMAL_5: TalentScaling = TalentScaling {
-    name: "5段ダメージ",
-    scaling_stat: ScalingStat::Atk,
-    damage_element: None,
-    values: [
-        0.5375, 0.5813, 0.6250, 0.6875, 0.7313, 0.7813, 0.8500, 0.9188, 0.9875, 1.0625, 1.1484,
-        1.2495, 1.3506, 1.4516, 1.5619,
+        0.512, 0.5536, 0.5953, 0.6549, 0.6965, 0.7442, 0.8096, 0.8751, 0.9406, 1.012, 1.0835,
+        1.1549, 1.2264, 1.2978, 1.3692,
     ],
     dynamic_bonus: None,
 };
@@ -119,28 +97,72 @@ const JAHODA_PLUNGE_HIGH: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-// -- Elemental Skill -- Anemo --
+// -- Elemental Skill: Savvy Strategy: Splitting the Spoils -- Anemo --
 
-const JAHODA_SKILL: TalentScaling = TalentScaling {
-    name: "スキルダメージ",
+const JAHODA_SKILL_SMOKE_BOMB: TalentScaling = TalentScaling {
+    name: "発煙弾ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Anemo),
     values: [
-        1.12, 1.204, 1.288, 1.40, 1.484, 1.568, 1.68, 1.792, 1.904, 2.016, 2.128, 2.24, 2.38, 2.52,
-        2.66,
+        1.59, 1.7093, 1.8285, 1.9875, 2.1068, 2.226, 2.385, 2.544, 2.703, 2.862, 3.021, 3.18,
+        3.3788, 3.5775, 3.7763,
     ],
     dynamic_bonus: None,
 };
 
-// -- Elemental Burst -- Anemo --
-
-const JAHODA_BURST: TalentScaling = TalentScaling {
-    name: "バーストダメージ",
+const JAHODA_SKILL_UNFILLED_FLASK: TalentScaling = TalentScaling {
+    name: "お宝ボトルの通常時ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Anemo),
     values: [
-        1.728, 1.8576, 1.9872, 2.16, 2.2896, 2.4192, 2.592, 2.7648, 2.9376, 3.1104, 3.2832, 3.456,
-        3.672, 3.888, 4.104,
+        1.908, 2.0511, 2.1942, 2.385, 2.5281, 2.6712, 2.862, 3.0528, 3.2436, 3.4344, 3.6252, 3.816,
+        4.0545, 4.293, 4.5315,
+    ],
+    dynamic_bonus: None,
+};
+
+const JAHODA_SKILL_FILLED_FLASK: TalentScaling = TalentScaling {
+    name: "お宝ボトルの満タン時ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        2.12, 2.279, 2.438, 2.65, 2.809, 2.968, 3.18, 3.392, 3.604, 3.816, 4.028, 4.24, 4.505,
+        4.77, 5.035,
+    ],
+    dynamic_bonus: None,
+};
+
+const JAHODA_SKILL_MEOWBALL: TalentScaling = TalentScaling {
+    name: "ニャンコボールダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        1.28, 1.376, 1.472, 1.6, 1.696, 1.792, 1.92, 2.048, 2.176, 2.304, 2.432, 2.56, 2.72, 2.88,
+        3.04,
+    ],
+    dynamic_bonus: None,
+};
+
+// -- Elemental Burst: Hidden Aces: Seven Tools of the Hunter -- Anemo --
+
+const JAHODA_BURST: TalentScaling = TalentScaling {
+    name: "スキルダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        2.072, 2.2274, 2.3828, 2.59, 2.7454, 2.9008, 3.108, 3.3152, 3.5224, 3.7296, 3.9368, 4.144,
+        4.403, 4.662, 4.921,
+    ],
+    dynamic_bonus: None,
+};
+
+const JAHODA_BURST_ROBOT: TalentScaling = TalentScaling {
+    name: "家庭用肉球アシスタントマシンのダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Anemo),
+    values: [
+        0.1727, 0.1856, 0.1986, 0.2158, 0.2288, 0.2417, 0.259, 0.2763, 0.2935, 0.3108, 0.3281,
+        0.3453, 0.3669, 0.3885, 0.4101,
     ],
     dynamic_bonus: None,
 };
@@ -170,27 +192,26 @@ pub const JAHODA: CharacterData = CharacterData {
         603.35, // Lv95/Lv95+/Lv100
         626.55, // Lv95/Lv95+/Lv100
     ],
-    ascension_stat: AscensionStat::ElementalMastery(96.0),
+    ascension_stat: AscensionStat::HealingBonus(0.1846),
     talents: TalentSet {
         normal_attack: NormalAttackData {
-            name: "Placeholder Normal Attack",
-            hits: &[
-                JAHODA_NORMAL_1,
-                JAHODA_NORMAL_2,
-                JAHODA_NORMAL_3,
-                JAHODA_NORMAL_4,
-                JAHODA_NORMAL_5,
-            ],
+            name: "気転の矢",
+            hits: &[JAHODA_NORMAL_1, JAHODA_NORMAL_2, JAHODA_NORMAL_3],
             charged: &[JAHODA_AIMED, JAHODA_AIMED_FULL],
             plunging: &[JAHODA_PLUNGE, JAHODA_PLUNGE_LOW, JAHODA_PLUNGE_HIGH],
         },
         elemental_skill: TalentData {
-            name: "Placeholder Skill",
-            scalings: &[JAHODA_SKILL],
+            name: "奇策・財宝分配法",
+            scalings: &[
+                JAHODA_SKILL_SMOKE_BOMB,
+                JAHODA_SKILL_UNFILLED_FLASK,
+                JAHODA_SKILL_FILLED_FLASK,
+                JAHODA_SKILL_MEOWBALL,
+            ],
         },
         elemental_burst: TalentData {
-            name: "Placeholder Burst",
-            scalings: &[JAHODA_BURST],
+            name: "秘器・狩人の七つ道具",
+            scalings: &[JAHODA_BURST, JAHODA_BURST_ROBOT],
         },
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,

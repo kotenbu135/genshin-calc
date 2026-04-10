@@ -159,7 +159,7 @@ pub const MIZUKI: CharacterData = CharacterData {
         787.31, // Lv95/Lv95+/Lv100
         817.59, // Lv95/Lv95+/Lv100
     ],
-    ascension_stat: AscensionStat::Hp(0.288),
+    ascension_stat: AscensionStat::ElementalMastery(115.2),
     talents: TalentSet {
         normal_attack: NormalAttackData {
             name: "清心清夢",
