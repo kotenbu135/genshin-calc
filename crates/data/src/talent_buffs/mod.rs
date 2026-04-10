@@ -910,53 +910,168 @@ mod tests {
 
     #[test]
     fn talent_buff_audit_reaction_specific_buffs_use_exact_reactions() {
-        let nilou = find_talent_buffs("nilou").unwrap();
+        let nilou = find_talent_buffs("nilou").expect("Nilou talent buffs should exist");
+        let nilou_a4: Vec<_> = nilou
+            .iter()
+            .filter(|b| {
+                b.source == TalentBuffSource::AscensionPassive(4)
+                    && b.scales_on == Some(ScalingStat::Hp)
+            })
+            .collect();
+        assert_eq!(
+            nilou_a4.len(),
+            1,
+            "Nilou A4 audit should resolve to exactly one HP-scaling entry"
+        );
+        let nilou_a4 = nilou_a4[0];
+        assert_eq!(
+            nilou_a4.stat,
+            BuffableStat::ReactionDmgBonus(Reaction::Bloom),
+            "Nilou A4 audit should use the exact Bloom reaction stat"
+        );
+        assert_eq!(
+            nilou_a4.target,
+            BuffTarget::Team,
+            "Nilou A4 audit correction should be team-targeted"
+        );
+        assert_eq!(
+            nilou_a4.cap,
+            Some(4.0),
+            "Nilou A4 audit should keep the HP bonus cap at 4.0"
+        );
         assert!(
-            nilou
-                .iter()
-                .any(|b| b.stat == BuffableStat::ReactionDmgBonus(Reaction::Bloom))
+            nilou.iter().all(|b| {
+                !(b.source == TalentBuffSource::AscensionPassive(4)
+                    && b.scales_on == Some(ScalingStat::Hp)
+                    && b.stat == BuffableStat::TransformativeBonus)
+            }),
+            "Nilou A4 audit should not leave a TransformativeBonus duplicate behind"
         );
 
-        let fischl = find_talent_buffs("fischl").unwrap();
+        let fischl = find_talent_buffs("fischl")
+            .expect("Fischl talent buffs should exist for the Hexerei/Witch audit");
+        let hexerei = fischl
+            .iter()
+            .find(|b| {
+                b.name.contains("Hexerei")
+                    || b.description.contains("Hexerei")
+                    || b.name.contains("Witch")
+                    || b.description.contains("Witch")
+            })
+            .expect("Fischl Hexerei/Witch's Eve Rite buff should exist");
         assert!(
-            fischl.iter().any(|b| {
-                b.stat == BuffableStat::AtkPercent || b.stat == BuffableStat::ElementalMastery
-            }),
-            "Fischl audited Hexerei damage buff should expose ATK or EM"
+            hexerei.stat == BuffableStat::AtkPercent
+                || hexerei.stat == BuffableStat::ElementalMastery,
+            "Fischl Hexerei/Witch audit should expose ATK or EM, not an unrelated stat"
+        );
+        assert!(
+            hexerei.base_value > 0.0,
+            "Fischl Hexerei/Witch audit buff should have a nonzero base value"
+        );
+        assert_eq!(
+            hexerei.target,
+            BuffTarget::OnlySelf,
+            "Fischl Hexerei/Witch audit correction should be self-only"
         );
     }
 
     #[test]
     fn talent_buff_audit_targets_are_not_overbroad() {
-        let sigewinne = find_talent_buffs("sigewinne").unwrap();
-        assert!(sigewinne.iter().any(|b| {
-            b.name.contains("Requires Appropriate Rest")
-                && b.stat == BuffableStat::ElementalDmgBonus(Element::Hydro)
-                && b.target == BuffTarget::OnlySelf
-        }));
+        let sigewinne = find_talent_buffs("sigewinne").expect("Sigewinne talent buffs should exist");
+        let sigewinne_a1: Vec<_> = sigewinne
+            .iter()
+            .filter(|b| {
+                b.source == TalentBuffSource::AscensionPassive(1)
+                    && b.stat == BuffableStat::ElementalDmgBonus(Element::Hydro)
+            })
+            .collect();
+        assert_eq!(
+            sigewinne_a1.len(),
+            1,
+            "Sigewinne A1 Hydro DMG audit should resolve to exactly one entry"
+        );
+        let sigewinne_a1 = sigewinne_a1[0];
+        assert!(
+            sigewinne_a1.name.contains("Requires Appropriate Rest")
+                || sigewinne_a1.description.contains("Requires Appropriate Rest")
+                || sigewinne_a1.name.contains("A Friendly Rivalry"),
+            "Sigewinne A1 Hydro DMG audit should match the corrected A1 identity"
+        );
+        assert_eq!(
+            sigewinne_a1.target,
+            BuffTarget::OnlySelf,
+            "Sigewinne A1 Hydro DMG audit correction should be self-only"
+        );
+        assert!(
+            (sigewinne_a1.base_value - 0.08).abs() < 1e-6,
+            "Sigewinne A1 Hydro DMG audit should remain 0.08"
+        );
+        assert!(
+            sigewinne.iter().all(|b| {
+                !(b.source == TalentBuffSource::AscensionPassive(1)
+                    && b.stat == BuffableStat::ElementalDmgBonus(Element::Hydro)
+                    && b.target == BuffTarget::Team)
+            }),
+            "Sigewinne A1 Hydro DMG audit should not leave a team-targeted duplicate behind"
+        );
 
-        let kaeya = find_talent_buffs("kaeya").unwrap();
-        assert!(kaeya.iter().any(|b| {
-            b.source == TalentBuffSource::Constellation(1) && b.target == BuffTarget::OnlySelf
-        }));
+        let kaeya = find_talent_buffs("kaeya").expect("Kaeya talent buffs should exist");
+        let kaeya_c1_crit: Vec<_> = kaeya
+            .iter()
+            .filter(|b| {
+                b.source == TalentBuffSource::Constellation(1) && b.stat == BuffableStat::CritRate
+            })
+            .collect();
+        assert!(
+            !kaeya_c1_crit.is_empty(),
+            "Kaeya C1 audit should find at least one CritRate-related entry"
+        );
+        assert!(
+            kaeya_c1_crit
+                .iter()
+                .all(|b| b.target == BuffTarget::OnlySelf),
+            "Kaeya C1 audit should keep every CritRate-related entry self-only"
+        );
+        assert!(
+            kaeya.iter().all(|b| {
+                !(b.source == TalentBuffSource::Constellation(1)
+                    && b.stat == BuffableStat::CritRate
+                    && b.target == BuffTarget::Team)
+            }),
+            "Kaeya C1 audit should not leave a team-targeted CritRate duplicate behind"
+        );
     }
 
     #[test]
     fn talent_buff_audit_values_match_priority_fixes() {
-        let candace = find_talent_buffs("candace").unwrap();
+        let candace = find_talent_buffs("candace").expect("Candace talent buffs should exist");
         let burst = candace
             .iter()
-            .find(|b| b.name.contains("Prayer of the Crimson Crown"))
+            .find(|b| {
+                b.source == TalentBuffSource::ElementalBurst
+                    && b.stat == BuffableStat::NormalAtkDmgBonus
+                    && b.target == BuffTarget::Team
+                    && b.scales_with_talent
+            })
             .expect("Candace burst normal attack buff should exist");
         let burst_scaling = burst
             .talent_scaling
             .expect("Candace burst buff should use a talent scaling table");
-        assert_eq!(burst_scaling, &[0.20; 15]);
+        assert_eq!(
+            burst_scaling,
+            &[0.20; 15],
+            "Candace burst scaling should match the audited table"
+        );
 
-        let mona = find_talent_buffs("mona").unwrap();
+        let mona = find_talent_buffs("mona").expect("Mona talent buffs should exist");
         let omen = mona
             .iter()
-            .find(|b| b.name.contains("Omen"))
+            .find(|b| {
+                b.source == TalentBuffSource::ElementalBurst
+                    && b.stat == BuffableStat::DmgBonus
+                    && b.target == BuffTarget::Team
+                    && b.scales_with_talent
+            })
             .expect("Mona Omen damage bonus should exist");
         let omen_scaling = omen
             .talent_scaling
@@ -966,7 +1081,8 @@ mod tests {
             &[
                 0.42, 0.44, 0.46, 0.48, 0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.60, 0.60, 0.60,
                 0.60, 0.60,
-            ]
+            ],
+            "Mona Omen scaling should match the audited table"
         );
     }
 
