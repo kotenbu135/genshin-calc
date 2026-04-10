@@ -117,6 +117,7 @@ fn resolve_scaling_value(def: &TalentBuffDef, talent_levels: &[u8; 3]) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use genshin_calc_core::Reaction;
 
     #[test]
     fn test_find_bennett_buffs() {
@@ -904,6 +905,68 @@ mod tests {
             buffs
                 .iter()
                 .any(|b| b.stat == BuffableStat::PhysicalResReduction)
+        );
+    }
+
+    #[test]
+    fn talent_buff_audit_reaction_specific_buffs_use_exact_reactions() {
+        let nilou = find_talent_buffs("nilou").unwrap();
+        assert!(
+            nilou
+                .iter()
+                .any(|b| b.stat == BuffableStat::ReactionDmgBonus(Reaction::Bloom))
+        );
+
+        let fischl = find_talent_buffs("fischl").unwrap();
+        assert!(
+            fischl.iter().any(|b| {
+                b.stat == BuffableStat::AtkPercent || b.stat == BuffableStat::ElementalMastery
+            }),
+            "Fischl audited Hexerei damage buff should expose ATK or EM"
+        );
+    }
+
+    #[test]
+    fn talent_buff_audit_targets_are_not_overbroad() {
+        let sigewinne = find_talent_buffs("sigewinne").unwrap();
+        assert!(sigewinne.iter().any(|b| {
+            b.name.contains("Requires Appropriate Rest")
+                && b.stat == BuffableStat::ElementalDmgBonus(Element::Hydro)
+                && b.target == BuffTarget::OnlySelf
+        }));
+
+        let kaeya = find_talent_buffs("kaeya").unwrap();
+        assert!(kaeya.iter().any(|b| {
+            b.source == TalentBuffSource::Constellation(1) && b.target == BuffTarget::OnlySelf
+        }));
+    }
+
+    #[test]
+    fn talent_buff_audit_values_match_priority_fixes() {
+        let candace = find_talent_buffs("candace").unwrap();
+        let burst = candace
+            .iter()
+            .find(|b| b.name.contains("Prayer of the Crimson Crown"))
+            .expect("Candace burst normal attack buff should exist");
+        let burst_scaling = burst
+            .talent_scaling
+            .expect("Candace burst buff should use a talent scaling table");
+        assert_eq!(burst_scaling, &[0.20; 15]);
+
+        let mona = find_talent_buffs("mona").unwrap();
+        let omen = mona
+            .iter()
+            .find(|b| b.name.contains("Omen"))
+            .expect("Mona Omen damage bonus should exist");
+        let omen_scaling = omen
+            .talent_scaling
+            .expect("Mona Omen should use a talent scaling table");
+        assert_eq!(
+            omen_scaling,
+            &[
+                0.42, 0.44, 0.46, 0.48, 0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.60, 0.60, 0.60,
+                0.60, 0.60,
+            ]
         );
     }
 
