@@ -225,8 +225,8 @@ fn character_audit_base_stats_are_not_scrambled() {
     let heizou = character("heizou");
     assert_close(
         heizou.base_hp[1],
-        2672.0,
-        "Heizou Lv20 HP must match docs/audit/anemo_audit.md",
+        2296.0,
+        "Heizou Lv20 HP must match honeyhunter-mirror/md/characters/heizo_059.md",
     );
 
     let traveler_dendro = character("traveler_dendro");
