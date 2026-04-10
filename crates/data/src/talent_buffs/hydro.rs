@@ -1,4 +1,5 @@
 use super::*;
+use genshin_calc_core::Reaction;
 
 // ===== Aino =====
 // C1: EM+80 to Aino and active party member after skill/burst for 15s
@@ -59,12 +60,12 @@ static BARBARA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // Burst "Sacred Rite: Heron's Sanctum": Normal ATK DMG bonus per level (Lv1-15)
 // C2 "The Forgiving Stars": Max HP +20% for 15s when Skill hits opponents
 static CANDACE_BURST_NORMAL_SCALING: [f64; 15] = [
-    0.20, 0.215, 0.23, 0.25, 0.265, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38, 0.40, 0.425, 0.45, 0.475,
+    0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20, 0.20,
 ];
 
 static CANDACE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Sacred Rite: Heron's Sanctum",
+        name: "Sacred Rite: Wagtail's Tide",
         description: desc!("Normal ATK DMG Bonus based on burst talent level"),
         stat: BuffableStat::NormalAtkDmgBonus,
         base_value: 0.0,
@@ -85,7 +86,7 @@ static CANDACE_BUFFS: &[TalentBuffDef] = &[
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::OnlySelf,
+        target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
@@ -147,7 +148,7 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
 // C4 "Prophecy of Oblivion": CRIT Rate +15% and CRIT DMG +15% vs Omen-affected opponents
 // C6 "Rhetorics of Calamitas": Charged ATK DMG +180% (max in Illusory Torrent)
 static MONA_BURST_DMG_SCALING: [f64; 15] = [
-    0.42, 0.44, 0.46, 0.50, 0.52, 0.54, 0.58, 0.62, 0.66, 0.70, 0.74, 0.78, 0.82, 0.86, 0.90,
+    0.42, 0.44, 0.46, 0.48, 0.50, 0.52, 0.54, 0.56, 0.58, 0.60, 0.60, 0.60, 0.60, 0.60, 0.60,
 ];
 
 static MONA_BUFFS: &[TalentBuffDef] = &[
@@ -248,12 +249,12 @@ static NILOU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dreaming Dance of the Lotuslight",
         description: desc!("HP30000超過1000ごとにBloom DMG+9%、最大+400%"),
-        stat: BuffableStat::TransformativeBonus,
+        stat: BuffableStat::ReactionDmgBonus(Reaction::Bloom),
         base_value: 0.0, // HP-dependent special formula (scaling_value == 0.0 triggers it)
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: Some(ScalingStat::Hp),
-        target: BuffTarget::OnlySelf,
+        target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: Some(4.0),
@@ -658,14 +659,14 @@ static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
 // C6 "Whirlpool Wisdom": CR +20% / CD +110% from HP scaling — use max values (self, Toggle)
 static SIGEWINNE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "A Friendly Rivalry Hydro DMG",
-        description: desc!("A1: After Skill, team Hydro DMG Bonus +8%"),
+        name: "Requires Appropriate Rest Hydro DMG",
+        description: desc!("A1: After Skill, self Hydro DMG Bonus +8%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
         base_value: 0.08,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::Team,
+        target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,

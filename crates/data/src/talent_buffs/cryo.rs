@@ -835,16 +835,16 @@ static FREMINET_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Kaeya =====
-// C1 "Excellent Blood": CR+15% vs Cryo-affected enemies (Team)
+// C1 "Excellent Blood": CR+15% vs Cryo-affected enemies (self)
 static KAEYA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
     name: "Excellent Blood CR",
-    description: desc!("C1: CR+15% vs Cryo-affected enemies (Team)"),
+    description: desc!("C1: CR+15% vs Cryo-affected enemies (self)"),
     stat: BuffableStat::CritRate,
     base_value: 0.15,
     scales_with_talent: false,
     talent_scaling: None,
     scales_on: None,
-    target: BuffTarget::Team,
+    target: BuffTarget::OnlySelf,
     source: TalentBuffSource::Constellation(1),
     min_constellation: 1,
     cap: None,

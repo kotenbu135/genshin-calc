@@ -279,6 +279,41 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[
     },
 ];
 
+// ===== Fischl =====
+// Hexerei Witch's Eve Rite buffs; coordinated/proc attacks excluded
+static FISCHL_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Witch's Eve Rite Hexerei ATK Bonus",
+        description: desc!("After Overloaded while Oz is on field, Fischl gains ATK +22.5%"),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.225,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Witch's Eve Rite Hexerei EM Bonus",
+        description: desc!(
+            "After Electro-Charged or Lunar-Charged while Oz is on field, Fischl gains EM +90"
+        ),
+        stat: BuffableStat::ElementalMastery,
+        base_value: 90.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
+
 // ===== Iansan =====
 // Burst "Three Principles of Power": ATK Flat bonus (Iansan ATK × coefficient) to party
 // Max ATK Bonus: Lv1=330 ~ Lv15=890 (4-source confirmed: KQM, game8, genshin.gg, paimon.moe)
@@ -878,6 +913,7 @@ pub(super) static ELECTRO_TALENT_BUFFS: &[(&str, &[TalentBuffDef])] = &[
     ("cyno", CYNO_BUFFS),
     ("dori", DORI_BUFFS),
     ("flins", FLINS_BUFFS),
+    ("fischl", FISCHL_BUFFS),
     ("iansan", IANSAN_BUFFS),
     ("ineffa", INEFFA_BUFFS),
     ("keqing", KEQING_BUFFS),

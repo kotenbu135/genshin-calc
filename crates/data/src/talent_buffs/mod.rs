@@ -507,13 +507,16 @@ mod tests {
     fn test_find_nilou_buffs() {
         let buffs = find_talent_buffs("nilou").unwrap();
         assert_eq!(buffs.len(), 6);
-        assert_eq!(buffs[0].stat, BuffableStat::TransformativeBonus);
+        assert_eq!(
+            buffs[0].stat,
+            BuffableStat::ReactionDmgBonus(Reaction::Bloom)
+        );
         assert!((buffs[0].base_value - 0.0).abs() < 1e-6); // scaling_value==0 triggers special formula
         assert!(!buffs[0].scales_with_talent);
         assert!(buffs[0].talent_scaling.is_none());
         assert_eq!(buffs[0].scales_on, Some(ScalingStat::Hp));
         assert_eq!(buffs[0].cap, Some(4.0));
-        assert_eq!(buffs[0].target, BuffTarget::OnlySelf);
+        assert_eq!(buffs[0].target, BuffTarget::Team);
         assert_eq!(buffs[0].source, TalentBuffSource::AscensionPassive(4));
         assert_eq!(buffs[0].min_constellation, 0);
     }
