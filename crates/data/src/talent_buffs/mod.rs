@@ -950,28 +950,62 @@ mod tests {
 
         let fischl = find_talent_buffs("fischl")
             .expect("Fischl talent buffs should exist for the Hexerei/Witch audit");
-        let hexerei = fischl
+        let fischl_atk: Vec<_> = fischl
             .iter()
-            .find(|b| {
-                b.name.contains("Hexerei")
+            .filter(|b| {
+                (b.name.contains("Hexerei")
                     || b.description.contains("Hexerei")
                     || b.name.contains("Witch")
-                    || b.description.contains("Witch")
+                    || b.description.contains("Witch"))
+                    && b.stat == BuffableStat::AtkPercent
+                    && (b.base_value - 0.225).abs() < 1e-6
+                    && b.target == BuffTarget::OnlySelf
+                    && (b.name.contains("Overloaded") || b.description.contains("Overloaded"))
+                    && (b.name.contains("Oz") || b.description.contains("Oz"))
             })
-            .expect("Fischl Hexerei/Witch's Eve Rite buff should exist");
-        assert!(
-            hexerei.stat == BuffableStat::AtkPercent
-                || hexerei.stat == BuffableStat::ElementalMastery,
-            "Fischl Hexerei/Witch audit should expose ATK or EM, not an unrelated stat"
-        );
-        assert!(
-            hexerei.base_value > 0.0,
-            "Fischl Hexerei/Witch audit buff should have a nonzero base value"
-        );
+            .collect();
         assert_eq!(
-            hexerei.target,
-            BuffTarget::OnlySelf,
-            "Fischl Hexerei/Witch audit correction should be self-only"
+            fischl_atk.len(),
+            1,
+            "Fischl Hexerei/Witch ATK audit should resolve to exactly one 22.5% self-only entry"
+        );
+        let fischl_atk = fischl_atk[0];
+        assert!(
+            fischl_atk.name.contains("Hexerei")
+                || fischl_atk.description.contains("Hexerei")
+                || fischl_atk.name.contains("Witch")
+                || fischl_atk.description.contains("Witch"),
+            "Fischl Hexerei/Witch ATK audit should be anchored by Hexerei/Witch identity text"
+        );
+
+        let fischl_em: Vec<_> = fischl
+            .iter()
+            .filter(|b| {
+                (b.name.contains("Hexerei")
+                    || b.description.contains("Hexerei")
+                    || b.name.contains("Witch")
+                    || b.description.contains("Witch"))
+                    && b.stat == BuffableStat::ElementalMastery
+                    && (b.base_value - 90.0).abs() < 1e-6
+                    && b.target == BuffTarget::OnlySelf
+                    && (b.name.contains("Electro-Charged") || b.description.contains("Electro-Charged")
+                        || b.name.contains("Lunar-Charged")
+                        || b.description.contains("Lunar-Charged"))
+                    && (b.name.contains("Oz") || b.description.contains("Oz"))
+            })
+            .collect();
+        assert_eq!(
+            fischl_em.len(),
+            1,
+            "Fischl Hexerei/Witch EM audit should resolve to exactly one 90.0 self-only entry"
+        );
+        let fischl_em = fischl_em[0];
+        assert!(
+            fischl_em.name.contains("Hexerei")
+                || fischl_em.description.contains("Hexerei")
+                || fischl_em.name.contains("Witch")
+                || fischl_em.description.contains("Witch"),
+            "Fischl Hexerei/Witch EM audit should be anchored by Hexerei/Witch identity text"
         );
     }
 
@@ -993,9 +1027,13 @@ mod tests {
         let sigewinne_a1 = sigewinne_a1[0];
         assert!(
             sigewinne_a1.name.contains("Requires Appropriate Rest")
-                || sigewinne_a1.description.contains("Requires Appropriate Rest")
-                || sigewinne_a1.name.contains("A Friendly Rivalry"),
+                || sigewinne_a1.description.contains("Requires Appropriate Rest"),
             "Sigewinne A1 Hydro DMG audit should match the corrected A1 identity"
+        );
+        assert!(
+            !sigewinne_a1.name.contains("A Friendly Rivalry")
+                && !sigewinne_a1.description.contains("A Friendly Rivalry"),
+            "Sigewinne A1 Hydro DMG audit should reject the stale identity text"
         );
         assert_eq!(
             sigewinne_a1.target,
@@ -1026,6 +1064,11 @@ mod tests {
             !kaeya_c1_crit.is_empty(),
             "Kaeya C1 audit should find at least one CritRate-related entry"
         );
+        assert_eq!(
+            kaeya_c1_crit.len(),
+            1,
+            "Kaeya C1 audit should resolve to exactly one CritRate-related entry"
+        );
         assert!(
             kaeya_c1_crit
                 .iter()
@@ -1045,15 +1088,23 @@ mod tests {
     #[test]
     fn talent_buff_audit_values_match_priority_fixes() {
         let candace = find_talent_buffs("candace").expect("Candace talent buffs should exist");
-        let burst = candace
+        let burst_matches: Vec<_> = candace
             .iter()
-            .find(|b| {
+            .filter(|b| {
                 b.source == TalentBuffSource::ElementalBurst
                     && b.stat == BuffableStat::NormalAtkDmgBonus
                     && b.target == BuffTarget::Team
                     && b.scales_with_talent
+                    && (b.name.contains("Sacred Rite: Heron's Sanctum")
+                        || b.description.contains("Sacred Rite: Heron's Sanctum"))
             })
-            .expect("Candace burst normal attack buff should exist");
+            .collect();
+        assert_eq!(
+            burst_matches.len(),
+            1,
+            "Candace burst selector should resolve to exactly one scaling entry"
+        );
+        let burst = burst_matches[0];
         let burst_scaling = burst
             .talent_scaling
             .expect("Candace burst buff should use a talent scaling table");
@@ -1064,15 +1115,23 @@ mod tests {
         );
 
         let mona = find_talent_buffs("mona").expect("Mona talent buffs should exist");
-        let omen = mona
+        let omen_matches: Vec<_> = mona
             .iter()
-            .find(|b| {
+            .filter(|b| {
                 b.source == TalentBuffSource::ElementalBurst
                     && b.stat == BuffableStat::DmgBonus
                     && b.target == BuffTarget::Team
                     && b.scales_with_talent
+                    && (b.name.contains("Stellaris Phantasm DMG Bonus")
+                        || b.description.contains("Omen increases DMG taken by opponents"))
             })
-            .expect("Mona Omen damage bonus should exist");
+            .collect();
+        assert_eq!(
+            omen_matches.len(),
+            1,
+            "Mona Omen selector should resolve to exactly one scaling entry"
+        );
+        let omen = omen_matches[0];
         let omen_scaling = omen
             .talent_scaling
             .expect("Mona Omen should use a talent scaling table");
