@@ -1,8 +1,29 @@
+use genshin_calc_core::{BuffableStat, Element, Reaction};
 use genshin_calc_data::artifacts::ALL_ARTIFACT_SETS;
 use genshin_calc_data::buff::{Activation, ConditionalBuff, ManualCondition};
 use genshin_calc_data::characters::all_characters;
 use genshin_calc_data::enemies::ALL_ENEMIES;
 use genshin_calc_data::weapons::ALL_WEAPONS;
+
+fn artifact_set(id: &str) -> &'static genshin_calc_data::types::ArtifactSet {
+    ALL_ARTIFACT_SETS
+        .iter()
+        .copied()
+        .find(|set| set.id == id)
+        .unwrap_or_else(|| panic!("artifact set not found: {id}"))
+}
+
+fn conditional_values(
+    set: &genshin_calc_data::types::ArtifactSet,
+    stat: BuffableStat,
+) -> Vec<f64> {
+    set.four_piece
+        .conditional_buffs
+        .iter()
+        .filter(|buff| buff.stat == stat)
+        .map(|buff| buff.value)
+        .collect()
+}
 
 #[test]
 fn all_characters_have_positive_base_stats() {
@@ -122,6 +143,82 @@ fn all_talent_values_non_negative() {
             }
         }
     }
+}
+
+#[test]
+fn artifact_audit_nymphs_dream_stack_values_match_mirror() {
+    let set = artifact_set("nymphs_dream");
+
+    assert_eq!(
+        conditional_values(set, BuffableStat::AtkPercent),
+        vec![0.07, 0.16, 0.25]
+    );
+    assert_eq!(
+        conditional_values(set, BuffableStat::ElementalDmgBonus(Element::Hydro)),
+        vec![0.04, 0.09, 0.15]
+    );
+}
+
+#[test]
+fn artifact_audit_scroll_of_cinder_city_two_piece_has_no_damage_relevant_em_bonus() {
+    let set = artifact_set("scroll_of_the_hero_of_cinder_city");
+
+    assert!(
+        set.two_piece
+            .buffs
+            .iter()
+            .all(|buff| buff.stat != BuffableStat::ElementalMastery),
+        "Scroll 2pc is energy-only in the mirror and must not grant EM"
+    );
+}
+
+#[test]
+fn artifact_audit_missing_damage_relevant_artifact_sets_are_registered() {
+    for id in [
+        "adventurer",
+        "lucky_dog",
+        "finale_of_the_deep_galleries",
+        "long_nights_oath",
+    ] {
+        artifact_set(id);
+    }
+}
+
+#[test]
+fn artifact_audit_reaction_specific_buffs_are_not_generic() {
+    let thundering_fury = artifact_set("thundering_fury");
+    assert!(
+        thundering_fury
+            .four_piece
+            .conditional_buffs
+            .iter()
+            .any(|buff| buff.stat == BuffableStat::ReactionDmgBonus(Reaction::Aggravate))
+    );
+    assert!(
+        thundering_fury
+            .four_piece
+            .conditional_buffs
+            .iter()
+            .all(|buff| buff.stat != BuffableStat::AdditiveBonus)
+    );
+
+    let viridescent = artifact_set("viridescent_venerer");
+    assert!(
+        viridescent
+            .four_piece
+            .conditional_buffs
+            .iter()
+            .any(|buff| buff.stat == BuffableStat::ReactionDmgBonus(Reaction::Swirl(Element::Pyro)))
+    );
+
+    let paradise = artifact_set("flower_of_paradise_lost");
+    assert!(
+        paradise
+            .four_piece
+            .conditional_buffs
+            .iter()
+            .any(|buff| buff.stat == BuffableStat::ReactionDmgBonus(Reaction::LunarBloom))
+    );
 }
 
 #[test]
