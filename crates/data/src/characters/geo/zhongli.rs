@@ -196,8 +196,8 @@ const ZHONGLI_BURST: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Geo),
     values: [
-        4.0108, 4.2528, 4.4948, 4.8010, 5.0430, 5.2850, 5.5912, 5.8974, 6.2036, 6.5098, 6.8160,
-        7.1222, 7.5548, 7.9875, 8.4201,
+        4.0108, 4.4444, 4.8780, 5.4200, 5.9078, 6.3956, 7.0460, 7.6964, 8.3468, 8.9972, 9.6476,
+        10.2980, 10.8400, 11.3820, 11.9240,
     ],
     dynamic_bonus: None,
 };
@@ -258,5 +258,41 @@ pub const ZHONGLI: CharacterData = CharacterData {
             scalings: &[ZHONGLI_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use genshin_calc_core::DamageType;
+
+    const BURST_EXPECTED: [f64; 15] = [
+        4.0108, 4.4444, 4.8780, 5.4200, 5.9078, 6.3956, 7.0460, 7.6964, 8.3468, 8.9972, 9.6476,
+        10.2980, 10.8400, 11.3820, 11.9240,
+    ];
+
+    fn assert_scaling_table(actual: &[f64; 15], expected: &[f64; 15], label: &str) {
+        for (index, (&actual, &expected)) in actual.iter().zip(expected.iter()).enumerate() {
+            assert!(
+                (actual - expected).abs() <= 1e-6,
+                "{label} Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+
+    #[test]
+    fn zhongli_burst_scalings_match_honeyhunter_mirror() {
+        assert_scaling_table(&ZHONGLI_BURST.values, &BURST_EXPECTED, "天星");
+    }
+
+    #[test]
+    fn zhongli_constellation_pattern_matches_honeyhunter_mirror() {
+        assert_eq!(ZHONGLI.effective_talent_level(DamageType::Skill, 9, 2), 9);
+        assert_eq!(ZHONGLI.effective_talent_level(DamageType::Burst, 9, 2), 9);
+        assert_eq!(ZHONGLI.effective_talent_level(DamageType::Skill, 9, 3), 12);
+        assert_eq!(ZHONGLI.effective_talent_level(DamageType::Burst, 9, 3), 9);
+        assert_eq!(ZHONGLI.effective_talent_level(DamageType::Skill, 9, 5), 12);
+        assert_eq!(ZHONGLI.effective_talent_level(DamageType::Burst, 9, 5), 12);
+    }
+}
