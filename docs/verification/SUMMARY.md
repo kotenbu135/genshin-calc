@@ -127,3 +127,174 @@
 5. **Enum拡張要検討**: 元素限定CritDmg、通常攻撃C3パターン
 
 詳細: `docs/verification/{element}.md`
+
+---
+
+## Issue分割案（適切なタスクサイズ）
+
+> 方針: **1 Issue = 1〜4ファイル程度 / 1〜3キャラ程度 / テスト追加込みで半日〜1.5日** を目安に分割。  
+> 依存関係の強いもの（enum拡張など）は独立Issue化し、先に着手する。
+
+### Epic A: CRITICAL/HIGH 直接計算バグ修正（優先度: 最優先）
+
+#### Issue A-1: Noelle 基礎ステータス配列破損 + 重撃倍率誤データ修正
+- 対象: Noelle
+- 修正箇所:
+  - `characters/geo/noelle.rs`（base_hp/atk/def 配列）
+  - `characters/geo/noelle.rs`（重撃倍率テーブル）
+- 完了条件:
+  - HoneyHunter mirror値と全レベル一致
+  - 回帰テスト追加（基礎値 + 重撃倍率）
+
+#### Issue A-2: Zhongli 爆発倍率テーブル全面修正 + C3/C5パターン確認
+- 対象: Zhongli
+- 修正箇所:
+  - `characters/geo/zhongli.rs`
+- 完了条件:
+  - Lv1-15 爆発倍率一致
+  - 凸パターンも同時に正しいことをテストで検証
+
+#### Issue A-3: Chiori DEFスケーリング欠落修正
+- 対象: Chiori
+- 修正箇所:
+  - `characters/geo/chiori.rs`
+- 完了条件:
+  - スキル/爆発のATK+DEF複合スケールを再現
+  - `applied_buffs` と `final_stats` を明示検証するテスト追加
+
+#### Issue A-4: Raiden 将軍（天眼バフ倍率誤り + 御一閃N4B誤値）修正
+- 対象: Raiden Shogun
+- 修正箇所:
+  - `talent_buffs/electro.rs`
+  - `characters/electro/raiden_shogun.rs`
+- 完了条件:
+  - 天眼バフ倍率Lv1-15一致
+  - 御一閃 N4B の独立値を反映
+
+#### Issue A-5: Dehya/Kuki 爆発スケーリング統合修正（HP参照系）
+- 対象: Dehya, Kuki Shinobu
+- 修正箇所:
+  - `characters/pyro/dehya.rs`
+  - `characters/electro/kuki_shinobu.rs`
+- 完了条件:
+  - Dehya 爆発のHP参照成分を追加
+  - Kuki 爆発 `scaling_stat` を HP に修正
+  - 2キャラ分のデータ駆動テスト更新
+
+#### Issue A-6: 通常攻撃連撃テーブル誤参照修正（Xiangling/Thoma/Beidou）
+- 対象: Xiangling, Thoma, Beidou
+- 修正箇所:
+  - `characters/pyro/xiangling.rs`
+  - `characters/pyro/thoma.rs`
+  - `characters/electro/beidou.rs`
+- 完了条件:
+  - N段倍率の誤参照（N4流用等）解消
+  - Lv11-15を含め全レベル一致
+
+### Epic B: 構造誤り・欠落実装（優先度: 高）
+
+#### Issue B-1: Mavuika 通常攻撃構造の再構築
+- 対象: Mavuika
+- 修正箇所: `characters/pyro/mavuika.rs`
+- 完了条件:
+  - N2B/N3の欠落を補完しヒット構造を正規化
+  - ヒット数/倍率の一致テストを追加
+
+#### Issue B-2: Illuga/Traveler/Itto ヒット欠落・未定義倍率修正
+- 対象: Illuga, Traveler (Dendro), Itto
+- 修正箇所:
+  - `characters/geo/illuga.rs`
+  - `characters/dendro/traveler_dendro.rs`
+  - `characters/geo/itto.rs`
+- 完了条件:
+  - 欠落ヒット追加（Illuga N3-2, 旅人重撃2段目）
+  - Itto 左一文字斬り定義追加
+
+#### Issue B-3: 元素種別ミス修正（Xinyan爆発物理化）
+- 対象: Xinyan
+- 修正箇所: `characters/pyro/xinyan.rs`
+- 完了条件:
+  - 爆発メインヒットの元素種別が物理であることをテストで保証
+
+### Epic C: 凸パターンの機械的修正（優先度: 高）
+
+#### Issue C-1: C3/C5逆転 22キャラ一括修正（6元素）
+- 対象: 22キャラ（SUMMARY記載の逆転対象）
+- 修正箇所:
+  - 各 `characters/*/*.rs` の `constellation_pattern`
+- 完了条件:
+  - 22キャラ全件の pattern を正規化
+  - 一覧テスト（テーブル駆動）を追加し再発防止
+
+#### Issue C-2: `ConstellationPattern` 拡張（通常攻撃+3対応）
+- 対象: Freminet, Wriothesley, Sethos, Arlecchino, Varesa
+- 修正箇所:
+  - `crates/core` 側 enum / 分岐ロジック
+  - 該当キャラ定義
+- 完了条件:
+  - C3/C5=通常攻撃+3 を正しく表現可能
+  - 後方互換性テスト通過
+
+### Epic D: 未実装バフをドメイン単位で実装（優先度: 中）
+
+#### Issue D-1: Geo/Dendro 未実装パッシブ実装
+- 対象: Nahida A4, Kirara A4, Gorou A4, Yun Jin A4, Xilonen A4, Illuga A4
+- 修正箇所:
+  - `talent_buffs/dendro.rs`
+  - `talent_buffs/geo.rs`
+- 完了条件:
+  - 全効果が `applied_buffs` / `final_stats` で検証される
+  - TODOコメントのみ状態を解消
+
+#### Issue D-2: Cryo/Anemo/Hydro/Electro 未実装パッシブ実装
+- 対象: Shenhe A1, Mika A1, Xiao A1, Varka C6, Xingqiu A4, Candace A4, Beidou A4, Razor C4, Raiden A4, Cyno A1
+- 修正箇所:
+  - `talent_buffs/cryo.rs`
+  - `talent_buffs/anemo.rs`
+  - `talent_buffs/hydro.rs`
+  - `talent_buffs/electro.rs`
+- 完了条件:
+  - すべての未実装効果を個別テスト付きで反映
+
+### Epic E: 設計課題/技術的負債（優先度: 中）
+
+#### Issue E-1: 元素限定CritDmgバフを表現する型拡張
+- 対象: Gorou C6, Shenhe C2 など
+- 修正箇所: `crates/core` のバフ表現型・適用ロジック
+- 完了条件:
+  - 全属性適用の誤近似を撤廃し元素限定で計算できる
+  - 既存バフの破壊的影響がないことをテストで担保
+
+#### Issue E-2: 重複定義/近似実装の棚卸し修正
+- 対象:
+  - Xiangling C1/C6 重複定義
+  - Kirara C6 DmgBonus型
+  - Nefer C6 Reaction系ボーナス型
+  - Xianyun A4 近似実装
+  - Nahida A1 近似実装
+- 完了条件:
+  - 「仕様バグ」と「設計上の近似」をIssue本文で明確分離
+  - 修正範囲が明示された状態で実装
+
+---
+
+## Issue作成テンプレート（GitHub）
+
+各Issueは以下テンプレートで作成する。
+
+```md
+## 背景
+- 検証レポート: docs/verification/SUMMARY.md
+- 対象: <キャラ/モジュール>
+
+## やること
+- [ ] mirror値を確認し実装値を修正
+- [ ] 単体テスト追加（倍率・バフ適用）
+- [ ] 必要に応じて統合テスト追加
+- [ ] ドキュメント更新（必要時）
+
+## 受け入れ条件
+- [ ] `cargo test -p genshin-calc-core` が通る
+- [ ] 影響範囲のキャラで回帰なし
+- [ ] 未実装/近似の場合は理由をコードコメントに残す
+```
