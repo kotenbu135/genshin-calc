@@ -44,6 +44,7 @@
 | Collei | C6バフ「草元素ダメージ+35%」が実際には存在しないバフ（完全に架空） | `talent_buffs/dendro.rs` |
 | Illuga | N3 第2ヒットが欠落（mirror: 31.43% + 31.43%） | `characters/geo/illuga.rs` |
 | Itto | 左一文字斬りダメージ（Saichimonji Slash）が未定義 | `characters/geo/itto.rs` |
+| Traveler (Dendro) | 重撃 第2ヒット欠落（55.9% + 60.72% のうち60.72%分） | `characters/dendro/traveler_dendro.rs` |
 
 ### MEDIUM — 凸パターン逆転（C3↔C5レベルアップ先が逆）
 
@@ -110,10 +111,10 @@
 | Electro | 3 | 5 | 5 | 4 | 18 |
 | Pyro | 2 | 4 | 2 | 0 | 10 |
 | Cryo | 0 | 2 | 6+2 | 2 | 12 |
-| Dendro | 1 | 1 | 4 | 2 | 9 |
+| Dendro | 1 | 2 | 4 | 2 | 10 |
 | Hydro | 0 | 2 | 0 | 2 | 6 |
 | Anemo | 0 | 2 | 0 | 2 | 6 |
-| **合計** | **10** | **19** | **24** | **16** | **82** |
+| **合計** | **10** | **20** | **24** | **16** | **83** |
 
 ---
 

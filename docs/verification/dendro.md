@@ -19,11 +19,11 @@ Excluded: Additional/proc damage, energy recharge effects, HP regeneration value
 | Kirara | OK (14/14) | MISSING (A4) | OK | PASS (known TODO) |
 | Emilie | OK (13/13) | OK | OK | PASS |
 | Kinich | OK (12/12) | OK | OK | PASS |
-| Traveler (Dendro) | OK (12/12) | OK | OK | PASS |
+| Traveler (Dendro) | OK (12/12) + 1 missing | OK | OK | FAIL |
 | Lauma | OK (14/14) | OK | OK | PASS |
 | Nefer | OK (21/21) | OK | OK | PASS |
 
-**Total scaling values verified: 151 matched, 0 mismatches.**
+**Total scaling values verified: 151 implemented entries matched, 0 mismatches. 1 mirror entry absent from Rust (Traveler Dendro charged hit 2).**
 
 ## Issues (bugs and missing implementations)
 
@@ -54,6 +54,14 @@ Excluded: Additional/proc damage, energy recharge effects, HP regeneration value
 - **Evidence**: `honeyhunter-mirror/md/characters/nahida_073.md` line 99: "Each point of Nahida's Elemental Mastery beyond 200 will grant 0.1% Bonus DMG and 0.03% CRIT Rate to Tri-Karma Purification"
 - **Impact**: Nahida's most important damage passive is missing from calculations.
 
+### BUG 4: Traveler (Dendro) charged attack hit 2 missing
+
+- **File**: `crates/data/src/characters/dendro/traveler_dendro.rs`
+- **Current**: Only `TRAVELER_DENDRO_CHARGED` with hit 1 values (55.9% at Lv1)
+- **Expected**: Two-hit charged attack: "55.9% + 60.72%" at Lv1. Second hit values: `[0.6072, 0.6566, 0.706, 0.7766, 0.826, 0.8825, 0.9602, 1.0379, 1.1156, 1.2003, 1.2849, 1.3696, 1.4543, 1.539, 1.6237]`
+- **Evidence**: `honeyhunter-mirror/md/characters/playerboy_005.md` Dendro Charged Attack DMG: "55.9% + 60.72%" through all 15 levels
+- **Impact**: Traveler Dendro charged attack damage is underestimated (missing ~52% of total charged damage).
+
 ### Known TODO: Kirara A4 not implemented
 
 - **File**: `crates/data/src/talent_buffs/dendro.rs`, line 640
@@ -73,6 +81,16 @@ Excluded: Additional/proc damage, energy recharge effects, HP regeneration value
 - **Current**: `BuffableStat::TransformativeBonus` with `base_value: 0.15`
 - **Mirror**: "Nefer's Lunar-Bloom DMG is elevated by 15%"
 - **Note**: Should ideally be `ReactionDmgBonus(Reaction::LunarBloom)` for consistency with Lauma's similar buffs.
+
+### Note: EM scaling components not in main talent scalings
+
+Several characters have dual ATK+EM scaling on skills/bursts. The ATK portions are in main `TalentScaling` arrays and were verified. The EM portions require separate implementation and are not covered by this scaling audit:
+
+- **Alhaitham**: Skill rush attack EM portion, 1/2/3-mirror projection EM scaling (8 entries), burst per-hit EM scaling
+- **Nahida**: Tri-Karma Purification dual ATK+EM scaling (separate mechanic from normal talent scalings)
+- **Nefer**: Skill EM portion, phantasm Nefer/Shades EM portions, burst EM portions
+
+These are marked `MIRROR_ONLY` in the verification scripts - present in mirror data but intentionally stored outside the main TalentScaling system.
 
 ### Design note: Nahida A1 approximation
 
@@ -107,7 +125,7 @@ Excluded: Additional/proc damage, energy recharge effects, HP regeneration value
 - **Constellation pattern: BUG** - Should be `C3SkillC5Burst` (C3=All Schemes to Know, C5=Illusory Heart).
 
 ### Yaoyao
-- All 11 scaling values verified (NA 1-3a, 4, charged, plunge x3, skill radish, burst radish). All match. NA hit 3 is properly split into two entries (3a/3b) in Rust; 3b is Rust-only (mirror shows combined "X% + Y%" format).
+- All 11 scaling values verified (NA 1-3a, 3b, 4, charged, plunge x3, skill radish, burst radish). All match. NA hit 3 is properly split into two entries (3a/3b) in Rust; both verified against mirror "31.38% + 32.95%" format (3b max diff 0.000047).
 - C1: Dendro DMG +15%. Implemented with both self and team entries.
 - C4: EM from 0.3% Max HP, max 120. `base_value: 0.003, cap: Some(120.0)`. Correct.
 - **Constellation pattern: BUG** - Should be `C3SkillC5Burst` (C3=Raphanus Sky Cluster, C5=Moonjade Descent).
@@ -137,7 +155,7 @@ Excluded: Additional/proc damage, energy recharge effects, HP regeneration value
 - Constellation pattern: C3BurstC5Skill. Correct (C3=Painted Dome, C5=Artistic Ingenuity).
 
 ### Kirara
-- All 14 scaling values verified (NA 1-3a, 3b, 4, charged, plunge x3, skill kick/parcel/flipclaw, burst DMG, burst explosion). All match. NA hit 3 properly split; charged is x3 multi-hit.
+- All 14 scaling values verified (NA 1-3a, 3b, 4, charged, plunge x3, skill kick/parcel/flipclaw, burst DMG, burst explosion). All match. NA hit 3 properly split; both 3a/3b verified against mirror "25.42% + 38.13%" format (3b max diff 0.000050). Charged is x3 multi-hit.
 - A4: NOT IMPLEMENTED (TODO in code). Mirror specifies HP-based Skill/Burst DMG bonus.
 - C6: All Elemental DMG +12%. Implemented as generic DmgBonus (minor: includes physical).
 - Constellation pattern: C3SkillC5Burst. Correct.
@@ -156,8 +174,8 @@ Excluded: Additional/proc damage, energy recharge effects, HP regeneration value
 - Constellation pattern: C3SkillC5Burst. Correct.
 
 ### Traveler (Dendro)
-- All 12 scaling values verified against `playerboy_005.md` (NA 1-5, charged, plunge x3, skill, burst lamp/explosion). All match.
-- Note: Charged attack is "55.9% + 60.72%" two-hit; Rust stores first hit (0.559) as single TalentScaling.
+- 11 of 12 scaling values verified against `playerboy_005.md` (NA 1-5, charged hit1, plunge x3, skill, burst lamp/explosion). All match.
+- **Charged attack hit 2: BUG** - Mirror shows "55.9% + 60.72%" (two-hit charged); Rust only has `TRAVELER_DENDRO_CHARGED` with hit 1 values. Hit 2 (60.72% at Lv1) is missing entirely.
 - A4 "Verdant Luxury": EM +60 in Lea Lotus Lamp field. Correct.
 - C6: Dendro DMG +12% inside Lamp. Correct.
 - Constellation pattern: C3SkillC5Burst. Correct (C3=Razorgrass Blade, C5=Surgent Manifestation).
