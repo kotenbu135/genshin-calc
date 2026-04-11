@@ -28,6 +28,11 @@ target
 .claude/worktrees/
 
 # Honey Hunter mirror (local cache, not tracked)
-honeyhunter-mirror/
 scripts/honeyhunter-mirror.sh
 scripts/honeyhunter-to-md.py
+honeyhunter-mirror/artifacts/
+honeyhunter-mirror/characters/
+honeyhunter-mirror/weapons/
+honeyhunter-mirror/sitemap_all_urls.txt
+.gitignore
+honeyhunter-mirror/urls.txt
