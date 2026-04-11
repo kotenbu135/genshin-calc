@@ -58,8 +58,8 @@ const NOELLE_CHARGED_SPINNING: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6252, 0.6762, 0.7271, 0.7998, 0.8508, 0.9089, 0.9888, 1.0688, 1.1487, 1.2361, 1.3234,
-        1.4107, 1.4981, 1.5854, 1.6727,
+        0.5074, 0.5487, 0.5900, 0.6490, 0.6903, 0.7375, 0.8024, 0.8673, 0.9322, 1.0030, 1.0738,
+        1.1446, 1.2154, 1.2862, 1.3570,
     ],
     dynamic_bonus: None,
 };
@@ -69,8 +69,8 @@ const NOELLE_CHARGED_FINAL: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        1.3144, 1.4213, 1.5282, 1.6810, 1.7879, 1.9102, 2.0785, 2.2467, 2.4150, 2.5981, 2.7812,
-        2.9643, 3.1474, 3.3305, 3.5136,
+        0.9047, 0.9784, 1.0520, 1.1572, 1.2308, 1.3150, 1.4307, 1.5464, 1.6622, 1.7884, 1.9146,
+        2.0409, 2.1671, 2.2934, 2.4196,
     ],
     dynamic_bonus: None,
 };
@@ -177,23 +177,22 @@ pub const NOELLE: CharacterData = CharacterData {
     rarity: Rarity::Star4,
     region: Region::Mondstadt,
     base_hp: [
-        1012.00, 10698.00, 10698.00, 10966.50, 10966.50, 11100.75, 11100.75, 11056.00, 11056.00,
-        11653.00, 11653.00, 11235.00, 11235.00, 12071.00, 12071.00,
-        12553.84, // Lv95/Lv95+/Lv100
-        12553.84, // Lv95/Lv95+/Lv100
-        13036.68, // Lv95/Lv95+/Lv100
+        1012.00, 2600.00, 3356.00, 5027.00, 5564.00, 6400.00, 7117.00, 7953.00, 8490.00, 9325.00,
+        9862.00, 10698.00, 11235.00, 12071.00, 12071.00, 12488.50, // Lv95/Lv95+/Lv100
+        12488.50, // Lv95/Lv95+/Lv100
+        12906.00, // Lv95/Lv95+/Lv100
     ],
     base_atk: [
-        16.00, 172.00, 172.00, 176.00, 176.00, 178.00, 178.00, 177.33, 177.33, 187.00, 187.00,
-        180.00, 180.00, 194.00, 194.00, 201.76, // Lv95/Lv95+/Lv100
-        201.76, // Lv95/Lv95+/Lv100
-        209.52, // Lv95/Lv95+/Lv100
+        16.03, 41.17, 53.15, 79.61, 88.12, 101.35, 112.70, 125.94, 134.44, 147.67, 156.17, 169.41,
+        177.92, 191.16, 191.16, 215.55, // Lv95/Lv95+/Lv100
+        215.55, // Lv95/Lv95+/Lv100
+        239.93, // Lv95/Lv95+/Lv100
     ],
     base_def: [
-        67.00, 709.00, 709.00, 727.00, 727.00, 736.00, 736.00, 733.00, 733.00, 772.00, 772.00,
-        745.00, 745.00, 799.00, 799.00, 830.96, // Lv95/Lv95+/Lv100
-        830.96, // Lv95/Lv95+/Lv100
-        862.92, // Lv95/Lv95+/Lv100
+        66.95, 172.00, 222.02, 332.56, 368.10, 423.40, 470.79, 526.09, 561.63, 616.87, 652.40,
+        707.71, 743.25, 798.55, 798.55, 826.17, // Lv95/Lv95+/Lv100
+        826.17, // Lv95/Lv95+/Lv100
+        853.79, // Lv95/Lv95+/Lv100
     ],
     ascension_stat: AscensionStat::Def(0.30),
     talents: TalentSet {
@@ -223,3 +222,141 @@ pub const NOELLE: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const BASE_HP_EXPECTED: [f64; 18] = [
+        1012.00, 2600.00, 3356.00, 5027.00, 5564.00, 6400.00, 7117.00, 7953.00, 8490.00, 9325.00,
+        9862.00, 10698.00, 11235.00, 12071.00, 12071.00, 12488.50, 12488.50, 12906.00,
+    ];
+    const BASE_ATK_EXPECTED: [f64; 18] = [
+        16.03, 41.17, 53.15, 79.61, 88.12, 101.35, 112.70, 125.94, 134.44, 147.67, 156.17, 169.41,
+        177.92, 191.16, 191.16, 215.55, 215.55, 239.93,
+    ];
+    const BASE_DEF_EXPECTED: [f64; 18] = [
+        66.95, 172.00, 222.02, 332.56, 368.10, 423.40, 470.79, 526.09, 561.63, 616.87, 652.40,
+        707.71, 743.25, 798.55, 798.55, 826.17, 826.17, 853.79,
+    ];
+    const CHARGED_SPINNING_EXPECTED: [f64; 15] = [
+        0.5074, 0.5487, 0.5900, 0.6490, 0.6903, 0.7375, 0.8024, 0.8673, 0.9322, 1.0030, 1.0738,
+        1.1446, 1.2154, 1.2862, 1.3570,
+    ];
+    const CHARGED_FINAL_EXPECTED: [f64; 15] = [
+        0.9047, 0.9784, 1.0520, 1.1572, 1.2308, 1.3150, 1.4307, 1.5464, 1.6622, 1.7884, 1.9146,
+        2.0409, 2.1671, 2.2934, 2.4196,
+    ];
+
+    const BASE_STAT_BREAKPOINTS: [u32; 18] = [
+        1, 20, 20, 40, 40, 49, 50, 60, 60, 70, 70, 80, 80, 90, 90, 95, 95, 100,
+    ];
+
+    fn assert_close(actual: f64, expected: f64, label: &str) {
+        assert!(
+            (actual - expected).abs() <= 0.01,
+            "{label}: expected {expected}, got {actual}"
+        );
+    }
+
+    fn assert_scaling_table(actual: &[f64; 15], expected: &[f64; 15], label: &str) {
+        for (index, (&actual, &expected)) in actual.iter().zip(expected.iter()).enumerate() {
+            assert!(
+                (actual - expected).abs() <= 1e-6,
+                "{label} Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+
+    fn expected_stat_at_level(keypoints: &[f64; 18], level: u32) -> f64 {
+        let level = level.clamp(1, 100);
+
+        if level <= 1 {
+            return keypoints[0];
+        }
+        if level >= 100 {
+            return keypoints[17];
+        }
+
+        for index in 0..17 {
+            let start_level = BASE_STAT_BREAKPOINTS[index];
+            let end_level = BASE_STAT_BREAKPOINTS[index + 1];
+            if level < start_level || level > end_level {
+                continue;
+            }
+
+            let t = if start_level == end_level {
+                0.0
+            } else {
+                (level - start_level) as f64 / (end_level - start_level) as f64
+            };
+            return keypoints[index] + (keypoints[index + 1] - keypoints[index]) * t;
+        }
+
+        unreachable!("level {level} should be covered by breakpoints");
+    }
+
+    #[test]
+    fn noelle_base_stat_keypoints_match_honeyhunter_mirror() {
+        for (index, (&actual, &expected)) in NOELLE
+            .base_hp
+            .iter()
+            .zip(BASE_HP_EXPECTED.iter())
+            .enumerate()
+        {
+            assert_close(actual, expected, &format!("base_hp[{index}]"));
+        }
+        for (index, (&actual, &expected)) in NOELLE
+            .base_atk
+            .iter()
+            .zip(BASE_ATK_EXPECTED.iter())
+            .enumerate()
+        {
+            assert_close(actual, expected, &format!("base_atk[{index}]"));
+        }
+        for (index, (&actual, &expected)) in NOELLE
+            .base_def
+            .iter()
+            .zip(BASE_DEF_EXPECTED.iter())
+            .enumerate()
+        {
+            assert_close(actual, expected, &format!("base_def[{index}]"));
+        }
+    }
+
+    #[test]
+    fn noelle_base_stats_interpolate_correctly_for_all_levels() {
+        for level in 1..=100 {
+            assert_close(
+                NOELLE.base_hp_at_level(level),
+                expected_stat_at_level(&BASE_HP_EXPECTED, level),
+                &format!("base_hp_at_level({level})"),
+            );
+            assert_close(
+                NOELLE.base_atk_at_level(level),
+                expected_stat_at_level(&BASE_ATK_EXPECTED, level),
+                &format!("base_atk_at_level({level})"),
+            );
+            assert_close(
+                NOELLE.base_def_at_level(level),
+                expected_stat_at_level(&BASE_DEF_EXPECTED, level),
+                &format!("base_def_at_level({level})"),
+            );
+        }
+    }
+
+    #[test]
+    fn noelle_charged_attack_scalings_match_honeyhunter_mirror() {
+        assert_scaling_table(
+            &NOELLE_CHARGED_SPINNING.values,
+            &CHARGED_SPINNING_EXPECTED,
+            "連続重撃ダメージ",
+        );
+        assert_scaling_table(
+            &NOELLE_CHARGED_FINAL.values,
+            &CHARGED_FINAL_EXPECTED,
+            "重撃終了ダメージ",
+        );
+    }
+}
