@@ -31,7 +31,7 @@ fn run_damage_case(character_name: &str, case: &DamageCase) {
         element: case.element.as_deref().map(parse_element),
         reaction: case.reaction.as_deref().map(parse_reaction),
         reaction_bonus: case.reaction_bonus,
-        flat_dmg: 0.0,
+        flat_dmg: case.flat_dmg,
     };
     let enemy = to_enemy(&case.enemy);
     let result = calculate_damage(&input, &enemy).unwrap_or_else(|e| {

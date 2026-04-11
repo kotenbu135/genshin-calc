@@ -11,8 +11,8 @@ const BEIDOU_NORMAL_1: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.7112, 0.7692, 0.8272, 0.9099, 0.9679, 1.0340, 1.1249, 1.2158, 1.3067, 1.4061, 1.5055,
-        1.6049, 1.7043, 1.8037, 1.9031,
+        0.7112, 0.7691, 0.8270, 0.9097, 0.9676, 1.0338, 1.1247, 1.2157, 1.3067, 1.4059, 1.5196,
+        1.6533, 1.7871, 1.9208, 2.0667,
     ],
     dynamic_bonus: None,
 };
@@ -22,8 +22,8 @@ const BEIDOU_NORMAL_2: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.7086, 0.7664, 0.8242, 0.9066, 0.9644, 1.0302, 1.1208, 1.2114, 1.3020, 1.4010, 1.5000,
-        1.5990, 1.6980, 1.7970, 1.8960,
+        0.7086, 0.7663, 0.8240, 0.9064, 0.9641, 1.0300, 1.1206, 1.2113, 1.3019, 1.4008, 1.5141,
+        1.6473, 1.7806, 1.9138, 2.0592,
     ],
     dynamic_bonus: None,
 };
@@ -33,8 +33,8 @@ const BEIDOU_NORMAL_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.8832, 0.9550, 1.0268, 1.1295, 1.2013, 1.2835, 1.3963, 1.5091, 1.6219, 1.7454, 1.8689,
-        1.9924, 2.1159, 2.2394, 2.3629,
+        0.8832, 0.9551, 1.0270, 1.1297, 1.2016, 1.2838, 1.3967, 1.5097, 1.6227, 1.7459, 1.8871,
+        2.0532, 2.2192, 2.3853, 2.5665,
     ],
     dynamic_bonus: None,
 };
@@ -44,8 +44,8 @@ const BEIDOU_NORMAL_4: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.8652, 0.9356, 1.0060, 1.1066, 1.1770, 1.2575, 1.3682, 1.4789, 1.5896, 1.7103, 1.8310,
-        1.9517, 2.0724, 2.1931, 2.3138,
+        0.8652, 0.9356, 1.0060, 1.1066, 1.1770, 1.2575, 1.3682, 1.4788, 1.5895, 1.7102, 1.8485,
+        2.0112, 2.1739, 2.3365, 2.5140,
     ],
     dynamic_bonus: None,
 };
@@ -55,8 +55,8 @@ const BEIDOU_NORMAL_5: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        1.1214, 1.2126, 1.3038, 1.4342, 1.5254, 1.6298, 1.7733, 1.9168, 2.0603, 2.2166, 2.3729,
-        2.5292, 2.6855, 2.8418, 2.9981,
+        1.1214, 1.2127, 1.3040, 1.4344, 1.5257, 1.6300, 1.7734, 1.9169, 2.0604, 2.2168, 2.3961,
+        2.6070, 2.8178, 3.0287, 3.2587,
     ],
     dynamic_bonus: None,
 };
@@ -218,3 +218,48 @@ pub const BEIDOU: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const NORMAL_1_EXPECTED: [f64; 15] = [
+        0.7112, 0.7691, 0.8270, 0.9097, 0.9676, 1.0338, 1.1247, 1.2157, 1.3067, 1.4059, 1.5196,
+        1.6533, 1.7871, 1.9208, 2.0667,
+    ];
+    const NORMAL_2_EXPECTED: [f64; 15] = [
+        0.7086, 0.7663, 0.8240, 0.9064, 0.9641, 1.0300, 1.1206, 1.2113, 1.3019, 1.4008, 1.5141,
+        1.6473, 1.7806, 1.9138, 2.0592,
+    ];
+    const NORMAL_3_EXPECTED: [f64; 15] = [
+        0.8832, 0.9551, 1.0270, 1.1297, 1.2016, 1.2838, 1.3967, 1.5097, 1.6227, 1.7459, 1.8871,
+        2.0532, 2.2192, 2.3853, 2.5665,
+    ];
+    const NORMAL_4_EXPECTED: [f64; 15] = [
+        0.8652, 0.9356, 1.0060, 1.1066, 1.1770, 1.2575, 1.3682, 1.4788, 1.5895, 1.7102, 1.8485,
+        2.0112, 2.1739, 2.3365, 2.5140,
+    ];
+    const NORMAL_5_EXPECTED: [f64; 15] = [
+        1.1214, 1.2127, 1.3040, 1.4344, 1.5257, 1.6300, 1.7734, 1.9169, 2.0604, 2.2168, 2.3961,
+        2.6070, 2.8178, 3.0287, 3.2587,
+    ];
+
+    fn assert_scaling_table(actual: &[f64; 15], expected: &[f64; 15], label: &str) {
+        for (index, (&actual, &expected)) in actual.iter().zip(expected.iter()).enumerate() {
+            assert!(
+                (actual - expected).abs() <= 1e-4,
+                "{label} Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+
+    #[test]
+    fn beidou_normal_tables_match_honeyhunter_mirror() {
+        assert_scaling_table(&BEIDOU_NORMAL_1.values, &NORMAL_1_EXPECTED, "N1");
+        assert_scaling_table(&BEIDOU_NORMAL_2.values, &NORMAL_2_EXPECTED, "N2");
+        assert_scaling_table(&BEIDOU_NORMAL_3.values, &NORMAL_3_EXPECTED, "N3");
+        assert_scaling_table(&BEIDOU_NORMAL_4.values, &NORMAL_4_EXPECTED, "N4");
+        assert_scaling_table(&BEIDOU_NORMAL_5.values, &NORMAL_5_EXPECTED, "N5");
+    }
+}

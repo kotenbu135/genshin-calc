@@ -139,8 +139,8 @@ const CHIORI_SKILL_TURRET: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Geo),
     values: [
-        1.4880, 1.5996, 1.7112, 1.8600, 1.9716, 2.0832, 2.2320, 2.3808, 2.5296, 2.6784, 2.8272,
-        2.9760, 3.1620, 3.3480, 3.5340,
+        1.4928, 1.6048, 1.7168, 1.8660, 1.9780, 2.0899, 2.2392, 2.3885, 2.5378, 2.6870, 2.8363,
+        2.9856, 3.1722, 3.3588, 3.5454,
     ],
     dynamic_bonus: None,
 };
@@ -163,8 +163,8 @@ const CHIORI_BURST: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Geo),
     values: [
-        2.5656, 2.7580, 2.9504, 3.2070, 3.3994, 3.5918, 3.8484, 4.1050, 4.3615, 4.6181, 4.8747,
-        5.1312, 5.4519, 5.7726, 6.0933,
+        2.5632, 2.7554, 2.9477, 3.2040, 3.3962, 3.5885, 3.8448, 4.1011, 4.3574, 4.6138, 4.8701,
+        5.1264, 5.4468, 5.7672, 6.0876,
     ],
     dynamic_bonus: None,
 };

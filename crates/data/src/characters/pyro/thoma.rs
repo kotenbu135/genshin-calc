@@ -45,8 +45,8 @@ const THOMA_NORMAL_3B: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6736, 0.7284, 0.7832, 0.8615, 0.9163, 0.9790, 1.0652, 1.1513, 1.2375, 1.3314, 1.4254,
-        1.5194, 1.6134, 1.7074, 1.8014,
+        0.2679, 0.2897, 0.3115, 0.3427, 0.3645, 0.3894, 0.4236, 0.4579, 0.4922, 0.5296, 0.5669,
+        0.6043, 0.6417, 0.6791, 0.7165,
     ],
     dynamic_bonus: None,
 };
@@ -185,3 +185,29 @@ pub const THOMA: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const NORMAL_3B_EXPECTED: [f64; 15] = [
+        0.2679, 0.2897, 0.3115, 0.3427, 0.3645, 0.3894, 0.4236, 0.4579, 0.4922, 0.5296, 0.5669,
+        0.6043, 0.6417, 0.6791, 0.7165,
+    ];
+
+    #[test]
+    fn thoma_normal_3b_matches_honeyhunter_mirror() {
+        for (index, (&actual, &expected)) in THOMA_NORMAL_3B
+            .values
+            .iter()
+            .zip(NORMAL_3B_EXPECTED.iter())
+            .enumerate()
+        {
+            assert!(
+                (actual - expected).abs() <= 1e-6,
+                "N3B Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+}

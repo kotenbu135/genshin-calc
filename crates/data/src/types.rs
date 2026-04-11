@@ -321,6 +321,7 @@ impl CharacterData {
         let scaling = self.talent_scaling(damage_type, hit_index)?;
         let effective = self.effective_talent_level(damage_type, talent_level, constellation);
         let multiplier = scaling.values[(effective - 1) as usize];
+        let flat_dmg = self.composite_scaling_flat_dmg(&stats, damage_type, hit_index, effective);
         Some(DamageInput {
             character_level,
             stats,
@@ -330,10 +331,62 @@ impl CharacterData {
             element: scaling.damage_element,
             reaction,
             reaction_bonus,
-            flat_dmg: 0.0,
+            flat_dmg,
         })
     }
+
+    fn composite_scaling_flat_dmg(
+        &self,
+        stats: &Stats,
+        damage_type: DamageType,
+        hit_index: usize,
+        talent_level: u8,
+    ) -> f64 {
+        let level_index = (talent_level - 1) as usize;
+
+        match (self.id, damage_type, hit_index) {
+            ("chiori", DamageType::Skill, 0) => stats.def * CHIORI_TAMOTO_DEF[level_index],
+            ("chiori", DamageType::Skill, 1 | 2) => {
+                stats.def * CHIORI_UPWARD_SWEEP_DEF[level_index]
+            }
+            ("chiori", DamageType::Burst, 0) => stats.def * CHIORI_BURST_DEF[level_index],
+            ("dehya", DamageType::Skill, 2) => stats.hp * DEHYA_FIELD_HP[level_index],
+            ("dehya", DamageType::Burst, 0) => stats.hp * DEHYA_FIST_HP[level_index],
+            ("dehya", DamageType::Burst, 1) => stats.hp * DEHYA_KICK_HP[level_index],
+            _ => 0.0,
+        }
+    }
 }
+
+const CHIORI_TAMOTO_DEF: [f64; 15] = [
+    1.0260, 1.1030, 1.1799, 1.2825, 1.3595, 1.4364, 1.5390, 1.6416, 1.7442, 1.8468, 1.9494, 2.0520,
+    2.1803, 2.3085, 2.4368,
+];
+
+const CHIORI_UPWARD_SWEEP_DEF: [f64; 15] = [
+    1.8660, 2.0060, 2.1459, 2.3325, 2.4725, 2.6124, 2.7990, 2.9856, 3.1722, 3.3588, 3.5454, 3.7320,
+    3.9653, 4.1985, 4.4318,
+];
+
+const CHIORI_BURST_DEF: [f64; 15] = [
+    3.2040, 3.4443, 3.6846, 4.0050, 4.2453, 4.4856, 4.8060, 5.1264, 5.4468, 5.7672, 6.0876, 6.4080,
+    6.8085, 7.2090, 7.6095,
+];
+
+const DEHYA_FIELD_HP: [f64; 15] = [
+    0.0103, 0.0111, 0.0119, 0.0129, 0.0137, 0.0144, 0.0155, 0.0165, 0.0175, 0.0186, 0.0196, 0.0206,
+    0.0219, 0.0232, 0.0245,
+];
+
+const DEHYA_FIST_HP: [f64; 15] = [
+    0.0169, 0.0182, 0.0195, 0.0212, 0.0224, 0.0237, 0.0254, 0.0271, 0.0288, 0.0305, 0.0321, 0.0338,
+    0.0360, 0.0381, 0.0402,
+];
+
+const DEHYA_KICK_HP: [f64; 15] = [
+    0.0239, 0.0257, 0.0275, 0.0299, 0.0316, 0.0334, 0.0358, 0.0382, 0.0406, 0.0430, 0.0454, 0.0478,
+    0.0507, 0.0537, 0.0567,
+];
 
 // -- Weapon --
 
@@ -690,6 +743,58 @@ mod tests {
                 .build_damage_input(stats, 90, DamageType::Skill, 999, 9, 0, None, 0.0)
                 .is_none()
         );
+    }
+
+    #[test]
+    fn test_build_damage_input_chiori_dual_scaling_adds_def_flat_dmg() {
+        let chiori = crate::find_character("chiori").unwrap();
+        let stats = Stats {
+            hp: 18000.0,
+            atk: 1900.0,
+            def: 1600.0,
+            ..Stats::default()
+        };
+
+        let tamoto = chiori
+            .build_damage_input(stats.clone(), 90, DamageType::Skill, 0, 10, 0, None, 0.0)
+            .unwrap();
+        assert!((tamoto.flat_dmg - 1600.0 * 1.8468).abs() < 1e-6);
+
+        let upward_sweep = chiori
+            .build_damage_input(stats.clone(), 90, DamageType::Skill, 2, 10, 0, None, 0.0)
+            .unwrap();
+        assert!((upward_sweep.flat_dmg - 1600.0 * 3.3588).abs() < 1e-6);
+
+        let burst = chiori
+            .build_damage_input(stats, 90, DamageType::Burst, 0, 10, 0, None, 0.0)
+            .unwrap();
+        assert!((burst.flat_dmg - 1600.0 * 5.7672).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_build_damage_input_dehya_dual_scaling_adds_hp_flat_dmg() {
+        let dehya = crate::find_character("dehya").unwrap();
+        let stats = Stats {
+            hp: 20000.0,
+            atk: 1900.0,
+            def: 700.0,
+            ..Stats::default()
+        };
+
+        let field = dehya
+            .build_damage_input(stats.clone(), 90, DamageType::Skill, 2, 10, 0, None, 0.0)
+            .unwrap();
+        assert!((field.flat_dmg - 20000.0 * 0.0186).abs() < 1e-6);
+
+        let fist = dehya
+            .build_damage_input(stats.clone(), 90, DamageType::Burst, 0, 10, 0, None, 0.0)
+            .unwrap();
+        assert!((fist.flat_dmg - 20000.0 * 0.0305).abs() < 1e-6);
+
+        let kick = dehya
+            .build_damage_input(stats, 90, DamageType::Burst, 1, 10, 0, None, 0.0)
+            .unwrap();
+        assert!((kick.flat_dmg - 20000.0 * 0.0430).abs() < 1e-6);
     }
 
     // -- E2E integration tests --

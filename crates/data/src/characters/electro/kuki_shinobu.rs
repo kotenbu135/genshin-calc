@@ -137,7 +137,7 @@ const KUKI_SHINOBU_SKILL_RING: TalentScaling = TalentScaling {
 
 const KUKI_SHINOBU_BURST: TalentScaling = TalentScaling {
     name: "単発ダメージ",
-    scaling_stat: ScalingStat::Atk,
+    scaling_stat: ScalingStat::Hp,
     damage_element: Some(Element::Electro),
     values: [
         0.0360, 0.0388, 0.0415, 0.0451, 0.0478, 0.0505, 0.0541, 0.0577, 0.0613, 0.0649, 0.0685,
@@ -199,3 +199,13 @@ pub const KUKI_SHINOBU: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn kuki_burst_scales_with_hp() {
+        assert_eq!(KUKI_SHINOBU_BURST.scaling_stat, ScalingStat::Hp);
+    }
+}

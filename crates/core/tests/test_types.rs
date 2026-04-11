@@ -45,6 +45,8 @@ pub struct DamageCase {
     pub reaction: Option<String>,
     #[serde(default)]
     pub reaction_bonus: f64,
+    #[serde(default)]
+    pub flat_dmg: f64,
     pub stats: StatsData,
     pub enemy: EnemyData,
     pub expected: DamageExpected,

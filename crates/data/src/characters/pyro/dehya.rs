@@ -134,6 +134,17 @@ const DEHYA_SKILL_RANGE: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const DEHYA_SKILL_FIELD: TalentScaling = TalentScaling {
+    name: "領域ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Pyro),
+    values: [
+        0.6020, 0.6472, 0.6923, 0.7525, 0.7977, 0.8428, 0.9030, 0.9632, 1.0234, 1.0836, 1.1438,
+        1.2040, 1.2793, 1.3545, 1.4298,
+    ],
+    dynamic_bonus: None,
+};
+
 // -- Elemental Burst: 炎獅子の噛み付き (Leonine Bite) -- Pyro --
 
 const DEHYA_BURST_FIST: TalentScaling = TalentScaling {
@@ -199,7 +210,11 @@ pub const DEHYA: CharacterData = CharacterData {
         },
         elemental_skill: TalentData {
             name: "熔鉄流獄",
-            scalings: &[DEHYA_SKILL_INDOMITABLE, DEHYA_SKILL_RANGE],
+            scalings: &[
+                DEHYA_SKILL_INDOMITABLE,
+                DEHYA_SKILL_RANGE,
+                DEHYA_SKILL_FIELD,
+            ],
         },
         elemental_burst: TalentData {
             name: "炎獅子の噛み付き",

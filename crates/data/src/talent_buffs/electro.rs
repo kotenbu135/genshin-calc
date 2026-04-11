@@ -191,8 +191,8 @@ static FLINS_BUFFS: &[TalentBuffDef] = &[
 // Value = coefficient per burst cost point; frontend multiplies by target's burst cost
 // C4 "Pledge of Propriety": ATK+30% to nearby party after burst ends
 static RAIDEN_SKILL_BURST_BONUS_SCALING: [f64; 15] = [
-    0.0022, 0.0024, 0.0026, 0.0028, 0.0030, 0.0032, 0.0035, 0.0038, 0.0041, 0.0044, 0.0047, 0.0050,
-    0.0053, 0.0056, 0.0059,
+    0.0022, 0.0023, 0.0024, 0.0025, 0.0026, 0.0027, 0.0028, 0.0029, 0.0030, 0.0030, 0.0030, 0.0030,
+    0.0030, 0.0030, 0.0030,
 ];
 
 static RAIDEN_SHOGUN_BUFFS: &[TalentBuffDef] = &[
@@ -1113,6 +1113,25 @@ mod tests {
             TalentBuffSource::Constellation(2),
         );
         assert!((buff.base_value - 0.32).abs() < 1e-6);
+    }
+
+    #[test]
+    fn raiden_skill_burst_bonus_scaling_matches_honeyhunter_mirror() {
+        let expected = [
+            0.0022, 0.0023, 0.0024, 0.0025, 0.0026, 0.0027, 0.0028, 0.0029, 0.0030, 0.0030, 0.0030,
+            0.0030, 0.0030, 0.0030, 0.0030,
+        ];
+        for (index, (&actual, &expected)) in RAIDEN_SKILL_BURST_BONUS_SCALING
+            .iter()
+            .zip(expected.iter())
+            .enumerate()
+        {
+            assert!(
+                (actual - expected).abs() <= 1e-6,
+                "Raiden skill burst bonus Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
     }
 
     #[test]

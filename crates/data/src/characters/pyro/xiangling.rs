@@ -45,8 +45,8 @@ const XIANGLING_NORMAL_3B: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.1410, 0.1525, 0.1640, 0.1804, 0.1919, 0.2050, 0.2230, 0.2411, 0.2591, 0.2788, 0.3014,
-        0.3279, 0.3544, 0.3809, 0.4098,
+        0.2606, 0.2818, 0.3030, 0.3333, 0.3545, 0.3788, 0.4121, 0.4454, 0.4787, 0.5151, 0.5568,
+        0.6058, 0.6548, 0.7037, 0.7572,
     ],
     dynamic_bonus: None,
 };
@@ -240,3 +240,29 @@ pub const XIANGLING: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const NORMAL_3B_EXPECTED: [f64; 15] = [
+        0.2606, 0.2818, 0.3030, 0.3333, 0.3545, 0.3788, 0.4121, 0.4454, 0.4787, 0.5151, 0.5568,
+        0.6058, 0.6548, 0.7037, 0.7572,
+    ];
+
+    #[test]
+    fn xiangling_normal_3b_matches_honeyhunter_mirror() {
+        for (index, (&actual, &expected)) in XIANGLING_NORMAL_3B
+            .values
+            .iter()
+            .zip(NORMAL_3B_EXPECTED.iter())
+            .enumerate()
+        {
+            assert!(
+                (actual - expected).abs() <= 1e-6,
+                "N3B Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+}

@@ -224,8 +224,8 @@ const RAIDEN_BURST_N4B: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Electro),
     values: [
-        0.3089, 0.3299, 0.3510, 0.3791, 0.4001, 0.4247, 0.4563, 0.4879, 0.5195, 0.5511, 0.5827,
-        0.6143, 0.6458, 0.6774, 0.7090,
+        0.3098, 0.3309, 0.3520, 0.3802, 0.4013, 0.4259, 0.4576, 0.4893, 0.5210, 0.5526, 0.5843,
+        0.6160, 0.6477, 0.6794, 0.7110,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
 };
@@ -324,3 +324,34 @@ pub const RAIDEN_SHOGUN: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const BURST_N4B_EXPECTED: [f64; 15] = [
+        0.3098, 0.3309, 0.3520, 0.3802, 0.4013, 0.4259, 0.4576, 0.4893, 0.5210, 0.5526, 0.5843,
+        0.6160, 0.6477, 0.6794, 0.7110,
+    ];
+
+    #[test]
+    fn raiden_musou_isshin_n4b_matches_honeyhunter_mirror() {
+        for (index, (&actual, &expected)) in RAIDEN_BURST_N4B
+            .values
+            .iter()
+            .zip(BURST_N4B_EXPECTED.iter())
+            .enumerate()
+        {
+            assert!(
+                (actual - expected).abs() <= 1e-6,
+                "N4B Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+            assert!(
+                (actual - RAIDEN_BURST_N4A.values[index]).abs() > 1e-6,
+                "N4B Lv{} should differ from N4A",
+                index + 1
+            );
+        }
+    }
+}
