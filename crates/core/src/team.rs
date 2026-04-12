@@ -87,6 +87,9 @@ pub struct DamageContext {
     pub transformative_bonus: f64,
     /// Additive (catalyze) reaction DMG bonus from team buffs.
     pub additive_bonus: f64,
+    /// Charged attack CRIT DMG bonus from team buffs.
+    #[serde(default)]
+    pub charged_atk_crit_dmg_bonus: f64,
     /// Exact reaction DMG bonuses that only apply to the matching reaction.
     #[serde(default)]
     pub reaction_dmg_bonuses: Vec<(Reaction, f64)>,
@@ -108,6 +111,7 @@ impl DamageContext {
                 BuffableStat::PlungingAtkFlatDmg => ctx.plunging_atk_flat_dmg += buff.value,
                 BuffableStat::SkillFlatDmg => ctx.skill_flat_dmg += buff.value,
                 BuffableStat::BurstFlatDmg => ctx.burst_flat_dmg += buff.value,
+                BuffableStat::ChargedAtkCritDmg => ctx.charged_atk_crit_dmg_bonus += buff.value,
                 BuffableStat::AmplifyingBonus => ctx.amplifying_bonus += buff.value,
                 BuffableStat::TransformativeBonus => ctx.transformative_bonus += buff.value,
                 BuffableStat::AdditiveBonus => ctx.additive_bonus += buff.value,

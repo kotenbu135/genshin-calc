@@ -76,6 +76,8 @@ pub enum BuffableStat {
     SkillFlatDmg,
     /// Flat damage added to elemental burst.
     BurstFlatDmg,
+    /// Critical damage bonus for charged attacks only.
+    ChargedAtkCritDmg,
     /// Raw DEF percentage value (not total DEF), for weapons scaling on "DEF increase".
     DefPercentRaw,
 }

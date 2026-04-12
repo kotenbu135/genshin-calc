@@ -858,7 +858,7 @@ static ITTO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Crimson Oni King's Legacy CA CRIT DMG",
         description: desc!("C6: Arataki Kesagiri CRIT DMG +70%"),
-        stat: BuffableStat::CritDmg,
+        stat: BuffableStat::ChargedAtkCritDmg,
         base_value: 0.70,
         scales_with_talent: false,
         talent_scaling: None,

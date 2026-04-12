@@ -631,7 +631,8 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         | BuffableStat::ChargedAtkFlatDmg
         | BuffableStat::PlungingAtkFlatDmg
         | BuffableStat::SkillFlatDmg
-        | BuffableStat::BurstFlatDmg => 0.0,
+        | BuffableStat::BurstFlatDmg
+        | BuffableStat::ChargedAtkCritDmg => 0.0,
     }
 }
 
