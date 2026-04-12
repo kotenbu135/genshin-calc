@@ -45,8 +45,8 @@ const JAHODA_AIMED: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.4386, 0.4743, 0.5100, 0.5610, 0.5967, 0.6375, 0.6936, 0.7497, 0.8058, 0.8670, 0.9371,
-        1.0196, 1.1021, 1.1845, 1.2745,
+        0.4386, 0.4743, 0.5100, 0.5610, 0.5967, 0.6375, 0.6936, 0.7497, 0.8058, 0.8670, 0.9282,
+        0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
 };
@@ -56,8 +56,8 @@ const JAHODA_AIMED_FULL: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Anemo),
     values: [
-        1.2400, 1.3330, 1.4260, 1.5500, 1.6430, 1.7360, 1.8600, 1.9840, 2.1080, 2.2320, 2.3610,
-        2.5296, 2.6982, 2.8669, 3.0355,
+        1.2400, 1.3330, 1.4260, 1.5500, 1.6430, 1.7360, 1.8600, 1.9840, 2.1080, 2.2320, 2.3560,
+        2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
 };

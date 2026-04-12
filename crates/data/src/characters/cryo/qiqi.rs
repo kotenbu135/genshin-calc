@@ -10,7 +10,7 @@ const QIQI_NORMAL_1: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.3754, 0.4083, 0.4390, 0.4829, 0.5136, 0.5488, 0.5970, 0.6453, 0.6936, 0.7463, 0.7990,
+        0.3775, 0.4083, 0.4390, 0.4829, 0.5136, 0.5488, 0.5970, 0.6453, 0.6936, 0.7463, 0.7990,
         0.8517, 0.9043, 0.9570, 1.0097,
     ],
     dynamic_bonus: None,
