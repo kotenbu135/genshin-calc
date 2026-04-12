@@ -141,6 +141,41 @@ const NILOU_SKILL_WATER_WHEEL: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+// -- Elemental Skill: Whirling Steps (旋舞のステップ) -- HP scaling --
+
+const NILOU_SKILL_WHIRL_1: TalentScaling = TalentScaling {
+    name: "旋舞ステップ1ダメージ",
+    scaling_stat: ScalingStat::Hp,
+    damage_element: Some(Element::Hydro),
+    values: [
+        0.0326, 0.0351, 0.0375, 0.0408, 0.0432, 0.0457, 0.0489, 0.0522, 0.0555, 0.0587, 0.0620,
+        0.0652, 0.0693, 0.0734, 0.0775,
+    ],
+    dynamic_bonus: None,
+};
+
+const NILOU_SKILL_WHIRL_2: TalentScaling = TalentScaling {
+    name: "旋舞ステップ2ダメージ",
+    scaling_stat: ScalingStat::Hp,
+    damage_element: Some(Element::Hydro),
+    values: [
+        0.0396, 0.0426, 0.0455, 0.0495, 0.0525, 0.0554, 0.0594, 0.0634, 0.0673, 0.0713, 0.0752,
+        0.0792, 0.0842, 0.0891, 0.0941,
+    ],
+    dynamic_bonus: None,
+};
+
+const NILOU_SKILL_WHIRL_WHEEL: TalentScaling = TalentScaling {
+    name: "水輪ダメージ",
+    scaling_stat: ScalingStat::Hp,
+    damage_element: Some(Element::Hydro),
+    values: [
+        0.0506, 0.0544, 0.0582, 0.0633, 0.0671, 0.0709, 0.0759, 0.0810, 0.0860, 0.0911, 0.0962,
+        0.1012, 0.1076, 0.1139, 0.1202,
+    ],
+    dynamic_bonus: None,
+};
+
 // -- Elemental Burst: 浮蓮のダンス (Dance of Abzendegi: Distant Dreams, Listening Spring) -- Hydro --
 
 const NILOU_BURST: TalentScaling = TalentScaling {
@@ -205,6 +240,9 @@ pub const NILOU: CharacterData = CharacterData {
                 NILOU_SKILL_SWORD_1,
                 NILOU_SKILL_SWORD_2,
                 NILOU_SKILL_WATER_WHEEL,
+                NILOU_SKILL_WHIRL_1,
+                NILOU_SKILL_WHIRL_2,
+                NILOU_SKILL_WHIRL_WHEEL,
             ],
         },
         elemental_burst: TalentData {
