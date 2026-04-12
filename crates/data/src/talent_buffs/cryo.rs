@@ -151,8 +151,8 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[
 // ===== Shenhe =====
 // Elemental Skill "Spring Spirit Summoning": flat Cryo DMG based on ATK (Lv1-15)
 static SHENHE_SKILL_SCALING: [f64; 15] = [
-    0.4566, 0.4909, 0.5251, 0.5708, 0.6050, 0.6393, 0.6849, 0.7306, 0.7763, 0.8219, 0.8676, 0.9132,
-    0.9703, 1.0274, 1.0844,
+    0.4566, 0.4908, 0.5250, 0.5707, 0.6049, 0.6392, 0.6848, 0.7305, 0.7762, 0.8218, 0.8675, 0.9131,
+    0.9702, 1.0273, 1.0843,
 ];
 
 static SHENHE_BUFFS: &[TalentBuffDef] = &[
