@@ -117,7 +117,7 @@ const YAE_MIKO_SKILL_LV3: TalentScaling = TalentScaling {
     damage_element: Some(Element::Electro),
     values: [
         0.9480, 1.0191, 1.0902, 1.1850, 1.2561, 1.3272, 1.4220, 1.5168, 1.6116, 1.7064, 1.8012,
-        1.8960, 2.0145, 2.1330, 2.2150,
+        1.8960, 2.0145, 2.1330, 2.2515,
     ],
     dynamic_bonus: None,
 };

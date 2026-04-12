@@ -149,7 +149,7 @@ const LISA_SKILL_HOLD_3STACK: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Electro),
     values: [
-        4.8720, 5.2374, 5.6028, 6.0900, 6.4554, 6.8208, 7.3080, 7.9520, 8.2824, 8.7696, 9.2568,
+        4.8720, 5.2374, 5.6028, 6.0900, 6.4554, 6.8208, 7.3080, 7.7952, 8.2824, 8.7696, 9.2568,
         9.7440, 10.3530, 10.9620, 11.5710,
     ],
     dynamic_bonus: None,

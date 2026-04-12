@@ -33,7 +33,7 @@ const CYNO_NORMAL_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.5858, 0.6335, 0.6812, 0.7493, 0.7970, 0.8515, 0.9264, 1.0013, 1.0762, 1.5883, 1.2404,
+        0.5858, 0.6335, 0.6812, 0.7493, 0.7970, 0.8515, 0.9264, 1.0013, 1.0762, 1.1586, 1.2404,
         1.3222, 1.4040, 1.4858, 1.5675,
     ],
     dynamic_bonus: None,
