@@ -19,7 +19,7 @@ Date: 2026-04-12
 | Mizuki | OK | OK | OK | PASS |
 | Sayu | OK | OK | OK | PASS |
 | Sucrose | OK | OK | OK | PASS |
-| Varka | OK | MISSING (A1 Lyrical Libation) | MISSING (C6 CRIT DMG) | FAIL |
+| Varka | OK | OK | LIMITATION (C1 Lyrical Libation), MISSING (C6 CRIT DMG) | FAIL |
 | Venti | OK | OK | OK | PASS |
 | Wanderer | OK | OK | OK | PASS |
 | Xiao | OK | MISSING (A1 all DMG bonus) | OK | FAIL |
@@ -92,14 +92,14 @@ Mirror (`varka_128.md`) C6: "Every stack of Azure Fang's Oath will increase Vark
 
 Max 4 stacks = up to 80% CRIT DMG. This C6 enhancement to the A4 "Wind's Vanguard" effect is not implemented.
 
-### MISSING-3: Varka A1 "Lyrical Libation" — 200% DMG multiplier
+### MISSING-3: Varka C1 "Lyrical Libation" — 200% DMG multiplier
 
 **File:** `crates/data/src/talent_buffs/anemo.rs`
 **Severity:** Low (one-time conditional, may be out of scope for stat-buff system)
 
-Mirror (`varka_128.md`) A1 second effect: "After switching to Sturm und Drang, Varka will gain the Lyrical Libation effect: When unleashing Four Winds' Ascension, or performing Azure Devour, Varka will consume this effect to deal 200% of the original DMG."
+Mirror (`varka_128.md`) C1 second effect: "After switching to Sturm und Drang, Varka will gain the Lyrical Libation effect: When unleashing Four Winds' Ascension, or performing Azure Devour, Varka will consume this effect to deal 200% of the original DMG."
 
-This is a one-time consumed effect that doubles DMG on the first use. May not be representable in the current stat-buff system (it's a conditional multiplier, not a persistent stat buff).
+This is a one-time consumed effect that doubles the final DMG of the first eligible use. The current stat-buff system only models persistent additive bonuses, so a fake `SkillDmgBonus` / `ChargedAtkDmgBonus` approximation would be both behaviorally wrong and overbroad. This should remain a documented limitation unless the buff system gains one-shot final-multiplier support.
 
 ### REVIEW-1: Xianyun burst plunging flat DMG — talent-scaling vs fixed 200% ATK
 
@@ -152,7 +152,7 @@ Mirror: `sayu_053.md`. All scalings manually verified. Muji-Muji Daruma and Fuuf
 Mirror: `sucrose_043.md`. All scalings verified via automated comparison. A4 EM share correctly implemented.
 
 ### Varka (5-star Claymore, Mondstadt)
-Mirror: `varka_128.md`. All talent scalings verified. Sturm und Drang multi-hit entries correctly split. A1 elemental DMG per ATK and A4 Normal/Charged DMG bonus implemented. Missing C6 CRIT DMG buff and A1 Lyrical Libation 200% multiplier. See MISSING-2, MISSING-3.
+Mirror: `varka_128.md`. All talent scalings verified. Sturm und Drang multi-hit entries correctly split. A1 elemental DMG per ATK and A4 Normal/Charged DMG bonus implemented. C1 Lyrical Libation is a documented system limitation; C6 CRIT DMG buff remains missing. See MISSING-2, MISSING-3.
 
 ### Venti (5-star Bow, Mondstadt)
 Mirror: `venti_022.md`. All scalings manually verified. C2/C4/C6 buffs correctly implemented.

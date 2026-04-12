@@ -220,6 +220,12 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
 //   対応元素優先度: Pyro > Hydro > Electro > Cryo
 // A4: Wind's Vanguard — Normal/Charged ATK DMG (拡散反応時+7.5%/stack、最大4stack=30%)
 // C4: Freedom of Song — Team Anemo DMG +20% + 対応元素DMG +20% (対応元素は未実装)
+// C1: "Lyrical Libation" is intentionally not representable as a talent buff.
+// Mirror confirms this is a one-shot consumed multiplier that makes Four Winds' Ascension
+// or Azure Devour deal 200% of their original DMG once after entering Sturm und Drang.
+// The current stat-buff model only supports persistent additive bonuses, so approximating
+// this with broad Skill/Charged DMG bonuses would both leak onto other attacks and fail
+// to model the exact final-damage doubling. Keep it documented rather than adding a fake buff.
 static VARKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Dawn Wind's March Anemo DMG",
