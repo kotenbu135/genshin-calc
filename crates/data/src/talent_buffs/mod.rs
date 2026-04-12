@@ -749,17 +749,25 @@ mod tests {
     #[test]
     fn test_find_xiangling_buffs() {
         let buffs = find_talent_buffs("xiangling").unwrap();
-        assert_eq!(buffs.len(), 4);
+        assert_eq!(buffs.len(), 2);
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Pyro)
         );
         assert_eq!(buffs[0].min_constellation, 1);
         assert_eq!(
+            buffs[0].activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
+        assert_eq!(
             buffs[1].stat,
             BuffableStat::ElementalDmgBonus(Element::Pyro)
         );
         assert_eq!(buffs[1].min_constellation, 6);
+        assert_eq!(
+            buffs[1].activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
     }
 
     #[test]
@@ -781,11 +789,13 @@ mod tests {
         assert_eq!(buffs.len(), 5);
         assert_eq!(buffs[0].stat, BuffableStat::PlungingAtkFlatDmg);
         assert!(buffs[0].scales_with_talent);
-        assert_eq!(buffs[1].stat, BuffableStat::PlungingAtkDmgBonus);
-        assert!((buffs[1].base_value - 0.75).abs() < 1e-6);
-        assert_eq!(buffs[2].stat, BuffableStat::CritRate);
-        assert!((buffs[2].base_value - 0.20).abs() < 1e-6);
-        assert_eq!(buffs[2].min_constellation, 2);
+        assert_eq!(buffs[1].stat, BuffableStat::CritRate);
+        assert!(buffs[1].description.contains("approximation"));
+        assert_eq!(buffs[1].min_constellation, 0);
+        assert_eq!(buffs[2].stat, BuffableStat::PlungingAtkFlatDmg);
+        assert!((buffs[2].base_value - 2.0).abs() < 1e-6);
+        assert_eq!(buffs[2].scales_on, Some(ScalingStat::TotalAtk));
+        assert_eq!(buffs[2].cap, Some(9000.0));
     }
 
     #[test]
@@ -1680,8 +1690,13 @@ mod tests {
             !c0.iter()
                 .any(|b| b.name == "Pupillary Variance Skill DMG Bonus")
         );
-        assert!(!c0.iter().any(|b| b.name == "kirara_c6_dmg_bonus"));
-        assert!(c6.iter().any(|b| b.name == "kirara_c6_dmg_bonus"));
+        assert!(!c0.iter().any(|b| b.name == "kirara_c6_elemental_dmg_bonus"));
+        assert_eq!(
+            c6.iter()
+                .filter(|b| b.name == "kirara_c6_elemental_dmg_bonus")
+                .count(),
+            7
+        );
     }
     #[test]
     fn test_conditional_traveler_dendro_c6() {

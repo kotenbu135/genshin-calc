@@ -487,9 +487,9 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Xianyun =====
-// Burst: PlungingAtkFlatDmg = total ATK × scaling
-// A4: PlungingAtkDmgBonus +75%
-// C2: CritRate +20% for plunging attacks
+// Spec bug fix: A4 is an exact flat shockwave DMG bonus (200% Total ATK, cap 9000), not a
+// generic plunging DMG bonus. Design approximation: A1's 4/6/8/10% per-stack curve is exposed
+// as a max-stack toggle until TalentBuffDef supports non-linear stack tables.
 static XIANYUN_BURST_PLUNGE_SCALING: [f64; 15] = [
     2.48, 2.666, 2.852, 3.100, 3.286, 3.472, 3.720, 3.968, 4.216, 4.464, 4.712, 4.960, 5.270,
     5.580, 5.890,
@@ -511,31 +511,35 @@ static XIANYUN_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
-        name: "Consider, the Adeptus in Her Realm Plunging Flat DMG",
-        description: desc!("A4: Nearby active characters' Plunging ATK DMG +75%"),
-        stat: BuffableStat::PlungingAtkDmgBonus,
-        base_value: 0.75,
+        name: "Galefeather Pursuit",
+        description: desc!(
+            "A1: Plunging Attack CRIT Rate +10% at max Storm Pinion stacks (design approximation: 4/6/8/10% curve condensed to max toggle)"
+        ),
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
-        name: "Aloof From the World Plunging Flat DMG Bonus",
-        description: desc!("C2: CRIT Rate +20% for Plunging Attacks"),
-        stat: BuffableStat::CritRate,
-        base_value: 0.20,
+        name: "Consider, the Adeptus in Her Realm",
+        description: desc!(
+            "A4: Plunging Attack shockwave Flat DMG +200% of Xianyun's Total ATK, cap 9000"
+        ),
+        stat: BuffableStat::PlungingAtkFlatDmg,
+        base_value: 2.0,
         scales_with_talent: false,
         talent_scaling: None,
-        scales_on: None,
+        scales_on: Some(ScalingStat::TotalAtk),
         target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(2),
-        min_constellation: 2,
-        cap: None,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(9000.0),
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {

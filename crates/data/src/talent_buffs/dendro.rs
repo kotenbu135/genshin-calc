@@ -51,15 +51,16 @@ static LAUMA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Nahida =====
-// A1 passive "Compassion Illuminated": grants highest_party_EM × 25%, max 250
-// Note: Game uses highest party EM; single-character eval uses own EM (known simplification).
-// The -200 offset previously reported does not exist (confirmed by Fandom + KQM).
+// Design approximation: game uses highest party EM, but TalentBuffDef resolution only has the
+// provider's build-time stats, so this entry scales from Nahida's own EM instead.
 // C2 "The Root of All Fullness": Reaction CRIT Rate +20%, CRIT DMG +100%, DEF -30%
 // C4 "Wakening Elucidation": EM +100 per nearby Skandha enemy (max 4)
 static NAHIDA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Compassion Illuminated",
-        description: desc!("A1: Grants EM to party = highest_party_EM × 25%, max 250"),
+        description: desc!(
+            "A1: Grants EM to party = highest_party_EM × 25%, max 250 (design approximation: uses Nahida's own EM at build time)"
+        ),
         stat: BuffableStat::ElementalMastery,
         base_value: 0.25,
         scales_with_talent: false,
@@ -203,7 +204,7 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "nefer_c6_lunar_bloom_dmg",
         description: desc!("C6: Party Lunar-Bloom DMG +15% at Ascendant Gleam"),
-        stat: BuffableStat::TransformativeBonus,
+        stat: BuffableStat::ReactionDmgBonus(Reaction::LunarBloom),
         base_value: 0.15,
         scales_with_talent: false,
         talent_scaling: None,
@@ -715,9 +716,93 @@ static KIRARA_BUFFS: &[TalentBuffDef] = &[
         })),
     },
     TalentBuffDef {
-        name: "kirara_c6_dmg_bonus",
-        description: desc!("C6: All Elemental DMG +12% (approximation)"),
-        stat: BuffableStat::DmgBonus,
+        name: "kirara_c6_elemental_dmg_bonus",
+        description: desc!("C6: Pyro DMG Bonus +12%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "kirara_c6_elemental_dmg_bonus",
+        description: desc!("C6: Hydro DMG Bonus +12%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "kirara_c6_elemental_dmg_bonus",
+        description: desc!("C6: Electro DMG Bonus +12%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "kirara_c6_elemental_dmg_bonus",
+        description: desc!("C6: Cryo DMG Bonus +12%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "kirara_c6_elemental_dmg_bonus",
+        description: desc!("C6: Dendro DMG Bonus +12%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "kirara_c6_elemental_dmg_bonus",
+        description: desc!("C6: Anemo DMG Bonus +12%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
+        base_value: 0.12,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "kirara_c6_elemental_dmg_bonus",
+        description: desc!("C6: Geo DMG Bonus +12%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Geo),
         base_value: 0.12,
         scales_with_talent: false,
         talent_scaling: None,
@@ -1086,11 +1171,20 @@ mod tests {
             .iter()
             .filter(|b| b.source == TalentBuffSource::Constellation(6))
             .collect();
-        assert_eq!(kirara_c6.len(), 1);
-        assert_eq!(
-            kirara_c6[0].activation,
-            Some(Activation::Manual(ManualCondition::Toggle))
-        );
+        assert_eq!(kirara_c6.len(), 7);
+        assert!(kirara_c6.iter().all(|b| {
+            b.activation == Some(Activation::Manual(ManualCondition::Toggle))
+                && matches!(
+                    b.stat,
+                    BuffableStat::ElementalDmgBonus(Element::Pyro)
+                        | BuffableStat::ElementalDmgBonus(Element::Hydro)
+                        | BuffableStat::ElementalDmgBonus(Element::Electro)
+                        | BuffableStat::ElementalDmgBonus(Element::Cryo)
+                        | BuffableStat::ElementalDmgBonus(Element::Dendro)
+                        | BuffableStat::ElementalDmgBonus(Element::Anemo)
+                        | BuffableStat::ElementalDmgBonus(Element::Geo)
+                )
+        }));
 
         let yaoyao = find("yaoyao").expect("Yaoyao talent buffs should exist");
         let yaoyao_c4: Vec<_> = yaoyao

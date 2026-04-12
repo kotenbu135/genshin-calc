@@ -792,35 +792,7 @@ static HU_TAO_BUFFS: &[TalentBuffDef] = &[
 // C1: Pyro RES -15% on Guoba hit
 // C6: Pyro DMG +15% during Pyronado
 static XIANGLING_BUFFS: &[TalentBuffDef] = &[
-    TalentBuffDef {
-        name: "Crispy Outside Pyro RES Shred",
-        description: desc!("C1: Enemies hit by Guoba have Pyro RES -15% for 6s"),
-        stat: BuffableStat::ElementalResReduction(Element::Pyro),
-        base_value: 0.15,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(1),
-        min_constellation: 1,
-        cap: None,
-        activation: None,
-    },
-    TalentBuffDef {
-        name: "Condensed Pyronado Pyro DMG Bonus",
-        description: desc!("C6: During Pyronado, party gains Pyro DMG +15%"),
-        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
-        base_value: 0.15,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: None,
-    },
-    // C1: Guoba Pyro RES shred -15% (conditional toggle)
+    // Spec bug fix: C1/C6 are conditional and must not exist as always-on duplicates.
     TalentBuffDef {
         name: "xiangling_c1_pyro_res_shred",
         description: desc!("C1: Opponents hit by Guoba have Pyro RES -15%"),
@@ -835,7 +807,6 @@ static XIANGLING_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
-    // C6: Pyronado Pyro DMG +15% (conditional toggle)
     TalentBuffDef {
         name: "xiangling_c6_pyro_dmg",
         description: desc!("C6: During Pyronado, party gains Pyro DMG Bonus +15%"),
