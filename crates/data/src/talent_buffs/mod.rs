@@ -226,13 +226,29 @@ mod tests {
     #[test]
     fn test_find_albedo_buffs() {
         let buffs = find_talent_buffs("albedo").unwrap();
-        assert_eq!(buffs.len(), 6);
+        assert_eq!(buffs.len(), 8);
         // A1: Skill DMG +25%
         assert_eq!(buffs[0].stat, BuffableStat::SkillDmgBonus);
         assert!((buffs[0].base_value - 0.25).abs() < 1e-6);
         // A4: EM+125
         assert_eq!(buffs[1].stat, BuffableStat::ElementalMastery);
         assert!((buffs[1].base_value - 125.0).abs() < 1e-6);
+        // Hexerei Solar Isotoma DMG (DEF scaling)
+        let solar = buffs
+            .iter()
+            .find(|b| b.name.contains("Solar Isotoma DMG"))
+            .unwrap();
+        assert_eq!(solar.stat, BuffableStat::DmgBonus);
+        assert_eq!(solar.scales_on, Some(ScalingStat::Def));
+        assert_eq!(solar.cap, Some(0.12));
+        // Hexerei Silver Isotoma DMG (DEF scaling)
+        let silver = buffs
+            .iter()
+            .find(|b| b.name.contains("Silver Isotoma DMG"))
+            .unwrap();
+        assert_eq!(silver.stat, BuffableStat::DmgBonus);
+        assert_eq!(silver.scales_on, Some(ScalingStat::Def));
+        assert_eq!(silver.cap, Some(0.30));
     }
 
     #[test]
@@ -515,7 +531,7 @@ mod tests {
     #[test]
     fn test_sucrose_a4_builder_pattern() {
         let buffs = find_talent_buffs("sucrose").unwrap();
-        assert_eq!(buffs.len(), 6); // A1 + A4 + 4x C6 elemental
+        assert_eq!(buffs.len(), 8); // Hexerei Skill DMG + Hexerei Burst DMG + A1 + A4 + 4x C6 elemental
         let a4 = buffs.iter().find(|b| b.name == "Mollis Favonius").unwrap();
         assert_eq!(a4.stat, BuffableStat::ElementalMastery);
         assert!((a4.base_value - 0.20).abs() < 1e-6); // 20% of own EM coefficient
@@ -796,14 +812,18 @@ mod tests {
     #[test]
     fn test_find_venti_buffs() {
         let buffs = find_talent_buffs("venti").unwrap();
-        assert_eq!(buffs.len(), 8); // C2x2 + C4 + C6 Anemo + C6 Pyro/Hydro/Cryo/Electro
+        assert_eq!(buffs.len(), 10); // Hexerei DMG x2 + C2x2 + C4 + C6 Anemo + C6 Pyro/Hydro/Cryo/Electro
+        // Hexerei buffs come first
+        assert_eq!(buffs[0].stat, BuffableStat::DmgBonus);
+        assert!((buffs[0].base_value - 0.50).abs() < 1e-6);
+        assert_eq!(buffs[1].stat, BuffableStat::BurstDmgBonus);
+        assert!((buffs[1].base_value - 0.35).abs() < 1e-6);
+        // C2 Anemo RES shred
         assert_eq!(
-            buffs[0].stat,
+            buffs[2].stat,
             BuffableStat::ElementalResReduction(Element::Anemo)
         );
-        assert!((buffs[0].base_value - 0.12).abs() < 1e-6);
-        assert_eq!(buffs[1].stat, BuffableStat::PhysicalResReduction);
-        assert!((buffs[1].base_value - 0.12).abs() < 1e-6);
+        assert!((buffs[2].base_value - 0.12).abs() < 1e-6);
     }
 
     #[test]
@@ -845,13 +865,20 @@ mod tests {
     #[test]
     fn test_find_klee_buffs() {
         let buffs = find_talent_buffs("klee").unwrap();
-        assert_eq!(buffs.len(), 4);
-        assert_eq!(buffs[0].stat, BuffableStat::DefReduction);
-        assert!((buffs[0].base_value - 0.23).abs() < 1e-6);
-        assert_eq!(
-            buffs[1].stat,
-            BuffableStat::ElementalDmgBonus(Element::Pyro)
-        );
+        assert_eq!(buffs.len(), 5);
+        // Hexerei Boom-Boom Strike DMG
+        let boom = buffs
+            .iter()
+            .find(|b| b.name.contains("Boom-Boom Strike"))
+            .unwrap();
+        assert_eq!(boom.stat, BuffableStat::ChargedAtkDmgBonus);
+        assert!((boom.base_value - 0.50).abs() < 1e-6);
+        // C2: DEF -23%
+        let c2 = buffs
+            .iter()
+            .find(|b| b.stat == BuffableStat::DefReduction)
+            .unwrap();
+        assert!((c2.base_value - 0.23).abs() < 1e-6);
     }
 
     #[test]
@@ -1057,7 +1084,7 @@ mod tests {
                     || b.description.contains("Witch"))
                     && b.stat == BuffableStat::AtkPercent
                     && (b.base_value - 0.225).abs() < 1e-6
-                    && b.target == BuffTarget::OnlySelf
+                    && b.target == BuffTarget::Team
                     && b.source == TalentBuffSource::AscensionPassive(4)
                     && (b.name.contains("Overloaded") || b.description.contains("Overloaded"))
                     && (b.name.contains("Oz") || b.description.contains("Oz"))
@@ -1066,7 +1093,7 @@ mod tests {
         assert_eq!(
             fischl_atk.len(),
             1,
-            "Fischl Hexerei/Witch A4 ATK audit should resolve to exactly one 22.5% self-only entry"
+            "Fischl Hexerei/Witch A4 ATK audit should resolve to exactly one 22.5% team entry"
         );
         let fischl_atk = fischl_atk[0];
         assert!(
@@ -1082,7 +1109,7 @@ mod tests {
             .filter(|b| {
                 b.stat == BuffableStat::AtkPercent
                     && (b.base_value - 0.225).abs() < 1e-6
-                    && b.target == BuffTarget::OnlySelf
+                    && b.target == BuffTarget::Team
                     && b.source == TalentBuffSource::Constellation(6)
                     && matches!(
                         b.activation,
@@ -1106,7 +1133,7 @@ mod tests {
                     || b.description.contains("Witch"))
                     && b.stat == BuffableStat::ElementalMastery
                     && (b.base_value - 90.0).abs() < 1e-6
-                    && b.target == BuffTarget::OnlySelf
+                    && b.target == BuffTarget::Team
                     && b.source == TalentBuffSource::AscensionPassive(4)
                     && (b.name.contains("Electro-Charged")
                         || b.description.contains("Electro-Charged")
@@ -1118,7 +1145,7 @@ mod tests {
         assert_eq!(
             fischl_em.len(),
             1,
-            "Fischl Hexerei/Witch EM audit should resolve to exactly one 90.0 self-only entry"
+            "Fischl Hexerei/Witch EM audit should resolve to exactly one 90.0 team entry"
         );
         let fischl_em = fischl_em[0];
         assert!(
@@ -1134,7 +1161,7 @@ mod tests {
             .filter(|b| {
                 b.stat == BuffableStat::ElementalMastery
                     && (b.base_value - 90.0).abs() < 1e-6
-                    && b.target == BuffTarget::OnlySelf
+                    && b.target == BuffTarget::Team
                     && b.source == TalentBuffSource::Constellation(6)
                     && matches!(
                         b.activation,

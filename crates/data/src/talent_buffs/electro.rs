@@ -346,13 +346,15 @@ static BEIDOU_BUFFS: &[TalentBuffDef] = &[
 static FISCHL_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Witch's Eve Rite Hexerei ATK Bonus",
-        description: desc!("After Overloaded while Oz is on field, Fischl gains ATK +22.5%"),
+        description: desc!(
+            "After Overloaded while Oz is on field, Fischl and active party members gain ATK +22.5%"
+        ),
         stat: BuffableStat::AtkPercent,
         base_value: 0.225,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::OnlySelf,
+        target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
@@ -368,7 +370,7 @@ static FISCHL_BUFFS: &[TalentBuffDef] = &[
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::OnlySelf,
+        target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
@@ -377,14 +379,14 @@ static FISCHL_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Witch's Eve Rite Hexerei EM Bonus",
         description: desc!(
-            "After Electro-Charged or Lunar-Charged while Oz is on field, Fischl gains EM +90"
+            "After Electro-Charged or Lunar-Charged while Oz is on field, Fischl and active party members gain EM +90"
         ),
         stat: BuffableStat::ElementalMastery,
         base_value: 90.0,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::OnlySelf,
+        target: BuffTarget::Team,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
@@ -400,7 +402,7 @@ static FISCHL_BUFFS: &[TalentBuffDef] = &[
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
-        target: BuffTarget::OnlySelf,
+        target: BuffTarget::Team,
         source: TalentBuffSource::Constellation(6),
         min_constellation: 6,
         cap: None,
@@ -1341,7 +1343,7 @@ mod tests {
             .expect("Fischl C6 EM buffed state should exist");
 
         for buff in [a4_atk, c6_atk] {
-            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(buff.target, BuffTarget::Team);
             assert_eq!(
                 buff.activation,
                 Some(Activation::Manual(ManualCondition::Toggle))
@@ -1349,7 +1351,7 @@ mod tests {
             assert!((buff.base_value - 0.225).abs() < 1e-6);
         }
         for buff in [a4_em, c6_em] {
-            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(buff.target, BuffTarget::Team);
             assert_eq!(
                 buff.activation,
                 Some(Activation::Manual(ManualCondition::Toggle))

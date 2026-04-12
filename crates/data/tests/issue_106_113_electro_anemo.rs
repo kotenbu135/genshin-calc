@@ -316,8 +316,8 @@ fn test_sucrose_total_buff_count() {
     let buffs = find_talent_buffs("sucrose").expect("sucrose buffs not found");
     assert_eq!(
         buffs.len(),
-        6,
-        "Sucrose should have 6 buffs (A1 + A4 + 4 C6 elemental)"
+        8,
+        "Sucrose should have 8 buffs (Hexerei Skill DMG + Hexerei Burst DMG + A1 + A4 + 4 C6 elemental)"
     );
 }
 
@@ -405,7 +405,7 @@ fn test_venti_total_buff_count() {
     let buffs = find_talent_buffs("venti").expect("venti buffs not found");
     assert_eq!(
         buffs.len(),
-        8,
-        "Venti should have 8 buffs (C2x2 + C4 + C6 Anemo + C6 4 elements)"
+        10,
+        "Venti should have 10 buffs (Hexerei DMG x2 + C2x2 + C4 + C6 Anemo + C6 4 elements)"
     );
 }

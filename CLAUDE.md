@@ -22,6 +22,7 @@
 
 ## Testing (Summary)
 - **TDD必須**: テストを先に書く（RED→GREEN→REFACTOR）。実装を先に書いてからテストを修正するフローは禁止
+- 実装はWorktreeを使用して行う
 - 浮動小数点テストは許容誤差で比較（assert_eq!禁止）
 - データ駆動テスト: `tests/data/characters/*.toml` — 新キャラはTOMLファイル1つ追加
 - バフ検証テストは「applied_buffsに期待バフが含まれるか」「final_statsに数値が反映されているか」を明示的にassertすること（`damage > 0` のスモークテストでは未実装を検知できない）
