@@ -1025,6 +1025,7 @@ mod tests {
                     && b.stat == BuffableStat::AtkPercent
                     && (b.base_value - 0.225).abs() < 1e-6
                     && b.target == BuffTarget::OnlySelf
+                    && b.source == TalentBuffSource::AscensionPassive(4)
                     && (b.name.contains("Overloaded") || b.description.contains("Overloaded"))
                     && (b.name.contains("Oz") || b.description.contains("Oz"))
             })
@@ -1032,7 +1033,7 @@ mod tests {
         assert_eq!(
             fischl_atk.len(),
             1,
-            "Fischl Hexerei/Witch ATK audit should resolve to exactly one 22.5% self-only entry"
+            "Fischl Hexerei/Witch A4 ATK audit should resolve to exactly one 22.5% self-only entry"
         );
         let fischl_atk = fischl_atk[0];
         assert!(
@@ -1041,6 +1042,26 @@ mod tests {
                 || fischl_atk.name.contains("Witch")
                 || fischl_atk.description.contains("Witch"),
             "Fischl Hexerei/Witch ATK audit should be anchored by Hexerei/Witch identity text"
+        );
+
+        let fischl_c6_atk: Vec<_> = fischl
+            .iter()
+            .filter(|b| {
+                b.stat == BuffableStat::AtkPercent
+                    && (b.base_value - 0.225).abs() < 1e-6
+                    && b.target == BuffTarget::OnlySelf
+                    && b.source == TalentBuffSource::Constellation(6)
+                    && matches!(
+                        b.activation,
+                        Some(Activation::Manual(ManualCondition::Toggle))
+                    )
+                    && (b.name.contains("Buffed State") || b.description.contains("100%"))
+            })
+            .collect();
+        assert_eq!(
+            fischl_c6_atk.len(),
+            1,
+            "Fischl C6 should add exactly one 22.5% ATK Buffed State entry"
         );
 
         let fischl_em: Vec<_> = fischl
@@ -1053,6 +1074,7 @@ mod tests {
                     && b.stat == BuffableStat::ElementalMastery
                     && (b.base_value - 90.0).abs() < 1e-6
                     && b.target == BuffTarget::OnlySelf
+                    && b.source == TalentBuffSource::AscensionPassive(4)
                     && (b.name.contains("Electro-Charged")
                         || b.description.contains("Electro-Charged")
                         || b.name.contains("Lunar-Charged")
@@ -1072,6 +1094,26 @@ mod tests {
                 || fischl_em.name.contains("Witch")
                 || fischl_em.description.contains("Witch"),
             "Fischl Hexerei/Witch EM audit should be anchored by Hexerei/Witch identity text"
+        );
+
+        let fischl_c6_em: Vec<_> = fischl
+            .iter()
+            .filter(|b| {
+                b.stat == BuffableStat::ElementalMastery
+                    && (b.base_value - 90.0).abs() < 1e-6
+                    && b.target == BuffTarget::OnlySelf
+                    && b.source == TalentBuffSource::Constellation(6)
+                    && matches!(
+                        b.activation,
+                        Some(Activation::Manual(ManualCondition::Toggle))
+                    )
+                    && (b.name.contains("Buffed State") || b.description.contains("100%"))
+            })
+            .collect();
+        assert_eq!(
+            fischl_c6_em.len(),
+            1,
+            "Fischl C6 should add exactly one 90 EM Buffed State entry"
         );
     }
 

@@ -344,6 +344,22 @@ static FISCHL_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
+        name: "Witch's Eve Rite Hexerei ATK Bonus Buffed State",
+        description: desc!(
+            "Buffed State: after Oz coordinated attack, Witch's Eve Rite ATK bonus is further increased by 100% for 10s"
+        ),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.225,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "Witch's Eve Rite Hexerei EM Bonus",
         description: desc!(
             "After Electro-Charged or Lunar-Charged while Oz is on field, Fischl gains EM +90"
@@ -356,6 +372,22 @@ static FISCHL_BUFFS: &[TalentBuffDef] = &[
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Witch's Eve Rite Hexerei EM Bonus Buffed State",
+        description: desc!(
+            "Buffed State: after Oz coordinated attack, Witch's Eve Rite EM bonus is further increased by 100% for 10s"
+        ),
+        stat: BuffableStat::ElementalMastery,
+        base_value: 90.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
@@ -1244,5 +1276,54 @@ mod tests {
         }
         assert!((crit_rate.base_value - 0.10).abs() < 1e-6);
         assert!((crit_dmg.base_value - 0.50).abs() < 1e-6);
+    }
+
+    #[test]
+    fn test_find_fischl_hexerei_and_c6_buffed_state() {
+        let buffs = find("fischl").expect("Fischl talent buffs should exist");
+
+        let a4_atk = find_buff(
+            buffs,
+            BuffableStat::AtkPercent,
+            TalentBuffSource::AscensionPassive(4),
+        );
+        let c6_atk = buffs
+            .iter()
+            .find(|buff| {
+                buff.name == "Witch's Eve Rite Hexerei ATK Bonus Buffed State"
+                    && buff.source == TalentBuffSource::Constellation(6)
+            })
+            .expect("Fischl C6 ATK buffed state should exist");
+        let a4_em = find_buff(
+            buffs,
+            BuffableStat::ElementalMastery,
+            TalentBuffSource::AscensionPassive(4),
+        );
+        let c6_em = buffs
+            .iter()
+            .find(|buff| {
+                buff.name == "Witch's Eve Rite Hexerei EM Bonus Buffed State"
+                    && buff.source == TalentBuffSource::Constellation(6)
+            })
+            .expect("Fischl C6 EM buffed state should exist");
+
+        for buff in [a4_atk, c6_atk] {
+            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert!((buff.base_value - 0.225).abs() < 1e-6);
+        }
+        for buff in [a4_em, c6_em] {
+            assert_eq!(buff.target, BuffTarget::OnlySelf);
+            assert_eq!(
+                buff.activation,
+                Some(Activation::Manual(ManualCondition::Toggle))
+            );
+            assert!((buff.base_value - 90.0).abs() < 1e-6);
+        }
+        assert_eq!(c6_atk.min_constellation, 6);
+        assert_eq!(c6_em.min_constellation, 6);
     }
 }
