@@ -1,4 +1,4 @@
-use genshin_calc_core::{BuffTarget, BuffableStat, Element, ScalingStat};
+use genshin_calc_core::{BuffTarget, BuffableStat, ScalingStat};
 /// Tests for issues #114-#121: Amber, Bennett, Chevreuse, Albedo, Gorou, Zhongli, Xilonen, Kachina talent buff additions.
 use genshin_calc_data::talent_buffs::{TalentBuffSource, find_talent_buffs};
 

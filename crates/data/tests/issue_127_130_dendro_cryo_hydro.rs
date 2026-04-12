@@ -1,6 +1,6 @@
 /// Issues #127-130: Traveler(Dendro) A4, Shenhe/Eula RES shred scaling, Sigewinne/Tartaglia values, Skirk confirmation
 /// Source: honeyhunter-mirror/md/characters/
-use genshin_calc_core::{BuffTarget, BuffableStat, Element};
+use genshin_calc_core::{BuffableStat, Element};
 use genshin_calc_data::{
     find_character,
     talent_buffs::{TalentBuffSource, find_talent_buffs},
