@@ -10,7 +10,7 @@ const LAYLA_NORMAL_1: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.5120, 0.5538, 0.5955, 0.6551, 0.6968, 0.7444, 0.8098, 0.8753, 0.9407, 1.0123, 1.0838,
+        0.5122, 0.5538, 0.5955, 0.6551, 0.6968, 0.7444, 0.8098, 0.8753, 0.9407, 1.0123, 1.0838,
         1.1553, 1.2269, 1.2984, 1.3700,
     ],
     dynamic_bonus: None,
@@ -57,7 +57,7 @@ const LAYLA_CHARGED_2: TalentScaling = TalentScaling {
     damage_element: None,
     values: [
         0.5254, 0.5682, 0.6110, 0.6721, 0.7149, 0.7638, 0.8310, 0.8981, 0.9653, 1.0387, 1.1121,
-        1.1855, 1.2589, 1.3200, 1.4050,
+        1.1855, 1.2589, 1.3320, 1.4050,
     ],
     dynamic_bonus: None,
 };

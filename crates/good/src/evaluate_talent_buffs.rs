@@ -231,7 +231,7 @@ mod tests {
     fn test_bennett_c6_burst_lv13() {
         let build = make_bennett_build();
         let buffs = evaluate_talent_buffs(&build, 6, &[1, 1, 13], &[]);
-        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs.len(), 4);
         // Burst ATK scaling
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         // C1 Grand Expectation: +20% Base ATK
@@ -242,6 +242,8 @@ mod tests {
             BuffableStat::ElementalDmgBonus(genshin_calc_core::Element::Pyro)
         );
         assert!((buffs[2].value - 0.15).abs() < 1e-6);
+        // C2 Impasse Conqueror: ER+30%
+        assert_eq!(buffs[3].stat, BuffableStat::EnergyRecharge);
     }
 
     #[test]
@@ -261,11 +263,12 @@ mod tests {
     #[test]
     fn test_constellation_gating() {
         let build = make_bennett_build();
-        // C5: burst ATK + C1 Grand Expectation, but no C6
+        // C5: burst ATK + C1 Grand Expectation + C2 ER, but no C6
         let buffs = evaluate_talent_buffs(&build, 5, &[1, 1, 13], &[]);
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(buffs[1].stat, BuffableStat::AtkFlat); // C1
+        assert_eq!(buffs[2].stat, BuffableStat::EnergyRecharge); // C2
     }
 
     fn make_sara_build() -> CharacterBuild {
@@ -291,7 +294,7 @@ mod tests {
         assert!(atk_buff.value > 0.0);
         let crit_buff = buffs
             .iter()
-            .find(|b| b.stat == BuffableStat::CritDmg)
+            .find(|b| b.stat == BuffableStat::ElementalCritDmg(genshin_calc_core::Element::Electro))
             .unwrap();
         assert!((crit_buff.value - 0.60).abs() < 1e-6);
     }

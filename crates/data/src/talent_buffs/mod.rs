@@ -131,7 +131,7 @@ mod tests {
     #[test]
     fn test_find_bennett_buffs() {
         let buffs = find_talent_buffs("bennett").unwrap();
-        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs.len(), 4);
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(buffs[0].target, BuffTarget::Team);
         // C1 Grand Expectation
@@ -226,9 +226,13 @@ mod tests {
     #[test]
     fn test_find_albedo_buffs() {
         let buffs = find_talent_buffs("albedo").unwrap();
-        assert_eq!(buffs.len(), 4);
-        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
-        assert!((buffs[0].base_value - 125.0).abs() < 1e-6);
+        assert_eq!(buffs.len(), 6);
+        // A1: Skill DMG +25%
+        assert_eq!(buffs[0].stat, BuffableStat::SkillDmgBonus);
+        assert!((buffs[0].base_value - 0.25).abs() < 1e-6);
+        // A4: EM+125
+        assert_eq!(buffs[1].stat, BuffableStat::ElementalMastery);
+        assert!((buffs[1].base_value - 125.0).abs() < 1e-6);
     }
 
     #[test]
@@ -319,8 +323,15 @@ mod tests {
     #[test]
     fn test_find_amber_buffs() {
         let buffs = find_talent_buffs("amber").unwrap();
-        assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
-        assert_eq!(buffs[0].min_constellation, 6);
+        assert_eq!(buffs.len(), 3);
+        // A1: Burst CR+10%
+        assert_eq!(buffs[0].stat, BuffableStat::CritRate);
+        assert_eq!(buffs[0].min_constellation, 0);
+        // A4: ATK+15%
+        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
+        // C6: ATK+15% team
+        assert_eq!(buffs[2].stat, BuffableStat::AtkPercent);
+        assert_eq!(buffs[2].min_constellation, 6);
     }
 
     #[test]
@@ -336,10 +347,10 @@ mod tests {
     #[test]
     fn test_find_sara_c6_buff() {
         let buffs = find_talent_buffs("kujou_sara").unwrap();
-        // Original skill buff + C6 CritDmg
+        // Original skill buff + C6 Electro CRIT DMG
         let c6 = buffs
             .iter()
-            .find(|b| b.stat == BuffableStat::CritDmg)
+            .find(|b| b.stat == BuffableStat::ElementalCritDmg(Element::Electro))
             .unwrap();
         assert!((c6.base_value - 0.60).abs() < 1e-6);
         assert_eq!(c6.min_constellation, 6);
@@ -475,7 +486,7 @@ mod tests {
     #[test]
     fn test_find_gorou_buffs() {
         let buffs = find_talent_buffs("gorou").unwrap();
-        assert_eq!(buffs.len(), 4);
+        assert_eq!(buffs.len(), 6);
         // DefFlat scaling entry
         let def_buff = buffs
             .iter()
@@ -504,7 +515,7 @@ mod tests {
     #[test]
     fn test_sucrose_a4_builder_pattern() {
         let buffs = find_talent_buffs("sucrose").unwrap();
-        assert_eq!(buffs.len(), 2); // A1 + A4
+        assert_eq!(buffs.len(), 6); // A1 + A4 + 4x C6 elemental
         let a4 = buffs.iter().find(|b| b.name == "Mollis Favonius").unwrap();
         assert_eq!(a4.stat, BuffableStat::ElementalMastery);
         assert!((a4.base_value - 0.20).abs() < 1e-6); // 20% of own EM coefficient
@@ -614,7 +625,7 @@ mod tests {
     #[test]
     fn test_find_xilonen_buffs() {
         let buffs = find_talent_buffs("xilonen").unwrap();
-        assert_eq!(buffs.len(), 13);
+        assert_eq!(buffs.len(), 15);
         // Skill: Elemental RES reduction per Sampler (Geo/Pyro/Hydro/Cryo/Electro)
         assert_eq!(
             buffs[0].stat,
@@ -664,11 +675,16 @@ mod tests {
         assert_eq!(buffs[10].min_constellation, 4);
         assert_eq!(buffs[11].stat, BuffableStat::ChargedAtkFlatDmg);
         assert_eq!(buffs[12].stat, BuffableStat::PlungingAtkFlatDmg);
-        for b in &buffs[10..] {
+        for b in &buffs[10..13] {
             assert!((b.base_value - 0.65).abs() < 1e-6);
             assert_eq!(b.scales_on, Some(ScalingStat::Def));
             assert_eq!(b.min_constellation, 4);
         }
+        // A1: NA/Plunge DMG +30%
+        assert_eq!(buffs[13].stat, BuffableStat::NormalAtkDmgBonus);
+        assert!((buffs[13].base_value - 0.30).abs() < 1e-6);
+        assert_eq!(buffs[14].stat, BuffableStat::PlungingAtkDmgBonus);
+        assert!((buffs[14].base_value - 0.30).abs() < 1e-6);
     }
 
     #[test]
@@ -780,7 +796,7 @@ mod tests {
     #[test]
     fn test_find_venti_buffs() {
         let buffs = find_talent_buffs("venti").unwrap();
-        assert_eq!(buffs.len(), 4);
+        assert_eq!(buffs.len(), 8); // C2x2 + C4 + C6 Anemo + C6 Pyro/Hydro/Cryo/Electro
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Anemo)
@@ -854,13 +870,11 @@ mod tests {
     #[test]
     fn test_find_jean_buffs() {
         let buffs = find_talent_buffs("jean").unwrap();
-        assert_eq!(buffs.len(), 1);
-        assert_eq!(
-            buffs[0].stat,
-            BuffableStat::ElementalResReduction(Element::Anemo)
-        );
-        assert!((buffs[0].base_value - 0.40).abs() < 1e-6);
-        assert_eq!(buffs[0].min_constellation, 4);
+        assert_eq!(buffs.len(), 2); // C1 SkillDmgBonus + C4 Anemo RES shred
+        assert!(buffs.iter().any(|b| b.stat
+            == BuffableStat::ElementalResReduction(Element::Anemo)
+            && (b.base_value - 0.40).abs() < 1e-6
+            && b.min_constellation == 4));
     }
 
     #[test]
@@ -894,12 +908,14 @@ mod tests {
     #[test]
     fn test_find_mika_buffs() {
         let buffs = find_talent_buffs("mika").unwrap();
-        assert_eq!(buffs.len(), 3);
-        assert_eq!(buffs[0].stat, BuffableStat::PhysicalDmgBonus);
-        assert!((buffs[0].base_value - 0.10).abs() < 1e-6);
-        assert_eq!(buffs[0].min_constellation, 6);
+        assert_eq!(buffs.len(), 2);
         assert!(buffs.iter().any(|b| b.name == "Suppressive Barrage"
             && b.activation == Some(Activation::Manual(ManualCondition::Stacks(3)))));
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.stat == BuffableStat::PhysicalCritDmg && b.min_constellation == 6)
+        );
     }
 
     #[test]
@@ -933,8 +949,18 @@ mod tests {
     #[test]
     fn test_find_zhongli_debuffs() {
         let buffs = find_talent_buffs("zhongli").unwrap();
-        assert_eq!(buffs.len(), 8); // 7 elemental + 1 physical
-        for b in buffs {
+        assert_eq!(buffs.len(), 13); // 7 elemental + 1 physical RES shred + 5 A4 HP-scaling flat DMG
+        let res_shreds: Vec<_> = buffs
+            .iter()
+            .filter(|b| {
+                matches!(
+                    b.stat,
+                    BuffableStat::ElementalResReduction(_) | BuffableStat::PhysicalResReduction
+                )
+            })
+            .collect();
+        assert_eq!(res_shreds.len(), 8);
+        for b in &res_shreds {
             assert!((b.base_value - 0.20).abs() < 1e-6);
             assert_eq!(b.target, BuffTarget::Team);
         }
@@ -1268,7 +1294,7 @@ mod tests {
     #[test]
     fn test_conditional_bennett_c6_returns_all_buffs() {
         let buffs = get_talent_conditional_buffs("bennett", 6, &[6, 8, 10]);
-        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs.len(), 4);
         // ATK buff from burst, value resolved at burst lv10
         assert_eq!(buffs[0].stat, BuffableStat::AtkFlat);
         assert_eq!(buffs[0].scales_on, Some(ScalingStat::Atk));
@@ -1287,6 +1313,9 @@ mod tests {
             BuffableStat::ElementalDmgBonus(Element::Pyro)
         );
         assert!((buffs[2].value - 0.15).abs() < 1e-6);
+        // C2 Impasse Conqueror: ER+30%
+        assert_eq!(buffs[3].stat, BuffableStat::EnergyRecharge);
+        assert!((buffs[3].value - 0.30).abs() < 1e-6);
     }
 
     #[test]

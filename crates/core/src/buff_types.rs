@@ -78,6 +78,8 @@ pub enum BuffableStat {
     BurstFlatDmg,
     /// Critical damage bonus for charged attacks only.
     ChargedAtkCritDmg,
+    /// Physical-only critical damage bonus.
+    PhysicalCritDmg,
     /// Raw DEF percentage value (not total DEF), for weapons scaling on "DEF increase".
     DefPercentRaw,
 }

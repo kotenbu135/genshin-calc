@@ -1,11 +1,29 @@
 use super::*;
 
 // ===== Albedo =====
+// A1 "Calcite Might": Skill DMG +25% vs enemies with HP<50%
 // A4 passive "Homuncular Nature": EM+125 for team after burst
 // C1 "Flower of Eden": DEF +50% on Skill use
+// C2 "Opening of Phanerozoic": Burst/Fatal Blossom DMG +30% DEF per stack (max 4)
 // C4 "Descent of Divinity": Plunging ATK DMG +30% in Solar Isotoma
 // C6 "Dust of Purification": DMG Bonus +17% with Crystallize shield
 static ALBEDO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Calcite Might",
+        description: desc!(
+            "A1: Transient Blossoms deal 25% more DMG to opponents whose HP is below 50%"
+        ),
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Homuncular Nature",
         description: desc!("After burst, grants EM+125 to nearby party members for 10s"),
@@ -33,6 +51,22 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 1,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "albedo_c2_burst_flat_dmg",
+        description: desc!(
+            "C2: Each Fatal Reckoning stack increases Burst/Fatal Blossom DMG by 30% of Albedo's DEF (max 4 stacks)"
+        ),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(4))),
     },
     TalentBuffDef {
         name: "albedo_c4_plunging_dmg",
@@ -65,6 +99,7 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Gorou =====
+// A1 "A Favor Repaid": Skill DMG +156% DEF, Burst DMG +15.6% DEF
 // Skill "Inuzaka All-Round Defense": DEF flat per level (Lv1-15) + Geo DMG+15% (3 Geo)
 static GOROU_SKILL_DEF_SCALING: [f64; 15] = [
     206.16, 221.62, 237.08, 257.70, 273.16, 288.62, 309.24, 329.86, 350.48, 371.10, 391.72, 412.34,
@@ -129,6 +164,39 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 6,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // A1 "A Favor Repaid": Skill DMG +156% DEF, Burst DMG +15.6% DEF
+    TalentBuffDef {
+        name: "A Favor Repaid - Skill Flat DMG",
+        description: desc!(
+            "A1: Inuzaka All-Round Defense Skill DMG increased by 156% of Gorou's DEF"
+        ),
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 1.56,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
+    },
+    TalentBuffDef {
+        name: "A Favor Repaid - Burst Flat DMG",
+        description: desc!(
+            "A1: Juuga Skill and Crystal Collapse DMG increased by 15.6% of Gorou's DEF"
+        ),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.156,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
     },
 ];
 
@@ -268,6 +336,8 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Zhongli =====
+// A4 "Dominance of Earth": flat DMG bonus based on Max HP
+//   NA/CA/Plunge: +1.39% HP, Skill: +1.9% HP, Burst: +33% HP
 // Jade Shield "Dominus Lapidis": All RES -20% for nearby enemies while shield is active
 static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
@@ -381,6 +451,97 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    // A4 "Dominance of Earth": NA/CA/Plunge +1.39% Max HP, Skill +1.9% Max HP, Burst +33% Max HP
+    TalentBuffDef {
+        name: "Dominance of Earth - Normal ATK Flat DMG",
+        description: desc!("A4: Normal ATK DMG increased by 1.39% of Zhongli's Max HP"),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.0139,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            offset: None,
+            cap: None,
+        })),
+    },
+    TalentBuffDef {
+        name: "Dominance of Earth - Charged ATK Flat DMG",
+        description: desc!("A4: Charged ATK DMG increased by 1.39% of Zhongli's Max HP"),
+        stat: BuffableStat::ChargedAtkFlatDmg,
+        base_value: 0.0139,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            offset: None,
+            cap: None,
+        })),
+    },
+    TalentBuffDef {
+        name: "Dominance of Earth - Plunging ATK Flat DMG",
+        description: desc!("A4: Plunging ATK DMG increased by 1.39% of Zhongli's Max HP"),
+        stat: BuffableStat::PlungingAtkFlatDmg,
+        base_value: 0.0139,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            offset: None,
+            cap: None,
+        })),
+    },
+    TalentBuffDef {
+        name: "Dominance of Earth - Skill Flat DMG",
+        description: desc!("A4: Dominus Lapidis Skill DMG increased by 1.9% of Zhongli's Max HP"),
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 0.019,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            offset: None,
+            cap: None,
+        })),
+    },
+    TalentBuffDef {
+        name: "Dominance of Earth - Burst Flat DMG",
+        description: desc!("A4: Planet Befall DMG increased by 33% of Zhongli's Max HP"),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.33,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            offset: None,
+            cap: None,
+        })),
     },
 ];
 
@@ -770,6 +931,34 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
+    TalentBuffDef {
+        name: "Netotiliztli Normal ATK DMG Bonus",
+        description: desc!("A1: Normal Attack DMG +30% while in Nightsoul's Blessing"),
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Netotiliztli Plunging ATK DMG Bonus",
+        description: desc!("A1: Plunging Attack DMG +30% while in Nightsoul's Blessing"),
+        stat: BuffableStat::PlungingAtkDmgBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Chiori =====
@@ -876,13 +1065,27 @@ static ITTO_BUFFS: &[TalentBuffDef] = &[
 // C4 "Stand Together": DEF +8~20% based on enemy count (use max 20%)
 static KACHINA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Flowy Mountain Geo DMG Bonus",
-        description: desc!("A4: Geo DMG Bonus +20%"),
+        name: "Mountain Echoes Geo DMG Bonus",
+        description: desc!("A1: Geo DMG Bonus +20% after nearby Nightsoul Burst"),
         stat: BuffableStat::ElementalDmgBonus(Element::Geo),
         base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Mountain Echoes Turbo Twirly DMG",
+        description: desc!("A4: Turbo Twirly DMG +20% of Kachina's DEF"),
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
         target: BuffTarget::OnlySelf,
         source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,

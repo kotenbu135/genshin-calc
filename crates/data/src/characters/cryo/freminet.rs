@@ -124,7 +124,7 @@ const FREMINET_SKILL_THRUST: TalentScaling = TalentScaling {
 const FREMINET_SKILL_LEVEL4: TalentScaling = TalentScaling {
     name: "Lv4粉砕圧力ダメージ",
     scaling_stat: ScalingStat::Atk,
-    damage_element: Some(Element::Cryo),
+    damage_element: None,
     values: [
         2.4344, 2.6170, 2.7996, 3.0430, 3.2256, 3.4082, 3.6516, 3.8950, 4.1385, 4.3819, 4.6254,
         4.8688, 5.1731, 5.4774, 5.7817,

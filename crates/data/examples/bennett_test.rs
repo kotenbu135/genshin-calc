@@ -118,7 +118,8 @@ fn main() {
         anemo_crit_dmg_bonus: 0.0,
         geo_dmg_bonus: 0.0,
         geo_crit_dmg_bonus: 0.0,
-        physical_dmg_bonus: 0.0,      // Added via weapon sub-stat
+        physical_dmg_bonus: 0.0, // Added via weapon sub-stat
+        physical_crit_dmg_bonus: 0.0,
         def_flat: 23.0 + 39.0 + 46.0, // Circlet + Goblet + Sands substats
     };
 

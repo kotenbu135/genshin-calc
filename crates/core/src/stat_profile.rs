@@ -76,6 +76,9 @@ pub struct StatProfile {
     pub geo_crit_dmg_bonus: f64,
     /// Physical DMG bonus in decimal form.
     pub physical_dmg_bonus: f64,
+    /// Physical-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub physical_crit_dmg_bonus: f64,
 }
 
 /// Combines a [`StatProfile`] into final [`Stats`].
@@ -131,6 +134,7 @@ pub fn combine_stats(profile: &StatProfile) -> Result<Stats, CalcError> {
         geo_dmg_bonus: profile.geo_dmg_bonus,
         geo_crit_dmg_bonus: profile.geo_crit_dmg_bonus,
         physical_dmg_bonus: profile.physical_dmg_bonus,
+        physical_crit_dmg_bonus: profile.physical_crit_dmg_bonus,
     })
 }
 

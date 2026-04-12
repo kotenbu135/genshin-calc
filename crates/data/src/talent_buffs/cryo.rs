@@ -506,27 +506,12 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Mika =====
-// C6: Physical DMG Bonus +10% during burst recovery (HP>50%)
 // C6 "Blood-Red Bristles": Physical CRIT DMG +60%
 static MIKA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Blood-Red Bristles Physical DMG Bonus",
-        description: desc!("C6: During Skyfeather Song recovery, Physical DMG +10% (HP>50%)"),
-        stat: BuffableStat::PhysicalDmgBonus,
-        base_value: 0.10,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::Team,
-        source: TalentBuffSource::Constellation(6),
-        min_constellation: 6,
-        cap: None,
-        activation: None,
-    },
-    TalentBuffDef {
         name: "mika_c6_physical_crit_dmg",
         description: desc!("C6: Physical CRIT DMG +60%"),
-        stat: BuffableStat::CritDmg,
+        stat: BuffableStat::PhysicalCritDmg,
         base_value: 0.60,
         scales_with_talent: false,
         talent_scaling: None,
@@ -774,7 +759,7 @@ static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "escoffier_c1_cryo_crit_dmg",
         description: desc!("C1: Cryo CRIT DMG +60% (requires 4 Hydro/Cryo party members)"),
-        stat: BuffableStat::CritDmg,
+        stat: BuffableStat::ElementalCritDmg(Element::Cryo),
         base_value: 0.60,
         scales_with_talent: false,
         talent_scaling: None,
@@ -793,7 +778,7 @@ static ESCOFFIER_BUFFS: &[TalentBuffDef] = &[
         scales_with_talent: false,
         talent_scaling: None,
         scales_on: Some(ScalingStat::TotalAtk),
-        target: BuffTarget::Team,
+        target: BuffTarget::TeamExcludeSelf,
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
@@ -1160,7 +1145,7 @@ mod tests {
         assert!(escoffier.iter().any(|b| {
             b.name == "escoffier_c1_cryo_crit_dmg"
                 && b.source == TalentBuffSource::Constellation(1)
-                && b.stat == BuffableStat::CritDmg
+                && b.stat == BuffableStat::ElementalCritDmg(Element::Cryo)
                 && matches!(
                     b.activation,
                     Some(Activation::Manual(ManualCondition::Toggle))
@@ -1204,7 +1189,7 @@ mod tests {
         }));
 
         let mika = find("mika").unwrap();
-        assert_eq!(mika.len(), 3);
+        assert_eq!(mika.len(), 2);
         assert!(mika.iter().any(|b| {
             b.name == "Suppressive Barrage"
                 && b.source == TalentBuffSource::AscensionPassive(1)

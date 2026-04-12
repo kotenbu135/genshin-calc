@@ -213,6 +213,70 @@ static SUCROSE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
+    TalentBuffDef {
+        name: "sucrose_c6_pyro_dmg",
+        description: desc!(
+            "C6: If Forbidden Creation absorbs Pyro, party gains Pyro DMG Bonus +20%"
+        ),
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "sucrose_c6_hydro_dmg",
+        description: desc!(
+            "C6: If Forbidden Creation absorbs Hydro, party gains Hydro DMG Bonus +20%"
+        ),
+        stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "sucrose_c6_cryo_dmg",
+        description: desc!(
+            "C6: If Forbidden Creation absorbs Cryo, party gains Cryo DMG Bonus +20%"
+        ),
+        stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "sucrose_c6_electro_dmg",
+        description: desc!(
+            "C6: If Forbidden Creation absorbs Electro, party gains Electro DMG Bonus +20%"
+        ),
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Varka =====
@@ -413,21 +477,38 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Jean =====
+// C1 "Spiraling Tempest": Skill DMG+40% when Gale Blade held 1s+ (self, Toggle)
 // C4: Anemo RES -40% in burst field
-static JEAN_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Lands of Dandelion Anemo RES Shred",
-    description: desc!("C4: Enemies inside Dandelion Field have Anemo RES -40%"),
-    stat: BuffableStat::ElementalResReduction(Element::Anemo),
-    base_value: 0.40,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(4),
-    min_constellation: 4,
-    cap: None,
-    activation: Some(Activation::Manual(ManualCondition::Toggle)),
-}];
+static JEAN_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Spiraling Tempest Skill DMG Bonus",
+        description: desc!("C1: Gale Blade DMG +40% when held for more than 1s (self, Toggle)"),
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Lands of Dandelion Anemo RES Shred",
+        description: desc!("C4: Enemies inside Dandelion Field have Anemo RES -40%"),
+        stat: BuffableStat::ElementalResReduction(Element::Anemo),
+        base_value: 0.40,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+];
 
 // ===== Venti =====
 // C2: Anemo RES -12% + Physical RES -12%
@@ -480,6 +561,70 @@ static VENTI_BUFFS: &[TalentBuffDef] = &[
         name: "venti_c6_anemo_res_shred",
         description: desc!("C6: Opponents hit by Wind's Grand Ode have Anemo RES -20%"),
         stat: BuffableStat::ElementalResReduction(Element::Anemo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "venti_c6_pyro_res_shred",
+        description: desc!(
+            "C6: If Elemental Absorption occurs (Pyro), opponents have Pyro RES -20%"
+        ),
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "venti_c6_hydro_res_shred",
+        description: desc!(
+            "C6: If Elemental Absorption occurs (Hydro), opponents have Hydro RES -20%"
+        ),
+        stat: BuffableStat::ElementalResReduction(Element::Hydro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "venti_c6_cryo_res_shred",
+        description: desc!(
+            "C6: If Elemental Absorption occurs (Cryo), opponents have Cryo RES -20%"
+        ),
+        stat: BuffableStat::ElementalResReduction(Element::Cryo),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "venti_c6_electro_res_shred",
+        description: desc!(
+            "C6: If Elemental Absorption occurs (Electro), opponents have Electro RES -20%"
+        ),
+        stat: BuffableStat::ElementalResReduction(Element::Electro),
         base_value: 0.20,
         scales_with_talent: false,
         talent_scaling: None,
@@ -811,23 +956,40 @@ static HEIZOU_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Ifa =====
-// A4: Swirl/EC DMG from Nightsoul scaling — too complex, skip with TODO
+// A4 "Mutual Aid Agreement": EM+80 self when nearby party members trigger Nightsoul Bursts
 // C4: EM+100 (self, min_constellation=4)
-// TODO: A4 — Swirl/EC DMG scaling from Nightsoul points; too complex for TalentBuffDef
-static IFA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Eye of Stormy Judgment EM Bonus",
-    description: desc!("C4: EM+100"),
-    stat: BuffableStat::ElementalMastery,
-    base_value: 100.0,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::OnlySelf,
-    source: TalentBuffSource::Constellation(4),
-    min_constellation: 4,
-    cap: None,
-    activation: None,
-}];
+static IFA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Mutual Aid Agreement",
+        description: desc!(
+            "A4: When nearby party members trigger Nightsoul Bursts, Ifa gains EM+80 for 10s"
+        ),
+        stat: BuffableStat::ElementalMastery,
+        base_value: 80.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Eye of Stormy Judgment EM Bonus",
+        description: desc!("C4: EM+100"),
+        stat: BuffableStat::ElementalMastery,
+        base_value: 100.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(4),
+        min_constellation: 4,
+        cap: None,
+        activation: None,
+    },
+];
 
 // ===== Lan Yan =====
 // A4: Skill DMG = 309% EM, Burst DMG = 774% EM
@@ -878,9 +1040,26 @@ static LAN_YAN_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Lynette =====
+// A1 "Loci of Actualization": Burst DMG+15% after Bogglecat Box Elemental Conversion (self, Toggle)
 // A4: team ATK+8~20% based on element diversity. Max AtkPercent 0.20 Toggle (Team)
 // C6: Anemo DMG+20% (self, min_constellation=6)
 static LYNETTE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Loci of Actualization Burst DMG Bonus",
+        description: desc!(
+            "A1: After Bogglecat Box performs Elemental Conversion, Burst DMG +15% (self, Toggle)"
+        ),
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Sophisticated Synergy ATK Bonus",
         description: desc!("A4: team ATK+8~20% based on element diversity. Toggle = max 20%"),

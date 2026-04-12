@@ -68,6 +68,9 @@ pub struct Stats {
     /// Physical DMG bonus in decimal form.
     #[serde(default)]
     pub physical_dmg_bonus: f64,
+    /// Physical-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub physical_crit_dmg_bonus: f64,
 }
 
 impl Stats {
@@ -99,7 +102,7 @@ impl Stats {
                 Some(Element::Dendro) => self.dendro_crit_dmg_bonus,
                 Some(Element::Anemo) => self.anemo_crit_dmg_bonus,
                 Some(Element::Geo) => self.geo_crit_dmg_bonus,
-                None => 0.0,
+                None => self.physical_crit_dmg_bonus,
             }
     }
 }

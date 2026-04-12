@@ -719,7 +719,7 @@ static MUALANI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 // C2 "The Law's Final Remains": CRIT DMG +14%/stack, max 3 stacks (+42% total)
 static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Tidal Affinity CA DMG Bonus",
+        name: "Heir to the Ancient Sea's Authority",
         description: desc!("A1: CA DMG Bonus at 3 Sourcewater Droplets (max value +60%)"),
         stat: BuffableStat::ChargedAtkDmgBonus,
         base_value: 0.60,
@@ -733,7 +733,7 @@ static NEUVILLETTE_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
-        name: "Heir to the Ancient Sea's Authority Hydro DMG",
+        name: "Discipline of the Supreme Arbitration",
         description: desc!("A4: Hydro DMG Bonus +30% when HP conditions are met"),
         stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
         base_value: 0.30,

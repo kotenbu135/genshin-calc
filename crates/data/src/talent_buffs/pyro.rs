@@ -55,33 +55,80 @@ static BENNETT_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
+    // C2 "Impasse Conqueror": ER +30% when HP < 70%
+    TalentBuffDef {
+        name: "Impasse Conqueror",
+        description: desc!("C2: When Bennett's HP falls below 70%, Energy Recharge +30%"),
+        stat: BuffableStat::EnergyRecharge,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Amber =====
+// A1 "Every Arrow Finds Its Target": Burst 2nd wave CRIT Rate +10%
+// A4 "Precise Shot": ATK+15% for 10s on weak point hit
 // C6 "Wildfire": ATK+15% for party during burst
-static AMBER_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "Wildfire",
-    description: desc!("During burst, party members gain ATK+15%"),
-    stat: BuffableStat::AtkPercent,
-    base_value: 0.15,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(6),
-    min_constellation: 6,
-    cap: None,
-    activation: None,
-}];
+static AMBER_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Every Arrow Finds Its Target",
+        description: desc!("A1: Fiery Rain 2nd wave CRIT Rate +10%"),
+        stat: BuffableStat::CritRate,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Precise Shot ATK Bonus",
+        description: desc!("A4: Aimed Shot hits on weak points increase ATK +15% for 10s"),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Wildfire",
+        description: desc!("During burst, party members gain ATK+15%"),
+        stat: BuffableStat::AtkPercent,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: None,
+    },
+];
 
 // ===== Chevreuse =====
-// A1 passive "Vanguard's Coordinated Tactics": ATK+20% after Overloaded (Pyro+Electro team)
-// A4 passive: After Overloaded, enemy Pyro RES and Electro RES -40% for 6s
+// A1 passive "Vanguard's Coordinated Tactics": After Overloaded, enemy Pyro/Electro RES -40%
+// A4 passive "Vertical Force Coordination": ATK+20% for Pyro/Electro chars after Overcharged Ball
 static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Vanguard's Coordinated Tactics",
+        name: "Vertical Force Coordination ATK Bonus",
         description: desc!(
-            "After Overloaded, ATK+20% for party (Pyro+Electro teams only, approximation)"
+            "A4: After Overcharged Ball, Pyro/Electro party members gain ATK+20% (HP-scaled, max 40%, simplified)"
         ),
         stat: BuffableStat::AtkPercent,
         base_value: 0.20,
@@ -89,7 +136,7 @@ static CHEVREUSE_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(1),
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Both(
@@ -1011,7 +1058,7 @@ mod tests {
     #[test]
     fn audit_pyro_remaining_items() {
         let amber = find("amber").unwrap();
-        assert_eq!(amber.len(), 1);
+        assert_eq!(amber.len(), 3);
 
         let chevreuse = find("chevreuse").unwrap();
         assert_eq!(chevreuse.len(), 5);

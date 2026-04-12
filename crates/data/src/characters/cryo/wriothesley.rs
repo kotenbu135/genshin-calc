@@ -67,7 +67,7 @@ const WRIOTHESLEY_CHARGED: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Cryo),
     values: [
-        1.5296, 1.6443, 1.7590, 1.9120, 2.0267, 2.1414, 2.2944, 2.4736, 2.6003, 2.7533, 2.9062,
+        1.5296, 1.6443, 1.7590, 1.9120, 2.0267, 2.1414, 2.2944, 2.4474, 2.6003, 2.7533, 2.9062,
         3.0592, 3.2504, 3.4416, 3.6328,
     ],
     dynamic_bonus: None,

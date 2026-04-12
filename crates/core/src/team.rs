@@ -176,6 +176,7 @@ fn is_unconditional(stat: &BuffableStat) -> bool {
             | BuffableStat::CritRate
             | BuffableStat::CritDmg
             | BuffableStat::ElementalCritDmg(_)
+            | BuffableStat::PhysicalCritDmg
             | BuffableStat::ElementalMastery
             | BuffableStat::EnergyRecharge
             | BuffableStat::DmgBonus
@@ -213,6 +214,7 @@ pub fn apply_buffs_to_profile(profile: &StatProfile, buffs: &[ResolvedBuff]) -> 
                 Element::Anemo => p.anemo_crit_dmg_bonus += buff.value,
                 Element::Geo => p.geo_crit_dmg_bonus += buff.value,
             },
+            BuffableStat::PhysicalCritDmg => p.physical_crit_dmg_bonus += buff.value,
             BuffableStat::ElementalMastery => p.elemental_mastery += buff.value,
             BuffableStat::EnergyRecharge => p.energy_recharge += buff.value,
             BuffableStat::DmgBonus => p.dmg_bonus += buff.value,

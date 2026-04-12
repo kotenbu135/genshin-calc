@@ -632,7 +632,8 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         | BuffableStat::PlungingAtkFlatDmg
         | BuffableStat::SkillFlatDmg
         | BuffableStat::BurstFlatDmg
-        | BuffableStat::ChargedAtkCritDmg => 0.0,
+        | BuffableStat::ChargedAtkCritDmg
+        | BuffableStat::PhysicalCritDmg => 0.0,
     }
 }
 
@@ -1287,7 +1288,7 @@ mod tests {
             "C0 Sara should not have C6 CritDmg buff"
         );
 
-        // C6: CritDmg present
+        // C6: Electro CRIT DMG present (changed from generic CritDmg to ElementalCritDmg(Electro))
         let c6 = TeamMemberBuilder::new(sara, weapon)
             .constellation(6)
             .build()
@@ -1295,8 +1296,13 @@ mod tests {
         let buff = c6
             .buffs_provided
             .iter()
-            .find(|b| b.stat == genshin_calc_core::BuffableStat::CritDmg)
-            .expect("C6 Sara should have CritDmg buff");
+            .find(|b| {
+                b.stat
+                    == genshin_calc_core::BuffableStat::ElementalCritDmg(
+                        genshin_calc_core::Element::Electro,
+                    )
+            })
+            .expect("C6 Sara should have ElementalCritDmg(Electro) buff");
         assert!((buff.value - 0.60).abs() < EPSILON);
     }
 
@@ -2707,14 +2713,14 @@ mod talent_conditional_integration_tests {
                 Element::Pyro,
                 Element::Pyro,
             ])
-            .activate("Vanguard's Coordinated Tactics")
+            .activate("Vertical Force Coordination ATK Bonus")
             .build()
             .unwrap();
 
         let buff = member
             .buffs_provided
             .iter()
-            .find(|b| b.source.contains("Vanguard's Coordinated Tactics"))
+            .find(|b| b.source.contains("Vertical Force Coordination ATK Bonus"))
             .expect("Chevreuse ATK buff should be present with Pyro+Electro team and Toggle ON");
 
         assert_eq!(
@@ -2736,14 +2742,14 @@ mod talent_conditional_integration_tests {
         // Non Pyro/Electro team → auto condition fails
         let member = TeamMemberBuilder::new(chevreuse, weapon)
             .team_elements(vec![Element::Pyro, Element::Hydro])
-            .activate("Vanguard's Coordinated Tactics")
+            .activate("Vertical Force Coordination ATK Bonus")
             .build()
             .unwrap();
 
         let has_buff = member
             .buffs_provided
             .iter()
-            .any(|b| b.source.contains("Vanguard's Coordinated Tactics"));
+            .any(|b| b.source.contains("Vertical Force Coordination ATK Bonus"));
 
         assert!(
             !has_buff,
@@ -2769,7 +2775,7 @@ mod talent_conditional_integration_tests {
         let has_buff = member
             .buffs_provided
             .iter()
-            .any(|b| b.source.contains("Vanguard's Coordinated Tactics"));
+            .any(|b| b.source.contains("Vertical Force Coordination ATK Bonus"));
 
         assert!(
             !has_buff,
@@ -2788,8 +2794,8 @@ mod talent_conditional_integration_tests {
 
         assert_eq!(
             conditionals.len(),
-            3,
-            "C6 Bennett should have 3 talent conditionals, got {}",
+            4,
+            "C6 Bennett should have 4 talent conditionals, got {}",
             conditionals.len()
         );
         let names: Vec<&str> = conditionals.iter().map(|c| c.buff.name).collect();

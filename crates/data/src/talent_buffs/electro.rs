@@ -58,10 +58,8 @@ static SARA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Sin of Pride",
-        description: desc!(
-            "Electro CRIT DMG +60% (approximated as generic CritDmg; Electro-only in game)"
-        ),
-        stat: BuffableStat::CritDmg,
+        description: desc!("C6: Electro CRIT DMG +60% for nearby party members"),
+        stat: BuffableStat::ElementalCritDmg(Element::Electro),
         base_value: 0.60,
         scales_with_talent: false,
         talent_scaling: None,
@@ -92,11 +90,28 @@ static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Flins =====
+// A1 passive "Symphony of Winter": Lunar-Charged DMG +20% (self, Toggle)
 // A4 passive "Whispering Flame": EM += total ATK × 0.08, capped at 160
 // C4 "Night on Bald Mountain": ATK +20%
 // C2: Opponents' Electro RES -25% during Ascendant Gleam Moonsign
 // C6: Flins's Lunar-Charged DMG +35%, Party Lunar-Charged DMG +10% during Moonsign
 static FLINS_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Symphony of Winter",
+        description: desc!(
+            "A1: Lunar-Charged reactions triggered by Flins deal an additional 20% DMG"
+        ),
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Whispering Flame EM Bonus",
         description: desc!("A4: Flins gains EM equal to 8% of her total ATK (max 160)"),
@@ -1069,12 +1084,26 @@ static VARESA_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Ororon =====
-// C2: Electro DMG +32% max (self, Toggle, min_constellation=2)
+// C2: base Electro DMG +8% (self, Toggle) + stacks up to +32% (self, Toggle)
 // C6: Team ATK +10%/stack max 3 (Team, Stacks(3), min_constellation=6)
 static ORORON_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
+        name: "Ororon C2 Electro DMG Base",
+        description: desc!("C2: Electro DMG Bonus +8% base (always active at C2)"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Electro),
+        base_value: 0.08,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "Ororon C2 Electro DMG Bonus",
-        description: desc!("C2: Electro DMG Bonus +32% (max value)"),
+        description: desc!("C2: Electro DMG Bonus +32% (max value from stacks)"),
         stat: BuffableStat::ElementalDmgBonus(Element::Electro),
         base_value: 0.32,
         scales_with_talent: false,
@@ -1213,12 +1242,16 @@ mod tests {
     #[test]
     fn test_find_ororon_c2_electro_dmg_bonus() {
         let buffs = find("ororon").expect("Ororon talent buffs should exist");
-        let buff = find_buff(
-            buffs,
-            BuffableStat::ElementalDmgBonus(Element::Electro),
-            TalentBuffSource::Constellation(2),
-        );
-        assert!((buff.base_value - 0.32).abs() < 1e-6);
+        // C2 now has two entries: base 8% and stacks max 32%
+        let stacks_buff = buffs
+            .iter()
+            .find(|b| {
+                b.stat == BuffableStat::ElementalDmgBonus(Element::Electro)
+                    && b.source == TalentBuffSource::Constellation(2)
+                    && (b.base_value - 0.32).abs() < 1e-6
+            })
+            .expect("Ororon C2 max 32% stacks buff should exist");
+        assert!((stacks_buff.base_value - 0.32).abs() < 1e-6);
     }
 
     #[test]
