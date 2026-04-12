@@ -183,6 +183,17 @@ const ZIBAI_SKILL_LPS_HIT4: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const ZIBAI_SKILL_LPS_HIT4_ADDITIONAL: TalentScaling = TalentScaling {
+    name: "月相転移4段追加ダメージ",
+    scaling_stat: ScalingStat::Def,
+    damage_element: Some(Element::Geo),
+    values: [
+        0.2946, 0.3167, 0.3387, 0.3682, 0.3903, 0.4124, 0.4418, 0.4713, 0.5008, 0.5302, 0.5597,
+        0.5891, 0.6259, 0.6628, 0.6996,
+    ],
+    dynamic_bonus: None,
+};
+
 const ZIBAI_SKILL_LPS_CHARGED_1: TalentScaling = TalentScaling {
     name: "月相転移重撃ダメージ1",
     scaling_stat: ScalingStat::Def,
@@ -301,6 +312,7 @@ pub const ZIBAI: CharacterData = CharacterData {
                 ZIBAI_SKILL_LPS_HIT3_1,
                 ZIBAI_SKILL_LPS_HIT3_2,
                 ZIBAI_SKILL_LPS_HIT4,
+                ZIBAI_SKILL_LPS_HIT4_ADDITIONAL,
                 ZIBAI_SKILL_LPS_CHARGED_1,
                 ZIBAI_SKILL_LPS_CHARGED_2,
                 ZIBAI_SKILL_STRIDE_HIT1,

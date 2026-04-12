@@ -84,3 +84,31 @@ resistance = 0.10
 non_crit = 3165.986061
 crit = 6331.972122
 average = 4748.979092
+
+[[cases]]
+type = "normal"
+name = "Lunar Phase Shift Hit 4 Additional — Geo DEF scaling, no reaction"
+character_level = 90
+talent_multiplier = 0.5302
+scaling_stat = "Def"
+damage_type = "Skill"
+element = "Geo"
+
+[cases.stats]
+hp = 15000.0
+atk = 800.0
+def = 2100.0
+elemental_mastery = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+energy_recharge = 1.2
+dmg_bonus = 0.466
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 734.523174
+crit = 1469.046348
+average = 1101.784761
