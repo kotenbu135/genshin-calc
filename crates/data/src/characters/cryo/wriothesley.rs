@@ -197,5 +197,5 @@ pub const WRIOTHESLEY: CharacterData = CharacterData {
             scalings: &[WRIOTHESLEY_BURST, WRIOTHESLEY_BURST_SURGING],
         },
     },
-    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    constellation_pattern: ConstellationPattern::C3NormalC5Burst,
 };

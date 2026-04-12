@@ -192,7 +192,7 @@ pub const FREMINET: CharacterData = CharacterData {
             scalings: &[FREMINET_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    constellation_pattern: ConstellationPattern::C3NormalC5Burst,
 };
 
 // =============================================================================

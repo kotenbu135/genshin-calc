@@ -1051,4 +1051,23 @@ mod tests {
             );
         }
     }
+
+    #[test]
+    fn test_normal_attack_constellation_patterns_match_honeyhunter_mirror() {
+        let cases = [
+            ("freminet", ConstellationPattern::C3NormalC5Burst),
+            ("wriothesley", ConstellationPattern::C3NormalC5Burst),
+            ("sethos", ConstellationPattern::C3NormalC5Burst),
+            ("arlecchino", ConstellationPattern::C3NormalC5Burst),
+            ("varesa", ConstellationPattern::C3BurstC5Normal),
+        ];
+        for (id, expected_pattern) in cases {
+            let c = crate::find_character(id).unwrap();
+            assert_eq!(
+                c.constellation_pattern, expected_pattern,
+                "{} has wrong normal-attack constellation pattern",
+                c.name
+            );
+        }
+    }
 }

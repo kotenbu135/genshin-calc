@@ -193,5 +193,5 @@ pub const SETHOS: CharacterData = CharacterData {
             scalings: &[SETHOS_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3NormalC5Burst,
 };
