@@ -286,10 +286,17 @@ mod tests {
     #[test]
     fn test_find_yoimiya_buffs() {
         let buffs = find_talent_buffs("yoimiya").unwrap();
-        assert_eq!(buffs.len(), 3);
-        assert_eq!(buffs[0].stat, BuffableStat::AtkPercent);
-        assert!((buffs[0].base_value - 0.20).abs() < 1e-6);
-        assert_eq!(buffs[0].target, BuffTarget::TeamExcludeSelf);
+        assert_eq!(buffs.len(), 4);
+        // First buff is A1 Pyro DMG
+        assert_eq!(
+            buffs[0].stat,
+            BuffableStat::ElementalDmgBonus(Element::Pyro)
+        );
+        assert!((buffs[0].base_value - 0.02).abs() < 1e-6);
+        // Second buff is A4 team ATK
+        assert_eq!(buffs[1].stat, BuffableStat::AtkPercent);
+        assert!((buffs[1].base_value - 0.20).abs() < 1e-6);
+        assert_eq!(buffs[1].target, BuffTarget::TeamExcludeSelf);
     }
 
     #[test]

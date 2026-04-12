@@ -23,8 +23,8 @@ const YOIMIYA_NORMAL_1B: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.6838, 0.7304, 0.7770, 0.8392, 0.8858, 0.9402, 1.0101, 1.0800, 1.1500, 1.2199, 1.2898,
-        1.3598, 1.4297, 1.4996, 1.5695,
+        0.3564, 0.3807, 0.4050, 0.4374, 0.4617, 0.4901, 0.5265, 0.5630, 0.5994, 0.6359, 0.6723,
+        0.7088, 0.7452, 0.7817, 0.8181,
     ],
     dynamic_bonus: None,
 };
@@ -34,8 +34,8 @@ const YOIMIYA_NORMAL_2: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        0.8889, 0.9495, 1.0101, 1.0909, 1.1515, 1.2222, 1.3131, 1.4040, 1.4949, 1.5859, 1.6768,
-        1.7677, 1.8586, 1.9495, 2.0404,
+        0.6838, 0.7304, 0.7770, 0.8392, 0.8858, 0.9402, 1.0101, 1.0800, 1.1500, 1.2199, 1.2898,
+        1.3598, 1.4297, 1.4996, 1.5695,
     ],
     dynamic_bonus: None,
 };
@@ -45,14 +45,25 @@ const YOIMIYA_NORMAL_3: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
+        0.8889, 0.9495, 1.0101, 1.0909, 1.1515, 1.2222, 1.3131, 1.4040, 1.4949, 1.5859, 1.6768,
+        1.7677, 1.8586, 1.9495, 2.0404,
+    ],
+    dynamic_bonus: None,
+};
+
+const YOIMIYA_NORMAL_4A: TalentScaling = TalentScaling {
+    name: "4段ダメージ (1)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
         0.4642, 0.4959, 0.5275, 0.5697, 0.6014, 0.6383, 0.6858, 0.7332, 0.7807, 0.8282, 0.8757,
         0.9231, 0.9706, 1.0181, 1.0656,
     ],
     dynamic_bonus: None,
 };
 
-const YOIMIYA_NORMAL_4: TalentScaling = TalentScaling {
-    name: "4段ダメージ",
+const YOIMIYA_NORMAL_4B: TalentScaling = TalentScaling {
+    name: "4段ダメージ (2)",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
@@ -216,7 +227,8 @@ pub const YOIMIYA: CharacterData = CharacterData {
                 YOIMIYA_NORMAL_1B,
                 YOIMIYA_NORMAL_2,
                 YOIMIYA_NORMAL_3,
-                YOIMIYA_NORMAL_4,
+                YOIMIYA_NORMAL_4A,
+                YOIMIYA_NORMAL_4B,
                 YOIMIYA_NORMAL_5,
             ],
             charged: &[YOIMIYA_AIMED, YOIMIYA_AIMED_FULL, YOIMIYA_AIMED_KINDLING],

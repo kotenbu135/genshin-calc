@@ -207,6 +207,21 @@ static THOMA_BUFFS: &[TalentBuffDef] = &[
 // C1: ATK +20% on Aurous Blaze defeat
 // C2: Pyro DMG +25% on Pyro CRIT
 static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
+    // A1: Pyro DMG +2% per stack (max 10) during Niwabi Fire-Dance
+    TalentBuffDef {
+        name: "Tricks of the Trouble-Maker Pyro DMG",
+        description: desc!("A1: Pyro DMG +2% per NA hit during Niwabi Fire-Dance, max 10 stacks"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Pyro),
+        base_value: 0.02,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(10))),
+    },
     TalentBuffDef {
         name: "Summer Night's Dawn",
         description: desc!(
@@ -1095,6 +1110,6 @@ mod tests {
         }));
 
         let yoimiya = find("yoimiya").unwrap();
-        assert_eq!(yoimiya.len(), 3);
+        assert_eq!(yoimiya.len(), 4);
     }
 }
