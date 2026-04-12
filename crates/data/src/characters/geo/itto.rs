@@ -75,6 +75,17 @@ const ITTO_CHARGED_FINAL: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const ITTO_CHARGED_SAICHIMONJI: TalentScaling = TalentScaling {
+    name: "左一文字斬りダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.9047, 0.9784, 1.0520, 1.1572, 1.2308, 1.3150, 1.4307, 1.5464, 1.6622, 1.7884, 1.9331,
+        2.1032, 2.2733, 2.4434, 2.6289,
+    ],
+    dynamic_bonus: None,
+};
+
 // -- Plunging Attack -- Physical --
 
 const ITTO_PLUNGE: TalentScaling = TalentScaling {
@@ -166,7 +177,11 @@ pub const ITTO: CharacterData = CharacterData {
         normal_attack: NormalAttackData {
             name: "喧嘩キ暴走",
             hits: &[ITTO_NORMAL_1, ITTO_NORMAL_2, ITTO_NORMAL_3, ITTO_NORMAL_4],
-            charged: &[ITTO_CHARGED_SLASH, ITTO_CHARGED_FINAL],
+            charged: &[
+                ITTO_CHARGED_SLASH,
+                ITTO_CHARGED_FINAL,
+                ITTO_CHARGED_SAICHIMONJI,
+            ],
             plunging: &[ITTO_PLUNGE, ITTO_PLUNGE_LOW, ITTO_PLUNGE_HIGH],
         },
         elemental_skill: TalentData {
@@ -180,3 +195,31 @@ pub const ITTO: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const SAICHIMONJI_EXPECTED: [f64; 15] = [
+        0.9047, 0.9784, 1.0520, 1.1572, 1.2308, 1.3150, 1.4307, 1.5464, 1.6622, 1.7884, 1.9331,
+        2.1032, 2.2733, 2.4434, 2.6289,
+    ];
+
+    fn assert_scaling_table(actual: &[f64; 15], expected: &[f64; 15], label: &str) {
+        for (index, (&actual, &expected)) in actual.iter().zip(expected.iter()).enumerate() {
+            assert!(
+                (actual - expected).abs() <= 1e-4,
+                "{label} Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+
+    #[test]
+    fn itto_charged_tables_match_honeyhunter_mirror() {
+        let charged = ITTO.talents.normal_attack.charged;
+        assert_eq!(charged.len(), 3);
+        assert_eq!(charged[2].name, "左一文字斬りダメージ");
+        assert_scaling_table(&charged[2].values, &SAICHIMONJI_EXPECTED, "Saichimonji");
+    }
+}

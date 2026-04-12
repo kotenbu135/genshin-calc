@@ -29,8 +29,19 @@ const ILLUGA_NORMAL_2: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const ILLUGA_NORMAL_3: TalentScaling = TalentScaling {
-    name: "3段ダメージ",
+const ILLUGA_NORMAL_3A: TalentScaling = TalentScaling {
+    name: "3段ダメージ (1)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3143, 0.3399, 0.3655, 0.4020, 0.4276, 0.4569, 0.4971, 0.5373, 0.5775, 0.6213, 0.6652,
+        0.7091, 0.7529, 0.7968, 0.8407,
+    ],
+    dynamic_bonus: None,
+};
+
+const ILLUGA_NORMAL_3B: TalentScaling = TalentScaling {
+    name: "3段ダメージ (2)",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
@@ -185,7 +196,8 @@ const ILLUGA_BURST_LUNAR_CRYSTALLIZE: TalentScaling = TalentScaling {
 static ILLUGA_NA_HITS: &[TalentScaling] = &[
     ILLUGA_NORMAL_1,
     ILLUGA_NORMAL_2,
-    ILLUGA_NORMAL_3,
+    ILLUGA_NORMAL_3A,
+    ILLUGA_NORMAL_3B,
     ILLUGA_NORMAL_4,
 ];
 static ILLUGA_CHARGED_ATTACKS: &[TalentScaling] = &[ILLUGA_CHARGED];
@@ -246,3 +258,33 @@ pub const ILLUGA: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const NORMAL_3_EXPECTED: [f64; 15] = [
+        0.3143, 0.3399, 0.3655, 0.4020, 0.4276, 0.4569, 0.4971, 0.5373, 0.5775, 0.6213, 0.6652,
+        0.7091, 0.7529, 0.7968, 0.8407,
+    ];
+
+    fn assert_scaling_table(actual: &[f64; 15], expected: &[f64; 15], label: &str) {
+        for (index, (&actual, &expected)) in actual.iter().zip(expected.iter()).enumerate() {
+            assert!(
+                (actual - expected).abs() <= 1e-4,
+                "{label} Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+
+    #[test]
+    fn illuga_normal_hit_structure_matches_honeyhunter_mirror() {
+        let hits = ILLUGA.talents.normal_attack.hits;
+        assert_eq!(hits.len(), 5);
+        assert_eq!(hits[2].name, "3段ダメージ (1)");
+        assert_eq!(hits[3].name, "3段ダメージ (2)");
+        assert_scaling_table(&hits[2].values, &NORMAL_3_EXPECTED, "N3-1");
+        assert_scaling_table(&hits[3].values, &NORMAL_3_EXPECTED, "N3-2");
+    }
+}

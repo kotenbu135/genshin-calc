@@ -60,13 +60,24 @@ const TRAVELER_DENDRO_NA_HIT5: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
-const TRAVELER_DENDRO_CHARGED: TalentScaling = TalentScaling {
-    name: "重撃ダメージ",
+const TRAVELER_DENDRO_CHARGED_HIT1: TalentScaling = TalentScaling {
+    name: "重撃ダメージ (1)",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
         0.559, 0.6045, 0.65, 0.715, 0.7605, 0.8125, 0.884, 0.9555, 1.027, 1.105, 1.183, 1.261,
         1.339, 1.417, 1.495,
+    ],
+    dynamic_bonus: None,
+};
+
+const TRAVELER_DENDRO_CHARGED_HIT2: TalentScaling = TalentScaling {
+    name: "重撃ダメージ (2)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.6072, 0.6566, 0.7060, 0.7766, 0.8260, 0.8825, 0.9602, 1.0378, 1.1155, 1.2002, 1.2849,
+        1.3696, 1.4544, 1.5391, 1.6238,
     ],
     dynamic_bonus: None,
 };
@@ -150,7 +161,8 @@ static TRAVELER_DENDRO_NA_HITS: &[TalentScaling] = &[
     TRAVELER_DENDRO_NA_HIT4,
     TRAVELER_DENDRO_NA_HIT5,
 ];
-static TRAVELER_DENDRO_CHARGED_ATTACKS: &[TalentScaling] = &[TRAVELER_DENDRO_CHARGED];
+static TRAVELER_DENDRO_CHARGED_ATTACKS: &[TalentScaling] =
+    &[TRAVELER_DENDRO_CHARGED_HIT1, TRAVELER_DENDRO_CHARGED_HIT2];
 static TRAVELER_DENDRO_PLUNGING: &[TalentScaling] = &[
     TRAVELER_DENDRO_PLUNGE,
     TRAVELER_DENDRO_PLUNGE_LOW,
@@ -204,3 +216,37 @@ pub const TRAVELER_DENDRO: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const CHARGED_HIT_1_EXPECTED: [f64; 15] = [
+        0.5590, 0.6045, 0.6500, 0.7150, 0.7605, 0.8125, 0.8840, 0.9555, 1.0270, 1.1050, 1.1830,
+        1.2610, 1.3390, 1.4170, 1.4950,
+    ];
+    const CHARGED_HIT_2_EXPECTED: [f64; 15] = [
+        0.6072, 0.6566, 0.7060, 0.7766, 0.8260, 0.8825, 0.9602, 1.0378, 1.1155, 1.2002, 1.2849,
+        1.3696, 1.4544, 1.5391, 1.6238,
+    ];
+
+    fn assert_scaling_table(actual: &[f64; 15], expected: &[f64; 15], label: &str) {
+        for (index, (&actual, &expected)) in actual.iter().zip(expected.iter()).enumerate() {
+            assert!(
+                (actual - expected).abs() <= 1e-4,
+                "{label} Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+
+    #[test]
+    fn traveler_dendro_charged_hits_match_honeyhunter_mirror() {
+        let charged = TRAVELER_DENDRO.talents.normal_attack.charged;
+        assert_eq!(charged.len(), 2);
+        assert_eq!(charged[0].name, "重撃ダメージ (1)");
+        assert_eq!(charged[1].name, "重撃ダメージ (2)");
+        assert_scaling_table(&charged[0].values, &CHARGED_HIT_1_EXPECTED, "Charged 1");
+        assert_scaling_table(&charged[1].values, &CHARGED_HIT_2_EXPECTED, "Charged 2");
+    }
+}
