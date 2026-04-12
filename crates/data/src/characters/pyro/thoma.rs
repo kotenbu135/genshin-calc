@@ -51,6 +51,17 @@ const THOMA_NORMAL_3B: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const THOMA_NORMAL_4: TalentScaling = TalentScaling {
+    name: "4段ダメージ",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.6736, 0.7284, 0.7832, 0.8615, 0.9163, 0.9790, 1.0652, 1.1513, 1.2375, 1.3314, 1.4254,
+        1.5194, 1.6134, 1.7074, 1.8014,
+    ],
+    dynamic_bonus: None,
+};
+
 // -- Charged Attack -- Physical --
 
 const THOMA_CHARGED: TalentScaling = TalentScaling {
@@ -170,6 +181,7 @@ pub const THOMA: CharacterData = CharacterData {
                 THOMA_NORMAL_2,
                 THOMA_NORMAL_3A,
                 THOMA_NORMAL_3B,
+                THOMA_NORMAL_4,
             ],
             charged: &[THOMA_CHARGED],
             plunging: &[THOMA_PLUNGE, THOMA_PLUNGE_LOW, THOMA_PLUNGE_HIGH],
