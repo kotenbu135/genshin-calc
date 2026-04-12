@@ -2,10 +2,10 @@ use super::*;
 
 // ===== Faruzan =====
 // Burst "The Wind's Secret Ways": Anemo DMG bonus per level (Lv1-15)
-// Values from Genshin Wiki (Prayerful Wind's Benefit)
+// Values from honeyhunter-mirror/md/characters/faruzan_076.md (Prayerful Wind's Benefit)
 static FARUZAN_BURST_ANEMO_SCALING: [f64; 15] = [
-    0.182, 0.196, 0.209, 0.228, 0.241, 0.255, 0.273, 0.291, 0.310, 0.328, 0.346, 0.364, 0.387,
-    0.410, 0.432,
+    0.18, 0.1935, 0.207, 0.225, 0.2385, 0.252, 0.27, 0.288, 0.306, 0.324, 0.342, 0.36, 0.3825,
+    0.405, 0.4275,
 ];
 
 static FARUZAN_BUFFS: &[TalentBuffDef] = &[
