@@ -218,7 +218,7 @@ pub const XILONEN: CharacterData = CharacterData {
         967.15,  // Lv95/Lv95+/Lv100
         1004.35, // Lv95/Lv95+/Lv100
     ],
-    ascension_stat: AscensionStat::Def(0.288),
+    ascension_stat: AscensionStat::Def(0.36),
     talents: TalentSet {
         normal_attack: NormalAttackData {
             name: "エケカトルの音",
