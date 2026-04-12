@@ -171,7 +171,7 @@ pub const INEFFA: CharacterData = CharacterData {
         860.84, // Lv95/Lv95+/Lv100
         893.95, // Lv95/Lv95+/Lv100
     ],
-    ascension_stat: AscensionStat::CritDmg(0.384),
+    ascension_stat: AscensionStat::CritRate(0.192),
     talents: TalentSet {
         normal_attack: NormalAttackData {
             name: "サイクロン集塵",
