@@ -91,8 +91,8 @@ const YUN_JIN_CHARGED: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
-        1.1596, 1.2541, 1.3486, 1.4835, 1.5780, 1.6858, 1.8342, 1.9826, 2.1311, 2.2928, 2.4546,
-        2.6163, 2.7781, 2.9399, 3.1016,
+        1.2169, 1.3160, 1.4150, 1.5565, 1.6556, 1.7688, 1.9244, 2.0801, 2.2357, 2.4055, 2.6001,
+        2.8289, 3.0577, 3.2865, 3.5361,
     ],
     dynamic_bonus: None,
 };
