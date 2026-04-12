@@ -105,7 +105,7 @@ const IANSAN_SKILL: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Electro),
     values: [
-        2.8640, 3.0788, 3.2936, 3.5800, 3.7948, 4.0096, 4.2960, 4.5824, 4.6880, 5.1552, 5.4416,
+        2.8640, 3.0788, 3.2936, 3.5800, 3.7948, 4.0096, 4.2960, 4.5824, 4.8688, 5.1552, 5.4416,
         5.7280, 6.0860, 6.4440, 6.8020,
     ],
     dynamic_bonus: None,
