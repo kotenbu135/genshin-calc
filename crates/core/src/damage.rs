@@ -186,7 +186,7 @@ pub fn calculate_damage(input: &DamageInput, enemy: &Enemy) -> Result<DamageResu
         * defense_multiplier(input.character_level, enemy)
         * resistance_multiplier(enemy)
         * amplify_mult;
-    let crit = non_crit * (1.0 + input.stats.crit_dmg);
+    let crit = non_crit * (1.0 + input.stats.total_crit_dmg(input.element));
     let average = non_crit * (1.0 - input.stats.crit_rate) + crit * input.stats.crit_rate;
 
     Ok(DamageResult {

@@ -317,7 +317,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "shenhe_c2_cryo_crit_dmg",
         description: desc!("C2: Cryo CRIT DMG +15% in Burst field"),
-        stat: BuffableStat::CritDmg,
+        stat: BuffableStat::ElementalCritDmg(Element::Cryo),
         base_value: 0.15,
         scales_with_talent: false,
         talent_scaling: None,

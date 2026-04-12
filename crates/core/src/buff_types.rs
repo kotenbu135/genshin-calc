@@ -20,6 +20,8 @@ pub enum BuffableStat {
     CritRate,
     /// Critical damage bonus.
     CritDmg,
+    /// Critical damage bonus for a specific element only.
+    ElementalCritDmg(Element),
     /// Elemental mastery bonus.
     ElementalMastery,
     /// Energy recharge bonus.
@@ -148,5 +150,13 @@ mod tests {
             let deser: BuffableStat = serde_json::from_str(&json).unwrap();
             assert_eq!(stat, deser);
         }
+    }
+
+    #[test]
+    fn test_elemental_crit_dmg_serde_roundtrip() {
+        let stat = BuffableStat::ElementalCritDmg(Element::Geo);
+        let json = serde_json::to_string(&stat).unwrap();
+        let deser: BuffableStat = serde_json::from_str(&json).unwrap();
+        assert_eq!(stat, deser);
     }
 }

@@ -171,6 +171,7 @@ fn is_unconditional(stat: &BuffableStat) -> bool {
             | BuffableStat::DefFlat
             | BuffableStat::CritRate
             | BuffableStat::CritDmg
+            | BuffableStat::ElementalCritDmg(_)
             | BuffableStat::ElementalMastery
             | BuffableStat::EnergyRecharge
             | BuffableStat::DmgBonus
@@ -199,6 +200,15 @@ pub fn apply_buffs_to_profile(profile: &StatProfile, buffs: &[ResolvedBuff]) -> 
             BuffableStat::DefFlat => p.def_flat += buff.value,
             BuffableStat::CritRate => p.crit_rate += buff.value,
             BuffableStat::CritDmg => p.crit_dmg += buff.value,
+            BuffableStat::ElementalCritDmg(elem) => match elem {
+                Element::Pyro => p.pyro_crit_dmg_bonus += buff.value,
+                Element::Hydro => p.hydro_crit_dmg_bonus += buff.value,
+                Element::Electro => p.electro_crit_dmg_bonus += buff.value,
+                Element::Cryo => p.cryo_crit_dmg_bonus += buff.value,
+                Element::Dendro => p.dendro_crit_dmg_bonus += buff.value,
+                Element::Anemo => p.anemo_crit_dmg_bonus += buff.value,
+                Element::Geo => p.geo_crit_dmg_bonus += buff.value,
+            },
             BuffableStat::ElementalMastery => p.elemental_mastery += buff.value,
             BuffableStat::EnergyRecharge => p.energy_recharge += buff.value,
             BuffableStat::DmgBonus => p.dmg_bonus += buff.value,

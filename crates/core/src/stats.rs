@@ -26,24 +26,45 @@ pub struct Stats {
     /// Pyro DMG bonus in decimal form.
     #[serde(default)]
     pub pyro_dmg_bonus: f64,
+    /// Pyro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub pyro_crit_dmg_bonus: f64,
     /// Hydro DMG bonus in decimal form.
     #[serde(default)]
     pub hydro_dmg_bonus: f64,
+    /// Hydro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub hydro_crit_dmg_bonus: f64,
     /// Electro DMG bonus in decimal form.
     #[serde(default)]
     pub electro_dmg_bonus: f64,
+    /// Electro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub electro_crit_dmg_bonus: f64,
     /// Cryo DMG bonus in decimal form.
     #[serde(default)]
     pub cryo_dmg_bonus: f64,
+    /// Cryo-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub cryo_crit_dmg_bonus: f64,
     /// Dendro DMG bonus in decimal form.
     #[serde(default)]
     pub dendro_dmg_bonus: f64,
+    /// Dendro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub dendro_crit_dmg_bonus: f64,
     /// Anemo DMG bonus in decimal form.
     #[serde(default)]
     pub anemo_dmg_bonus: f64,
+    /// Anemo-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub anemo_crit_dmg_bonus: f64,
     /// Geo DMG bonus in decimal form.
     #[serde(default)]
     pub geo_dmg_bonus: f64,
+    /// Geo-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub geo_crit_dmg_bonus: f64,
     /// Physical DMG bonus in decimal form.
     #[serde(default)]
     pub physical_dmg_bonus: f64,
@@ -63,6 +84,22 @@ impl Stats {
                 Some(Element::Anemo) => self.anemo_dmg_bonus,
                 Some(Element::Geo) => self.geo_dmg_bonus,
                 None => self.physical_dmg_bonus,
+            }
+    }
+
+    /// Returns the total crit DMG for the given damage element.
+    /// `None` means physical damage, which only uses generic crit DMG.
+    pub fn total_crit_dmg(&self, element: Option<Element>) -> f64 {
+        self.crit_dmg
+            + match element {
+                Some(Element::Pyro) => self.pyro_crit_dmg_bonus,
+                Some(Element::Hydro) => self.hydro_crit_dmg_bonus,
+                Some(Element::Electro) => self.electro_crit_dmg_bonus,
+                Some(Element::Cryo) => self.cryo_crit_dmg_bonus,
+                Some(Element::Dendro) => self.dendro_crit_dmg_bonus,
+                Some(Element::Anemo) => self.anemo_crit_dmg_bonus,
+                Some(Element::Geo) => self.geo_crit_dmg_bonus,
+                None => 0.0,
             }
     }
 }
@@ -104,5 +141,29 @@ mod tests {
         // Hydro damage should NOT include Pyro bonus
         let result = stats.total_dmg_bonus(Some(Element::Hydro));
         assert!((result - 0.15).abs() < 1e-10);
+    }
+
+    #[test]
+    fn total_crit_dmg_geo() {
+        let stats = Stats {
+            crit_dmg: 0.50,
+            geo_crit_dmg_bonus: 0.40,
+            ..Default::default()
+        };
+        let result = stats.total_crit_dmg(Some(Element::Geo));
+        assert!((result - 0.90).abs() < 1e-10);
+    }
+
+    #[test]
+    fn total_crit_dmg_non_matching_element_ignores_geo_bonus() {
+        let stats = Stats {
+            crit_dmg: 0.50,
+            geo_crit_dmg_bonus: 0.40,
+            ..Default::default()
+        };
+        let pyro = stats.total_crit_dmg(Some(Element::Pyro));
+        let physical = stats.total_crit_dmg(None);
+        assert!((pyro - 0.50).abs() < 1e-10);
+        assert!((physical - 0.50).abs() < 1e-10);
     }
 }

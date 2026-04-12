@@ -604,6 +604,7 @@ fn read_stat_for_scaling(stat: &BuffableStat, profile: &StatProfile) -> f64 {
         | BuffableStat::DefFlat
         | BuffableStat::CritRate
         | BuffableStat::CritDmg
+        | BuffableStat::ElementalCritDmg(_)
         | BuffableStat::DmgBonus
         | BuffableStat::AllElementalDmgBonus
         | BuffableStat::ElementalDmgBonus(_)

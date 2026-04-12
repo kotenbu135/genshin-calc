@@ -41,18 +41,39 @@ pub struct StatProfile {
     pub dmg_bonus: f64,
     /// Pyro DMG bonus in decimal form.
     pub pyro_dmg_bonus: f64,
+    /// Pyro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub pyro_crit_dmg_bonus: f64,
     /// Hydro DMG bonus in decimal form.
     pub hydro_dmg_bonus: f64,
+    /// Hydro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub hydro_crit_dmg_bonus: f64,
     /// Electro DMG bonus in decimal form.
     pub electro_dmg_bonus: f64,
+    /// Electro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub electro_crit_dmg_bonus: f64,
     /// Cryo DMG bonus in decimal form.
     pub cryo_dmg_bonus: f64,
+    /// Cryo-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub cryo_crit_dmg_bonus: f64,
     /// Dendro DMG bonus in decimal form.
     pub dendro_dmg_bonus: f64,
+    /// Dendro-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub dendro_crit_dmg_bonus: f64,
     /// Anemo DMG bonus in decimal form.
     pub anemo_dmg_bonus: f64,
+    /// Anemo-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub anemo_crit_dmg_bonus: f64,
     /// Geo DMG bonus in decimal form.
     pub geo_dmg_bonus: f64,
+    /// Geo-only crit DMG bonus in decimal form.
+    #[serde(default)]
+    pub geo_crit_dmg_bonus: f64,
     /// Physical DMG bonus in decimal form.
     pub physical_dmg_bonus: f64,
 }
@@ -96,12 +117,19 @@ pub fn combine_stats(profile: &StatProfile) -> Result<Stats, CalcError> {
         energy_recharge: profile.energy_recharge,
         dmg_bonus: profile.dmg_bonus,
         pyro_dmg_bonus: profile.pyro_dmg_bonus,
+        pyro_crit_dmg_bonus: profile.pyro_crit_dmg_bonus,
         hydro_dmg_bonus: profile.hydro_dmg_bonus,
+        hydro_crit_dmg_bonus: profile.hydro_crit_dmg_bonus,
         electro_dmg_bonus: profile.electro_dmg_bonus,
+        electro_crit_dmg_bonus: profile.electro_crit_dmg_bonus,
         cryo_dmg_bonus: profile.cryo_dmg_bonus,
+        cryo_crit_dmg_bonus: profile.cryo_crit_dmg_bonus,
         dendro_dmg_bonus: profile.dendro_dmg_bonus,
+        dendro_crit_dmg_bonus: profile.dendro_crit_dmg_bonus,
         anemo_dmg_bonus: profile.anemo_dmg_bonus,
+        anemo_crit_dmg_bonus: profile.anemo_crit_dmg_bonus,
         geo_dmg_bonus: profile.geo_dmg_bonus,
+        geo_crit_dmg_bonus: profile.geo_crit_dmg_bonus,
         physical_dmg_bonus: profile.physical_dmg_bonus,
     })
 }
@@ -161,23 +189,44 @@ fn validate(profile: &StatProfile) -> Result<(), CalcError> {
     if profile.pyro_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.pyro_dmg_bonus));
     }
+    if profile.pyro_crit_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.pyro_crit_dmg_bonus));
+    }
     if profile.hydro_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.hydro_dmg_bonus));
+    }
+    if profile.hydro_crit_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.hydro_crit_dmg_bonus));
     }
     if profile.electro_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.electro_dmg_bonus));
     }
+    if profile.electro_crit_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.electro_crit_dmg_bonus));
+    }
     if profile.cryo_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.cryo_dmg_bonus));
+    }
+    if profile.cryo_crit_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.cryo_crit_dmg_bonus));
     }
     if profile.dendro_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.dendro_dmg_bonus));
     }
+    if profile.dendro_crit_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.dendro_crit_dmg_bonus));
+    }
     if profile.anemo_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.anemo_dmg_bonus));
     }
+    if profile.anemo_crit_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.anemo_crit_dmg_bonus));
+    }
     if profile.geo_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.geo_dmg_bonus));
+    }
+    if profile.geo_crit_dmg_bonus < -1.0 {
+        return Err(CalcError::InvalidDmgBonus(profile.geo_crit_dmg_bonus));
     }
     if profile.physical_dmg_bonus < -1.0 {
         return Err(CalcError::InvalidDmgBonus(profile.physical_dmg_bonus));

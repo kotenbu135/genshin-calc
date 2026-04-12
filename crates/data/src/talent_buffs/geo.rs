@@ -119,7 +119,7 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "gorou_c6_geo_crit_dmg",
         description: desc!("C6: Geo CRIT DMG +40% at Crunch"),
-        stat: BuffableStat::CritDmg,
+        stat: BuffableStat::ElementalCritDmg(Element::Geo),
         base_value: 0.40,
         scales_with_talent: false,
         talent_scaling: None,

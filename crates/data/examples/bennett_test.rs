@@ -105,12 +105,19 @@ fn main() {
         energy_recharge: sands_er / 100.0 + 0.246 + 0.175 + 0.188 + 0.175, // Sands main + others (NO base 100%)
         dmg_bonus: 0.0,
         pyro_dmg_bonus: 0.0,
+        pyro_crit_dmg_bonus: 0.0,
         hydro_dmg_bonus: goblet_hydro / 100.0, // Goblet main stat
+        hydro_crit_dmg_bonus: 0.0,
         electro_dmg_bonus: 0.0,
+        electro_crit_dmg_bonus: 0.0,
         cryo_dmg_bonus: 0.0,
+        cryo_crit_dmg_bonus: 0.0,
         dendro_dmg_bonus: 0.0,
+        dendro_crit_dmg_bonus: 0.0,
         anemo_dmg_bonus: 0.0,
+        anemo_crit_dmg_bonus: 0.0,
         geo_dmg_bonus: 0.0,
+        geo_crit_dmg_bonus: 0.0,
         physical_dmg_bonus: 0.0,      // Added via weapon sub-stat
         def_flat: 23.0 + 39.0 + 46.0, // Circlet + Goblet + Sands substats
     };
