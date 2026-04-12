@@ -117,6 +117,30 @@ const NAHIDA_SKILL_HOLD: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+// --- Elemental Skill: Tri-Karma Purification (ATK + EM dual scaling) ---
+
+const NAHIDA_SKILL_TRI_KARMA_ATK: TalentScaling = TalentScaling {
+    name: "滅浄三業ダメージ(ATK)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.0320, 1.1094, 1.1868, 1.2900, 1.3674, 1.4448, 1.5480, 1.6512, 1.7544, 1.8576, 1.9608,
+        2.0640, 2.1930, 2.3220, 2.4510,
+    ],
+    dynamic_bonus: None,
+};
+
+const NAHIDA_SKILL_TRI_KARMA_EM: TalentScaling = TalentScaling {
+    name: "滅浄三業ダメージ(EM)",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    values: [
+        2.0640, 2.2188, 2.3736, 2.5800, 2.7348, 2.8896, 3.0960, 3.3024, 3.5088, 3.7152, 3.9216,
+        4.1280, 4.3860, 4.6440, 4.9020,
+    ],
+    dynamic_bonus: None,
+};
+
 // --- Elemental Burst: Illusory Heart ---
 // Nahida's burst provides buffs — no direct damage scalings
 
@@ -130,7 +154,12 @@ static NAHIDA_NA_HITS: &[TalentScaling] = &[
 ];
 static NAHIDA_CHARGED_ATTACKS: &[TalentScaling] = &[NAHIDA_CHARGED];
 static NAHIDA_PLUNGING: &[TalentScaling] = &[NAHIDA_PLUNGE, NAHIDA_PLUNGE_LOW, NAHIDA_PLUNGE_HIGH];
-static NAHIDA_SKILL_SCALINGS: &[TalentScaling] = &[NAHIDA_SKILL_PRESS, NAHIDA_SKILL_HOLD];
+static NAHIDA_SKILL_SCALINGS: &[TalentScaling] = &[
+    NAHIDA_SKILL_PRESS,
+    NAHIDA_SKILL_HOLD,
+    NAHIDA_SKILL_TRI_KARMA_ATK,
+    NAHIDA_SKILL_TRI_KARMA_EM,
+];
 static NAHIDA_BURST_SCALINGS: &[TalentScaling] = &[];
 
 pub const NAHIDA: CharacterData = CharacterData {

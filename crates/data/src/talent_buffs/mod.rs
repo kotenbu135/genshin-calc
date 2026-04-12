@@ -1712,7 +1712,14 @@ mod tests {
         assert!(c4.iter().any(|b| b.name == "nahida_c2_crit_rate"));
         assert!(c4.iter().any(|b| b.name == "nahida_c2_crit_dmg"));
         assert!(c4.iter().any(|b| b.name == "nahida_c2_def_reduction"));
-        assert!(c4.iter().any(|b| b.name == "nahida_c4_em"));
+        // nahida_c4_em_base has activation:None so it won't appear in conditional buffs
+        assert!(
+            find_talent_buffs("nahida")
+                .unwrap()
+                .iter()
+                .any(|b| b.name == "nahida_c4_em_base" && b.activation.is_none())
+        );
+        assert!(c4.iter().any(|b| b.name == "nahida_c4_em_stacks"));
     }
     #[test]
     fn test_conditional_nefer_c2_c4_c6() {
