@@ -358,8 +358,8 @@ mod tests {
     #[test]
     fn test_shenhe_skill_flat_dmg_entries() {
         let buffs = find_talent_buffs("shenhe").unwrap();
-        // 5 FlatDmg entries + 2 A4 press entries + 3 A4 hold entries + C2 = 11 total
-        assert_eq!(buffs.len(), 11);
+        // 1 A1 entry + 5 FlatDmg entries + 2 A4 press entries + 3 A4 hold entries + C2 = 12 total
+        assert_eq!(buffs.len(), 12);
         assert!(
             buffs.iter().all(|b| b.stat != BuffableStat::AtkFlat),
             "Shenhe should have no AtkFlat entry"
@@ -457,10 +457,12 @@ mod tests {
     #[test]
     fn test_find_candace_buffs() {
         let buffs = find_talent_buffs("candace").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(buffs[0].stat, BuffableStat::NormalAtkDmgBonus);
         assert!(buffs[0].scales_with_talent);
         assert_eq!(buffs[0].source, TalentBuffSource::ElementalBurst);
+        assert!(buffs.iter().any(|b| b.name == "Celestial Dome of Sand"
+            && b.source == TalentBuffSource::AscensionPassive(4)));
     }
 
     #[test]
@@ -585,7 +587,7 @@ mod tests {
     #[test]
     fn test_find_raiden_shogun_buffs() {
         let buffs = find_talent_buffs("raiden_shogun").unwrap();
-        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs.len(), 4);
         assert_eq!(buffs[0].stat, BuffableStat::BurstDmgBonus);
         assert!(buffs[0].scales_with_talent);
         assert_eq!(buffs[0].source, TalentBuffSource::ElementalSkill);
@@ -597,6 +599,9 @@ mod tests {
         assert_eq!(buffs[2].stat, BuffableStat::AtkPercent);
         assert!((buffs[2].base_value - 0.30).abs() < 1e-6);
         assert_eq!(buffs[2].min_constellation, 4);
+        let a4 = buffs.iter().find(|b| b.name == "Enlightened One").unwrap();
+        assert_eq!(a4.stat, BuffableStat::ElementalDmgBonus(Element::Electro));
+        assert_eq!(a4.source, TalentBuffSource::AscensionPassive(4));
     }
 
     #[test]
@@ -786,12 +791,22 @@ mod tests {
     #[test]
     fn test_find_beidou_buffs() {
         let buffs = find_talent_buffs("beidou").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 4);
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Electro)
         );
         assert_eq!(buffs[0].min_constellation, 6);
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.name == "Lightning Storm" && b.stat == BuffableStat::NormalAtkDmgBonus)
+        );
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.name == "Lightning Storm" && b.stat == BuffableStat::ChargedAtkDmgBonus)
+        );
     }
 
     #[test]
@@ -809,12 +824,14 @@ mod tests {
     #[test]
     fn test_find_xingqiu_buffs() {
         let buffs = find_talent_buffs("xingqiu").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Hydro)
         );
         assert_eq!(buffs[0].min_constellation, 2);
+        assert!(buffs.iter().any(|b| b.name == "Blades Amidst Raindrops"
+            && b.stat == BuffableStat::ElementalDmgBonus(Element::Hydro)));
     }
 
     #[test]
@@ -855,10 +872,12 @@ mod tests {
     #[test]
     fn test_find_mika_buffs() {
         let buffs = find_talent_buffs("mika").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 3);
         assert_eq!(buffs[0].stat, BuffableStat::PhysicalDmgBonus);
         assert!((buffs[0].base_value - 0.10).abs() < 1e-6);
         assert_eq!(buffs[0].min_constellation, 6);
+        assert!(buffs.iter().any(|b| b.name == "Suppressive Barrage"
+            && b.activation == Some(Activation::Manual(ManualCondition::Stacks(3)))));
     }
 
     #[test]
@@ -1366,6 +1385,7 @@ mod tests {
     fn test_conditional_candace_c2_hp() {
         let c0 = get_talent_conditional_buffs("candace", 0, &[10, 10, 10]);
         let c2 = get_talent_conditional_buffs("candace", 2, &[10, 10, 10]);
+        assert!(c0.iter().any(|b| b.name == "Celestial Dome of Sand"));
         assert!(!c0.iter().any(|b| b.name == "candace_c2_hp"));
         assert!(c2.iter().any(|b| b.name == "candace_c2_hp"));
         let hp_buff = c2.iter().find(|b| b.name == "candace_c2_hp").unwrap();
@@ -1452,6 +1472,7 @@ mod tests {
     fn test_conditional_beidou_c4() {
         let c0 = get_talent_conditional_buffs("beidou", 0, &[10, 10, 10]);
         let c4 = get_talent_conditional_buffs("beidou", 4, &[10, 10, 10]);
+        assert!(c0.iter().any(|b| b.name == "Lightning Storm"));
         assert!(!c0.iter().any(|b| b.name == "beidou_c4_electro_dmg"));
         assert!(c4.iter().any(|b| b.name == "beidou_c4_electro_dmg"));
     }
@@ -1534,6 +1555,7 @@ mod tests {
     fn test_conditional_mika_c6() {
         let c0 = get_talent_conditional_buffs("mika", 0, &[10, 10, 10]);
         let c6 = get_talent_conditional_buffs("mika", 6, &[10, 10, 10]);
+        assert!(c0.iter().any(|b| b.name == "Suppressive Barrage"));
         assert!(!c0.iter().any(|b| b.name == "mika_c6_physical_crit_dmg"));
         assert!(c6.iter().any(|b| b.name == "mika_c6_physical_crit_dmg"));
     }
@@ -1556,8 +1578,42 @@ mod tests {
     fn test_conditional_shenhe_c2() {
         let c0 = get_talent_conditional_buffs("shenhe", 0, &[10, 10, 10]);
         let c2 = get_talent_conditional_buffs("shenhe", 2, &[10, 10, 10]);
+        assert!(c0.iter().any(|b| b.name == "Deific Embrace"));
         assert!(!c0.iter().any(|b| b.name == "shenhe_c2_cryo_crit_dmg"));
         assert!(c2.iter().any(|b| b.name == "shenhe_c2_cryo_crit_dmg"));
+    }
+
+    #[test]
+    fn test_conditional_issue_71_anemo_passives() {
+        let xiao = get_talent_conditional_buffs("xiao", 0, &[10, 10, 10]);
+        assert!(
+            xiao.iter()
+                .any(|b| b.name == "Conqueror of Evil: Tamer of Demons")
+        );
+
+        let varka_c0 = get_talent_conditional_buffs("varka", 0, &[10, 10, 10]);
+        let varka_c6 = get_talent_conditional_buffs("varka", 6, &[10, 10, 10]);
+        assert!(
+            !varka_c0
+                .iter()
+                .any(|b| b.name == "Azure Fang's Oath CRIT DMG")
+        );
+        assert!(
+            varka_c6
+                .iter()
+                .any(|b| b.name == "Azure Fang's Oath CRIT DMG")
+        );
+    }
+
+    #[test]
+    fn test_conditional_issue_71_electro_passives() {
+        let razor_c0 = get_talent_conditional_buffs("razor", 0, &[10, 10, 10]);
+        let razor_c4 = get_talent_conditional_buffs("razor", 4, &[10, 10, 10]);
+        assert!(!razor_c0.iter().any(|b| b.name == "Bite"));
+        assert!(razor_c4.iter().any(|b| b.name == "Bite"));
+
+        let cyno = get_talent_conditional_buffs("cyno", 0, &[10, 10, 10]);
+        assert!(cyno.iter().any(|b| b.name == "Featherfall Judgment"));
     }
     #[test]
     fn test_conditional_baizhu_c4_c6() {

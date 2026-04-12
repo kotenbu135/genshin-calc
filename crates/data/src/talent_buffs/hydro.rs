@@ -93,6 +93,29 @@ static CANDACE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
+    TalentBuffDef {
+        name: "Celestial Dome of Sand",
+        description: desc!(
+            "Prayer of the Crimson Crown characters gain Normal ATK DMG based on Candace's Max HP"
+        ),
+        stat: BuffableStat::NormalAtkDmgBonus,
+        base_value: 0.000005,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Both(
+            AutoCondition::StatScaling {
+                stat: BuffableStat::HpPercent,
+                offset: None,
+                cap: None,
+            },
+            ManualCondition::Toggle,
+        )),
+    },
 ];
 
 // ===== Furina =====
@@ -815,6 +838,20 @@ static XINGQIU_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 4,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Blades Amidst Raindrops",
+        description: desc!("A4: Xingqiu gains Hydro DMG Bonus +20%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Hydro),
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: None,
     },
 ];
 

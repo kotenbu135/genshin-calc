@@ -320,6 +320,20 @@ static VARKA_BUFFS: &[TalentBuffDef] = &[
         activation: None,
     },
     TalentBuffDef {
+        name: "Azure Fang's Oath CRIT DMG",
+        description: desc!("C6: Each Azure Fang's Oath stack grants CRIT DMG +20%, max 4 stacks"),
+        stat: BuffableStat::CritDmg,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(6),
+        min_constellation: 6,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(4))),
+    },
+    TalentBuffDef {
         name: "Freedom of Song Anemo DMG",
         description: desc!("C4: On Swirl, team Anemo DMG +20%"),
         stat: BuffableStat::ElementalDmgBonus(Element::Anemo),
@@ -612,6 +626,20 @@ static XIAO_BANE_OF_ALL_EVIL_SCALING: [f64; 15] = [
 ];
 
 static XIAO_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Conqueror of Evil: Tamer of Demons",
+        description: desc!("During burst, all DMG dealt increases by 5% per stack, max 5 stacks"),
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.05,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
+    },
     TalentBuffDef {
         name: "Transcension: Gravity Defier Skill DMG Bonus",
         description: desc!(

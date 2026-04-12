@@ -157,6 +157,20 @@ static SHENHE_SKILL_SCALING: [f64; 15] = [
 
 static SHENHE_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
+        name: "Deific Embrace",
+        description: desc!("Active character in burst field gains Cryo DMG Bonus +15%"),
+        stat: BuffableStat::ElementalDmgBonus(Element::Cryo),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "Spring Spirit Summoning Normal ATK Flat DMG",
         description: desc!("Adds flat Cryo DMG based on Shenhe's ATK to party's Normal Attacks"),
         stat: BuffableStat::NormalAtkFlatDmg,
@@ -226,7 +240,8 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Stacks(5))),
     },
-    // A4 "Deific Embrace" Press E: Skill/Burst DMG +15%
+    // A4 "Spirit Communion Seal" Press E: Skill/Burst DMG +15%
+    // Legacy buff names retained to avoid breaking existing activations/tests.
     TalentBuffDef {
         name: "Deific Embrace Press - Skill DMG",
         description: desc!("After press E, party Skill DMG +15% for 10s"),
@@ -255,7 +270,7 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
-    // A4 "Deific Embrace" Hold E: Normal/Charged/Plunging ATK DMG +15%
+    // A4 "Spirit Communion Seal" Hold E: Normal/Charged/Plunging ATK DMG +15%
     TalentBuffDef {
         name: "Deific Embrace Hold - Normal ATK DMG",
         description: desc!("After hold E, party Normal ATK DMG +15% for 15s"),
@@ -521,6 +536,22 @@ static MIKA_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 6,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Suppressive Barrage",
+        description: desc!(
+            "Soulwind Detector stacks grant on-field characters Physical DMG +10% per stack"
+        ),
+        stat: BuffableStat::PhysicalDmgBonus,
+        base_value: 0.10,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
     },
 ];
 
@@ -1173,9 +1204,18 @@ mod tests {
         }));
 
         let mika = find("mika").unwrap();
-        assert_eq!(mika.len(), 2);
+        assert_eq!(mika.len(), 3);
+        assert!(mika.iter().any(|b| {
+            b.name == "Suppressive Barrage"
+                && b.source == TalentBuffSource::AscensionPassive(1)
+                && b.stat == BuffableStat::PhysicalDmgBonus
+                && matches!(
+                    b.activation,
+                    Some(Activation::Manual(ManualCondition::Stacks(3)))
+                )
+        }));
 
         let shenhe = find("shenhe").unwrap();
-        assert_eq!(shenhe.len(), 11);
+        assert_eq!(shenhe.len(), 12);
     }
 }
