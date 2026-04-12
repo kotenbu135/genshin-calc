@@ -137,11 +137,11 @@ const SETHOS_SKILL: TalentScaling = TalentScaling {
 
 const SETHOS_BURST: TalentScaling = TalentScaling {
     name: "暮の雷弾ダメージ",
-    scaling_stat: ScalingStat::Atk,
+    scaling_stat: ScalingStat::Em,
     damage_element: Some(Element::Electro),
     values: [
-        1.9620, 2.1094, 2.2568, 2.4525, 2.5999, 2.7474, 2.9430, 3.1387, 3.3344, 3.5301, 3.7258,
-        3.9214, 4.1665, 4.4116, 4.6567,
+        1.9616, 2.1087, 2.2558, 2.4520, 2.5991, 2.7462, 2.9424, 3.1386, 3.3347, 3.5309, 3.7270,
+        3.9232, 4.1684, 4.4136, 4.6588,
     ],
     dynamic_bonus: None,
 };
