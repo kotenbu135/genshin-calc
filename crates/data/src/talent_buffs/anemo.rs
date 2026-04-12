@@ -182,7 +182,38 @@ static KAZUHA_BUFFS: &[TalentBuffDef] = &[
 // ===== Sucrose =====
 // A1 passive "Catalyst Conversion": Swirl triggers EM+50 for team 8s
 // A4 passive "Mollis Favonius": shares 20% of Sucrose's EM to party
+// Hexerei "Witch's Eve Rite: Sevenfold Transmutation":
+//   After Small Wind Spirit (Skill): party DMG+5.71428% for 15s
+//   After Large Wind Spirit (Burst): Hexerei party DMG+7.14285% for 20s
 static SUCROSE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Sevenfold Transmutation Skill DMG",
+        description: desc!("Hexerei: After Small Wind Spirit, party DMG +5.71428% for 15s"),
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.0571428,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Sevenfold Transmutation Burst DMG",
+        description: desc!("Hexerei: After Large Wind Spirit, Hexerei party DMG +7.14285% for 20s"),
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.0714285,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Catalyst Conversion",
         description: desc!(
@@ -511,10 +542,45 @@ static JEAN_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Venti =====
+// Hexerei "Witch's Eve Rite: Temporal Wind's Eulogy":
+//   After Swirl while Stormeye active, active character DMG+50% for 4s
+//   Stormeye deals 135% of original DMG (modeled as +35% Burst DMG Bonus for Venti)
 // C2: Anemo RES -12% + Physical RES -12%
 // C4: Anemo DMG Bonus +25% on pickup
 // C6: Opponents hit by Wind's Grand Ode have Anemo RES -20%
 static VENTI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Temporal Wind's Eulogy Active Character DMG",
+        description: desc!(
+            "Hexerei: After Swirl while Stormeye active, active character DMG +50% for 4s"
+        ),
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Temporal Wind's Eulogy Stormeye DMG",
+        description: desc!(
+            "Hexerei: After Swirl while Stormeye active, Stormeye deals 135% of original DMG"
+        ),
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.35,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Breeze of Reminiscence Anemo RES Shred",
         description: desc!("C2: Enemies hit by Skyward Sonnet have Anemo RES -12%"),

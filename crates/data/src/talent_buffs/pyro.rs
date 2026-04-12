@@ -320,6 +320,8 @@ static YOIMIYA_BUFFS: &[TalentBuffDef] = &[
 // ===== Durin =====
 // A1 (Purity) "Light Manifest of the Divine Calculus": Pyro RES -20% after Burning/Overloaded/Pyro Swirl/Pyro Crystallize
 // A1 (Darkness) "Light Manifest of the Divine Calculus": Vaporize/Melt DMG +40%
+// Hexerei "Witch's Eve Rite: Ode to Ascension":
+//   A1 effects +75%: Purity Pyro RES -20%→-35%, Darkness Amplifying +40%→+70%
 // A4 "Chaos Formed Like the Night": ATK-scaled burst DMG bonus — complex, not implemented
 // C2 "Unground Visions": Pyro DMG +50% for party after reaction
 // C4 "Emanare's Source": Burst DMG +40%
@@ -353,6 +355,38 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "Ode to Ascension (Purity) Pyro RES Down",
+        description: desc!(
+            "Hexerei: A1 Purity effect +75%, Pyro RES -35% (additional -15% over base)"
+        ),
+        stat: BuffableStat::ElementalResReduction(Element::Pyro),
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Ode to Ascension (Darkness) Amplifying Bonus",
+        description: desc!(
+            "Hexerei: A1 Darkness effect +75%, Vaporize/Melt DMG +70% (additional +30% over base)"
+        ),
+        stat: BuffableStat::AmplifyingBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "Unground Visions Pyro DMG Bonus",
@@ -416,9 +450,32 @@ static DURIN_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Klee =====
+// Hexerei "Witch's Eve Rite: Sparkborne Magic":
+//   Boom Badges (1/2/3): Boom-Boom Strike deals 115%/130%/150% of original DMG
+//   Modeled as max 3 stacks of Charged ATK DMG Bonus:
+//   1 badge = +15%, 2 badges = +30%, 3 badges = +50% (non-linear, use 3-stack max toggle)
+//   Design note: non-linear scaling (15/30/50) — Stacks(3) with per-stack value
+//   cannot model this exactly. Use max-stack (3 badges = +50%) as Toggle approximation.
+// C1: ATK+60% after spark proc (Buffed State)
 // C2: DEF -23% on mine hit
 // C6: Pyro DMG +10% during burst
 static KLEE_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Sparkborne Magic Boom-Boom Strike DMG",
+        description: desc!(
+            "Hexerei: With 3 Boom Badges, Boom-Boom Strike deals 150% of original DMG (+50% Charged ATK DMG). Non-linear: 1/2/3 badges = +15%/+30%/+50%"
+        ),
+        stat: BuffableStat::ChargedAtkDmgBonus,
+        base_value: 0.50,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "klee_c2_def_reduction",
         description: desc!("C2: Jumpy Dumpty mines reduce opponent DEF by 23%"),
@@ -1072,7 +1129,7 @@ mod tests {
         }));
 
         let durin = find("durin").unwrap();
-        assert_eq!(durin.len(), 6);
+        assert_eq!(durin.len(), 8);
         assert!(durin.iter().any(|b| b.name == "durin_c4_burst_dmg"
             && matches!(
                 b.activation,
@@ -1101,7 +1158,7 @@ mod tests {
         );
 
         let klee = find("klee").unwrap();
-        assert_eq!(klee.len(), 4);
+        assert_eq!(klee.len(), 5);
         assert!(klee.iter().any(|b| {
             b.source == TalentBuffSource::Constellation(1)
                 && b.stat == BuffableStat::AtkPercent

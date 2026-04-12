@@ -154,7 +154,11 @@ fn albedo_c2_burst_flat_dmg_def_scaling() {
 fn albedo_buff_count_with_a1_c2() {
     let buffs = find_talent_buffs("albedo").unwrap();
     // Was 4, now +2 (A1 SkillDmgBonus + C2 BurstFlatDmg) = 6
-    assert_eq!(buffs.len(), 6, "albedo should have 6 buffs");
+    assert_eq!(
+        buffs.len(),
+        8,
+        "albedo should have 8 buffs (6 + Hexerei Solar/Silver Isotoma DMG)"
+    );
 }
 
 // ===== Issue #118: Gorou A1 =====

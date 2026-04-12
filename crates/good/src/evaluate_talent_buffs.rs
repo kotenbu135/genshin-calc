@@ -411,8 +411,10 @@ mod tests {
         let import = import_good(json).unwrap();
         let build = &import.builds[0];
         let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1], &[]);
-        let a4 = buffs.iter().find(|b| b.source.contains("a4")).unwrap();
-        assert_eq!(a4.stat, BuffableStat::ElementalMastery);
+        let a4 = buffs
+            .iter()
+            .find(|b| b.source.contains("a4") && b.stat == BuffableStat::ElementalMastery)
+            .unwrap();
         // EM * 0.20 — Sucrose with SacrificialFragments + EM sands should have ~500+ EM
         // so shared value should be ~100+
         assert!(

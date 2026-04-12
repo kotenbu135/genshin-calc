@@ -3,6 +3,9 @@ use super::*;
 // ===== Albedo =====
 // A1 "Calcite Might": Skill DMG +25% vs enemies with HP<50%
 // A4 passive "Homuncular Nature": EM+125 for team after burst
+// Hexerei "Witch's Eve Rite: Book of Blinding Light":
+//   Solar Isotoma: party DMG +4%/1000 DEF, max 12%
+//   Silver Isotoma: Hexerei party DMG +10%/1000 DEF, max 30%
 // C1 "Flower of Eden": DEF +50% on Skill use
 // C2 "Opening of Phanerozoic": Burst/Fatal Blossom DMG +30% DEF per stack (max 4)
 // C4 "Descent of Divinity": Plunging ATK DMG +30% in Solar Isotoma
@@ -37,6 +40,36 @@ static ALBEDO_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "Book of Blinding Light Solar Isotoma DMG",
+        description: desc!("Hexerei: After Solar Isotoma, party DMG +4% per 1000 DEF, max 12%"),
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.00004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.12),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Book of Blinding Light Silver Isotoma DMG",
+        description: desc!(
+            "Hexerei: After Silver Isotoma, Hexerei party DMG +10% per 1000 DEF, max 30%"
+        ),
+        stat: BuffableStat::DmgBonus,
+        base_value: 0.0001,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: Some(0.30),
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "albedo_c1_def",

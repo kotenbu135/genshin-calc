@@ -229,6 +229,9 @@ static FURINA_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Mona =====
 // Elemental Burst "Stellaris Phantasm": DMG bonus from Omen (Lv1-15)
+// Hexerei "Witch's Eve Rite: Genesis of Starsigns":
+//   Astral Glow of Mercury stacks (max 3): consumed on ally Vaporize, +5% Vaporize DMG per stack
+//   Omen duration extension (up to 8s) — duration mechanic, not modeled as stat buff
 // C1 "Prophecy of Submersion": Reaction DMG +15% vs Omen-affected opponents
 // C2 "Lunar Chain": Party EM +80 on Charged ATK hit
 // C4 "Prophecy of Oblivion": CRIT Rate +15% and CRIT DMG +15% vs Omen-affected opponents
@@ -251,6 +254,22 @@ static MONA_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Astral Glow of Mercury Vaporize DMG",
+        description: desc!(
+            "Hexerei: Vaporize DMG +5% per Astral Glow stack consumed (max 3 stacks = 15%)"
+        ),
+        stat: BuffableStat::AmplifyingBonus,
+        base_value: 0.05,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
     },
     TalentBuffDef {
         name: "mona_c1_reaction_dmg",
