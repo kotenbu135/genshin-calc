@@ -34,14 +34,47 @@ const MAVUIKA_NORMAL_2B: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
+        0.3648, 0.3945, 0.4242, 0.4666, 0.4963, 0.5302, 0.5769, 0.6236, 0.6702, 0.7211, 0.7720,
+        0.8229, 0.8738, 0.9247, 0.9756,
+    ],
+    dynamic_bonus: None,
+};
+
+const MAVUIKA_NORMAL_3A: TalentScaling = TalentScaling {
+    name: "3段ダメージ (1)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
         0.3322, 0.3593, 0.3863, 0.4249, 0.4520, 0.4829, 0.5254, 0.5679, 0.6104, 0.6567, 0.7031,
         0.7495, 0.7958, 0.8422, 0.8885,
     ],
     dynamic_bonus: None,
 };
 
-const MAVUIKA_NORMAL_3: TalentScaling = TalentScaling {
-    name: "3段ダメージ",
+const MAVUIKA_NORMAL_3B: TalentScaling = TalentScaling {
+    name: "3段ダメージ (2)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3322, 0.3593, 0.3863, 0.4249, 0.4520, 0.4829, 0.5254, 0.5679, 0.6104, 0.6567, 0.7031,
+        0.7495, 0.7958, 0.8422, 0.8885,
+    ],
+    dynamic_bonus: None,
+};
+
+const MAVUIKA_NORMAL_3C: TalentScaling = TalentScaling {
+    name: "3段ダメージ (3)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: None,
+    values: [
+        0.3322, 0.3593, 0.3863, 0.4249, 0.4520, 0.4829, 0.5254, 0.5679, 0.6104, 0.6567, 0.7031,
+        0.7495, 0.7958, 0.8422, 0.8885,
+    ],
+    dynamic_bonus: None,
+};
+
+const MAVUIKA_NORMAL_4: TalentScaling = TalentScaling {
+    name: "4段ダメージ",
     scaling_stat: ScalingStat::Atk,
     damage_element: None,
     values: [
@@ -178,6 +211,50 @@ const MAVUIKA_SKILL_FLAMESTRIDER_N5: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const MAVUIKA_SKILL_FLAMESTRIDER_SPRINT: TalentScaling = TalentScaling {
+    name: "炎騎突進",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Pyro),
+    values: [
+        0.8084, 0.8742, 0.9400, 1.0340, 1.0998, 1.1750, 1.2784, 1.3818, 1.4852, 1.5980, 1.7108,
+        1.8236, 1.9364, 2.0492, 2.1620,
+    ],
+    dynamic_bonus: None,
+};
+
+const MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_CYCLIC: TalentScaling = TalentScaling {
+    name: "炎騎連続重撃",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Pyro),
+    values: [
+        0.9890, 1.0695, 1.1500, 1.2650, 1.3455, 1.4375, 1.5640, 1.6905, 1.8170, 1.9550, 2.0930,
+        2.2310, 2.3690, 2.5070, 2.6450,
+    ],
+    dynamic_bonus: None,
+};
+
+const MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_FINAL: TalentScaling = TalentScaling {
+    name: "炎騎重撃終了",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Pyro),
+    values: [
+        1.3760, 1.4880, 1.6000, 1.7600, 1.8720, 2.0000, 2.1760, 2.3520, 2.5280, 2.7200, 2.9120,
+        3.1040, 3.2960, 3.4880, 3.6800,
+    ],
+    dynamic_bonus: None,
+};
+
+const MAVUIKA_SKILL_FLAMESTRIDER_PLUNGE: TalentScaling = TalentScaling {
+    name: "炎騎落下攻撃",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Pyro),
+    values: [
+        1.5996, 1.7298, 1.8600, 2.0460, 2.1762, 2.3250, 2.5296, 2.7342, 2.9388, 3.1620, 3.3852,
+        3.6084, 3.8316, 4.0548, 4.2780,
+    ],
+    dynamic_bonus: None,
+};
+
 // -- Elemental Burst: 焼天の時 (Hour of Burning Skies) -- Pyro --
 
 static MAVUIKA_BURST_FIGHTING_SPIRIT: DynamicTalentBonus = DynamicTalentBonus {
@@ -233,7 +310,10 @@ pub const MAVUIKA: CharacterData = CharacterData {
                 MAVUIKA_NORMAL_1,
                 MAVUIKA_NORMAL_2A,
                 MAVUIKA_NORMAL_2B,
-                MAVUIKA_NORMAL_3,
+                MAVUIKA_NORMAL_3A,
+                MAVUIKA_NORMAL_3B,
+                MAVUIKA_NORMAL_3C,
+                MAVUIKA_NORMAL_4,
             ],
             charged: &[MAVUIKA_CHARGED],
             plunging: &[MAVUIKA_PLUNGE, MAVUIKA_PLUNGE_LOW, MAVUIKA_PLUNGE_HIGH],
@@ -248,6 +328,10 @@ pub const MAVUIKA: CharacterData = CharacterData {
                 MAVUIKA_SKILL_FLAMESTRIDER_N3,
                 MAVUIKA_SKILL_FLAMESTRIDER_N4,
                 MAVUIKA_SKILL_FLAMESTRIDER_N5,
+                MAVUIKA_SKILL_FLAMESTRIDER_SPRINT,
+                MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_CYCLIC,
+                MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_FINAL,
+                MAVUIKA_SKILL_FLAMESTRIDER_PLUNGE,
             ],
         },
         elemental_burst: TalentData {
@@ -257,3 +341,105 @@ pub const MAVUIKA: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const NORMAL_2_EXPECTED: [f64; 15] = [
+        0.3648, 0.3945, 0.4242, 0.4666, 0.4963, 0.5302, 0.5769, 0.6236, 0.6702, 0.7211, 0.7720,
+        0.8229, 0.8738, 0.9247, 0.9756,
+    ];
+    const NORMAL_3_EXPECTED: [f64; 15] = [
+        0.3322, 0.3593, 0.3863, 0.4249, 0.4520, 0.4829, 0.5254, 0.5679, 0.6104, 0.6567, 0.7031,
+        0.7495, 0.7958, 0.8422, 0.8885,
+    ];
+    const NORMAL_4_EXPECTED: [f64; 15] = [
+        1.1619, 1.2565, 1.3511, 1.4862, 1.5808, 1.6889, 1.8375, 1.9861, 2.1347, 2.2968, 2.4590,
+        2.6211, 2.7832, 2.9454, 3.1075,
+    ];
+    const FLAMESTRIDER_SPRINT_EXPECTED: [f64; 15] = [
+        0.8084, 0.8742, 0.9400, 1.0340, 1.0998, 1.1750, 1.2784, 1.3818, 1.4852, 1.5980, 1.7108,
+        1.8236, 1.9364, 2.0492, 2.1620,
+    ];
+    const FLAMESTRIDER_CHARGED_CYCLIC_EXPECTED: [f64; 15] = [
+        0.9890, 1.0695, 1.1500, 1.2650, 1.3455, 1.4375, 1.5640, 1.6905, 1.8170, 1.9550, 2.0930,
+        2.2310, 2.3690, 2.5070, 2.6450,
+    ];
+    const FLAMESTRIDER_CHARGED_FINAL_EXPECTED: [f64; 15] = [
+        1.3760, 1.4880, 1.6000, 1.7600, 1.8720, 2.0000, 2.1760, 2.3520, 2.5280, 2.7200, 2.9120,
+        3.1040, 3.2960, 3.4880, 3.6800,
+    ];
+    const FLAMESTRIDER_PLUNGE_EXPECTED: [f64; 15] = [
+        1.5996, 1.7298, 1.8600, 2.0460, 2.1762, 2.3250, 2.5296, 2.7342, 2.9388, 3.1620, 3.3852,
+        3.6084, 3.8316, 4.0548, 4.2780,
+    ];
+
+    fn assert_scaling_table(actual: &[f64; 15], expected: &[f64; 15], label: &str) {
+        for (index, (&actual, &expected)) in actual.iter().zip(expected.iter()).enumerate() {
+            assert!(
+                (actual - expected).abs() <= 1e-4,
+                "{label} Lv{}: expected {expected}, got {actual}",
+                index + 1
+            );
+        }
+    }
+
+    fn find_skill_scaling(name: &str) -> &'static TalentScaling {
+        MAVUIKA
+            .talents
+            .elemental_skill
+            .scalings
+            .iter()
+            .find(|scaling| scaling.name == name)
+            .unwrap_or_else(|| panic!("missing scaling: {name}"))
+    }
+
+    #[test]
+    fn mavuika_normal_hit_structure_matches_honeyhunter_mirror() {
+        let hits = MAVUIKA.talents.normal_attack.hits;
+        assert_eq!(hits.len(), 7);
+        assert_eq!(hits[0].name, "1段ダメージ");
+        assert_eq!(hits[1].name, "2段ダメージ (1)");
+        assert_eq!(hits[2].name, "2段ダメージ (2)");
+        assert_eq!(hits[3].name, "3段ダメージ (1)");
+        assert_eq!(hits[4].name, "3段ダメージ (2)");
+        assert_eq!(hits[5].name, "3段ダメージ (3)");
+        assert_eq!(hits[6].name, "4段ダメージ");
+        assert_scaling_table(&hits[1].values, &NORMAL_2_EXPECTED, "N2-1");
+        assert_scaling_table(&hits[2].values, &NORMAL_2_EXPECTED, "N2-2");
+        assert_scaling_table(&hits[3].values, &NORMAL_3_EXPECTED, "N3-1");
+        assert_scaling_table(&hits[4].values, &NORMAL_3_EXPECTED, "N3-2");
+        assert_scaling_table(&hits[5].values, &NORMAL_3_EXPECTED, "N3-3");
+        assert_scaling_table(&hits[6].values, &NORMAL_4_EXPECTED, "N4");
+    }
+
+    #[test]
+    fn mavuika_flamestrider_scalings_match_honeyhunter_mirror() {
+        let scalings = MAVUIKA.talents.elemental_skill.scalings;
+        assert_eq!(scalings.len(), 11);
+
+        let sprint = find_skill_scaling("炎騎突進");
+        let charged_cyclic = find_skill_scaling("炎騎連続重撃");
+        let charged_final = find_skill_scaling("炎騎重撃終了");
+        let plunge = find_skill_scaling("炎騎落下攻撃");
+
+        assert_eq!(sprint.damage_element, Some(Element::Pyro));
+        assert_eq!(charged_cyclic.damage_element, Some(Element::Pyro));
+        assert_eq!(charged_final.damage_element, Some(Element::Pyro));
+        assert_eq!(plunge.damage_element, Some(Element::Pyro));
+
+        assert_scaling_table(&sprint.values, &FLAMESTRIDER_SPRINT_EXPECTED, "Sprint");
+        assert_scaling_table(
+            &charged_cyclic.values,
+            &FLAMESTRIDER_CHARGED_CYCLIC_EXPECTED,
+            "Charged cyclic",
+        );
+        assert_scaling_table(
+            &charged_final.values,
+            &FLAMESTRIDER_CHARGED_FINAL_EXPECTED,
+            "Charged final",
+        );
+        assert_scaling_table(&plunge.values, &FLAMESTRIDER_PLUNGE_EXPECTED, "Plunge");
+    }
+}
