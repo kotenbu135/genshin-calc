@@ -192,7 +192,7 @@ pub const FARUZAN: CharacterData = CharacterData {
             scalings: &[FARUZAN_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

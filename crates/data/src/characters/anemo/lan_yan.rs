@@ -182,7 +182,7 @@ pub const LAN_YAN: CharacterData = CharacterData {
             scalings: &[LAN_YAN_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

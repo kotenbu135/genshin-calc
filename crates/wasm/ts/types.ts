@@ -26,7 +26,12 @@ export type Region =
   | "Mondstadt" | "Liyue" | "Inazuma" | "Sumeru"
   | "Fontaine" | "Natlan" | "Snezhnaya" | "NodKrai" | "Other";
 
-export type ConstellationPattern = "C3SkillC5Burst" | "C3BurstC5Skill";
+export type ConstellationPattern =
+  | "C3SkillC5Burst"
+  | "C3BurstC5Skill"
+  | "C3NormalC5Burst"
+  | "C3BurstC5Normal"
+  | "C3NormalC5Skill";
 
 /** serde externally-tagged format. 例: { "CritDmg": 0.384 }, { "ElementalDmgBonus": ["Pyro", 0.288] } */
 export type AscensionStat =

@@ -195,5 +195,5 @@ pub const NEUVILLETTE: CharacterData = CharacterData {
             scalings: &[NEUVILLETTE_BURST, NEUVILLETTE_BURST_WATERFALL],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3NormalC5Burst,
 };

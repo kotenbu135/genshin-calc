@@ -165,7 +165,7 @@ pub const IFA: CharacterData = CharacterData {
             scalings: &[IFA_BURST, IFA_BURST_MARK],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

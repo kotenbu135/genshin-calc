@@ -243,7 +243,7 @@ pub const HEIZOU: CharacterData = CharacterData {
             scalings: &[HEIZOU_BURST_VACUUM, HEIZOU_BURST_IRIS],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

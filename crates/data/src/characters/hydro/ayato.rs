@@ -218,5 +218,5 @@ pub const AYATO: CharacterData = CharacterData {
             scalings: &[AYATO_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

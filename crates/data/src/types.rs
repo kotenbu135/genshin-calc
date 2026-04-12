@@ -81,6 +81,8 @@ pub enum ConstellationPattern {
     C3NormalC5Burst,
     /// C3 boosts Elemental Burst +3, C5 boosts Normal/Charged/Plunging +3.
     C3BurstC5Normal,
+    /// C3 boosts Normal/Charged/Plunging +3, C5 boosts Elemental Skill +3.
+    C3NormalC5Skill,
 }
 
 // -- Talent Types --
@@ -256,6 +258,11 @@ impl CharacterData {
                 DamageType::Normal | DamageType::Charged | DamageType::Plunging,
                 ConstellationPattern::C3BurstC5Normal,
             ) if constellation >= 5 => 3,
+            (
+                DamageType::Normal | DamageType::Charged | DamageType::Plunging,
+                ConstellationPattern::C3NormalC5Skill,
+            ) if constellation >= 3 => 3,
+            (DamageType::Skill, ConstellationPattern::C3NormalC5Skill) if constellation >= 5 => 3,
             _ => 0,
         };
         (talent_level + boost).min(15)
@@ -1055,7 +1062,7 @@ mod tests {
     #[test]
     fn test_normal_attack_constellation_patterns_match_honeyhunter_mirror() {
         let cases = [
-            ("freminet", ConstellationPattern::C3NormalC5Burst),
+            ("freminet", ConstellationPattern::C3NormalC5Skill),
             ("wriothesley", ConstellationPattern::C3NormalC5Burst),
             ("sethos", ConstellationPattern::C3NormalC5Burst),
             ("arlecchino", ConstellationPattern::C3NormalC5Burst),

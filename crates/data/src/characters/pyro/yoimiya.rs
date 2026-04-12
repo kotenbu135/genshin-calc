@@ -243,5 +243,5 @@ pub const YOIMIYA: CharacterData = CharacterData {
             scalings: &[YOIMIYA_BURST, YOIMIYA_BURST_EXPLOSION],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

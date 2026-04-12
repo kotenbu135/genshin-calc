@@ -176,7 +176,7 @@ pub const MIZUKI: CharacterData = CharacterData {
             scalings: &[MIZUKI_BURST, MIZUKI_BURST_SHOCKWAVE],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

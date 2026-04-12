@@ -185,7 +185,7 @@ pub const XIAO: CharacterData = CharacterData {
             scalings: &[],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

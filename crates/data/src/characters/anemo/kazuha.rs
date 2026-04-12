@@ -237,7 +237,7 @@ pub const KAZUHA: CharacterData = CharacterData {
             scalings: &[KAZUHA_BURST_SLASH, KAZUHA_BURST_DOT, KAZUHA_BURST_ELEM],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

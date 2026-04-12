@@ -181,7 +181,7 @@ pub const SUCROSE: CharacterData = CharacterData {
             scalings: &[SUCROSE_BURST_DOT, SUCROSE_BURST_ELEM],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

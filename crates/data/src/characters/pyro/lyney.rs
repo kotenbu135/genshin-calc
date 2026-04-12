@@ -244,5 +244,5 @@ pub const LYNEY: CharacterData = CharacterData {
             scalings: &[LYNEY_BURST, LYNEY_BURST_EXPLOSION],
         },
     },
-    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    constellation_pattern: ConstellationPattern::C3NormalC5Burst,
 };

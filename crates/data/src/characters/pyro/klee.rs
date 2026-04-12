@@ -167,5 +167,5 @@ pub const KLEE: CharacterData = CharacterData {
             scalings: &[KLEE_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

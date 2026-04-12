@@ -183,5 +183,5 @@ pub const GAMING: CharacterData = CharacterData {
             scalings: &[GAMING_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
