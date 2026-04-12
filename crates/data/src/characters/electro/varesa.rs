@@ -93,8 +93,8 @@ const VARESA_PASSION_CHARGED: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Electro),
     values: [
-        0.9260, 0.9960, 1.0650, 1.1580, 1.2270, 1.2970, 1.3900, 1.4820, 1.5750, 1.6780, 1.7600,
-        1.8530, 1.9690, 2.0840, 2.2000,
+        0.9264, 0.9959, 1.0654, 1.1580, 1.2275, 1.2970, 1.3896, 1.4822, 1.5749, 1.6675, 1.7602,
+        1.8528, 1.9686, 2.0844, 2.2002,
     ],
     dynamic_bonus: None,
 };
@@ -188,8 +188,8 @@ const VARESA_BURST_KICK: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Electro),
     values: [
-        3.4510, 3.7100, 3.9690, 4.3140, 4.5730, 4.8320, 5.1770, 5.2190, 5.8670, 6.2120, 6.5570,
-        6.9020, 7.3340, 7.6550, 8.1970,
+        3.4512, 3.7100, 3.9689, 4.3140, 4.5728, 4.8317, 5.1768, 5.5219, 5.8670, 6.2122, 6.5573,
+        6.9024, 7.3338, 7.7652, 8.1966,
     ],
     dynamic_bonus: None,
 };
