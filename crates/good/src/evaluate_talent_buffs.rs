@@ -330,21 +330,21 @@ mod tests {
         assert!(em > 500.0, "EM should be > 500, got {em}");
 
         let buffs = evaluate_talent_buffs(&build, 0, &[1, 10, 10], &[]);
-        assert_eq!(buffs.len(), 1);
-        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
-        assert!(
-            buffs[0].source.contains("a1"),
-            "Source should contain 'a1', got: {}",
-            buffs[0].source
-        );
+        // A1 (EM share) + A4 (Skill DMG Bonus + CRIT Rate) = 3 buffs
+        assert_eq!(buffs.len(), 3);
+        let a1_buff = buffs
+            .iter()
+            .find(|b| b.source.contains("a1"))
+            .expect("A1 buff should exist");
+        assert_eq!(a1_buff.stat, BuffableStat::ElementalMastery);
         // Expected: em * 0.25, capped at 250
         let expected = (em * 0.25).min(250.0);
         assert!(
-            (buffs[0].value - expected).abs() < 1.0,
+            (a1_buff.value - expected).abs() < 1.0,
             "Expected ~{expected}, got {}",
-            buffs[0].value
+            a1_buff.value
         );
-        assert!(buffs[0].value > 0.0, "Nahida A1 buff should not be zero");
+        assert!(a1_buff.value > 0.0, "Nahida A1 buff should not be zero");
     }
 
     #[test]
@@ -361,12 +361,17 @@ mod tests {
         let profile = crate::build_stat_profile(build);
 
         let buffs = evaluate_talent_buffs(build, 0, &[1, 10, 10], &[]);
-        assert_eq!(buffs.len(), 1);
+        // A1 + A4×2 = 3 buffs
+        assert_eq!(buffs.len(), 3);
+        let a1_buff = buffs
+            .iter()
+            .find(|b| b.source.contains("a1"))
+            .expect("A1 buff should exist");
         let expected = (profile.elemental_mastery * 0.25).min(250.0);
         assert!(
-            (buffs[0].value - expected).abs() < 1.0,
+            (a1_buff.value - expected).abs() < 1.0,
             "Expected ~{expected}, got {}",
-            buffs[0].value
+            a1_buff.value
         );
     }
 
@@ -383,8 +388,13 @@ mod tests {
         let import = import_good(&json).unwrap();
         let build = &import.builds[0];
         let buffs = evaluate_talent_buffs(build, 0, &[1, 1, 1], &[]);
-        assert_eq!(buffs.len(), 1, "A1 buff should appear even at level 20");
-        assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
+        // A1 + A4×2 = 3 buffs
+        assert_eq!(buffs.len(), 3, "A1 buff should appear even at level 20");
+        let a1_buff = buffs
+            .iter()
+            .find(|b| b.source.contains("a1"))
+            .expect("A1 buff should exist");
+        assert_eq!(a1_buff.stat, BuffableStat::ElementalMastery);
     }
 
     #[test]
