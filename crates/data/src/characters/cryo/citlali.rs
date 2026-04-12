@@ -176,7 +176,7 @@ pub const CITLALI: CharacterData = CharacterData {
             scalings: &[CITLALI_BURST_ICE_STORM, CITLALI_BURST_SKULL],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

@@ -176,7 +176,7 @@ pub const LAYLA: CharacterData = CharacterData {
             scalings: &[LAYLA_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

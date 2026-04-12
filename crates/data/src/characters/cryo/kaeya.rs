@@ -193,7 +193,7 @@ pub const KAEYA: CharacterData = CharacterData {
             scalings: &[KAEYA_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

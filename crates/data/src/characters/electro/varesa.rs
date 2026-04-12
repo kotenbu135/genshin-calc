@@ -275,5 +275,5 @@ pub const VARESA: CharacterData = CharacterData {
             ],
         },
     },
-    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    constellation_pattern: ConstellationPattern::C3BurstC5Normal,
 };

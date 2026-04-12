@@ -220,7 +220,7 @@ pub const NOELLE: CharacterData = CharacterData {
             ],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 #[cfg(test)]

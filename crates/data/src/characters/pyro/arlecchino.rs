@@ -226,5 +226,5 @@ pub const ARLECCHINO: CharacterData = CharacterData {
             scalings: &[ARLECCHINO_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3NormalC5Burst,
 };

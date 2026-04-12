@@ -216,7 +216,7 @@ pub const SHENHE: CharacterData = CharacterData {
             scalings: &[SHENHE_BURST, SHENHE_BURST_DOT],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================

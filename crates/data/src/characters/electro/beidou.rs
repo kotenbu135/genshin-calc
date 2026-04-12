@@ -216,7 +216,7 @@ pub const BEIDOU: CharacterData = CharacterData {
             scalings: &[BEIDOU_BURST_SKILL, BEIDOU_BURST_LIGHTNING],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 #[cfg(test)]

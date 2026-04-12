@@ -243,7 +243,7 @@ pub const SKIRK: CharacterData = CharacterData {
             scalings: &[SKIRK_BURST_SLASH, SKIRK_BURST_FINAL],
         },
     },
-    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
 };
 
 // =============================================================================

@@ -175,5 +175,5 @@ pub const NAHIDA: CharacterData = CharacterData {
             scalings: NAHIDA_BURST_SCALINGS,
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

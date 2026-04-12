@@ -194,5 +194,5 @@ pub const GOROU: CharacterData = CharacterData {
             scalings: &[GOROU_BURST_DAMAGE, GOROU_BURST_CRYSTAL],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

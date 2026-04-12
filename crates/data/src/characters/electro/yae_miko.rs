@@ -204,5 +204,5 @@ pub const YAE_MIKO: CharacterData = CharacterData {
             scalings: &[YAE_MIKO_BURST_SKILL, YAE_MIKO_BURST_TENKO],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

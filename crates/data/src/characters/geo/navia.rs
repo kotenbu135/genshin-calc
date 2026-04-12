@@ -229,5 +229,5 @@ pub const NAVIA: CharacterData = CharacterData {
             scalings: &[NAVIA_BURST_DAMAGE, NAVIA_BURST_CANNON],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

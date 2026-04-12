@@ -194,5 +194,5 @@ pub const INEFFA: CharacterData = CharacterData {
             scalings: &[INEFFA_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

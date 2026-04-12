@@ -69,15 +69,18 @@ pub enum ArtifactRarity {
 
 /// Constellation pattern for talent level boosts.
 ///
-/// In Genshin Impact, every character's C3 boosts one of Skill/Burst by +3 levels,
-/// and C5 boosts the other. This enum encodes the two possible patterns,
-/// eliminating invalid states by construction.
+/// In Genshin Impact, C3 and C5 boost two talent groups by +3 levels.
+/// Most characters use Skill/Burst, while a small set uses Normal/Burst.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum ConstellationPattern {
     /// C3 boosts Elemental Skill +3, C5 boosts Elemental Burst +3.
     C3SkillC5Burst,
     /// C3 boosts Elemental Burst +3, C5 boosts Elemental Skill +3.
     C3BurstC5Skill,
+    /// C3 boosts Normal/Charged/Plunging +3, C5 boosts Elemental Burst +3.
+    C3NormalC5Burst,
+    /// C3 boosts Elemental Burst +3, C5 boosts Normal/Charged/Plunging +3.
+    C3BurstC5Normal,
 }
 
 // -- Talent Types --
@@ -228,8 +231,8 @@ pub struct CharacterData {
 impl CharacterData {
     /// Returns the effective talent level after constellation boosts.
     ///
-    /// Normal/Charged/Plunging are never boosted. Skill and Burst get +3
-    /// based on the character's constellation pattern at C3/C5. Capped at 15.
+    /// Talent level boosts follow the character's constellation pattern at C3/C5.
+    /// Capped at 15.
     ///
     /// `talent_level` must be 1-15. Passing 0 will cause a panic in `talent_multiplier`.
     pub fn effective_talent_level(
@@ -243,6 +246,16 @@ impl CharacterData {
             (DamageType::Skill, ConstellationPattern::C3BurstC5Skill) if constellation >= 5 => 3,
             (DamageType::Burst, ConstellationPattern::C3SkillC5Burst) if constellation >= 5 => 3,
             (DamageType::Burst, ConstellationPattern::C3BurstC5Skill) if constellation >= 3 => 3,
+            (
+                DamageType::Normal | DamageType::Charged | DamageType::Plunging,
+                ConstellationPattern::C3NormalC5Burst,
+            ) if constellation >= 3 => 3,
+            (DamageType::Burst, ConstellationPattern::C3NormalC5Burst) if constellation >= 5 => 3,
+            (DamageType::Burst, ConstellationPattern::C3BurstC5Normal) if constellation >= 3 => 3,
+            (
+                DamageType::Normal | DamageType::Charged | DamageType::Plunging,
+                ConstellationPattern::C3BurstC5Normal,
+            ) if constellation >= 5 => 3,
             _ => 0,
         };
         (talent_level + boost).min(15)
@@ -585,6 +598,25 @@ mod tests {
     }
 
     #[test]
+    fn test_effective_level_c3_normal_c5_burst() {
+        let c = test_char(ConstellationPattern::C3NormalC5Burst);
+        assert_eq!(c.effective_talent_level(DamageType::Normal, 9, 3), 12);
+        assert_eq!(c.effective_talent_level(DamageType::Charged, 9, 3), 12);
+        assert_eq!(c.effective_talent_level(DamageType::Plunging, 9, 3), 12);
+        assert_eq!(c.effective_talent_level(DamageType::Burst, 9, 3), 9);
+        assert_eq!(c.effective_talent_level(DamageType::Burst, 9, 5), 12);
+    }
+
+    #[test]
+    fn test_effective_level_c3_burst_c5_normal() {
+        let c = test_char(ConstellationPattern::C3BurstC5Normal);
+        assert_eq!(c.effective_talent_level(DamageType::Burst, 9, 3), 12);
+        assert_eq!(c.effective_talent_level(DamageType::Normal, 9, 3), 9);
+        assert_eq!(c.effective_talent_level(DamageType::Charged, 9, 5), 12);
+        assert_eq!(c.effective_talent_level(DamageType::Plunging, 9, 5), 12);
+    }
+
+    #[test]
     fn test_effective_level_cap_at_15() {
         let c = test_char(ConstellationPattern::C3SkillC5Burst);
         assert_eq!(c.effective_talent_level(DamageType::Skill, 13, 3), 15);
@@ -592,8 +624,13 @@ mod tests {
     }
 
     #[test]
-    fn test_effective_level_normal_never_boosted() {
+    fn test_effective_level_normal_not_boosted_for_skill_burst_patterns() {
         let c = test_char(ConstellationPattern::C3SkillC5Burst);
+        assert_eq!(c.effective_talent_level(DamageType::Normal, 9, 6), 9);
+        assert_eq!(c.effective_talent_level(DamageType::Charged, 9, 6), 9);
+        assert_eq!(c.effective_talent_level(DamageType::Plunging, 9, 6), 9);
+
+        let c = test_char(ConstellationPattern::C3BurstC5Skill);
         assert_eq!(c.effective_talent_level(DamageType::Normal, 9, 6), 9);
         assert_eq!(c.effective_talent_level(DamageType::Charged, 9, 6), 9);
         assert_eq!(c.effective_talent_level(DamageType::Plunging, 9, 6), 9);
@@ -982,11 +1019,28 @@ mod tests {
     #[test]
     fn test_verified_characters_constellation_patterns() {
         let cases = [
-            ("freminet", ConstellationPattern::C3SkillC5Burst),
-            ("diluc", ConstellationPattern::C3SkillC5Burst),
-            ("ganyu", ConstellationPattern::C3BurstC5Skill),
-            ("raiden_shogun", ConstellationPattern::C3BurstC5Skill),
-            ("yanfei", ConstellationPattern::C3SkillC5Burst),
+            ("zhongli", ConstellationPattern::C3SkillC5Burst),
+            ("noelle", ConstellationPattern::C3SkillC5Burst),
+            ("gorou", ConstellationPattern::C3SkillC5Burst),
+            ("itto", ConstellationPattern::C3SkillC5Burst),
+            ("navia", ConstellationPattern::C3SkillC5Burst),
+            ("fischl", ConstellationPattern::C3SkillC5Burst),
+            ("beidou", ConstellationPattern::C3SkillC5Burst),
+            ("yae_miko", ConstellationPattern::C3SkillC5Burst),
+            ("ineffa", ConstellationPattern::C3SkillC5Burst),
+            ("varesa", ConstellationPattern::C3BurstC5Normal),
+            ("kaeya", ConstellationPattern::C3SkillC5Burst),
+            ("shenhe", ConstellationPattern::C3SkillC5Burst),
+            ("layla", ConstellationPattern::C3SkillC5Burst),
+            ("citlali", ConstellationPattern::C3SkillC5Burst),
+            ("escoffier", ConstellationPattern::C3SkillC5Burst),
+            ("skirk", ConstellationPattern::C3BurstC5Skill),
+            ("collei", ConstellationPattern::C3SkillC5Burst),
+            ("nahida", ConstellationPattern::C3SkillC5Burst),
+            ("yaoyao", ConstellationPattern::C3SkillC5Burst),
+            ("alhaitham", ConstellationPattern::C3SkillC5Burst),
+            ("arlecchino", ConstellationPattern::C3NormalC5Burst),
+            ("chevreuse", ConstellationPattern::C3SkillC5Burst),
         ];
         for (id, expected_pattern) in cases {
             let c = crate::find_character(id).unwrap();

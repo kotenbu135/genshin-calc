@@ -200,5 +200,5 @@ pub const COLLEI: CharacterData = CharacterData {
             scalings: COLLEI_BURST_SCALINGS,
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

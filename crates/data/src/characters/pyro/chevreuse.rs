@@ -225,5 +225,5 @@ pub const CHEVREUSE: CharacterData = CharacterData {
             scalings: &[CHEVREUSE_BURST_GRENADE, CHEVREUSE_BURST_SECONDARY],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

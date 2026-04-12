@@ -205,5 +205,5 @@ pub const FISCHL: CharacterData = CharacterData {
             scalings: &[FISCHL_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };

@@ -193,7 +193,7 @@ pub const ITTO: CharacterData = CharacterData {
             scalings: &[ITTO_BURST_ATK_BONUS],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 #[cfg(test)]

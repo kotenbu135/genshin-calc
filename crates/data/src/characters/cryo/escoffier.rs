@@ -200,7 +200,7 @@ pub const ESCOFFIER: CharacterData = CharacterData {
             scalings: &[ESCOFFIER_BURST],
         },
     },
-    constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
 
 // =============================================================================
