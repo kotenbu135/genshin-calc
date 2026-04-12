@@ -439,11 +439,45 @@ static YELAN_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Columbina =====
+// A1 "Lunacy's Lure": CRIT Rate +5% per Gravity Interference trigger, max 3 stacks
+// Burst "Moonlit Melancholy": Lunar Reaction DMG Bonus 13%–55% (talent-scaling)
 // Each constellation grants passive Lunar Reaction DMG bonus (TransformativeBonus)
 // C1: +1.5%, C2: +7%, C3: +1.5%, C4: +1.5%, C5: +1.5%, C6: +7%
 // C2 also: Lunar Brilliance — HP+40% for 8s
 // C6 also: Corresponding elemental CritDMG +80% for 8s
+static COLUMBINA_BURST_LUNAR_DMG_SCALING: [f64; 15] = [
+    0.13, 0.16, 0.19, 0.22, 0.25, 0.28, 0.31, 0.34, 0.37, 0.40, 0.43, 0.46, 0.49, 0.52, 0.55,
+];
+
 static COLUMBINA_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Lunacy's Lure CRIT Rate",
+        description: desc!("A1: CRIT Rate +5% per Gravity Interference (max 3 stacks)"),
+        stat: BuffableStat::CritRate,
+        base_value: 0.05,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+    TalentBuffDef {
+        name: "Moonlit Melancholy Lunar Reaction DMG Bonus",
+        description: desc!("Burst: Lunar Reaction DMG Bonus +13%–55% (talent-scaling)"),
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&COLUMBINA_BURST_LUNAR_DMG_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Columbina C1 Lunar Reaction DMG",
         description: desc!("C1: Lunar Reaction DMG +1.5%"),
