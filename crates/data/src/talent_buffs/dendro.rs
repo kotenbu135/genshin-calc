@@ -253,7 +253,7 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Alhaitham =====
 // A4 "Four-Causal Correction": DMG +0.1% per EM, max +100%
-// C2 "Emergence of Runes": EM +50 per Chisel-Light Mirror (max 3 mirrors)
+// C2 "Debate": EM +50 per mirror generation event (max 4 stacks)
 // C4 "Insight": Team EM +30 per mirror consumed; Dendro DMG +10% per mirror generated (Stacks(3))
 // C6 "Structuring": CR +10%, CD +70% (Toggle)
 static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
@@ -273,7 +273,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Chisel-Light Mirror EM Bonus",
-        description: desc!("C2: EM +50 per Chisel-Light Mirror (max 3 mirrors)"),
+        description: desc!("C2: EM +50 per mirror generation event (max 4 stacks)"),
         stat: BuffableStat::ElementalMastery,
         base_value: 50.0,
         scales_with_talent: false,
@@ -283,7 +283,7 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
         source: TalentBuffSource::Constellation(2),
         min_constellation: 2,
         cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+        activation: Some(Activation::Manual(ManualCondition::Stacks(4))),
     },
     TalentBuffDef {
         name: "Insight Team EM Bonus",

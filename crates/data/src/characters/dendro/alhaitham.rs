@@ -117,15 +117,65 @@ const ALHAITHAM_SKILL_THRUST: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+// --- Elemental Skill: Universality: An Elaboration on Form (1-Mirror Projection) ---
+
+const ALHAITHAM_SKILL_PROJECTION_ATK: TalentScaling = TalentScaling {
+    name: "1枚光幕攻撃のダメージ(ATK)",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.6720, 0.7224, 0.7728, 0.8400, 0.8904, 0.9408, 1.0080, 1.0752, 1.1424, 1.2096, 1.2768,
+        1.3440, 1.4280, 1.5120, 1.5960,
+    ],
+    dynamic_bonus: None,
+};
+
+const ALHAITHAM_SKILL_PROJECTION_EM: TalentScaling = TalentScaling {
+    name: "1枚光幕攻撃のダメージ(EM)",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.3440, 1.4448, 1.5456, 1.6800, 1.7808, 1.8816, 2.0160, 2.1504, 2.2848, 2.4192, 2.5536,
+        2.6880, 2.8560, 3.0240, 3.1920,
+    ],
+    dynamic_bonus: None,
+};
+
+// --- Elemental Skill: Rush Attack EM portion ---
+
+const ALHAITHAM_SKILL_THRUST_EM: TalentScaling = TalentScaling {
+    name: "突進攻撃のダメージ(EM)",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    values: [
+        1.5488, 1.6650, 1.7811, 1.9360, 2.0522, 2.1683, 2.3232, 2.4781, 2.6330, 2.7878, 2.9427,
+        3.0976, 3.2912, 3.4848, 3.6784,
+    ],
+    dynamic_bonus: None,
+};
+
 // --- Elemental Burst: Particular Field: Fetters of Phenomena (ATK portion) ---
 
 const ALHAITHAM_BURST_HIT: TalentScaling = TalentScaling {
-    name: "1回のダメージ",
+    name: "1回のダメージ(ATK)",
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Dendro),
     values: [
         1.216, 1.3072, 1.3984, 1.52, 1.6112, 1.7024, 1.824, 1.9456, 2.0672, 2.1888, 2.3104, 2.432,
         2.584, 2.736, 2.888,
+    ],
+    dynamic_bonus: None,
+};
+
+// --- Elemental Burst: Particular Field: Fetters of Phenomena (EM portion) ---
+
+const ALHAITHAM_BURST_HIT_EM: TalentScaling = TalentScaling {
+    name: "1回のダメージ(EM)",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    values: [
+        0.9728, 1.0458, 1.1187, 1.2160, 1.2890, 1.3619, 1.4592, 1.5565, 1.6538, 1.7510, 1.8483,
+        1.9456, 2.0672, 2.1888, 2.3104,
     ],
     dynamic_bonus: None,
 };
@@ -145,8 +195,13 @@ static ALHAITHAM_PLUNGING: &[TalentScaling] = &[
     ALHAITHAM_PLUNGE_LOW,
     ALHAITHAM_PLUNGE_HIGH,
 ];
-static ALHAITHAM_SKILL_SCALINGS: &[TalentScaling] = &[ALHAITHAM_SKILL_THRUST];
-static ALHAITHAM_BURST_SCALINGS: &[TalentScaling] = &[ALHAITHAM_BURST_HIT];
+static ALHAITHAM_SKILL_SCALINGS: &[TalentScaling] = &[
+    ALHAITHAM_SKILL_THRUST,
+    ALHAITHAM_SKILL_PROJECTION_ATK,
+    ALHAITHAM_SKILL_PROJECTION_EM,
+    ALHAITHAM_SKILL_THRUST_EM,
+];
+static ALHAITHAM_BURST_SCALINGS: &[TalentScaling] = &[ALHAITHAM_BURST_HIT, ALHAITHAM_BURST_HIT_EM];
 
 pub const ALHAITHAM: CharacterData = CharacterData {
     id: "alhaitham",
