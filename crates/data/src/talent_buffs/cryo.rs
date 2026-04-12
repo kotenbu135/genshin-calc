@@ -150,9 +150,15 @@ static ROSARIA_BUFFS: &[TalentBuffDef] = &[
 
 // ===== Shenhe =====
 // Elemental Skill "Spring Spirit Summoning": flat Cryo DMG based on ATK (Lv1-15)
+// Elemental Burst "Divine Maiden's Deliverance": Cryo/Physical RES shred (talent-level dependent)
+// Lv1-9: 6-14%, Lv10+: 15%
 static SHENHE_SKILL_SCALING: [f64; 15] = [
     0.4566, 0.4908, 0.5250, 0.5707, 0.6049, 0.6392, 0.6848, 0.7305, 0.7762, 0.8218, 0.8675, 0.9131,
     0.9702, 1.0273, 1.0843,
+];
+
+static SHENHE_RES_SHRED_SCALING: [f64; 15] = [
+    0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
 ];
 
 static SHENHE_BUFFS: &[TalentBuffDef] = &[
@@ -328,6 +334,35 @@ static SHENHE_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
+    // Burst "Divine Maiden's Deliverance": Cryo/Physical RES shred (talent-level dependent)
+    TalentBuffDef {
+        name: "Divine Maiden's Deliverance Cryo RES Shred",
+        description: desc!("Burst field: Enemy Cryo RES shred (talent-level dependent)"),
+        stat: BuffableStat::ElementalResReduction(Element::Cryo),
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SHENHE_RES_SHRED_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Divine Maiden's Deliverance Physical RES Shred",
+        description: desc!("Burst field: Enemy Physical RES shred (talent-level dependent)"),
+        stat: BuffableStat::PhysicalResReduction,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&SHENHE_RES_SHRED_SCALING),
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::ElementalBurst,
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
 ];
 
 // ===== Citlali =====
@@ -443,17 +478,24 @@ static CITLALI_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Eula =====
-// Skill (hold): Cryo RES -50% + Physical RES -50% (max 2 Grimheart stacks)
+// Skill (hold): Cryo/Physical RES shred per Grimheart stack (max 2), talent-level dependent
+// Lv1-9: 16-24%, Lv10+: 25%
 // C1 "Dance of the One in Bliss": Physical DMG Bonus +30% on Grimheart consume
 // C4 "Gleaming Tempest": Burst DMG +25% vs opponents below 50% HP
+static EULA_RES_SHRED_SCALING: [f64; 15] = [
+    0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25,
+];
+
 static EULA_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
         name: "Icetide Vortex Cryo RES Shred",
-        description: desc!("Hold Skill: Enemy Cryo RES -25% per Grimheart stack (max 2)"),
+        description: desc!(
+            "Hold Skill: Enemy Cryo RES shred per Grimheart stack (max 2, talent-level dependent)"
+        ),
         stat: BuffableStat::ElementalResReduction(Element::Cryo),
-        base_value: 0.25,
-        scales_with_talent: false,
-        talent_scaling: None,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&EULA_RES_SHRED_SCALING),
         scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
@@ -463,11 +505,13 @@ static EULA_BUFFS: &[TalentBuffDef] = &[
     },
     TalentBuffDef {
         name: "Icetide Vortex Physical RES Shred",
-        description: desc!("Hold Skill: Enemy Physical RES -25% per Grimheart stack (max 2)"),
+        description: desc!(
+            "Hold Skill: Enemy Physical RES shred per Grimheart stack (max 2, talent-level dependent)"
+        ),
         stat: BuffableStat::PhysicalResReduction,
-        base_value: 0.25,
-        scales_with_talent: false,
-        talent_scaling: None,
+        base_value: 0.0,
+        scales_with_talent: true,
+        talent_scaling: Some(&EULA_RES_SHRED_SCALING),
         scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
@@ -1201,6 +1245,6 @@ mod tests {
         }));
 
         let shenhe = find("shenhe").unwrap();
-        assert_eq!(shenhe.len(), 12);
+        assert_eq!(shenhe.len(), 14);
     }
 }

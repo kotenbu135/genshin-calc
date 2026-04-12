@@ -234,11 +234,12 @@ static NEFER_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Dendro Traveler =====
-// A4 passive "Verdant Luxury": EM+60 in Lea Lotus Lamp field
+// A1 passive "Verdant Overgrowth": EM+60 in Lea Lotus Lamp field (stacks up to 10x over 10s)
+// A4 passive "Verdant Luxury": Skill DMG +0.15% per EM, Burst DMG +0.1% per EM
 // C6 "The Planted Seed": Party Dendro DMG +12% inside Lamp
 static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[
     TalentBuffDef {
-        name: "Verdant Luxury",
+        name: "Verdant Overgrowth",
         description: desc!("Characters within Lea Lotus Lamp field gain EM+60"),
         stat: BuffableStat::ElementalMastery,
         base_value: 60.0,
@@ -246,10 +247,46 @@ static TRAVELER_DENDRO_BUFFS: &[TalentBuffDef] = &[
         talent_scaling: None,
         scales_on: None,
         target: BuffTarget::Team,
-        source: TalentBuffSource::AscensionPassive(4),
+        source: TalentBuffSource::AscensionPassive(1),
         min_constellation: 0,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "Verdant Luxury",
+        description: desc!("A4: Razorgrass Blade (Skill) DMG +0.15% per point of EM"),
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.0015,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::ElementalMastery,
+            offset: None,
+            cap: None,
+        })),
+    },
+    TalentBuffDef {
+        name: "Verdant Luxury",
+        description: desc!("A4: Surgent Manifestation (Burst) DMG +0.1% per point of EM"),
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.001,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::ElementalMastery,
+            offset: None,
+            cap: None,
+        })),
     },
     TalentBuffDef {
         name: "traveler_dendro_c6_dendro_dmg",
@@ -360,10 +397,27 @@ static ALHAITHAM_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Baizhu =====
+// A1 "Five Fortunes Forever": Baizhu gains Dendro DMG Bonus +25% when active character HP >= 50%
 // A4 "All Things Are of the Earth": exact reaction bonuses based on HP (cap 50,000 HP)
 // C4 "Ancient Art of Perception": Team EM +80
 // C6 "Weal and Woe Twain": Skill DMG +8% of Max HP (flat)
 static BAIZHU_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Five Fortunes Forever Dendro DMG Bonus",
+        description: desc!(
+            "A1: Baizhu gains Dendro DMG Bonus +25% when active character HP >= 50%"
+        ),
+        stat: BuffableStat::ElementalDmgBonus(Element::Dendro),
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Year of Verdant Favor Burning DMG Bonus",
         description: desc!("A4: Burning DMG +2% per 1000 HP, max +100%"),
@@ -628,9 +682,24 @@ static KAVEH_BURST_SCALING: [f64; 15] = [
 ];
 
 // ===== Kinich =====
+// C1 "Potent Predator": Scalespiker Cannon CRIT DMG +100%
 // C2 "Parrot Squawks, Jaguars Roar": Enemy Dendro RES -30% + DMG +100% (Team/Self, Toggle)
 // C4 "Canopy Hunter: Glamorous Debut": Burst DMG +70%
 static KINICH_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Potent Predator C1 CRIT DMG",
+        description: desc!("C1: Scalespiker Cannon CRIT DMG +100%"),
+        stat: BuffableStat::CritDmg,
+        base_value: 1.00,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::Constellation(1),
+        min_constellation: 1,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     TalentBuffDef {
         name: "Parrot Squawks Dendro RES Down",
         description: desc!("C2: Enemy Dendro RES -30% (Toggle)"),

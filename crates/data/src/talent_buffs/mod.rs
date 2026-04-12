@@ -246,7 +246,7 @@ mod tests {
     #[test]
     fn test_find_traveler_dendro_buffs() {
         let buffs = find_talent_buffs("traveler_dendro").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 4);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 60.0).abs() < 1e-6);
     }
@@ -376,8 +376,8 @@ mod tests {
     #[test]
     fn test_shenhe_skill_flat_dmg_entries() {
         let buffs = find_talent_buffs("shenhe").unwrap();
-        // 1 A1 entry + 5 FlatDmg entries + 2 A4 press entries + 3 A4 hold entries + C2 = 12 total
-        assert_eq!(buffs.len(), 12);
+        // 1 A1 + 5 FlatDmg + 2 A4 press + 3 A4 hold + C2 + 2 Burst RES shred = 14
+        assert_eq!(buffs.len(), 14);
         assert!(
             buffs.iter().all(|b| b.stat != BuffableStat::AtkFlat),
             "Shenhe should have no AtkFlat entry"
@@ -744,9 +744,9 @@ mod tests {
             buffs[0].stat,
             BuffableStat::ElementalResReduction(Element::Cryo)
         );
-        assert!((buffs[0].base_value - 0.25).abs() < 1e-6);
+        assert!(buffs[0].scales_with_talent);
         assert_eq!(buffs[1].stat, BuffableStat::PhysicalResReduction);
-        assert!((buffs[1].base_value - 0.25).abs() < 1e-6);
+        assert!(buffs[1].scales_with_talent);
     }
 
     #[test]

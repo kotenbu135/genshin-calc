@@ -105,16 +105,51 @@ pub const ALL_MOONSIGN_BENEDICTIONS: &[MoonsignBenedictionDef] = &[
 ];
 
 /// Talent enhancements for Lauma.
-pub const LAUMA_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
-    character_name: "Lauma",
-    required_level: MoonsignLevel::NascentGleam,
-    description: desc!("Bloom gains crit at Nascent Gleam"),
-    effect: MoonsignTalentEffect::GrantReactionCrit {
-        reaction: Reaction::LunarBloom,
-        crit_rate: 0.15,
-        crit_dmg: 1.0,
+/// A1 "Light for the Frosty Night":
+///   NascentGleam: Bloom/Hyperbloom/Burgeon can CRIT at 15% CR / 100% CD
+///   AscendantGleam: Lunar-Bloom CRIT Rate +10%, CRIT DMG +20%
+pub const LAUMA_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[
+    MoonsignTalentEnhancement {
+        character_name: "Lauma",
+        required_level: MoonsignLevel::NascentGleam,
+        description: desc!("A1: Bloom can CRIT at Nascent Gleam (15% CR / 100% CD)"),
+        effect: MoonsignTalentEffect::GrantReactionCrit {
+            reaction: Reaction::Bloom,
+            crit_rate: 0.15,
+            crit_dmg: 1.0,
+        },
     },
-}];
+    MoonsignTalentEnhancement {
+        character_name: "Lauma",
+        required_level: MoonsignLevel::NascentGleam,
+        description: desc!("A1: Hyperbloom can CRIT at Nascent Gleam (15% CR / 100% CD)"),
+        effect: MoonsignTalentEffect::GrantReactionCrit {
+            reaction: Reaction::Hyperbloom,
+            crit_rate: 0.15,
+            crit_dmg: 1.0,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Lauma",
+        required_level: MoonsignLevel::NascentGleam,
+        description: desc!("A1: Burgeon can CRIT at Nascent Gleam (15% CR / 100% CD)"),
+        effect: MoonsignTalentEffect::GrantReactionCrit {
+            reaction: Reaction::Burgeon,
+            crit_rate: 0.15,
+            crit_dmg: 1.0,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Lauma",
+        required_level: MoonsignLevel::AscendantGleam,
+        description: desc!("A1: Lunar-Bloom CRIT Rate +10%, CRIT DMG +20% at Ascendant Gleam"),
+        effect: MoonsignTalentEffect::GrantReactionCrit {
+            reaction: Reaction::LunarBloom,
+            crit_rate: 0.10,
+            crit_dmg: 0.20,
+        },
+    },
+];
 
 /// Talent enhancements for Flins.
 pub const FLINS_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTalentEnhancement {
@@ -280,8 +315,13 @@ mod tests {
     #[test]
     fn test_find_moonsign_talent_enhancements_lauma() {
         let enhancements = find_moonsign_talent_enhancements("lauma", MoonsignLevel::NascentGleam);
-        assert_eq!(enhancements.len(), 1);
-        assert_eq!(enhancements[0].required_level, MoonsignLevel::NascentGleam);
+        // A1: Bloom, Hyperbloom, Burgeon at NascentGleam = 3 entries
+        assert_eq!(enhancements.len(), 3);
+        assert!(
+            enhancements
+                .iter()
+                .all(|e| e.required_level == MoonsignLevel::NascentGleam)
+        );
     }
 
     #[test]

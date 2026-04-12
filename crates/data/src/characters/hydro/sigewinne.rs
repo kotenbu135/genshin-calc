@@ -137,8 +137,8 @@ const SIGEWINNE_BURST: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Hp,
     damage_element: Some(Element::Hydro),
     values: [
-        0.1180, 0.1270, 0.1350, 0.1470, 0.1560, 0.1650, 0.1770, 0.1880, 0.2000, 0.2120, 0.2240,
-        0.2350, 0.2500, 0.2650, 0.2800,
+        0.1177, 0.1265, 0.1354, 0.1471, 0.1560, 0.1648, 0.1766, 0.1883, 0.2001, 0.2119, 0.2236,
+        0.2354, 0.2501, 0.2648, 0.2796,
     ],
     dynamic_bonus: None,
 };

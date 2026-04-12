@@ -546,22 +546,70 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Zibai =====
+// A1 "Spirit Steed": 2nd hit of Spirit Steed deals +60% DEF as additional Geo DMG
+// A4 "Riding Wind and Clouds":
+//   - DEF +15% per other Geo party member (max 3 stacks)
+//   - EM +60 per Hydro party member (max 4 stacks)
 // C2 "At Birth Are Souls Born, and in Death Leave But Husks":
 // Lunar-Crystallize Reaction DMG +30% for nearby party members
-static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
-    name: "At Birth Are Souls Born C2 Reaction DMG",
-    description: desc!("C2: Lunar-Crystallize Reaction DMG +30% for nearby party members"),
-    stat: BuffableStat::TransformativeBonus,
-    base_value: 0.30,
-    scales_with_talent: false,
-    talent_scaling: None,
-    scales_on: None,
-    target: BuffTarget::Team,
-    source: TalentBuffSource::Constellation(2),
-    min_constellation: 2,
-    cap: None,
-    activation: None,
-}];
+static ZIBAI_BUFFS: &[TalentBuffDef] = &[
+    TalentBuffDef {
+        name: "Spirit Steed A1 Skill Flat DMG",
+        description: desc!("A1: Spirit Steed 2nd hit deals additional Geo DMG equal to 60% of DEF"),
+        stat: BuffableStat::SkillFlatDmg,
+        base_value: 0.60,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(1),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Riding Wind and Clouds DEF",
+        description: desc!("A4: DEF +15% per other Geo party member (max 3 stacks)"),
+        stat: BuffableStat::DefPercent,
+        base_value: 0.15,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(3))),
+    },
+    TalentBuffDef {
+        name: "Riding Wind and Clouds EM",
+        description: desc!("A4: EM +60 per Hydro party member (max 4 stacks)"),
+        stat: BuffableStat::ElementalMastery,
+        base_value: 60.0,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Stacks(4))),
+    },
+    TalentBuffDef {
+        name: "At Birth Are Souls Born C2 Reaction DMG",
+        description: desc!("C2: Lunar-Crystallize Reaction DMG +30% for nearby party members"),
+        stat: BuffableStat::TransformativeBonus,
+        base_value: 0.30,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::Constellation(2),
+        min_constellation: 2,
+        cap: None,
+        activation: None,
+    },
+];
 
 // ===== Illuga =====
 static ILLUGA_BUFFS: &[TalentBuffDef] = &[
