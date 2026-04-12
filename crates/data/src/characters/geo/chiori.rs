@@ -134,6 +134,17 @@ const CHIORI_SKILL_TAMOTO: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const CHIORI_SKILL_TAMOTO_DEF: TalentScaling = TalentScaling {
+    name: "袂自動攻撃ダメージ(DEF)",
+    scaling_stat: ScalingStat::Def,
+    damage_element: Some(Element::Geo),
+    values: [
+        1.0260, 1.1030, 1.1799, 1.2825, 1.3595, 1.4364, 1.5390, 1.6416, 1.7442, 1.8468, 1.9494,
+        2.0520, 2.1803, 2.3085, 2.4368,
+    ],
+    dynamic_bonus: None,
+};
+
 const CHIORI_SKILL_TURRET: TalentScaling = TalentScaling {
     name: "袂飛び道具ダメージ",
     scaling_stat: ScalingStat::Atk,
@@ -156,6 +167,17 @@ const CHIORI_SKILL_UPWARD_SWEEP: TalentScaling = TalentScaling {
     dynamic_bonus: None,
 };
 
+const CHIORI_SKILL_UPWARD_SWEEP_DEF: TalentScaling = TalentScaling {
+    name: "上拂スキルダメージ(DEF)",
+    scaling_stat: ScalingStat::Def,
+    damage_element: Some(Element::Geo),
+    values: [
+        1.8660, 2.0060, 2.1459, 2.3325, 2.4725, 2.6124, 2.7990, 2.9856, 3.1722, 3.3588, 3.5454,
+        3.7320, 3.9653, 4.1985, 4.4318,
+    ],
+    dynamic_bonus: None,
+};
+
 // -- Elemental Burst: 二刀キ法・緋反 (Hiyoku: Twin Blades) -- Geo --
 
 const CHIORI_BURST: TalentScaling = TalentScaling {
@@ -165,6 +187,17 @@ const CHIORI_BURST: TalentScaling = TalentScaling {
     values: [
         2.5632, 2.7554, 2.9477, 3.2040, 3.3962, 3.5885, 3.8448, 4.1011, 4.3574, 4.6138, 4.8701,
         5.1264, 5.4468, 5.7672, 6.0876,
+    ],
+    dynamic_bonus: None,
+};
+
+const CHIORI_BURST_DEF: TalentScaling = TalentScaling {
+    name: "スキルダメージ(DEF)",
+    scaling_stat: ScalingStat::Def,
+    damage_element: Some(Element::Geo),
+    values: [
+        3.2040, 3.4443, 3.6846, 4.0050, 4.2453, 4.4856, 4.8060, 5.1264, 5.4468, 5.7672, 6.0876,
+        6.4080, 6.8085, 7.2090, 7.6095,
     ],
     dynamic_bonus: None,
 };
@@ -212,13 +245,15 @@ pub const CHIORI: CharacterData = CharacterData {
             name: "羽袖キ法・糸結",
             scalings: &[
                 CHIORI_SKILL_TAMOTO,
+                CHIORI_SKILL_TAMOTO_DEF,
                 CHIORI_SKILL_TURRET,
                 CHIORI_SKILL_UPWARD_SWEEP,
+                CHIORI_SKILL_UPWARD_SWEEP_DEF,
             ],
         },
         elemental_burst: TalentData {
             name: "二刀キ法・緋反",
-            scalings: &[CHIORI_BURST],
+            scalings: &[CHIORI_BURST, CHIORI_BURST_DEF],
         },
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
