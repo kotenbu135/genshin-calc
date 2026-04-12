@@ -873,10 +873,15 @@ mod tests {
     #[test]
     fn test_find_collei_buffs() {
         let buffs = find_talent_buffs("collei").unwrap();
-        assert_eq!(buffs.len(), 2);
+        assert_eq!(buffs.len(), 1);
         assert_eq!(buffs[0].stat, BuffableStat::ElementalMastery);
         assert!((buffs[0].base_value - 60.0).abs() < 1e-6);
         assert_eq!(buffs[0].min_constellation, 4);
+        assert!(
+            buffs
+                .iter()
+                .all(|buff| buff.source != TalentBuffSource::Constellation(6))
+        );
     }
 
     #[test]
