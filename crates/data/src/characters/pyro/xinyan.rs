@@ -139,7 +139,7 @@ const XINYAN_SKILL_DOT: TalentScaling = TalentScaling {
 const XINYAN_BURST: TalentScaling = TalentScaling {
     name: "スキルダメージ",
     scaling_stat: ScalingStat::Atk,
-    damage_element: Some(Element::Pyro),
+    damage_element: None,
     values: [
         3.4080, 3.6636, 3.9192, 4.2600, 4.5156, 4.7712, 5.1120, 5.4528, 5.7936, 6.1344, 6.4752,
         6.8160, 7.2420, 7.6680, 8.0940,
@@ -207,3 +207,18 @@ pub const XINYAN: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
 };
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn xinyan_burst_main_hit_is_physical_and_dot_is_pyro() {
+        let burst = XINYAN.talents.elemental_burst.scalings;
+        assert_eq!(burst.len(), 2);
+        assert_eq!(burst[0].name, "スキルダメージ");
+        assert_eq!(burst[0].damage_element, None);
+        assert_eq!(burst[1].name, "炎のダメージ");
+        assert_eq!(burst[1].damage_element, Some(Element::Pyro));
+    }
+}
