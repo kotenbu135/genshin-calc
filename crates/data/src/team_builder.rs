@@ -176,7 +176,12 @@ impl TeamMemberBuilder {
             return Vec::new();
         };
         defs.iter()
-            .filter(|def| def.activation.is_some() && self.constellation >= def.min_constellation)
+            .filter(|def| {
+                def.activation
+                    .as_ref()
+                    .is_some_and(crate::talent_buffs::activation_requires_manual_input)
+                    && self.constellation >= def.min_constellation
+            })
             .map(|def| AvailableTalentConditional {
                 source: self.character.name,
                 buff: def,

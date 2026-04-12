@@ -82,7 +82,12 @@ pub fn get_talent_conditional_buffs(
         return Vec::new();
     };
     defs.iter()
-        .filter(|def| def.activation.is_some() && constellation >= def.min_constellation)
+        .filter(|def| {
+            def.activation
+                .as_ref()
+                .is_some_and(activation_requires_manual_input)
+                && constellation >= def.min_constellation
+        })
         .map(|def| {
             let value = resolve_scaling_value(def, talent_levels);
             TalentConditionalBuff {
@@ -96,6 +101,10 @@ pub fn get_talent_conditional_buffs(
             }
         })
         .collect()
+}
+
+pub(crate) fn activation_requires_manual_input(activation: &Activation) -> bool {
+    matches!(activation, Activation::Manual(_) | Activation::Both(_, _))
 }
 
 /// Resolves the buff value based on talent level scaling.
@@ -383,13 +392,20 @@ mod tests {
     #[test]
     fn test_yun_jin_normal_atk_flat_dmg() {
         let buffs = find_talent_buffs("yun_jin").unwrap();
-        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs.len(), 7);
         assert_eq!(buffs[0].stat, BuffableStat::NormalAtkFlatDmg);
         assert!(
             buffs.iter().all(|b| b.stat != BuffableStat::AtkFlat),
             "Yun Jin should have no AtkFlat entry"
         );
         assert_eq!(buffs[0].scales_on, Some(ScalingStat::Def));
+        assert!(
+            buffs
+                .iter()
+                .any(|b| b.name == "Breaking Conventions (4 Element Types)"
+                    && b.source == TalentBuffSource::AscensionPassive(4)
+                    && b.activation == Some(Activation::Manual(ManualCondition::Toggle)))
+        );
     }
 
     #[test]
@@ -450,7 +466,7 @@ mod tests {
     #[test]
     fn test_find_gorou_buffs() {
         let buffs = find_talent_buffs("gorou").unwrap();
-        assert_eq!(buffs.len(), 3);
+        assert_eq!(buffs.len(), 4);
         // DefFlat scaling entry
         let def_buff = buffs
             .iter()
@@ -465,6 +481,15 @@ mod tests {
             .unwrap();
         assert!((geo_buff.base_value - 0.15).abs() < 1e-6);
         assert!(!geo_buff.scales_with_talent);
+        let a4 = buffs
+            .iter()
+            .find(|b| b.name == "Heedless of the Wind and Weather")
+            .unwrap();
+        assert_eq!(a4.stat, BuffableStat::DefPercent);
+        assert_eq!(
+            a4.activation,
+            Some(Activation::Manual(ManualCondition::Toggle))
+        );
     }
 
     #[test]
@@ -577,7 +602,7 @@ mod tests {
     #[test]
     fn test_find_xilonen_buffs() {
         let buffs = find_talent_buffs("xilonen").unwrap();
-        assert_eq!(buffs.len(), 12);
+        assert_eq!(buffs.len(), 13);
         // Skill: Elemental RES reduction per Sampler (Geo/Pyro/Hydro/Cryo/Electro)
         assert_eq!(
             buffs[0].stat,
@@ -608,23 +633,26 @@ mod tests {
             assert_eq!(b.min_constellation, 0);
             assert!(b.activation.is_some());
         }
+        assert_eq!(buffs[5].name, "Portable Armored Sheath");
+        assert_eq!(buffs[5].stat, BuffableStat::DefPercent);
+        assert_eq!(buffs[5].source, TalentBuffSource::AscensionPassive(4));
         // C2 buffs: Geo DMG, Pyro ATK, Hydro HP, Cryo Crit DMG
-        assert_eq!(buffs[5].stat, BuffableStat::ElementalDmgBonus(Element::Geo));
-        assert_eq!(buffs[5].min_constellation, 2);
-        assert_eq!(buffs[6].stat, BuffableStat::AtkPercent);
+        assert_eq!(buffs[6].stat, BuffableStat::ElementalDmgBonus(Element::Geo));
         assert_eq!(buffs[6].min_constellation, 2);
-        assert_eq!(buffs[7].stat, BuffableStat::HpPercent);
+        assert_eq!(buffs[7].stat, BuffableStat::AtkPercent);
         assert_eq!(buffs[7].min_constellation, 2);
-        assert_eq!(buffs[8].stat, BuffableStat::CritDmg);
+        assert_eq!(buffs[8].stat, BuffableStat::HpPercent);
         assert_eq!(buffs[8].min_constellation, 2);
+        assert_eq!(buffs[9].stat, BuffableStat::CritDmg);
+        assert_eq!(buffs[9].min_constellation, 2);
         // C4: flat DMG from DEF for Normal/Charged/Plunging
-        assert_eq!(buffs[9].stat, BuffableStat::NormalAtkFlatDmg);
-        assert!((buffs[9].base_value - 0.65).abs() < 1e-6);
-        assert_eq!(buffs[9].scales_on, Some(ScalingStat::Def));
-        assert_eq!(buffs[9].min_constellation, 4);
-        assert_eq!(buffs[10].stat, BuffableStat::ChargedAtkFlatDmg);
-        assert_eq!(buffs[11].stat, BuffableStat::PlungingAtkFlatDmg);
-        for b in &buffs[9..] {
+        assert_eq!(buffs[10].stat, BuffableStat::NormalAtkFlatDmg);
+        assert!((buffs[10].base_value - 0.65).abs() < 1e-6);
+        assert_eq!(buffs[10].scales_on, Some(ScalingStat::Def));
+        assert_eq!(buffs[10].min_constellation, 4);
+        assert_eq!(buffs[11].stat, BuffableStat::ChargedAtkFlatDmg);
+        assert_eq!(buffs[12].stat, BuffableStat::PlungingAtkFlatDmg);
+        for b in &buffs[10..] {
             assert!((b.base_value - 0.65).abs() < 1e-6);
             assert_eq!(b.scales_on, Some(ScalingStat::Def));
             assert_eq!(b.min_constellation, 4);
@@ -1557,6 +1585,10 @@ mod tests {
         let c0 = get_talent_conditional_buffs("nahida", 0, &[10, 10, 10]);
         let c4 = get_talent_conditional_buffs("nahida", 4, &[10, 10, 10]);
         assert!(!c0.iter().any(|b| b.name == "nahida_c2_crit_rate"));
+        assert!(
+            !c0.iter()
+                .any(|b| b.name == "Awakening Elucidated Skill DMG Bonus")
+        );
         assert!(c4.iter().any(|b| b.name == "nahida_c2_crit_rate"));
         assert!(c4.iter().any(|b| b.name == "nahida_c2_crit_dmg"));
         assert!(c4.iter().any(|b| b.name == "nahida_c2_def_reduction"));
@@ -1588,6 +1620,10 @@ mod tests {
     fn test_conditional_kirara_c6() {
         let c0 = get_talent_conditional_buffs("kirara", 0, &[10, 10, 10]);
         let c6 = get_talent_conditional_buffs("kirara", 6, &[10, 10, 10]);
+        assert!(
+            !c0.iter()
+                .any(|b| b.name == "Pupillary Variance Skill DMG Bonus")
+        );
         assert!(!c0.iter().any(|b| b.name == "kirara_c6_dmg_bonus"));
         assert!(c6.iter().any(|b| b.name == "kirara_c6_dmg_bonus"));
     }

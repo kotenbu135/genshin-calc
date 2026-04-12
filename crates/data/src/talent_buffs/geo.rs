@@ -103,6 +103,20 @@ static GOROU_BUFFS: &[TalentBuffDef] = &[
         activation: None,
     },
     TalentBuffDef {
+        name: "Heedless of the Wind and Weather",
+        description: desc!("A4: After burst, nearby party members gain DEF +25%"),
+        stat: BuffableStat::DefPercent,
+        base_value: 0.25,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
         name: "gorou_c6_geo_crit_dmg",
         description: desc!("C6: Geo CRIT DMG +40% at Crunch"),
         stat: BuffableStat::CritDmg,
@@ -158,6 +172,70 @@ static YUN_JIN_BUFFS: &[TalentBuffDef] = &[
         min_constellation: 0,
         cap: None,
         activation: None,
+    },
+    TalentBuffDef {
+        name: "Breaking Conventions (1 Element Type)",
+        description: desc!(
+            "A4: Flying Cloud Flag Formation gains extra Normal ATK DMG = 2.5% of Yun Jin's DEF"
+        ),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.025,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Breaking Conventions (2 Element Types)",
+        description: desc!(
+            "A4: Flying Cloud Flag Formation gains extra Normal ATK DMG = 5.0% of Yun Jin's DEF"
+        ),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.05,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Breaking Conventions (3 Element Types)",
+        description: desc!(
+            "A4: Flying Cloud Flag Formation gains extra Normal ATK DMG = 7.5% of Yun Jin's DEF"
+        ),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.075,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Breaking Conventions (4 Element Types)",
+        description: desc!(
+            "A4: Flying Cloud Flag Formation gains extra Normal ATK DMG = 11.5% of Yun Jin's DEF"
+        ),
+        stat: BuffableStat::NormalAtkFlatDmg,
+        base_value: 0.115,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Def),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
         name: "yun_jin_c2_normal_dmg",
@@ -325,16 +403,6 @@ static ZIBAI_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Illuga =====
-// A4 passive "Torchforger's Covenant": CRIT Rate +5%, CRIT DMG +10%, EM +50 (Moonsign)
-// Burst "Shadowless Reflection": Actually EM × stack-based additive base DMG (not flat Geo DMG%).
-// Current scaling table is incorrect — requires dedicated mechanic. Removed from active buffs.
-// TODO: Implement proper EM × stack consumption Geo DMG system for Illuga burst.
-#[allow(dead_code)]
-static ILLUGA_BURST_GEO_DMG_SCALING: [f64; 15] = [
-    0.336, 0.3612, 0.3864, 0.42, 0.4452, 0.4704, 0.504, 0.5376, 0.5712, 0.6048, 0.6384, 0.672,
-    0.714, 0.756, 0.798,
-];
-
 static ILLUGA_BUFFS: &[TalentBuffDef] = &[
     // A1 "Torchforger's Covenant": After Geo DMG hits, party CRIT/EM buff
     TalentBuffDef {
@@ -379,10 +447,54 @@ static ILLUGA_BUFFS: &[TalentBuffDef] = &[
         cap: None,
         activation: None,
     },
-    // A4 "Demonhunter's Dusk": EM × party Hydro/Geo count → Geo DMG buff.
-    // Complex scaling (1人=7%, 2人=14%, 3人=24%) — not expressible with TalentBuffDef.
-    // TODO: Implement dedicated mechanic for Illuga A4.
-    //
+    TalentBuffDef {
+        name: "Demonhunter's Dusk (1 Hydro/Geo Characters)",
+        description: desc!(
+            "A4: Nightingale's Song base DMG increase +7% of Illuga's EM (burst flat DMG approximation)"
+        ),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.07,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Demonhunter's Dusk (2 Hydro/Geo Characters)",
+        description: desc!(
+            "A4: Nightingale's Song base DMG increase +14% of Illuga's EM (burst flat DMG approximation)"
+        ),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.14,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Demonhunter's Dusk (3 Hydro/Geo Characters)",
+        description: desc!(
+            "A4: Nightingale's Song base DMG increase +24% of Illuga's EM (burst flat DMG approximation)"
+        ),
+        stat: BuffableStat::BurstFlatDmg,
+        base_value: 0.24,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: Some(ScalingStat::Em),
+        target: BuffTarget::Team,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
     // C4 "Unfolding of Starlight": Party DEF +200 during Burst
     TalentBuffDef {
         name: "illuga_c4_def_flat",
@@ -527,6 +639,22 @@ static XILONEN_BUFFS: &[TalentBuffDef] = &[
         scales_on: None,
         target: BuffTarget::Team,
         source: TalentBuffSource::ElementalSkill,
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Manual(ManualCondition::Toggle)),
+    },
+    TalentBuffDef {
+        name: "Portable Armored Sheath",
+        description: desc!(
+            "A4: When a nearby party member triggers Nightsoul Burst, Xilonen gains DEF +20%"
+        ),
+        stat: BuffableStat::DefPercent,
+        base_value: 0.20,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
         min_constellation: 0,
         cap: None,
         activation: Some(Activation::Manual(ManualCondition::Toggle)),

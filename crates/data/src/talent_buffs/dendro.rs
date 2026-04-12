@@ -72,6 +72,44 @@ static NAHIDA_BUFFS: &[TalentBuffDef] = &[
         activation: Some(Activation::Manual(ManualCondition::Toggle)),
     },
     TalentBuffDef {
+        name: "Awakening Elucidated Skill DMG Bonus",
+        description: desc!("A4: Tri-Karma Purification DMG +0.1% per EM above 200, max +80%"),
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.001,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::ElementalMastery,
+            offset: Some(200.0),
+            cap: Some([0.80; 5]),
+        })),
+    },
+    TalentBuffDef {
+        name: "Awakening Elucidated Skill CRIT Rate",
+        description: desc!(
+            "A4: Tri-Karma Purification CRIT Rate +0.03% per EM above 200, max +24%"
+        ),
+        stat: BuffableStat::CritRate,
+        base_value: 0.0003,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::ElementalMastery,
+            offset: Some(200.0),
+            cap: Some([0.24; 5]),
+        })),
+    },
+    TalentBuffDef {
         name: "nahida_c2_crit_rate",
         description: desc!("C2: Reaction CRIT Rate +20%"),
         stat: BuffableStat::CritRate,
@@ -637,10 +675,45 @@ static KINICH_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Kirara =====
-// A4: HP → Skill/Burst DMG — complex formula, skip (TODO)
+// A4: HP → Skill/Burst DMG
 // C6 "Kindred of the Sinovamakara": Team All Elem DMG +12%
 static KIRARA_BUFFS: &[TalentBuffDef] = &[
-    // TODO: A4 "Kindred Spirit": HP → Skill/Burst DMG bonus (complex formula, skipped)
+    TalentBuffDef {
+        name: "Pupillary Variance Skill DMG Bonus",
+        description: desc!("A4: Skill DMG +0.4% per 1000 Max HP"),
+        stat: BuffableStat::SkillDmgBonus,
+        base_value: 0.000004,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            offset: None,
+            cap: None,
+        })),
+    },
+    TalentBuffDef {
+        name: "Pupillary Variance Burst DMG Bonus",
+        description: desc!("A4: Burst DMG +0.3% per 1000 Max HP"),
+        stat: BuffableStat::BurstDmgBonus,
+        base_value: 0.000003,
+        scales_with_talent: false,
+        talent_scaling: None,
+        scales_on: None,
+        target: BuffTarget::OnlySelf,
+        source: TalentBuffSource::AscensionPassive(4),
+        min_constellation: 0,
+        cap: None,
+        activation: Some(Activation::Auto(AutoCondition::StatScaling {
+            stat: BuffableStat::HpPercent,
+            offset: None,
+            cap: None,
+        })),
+    },
     TalentBuffDef {
         name: "kirara_c6_dmg_bonus",
         description: desc!("C6: All Elemental DMG +12% (approximation)"),
