@@ -113,8 +113,8 @@ const CANDACE_SKILL_PRESS: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Hp,
     damage_element: Some(Element::Hydro),
     values: [
-        0.1200, 0.1200, 0.1200, 0.1200, 0.1200, 0.1200, 0.1200, 0.1200, 0.1200, 0.1200, 0.1200,
-        0.1200, 0.1200, 0.1200, 0.1200,
+        0.1200, 0.1290, 0.1380, 0.1500, 0.1590, 0.1680, 0.1800, 0.1920, 0.2040, 0.2160, 0.2280,
+        0.2400, 0.2550, 0.2700, 0.2850,
     ],
     dynamic_bonus: None,
 };

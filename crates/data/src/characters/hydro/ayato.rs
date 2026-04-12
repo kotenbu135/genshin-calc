@@ -135,7 +135,7 @@ const AYATO_SKILL_3HIT: TalentScaling = TalentScaling {
     scaling_stat: ScalingStat::Atk,
     damage_element: Some(Element::Hydro),
     values: [
-        0.6493, 0.7022, 0.7550, 0.8305, 0.8834, 0.9437, 1.0268, 1.0999, 1.1929, 1.2835, 1.3741,
+        0.6493, 0.7022, 0.7550, 0.8305, 0.8834, 0.9437, 1.0268, 1.1099, 1.1929, 1.2835, 1.3741,
         1.4647, 1.5553, 1.6459, 1.7365,
     ],
     dynamic_bonus: None,
