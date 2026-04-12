@@ -1471,7 +1471,8 @@ mod tests {
         assert!(c6.iter().any(|b| b.name == "mona_c1_reaction_dmg"));
         assert!(c6.iter().any(|b| b.name == "mona_c2_em"));
         assert!(c6.iter().any(|b| b.name == "mona_c4_crit_rate"));
-        assert!(c6.iter().any(|b| b.name == "mona_c4_crit_dmg"));
+        // mona_c4_crit_dmg removed: Hexerei-party-member only, not modeled in engine
+        assert!(!c6.iter().any(|b| b.name == "mona_c4_crit_dmg"));
         assert!(c6.iter().any(|b| b.name == "mona_c6_charged_dmg"));
         // Check values
         let em_buff = c6.iter().find(|b| b.name == "mona_c2_em").unwrap();
