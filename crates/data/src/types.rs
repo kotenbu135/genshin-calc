@@ -188,6 +188,46 @@ pub struct PassiveScaling {
     pub replaces: &'static [&'static str],
 }
 
+/// Modifier applied to one or more existing [`TalentScaling`] entries on the
+/// same character. Distinct from [`PassiveScaling`] (which adds NEW direct-lunar
+/// scalings): this struct *modifies* existing entries via three kinds of effect.
+///
+/// Used by Zibai (A1/C1/C2/C4) and Columbina (C4) to attach passive- or
+/// constellation-gated bonuses to specific hits without polluting the broad
+/// `SkillFlatDmg`/`BurstFlatDmg` buff system (which lacks per-hit targeting).
+///
+/// `Serialize` only — `&'static` references are not deserialisable per project convention.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct ScalingModifier {
+    /// Display name (talent text title in JA, e.g. "月下に舞い降りる天女").
+    pub name: &'static str,
+    /// `TalentScaling.name` entries on the same character that this modifier targets.
+    /// Apply the effect once per matched scaling.
+    pub targets: &'static [&'static str],
+    /// Activation gate (passive A1/A4 or constellation level).
+    pub gate: ScalingActivationGate,
+    /// Effect kind.
+    pub kind: ScalingModifierKind,
+}
+
+/// Effect kind for a [`ScalingModifier`].
+#[derive(Debug, Clone, Copy, PartialEq, Serialize)]
+pub enum ScalingModifierKind {
+    /// Adds `scaling_stat × multiplier` to the target scaling's flat DMG.
+    /// Applies uniformly to both Standard and DirectLunar pipelines.
+    /// Talent-level independent.
+    AdditionalFlat {
+        scaling_stat: ScalingStat,
+        multiplier: f64,
+    },
+    /// Adds `bonus_ratio` to the `reaction_bonus` term of a DirectLunar target.
+    /// E.g., Zibai C1: +220% Lunar-Crystallize → `bonus_ratio = 2.20`.
+    DirectLunarReactionBonus { bonus_ratio: f64 },
+    /// Multiplies the talent multiplier of a DirectLunar target by `factor`.
+    /// E.g., Zibai C4: ×2.5 on LPS 4-Hit Additional → `factor = 2.5`.
+    DirectLunarMultiplier { factor: f64 },
+}
+
 /// Talent data for an elemental skill or burst.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct TalentData {
@@ -273,6 +313,17 @@ pub fn interpolate_base_stat(keypoints: &[f64; 18], level: u32) -> f64 {
     keypoints[17]
 }
 
+/// Returns the [`Stats`] field selected by [`ScalingStat`].
+fn stat_value(stats: &Stats, scaling_stat: ScalingStat) -> f64 {
+    match scaling_stat {
+        ScalingStat::Atk | ScalingStat::TotalAtk => stats.atk,
+        ScalingStat::Hp => stats.hp,
+        ScalingStat::Def => stats.def,
+        ScalingStat::Em => stats.elemental_mastery,
+        ScalingStat::CritRate => stats.crit_rate,
+    }
+}
+
 // -- Character --
 
 /// Character data including base stats, talents, and metadata.
@@ -305,6 +356,10 @@ pub struct CharacterData {
     /// Passive- and constellation-gated direct lunar reaction scalings.
     /// Empty for characters without any such effects.
     pub passive_scalings: &'static [PassiveScaling],
+    /// Passive- and constellation-gated modifiers on existing talent scalings
+    /// (additional flat / direct-lunar reaction bonus / direct-lunar multiplier).
+    /// Empty for characters without any such effects.
+    pub scaling_modifiers: &'static [ScalingModifier],
 }
 
 impl CharacterData {
@@ -379,6 +434,90 @@ impl CharacterData {
             ScalingActivationGate::PassiveA4 => passive_a4,
             ScalingActivationGate::Constellation(n) => constellation >= n,
         })
+    }
+
+    /// Returns the [`ScalingModifier`] entries currently active given the
+    /// loadout's constellation level and passive-talent unlocks.
+    pub fn active_scaling_modifiers(
+        &self,
+        constellation: u8,
+        passive_a1: bool,
+        passive_a4: bool,
+    ) -> impl Iterator<Item = &ScalingModifier> {
+        self.scaling_modifiers.iter().filter(move |m| match m.gate {
+            ScalingActivationGate::PassiveA1 => passive_a1,
+            ScalingActivationGate::PassiveA4 => passive_a4,
+            ScalingActivationGate::Constellation(n) => constellation >= n,
+        })
+    }
+
+    /// Returns the active [`ScalingModifier`] entries that target the given
+    /// `TalentScaling.name` on this character.
+    pub fn scaling_modifiers_for(
+        &self,
+        scaling_name: &str,
+        constellation: u8,
+        passive_a1: bool,
+        passive_a4: bool,
+    ) -> impl Iterator<Item = &ScalingModifier> {
+        let scaling_name = scaling_name.to_string();
+        self.active_scaling_modifiers(constellation, passive_a1, passive_a4)
+            .filter(move |m| m.targets.iter().any(|n| *n == scaling_name))
+    }
+
+    /// Sums the contributions of all active `AdditionalFlat` modifiers that
+    /// target the given scaling. Returns 0.0 if none apply.
+    pub fn scaling_modifier_flat_dmg(
+        &self,
+        scaling_name: &str,
+        stats: &Stats,
+        constellation: u8,
+        passive_a1: bool,
+        passive_a4: bool,
+    ) -> f64 {
+        self.scaling_modifiers_for(scaling_name, constellation, passive_a1, passive_a4)
+            .filter_map(|m| match m.kind {
+                ScalingModifierKind::AdditionalFlat {
+                    scaling_stat,
+                    multiplier,
+                } => Some(stat_value(stats, scaling_stat) * multiplier),
+                _ => None,
+            })
+            .sum()
+    }
+
+    /// Sums all active `DirectLunarReactionBonus` ratios targeting the given scaling.
+    pub fn scaling_modifier_direct_lunar_reaction_bonus(
+        &self,
+        scaling_name: &str,
+        constellation: u8,
+        passive_a1: bool,
+        passive_a4: bool,
+    ) -> f64 {
+        self.scaling_modifiers_for(scaling_name, constellation, passive_a1, passive_a4)
+            .filter_map(|m| match m.kind {
+                ScalingModifierKind::DirectLunarReactionBonus { bonus_ratio } => Some(bonus_ratio),
+                _ => None,
+            })
+            .sum()
+    }
+
+    /// Returns the product of all active `DirectLunarMultiplier` factors
+    /// targeting the given scaling. Returns `1.0` if none apply, so callers
+    /// can multiply unconditionally: `talent_multiplier * factor`.
+    pub fn scaling_modifier_direct_lunar_multiplier(
+        &self,
+        scaling_name: &str,
+        constellation: u8,
+        passive_a1: bool,
+        passive_a4: bool,
+    ) -> f64 {
+        self.scaling_modifiers_for(scaling_name, constellation, passive_a1, passive_a4)
+            .filter_map(|m| match m.kind {
+                ScalingModifierKind::DirectLunarMultiplier { factor } => Some(factor),
+                _ => None,
+            })
+            .fold(1.0, |acc, f| acc * f)
     }
 
     /// Returns whether the given [`TalentScaling`] name is replaced by any
@@ -686,6 +825,7 @@ mod tests {
             },
             constellation_pattern: pattern,
             passive_scalings: &[],
+            scaling_modifiers: &[],
         }
     }
 

@@ -277,4 +277,5 @@ pub const KEQING: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
     passive_scalings: &[],
+    scaling_modifiers: &[],
 };

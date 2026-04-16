@@ -357,4 +357,5 @@ pub const NEFER: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
     passive_scalings: NEFER_PASSIVE_SCALINGS,
+    scaling_modifiers: &[],
 };

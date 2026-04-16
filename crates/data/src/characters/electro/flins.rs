@@ -251,4 +251,5 @@ pub const FLINS: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
     passive_scalings: FLINS_PASSIVE_SCALINGS,
+    scaling_modifiers: &[],
 };

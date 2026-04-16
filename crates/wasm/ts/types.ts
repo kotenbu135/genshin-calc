@@ -305,6 +305,30 @@ export interface PassiveScaling {
   replaces: string[];
 }
 
+/**
+ * 既存の TalentScaling エントリに対する修飾子（A1/星座由来）。
+ * `PassiveScaling` が「新規ヒット追加」なのに対し、こちらは「既存ヒットの修飾」。
+ * - `AdditionalFlat`: scaling_stat × multiplier を当該ヒットの flat_dmg に加算
+ * - `DirectLunarReactionBonus`: DirectLunar の reaction_bonus に加算
+ * - `DirectLunarMultiplier`: DirectLunar の talent_multiplier に乗算
+ */
+export type ScalingModifierKind =
+  | { AdditionalFlat: { scaling_stat: ScalingStat; multiplier: number } }
+  | { DirectLunarReactionBonus: { bonus_ratio: number } }
+  | { DirectLunarMultiplier: { factor: number } };
+
+/** TalentScaling 修飾子（issue #141）。 */
+export interface ScalingModifier {
+  /** 表示名（例: "月下に舞い降りる天女"） */
+  name: string;
+  /** 同キャラの既存 TalentScaling.name 配列。一致するヒットに修飾を適用。 */
+  targets: string[];
+  /** 発動ゲート（パッシブ/星座条件） */
+  gate: ScalingActivationGate;
+  /** 修飾種別 */
+  kind: ScalingModifierKind;
+}
+
 /** find_character() の戻り値。フルのキャラクターデータ */
 export interface CharacterFullData {
   id: string;
@@ -324,6 +348,8 @@ export interface CharacterFullData {
   constellation_pattern: ConstellationPattern;
   /** パッシブ/星座ゲート付き直接月反応スケーリング。該当効果なしなら []。 */
   passive_scalings: PassiveScaling[];
+  /** 既存 TalentScaling への修飾子。該当効果なしなら []。 */
+  scaling_modifiers: ScalingModifier[];
 }
 
 /** GOOD import用の簡略キャラクターデータ（CharacterBuild.character）。find_character() の戻り値は CharacterFullData を参照 */

@@ -285,6 +285,57 @@ const ZIBAI_BURST_HIT2: TalentScaling = TalentScaling {
     damage_pipeline: DamagePipeline::Standard,
 };
 
+// -- Scaling Modifiers (issue #141) --
+
+/// A1 「月下に舞い降りる天女」: Stride 2-Hit DMG +60% DEF
+/// (Toggle: 4s after skill cast or nearby Moondrift Harmony).
+const ZIBAI_A1_SELENIC_DESCENT: ScalingModifier = ScalingModifier {
+    name: "月下に舞い降りる天女",
+    targets: &["霊駿突進2段ダメージ"],
+    gate: ScalingActivationGate::PassiveA1,
+    kind: ScalingModifierKind::AdditionalFlat {
+        scaling_stat: ScalingStat::Def,
+        multiplier: 0.60,
+    },
+};
+
+/// C1 「疾く出でて粛然と帰す」: first Stride 2-Hit per LPS-mode entry
+/// deals +220% Lunar-Crystallize Reaction DMG.
+const ZIBAI_C1_DISQUICKLY_EMERGE: ScalingModifier = ScalingModifier {
+    name: "疾く出でて粛然と帰す",
+    targets: &["霊駿突進2段ダメージ"],
+    gate: ScalingActivationGate::Constellation(1),
+    kind: ScalingModifierKind::DirectLunarReactionBonus { bonus_ratio: 2.20 },
+};
+
+/// C2 「生は変じて屍と化する」: Stride 2-Hit DMG further +550% DEF
+/// (requires Moonsign: Ascendant Gleam + A1 unlocked).
+const ZIBAI_C2_SOULS_BORN: ScalingModifier = ScalingModifier {
+    name: "生は変じて屍と化する",
+    targets: &["霊駿突進2段ダメージ"],
+    gate: ScalingActivationGate::Constellation(2),
+    kind: ScalingModifierKind::AdditionalFlat {
+        scaling_stat: ScalingStat::Def,
+        multiplier: 5.50,
+    },
+};
+
+/// C4 「魂向かひて身も従ずる」: next NA 4-Hit Additional deals 250% (×2.5)
+/// of original (Toggle: consume 月の華 from Stride hit).
+const ZIBAI_C4_FORM_FOLLOWS: ScalingModifier = ScalingModifier {
+    name: "魂向かひて身も従ずる",
+    targets: &["月相転移4段追加ダメージ"],
+    gate: ScalingActivationGate::Constellation(4),
+    kind: ScalingModifierKind::DirectLunarMultiplier { factor: 2.50 },
+};
+
+static ZIBAI_SCALING_MODIFIERS: &[ScalingModifier] = &[
+    ZIBAI_A1_SELENIC_DESCENT,
+    ZIBAI_C1_DISQUICKLY_EMERGE,
+    ZIBAI_C2_SOULS_BORN,
+    ZIBAI_C4_FORM_FOLLOWS,
+];
+
 // -- Character Data --
 
 pub const ZIBAI: CharacterData = CharacterData {
@@ -348,4 +399,5 @@ pub const ZIBAI: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
     passive_scalings: &[],
+    scaling_modifiers: ZIBAI_SCALING_MODIFIERS,
 };

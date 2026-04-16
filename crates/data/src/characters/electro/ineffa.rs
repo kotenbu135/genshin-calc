@@ -246,4 +246,5 @@ pub const INEFFA: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
     passive_scalings: INEFFA_PASSIVE_SCALINGS,
+    scaling_modifiers: &[],
 };

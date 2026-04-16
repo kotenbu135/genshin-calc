@@ -579,27 +579,17 @@ static ZHONGLI_BUFFS: &[TalentBuffDef] = &[
 ];
 
 // ===== Zibai =====
-// A1 "Spirit Steed": 2nd hit of Spirit Steed deals +60% DEF as additional Geo DMG
+// A1 "Spirit Steed" was previously defined here as `BuffableStat::SkillFlatDmg`,
+// but that buff lacked per-hit targeting and over-applied DEF×0.60 to ALL 10
+// elemental_skill scalings (LPS hits 1-4, charged 1-2, additional, Stride 1-2).
+// Replaced in issue #141 by `ZIBAI_A1_SELENIC_DESCENT` ScalingModifier on Stride 2-Hit only.
+//
 // A4 "Riding Wind and Clouds":
 //   - DEF +15% per other Geo party member (max 3 stacks)
 //   - EM +60 per Hydro party member (max 4 stacks)
 // C2 "At Birth Are Souls Born, and in Death Leave But Husks":
 // Lunar-Crystallize Reaction DMG +30% for nearby party members
 static ZIBAI_BUFFS: &[TalentBuffDef] = &[
-    TalentBuffDef {
-        name: "Spirit Steed A1 Skill Flat DMG",
-        description: desc!("A1: Spirit Steed 2nd hit deals additional Geo DMG equal to 60% of DEF"),
-        stat: BuffableStat::SkillFlatDmg,
-        base_value: 0.60,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: Some(ScalingStat::Def),
-        target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive(1),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
     TalentBuffDef {
         name: "Riding Wind and Clouds DEF",
         description: desc!("A4: DEF +15% per other Geo party member (max 3 stacks)"),

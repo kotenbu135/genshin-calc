@@ -1,8 +1,10 @@
 use genshin_calc_core::moonsign::{MoonsignLevel, MoonsignTalentEffect};
 use genshin_calc_core::{BuffTarget, BuffableStat, Element, Reaction, ScalingStat};
+use genshin_calc_data::find_character;
 use genshin_calc_data::moonsign_chars::LAUMA_TALENT_ENHANCEMENTS;
 /// Tests for issues #122-126: Zibai A1/A4, Baizhu A1, Kinich C1, Lauma A1 moonsign.
 use genshin_calc_data::talent_buffs::{TalentBuffSource, find_talent_buffs};
+use genshin_calc_data::types::{ScalingActivationGate, ScalingModifierKind};
 
 const EPS: f64 = 1e-6;
 
@@ -13,22 +15,26 @@ fn close(a: f64, b: f64) -> bool {
 // ===== Issue #122: Zibai A1 =====
 
 #[test]
-fn zibai_a1_skill_flat_dmg_def_scaling() {
-    let buffs = find_talent_buffs("zibai").unwrap();
-    let a1 = buffs
+fn zibai_a1_selenic_descent_targets_stride_hit2() {
+    // Issue #141: A1 SkillFlatDmg buff (over-applied to all 10 skill hits) replaced by
+    // a per-hit-targeted ScalingModifier on `霊駿突進2段ダメージ`.
+    let zibai = find_character("zibai").unwrap();
+    let a1 = zibai
+        .scaling_modifiers
         .iter()
-        .find(|b| {
-            b.stat == BuffableStat::SkillFlatDmg
-                && b.source == TalentBuffSource::AscensionPassive(1)
-        })
-        .expect("Zibai A1 SkillFlatDmg buff missing");
-    assert!(
-        close(a1.base_value, 0.60),
-        "A1 SkillFlatDmg ratio should be 0.60, got {}",
-        a1.base_value
-    );
-    assert_eq!(a1.scales_on, Some(ScalingStat::Def));
-    assert_eq!(a1.target, BuffTarget::OnlySelf);
+        .find(|m| m.gate == ScalingActivationGate::PassiveA1)
+        .expect("Zibai A1 scaling_modifier missing");
+    assert_eq!(a1.targets, &["霊駿突進2段ダメージ"]);
+    match a1.kind {
+        ScalingModifierKind::AdditionalFlat {
+            scaling_stat,
+            multiplier,
+        } => {
+            assert_eq!(scaling_stat, ScalingStat::Def);
+            assert!(close(multiplier, 0.60), "expected 0.60, got {multiplier}");
+        }
+        other => panic!("expected AdditionalFlat, got {other:?}"),
+    }
 }
 
 // ===== Issue #122: Zibai A4 =====
@@ -71,8 +77,13 @@ fn zibai_a4_em_per_hydro_member() {
 #[test]
 fn zibai_buff_count_with_a1_a4() {
     let buffs = find_talent_buffs("zibai").unwrap();
-    // Was 1 (C2), now +3 (A1 SkillFlatDmg + A4 DefPercent + A4 EM) = 4
-    assert_eq!(buffs.len(), 4, "zibai should have 4 buffs (C2 + A1 + A4x2)");
+    // Issue #141: A1 SkillFlatDmg removed (moved to scaling_modifiers).
+    // Remaining ZIBAI_BUFFS: A4 DefPercent + A4 EM + C2 reaction DMG = 3.
+    assert_eq!(
+        buffs.len(),
+        3,
+        "zibai should have 3 buffs (A4 DEF% + A4 EM + C2 reaction DMG); A1 moved to scaling_modifiers"
+    );
 }
 
 // ===== Issue #123: Baizhu A1 =====

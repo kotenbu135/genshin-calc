@@ -264,4 +264,5 @@ pub const LAUMA: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
     passive_scalings: LAUMA_PASSIVE_SCALINGS,
+    scaling_modifiers: &[],
 };

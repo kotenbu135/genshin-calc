@@ -209,4 +209,5 @@ pub const NEUVILLETTE: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3NormalC5Burst,
     passive_scalings: &[],
+    scaling_modifiers: &[],
 };

@@ -242,4 +242,5 @@ pub const ARLECCHINO: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3NormalC5Burst,
     passive_scalings: &[],
+    scaling_modifiers: &[],
 };

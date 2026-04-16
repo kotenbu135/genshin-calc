@@ -177,6 +177,49 @@ const COLUMBINA_BURST_DMG: TalentScaling = TalentScaling {
     damage_pipeline: DamagePipeline::Standard,
 };
 
+// -- Scaling Modifiers (issue #141) --
+
+/// C4 「花の嵐や雲と木と岩の陰」: when Lunar-Charged is the dominant
+/// Gravity-accumulated reaction during Gravity Interference, the resulting
+/// Lunar-Charged DMG is +12.5% Max HP. Toggle: 15s CD per trigger.
+const COLUMBINA_C4_MOD_LUNAR_CHARGED: ScalingModifier = ScalingModifier {
+    name: "花の嵐や雲と木と岩の陰・月感電",
+    targets: &["Gravity Interference: Lunar-Charged DMG"],
+    gate: ScalingActivationGate::Constellation(4),
+    kind: ScalingModifierKind::AdditionalFlat {
+        scaling_stat: ScalingStat::Hp,
+        multiplier: 0.125,
+    },
+};
+
+/// C4 same, Lunar-Bloom branch: +2.5% Max HP.
+const COLUMBINA_C4_MOD_LUNAR_BLOOM: ScalingModifier = ScalingModifier {
+    name: "花の嵐や雲と木と岩の陰・月開花",
+    targets: &["Gravity Interference: Lunar-Bloom DMG"],
+    gate: ScalingActivationGate::Constellation(4),
+    kind: ScalingModifierKind::AdditionalFlat {
+        scaling_stat: ScalingStat::Hp,
+        multiplier: 0.025,
+    },
+};
+
+/// C4 same, Lunar-Crystallize branch: +12.5% Max HP.
+const COLUMBINA_C4_MOD_LUNAR_CRYSTALLIZE: ScalingModifier = ScalingModifier {
+    name: "花の嵐や雲と木と岩の陰・月結晶",
+    targets: &["Gravity Interference: Lunar-Crystallize DMG"],
+    gate: ScalingActivationGate::Constellation(4),
+    kind: ScalingModifierKind::AdditionalFlat {
+        scaling_stat: ScalingStat::Hp,
+        multiplier: 0.125,
+    },
+};
+
+static COLUMBINA_SCALING_MODIFIERS: &[ScalingModifier] = &[
+    COLUMBINA_C4_MOD_LUNAR_CHARGED,
+    COLUMBINA_C4_MOD_LUNAR_BLOOM,
+    COLUMBINA_C4_MOD_LUNAR_CRYSTALLIZE,
+];
+
 pub const COLUMBINA: CharacterData = CharacterData {
     id: "columbina",
     name: "Columbina",
@@ -231,4 +274,5 @@ pub const COLUMBINA: CharacterData = CharacterData {
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
     passive_scalings: &[],
+    scaling_modifiers: COLUMBINA_SCALING_MODIFIERS,
 };
