@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.14] - 2026-04-17
+
+### Added
+- Direct lunar damage calculation pipeline (`calculate_direct_lunar`) for talent-originated
+  damage that is classified as lunar-reaction damage (Ineffa A1/C4/C6,
+  Flins burst/C4, Columbina skill, Lauma skill hold, Nefer C6, Zibai skill 2nd hit/constellations)
+  - New public types: `DirectLunarInput` (re-uses `LunarResult`)
+  - Formula: `base = talent_mult × scaling_value + flat_dmg`, multiplied by
+    `(1 + base_dmg_bonus) × (1 + lunar_em_bonus + reaction_bonus) × res_mult`,
+    with crit applied; no level base, no DEF multiplier, no elemental DMG%
+  - WASM binding `calculate_direct_lunar`
+  - TOML test coverage: Ineffa A1 & C6, Lauma skill hold, Zibai skill 2-hit
+
 ## [0.1.0] - 2026-03-31
 
 ### Added

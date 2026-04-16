@@ -130,7 +130,9 @@ pub use enemy::{
 };
 pub use error::CalcError;
 pub use level_table::reaction_base_value;
-pub use lunar::{LunarInput, LunarResult, calculate_lunar};
+pub use lunar::{
+    DirectLunarInput, LunarInput, LunarResult, calculate_direct_lunar, calculate_lunar,
+};
 pub use moonsign::{
     LunarContribution, MoonsignBenediction, MoonsignContext, MoonsignLevel, MoonsignTalentEffect,
     MoonsignTalentEnhancement, NonMoonsignLunarBuff, apply_moonsign_enhancements,

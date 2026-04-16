@@ -112,3 +112,34 @@ resistance = 0.10
 non_crit = 734.523174
 crit = 1469.046348
 average = 1101.784761
+
+# Skill 2nd Hit — considered Lunar-Crystallize Reaction DMG, DEF-scaled
+# Skill Lv10 2-Hit DMG = 319.94% DEF
+# base = 2500 * 3.1994 = 7998.5
+# em_bonus = 6 * 80 / (80 + 2000) = 0.2307692308
+# non_crit = 7998.5 * 1.14 * 1.2307692308 * 0.9 = 10100.259692
+# crit = 10100.259692 * 2.40 = 24240.623262
+# avg = 10100.259692 * 0.40 + 24240.623262 * 0.60 = 18584.477834
+[[cases]]
+type = "direct_lunar"
+name = "Skill Hit 2 — Direct Lunar-Crystallize (DEF-scaling)"
+character_level = 90
+talent_multiplier = 3.1994
+scaling_value = 2500.0
+elemental_mastery = 80.0
+reaction = "LunarCrystallize"
+reaction_bonus = 0.0
+crit_rate = 0.60
+crit_dmg = 1.40
+base_dmg_bonus = 0.14
+flat_dmg = 0.0
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 10100.259692
+crit = 24240.623262
+average = 18584.477834

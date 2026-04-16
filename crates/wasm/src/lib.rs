@@ -170,6 +170,31 @@ pub fn calculate_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsErro
     to_js(&result)
 }
 
+/// Calculates direct lunar damage from a talent (Ineffa A1/C6, Lauma hold skill,
+/// Zibai skill 2nd hit, etc.).
+///
+/// Unlike `calculate_lunar`, this pipeline scales the damage on a chosen
+/// character stat (ATK/HP/DEF/EM) multiplied by a talent multiplier, not on
+/// the character level reaction base. The damage can still crit and is
+/// classified as lunar-reaction damage.
+///
+/// # Arguments
+/// * `input` - DirectLunarInput as a JS object
+/// * `enemy` - Enemy as a JS object
+///
+/// # Returns
+/// LunarResult as a JS object with non_crit, crit, average, damage_element fields.
+#[wasm_bindgen]
+pub fn calculate_direct_lunar(input: JsValue, enemy: JsValue) -> Result<JsValue, JsError> {
+    let input: genshin_calc_core::DirectLunarInput = serde_wasm_bindgen::from_value(input)
+        .map_err(|e| JsError::new(&format!("Invalid input: {e}")))?;
+    let enemy: genshin_calc_core::Enemy = serde_wasm_bindgen::from_value(enemy)
+        .map_err(|e| JsError::new(&format!("Invalid enemy: {e}")))?;
+    let result = genshin_calc_core::calculate_direct_lunar(&input, &enemy)
+        .map_err(|e| JsError::new(&e.to_string()))?;
+    to_js(&result)
+}
+
 /// Resolves team buffs and returns detailed result for the target member.
 ///
 /// # Arguments

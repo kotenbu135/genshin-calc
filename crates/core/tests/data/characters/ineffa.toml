@@ -35,3 +35,63 @@ resistance = 0.10
 non_crit = 22029.341206
 crit = 55073.353016
 average = 43507.948883
+
+# Case 2: A1 Passive — Birgitta discharge extra attack (65% ATK, considered Lunar-Charged DMG)
+# base = 1800 * 0.65 = 1170
+# em_bonus = 6 * 100 / (100 + 2000) = 0.2857142857142857
+# non_crit = 1170 * 1.0 * (1 + 0.2857142857) * 0.9 = 1353.857142857
+# crit = 1353.857143 * (1 + 1.60) = 3520.028571429
+# avg = 1353.857143 * 0.35 + 3520.028571 * 0.65 = 2761.868571429
+[[cases]]
+type = "direct_lunar"
+name = "A1 Birgitta discharge — Direct Lunar-Charged 65% ATK"
+character_level = 90
+talent_multiplier = 0.65
+scaling_value = 1800.0
+elemental_mastery = 100.0
+reaction = "LunarElectroCharged"
+reaction_bonus = 0.0
+crit_rate = 0.65
+crit_dmg = 1.60
+base_dmg_bonus = 0.0
+flat_dmg = 0.0
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 1353.857143
+crit = 3520.028571
+average = 2761.868571
+
+# Case 3: C6 — Carrier Flow Composite 135% ATK Lunar-Charged with A1 Base DMG maxed (14%)
+# base = 2000 * 1.35 = 2700
+# em_bonus = 6 * 200 / (200 + 2000) = 0.5454545454
+# non_crit = 2700 * 1.14 * 1.5454545454 * 0.9 = 4281.218182
+# crit = 4281.218182 * 2.80 = 11987.410909
+# avg = 4281.218182 * 0.30 + 11987.410909 * 0.70 = 9675.553091
+[[cases]]
+type = "direct_lunar"
+name = "C6 Carrier Flow 135% ATK — Lunar-Charged with A1 max bonus"
+character_level = 90
+talent_multiplier = 1.35
+scaling_value = 2000.0
+elemental_mastery = 200.0
+reaction = "LunarElectroCharged"
+reaction_bonus = 0.0
+crit_rate = 0.70
+crit_dmg = 1.80
+base_dmg_bonus = 0.14
+flat_dmg = 0.0
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 4281.218182
+crit = 11987.410909
+average = 9675.553091

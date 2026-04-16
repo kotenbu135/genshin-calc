@@ -31,6 +31,8 @@ pub enum TestCase {
     Transformative(TransformativeCase),
     #[serde(rename = "lunar")]
     Lunar(LunarCase),
+    #[serde(rename = "direct_lunar")]
+    DirectLunar(DirectLunarCase),
 }
 
 #[derive(Deserialize)]
@@ -76,6 +78,27 @@ pub struct LunarCase {
     pub reaction_bonus: f64,
     pub crit_rate: f64,
     pub crit_dmg: f64,
+    pub enemy: EnemyData,
+    pub expected: DamageExpected,
+    pub tolerance: Option<f64>,
+}
+
+#[derive(Deserialize)]
+pub struct DirectLunarCase {
+    pub name: String,
+    pub character_level: u32,
+    pub talent_multiplier: f64,
+    pub scaling_value: f64,
+    pub elemental_mastery: f64,
+    pub reaction: String,
+    #[serde(default)]
+    pub reaction_bonus: f64,
+    pub crit_rate: f64,
+    pub crit_dmg: f64,
+    #[serde(default)]
+    pub base_dmg_bonus: f64,
+    #[serde(default)]
+    pub flat_dmg: f64,
     pub enemy: EnemyData,
     pub expected: DamageExpected,
     pub tolerance: Option<f64>,
