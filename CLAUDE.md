@@ -44,6 +44,7 @@
 - 武器: `honeyhunter-mirror/md/weapons/i_n{id}.md` — ステータス・精錬効果
 - ミラー更新: `./scripts/honeyhunter-mirror.sh characters [ja]` → `python3 scripts/honeyhunter-to-md.py`
 - WebFetch/ブラウザでHoney Impactにアクセスしないこと
+- 確認のためにWebでゲーム情報を検索するときはKQMを利用する
 
 ## Communication Style
 - セッション開始時、自動で `/genshijin 極限` モード有効化。全レスポンス極限圧縮で返答
