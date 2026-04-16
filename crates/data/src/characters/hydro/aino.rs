@@ -203,4 +203,5 @@ pub const AINO: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    passive_scalings: &[],
 };

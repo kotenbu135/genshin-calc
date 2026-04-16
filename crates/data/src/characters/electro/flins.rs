@@ -182,6 +182,20 @@ const FLINS_BURST_THUNDER: TalentScaling = TalentScaling {
     damage_pipeline: DamagePipeline::Standard,
 };
 
+// -- Passive / Constellation direct lunar scalings (Issue #140) --
+
+const FLINS_C2_DEVILS_WALL: PassiveScaling = PassiveScaling {
+    name: "邪悪の壁を超える者",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    multiplier: 0.50,
+    reaction: genshin_calc_core::Reaction::LunarElectroCharged,
+    gate: ScalingActivationGate::Constellation(2),
+    replaces: &[],
+};
+
+static FLINS_PASSIVE_SCALINGS: &[PassiveScaling] = &[FLINS_C2_DEVILS_WALL];
+
 pub const FLINS: CharacterData = CharacterData {
     id: "flins",
     name: "Flins",
@@ -236,4 +250,5 @@ pub const FLINS: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    passive_scalings: FLINS_PASSIVE_SCALINGS,
 };

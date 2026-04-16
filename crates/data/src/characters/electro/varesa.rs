@@ -294,4 +294,5 @@ pub const VARESA: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Normal,
+    passive_scalings: &[],
 };

@@ -136,6 +136,58 @@ pub struct TalentScaling {
     pub damage_pipeline: DamagePipeline,
 }
 
+/// Activation gate for a passive- or constellation-driven scaling.
+///
+/// Indicates the requirement that must be met for a [`PassiveScaling`] to apply.
+/// Frontends filter `CharacterData.passive_scalings` against the loadout's
+/// constellation level / passive unlocks.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+pub enum ScalingActivationGate {
+    /// A1 passive unlocked (character level >= 40).
+    PassiveA1,
+    /// A4 passive unlocked (character level >= 60 for 4★, >= 70 for 5★).
+    PassiveA4,
+    /// Constellation level >= N.
+    Constellation(u8),
+}
+
+/// Passive- or constellation-gated direct lunar reaction scaling.
+///
+/// Lv-independent fixed multiplier routed through `calculate_direct_lunar`.
+/// Distinct from [`TalentScaling`] because passive/constellation damage is
+/// not subject to the 15-level talent table.
+///
+/// # Replacement semantics
+///
+/// When `replaces` is non-empty, the consumer must remove the listed
+/// [`TalentScaling`] entries (matched by `TalentScaling.name` on the same
+/// character) from the standard hit list and use this `PassiveScaling`
+/// instead. Used for Nefer C6 which converts Phantasm Performance 2-Hit
+/// (both ATK and EM scalings) into a single direct-lunar Bloom instance.
+///
+/// `Serialize` only — `&'static` references are not deserialisable per
+/// project convention.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct PassiveScaling {
+    /// Display name (used by frontends and `replaces` matching from other characters).
+    pub name: &'static str,
+    /// Stat the multiplier scales on (ATK / EM / HP / DEF).
+    pub scaling_stat: ScalingStat,
+    /// Element of the resulting damage. Currently always `Some(_)` since all
+    /// known direct-lunar passives are elemental, but `Option` matches
+    /// [`TalentScaling`] for consistency.
+    pub damage_element: Option<Element>,
+    /// Lv-independent fixed multiplier in decimal form (e.g. 65% = `0.65`).
+    pub multiplier: f64,
+    /// Lunar reaction this damage is classified as. Must be a `Lunar*` variant.
+    pub reaction: Reaction,
+    /// Activation gate (passive A1/A4 or constellation level).
+    pub gate: ScalingActivationGate,
+    /// Names of existing `TalentScaling` entries on the same character that
+    /// this passive replaces. Empty means additive only.
+    pub replaces: &'static [&'static str],
+}
+
 /// Talent data for an elemental skill or burst.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct TalentData {
@@ -250,6 +302,9 @@ pub struct CharacterData {
     pub talents: TalentSet,
     /// Constellation pattern for talent level boosts (C3 and C5).
     pub constellation_pattern: ConstellationPattern,
+    /// Passive- and constellation-gated direct lunar reaction scalings.
+    /// Empty for characters without any such effects.
+    pub passive_scalings: &'static [PassiveScaling],
 }
 
 impl CharacterData {
@@ -305,6 +360,39 @@ impl CharacterData {
     /// Returns the base DEF at the specified character level.
     pub fn base_def_at_level(&self, level: u32) -> f64 {
         interpolate_base_stat(&self.base_def, level)
+    }
+
+    /// Returns the [`PassiveScaling`] entries currently active given the
+    /// loadout's constellation level and passive-talent unlocks.
+    ///
+    /// `constellation` is the character's constellation level (0-6).
+    /// `passive_a1` and `passive_a4` indicate whether the A1/A4 ascension
+    /// passives are unlocked (typically from character level thresholds).
+    pub fn active_passive_scalings(
+        &self,
+        constellation: u8,
+        passive_a1: bool,
+        passive_a4: bool,
+    ) -> impl Iterator<Item = &PassiveScaling> {
+        self.passive_scalings.iter().filter(move |p| match p.gate {
+            ScalingActivationGate::PassiveA1 => passive_a1,
+            ScalingActivationGate::PassiveA4 => passive_a4,
+            ScalingActivationGate::Constellation(n) => constellation >= n,
+        })
+    }
+
+    /// Returns whether the given [`TalentScaling`] name is replaced by any
+    /// currently-active [`PassiveScaling`] for the loadout. Consumers should
+    /// skip emitting replaced scalings through the standard damage pipeline.
+    pub fn talent_scaling_is_replaced(
+        &self,
+        scaling_name: &str,
+        constellation: u8,
+        passive_a1: bool,
+        passive_a4: bool,
+    ) -> bool {
+        self.active_passive_scalings(constellation, passive_a1, passive_a4)
+            .any(|p| p.replaces.contains(&scaling_name))
     }
 
     /// Returns the TalentScaling entry for a specific talent hit.
@@ -597,6 +685,7 @@ mod tests {
                 },
             },
             constellation_pattern: pattern,
+            passive_scalings: &[],
         }
     }
 
