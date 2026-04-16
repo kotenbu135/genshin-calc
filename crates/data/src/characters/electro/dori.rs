@@ -15,6 +15,7 @@ const DORI_NORMAL_1: TalentScaling = TalentScaling {
         2.0353, 2.1612, 2.2872, 2.4132,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DORI_NORMAL_2A: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const DORI_NORMAL_2A: TalentScaling = TalentScaling {
         0.9264, 0.9839, 1.0413, 1.0987,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DORI_NORMAL_2B: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const DORI_NORMAL_2B: TalentScaling = TalentScaling {
         0.9735, 1.0339, 1.0943, 1.1546,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DORI_NORMAL_3: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const DORI_NORMAL_3: TalentScaling = TalentScaling {
         2.8964, 3.0756, 3.2547, 3.4339,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -61,6 +65,7 @@ const DORI_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.4541, 1.5717, 1.6893, 1.8173,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DORI_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -72,6 +77,7 @@ const DORI_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.6293, 2.8422, 3.0551, 3.2861,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -85,6 +91,7 @@ const DORI_PLUNGE: TalentScaling = TalentScaling {
         1.6827, 1.7869, 1.8910, 1.9952,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DORI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const DORI_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DORI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const DORI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 鎮霊のランプ・トラブルシューター (Spirit-Warding Lamp: Troubleshooter Cannon) -- Electro --
@@ -120,6 +129,7 @@ const DORI_SKILL_SHOT: TalentScaling = TalentScaling {
         2.9456, 3.1297, 3.3138, 3.4979,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DORI_SKILL_AFTER_SALES: TalentScaling = TalentScaling {
@@ -131,6 +141,7 @@ const DORI_SKILL_AFTER_SALES: TalentScaling = TalentScaling {
         0.6312, 0.6707, 0.7101, 0.7496,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 卸カガラカの法契 (Alcazarzaray's Exactitude) -- Electro --
@@ -144,6 +155,7 @@ const DORI_BURST_CONNECTOR: TalentScaling = TalentScaling {
         0.3176, 0.3375, 0.3574, 0.3772,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const DORI: CharacterData = CharacterData {

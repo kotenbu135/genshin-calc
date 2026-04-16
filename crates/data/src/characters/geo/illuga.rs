@@ -16,6 +16,7 @@ const ILLUGA_NORMAL_1: TalentScaling = TalentScaling {
         1.0685, 1.1346, 1.2007, 1.2668,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const ILLUGA_NORMAL_2: TalentScaling = TalentScaling {
         1.0946, 1.1624, 1.2301, 1.2978,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_NORMAL_3A: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const ILLUGA_NORMAL_3A: TalentScaling = TalentScaling {
         0.7091, 0.7529, 0.7968, 0.8407,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_NORMAL_3B: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const ILLUGA_NORMAL_3B: TalentScaling = TalentScaling {
         0.7091, 0.7529, 0.7968, 0.8407,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_NORMAL_4: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const ILLUGA_NORMAL_4: TalentScaling = TalentScaling {
         1.7207, 1.8271, 1.9336, 2.0400,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -73,6 +78,7 @@ const ILLUGA_CHARGED: TalentScaling = TalentScaling {
         2.5045, 2.6595, 2.8144, 2.9693,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const ILLUGA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const ILLUGA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const ILLUGA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Dawnbearing Songbird -- Geo (EM+DEF dual) --
@@ -121,6 +130,7 @@ const ILLUGA_SKILL_PRESS_EM: TalentScaling = TalentScaling {
         9.6512, 10.2544, 10.8576, 11.4608,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_SKILL_PRESS_DEF: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const ILLUGA_SKILL_PRESS_DEF: TalentScaling = TalentScaling {
         4.8256, 5.1272, 5.4288, 5.7304,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_SKILL_HOLD_EM: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const ILLUGA_SKILL_HOLD_EM: TalentScaling = TalentScaling {
         12.0640, 12.8180, 13.5720, 14.3260,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_SKILL_HOLD_DEF: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const ILLUGA_SKILL_HOLD_DEF: TalentScaling = TalentScaling {
         6.0320, 6.4090, 6.7860, 7.1630,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Shadowless Reflection -- Geo (EM+DEF dual) --
@@ -167,6 +180,7 @@ const ILLUGA_BURST_EM: TalentScaling = TalentScaling {
         15.7168, 16.5440, 17.5780, 18.6120, 19.6460,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_BURST_DEF: TalentScaling = TalentScaling {
@@ -178,6 +192,7 @@ const ILLUGA_BURST_DEF: TalentScaling = TalentScaling {
         8.2720, 8.7890, 9.3060, 9.8230,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ILLUGA_BURST_LUNAR_CRYSTALLIZE: TalentScaling = TalentScaling {
@@ -189,6 +204,7 @@ const ILLUGA_BURST_LUNAR_CRYSTALLIZE: TalentScaling = TalentScaling {
         4.5184, 4.8008, 5.0832, 5.3656,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aggregation --

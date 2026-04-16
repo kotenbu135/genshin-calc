@@ -12,6 +12,7 @@ const DAHLIA_NORMAL_1: TalentScaling = TalentScaling {
         0.9823, 1.0431, 1.1039, 1.1646,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DAHLIA_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const DAHLIA_NORMAL_2: TalentScaling = TalentScaling {
         0.9046, 0.9605, 1.0165, 1.0724,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DAHLIA_NORMAL_3A: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const DAHLIA_NORMAL_3A: TalentScaling = TalentScaling {
         0.5356, 0.5688, 0.6019, 0.6350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DAHLIA_NORMAL_3B: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const DAHLIA_NORMAL_3B: TalentScaling = TalentScaling {
         0.6546, 0.6950, 0.7355, 0.7760,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DAHLIA_NORMAL_4: TalentScaling = TalentScaling {
@@ -56,6 +60,7 @@ const DAHLIA_NORMAL_4: TalentScaling = TalentScaling {
         1.4811, 1.5727, 1.6643, 1.7560,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -69,6 +74,7 @@ const DAHLIA_CHARGED_1: TalentScaling = TalentScaling {
         0.8995, 0.9552, 1.0108, 1.0665,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DAHLIA_CHARGED_2: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const DAHLIA_CHARGED_2: TalentScaling = TalentScaling {
         1.2422, 1.3191, 1.3959, 1.4727,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -93,6 +100,7 @@ const DAHLIA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DAHLIA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const DAHLIA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DAHLIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const DAHLIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 受洗の礼典 -- Hydro --
@@ -128,6 +138,7 @@ const DAHLIA_SKILL: TalentScaling = TalentScaling {
         4.6560, 4.9470, 5.2380, 5.5290,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 純光の祈り -- Hydro --
@@ -141,6 +152,7 @@ const DAHLIA_BURST: TalentScaling = TalentScaling {
         8.1280, 8.6360, 9.1440, 9.6520,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const DAHLIA: CharacterData = CharacterData {

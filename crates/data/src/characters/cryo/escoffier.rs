@@ -14,6 +14,7 @@ const ESCOFFIER_NORMAL_1: TalentScaling = TalentScaling {
         1.1629, 1.2348, 1.3068, 1.3787,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ESCOFFIER_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const ESCOFFIER_NORMAL_2: TalentScaling = TalentScaling {
         1.0736, 1.1400, 1.2064, 1.2728,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ESCOFFIER_NORMAL_3A: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const ESCOFFIER_NORMAL_3A: TalentScaling = TalentScaling {
         0.7444, 0.7905, 0.8365, 0.8825,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ESCOFFIER_NORMAL_3B: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const ESCOFFIER_NORMAL_3B: TalentScaling = TalentScaling {
         0.9098, 0.9661, 1.0224, 1.0787,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -60,6 +64,7 @@ const ESCOFFIER_CHARGED: TalentScaling = TalentScaling {
         2.6035, 2.7645, 2.9256, 3.0866,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -73,6 +78,7 @@ const ESCOFFIER_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ESCOFFIER_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const ESCOFFIER_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ESCOFFIER_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const ESCOFFIER_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Low-Temperature Cooking -- Cryo --
@@ -108,6 +116,7 @@ const ESCOFFIER_SKILL: TalentScaling = TalentScaling {
         1.0080, 1.0710, 1.1340, 1.1970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ESCOFFIER_SKILL_PARFAIT: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const ESCOFFIER_SKILL_PARFAIT: TalentScaling = TalentScaling {
         2.4000, 2.5500, 2.7000, 2.8500,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ESCOFFIER_SKILL_SURGING: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const ESCOFFIER_SKILL_SURGING: TalentScaling = TalentScaling {
         0.6720, 0.7140, 0.7560, 0.7980,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Scoring Cuts -- Cryo --
@@ -143,6 +154,7 @@ const ESCOFFIER_BURST: TalentScaling = TalentScaling {
         11.8560, 12.5970, 13.3380, 14.0790,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ESCOFFIER: CharacterData = CharacterData {

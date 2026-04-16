@@ -20,6 +20,7 @@ const DURIN_NA_HIT1: TalentScaling = TalentScaling {
         1.0298, 1.0935, 1.1572, 1.2209,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_NA_HIT2: TalentScaling = TalentScaling {
@@ -31,6 +32,7 @@ const DURIN_NA_HIT2: TalentScaling = TalentScaling {
         0.9250, 0.9822, 1.0394, 1.0966,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_NA_HIT3: TalentScaling = TalentScaling {
@@ -42,6 +44,7 @@ const DURIN_NA_HIT3: TalentScaling = TalentScaling {
         0.6578, 0.6985, 0.7392, 0.7799,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_NA_HIT4: TalentScaling = TalentScaling {
@@ -53,6 +56,7 @@ const DURIN_NA_HIT4: TalentScaling = TalentScaling {
         1.6051, 1.7043, 1.8036, 1.9029,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_CHARGED: TalentScaling = TalentScaling {
@@ -64,6 +68,7 @@ const DURIN_CHARGED: TalentScaling = TalentScaling {
         2.5589, 2.7171, 2.8754, 3.0337,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_PLUNGE: TalentScaling = TalentScaling {
@@ -75,6 +80,7 @@ const DURIN_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -86,6 +92,7 @@ const DURIN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const DURIN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Binary Form: Convergence and Division ---
@@ -110,6 +118,7 @@ const DURIN_SKILL_PURITY: TalentScaling = TalentScaling {
         2.1120, 2.2440, 2.3760, 2.5080,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_SKILL_DARK_1: TalentScaling = TalentScaling {
@@ -121,6 +130,7 @@ const DURIN_SKILL_DARK_1: TalentScaling = TalentScaling {
         1.4448, 1.5351, 1.6254, 1.7157,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_SKILL_DARK_2: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const DURIN_SKILL_DARK_2: TalentScaling = TalentScaling {
         1.0640, 1.1305, 1.1970, 1.2635,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_SKILL_DARK_3: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const DURIN_SKILL_DARK_3: TalentScaling = TalentScaling {
         1.2928, 1.3736, 1.4544, 1.5352,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Principle of Purity / Principle of Darkness ---
@@ -156,6 +168,7 @@ const DURIN_BURST_PURITY_1: TalentScaling = TalentScaling {
         2.3792, 2.5279, 2.6766, 2.8253,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_BURST_PURITY_2: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const DURIN_BURST_PURITY_2: TalentScaling = TalentScaling {
         1.9280, 2.0485, 2.1690, 2.2895,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_BURST_PURITY_3: TalentScaling = TalentScaling {
@@ -178,6 +192,7 @@ const DURIN_BURST_PURITY_3: TalentScaling = TalentScaling {
         2.2368, 2.3766, 2.5164, 2.6562,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_BURST_DARK_1: TalentScaling = TalentScaling {
@@ -189,6 +204,7 @@ const DURIN_BURST_DARK_1: TalentScaling = TalentScaling {
         2.5088, 2.6656, 2.8224, 2.9792,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_BURST_DARK_2: TalentScaling = TalentScaling {
@@ -200,6 +216,7 @@ const DURIN_BURST_DARK_2: TalentScaling = TalentScaling {
         2.0352, 2.1624, 2.2896, 2.4168,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_BURST_DARK_3: TalentScaling = TalentScaling {
@@ -211,6 +228,7 @@ const DURIN_BURST_DARK_3: TalentScaling = TalentScaling {
         2.2368, 2.3766, 2.5164, 2.6562,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_BURST_WHITE_DRAGON: TalentScaling = TalentScaling {
@@ -222,6 +240,7 @@ const DURIN_BURST_WHITE_DRAGON: TalentScaling = TalentScaling {
         1.8928, 2.0111, 2.1294, 2.2477,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DURIN_BURST_DARK_DRAGON: TalentScaling = TalentScaling {
@@ -233,6 +252,7 @@ const DURIN_BURST_DARK_DRAGON: TalentScaling = TalentScaling {
         2.5968, 2.7591, 2.9214, 3.0837,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Character Data --

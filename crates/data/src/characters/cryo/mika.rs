@@ -14,6 +14,7 @@ const MIKA_NORMAL_1: TalentScaling = TalentScaling {
         0.9759, 1.0363, 1.0967, 1.1570,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const MIKA_NORMAL_2: TalentScaling = TalentScaling {
         0.9362, 0.9941, 1.0520, 1.1099,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const MIKA_NORMAL_3: TalentScaling = TalentScaling {
         1.2295, 1.3055, 1.3816, 1.4576,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const MIKA_NORMAL_4: TalentScaling = TalentScaling {
         0.6229, 0.6615, 0.7000, 0.7385,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const MIKA_NORMAL_5: TalentScaling = TalentScaling {
         1.5988, 1.6977, 1.7966, 1.8955,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -71,6 +76,7 @@ const MIKA_CHARGED: TalentScaling = TalentScaling {
         2.5433, 2.7007, 2.8580, 3.0153,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const MIKA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const MIKA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const MIKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Starfrost Swirl -- Cryo --
@@ -119,6 +128,7 @@ const MIKA_SKILL_ARROW: TalentScaling = TalentScaling {
         1.3440, 1.4280, 1.5120, 1.5960,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_SKILL_FLARE: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const MIKA_SKILL_FLARE: TalentScaling = TalentScaling {
         1.6800, 1.7850, 1.8900, 1.9950,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIKA_SKILL_SHARD: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const MIKA_SKILL_SHARD: TalentScaling = TalentScaling {
         0.5040, 0.5355, 0.5670, 0.5985,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Skyfeather Song -- Cryo (healing, no damage scalings) --

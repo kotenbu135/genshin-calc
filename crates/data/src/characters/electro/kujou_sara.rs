@@ -15,6 +15,7 @@ const KUJOU_SARA_NORMAL_1: TalentScaling = TalentScaling {
         0.8323, 0.8837, 0.9352, 0.9867,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const KUJOU_SARA_NORMAL_2: TalentScaling = TalentScaling {
         0.8730, 0.9270, 0.9810, 1.0350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const KUJOU_SARA_NORMAL_3: TalentScaling = TalentScaling {
         1.0942, 1.1618, 1.2295, 1.2972,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const KUJOU_SARA_NORMAL_4: TalentScaling = TalentScaling {
         1.1368, 1.2072, 1.2775, 1.3478,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_NORMAL_5: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const KUJOU_SARA_NORMAL_5: TalentScaling = TalentScaling {
         1.3095, 1.3905, 1.4715, 1.5525,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Electro (charged) --
@@ -72,6 +77,7 @@ const KUJOU_SARA_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_AIMED_FULL: TalentScaling = TalentScaling {
@@ -83,6 +89,7 @@ const KUJOU_SARA_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -96,6 +103,7 @@ const KUJOU_SARA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const KUJOU_SARA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -118,6 +127,7 @@ const KUJOU_SARA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 鴉天狗雷鳴 (Tengu Stormcall) -- Electro --
@@ -131,6 +141,7 @@ const KUJOU_SARA_SKILL: TalentScaling = TalentScaling {
         2.5152, 2.6724, 2.8296, 2.9868,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 煌煌千道鎮式 (Subjugation: Koukou Sendou) -- Electro --
@@ -144,6 +155,7 @@ const KUJOU_SARA_BURST_TITANBREAKER: TalentScaling = TalentScaling {
         8.1920, 8.7040, 9.2160, 9.7280,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUJOU_SARA_BURST_STORMCLUSTER: TalentScaling = TalentScaling {
@@ -155,6 +167,7 @@ const KUJOU_SARA_BURST_STORMCLUSTER: TalentScaling = TalentScaling {
         0.6824, 0.7251, 0.7677, 0.8104,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KUJOU_SARA: CharacterData = CharacterData {

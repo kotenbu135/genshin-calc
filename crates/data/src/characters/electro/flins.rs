@@ -1,5 +1,5 @@
 use crate::types::*;
-use genshin_calc_core::{Element, ScalingStat};
+use genshin_calc_core::{Element, Reaction, ScalingStat};
 
 // Elemental Burst: Ancient Ritual: Cometh the Night
 // =============================================================================
@@ -15,6 +15,7 @@ const FLINS_NORMAL_1: TalentScaling = TalentScaling {
         0.94653, 1.00894, 1.07134, 1.13375, 1.19616,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FLINS_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const FLINS_NORMAL_2: TalentScaling = TalentScaling {
         0.95546, 1.01846, 1.08146, 1.14446, 1.20745,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FLINS_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const FLINS_NORMAL_3: TalentScaling = TalentScaling {
         1.18342, 1.26145, 1.33947, 1.41750, 1.49553,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FLINS_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const FLINS_NORMAL_4: TalentScaling = TalentScaling {
         0.67803, 0.72274, 0.76744, 0.81215, 0.85685,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FLINS_NORMAL_5: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const FLINS_NORMAL_5: TalentScaling = TalentScaling {
         1.62519, 1.73234, 1.83950, 1.94665, 2.05381,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -72,6 +77,7 @@ const FLINS_CHARGED: TalentScaling = TalentScaling {
         2.18036, 2.32412, 2.46788, 2.61164, 2.75540,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -85,6 +91,7 @@ const FLINS_PLUNGE: TalentScaling = TalentScaling {
         1.35299, 1.44220, 1.53140, 1.62061, 1.70982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FLINS_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const FLINS_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.70540, 2.88378, 3.06216, 3.24054, 3.41892,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FLINS_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const FLINS_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.37919, 3.60200, 3.82480, 4.04761, 4.27041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Ancient Rite: Arcane Light -- Electro --
@@ -120,6 +129,7 @@ const FLINS_SKILL: TalentScaling = TalentScaling {
         3.38960, 3.56800, 3.79100, 4.01400, 4.23700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Ancient Ritual: Cometh the Night -- Electro --
@@ -133,6 +143,7 @@ const FLINS_BURST_INITIAL: TalentScaling = TalentScaling {
         4.93696, 5.19680, 5.52160, 5.84640, 6.17120,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FLINS_BURST_MIDDLE_LUNAR: TalentScaling = TalentScaling {
@@ -144,6 +155,7 @@ const FLINS_BURST_MIDDLE_LUNAR: TalentScaling = TalentScaling {
         0.30856, 0.32480, 0.34510, 0.36540, 0.38570,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarElectroCharged),
 };
 
 const FLINS_BURST_FINAL_LUNAR: TalentScaling = TalentScaling {
@@ -155,6 +167,7 @@ const FLINS_BURST_FINAL_LUNAR: TalentScaling = TalentScaling {
         2.22163, 2.33856, 2.48472, 2.63088, 2.77704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarElectroCharged),
 };
 
 const FLINS_BURST_THUNDER: TalentScaling = TalentScaling {
@@ -166,6 +179,7 @@ const FLINS_BURST_THUNDER: TalentScaling = TalentScaling {
         1.35766, 1.42912, 1.51844, 1.60776, 1.69708,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const FLINS: CharacterData = CharacterData {

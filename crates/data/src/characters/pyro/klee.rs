@@ -16,6 +16,7 @@ const KLEE_NORMAL_1: TalentScaling = TalentScaling {
         1.4721, 1.5702, 1.6683, 1.7665,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KLEE_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const KLEE_NORMAL_2: TalentScaling = TalentScaling {
         1.2730, 1.3578, 1.4427, 1.5276,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KLEE_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const KLEE_NORMAL_3: TalentScaling = TalentScaling {
         1.8344, 1.9567, 2.0790, 2.2012,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Pyro (Catalyst) --
@@ -51,6 +54,7 @@ const KLEE_CHARGED: TalentScaling = TalentScaling {
         3.2101, 3.4242, 3.6382, 3.8522,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Pyro (Catalyst) --
@@ -64,6 +68,7 @@ const KLEE_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KLEE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -75,6 +80,7 @@ const KLEE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KLEE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -86,6 +92,7 @@ const KLEE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: ボンボン爆弾 (Jumpy Dumpty) -- Pyro --
@@ -99,6 +106,7 @@ const KLEE_SKILL_BOUNCE: TalentScaling = TalentScaling {
         1.9040, 2.0230, 2.1420, 2.2610,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KLEE_SKILL_MINE: TalentScaling = TalentScaling {
@@ -110,6 +118,7 @@ const KLEE_SKILL_MINE: TalentScaling = TalentScaling {
         0.6560, 0.6970, 0.7380, 0.7790,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: ドッカン花火 (Sparks 'n' Splash) -- Pyro --
@@ -123,6 +132,7 @@ const KLEE_BURST: TalentScaling = TalentScaling {
         0.8528, 0.9061, 0.9594, 1.0127,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KLEE: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const WANDERER_NORMAL_1: TalentScaling = TalentScaling {
         1.45418, 1.55006, 1.64594, 1.74182, 1.8377,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WANDERER_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const WANDERER_NORMAL_2: TalentScaling = TalentScaling {
         1.37592, 1.46664, 1.55736, 1.64808, 1.7388,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WANDERER_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const WANDERER_NORMAL_3: TalentScaling = TalentScaling {
         1.00828, 1.07476, 1.14124, 1.20772, 1.2742,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -49,6 +52,7 @@ const WANDERER_CHARGED: TalentScaling = TalentScaling {
         2.50952, 2.6416, 2.8067, 2.9718, 3.1369,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -62,6 +66,7 @@ const WANDERER_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WANDERER_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const WANDERER_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WANDERER_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const WANDERER_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Hanega: Song of the Wind -- Anemo --
@@ -97,6 +104,7 @@ const WANDERER_SKILL: TalentScaling = TalentScaling {
         2.023, 2.142, 2.261,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Kyougen: Five Ceremonial Plays -- Anemo --
@@ -110,6 +118,7 @@ const WANDERER_BURST: TalentScaling = TalentScaling {
         3.128, 3.312, 3.496,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const WANDERER: CharacterData = CharacterData {

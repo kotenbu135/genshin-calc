@@ -14,6 +14,7 @@ const IFA_NORMAL_1: TalentScaling = TalentScaling {
         0.96493, 1.018537, 1.072144, 1.139153, 1.206162, 1.273171,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IFA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const IFA_NORMAL_2: TalentScaling = TalentScaling {
         0.85441, 0.901877, 0.949344, 1.008678, 1.068012, 1.127346,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IFA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const IFA_NORMAL_3: TalentScaling = TalentScaling {
         1.345651, 1.42041, 1.495168, 1.588616, 1.682064, 1.775512,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -49,6 +52,7 @@ const IFA_CHARGED: TalentScaling = TalentScaling {
         2.79376, 2.9408, 3.1246, 3.3084, 3.4922,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -62,6 +66,7 @@ const IFA_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IFA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const IFA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IFA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const IFA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Airborne Disease Prevention -- Anemo --
@@ -97,6 +104,7 @@ const IFA_SKILL: TalentScaling = TalentScaling {
         2.53384, 2.6672, 2.8339, 3.0006, 3.1673,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Compound Sedation Field -- Anemo --
@@ -110,6 +118,7 @@ const IFA_BURST: TalentScaling = TalentScaling {
         9.66112, 10.1696, 10.8052, 11.4408, 12.0764,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IFA_BURST_MARK: TalentScaling = TalentScaling {
@@ -121,6 +130,7 @@ const IFA_BURST_MARK: TalentScaling = TalentScaling {
         2.07024, 2.1792, 2.3154, 2.4516, 2.5878,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const IFA: CharacterData = CharacterData {

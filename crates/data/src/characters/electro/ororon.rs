@@ -15,6 +15,7 @@ const ORORON_NORMAL_1: TalentScaling = TalentScaling {
         1.1426, 1.2136, 1.2845, 1.3554,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ORORON_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const ORORON_NORMAL_2: TalentScaling = TalentScaling {
         1.0020, 1.0637, 1.1253, 1.1870,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ORORON_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const ORORON_NORMAL_3: TalentScaling = TalentScaling {
         1.5754, 1.6730, 1.7706, 1.8682,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Electro (charged) --
@@ -50,6 +53,7 @@ const ORORON_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ORORON_AIMED_FULL: TalentScaling = TalentScaling {
@@ -61,6 +65,7 @@ const ORORON_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -74,6 +79,7 @@ const ORORON_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ORORON_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -85,6 +91,7 @@ const ORORON_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ORORON_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const ORORON_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 夜の投弾 (Night's Sling) -- Electro --
@@ -109,6 +117,7 @@ const ORORON_SKILL: TalentScaling = TalentScaling {
         3.9520, 4.1990, 4.4460, 4.6930,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 闇声の反響 (Dark Voices Echo) -- Electro --
@@ -122,6 +131,7 @@ const ORORON_BURST_RITUAL: TalentScaling = TalentScaling {
         3.4877, 3.7057, 3.9236, 4.1416,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ORORON_BURST_SOUNDWAVE: TalentScaling = TalentScaling {
@@ -133,6 +143,7 @@ const ORORON_BURST_SOUNDWAVE: TalentScaling = TalentScaling {
         0.6640, 0.7055, 0.7470, 0.7885,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ORORON: CharacterData = CharacterData {

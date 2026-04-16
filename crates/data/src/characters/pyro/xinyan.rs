@@ -16,6 +16,7 @@ const XINYAN_NORMAL_1: TalentScaling = TalentScaling {
         1.7266, 1.8334, 1.9402, 2.0470,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const XINYAN_NORMAL_2: TalentScaling = TalentScaling {
         1.6684, 1.7716, 1.8748, 1.9780,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const XINYAN_NORMAL_3: TalentScaling = TalentScaling {
         2.1534, 2.2866, 2.4198, 2.5530,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const XINYAN_NORMAL_4: TalentScaling = TalentScaling {
         2.6132, 2.7748, 2.9365, 3.0981,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -62,6 +66,7 @@ const XINYAN_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.4109, 1.4982, 1.5855, 1.6727,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const XINYAN_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.5511, 2.7089, 2.8667, 3.0245,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const XINYAN_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const XINYAN_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const XINYAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 情熱のスイーパー (Sweeping Fervor) -- Pyro --
@@ -121,6 +130,7 @@ const XINYAN_SKILL_SWING: TalentScaling = TalentScaling {
         3.3920, 3.6040, 3.8160, 4.0280,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_SKILL_DOT: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const XINYAN_SKILL_DOT: TalentScaling = TalentScaling {
         0.6720, 0.7140, 0.7560, 0.7980,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 叛逆の弾き (Riff Revolution) -- Pyro / Physical --
@@ -145,6 +156,7 @@ const XINYAN_BURST: TalentScaling = TalentScaling {
         6.8160, 7.2420, 7.6680, 8.0940,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINYAN_BURST_DOT: TalentScaling = TalentScaling {
@@ -156,6 +168,7 @@ const XINYAN_BURST_DOT: TalentScaling = TalentScaling {
         0.8000, 0.8500, 0.9000, 0.9500,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const XINYAN: CharacterData = CharacterData {

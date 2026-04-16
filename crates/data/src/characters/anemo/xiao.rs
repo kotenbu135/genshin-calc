@@ -14,6 +14,7 @@ const XIAO_NORMAL_1: TalentScaling = TalentScaling {
         0.51958, 0.54775, 0.57592, 0.60409, 0.63226,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIAO_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const XIAO_NORMAL_2: TalentScaling = TalentScaling {
         1.07402, 1.13225, 1.19048, 1.24871, 1.30694,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIAO_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const XIAO_NORMAL_3: TalentScaling = TalentScaling {
         1.29314, 1.36325, 1.43336, 1.50347, 1.57358,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIAO_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const XIAO_NORMAL_4: TalentScaling = TalentScaling {
         0.71048, 0.749, 0.78752, 0.82604, 0.86456,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIAO_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const XIAO_NORMAL_5: TalentScaling = TalentScaling {
         1.34958, 1.42275, 1.49592, 1.56909, 1.64226,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIAO_NORMAL_6: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const XIAO_NORMAL_6: TalentScaling = TalentScaling {
         1.80774, 1.90575, 2.00376, 2.10177, 2.19978,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -82,6 +88,7 @@ const XIAO_CHARGED: TalentScaling = TalentScaling {
         2.28416, 2.408, 2.53184, 2.65568, 2.77952,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const XIAO_PLUNGE: TalentScaling = TalentScaling {
         1.617638, 1.731825, 1.846011, 1.960197, 2.074383, 2.18857,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIAO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const XIAO_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.234591, 3.462915, 3.69124, 3.919564, 4.147888, 4.376212,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const XIAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.040179, 4.325368, 4.610557, 4.895747, 5.180936, 5.466125,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Lemniscatic Wind Cycling -- Anemo --
@@ -130,6 +140,7 @@ const XIAO_SKILL: TalentScaling = TalentScaling {
         5.372, 5.688, 6.004,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Bane of All Evil --

@@ -16,6 +16,7 @@ const DEHYA_NORMAL_1: TalentScaling = TalentScaling {
         1.4013, 1.4879, 1.5746, 1.6613,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const DEHYA_NORMAL_2: TalentScaling = TalentScaling {
         1.3921, 1.4782, 1.5643, 1.6504,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const DEHYA_NORMAL_3: TalentScaling = TalentScaling {
         1.7287, 1.8356, 1.9425, 2.0494,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const DEHYA_NORMAL_4: TalentScaling = TalentScaling {
         2.1496, 2.2826, 2.4155, 2.5485,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -62,6 +66,7 @@ const DEHYA_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.2707, 1.3493, 1.4279, 1.5065,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const DEHYA_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.2970, 2.4390, 2.5811, 2.7232,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const DEHYA_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const DEHYA_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const DEHYA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 熔鉄流獄 (Molten Inferno) -- Pyro --
@@ -121,6 +130,7 @@ const DEHYA_SKILL_INDOMITABLE: TalentScaling = TalentScaling {
         2.2576, 2.3987, 2.5398, 2.6809,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_SKILL_RANGE: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const DEHYA_SKILL_RANGE: TalentScaling = TalentScaling {
         2.6560, 2.8220, 2.9880, 3.1540,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_SKILL_FIELD: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const DEHYA_SKILL_FIELD: TalentScaling = TalentScaling {
         1.2040, 1.2793, 1.3545, 1.4298,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 炎獅子の噛み付き (Leonine Bite) -- Pyro --
@@ -156,6 +168,7 @@ const DEHYA_BURST_FIST: TalentScaling = TalentScaling {
         1.9740, 2.0974, 2.2208, 2.3441,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DEHYA_BURST_KICK: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const DEHYA_BURST_KICK: TalentScaling = TalentScaling {
         2.7860, 2.9601, 3.1343, 3.3084,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const DEHYA: CharacterData = CharacterData {

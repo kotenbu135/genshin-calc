@@ -14,6 +14,7 @@ const ALOY_NORMAL_1: TalentScaling = TalentScaling {
         0.4200, 0.4416, 0.4632, 0.4848,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const ALOY_NORMAL_2: TalentScaling = TalentScaling {
         0.4725, 0.4968, 0.5211, 0.5454,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const ALOY_NORMAL_3: TalentScaling = TalentScaling {
         0.8575, 0.9016, 0.9457, 0.9898,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const ALOY_NORMAL_4: TalentScaling = TalentScaling {
         1.0500, 1.1040, 1.1580, 1.2120,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const ALOY_NORMAL_5: TalentScaling = TalentScaling {
         1.3055, 1.3726, 1.4398, 1.5069,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Cryo (charged) --
@@ -71,6 +76,7 @@ const ALOY_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_AIMED_FULL: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const ALOY_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const ALOY_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const ALOY_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const ALOY_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Frozen Wilds -- Cryo --
@@ -130,6 +140,7 @@ const ALOY_SKILL_BOMB: TalentScaling = TalentScaling {
         3.5520, 3.7740, 3.9960, 4.2180,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALOY_SKILL_BOMBLET: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const ALOY_SKILL_BOMBLET: TalentScaling = TalentScaling {
         0.8000, 0.8500, 0.9000, 0.9500,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Prophecies of Dawn -- Cryo --
@@ -154,6 +166,7 @@ const ALOY_BURST: TalentScaling = TalentScaling {
         7.1840, 7.6330, 8.0820, 8.5310,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ALOY: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const KIRARA_NA_HIT1: TalentScaling = TalentScaling {
         1.01374, 1.08058, 1.14742, 1.21426, 1.2811,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const KIRARA_NA_HIT2: TalentScaling = TalentScaling {
         0.98098, 1.04566, 1.11034, 1.17502, 1.2397,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_NA_HIT3A: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const KIRARA_NA_HIT3A: TalentScaling = TalentScaling {
         0.50252, 0.537992, 0.573464, 0.608936, 0.644408, 0.67988,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_NA_HIT3B: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const KIRARA_NA_HIT3B: TalentScaling = TalentScaling {
         0.75378, 0.806988, 0.860196, 0.913404, 0.966612, 1.01982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_NA_HIT4: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const KIRARA_NA_HIT4: TalentScaling = TalentScaling {
         1.55064, 1.65288, 1.75512, 1.85736, 1.9596,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_CHARGED: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const KIRARA_CHARGED: TalentScaling = TalentScaling {
         0.44234, 0.473564, 0.504788, 0.536012, 0.567236, 0.59846,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_PLUNGE: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const KIRARA_PLUNGE: TalentScaling = TalentScaling {
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const KIRARA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -102,6 +110,7 @@ const KIRARA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Meow-teor Kick ---
@@ -115,6 +124,7 @@ const KIRARA_SKILL_KICK: TalentScaling = TalentScaling {
         2.47,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_SKILL_PARCEL_HIT: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const KIRARA_SKILL_PARCEL_HIT: TalentScaling = TalentScaling {
         0.6720, 0.7140, 0.7560, 0.7980,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_SKILL_FLIPCLAW: TalentScaling = TalentScaling {
@@ -137,6 +148,7 @@ const KIRARA_SKILL_FLIPCLAW: TalentScaling = TalentScaling {
         2.8800, 3.0600, 3.2400, 3.4200,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Secret Art: Surprise Dispatch ---
@@ -150,6 +162,7 @@ const KIRARA_BURST_DMG: TalentScaling = TalentScaling {
         10.83456, 11.4048, 12.1176, 12.8304, 13.5432,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KIRARA_BURST_EXPLOSION: TalentScaling = TalentScaling {
@@ -161,6 +174,7 @@ const KIRARA_BURST_EXPLOSION: TalentScaling = TalentScaling {
         0.67716, 0.7128, 0.75735, 0.8019, 0.84645,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Kirara aggregation ---

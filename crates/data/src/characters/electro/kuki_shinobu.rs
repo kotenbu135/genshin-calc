@@ -15,6 +15,7 @@ const KUKI_SHINOBU_NORMAL_1: TalentScaling = TalentScaling {
         1.0999, 1.1680, 1.2361, 1.3041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUKI_SHINOBU_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const KUKI_SHINOBU_NORMAL_2: TalentScaling = TalentScaling {
         1.0049, 1.0671, 1.1292, 1.1914,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUKI_SHINOBU_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const KUKI_SHINOBU_NORMAL_3: TalentScaling = TalentScaling {
         1.3386, 1.4214, 1.5042, 1.5870,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUKI_SHINOBU_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const KUKI_SHINOBU_NORMAL_4: TalentScaling = TalentScaling {
         1.7169, 1.8231, 1.9293, 2.0355,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -61,6 +65,7 @@ const KUKI_SHINOBU_CHARGED_1: TalentScaling = TalentScaling {
         1.2550, 1.3326, 1.4102, 1.4879,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUKI_SHINOBU_CHARGED_2: TalentScaling = TalentScaling {
@@ -72,6 +77,7 @@ const KUKI_SHINOBU_CHARGED_2: TalentScaling = TalentScaling {
         1.5061, 1.5993, 1.6924, 1.7856,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -85,6 +91,7 @@ const KUKI_SHINOBU_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUKI_SHINOBU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const KUKI_SHINOBU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUKI_SHINOBU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const KUKI_SHINOBU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 御咎験式・紫牙 (Sanctifying Ring) -- Electro --
@@ -120,6 +129,7 @@ const KUKI_SHINOBU_SKILL: TalentScaling = TalentScaling {
         1.5142, 1.6089, 1.7035, 1.7982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KUKI_SHINOBU_SKILL_RING: TalentScaling = TalentScaling {
@@ -131,6 +141,7 @@ const KUKI_SHINOBU_SKILL_RING: TalentScaling = TalentScaling {
         0.5048, 0.5364, 0.5679, 0.5995,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 御影裁式・霊刃 (Gyoei Narukami Kariyama Rite) -- Electro --
@@ -144,6 +155,7 @@ const KUKI_SHINOBU_BURST: TalentScaling = TalentScaling {
         0.0721, 0.0766, 0.0811, 0.0856,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KUKI_SHINOBU: CharacterData = CharacterData {

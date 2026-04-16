@@ -14,6 +14,7 @@ const EULA_NORMAL_1: TalentScaling = TalentScaling {
         2.0860, 2.2547, 2.4234, 2.6075,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const EULA_NORMAL_2: TalentScaling = TalentScaling {
         2.1747, 2.3507, 2.5265, 2.7184,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const EULA_NORMAL_3: TalentScaling = TalentScaling {
         1.3204, 1.4272, 1.5340, 1.6505,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const EULA_NORMAL_4: TalentScaling = TalentScaling {
         2.6186, 2.8304, 3.0421, 3.2732,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const EULA_NORMAL_5: TalentScaling = TalentScaling {
         1.6699, 1.8049, 1.9400, 2.0874,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -71,6 +76,7 @@ const EULA_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.5992, 1.7285, 1.8577, 1.9990,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const EULA_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.8918, 3.1257, 3.3595, 3.6148,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const EULA_PLUNGE: TalentScaling = TalentScaling {
         1.7339, 1.8741, 2.0144, 2.1674,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const EULA_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.4671, 3.7475, 4.0279, 4.3338,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const EULA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.3306, 4.6808, 5.0311, 5.4132,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Icetide Vortex -- Cryo --
@@ -130,6 +140,7 @@ const EULA_SKILL_PRESS: TalentScaling = TalentScaling {
         2.9280, 3.1110, 3.2940, 3.4770,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const EULA_SKILL_HOLD: TalentScaling = TalentScaling {
         4.9120, 5.2190, 5.5260, 5.8330,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_SKILL_ICEWHIRL: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const EULA_SKILL_ICEWHIRL: TalentScaling = TalentScaling {
         1.9200, 2.0400, 2.1600, 2.2800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Glacial Illumination -- Physical (Lightfall Sword) --
@@ -165,6 +178,7 @@ const EULA_BURST_SLASH: TalentScaling = TalentScaling {
         4.9120, 5.2190, 5.5260, 5.8330,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_BURST_LIGHTFALL_BASE: TalentScaling = TalentScaling {
@@ -176,6 +190,7 @@ const EULA_BURST_LIGHTFALL_BASE: TalentScaling = TalentScaling {
         8.5326, 9.2227, 9.9129, 10.6657,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EULA_BURST_LIGHTFALL_STACK: TalentScaling = TalentScaling {
@@ -187,6 +202,7 @@ const EULA_BURST_LIGHTFALL_STACK: TalentScaling = TalentScaling {
         1.7433, 1.8843, 2.0253, 2.1791,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const EULA: CharacterData = CharacterData {

@@ -16,6 +16,7 @@ const ITTO_NORMAL_1: TalentScaling = TalentScaling {
         1.8419, 1.9908, 2.1398, 2.3023,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ITTO_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const ITTO_NORMAL_2: TalentScaling = TalentScaling {
         1.7753, 1.9189, 2.0625, 2.2191,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ITTO_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const ITTO_NORMAL_3: TalentScaling = TalentScaling {
         2.1303, 2.3027, 2.4750, 2.6629,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ITTO_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const ITTO_NORMAL_4: TalentScaling = TalentScaling {
         2.7251, 2.9455, 3.1659, 3.4063,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack (Arataki Kesagiri) -- Physical --
@@ -62,6 +66,7 @@ const ITTO_CHARGED_SLASH: TalentScaling = TalentScaling {
         2.1192, 2.2906, 2.4620, 2.6489,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ITTO_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const ITTO_CHARGED_FINAL: TalentScaling = TalentScaling {
         4.4382, 4.7972, 5.1562, 5.5478,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ITTO_CHARGED_SAICHIMONJI: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const ITTO_CHARGED_SAICHIMONJI: TalentScaling = TalentScaling {
         2.1032, 2.2733, 2.4434, 2.6289,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -97,6 +104,7 @@ const ITTO_PLUNGE: TalentScaling = TalentScaling {
         1.8488, 1.9631, 2.0775, 2.1918,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ITTO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const ITTO_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.6978, 3.9269, 4.1560, 4.3851,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ITTO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const ITTO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.6198, 4.9062, 5.1925, 5.4788,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 魔殺キ絶技 (Masatsu Zetsugi: Akaushi Burst!) -- Geo --
@@ -132,6 +142,7 @@ const ITTO_SKILL_DAMAGE: TalentScaling = TalentScaling {
         6.1440, 6.5280, 6.9120, 7.2960,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 最キ一番キ虎キ盛 (Royal Descent: Behold, Itto the Evil!) -- Geo infusion --
@@ -145,6 +156,7 @@ const ITTO_BURST_ATK_BONUS: TalentScaling = TalentScaling {
         1.1520, 1.2240, 1.2960, 1.3680,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ITTO: CharacterData = CharacterData {

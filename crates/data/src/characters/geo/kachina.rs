@@ -16,6 +16,7 @@ const KACHINA_NORMAL_1: TalentScaling = TalentScaling {
         1.1143, 1.1833, 1.2522, 1.3212,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KACHINA_NORMAL_2_1: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const KACHINA_NORMAL_2_1: TalentScaling = TalentScaling {
         0.6219, 0.6604, 0.6988, 0.7373,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KACHINA_NORMAL_2_2: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const KACHINA_NORMAL_2_2: TalentScaling = TalentScaling {
         0.6910, 0.7338, 0.7765, 0.8192,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KACHINA_NORMAL_3: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const KACHINA_NORMAL_3: TalentScaling = TalentScaling {
         1.5887, 1.6870, 1.7852, 1.8835,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KACHINA_NORMAL_4: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const KACHINA_NORMAL_4: TalentScaling = TalentScaling {
         1.7468, 1.8549, 1.9629, 2.0710,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -73,6 +78,7 @@ const KACHINA_CHARGED: TalentScaling = TalentScaling {
         2.5417, 2.6983, 2.8548, 3.0114,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const KACHINA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KACHINA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const KACHINA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8840, 3.0624, 3.2409, 3.4193,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KACHINA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const KACHINA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6021, 3.8249, 4.0478, 4.2706,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: ゴゴキでゴー！(Go, Go Turbo Twirly!) -- Geo --
@@ -121,6 +130,7 @@ const KACHINA_SKILL_TURBO: TalentScaling = TalentScaling {
         1.7552, 1.8649, 1.9746, 2.0843,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KACHINA_SKILL_DASH: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const KACHINA_SKILL_DASH: TalentScaling = TalentScaling {
         1.2752, 1.3549, 1.4346, 1.5143,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 蝕夜キ絶門（Time to Get Serious!） -- Geo --
@@ -145,6 +156,7 @@ const KACHINA_BURST: TalentScaling = TalentScaling {
         7.6960, 8.1770, 8.6580, 9.1390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KACHINA: CharacterData = CharacterData {

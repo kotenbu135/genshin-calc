@@ -14,6 +14,7 @@ const YAOYAO_NA_HIT1: TalentScaling = TalentScaling {
         1.008168, 1.079333, 1.150498, 1.221662, 1.292827, 1.363992,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const YAOYAO_NA_HIT2: TalentScaling = TalentScaling {
         0.937822, 1.004021, 1.07022, 1.13642, 1.202619, 1.268818,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_NA_HIT3A: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const YAOYAO_NA_HIT3A: TalentScaling = TalentScaling {
         0.620245, 0.664027, 0.707809, 0.751591, 0.795373, 0.839155,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_NA_HIT3B: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const YAOYAO_NA_HIT3B: TalentScaling = TalentScaling {
         0.651253, 0.697224, 0.743195, 0.789165, 0.835136, 0.881107,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_NA_HIT4: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const YAOYAO_NA_HIT4: TalentScaling = TalentScaling {
         1.540506, 1.649248, 1.757989, 1.866731, 1.975472, 2.084214,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_CHARGED: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const YAOYAO_CHARGED: TalentScaling = TalentScaling {
         2.6986, 2.8558, 3.013,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_PLUNGE: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const YAOYAO_PLUNGE: TalentScaling = TalentScaling {
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const YAOYAO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAOYAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -102,6 +110,7 @@ const YAOYAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Raphanus Sky Cluster ---
@@ -115,6 +124,7 @@ const YAOYAO_SKILL_RADISH: TalentScaling = TalentScaling {
         0.56848, 0.5984, 0.6358, 0.6732, 0.7106,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Moonjade Descent ---
@@ -128,6 +138,7 @@ const YAOYAO_BURST_RADISH: TalentScaling = TalentScaling {
         1.37104, 1.4432, 1.5334, 1.6236, 1.7138,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Yaoyao aggregation ---

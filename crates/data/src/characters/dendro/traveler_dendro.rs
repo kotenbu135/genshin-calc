@@ -14,6 +14,7 @@ const TRAVELER_DENDRO_NA_HIT1: TalentScaling = TalentScaling {
         0.94094, 1.00298, 1.06502, 1.12706, 1.1891,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const TRAVELER_DENDRO_NA_HIT2: TalentScaling = TalentScaling {
         0.9797, 1.0403, 1.1009, 1.1615,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const TRAVELER_DENDRO_NA_HIT3: TalentScaling = TalentScaling {
         1.19504, 1.26896, 1.34288, 1.4168,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const TRAVELER_DENDRO_NA_HIT4: TalentScaling = TalentScaling {
         1.23396, 1.31532, 1.39668, 1.47804, 1.5594,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_NA_HIT5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const TRAVELER_DENDRO_NA_HIT5: TalentScaling = TalentScaling {
         1.49786, 1.59662, 1.69538, 1.79414, 1.8929,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_CHARGED_HIT1: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const TRAVELER_DENDRO_CHARGED_HIT1: TalentScaling = TalentScaling {
         1.339, 1.417, 1.495,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_CHARGED_HIT2: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const TRAVELER_DENDRO_CHARGED_HIT2: TalentScaling = TalentScaling {
         1.3696, 1.4544, 1.5391, 1.6238,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_PLUNGE: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const TRAVELER_DENDRO_PLUNGE: TalentScaling = TalentScaling {
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -102,6 +110,7 @@ const TRAVELER_DENDRO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -113,6 +122,7 @@ const TRAVELER_DENDRO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Razorgrass Blade ---
@@ -126,6 +136,7 @@ const TRAVELER_DENDRO_SKILL_DMG: TalentScaling = TalentScaling {
         4.896, 5.184, 5.472,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Surgent Manifestation ---
@@ -139,6 +150,7 @@ const TRAVELER_DENDRO_BURST_LAMP: TalentScaling = TalentScaling {
         1.52304, 1.6032, 1.7034, 1.8036, 1.9038,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TRAVELER_DENDRO_BURST_EXPLOSION: TalentScaling = TalentScaling {
@@ -150,6 +162,7 @@ const TRAVELER_DENDRO_BURST_EXPLOSION: TalentScaling = TalentScaling {
         8.517, 9.018, 9.519,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Traveler (Dendro) aggregation ---

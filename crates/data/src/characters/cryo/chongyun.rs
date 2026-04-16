@@ -14,6 +14,7 @@ const CHONGYUN_NORMAL_1: TalentScaling = TalentScaling {
         1.5792, 1.6768, 1.7745, 1.8722,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHONGYUN_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const CHONGYUN_NORMAL_2: TalentScaling = TalentScaling {
         1.4240, 1.5120, 1.6001, 1.6882,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHONGYUN_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const CHONGYUN_NORMAL_3: TalentScaling = TalentScaling {
         1.8120, 1.9240, 2.0361, 2.1482,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHONGYUN_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const CHONGYUN_NORMAL_4: TalentScaling = TalentScaling {
         2.2834, 2.4246, 2.5659, 2.7071,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -60,6 +64,7 @@ const CHONGYUN_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.2697, 1.3482, 1.4268, 1.5053,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHONGYUN_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const CHONGYUN_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.2960, 2.4380, 2.5800, 2.7221,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const CHONGYUN_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHONGYUN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const CHONGYUN_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHONGYUN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const CHONGYUN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Spirit Blade: Chonghua's Layered Frost -- Cryo --
@@ -119,6 +128,7 @@ const CHONGYUN_SKILL: TalentScaling = TalentScaling {
         3.4408, 3.6559, 3.8709, 4.0860,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Spirit Blade: Cloud-Parting Star -- Cryo --
@@ -132,6 +142,7 @@ const CHONGYUN_BURST: TalentScaling = TalentScaling {
         2.8480, 3.0260, 3.2040, 3.3820,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CHONGYUN: CharacterData = CharacterData {

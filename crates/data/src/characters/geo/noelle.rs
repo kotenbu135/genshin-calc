@@ -16,6 +16,7 @@ const NOELLE_NORMAL_1: TalentScaling = TalentScaling {
         1.7848, 1.8952, 2.0056, 2.1160,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const NOELLE_NORMAL_2: TalentScaling = TalentScaling {
         1.6549, 1.7573, 1.8597, 1.9620,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const NOELLE_NORMAL_3: TalentScaling = TalentScaling {
         1.9459, 2.0663, 2.1867, 2.3072,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const NOELLE_NORMAL_4: TalentScaling = TalentScaling {
         2.5582, 2.7164, 2.8747, 3.0329,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -62,6 +66,7 @@ const NOELLE_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.1446, 1.2154, 1.2862, 1.3570,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const NOELLE_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.0409, 2.1671, 2.2934, 2.4196,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const NOELLE_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const NOELLE_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const NOELLE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2024, 4.4625, 4.7225, 4.9826,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 護心キ鎧 (Breastplate) -- Geo, DEF scaling --
@@ -121,6 +130,7 @@ const NOELLE_SKILL_DAMAGE: TalentScaling = TalentScaling {
         2.4000, 2.5500, 2.7000, 2.8500,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_SKILL_HEAL: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const NOELLE_SKILL_HEAL: TalentScaling = TalentScaling {
         4.2560, 4.5220, 4.7880, 5.0540,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 大キ掃除 (Sweeping Time) -- Geo, DEF scaling burst --
@@ -145,6 +156,7 @@ const NOELLE_BURST_SLASH: TalentScaling = TalentScaling {
         1.3440, 1.4280, 1.5120, 1.5960,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_BURST_SPINNING: TalentScaling = TalentScaling {
@@ -156,6 +168,7 @@ const NOELLE_BURST_SPINNING: TalentScaling = TalentScaling {
         1.8560, 1.9720, 2.0880, 2.2040,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NOELLE_BURST_DEF_BONUS: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const NOELLE_BURST_DEF_BONUS: TalentScaling = TalentScaling {
         0.8000, 0.8500, 0.9000, 0.9500,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const NOELLE: CharacterData = CharacterData {

@@ -15,6 +15,7 @@ const RAZOR_NORMAL_1: TalentScaling = TalentScaling {
         1.9075, 2.0056, 2.1037, 2.2018,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const RAZOR_NORMAL_2: TalentScaling = TalentScaling {
         1.6433, 1.7278, 1.8123, 1.8968,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const RAZOR_NORMAL_3: TalentScaling = TalentScaling {
         2.0545, 2.1602, 2.2658, 2.3715,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const RAZOR_NORMAL_4: TalentScaling = TalentScaling {
         2.7055, 2.8446, 2.9838, 3.1229,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -61,6 +65,7 @@ const RAZOR_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.4108, 1.4980, 1.5853, 1.6726,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -72,6 +77,7 @@ const RAZOR_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.5511, 2.7089, 2.8667, 3.0245,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -85,6 +91,7 @@ const RAZOR_PLUNGE: TalentScaling = TalentScaling {
         1.8508, 1.9653, 2.0798, 2.1943,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const RAZOR_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.7009, 3.9298, 4.1587, 4.3876,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const RAZOR_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.6226, 4.9085, 5.1944, 5.4804,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 爪雷 (Claw and Thunder) -- Electro --
@@ -120,6 +129,7 @@ const RAZOR_SKILL_PRESS: TalentScaling = TalentScaling {
         3.9840, 4.2330, 4.4820, 4.7310,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -131,6 +141,7 @@ const RAZOR_SKILL_HOLD: TalentScaling = TalentScaling {
         5.9040, 6.2730, 6.6420, 7.0110,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 雷牙 (Lightning Fang) -- Electro --
@@ -144,6 +155,7 @@ const RAZOR_BURST: TalentScaling = TalentScaling {
         3.2000, 3.4000, 3.6000, 3.8000,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAZOR_BURST_SOUL_COMPANION: TalentScaling = TalentScaling {
@@ -155,6 +167,7 @@ const RAZOR_BURST_SOUL_COMPANION: TalentScaling = TalentScaling {
         0.4800, 0.5100, 0.5400, 0.5700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const RAZOR: CharacterData = CharacterData {

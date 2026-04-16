@@ -14,6 +14,7 @@ const CHASCA_NORMAL_1: TalentScaling = TalentScaling {
         0.948991, 1.015979, 1.082966, 1.149954, 1.216941, 1.283929,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const CHASCA_NORMAL_2: TalentScaling = TalentScaling {
         0.881399, 0.943615, 1.005832, 1.068048, 1.130265, 1.192481,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const CHASCA_NORMAL_3: TalentScaling = TalentScaling {
         0.587044, 0.628482, 0.669921, 0.711359, 0.752798, 0.794236,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const CHASCA_NORMAL_4: TalentScaling = TalentScaling {
         0.503421, 0.538957, 0.574492, 0.610028, 0.645563, 0.681099,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Anemo (charged) --
@@ -60,6 +64,7 @@ const CHASCA_AIMED: TalentScaling = TalentScaling {
         1.0506, 1.1118, 1.173,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_AIMED_FULL: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const CHASCA_AIMED_FULL: TalentScaling = TalentScaling {
         2.79, 2.945,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const CHASCA_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const CHASCA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const CHASCA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Spirit Reins, Shadow Hunt -- Anemo --
@@ -118,6 +127,7 @@ const CHASCA_SKILL_RESONANCE: TalentScaling = TalentScaling {
         0.6, 0.645, 0.69, 0.75, 0.795, 0.84, 0.9, 0.96, 1.02, 1.08, 1.14, 1.2, 1.275, 1.35, 1.425,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_SKILL_TAP: TalentScaling = TalentScaling {
@@ -129,6 +139,7 @@ const CHASCA_SKILL_TAP: TalentScaling = TalentScaling {
         0.81, 0.855,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_SKILL_SHELL: TalentScaling = TalentScaling {
@@ -140,6 +151,7 @@ const CHASCA_SKILL_SHELL: TalentScaling = TalentScaling {
         1.037, 1.098, 1.159,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_SKILL_SHINING_SHELL: TalentScaling = TalentScaling {
@@ -151,6 +163,7 @@ const CHASCA_SKILL_SHINING_SHELL: TalentScaling = TalentScaling {
         2.998296, 3.164868, 3.33144, 3.539655, 3.74787, 3.956085,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Soul Reaper's Fatal Round -- Anemo --
@@ -164,6 +177,7 @@ const CHASCA_BURST_GALESPLITTING: TalentScaling = TalentScaling {
         2.09,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_BURST_SOULSEEKER: TalentScaling = TalentScaling {
@@ -175,6 +189,7 @@ const CHASCA_BURST_SOULSEEKER: TalentScaling = TalentScaling {
         2.068, 2.19725, 2.3265, 2.45575,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHASCA_BURST_RADIANT: TalentScaling = TalentScaling {
@@ -186,6 +201,7 @@ const CHASCA_BURST_RADIANT: TalentScaling = TalentScaling {
         4.3945, 4.653, 4.9115,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CHASCA: CharacterData = CharacterData {

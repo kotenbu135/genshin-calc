@@ -14,6 +14,7 @@ const LAYLA_NORMAL_1: TalentScaling = TalentScaling {
         1.1553, 1.2269, 1.2984, 1.3700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAYLA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const LAYLA_NORMAL_2: TalentScaling = TalentScaling {
         1.0940, 1.1617, 1.2293, 1.2970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAYLA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const LAYLA_NORMAL_3: TalentScaling = TalentScaling {
         1.6464, 1.7480, 1.8500, 1.9520,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -49,6 +52,7 @@ const LAYLA_CHARGED_1: TalentScaling = TalentScaling {
         1.0770, 1.1437, 1.2104, 1.2771,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAYLA_CHARGED_2: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const LAYLA_CHARGED_2: TalentScaling = TalentScaling {
         1.1855, 1.2589, 1.3320, 1.4050,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -73,6 +78,7 @@ const LAYLA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAYLA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const LAYLA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAYLA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const LAYLA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Nights of Formal Focus -- Cryo --
@@ -108,6 +116,7 @@ const LAYLA_SKILL: TalentScaling = TalentScaling {
         0.2560, 0.2720, 0.2880, 0.3040,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAYLA_SKILL_STAR: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const LAYLA_SKILL_STAR: TalentScaling = TalentScaling {
         0.2944, 0.3128, 0.3312, 0.3496,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Dream of the Star-Stream Shaker -- Cryo --
@@ -132,6 +142,7 @@ const LAYLA_BURST: TalentScaling = TalentScaling {
         0.0930, 0.0988, 0.1046, 0.1104,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const LAYLA: CharacterData = CharacterData {

@@ -16,6 +16,7 @@ const YOIMIYA_NORMAL_1A: TalentScaling = TalentScaling {
         0.7088, 0.7452, 0.7817, 0.8181,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_NORMAL_1B: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const YOIMIYA_NORMAL_1B: TalentScaling = TalentScaling {
         0.7088, 0.7452, 0.7817, 0.8181,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_NORMAL_2: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const YOIMIYA_NORMAL_2: TalentScaling = TalentScaling {
         1.3598, 1.4297, 1.4996, 1.5695,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_NORMAL_3: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const YOIMIYA_NORMAL_3: TalentScaling = TalentScaling {
         1.7677, 1.8586, 1.9495, 2.0404,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_NORMAL_4A: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const YOIMIYA_NORMAL_4A: TalentScaling = TalentScaling {
         0.9231, 0.9706, 1.0181, 1.0656,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_NORMAL_4B: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const YOIMIYA_NORMAL_4B: TalentScaling = TalentScaling {
         0.9231, 0.9706, 1.0181, 1.0656,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_NORMAL_5: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const YOIMIYA_NORMAL_5: TalentScaling = TalentScaling {
         2.1053, 2.2135, 2.3218, 2.4301,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Pyro (charged) --
@@ -95,6 +102,7 @@ const YOIMIYA_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_AIMED_FULL: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const YOIMIYA_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_AIMED_KINDLING: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const YOIMIYA_AIMED_KINDLING: TalentScaling = TalentScaling {
         0.3280, 0.3485, 0.3690, 0.3895,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -130,6 +140,7 @@ const YOIMIYA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const YOIMIYA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const YOIMIYA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 庭火焔硝 (Niwabi Fire-Dance) -- Pyro --
@@ -167,6 +180,7 @@ const YOIMIYA_SKILL_DMG: TalentScaling = TalentScaling {
         0.6765, 0.7060, 0.7355, 0.7650,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 琉金雲間草 (Ryuukin Saxifrage) -- Pyro --
@@ -180,6 +194,7 @@ const YOIMIYA_BURST: TalentScaling = TalentScaling {
         2.5440, 2.7030, 2.8620, 3.0210,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YOIMIYA_BURST_EXPLOSION: TalentScaling = TalentScaling {
@@ -191,6 +206,7 @@ const YOIMIYA_BURST_EXPLOSION: TalentScaling = TalentScaling {
         2.4400, 2.5925, 2.7450, 2.8975,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const YOIMIYA: CharacterData = CharacterData {

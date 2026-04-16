@@ -1,5 +1,5 @@
 use crate::types::*;
-use genshin_calc_core::{Element, ScalingStat};
+use genshin_calc_core::{Element, Reaction, ScalingStat};
 
 // =============================================================================
 
@@ -14,6 +14,7 @@ const LAUMA_NA_HIT1: TalentScaling = TalentScaling {
         0.606643, 0.640346, 0.674048, 0.716176, 0.758304, 0.800432,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const LAUMA_NA_HIT2: TalentScaling = TalentScaling {
         0.572486, 0.604291, 0.636096, 0.675852, 0.715608, 0.755364,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const LAUMA_NA_HIT3: TalentScaling = TalentScaling {
         0.800942, 0.845439, 0.889936, 0.945557, 1.001178, 1.056799,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_CHARGED: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const LAUMA_CHARGED: TalentScaling = TalentScaling {
         2.45176, 2.5808, 2.7421, 2.9034, 3.0647,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_PLUNGE: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const LAUMA_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const LAUMA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const LAUMA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Runo: Dawnless Rest of Karsikko ---
@@ -93,6 +100,7 @@ const LAUMA_SKILL_PRESS: TalentScaling = TalentScaling {
         2.584, 2.736, 2.888,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_SKILL_HOLD_HIT1: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const LAUMA_SKILL_HOLD_HIT1: TalentScaling = TalentScaling {
         3.00352, 3.1616, 3.3592, 3.5568, 3.7544,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_SKILL_HOLD_HIT2: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const LAUMA_SKILL_HOLD_HIT2: TalentScaling = TalentScaling {
         3.61,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarBloom),
 };
 
 const LAUMA_SKILL_SANCTUARY_ATK: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const LAUMA_SKILL_SANCTUARY_ATK: TalentScaling = TalentScaling {
         2.28,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_SKILL_SANCTUARY_EM: TalentScaling = TalentScaling {
@@ -137,6 +148,7 @@ const LAUMA_SKILL_SANCTUARY_EM: TalentScaling = TalentScaling {
         4.56,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Runo: All Hearts Become the Beating Moon ---
@@ -150,6 +162,7 @@ const LAUMA_BURST_BLOOM_INCREASE: TalentScaling = TalentScaling {
         5.27744, 5.5552, 5.9024, 6.2496, 6.5968,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAUMA_BURST_LUNAR_BLOOM_INCREASE: TalentScaling = TalentScaling {
@@ -161,6 +174,7 @@ const LAUMA_BURST_LUNAR_BLOOM_INCREASE: TalentScaling = TalentScaling {
         4.22256, 4.4448, 4.7226, 5.0004, 5.2782,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Lauma aggregation ---

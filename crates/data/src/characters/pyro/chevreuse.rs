@@ -16,6 +16,7 @@ const CHEVREUSE_NORMAL_1: TalentScaling = TalentScaling {
         1.1985, 1.2726, 1.3468, 1.4209,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const CHEVREUSE_NORMAL_2: TalentScaling = TalentScaling {
         1.1124, 1.1812, 1.2500, 1.3188,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_NORMAL_3A: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const CHEVREUSE_NORMAL_3A: TalentScaling = TalentScaling {
         0.6236, 0.6622, 0.7008, 0.7393,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_NORMAL_3B: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const CHEVREUSE_NORMAL_3B: TalentScaling = TalentScaling {
         0.7321, 0.7774, 0.8226, 0.8679,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_NORMAL_4: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const CHEVREUSE_NORMAL_4: TalentScaling = TalentScaling {
         1.7429, 1.8507, 1.9585, 2.0663,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -73,6 +78,7 @@ const CHEVREUSE_CHARGED: TalentScaling = TalentScaling {
         2.7451, 2.9149, 3.0847, 3.2545,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const CHEVREUSE_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const CHEVREUSE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const CHEVREUSE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 近距離急速射撃 (Short-Range Rapid Interdiction Fire) -- Pyro --
@@ -121,6 +130,7 @@ const CHEVREUSE_SKILL_PRESS: TalentScaling = TalentScaling {
         2.3040, 2.4480, 2.5920, 2.7360,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const CHEVREUSE_SKILL_HOLD: TalentScaling = TalentScaling {
         3.4560, 3.6720, 3.8880, 4.1040,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_SKILL_OVERCHARGED: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const CHEVREUSE_SKILL_OVERCHARGED: TalentScaling = TalentScaling {
         5.6480, 6.0010, 6.3540, 6.7070,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 榴弾リング (Ring of Bursting Grenades) -- Pyro --
@@ -156,6 +168,7 @@ const CHEVREUSE_BURST_GRENADE: TalentScaling = TalentScaling {
         7.3632, 7.8234, 8.2836, 8.7438,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHEVREUSE_BURST_SECONDARY: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const CHEVREUSE_BURST_SECONDARY: TalentScaling = TalentScaling {
         0.9818, 1.0431, 1.1045, 1.1658,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CHEVREUSE: CharacterData = CharacterData {

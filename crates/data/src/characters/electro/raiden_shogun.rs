@@ -15,6 +15,7 @@ const RAIDEN_NORMAL_1: TalentScaling = TalentScaling {
         0.9216, 0.9962, 1.0707, 1.1520,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const RAIDEN_NORMAL_2: TalentScaling = TalentScaling {
         0.9236, 0.9983, 1.0730, 1.1545,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const RAIDEN_NORMAL_3: TalentScaling = TalentScaling {
         1.1595, 1.2533, 1.3471, 1.4494,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_NORMAL_4A: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const RAIDEN_NORMAL_4A: TalentScaling = TalentScaling {
         0.6737, 0.7282, 0.7827, 0.8422,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_NORMAL_4B: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const RAIDEN_NORMAL_4B: TalentScaling = TalentScaling {
         0.6737, 0.7282, 0.7827, 0.8422,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_NORMAL_5: TalentScaling = TalentScaling {
@@ -70,6 +75,7 @@ const RAIDEN_NORMAL_5: TalentScaling = TalentScaling {
         1.5214, 1.6444, 1.7675, 1.9017,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -83,6 +89,7 @@ const RAIDEN_CHARGED: TalentScaling = TalentScaling {
         2.3151, 2.5023, 2.6896, 2.8938,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -96,6 +103,7 @@ const RAIDEN_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const RAIDEN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -118,6 +127,7 @@ const RAIDEN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 神変・悪曜開眼 (Transcendence: Baleful Omen) -- Electro --
@@ -131,6 +141,7 @@ const RAIDEN_SKILL: TalentScaling = TalentScaling {
         2.3440, 2.4905, 2.6370, 2.7835,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_SKILL_COORDINATED: TalentScaling = TalentScaling {
@@ -142,6 +153,7 @@ const RAIDEN_SKILL_COORDINATED: TalentScaling = TalentScaling {
         0.8400, 0.8925, 0.9450, 0.9975,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 奥義・夢想真説 (Secret Art: Musou Shinsetsu) -- Electro --
@@ -173,6 +185,7 @@ const RAIDEN_BURST_MUSOU: TalentScaling = TalentScaling {
         8.0160, 8.5170, 9.0180, 9.5190,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_MUSOU),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_N1: TalentScaling = TalentScaling {
@@ -184,6 +197,7 @@ const RAIDEN_BURST_N1: TalentScaling = TalentScaling {
         0.8897, 0.9354, 0.9812, 1.0269,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_N2: TalentScaling = TalentScaling {
@@ -195,6 +209,7 @@ const RAIDEN_BURST_N2: TalentScaling = TalentScaling {
         0.8741, 0.9191, 0.9640, 1.0090,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_N3: TalentScaling = TalentScaling {
@@ -206,6 +221,7 @@ const RAIDEN_BURST_N3: TalentScaling = TalentScaling {
         1.0703, 1.1254, 1.1804, 1.2355,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_N4A: TalentScaling = TalentScaling {
@@ -217,6 +233,7 @@ const RAIDEN_BURST_N4A: TalentScaling = TalentScaling {
         0.6143, 0.6458, 0.6774, 0.7090,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_N4B: TalentScaling = TalentScaling {
@@ -228,6 +245,7 @@ const RAIDEN_BURST_N4B: TalentScaling = TalentScaling {
         0.6160, 0.6477, 0.6794, 0.7110,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_N5: TalentScaling = TalentScaling {
@@ -239,6 +257,7 @@ const RAIDEN_BURST_N5: TalentScaling = TalentScaling {
         1.4705, 1.5461, 1.6217, 1.6973,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_CHARGED_1: TalentScaling = TalentScaling {
@@ -250,6 +269,7 @@ const RAIDEN_BURST_CHARGED_1: TalentScaling = TalentScaling {
         1.2250, 1.2880, 1.3510, 1.4140,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const RAIDEN_BURST_CHARGED_2: TalentScaling = TalentScaling {
@@ -261,6 +281,7 @@ const RAIDEN_BURST_CHARGED_2: TalentScaling = TalentScaling {
         1.4788, 1.5548, 1.6309, 1.7069,
     ],
     dynamic_bonus: Some(&RAIDEN_RESOLVE_NORMAL),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const RAIDEN_SHOGUN: CharacterData = CharacterData {

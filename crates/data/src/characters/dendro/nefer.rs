@@ -14,6 +14,7 @@ const NEFER_NA_HIT1: TalentScaling = TalentScaling {
         0.7614, 0.8090, 0.8566, 0.9042,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const NEFER_NA_HIT2: TalentScaling = TalentScaling {
         0.7513, 0.7982, 0.8452, 0.8921,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const NEFER_NA_HIT3: TalentScaling = TalentScaling {
         0.5048, 0.5364, 0.5679, 0.5994,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const NEFER_NA_HIT4: TalentScaling = TalentScaling {
         1.2199, 1.2961, 1.3724, 1.4486,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_CHARGED: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const NEFER_CHARGED: TalentScaling = TalentScaling {
         2.6176, 2.7812, 2.9448, 3.1084,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PLUNGE: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const NEFER_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const NEFER_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const NEFER_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Senet Strategy: Dance of a Thousand Nights ---
@@ -104,6 +112,7 @@ const NEFER_SKILL_DMG_ATK: TalentScaling = TalentScaling {
         1.5277, 1.6232, 1.7186, 1.8141,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_SKILL_DMG_EM: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const NEFER_SKILL_DMG_EM: TalentScaling = TalentScaling {
         3.0554, 3.2463, 3.4373, 3.6282,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PHANTASM1_NEFER_ATK: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const NEFER_PHANTASM1_NEFER_ATK: TalentScaling = TalentScaling {
         0.4928, 0.5236, 0.5544, 0.5852,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PHANTASM1_NEFER_EM: TalentScaling = TalentScaling {
@@ -137,6 +148,7 @@ const NEFER_PHANTASM1_NEFER_EM: TalentScaling = TalentScaling {
         0.9856, 1.0472, 1.1088, 1.1704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PHANTASM2_NEFER_ATK: TalentScaling = TalentScaling {
@@ -148,6 +160,7 @@ const NEFER_PHANTASM2_NEFER_ATK: TalentScaling = TalentScaling {
         0.6406, 0.6807, 0.7207, 0.7608,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PHANTASM2_NEFER_EM: TalentScaling = TalentScaling {
@@ -159,6 +172,7 @@ const NEFER_PHANTASM2_NEFER_EM: TalentScaling = TalentScaling {
         1.2813, 1.3614, 1.4414, 1.5215,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PHANTASM1_SHADES: TalentScaling = TalentScaling {
@@ -170,6 +184,7 @@ const NEFER_PHANTASM1_SHADES: TalentScaling = TalentScaling {
         2.28,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PHANTASM2_SHADES: TalentScaling = TalentScaling {
@@ -181,6 +196,7 @@ const NEFER_PHANTASM2_SHADES: TalentScaling = TalentScaling {
         2.28,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_PHANTASM3_SHADES: TalentScaling = TalentScaling {
@@ -192,6 +208,7 @@ const NEFER_PHANTASM3_SHADES: TalentScaling = TalentScaling {
         3.04,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Sacred Vow: True Eye's Phantasm ---
@@ -205,6 +222,7 @@ const NEFER_BURST_HIT1_ATK: TalentScaling = TalentScaling {
         4.4928, 4.7736, 5.0544, 5.3352,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_BURST_HIT1_EM: TalentScaling = TalentScaling {
@@ -216,6 +234,7 @@ const NEFER_BURST_HIT1_EM: TalentScaling = TalentScaling {
         8.9856, 9.5472, 10.1088, 10.6704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_BURST_HIT2_ATK: TalentScaling = TalentScaling {
@@ -227,6 +246,7 @@ const NEFER_BURST_HIT2_ATK: TalentScaling = TalentScaling {
         6.7392, 7.1604, 7.5816, 8.0028,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEFER_BURST_HIT2_EM: TalentScaling = TalentScaling {
@@ -238,6 +258,7 @@ const NEFER_BURST_HIT2_EM: TalentScaling = TalentScaling {
         12.8045, 13.4784, 14.3208, 15.1632, 16.0056,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Nefer aggregation ---

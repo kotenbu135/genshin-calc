@@ -12,6 +12,7 @@ const NILOU_NORMAL_1: TalentScaling = TalentScaling {
         1.1351, 1.2054, 1.2757, 1.3460,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const NILOU_NORMAL_2: TalentScaling = TalentScaling {
         1.0246, 1.0876, 1.1506, 1.2136,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const NILOU_NORMAL_3: TalentScaling = TalentScaling {
         1.5876, 1.6860, 1.7844, 1.8828,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical (Sword) --
@@ -47,6 +50,7 @@ const NILOU_CHARGED_1: TalentScaling = TalentScaling {
         1.1331, 1.2032, 1.2734, 1.3435,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_CHARGED_2: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const NILOU_CHARGED_2: TalentScaling = TalentScaling {
         1.2280, 1.3040, 1.3800, 1.4560,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical (Sword) --
@@ -71,6 +76,7 @@ const NILOU_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const NILOU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const NILOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 七域のダンス (Dance of Haftkarsvar) -- Hydro (HP scaling) --
@@ -106,6 +114,7 @@ const NILOU_SKILL_STEP: TalentScaling = TalentScaling {
         0.0668, 0.0710, 0.0751, 0.0793,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_SKILL_SWORD_1: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const NILOU_SKILL_SWORD_1: TalentScaling = TalentScaling {
         0.0911, 0.0967, 0.1024, 0.1081,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_SKILL_SWORD_2: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const NILOU_SKILL_SWORD_2: TalentScaling = TalentScaling {
         0.1029, 0.1093, 0.1158, 0.1222,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_SKILL_WATER_WHEEL: TalentScaling = TalentScaling {
@@ -139,6 +150,7 @@ const NILOU_SKILL_WATER_WHEEL: TalentScaling = TalentScaling {
         0.1434, 0.1523, 0.1613, 0.1703,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Whirling Steps (旋舞のステップ) -- HP scaling --
@@ -152,6 +164,7 @@ const NILOU_SKILL_WHIRL_1: TalentScaling = TalentScaling {
         0.0652, 0.0693, 0.0734, 0.0775,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_SKILL_WHIRL_2: TalentScaling = TalentScaling {
@@ -163,6 +176,7 @@ const NILOU_SKILL_WHIRL_2: TalentScaling = TalentScaling {
         0.0792, 0.0842, 0.0891, 0.0941,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_SKILL_WHIRL_WHEEL: TalentScaling = TalentScaling {
@@ -174,6 +188,7 @@ const NILOU_SKILL_WHIRL_WHEEL: TalentScaling = TalentScaling {
         0.1012, 0.1076, 0.1139, 0.1202,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 浮蓮のダンス (Dance of Abzendegi: Distant Dreams, Listening Spring) -- Hydro --
@@ -187,6 +202,7 @@ const NILOU_BURST: TalentScaling = TalentScaling {
         0.3686, 0.3917, 0.4147, 0.4378,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NILOU_BURST_LINGERING: TalentScaling = TalentScaling {
@@ -198,6 +214,7 @@ const NILOU_BURST_LINGERING: TalentScaling = TalentScaling {
         0.4506, 0.4787, 0.5069, 0.5350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const NILOU: CharacterData = CharacterData {

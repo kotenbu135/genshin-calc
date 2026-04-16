@@ -16,6 +16,7 @@ const BENNETT_NORMAL_1: TalentScaling = TalentScaling {
         1.0049, 1.0671, 1.1292, 1.1914,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const BENNETT_NORMAL_2: TalentScaling = TalentScaling {
         0.9642, 1.0238, 1.0835, 1.1431,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const BENNETT_NORMAL_3: TalentScaling = TalentScaling {
         1.2319, 1.3081, 1.3843, 1.4605,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const BENNETT_NORMAL_4: TalentScaling = TalentScaling {
         1.3464, 1.4296, 1.5129, 1.5962,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_NORMAL_5: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const BENNETT_NORMAL_5: TalentScaling = TalentScaling {
         1.6218, 1.7222, 1.8225, 1.9228,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -73,6 +78,7 @@ const BENNETT_CHARGED_1: TalentScaling = TalentScaling {
         1.2610, 1.3390, 1.4170, 1.4950,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_CHARGED_2: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const BENNETT_CHARGED_2: TalentScaling = TalentScaling {
         1.3696, 1.4544, 1.5391, 1.6238,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -97,6 +104,7 @@ const BENNETT_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const BENNETT_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const BENNETT_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 溢れる情熱 (Passion Overload) -- Pyro --
@@ -132,6 +142,7 @@ const BENNETT_SKILL_PRESS: TalentScaling = TalentScaling {
         2.7520, 2.9240, 3.0960, 3.2680,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_SKILL_HOLD_1: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const BENNETT_SKILL_HOLD_1: TalentScaling = TalentScaling {
         1.6800, 1.7850, 1.8900, 1.9950,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_SKILL_HOLD_2: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const BENNETT_SKILL_HOLD_2: TalentScaling = TalentScaling {
         1.8400, 1.9550, 2.0700, 2.1850,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BENNETT_SKILL_EXPLOSION: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const BENNETT_SKILL_EXPLOSION: TalentScaling = TalentScaling {
         2.6400, 2.8050, 2.9700, 3.1350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 素晴らしい旅 (Fantastic Voyage) -- Pyro --
@@ -178,6 +192,7 @@ const BENNETT_BURST: TalentScaling = TalentScaling {
         4.6560, 4.9470, 5.2380, 5.5290,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const BENNETT: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const KAEYA_NORMAL_1: TalentScaling = TalentScaling {
         1.2495, 1.3506, 1.4516, 1.5619,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAEYA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const KAEYA_NORMAL_2: TalentScaling = TalentScaling {
         1.2015, 1.2987, 1.3959, 1.5019,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAEYA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const KAEYA_NORMAL_3: TalentScaling = TalentScaling {
         1.5174, 1.6401, 1.7629, 1.8967,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAEYA_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const KAEYA_NORMAL_4: TalentScaling = TalentScaling {
         1.6473, 1.7806, 1.9138, 2.0592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAEYA_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const KAEYA_NORMAL_5: TalentScaling = TalentScaling {
         2.0512, 2.2171, 2.3830, 2.5640,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -71,6 +76,7 @@ const KAEYA_CHARGED_1: TalentScaling = TalentScaling {
         1.2795, 1.3830, 1.4865, 1.5994,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAEYA_CHARGED_2: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const KAEYA_CHARGED_2: TalentScaling = TalentScaling {
         1.6993, 1.8368, 1.9742, 2.1242,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const KAEYA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAEYA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const KAEYA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAEYA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const KAEYA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Frostgnaw -- Cryo --
@@ -130,6 +140,7 @@ const KAEYA_SKILL: TalentScaling = TalentScaling {
         3.8240, 4.0630, 4.3020, 4.5410,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Glacial Waltz -- Cryo --
@@ -143,6 +154,7 @@ const KAEYA_BURST: TalentScaling = TalentScaling {
         1.5520, 1.6490, 1.7460, 1.8430,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KAEYA: CharacterData = CharacterData {

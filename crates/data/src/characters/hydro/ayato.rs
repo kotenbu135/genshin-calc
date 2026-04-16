@@ -12,6 +12,7 @@ const AYATO_NORMAL_1: TalentScaling = TalentScaling {
         1.0143, 1.0770, 1.1397, 1.2025,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const AYATO_NORMAL_2: TalentScaling = TalentScaling {
         1.0638, 1.1296, 1.1954, 1.2612,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const AYATO_NORMAL_3: TalentScaling = TalentScaling {
         1.3222, 1.4040, 1.4858, 1.5675,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_NORMAL_4: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const AYATO_NORMAL_4: TalentScaling = TalentScaling {
         0.6643, 0.7054, 0.7465, 0.7876,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_NORMAL_5: TalentScaling = TalentScaling {
@@ -56,6 +60,7 @@ const AYATO_NORMAL_5: TalentScaling = TalentScaling {
         1.7055, 1.8110, 1.9165, 2.0220,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -69,6 +74,7 @@ const AYATO_CHARGED: TalentScaling = TalentScaling {
         2.9219, 3.1027, 3.2834, 3.4642,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -82,6 +88,7 @@ const AYATO_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const AYATO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const AYATO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 神里流·鏡花 (Kamisato Art: Kyouka) -- Hydro --
@@ -117,6 +126,7 @@ const AYATO_SKILL_1HIT: TalentScaling = TalentScaling {
         1.1931, 1.2669, 1.3407, 1.4145,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_SKILL_2HIT: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const AYATO_SKILL_2HIT: TalentScaling = TalentScaling {
         1.3289, 1.4111, 1.4933, 1.5755,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_SKILL_3HIT: TalentScaling = TalentScaling {
@@ -139,6 +150,7 @@ const AYATO_SKILL_3HIT: TalentScaling = TalentScaling {
         1.4647, 1.5553, 1.6459, 1.7365,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYATO_SKILL_ILLUSION: TalentScaling = TalentScaling {
@@ -150,6 +162,7 @@ const AYATO_SKILL_ILLUSION: TalentScaling = TalentScaling {
         2.2892, 2.4308, 2.5724, 2.7140,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 神里流·水囿 (Kamisato Art: Suiyuu) -- Hydro --
@@ -163,6 +176,7 @@ const AYATO_BURST: TalentScaling = TalentScaling {
         1.3291, 1.4122, 1.4953, 1.5783,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const AYATO: CharacterData = CharacterData {

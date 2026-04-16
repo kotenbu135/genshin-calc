@@ -12,6 +12,7 @@ const FURINA_NORMAL_1: TalentScaling = TalentScaling {
         1.0915, 1.1590, 1.2265, 1.2940,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const FURINA_NORMAL_2: TalentScaling = TalentScaling {
         0.9865, 1.0475, 1.1085, 1.1695,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const FURINA_NORMAL_3: TalentScaling = TalentScaling {
         1.2434, 1.3203, 1.3972, 1.4741,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_NORMAL_4: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const FURINA_NORMAL_4: TalentScaling = TalentScaling {
         1.6535, 1.7557, 1.8580, 1.9603,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical (Sword) --
@@ -58,6 +62,7 @@ const FURINA_CHARGED: TalentScaling = TalentScaling {
         1.6742, 1.7778, 1.8813, 1.9849,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical (Sword) --
@@ -71,6 +76,7 @@ const FURINA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const FURINA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const FURINA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: サロン・ソリティア (Salon Solitaire) -- Hydro --
@@ -106,6 +114,7 @@ const FURINA_SKILL_BUBBLE: TalentScaling = TalentScaling {
         0.1573, 0.1671, 0.1769, 0.1868,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_SKILL_USHER: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const FURINA_SKILL_USHER: TalentScaling = TalentScaling {
         0.1192, 0.1267, 0.1341, 0.1416,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_SKILL_CHEVALMARIN: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const FURINA_SKILL_CHEVALMARIN: TalentScaling = TalentScaling {
         0.0646, 0.0687, 0.0727, 0.0768,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FURINA_SKILL_CRABALETTA: TalentScaling = TalentScaling {
@@ -139,6 +150,7 @@ const FURINA_SKILL_CRABALETTA: TalentScaling = TalentScaling {
         0.1658, 0.1761, 0.1865, 0.1968,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 万民のカーニバル (Let the People Rejoice) -- Hydro --
@@ -152,6 +164,7 @@ const FURINA_BURST: TalentScaling = TalentScaling {
         0.2281, 0.2424, 0.2566, 0.2709,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const FURINA: CharacterData = CharacterData {

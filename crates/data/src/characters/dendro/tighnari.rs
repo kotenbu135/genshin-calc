@@ -14,6 +14,7 @@ const TIGHNARI_NA_HIT1: TalentScaling = TalentScaling {
         0.94458, 1.00686, 1.06914, 1.13142, 1.1937,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const TIGHNARI_NA_HIT2: TalentScaling = TalentScaling {
         0.94672, 1.00528, 1.06384, 1.1224,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const TIGHNARI_NA_HIT3: TalentScaling = TalentScaling {
         0.55965, 0.59655, 0.63345, 0.67035, 0.70725,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const TIGHNARI_NA_HIT4: TalentScaling = TalentScaling {
         1.45236, 1.54812, 1.64388, 1.73964, 1.8354,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Aimed/Charged Attacks ---
@@ -60,6 +64,7 @@ const TIGHNARI_AIMED: TalentScaling = TalentScaling {
         1.0506, 1.1118, 1.173,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_AIMED_LV1: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const TIGHNARI_AIMED_LV1: TalentScaling = TalentScaling {
         2.79, 2.945,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_WREATH_ARROW: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const TIGHNARI_WREATH_ARROW: TalentScaling = TalentScaling {
         1.853, 1.962, 2.071,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_CLUSTERBLOOM: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const TIGHNARI_CLUSTERBLOOM: TalentScaling = TalentScaling {
         0.772, 0.82025, 0.8685, 0.91675,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Plunging Attack (physical) ---
@@ -106,6 +114,7 @@ const TIGHNARI_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const TIGHNARI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const TIGHNARI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Vijnana-Phala Mine ---
@@ -141,6 +152,7 @@ const TIGHNARI_SKILL_DMG: TalentScaling = TalentScaling {
         3.179, 3.366, 3.553,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Fashioner's Tanglevine Shaft ---
@@ -154,6 +166,7 @@ const TIGHNARI_BURST_PRIMARY: TalentScaling = TalentScaling {
         1.05678, 1.1124, 1.181925, 1.25145, 1.320975,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TIGHNARI_BURST_SECONDARY: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const TIGHNARI_BURST_SECONDARY: TalentScaling = TalentScaling {
         1.29162, 1.3596, 1.444575, 1.52955, 1.614525,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Tighnari aggregation ---

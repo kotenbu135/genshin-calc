@@ -14,6 +14,7 @@ const JAHODA_NORMAL_1: TalentScaling = TalentScaling {
         0.9401, 0.9982, 1.0564, 1.1145,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const JAHODA_NORMAL_2: TalentScaling = TalentScaling {
         0.4338, 0.4607, 0.4875, 0.5143,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const JAHODA_NORMAL_3: TalentScaling = TalentScaling {
         1.1549, 1.2264, 1.2978, 1.3692,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot / Charged --
@@ -49,6 +52,7 @@ const JAHODA_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_AIMED_FULL: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const JAHODA_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack --
@@ -73,6 +78,7 @@ const JAHODA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const JAHODA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const JAHODA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Savvy Strategy: Splitting the Spoils -- Anemo --
@@ -108,6 +116,7 @@ const JAHODA_SKILL_SMOKE_BOMB: TalentScaling = TalentScaling {
         3.3788, 3.5775, 3.7763,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_SKILL_UNFILLED_FLASK: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const JAHODA_SKILL_UNFILLED_FLASK: TalentScaling = TalentScaling {
         4.0545, 4.293, 4.5315,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_SKILL_FILLED_FLASK: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const JAHODA_SKILL_FILLED_FLASK: TalentScaling = TalentScaling {
         4.77, 5.035,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // Mirror uses the stored Flask element; expose one selectable row per supported element.
@@ -142,6 +153,7 @@ const JAHODA_SKILL_MEOWBALL_PYRO: TalentScaling = TalentScaling {
         3.04,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_SKILL_MEOWBALL_HYDRO: TalentScaling = TalentScaling {
@@ -153,6 +165,7 @@ const JAHODA_SKILL_MEOWBALL_HYDRO: TalentScaling = TalentScaling {
         3.04,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_SKILL_MEOWBALL_ELECTRO: TalentScaling = TalentScaling {
@@ -164,6 +177,7 @@ const JAHODA_SKILL_MEOWBALL_ELECTRO: TalentScaling = TalentScaling {
         3.04,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_SKILL_MEOWBALL_CRYO: TalentScaling = TalentScaling {
@@ -175,6 +189,7 @@ const JAHODA_SKILL_MEOWBALL_CRYO: TalentScaling = TalentScaling {
         3.04,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Hidden Aces: Seven Tools of the Hunter -- Anemo --
@@ -188,6 +203,7 @@ const JAHODA_BURST: TalentScaling = TalentScaling {
         4.403, 4.662, 4.921,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const JAHODA_BURST_ROBOT: TalentScaling = TalentScaling {
@@ -199,6 +215,7 @@ const JAHODA_BURST_ROBOT: TalentScaling = TalentScaling {
         0.3453, 0.3669, 0.3885, 0.4101,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const JAHODA: CharacterData = CharacterData {

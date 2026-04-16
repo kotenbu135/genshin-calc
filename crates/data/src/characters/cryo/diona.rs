@@ -14,6 +14,7 @@ const DIONA_NORMAL_1: TalentScaling = TalentScaling {
         0.8397, 0.9076, 0.9755, 1.0496,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const DIONA_NORMAL_2: TalentScaling = TalentScaling {
         0.7797, 0.8428, 0.9058, 0.9746,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const DIONA_NORMAL_3: TalentScaling = TalentScaling {
         1.0596, 1.1453, 1.2310, 1.3245,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const DIONA_NORMAL_4: TalentScaling = TalentScaling {
         0.9996, 1.0805, 1.1613, 1.2495,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const DIONA_NORMAL_5: TalentScaling = TalentScaling {
         1.2495, 1.3506, 1.4516, 1.5619,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Cryo (charged) --
@@ -71,6 +76,7 @@ const DIONA_AIMED: TalentScaling = TalentScaling {
         1.0196, 1.1021, 1.1845, 1.2745,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_AIMED_FULL: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const DIONA_AIMED_FULL: TalentScaling = TalentScaling {
         2.5296, 2.6982, 2.8669, 3.0355,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const DIONA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const DIONA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const DIONA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Icy Paws -- Cryo --
@@ -130,6 +140,7 @@ const DIONA_SKILL: TalentScaling = TalentScaling {
         0.8384, 0.8908, 0.9432, 0.9956,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Signature Mix -- Cryo --
@@ -143,6 +154,7 @@ const DIONA_BURST: TalentScaling = TalentScaling {
         1.6000, 1.7000, 1.8000, 1.9000,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DIONA_BURST_DOT: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const DIONA_BURST_DOT: TalentScaling = TalentScaling {
         1.0528, 1.1186, 1.1844, 1.2502,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const DIONA: CharacterData = CharacterData {

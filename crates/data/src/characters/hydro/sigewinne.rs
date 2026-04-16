@@ -12,6 +12,7 @@ const SIGEWINNE_NORMAL_1: TalentScaling = TalentScaling {
         1.1870, 1.2600, 1.3340, 1.4070,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SIGEWINNE_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const SIGEWINNE_NORMAL_2: TalentScaling = TalentScaling {
         1.1520, 1.2230, 1.2950, 1.3660,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SIGEWINNE_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const SIGEWINNE_NORMAL_3: TalentScaling = TalentScaling {
         1.7660, 1.8750, 1.9850, 2.0940,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Bow --
@@ -47,6 +50,7 @@ const SIGEWINNE_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SIGEWINNE_AIMED_FULL: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const SIGEWINNE_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SIGEWINNE_MINI_BUBBLE: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const SIGEWINNE_MINI_BUBBLE: TalentScaling = TalentScaling {
         0.4960, 0.5270, 0.5580, 0.5890,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -82,6 +88,7 @@ const SIGEWINNE_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SIGEWINNE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const SIGEWINNE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SIGEWINNE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const SIGEWINNE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: ぴょんぴょん水療法 (Bouncy Hydro Therapy) -- Hydro (HP scaling) --
@@ -117,6 +126,7 @@ const SIGEWINNE_SKILL_BUBBLE: TalentScaling = TalentScaling {
         0.0456, 0.0485, 0.0513, 0.0542,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SIGEWINNE_SKILL_BLADE: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const SIGEWINNE_SKILL_BLADE: TalentScaling = TalentScaling {
         0.01300, 0.01368, 0.01454, 0.01539, 0.01625,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 過飽和心優し注射 (Super Saturated Syringing) -- Hydro (HP scaling) --
@@ -141,6 +152,7 @@ const SIGEWINNE_BURST: TalentScaling = TalentScaling {
         0.2354, 0.2501, 0.2648, 0.2796,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const SIGEWINNE: CharacterData = CharacterData {

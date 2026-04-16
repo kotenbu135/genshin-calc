@@ -99,6 +99,24 @@ pub struct DynamicTalentBonus {
     pub per_stack: [f64; 15],
 }
 
+/// Damage pipeline routing for a talent scaling.
+///
+/// Indicates which core calculator a consumer should invoke for this scaling.
+/// `Standard` goes through `calculate_damage` (talent level base, elemental DMG%,
+/// DEF multiplier, etc.). `DirectLunar(Reaction)` goes through
+/// `calculate_direct_lunar` — talent-originated damage that is classified as a
+/// lunar reaction (e.g. Columbina's Gravity Interference, Flins' burst middle
+/// hit, Lauma's skill hold second instance, Zibai's Lunar-Crystallize hits).
+/// The inner `Reaction` is fixed by the character's talent text, not selectable
+/// by the user.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub enum DamagePipeline {
+    /// Standard talent damage — route through `calculate_damage`.
+    Standard,
+    /// Lunar reaction damage from a talent — route through `calculate_direct_lunar`.
+    DirectLunar(Reaction),
+}
+
 /// Talent scaling entry with multipliers at each talent level.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct TalentScaling {
@@ -112,6 +130,10 @@ pub struct TalentScaling {
     pub values: [f64; 15],
     /// 動的天賦ボーナス。Noneなら静的倍率のみ。
     pub dynamic_bonus: Option<&'static DynamicTalentBonus>,
+    /// Which damage pipeline this scaling routes through.
+    /// Defaults to `Standard`. Use `DirectLunar(reaction)` for talent damage
+    /// classified as a lunar reaction by the character's talent text.
+    pub damage_pipeline: DamagePipeline,
 }
 
 /// Talent data for an elemental skill or burst.

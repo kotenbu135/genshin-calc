@@ -14,6 +14,7 @@ const SKIRK_NORMAL_1: TalentScaling = TalentScaling {
         1.2300, 1.3060, 1.3821, 1.4582,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const SKIRK_NORMAL_2: TalentScaling = TalentScaling {
         1.1233, 1.1927, 1.2622, 1.3317,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const SKIRK_NORMAL_3: TalentScaling = TalentScaling {
         0.7314, 0.7766, 0.8219, 0.8671,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const SKIRK_NORMAL_4: TalentScaling = TalentScaling {
         1.3716, 1.4564, 1.5413, 1.6261,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const SKIRK_NORMAL_5: TalentScaling = TalentScaling {
         1.8702, 1.9858, 2.1015, 2.2172,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -71,6 +76,7 @@ const SKIRK_CHARGED: TalentScaling = TalentScaling {
         1.5074, 1.6006, 1.6939, 1.7871,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const SKIRK_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const SKIRK_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const SKIRK_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Havoc: Warp -- Cryo --
@@ -119,6 +128,7 @@ const SKIRK_SKILL_1: TalentScaling = TalentScaling {
         2.9963, 3.1816, 3.3669, 3.5523,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_SKILL_2: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const SKIRK_SKILL_2: TalentScaling = TalentScaling {
         2.7025, 2.8696, 3.0368, 3.2039,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_SKILL_3: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const SKIRK_SKILL_3: TalentScaling = TalentScaling {
         1.7082, 1.8138, 1.9195, 2.0252,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_SKILL_4: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const SKIRK_SKILL_4: TalentScaling = TalentScaling {
         1.8168, 1.9292, 2.0416, 2.1540,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_SKILL_5: TalentScaling = TalentScaling {
@@ -163,6 +176,7 @@ const SKIRK_SKILL_5: TalentScaling = TalentScaling {
         4.4548, 4.7098, 4.9842, 5.2586,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Havoc: Ruin -- Cryo --
@@ -176,6 +190,7 @@ const SKIRK_BURST_SLASH: TalentScaling = TalentScaling {
         2.4552, 2.6087, 2.7621, 2.9156,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SKIRK_BURST_FINAL: TalentScaling = TalentScaling {
@@ -187,6 +202,7 @@ const SKIRK_BURST_FINAL: TalentScaling = TalentScaling {
         4.0920, 4.3478, 4.6035, 4.8593,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const SKIRK: CharacterData = CharacterData {

@@ -16,6 +16,7 @@ const THOMA_NORMAL_1: TalentScaling = TalentScaling {
         1.0014, 1.0634, 1.1253, 1.1873,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const THOMA_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const THOMA_NORMAL_2: TalentScaling = TalentScaling {
         0.9842, 1.0450, 1.1059, 1.1668,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const THOMA_NORMAL_3A: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const THOMA_NORMAL_3A: TalentScaling = TalentScaling {
         0.6043, 0.6417, 0.6791, 0.7165,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const THOMA_NORMAL_3B: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const THOMA_NORMAL_3B: TalentScaling = TalentScaling {
         0.6043, 0.6417, 0.6791, 0.7165,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const THOMA_NORMAL_4: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const THOMA_NORMAL_4: TalentScaling = TalentScaling {
         1.5194, 1.6134, 1.7074, 1.8014,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -73,6 +78,7 @@ const THOMA_CHARGED: TalentScaling = TalentScaling {
         2.5433, 2.7007, 2.8580, 3.0153,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const THOMA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const THOMA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const THOMA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const THOMA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const THOMA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 烈焔侍立 (Blazing Blessing) -- Pyro --
@@ -121,6 +130,7 @@ const THOMA_SKILL: TalentScaling = TalentScaling {
         2.9280, 3.1110, 3.2940, 3.4770,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 真紅熾炎の大鎧 (Crimson Ooyoroi) -- Pyro --
@@ -134,6 +144,7 @@ const THOMA_BURST: TalentScaling = TalentScaling {
         1.7600, 1.8700, 1.9800, 2.0900,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const THOMA_BURST_FIERY: TalentScaling = TalentScaling {
@@ -145,6 +156,7 @@ const THOMA_BURST_FIERY: TalentScaling = TalentScaling {
         1.1600, 1.2325, 1.3050, 1.3775,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const THOMA: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const CHARLOTTE_NORMAL_1: TalentScaling = TalentScaling {
         0.9969, 1.0592, 1.1215, 1.1838,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const CHARLOTTE_NORMAL_2: TalentScaling = TalentScaling {
         0.8675, 0.9217, 0.9759, 1.0302,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const CHARLOTTE_NORMAL_3: TalentScaling = TalentScaling {
         1.2920, 1.3728, 1.4535, 1.5343,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Cryo (Catalyst) --
@@ -49,6 +52,7 @@ const CHARLOTTE_CHARGED: TalentScaling = TalentScaling {
         2.0102, 2.1359, 2.2615, 2.3872,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Cryo (Catalyst) --
@@ -62,6 +66,7 @@ const CHARLOTTE_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const CHARLOTTE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const CHARLOTTE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Framing: Freezing Point Composition -- Cryo --
@@ -97,6 +104,7 @@ const CHARLOTTE_SKILL_PRESS: TalentScaling = TalentScaling {
         1.3440, 1.4280, 1.5120, 1.5960,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const CHARLOTTE_SKILL_HOLD: TalentScaling = TalentScaling {
         2.7840, 2.9580, 3.1320, 3.3060,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_SKILL_MARK_SNAPPY: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const CHARLOTTE_SKILL_MARK_SNAPPY: TalentScaling = TalentScaling {
         0.7840, 0.8330, 0.8820, 0.9310,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_SKILL_MARK_FOCUSED: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const CHARLOTTE_SKILL_MARK_FOCUSED: TalentScaling = TalentScaling {
         0.8120, 0.8628, 0.9135, 0.9643,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Still Photo: Comprehensive Confirmation -- Cryo --
@@ -143,6 +154,7 @@ const CHARLOTTE_BURST: TalentScaling = TalentScaling {
         1.5523, 1.6493, 1.7464, 1.8434,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHARLOTTE_BURST_KAMERA: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const CHARLOTTE_BURST_KAMERA: TalentScaling = TalentScaling {
         0.1294, 0.1374, 0.1455, 0.1536,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CHARLOTTE: CharacterData = CharacterData {

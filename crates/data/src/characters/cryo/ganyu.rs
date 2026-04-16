@@ -14,6 +14,7 @@ const GANYU_NORMAL_1: TalentScaling = TalentScaling {
         0.7377, 0.7974, 0.8570, 0.9221,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const GANYU_NORMAL_2: TalentScaling = TalentScaling {
         0.8277, 0.8946, 0.9616, 1.0346,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const GANYU_NORMAL_3: TalentScaling = TalentScaling {
         1.0576, 1.1431, 1.2287, 1.3220,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const GANYU_NORMAL_4: TalentScaling = TalentScaling {
         1.0576, 1.1431, 1.2287, 1.3220,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const GANYU_NORMAL_5: TalentScaling = TalentScaling {
         1.1211, 1.2114, 1.3017, 1.4014,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_NORMAL_6: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const GANYU_NORMAL_6: TalentScaling = TalentScaling {
         1.3395, 1.4478, 1.5561, 1.6743,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot & Frostflake Arrow -- Cryo --
@@ -82,6 +88,7 @@ const GANYU_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_AIMED_CHARGE1: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const GANYU_AIMED_CHARGE1: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_FROSTFLAKE: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const GANYU_FROSTFLAKE: TalentScaling = TalentScaling {
         2.5600, 2.7200, 2.8800, 3.0400,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_FROSTFLAKE_BLOOM: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const GANYU_FROSTFLAKE_BLOOM: TalentScaling = TalentScaling {
         4.3520, 4.6240, 4.8960, 5.1680,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -128,6 +138,7 @@ const GANYU_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -139,6 +150,7 @@ const GANYU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GANYU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -150,6 +162,7 @@ const GANYU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Trail of the Qilin -- Cryo --
@@ -163,6 +176,7 @@ const GANYU_SKILL: TalentScaling = TalentScaling {
         2.6400, 2.8050, 2.9700, 3.1350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Celestial Shower -- Cryo --
@@ -176,6 +190,7 @@ const GANYU_BURST: TalentScaling = TalentScaling {
         1.4054, 1.4933, 1.5811, 1.6690,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const GANYU: CharacterData = CharacterData {

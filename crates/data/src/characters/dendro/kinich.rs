@@ -14,6 +14,7 @@ const KINICH_NA_HIT1: TalentScaling = TalentScaling {
         2.09482, 2.23294, 2.37106, 2.50918, 2.6473,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const KINICH_NA_HIT2: TalentScaling = TalentScaling {
         1.75448, 1.87016, 1.98584, 2.10152, 2.2172,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const KINICH_NA_HIT3: TalentScaling = TalentScaling {
         2.61352, 2.78584, 2.95816, 3.13048, 3.3028,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_NA_MID_AIR: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const KINICH_NA_MID_AIR: TalentScaling = TalentScaling {
         3.7830, 4.0170, 4.2510, 4.4850,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_CHARGED: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const KINICH_CHARGED: TalentScaling = TalentScaling {
         1.02466, 1.09222, 1.15978, 1.22734, 1.2949,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_PLUNGE: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const KINICH_PLUNGE: TalentScaling = TalentScaling {
         1.47441, 1.578486, 1.682562, 1.786638, 1.890714, 1.99479,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const KINICH_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.948195, 3.156303, 3.364411, 3.572519, 3.780627, 3.988735,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const KINICH_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.682455, 3.942393, 4.202331, 4.462269, 4.722207, 4.982145,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Canopy Hunter: Riding High ---
@@ -104,6 +112,7 @@ const KINICH_SKILL_LOOP: TalentScaling = TalentScaling {
         1.08832, 1.1456, 1.2172, 1.2888, 1.3604,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_SKILL_CANNON: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const KINICH_SKILL_CANNON: TalentScaling = TalentScaling {
         13.06136, 13.7488, 14.6081, 15.4674, 16.3267,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Hail to the Almighty Dragonlord ---
@@ -128,6 +138,7 @@ const KINICH_BURST_DMG: TalentScaling = TalentScaling {
         3.015, 3.1825,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KINICH_BURST_BREATH: TalentScaling = TalentScaling {
@@ -139,6 +150,7 @@ const KINICH_BURST_BREATH: TalentScaling = TalentScaling {
         2.173248, 2.293984, 2.41472, 2.56564, 2.71656, 2.86748,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Kinich aggregation ---

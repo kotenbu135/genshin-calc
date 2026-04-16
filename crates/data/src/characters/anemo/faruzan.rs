@@ -14,6 +14,7 @@ const FARUZAN_NORMAL_1: TalentScaling = TalentScaling {
         0.884187, 0.9466, 1.009013, 1.071427, 1.13384, 1.196253,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FARUZAN_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const FARUZAN_NORMAL_2: TalentScaling = TalentScaling {
         0.833918, 0.892783, 0.951648, 1.010512, 1.069377, 1.128242,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FARUZAN_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const FARUZAN_NORMAL_3: TalentScaling = TalentScaling {
         1.050906, 1.125088, 1.199269, 1.273451, 1.347632, 1.421814,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FARUZAN_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const FARUZAN_NORMAL_4: TalentScaling = TalentScaling {
         1.395989, 1.494529, 1.59307, 1.69161, 1.790151, 1.888691,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Anemo (charged) --
@@ -60,6 +64,7 @@ const FARUZAN_AIMED: TalentScaling = TalentScaling {
         1.0506, 1.1118, 1.173,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FARUZAN_AIMED_FULL: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const FARUZAN_AIMED_FULL: TalentScaling = TalentScaling {
         2.79, 2.945,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const FARUZAN_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FARUZAN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const FARUZAN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FARUZAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const FARUZAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Wind Realm of Nasamjnin -- Anemo --
@@ -119,6 +128,7 @@ const FARUZAN_SKILL: TalentScaling = TalentScaling {
         3.162, 3.348, 3.534,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FARUZAN_SKILL_COLLAPSE: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const FARUZAN_SKILL_COLLAPSE: TalentScaling = TalentScaling {
         2.43, 2.565,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: The Wind's Secret Ways -- Anemo --
@@ -143,6 +154,7 @@ const FARUZAN_BURST: TalentScaling = TalentScaling {
         8.024, 8.496, 8.968,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const FARUZAN: CharacterData = CharacterData {
