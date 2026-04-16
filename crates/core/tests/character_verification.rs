@@ -3,7 +3,9 @@ mod test_types;
 use std::fs;
 
 use genshin_calc_core::damage::{DamageInput, calculate_damage};
-use genshin_calc_core::lunar::{LunarInput, calculate_lunar};
+use genshin_calc_core::lunar::{
+    DirectLunarInput, LunarInput, calculate_direct_lunar, calculate_lunar,
+};
 use genshin_calc_core::transformative::{TransformativeInput, calculate_transformative};
 
 use test_types::*;
@@ -81,6 +83,47 @@ fn run_transformative_case(character_name: &str, case: &TransformativeCase) {
     );
 }
 
+fn run_direct_lunar_case(character_name: &str, case: &DirectLunarCase) {
+    let tolerance = case.tolerance.unwrap_or(DEFAULT_TOLERANCE);
+    let ctx = format!("{character_name} - {}", case.name);
+
+    let input = DirectLunarInput {
+        character_level: case.character_level,
+        talent_multiplier: case.talent_multiplier,
+        scaling_value: case.scaling_value,
+        elemental_mastery: case.elemental_mastery,
+        reaction: parse_reaction(&case.reaction),
+        reaction_bonus: case.reaction_bonus,
+        crit_rate: case.crit_rate,
+        crit_dmg: case.crit_dmg,
+        base_dmg_bonus: case.base_dmg_bonus,
+        flat_dmg: case.flat_dmg,
+    };
+    let enemy = to_enemy(&case.enemy);
+    let result = calculate_direct_lunar(&input, &enemy).unwrap_or_else(|e| {
+        panic!("{ctx}: calculate_direct_lunar failed: {e}");
+    });
+
+    assert_approx(
+        result.non_crit,
+        case.expected.non_crit,
+        tolerance,
+        &format!("{ctx} non_crit"),
+    );
+    assert_approx(
+        result.crit,
+        case.expected.crit,
+        tolerance,
+        &format!("{ctx} crit"),
+    );
+    assert_approx(
+        result.average,
+        case.expected.average,
+        tolerance,
+        &format!("{ctx} average"),
+    );
+}
+
 fn run_lunar_case(character_name: &str, case: &LunarCase) {
     let tolerance = case.tolerance.unwrap_or(DEFAULT_TOLERANCE);
     let ctx = format!("{character_name} - {}", case.name);
@@ -132,6 +175,9 @@ fn run_character(data: &CharacterTestData) {
             }
             TestCase::Lunar(c) => {
                 run_lunar_case(char_name, c);
+            }
+            TestCase::DirectLunar(c) => {
+                run_direct_lunar_case(char_name, c);
             }
         }
     }

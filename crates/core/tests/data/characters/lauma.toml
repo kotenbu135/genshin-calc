@@ -64,3 +64,35 @@ resistance = 0.10
 non_crit = 2986.526716
 crit = 5973.053431
 average = 4479.790073
+
+# Case 3: Skill Hold (Hymn of Eternal Rest) — Lunar-Bloom instance scaled on EM
+# Talent Lv10: "Lunar-Bloom DMG Increase" = 400.03% Elemental Mastery
+# scaling_value = EM = 800, talent = 4.0003, LunarBloom
+# base = 800 * 4.0003 = 3200.24
+# em_bonus = 6 * 800 / (800 + 2000) = 1.7142857143
+# non_crit = 3200.24 * 1.0 * 2.7142857143 * 0.9 = 7817.729143
+# crit = 7817.729143 * 2.0 = 15635.458286
+# avg = 7817.729143 * 0.50 + 15635.458286 * 0.50 = 11726.593714
+[[cases]]
+type = "direct_lunar"
+name = "Skill Hold Lunar-Bloom (EM 400.03%)"
+character_level = 90
+talent_multiplier = 4.0003
+scaling_value = 800.0
+elemental_mastery = 800.0
+reaction = "LunarBloom"
+reaction_bonus = 0.0
+crit_rate = 0.50
+crit_dmg = 1.00
+base_dmg_bonus = 0.0
+flat_dmg = 0.0
+tolerance = 0.1
+
+[cases.enemy]
+level = 90
+resistance = 0.10
+
+[cases.expected]
+non_crit = 7817.729143
+crit = 15635.458286
+average = 11726.593714
