@@ -158,6 +158,44 @@ const INEFFA_BURST: TalentScaling = TalentScaling {
     damage_pipeline: DamagePipeline::Standard,
 };
 
+// -- Passive / Constellation direct lunar scalings (Issue #140) --
+
+const INEFFA_A1_OVERCLOCKING: PassiveScaling = PassiveScaling {
+    name: "オーバークロック追撃",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    multiplier: 0.65,
+    reaction: genshin_calc_core::Reaction::LunarElectroCharged,
+    gate: ScalingActivationGate::PassiveA1,
+    replaces: &[],
+};
+
+const INEFFA_C2_PUNISHMENT_EDICT: PassiveScaling = PassiveScaling {
+    name: "懲戒訓示",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    multiplier: 3.00,
+    reaction: genshin_calc_core::Reaction::LunarElectroCharged,
+    gate: ScalingActivationGate::Constellation(2),
+    replaces: &[],
+};
+
+const INEFFA_C6_DAWNING_MORN: PassiveScaling = PassiveScaling {
+    name: "貴方に捧げる暁",
+    scaling_stat: ScalingStat::Atk,
+    damage_element: Some(Element::Electro),
+    multiplier: 1.35,
+    reaction: genshin_calc_core::Reaction::LunarElectroCharged,
+    gate: ScalingActivationGate::Constellation(6),
+    replaces: &[],
+};
+
+static INEFFA_PASSIVE_SCALINGS: &[PassiveScaling] = &[
+    INEFFA_A1_OVERCLOCKING,
+    INEFFA_C2_PUNISHMENT_EDICT,
+    INEFFA_C6_DAWNING_MORN,
+];
+
 pub const INEFFA: CharacterData = CharacterData {
     id: "ineffa",
     name: "Ineffa",
@@ -207,4 +245,5 @@ pub const INEFFA: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    passive_scalings: INEFFA_PASSIVE_SCALINGS,
 };

@@ -192,6 +192,34 @@ static LAUMA_SKILL_SCALINGS: &[TalentScaling] = &[
 static LAUMA_BURST_SCALINGS: &[TalentScaling] =
     &[LAUMA_BURST_BLOOM_INCREASE, LAUMA_BURST_LUNAR_BLOOM_INCREASE];
 
+// -- Passive / Constellation direct lunar scalings (Issue #140) --
+
+/// C6: 霜林の聖域追撃 (185% EM, 月開花)。同聖域中最大8回。
+/// Pale Hymn stack を消費せず、逆に2層生成する (stack 管理は consumer 側)。
+const LAUMA_C6_SANCTUARY_ADDITIONAL: PassiveScaling = PassiveScaling {
+    name: "霜林の聖域 追撃",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    multiplier: 1.85,
+    reaction: genshin_calc_core::Reaction::LunarBloom,
+    gate: ScalingActivationGate::Constellation(6),
+    replaces: &[],
+};
+
+/// C6: Pale Hymn 所持時の通常攻撃で1スタック消費し直接月開花 (150% EM)。
+const LAUMA_C6_PALE_HYMN_NORMAL: PassiveScaling = PassiveScaling {
+    name: "蒼の讃歌・通常攻撃消費",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    multiplier: 1.50,
+    reaction: genshin_calc_core::Reaction::LunarBloom,
+    gate: ScalingActivationGate::Constellation(6),
+    replaces: &[],
+};
+
+static LAUMA_PASSIVE_SCALINGS: &[PassiveScaling] =
+    &[LAUMA_C6_SANCTUARY_ADDITIONAL, LAUMA_C6_PALE_HYMN_NORMAL];
+
 pub const LAUMA: CharacterData = CharacterData {
     id: "lauma",
     name: "Lauma",
@@ -235,4 +263,5 @@ pub const LAUMA: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    passive_scalings: LAUMA_PASSIVE_SCALINGS,
 };

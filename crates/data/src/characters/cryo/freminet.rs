@@ -205,6 +205,7 @@ pub const FREMINET: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3NormalC5Skill,
+    passive_scalings: &[],
 };
 
 // =============================================================================

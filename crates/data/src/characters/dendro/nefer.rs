@@ -285,6 +285,34 @@ static NEFER_BURST_SCALINGS: &[TalentScaling] = &[
     NEFER_BURST_HIT2_EM,
 ];
 
+// -- Passive / Constellation direct lunar scalings (Issue #140) --
+
+/// C6: 幻影演舞2段(Nefer) を直接月開花 (85% EM) に変換。
+/// 既存 ATK/EM 2 scalings を同時除去。
+const NEFER_C6_PHANTASM2_REPLACEMENT: PassiveScaling = PassiveScaling {
+    name: "幻影演舞2段(Nefer) 置換",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    multiplier: 0.85,
+    reaction: genshin_calc_core::Reaction::LunarBloom,
+    gate: ScalingActivationGate::Constellation(6),
+    replaces: &["幻影演舞2段(Nefer)・攻撃力", "幻影演舞2段(Nefer)・元素熟知"],
+};
+
+/// C6: 幻影演舞終了時の追加月開花ヒット (120% EM)。
+const NEFER_C6_PHANTASM_EXTRA: PassiveScaling = PassiveScaling {
+    name: "幻影演舞 終了時追加ダメージ",
+    scaling_stat: ScalingStat::Em,
+    damage_element: Some(Element::Dendro),
+    multiplier: 1.20,
+    reaction: genshin_calc_core::Reaction::LunarBloom,
+    gate: ScalingActivationGate::Constellation(6),
+    replaces: &[],
+};
+
+static NEFER_PASSIVE_SCALINGS: &[PassiveScaling] =
+    &[NEFER_C6_PHANTASM2_REPLACEMENT, NEFER_C6_PHANTASM_EXTRA];
+
 pub const NEFER: CharacterData = CharacterData {
     id: "nefer",
     name: "Nefer",
@@ -328,4 +356,5 @@ pub const NEFER: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    passive_scalings: NEFER_PASSIVE_SCALINGS,
 };

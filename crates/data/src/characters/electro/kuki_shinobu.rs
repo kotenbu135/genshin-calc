@@ -210,6 +210,7 @@ pub const KUKI_SHINOBU: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3SkillC5Burst,
+    passive_scalings: &[],
 };
 
 #[cfg(test)]

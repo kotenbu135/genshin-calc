@@ -269,6 +269,42 @@ export interface TalentSet {
   elemental_burst: TalentData;
 }
 
+/**
+ * パッシブ/星座由来の直接月反応スケーリングの発動ゲート。
+ * - `"PassiveA1"`: A1パッシブ解放（キャラLv≧40）
+ * - `"PassiveA4"`: A4パッシブ解放（4★はLv≧60、5★はLv≧70）
+ * - `{ Constellation: number }`: 星座Lv≧N
+ */
+export type ScalingActivationGate =
+  | "PassiveA1"
+  | "PassiveA4"
+  | { Constellation: number };
+
+/**
+ * パッシブ/星座ゲート付きの直接月反応スケーリング。
+ * 天賦Lv非依存の固定倍率を持ち、`calculate_direct_lunar` 経由で計算される。
+ *
+ * `replaces` が空でない場合、consumer は同名の `TalentScaling` エントリを
+ * 通常ヒットリストから除去し、この `PassiveScaling` で置き換える必要がある
+ * （Nefer C6 の幻影演舞2段 ATK/EM 同時除去等）。
+ */
+export interface PassiveScaling {
+  /** 表示名 */
+  name: string;
+  /** スケーリングに使うステータス */
+  scaling_stat: ScalingStat;
+  /** ダメージ元素 */
+  damage_element: Element | null;
+  /** Lv非依存固定倍率（小数形式、例: 65% = 0.65） */
+  multiplier: number;
+  /** 月反応種別（Lunar*） */
+  reaction: Reaction;
+  /** 発動ゲート（パッシブ/星座条件） */
+  gate: ScalingActivationGate;
+  /** 同キャラの既存 TalentScaling.name 配列。空なら追加のみ。 */
+  replaces: string[];
+}
+
 /** find_character() の戻り値。フルのキャラクターデータ */
 export interface CharacterFullData {
   id: string;
@@ -286,6 +322,8 @@ export interface CharacterFullData {
   ascension_stat: AscensionStat;
   talents: TalentSet;
   constellation_pattern: ConstellationPattern;
+  /** パッシブ/星座ゲート付き直接月反応スケーリング。該当効果なしなら []。 */
+  passive_scalings: PassiveScaling[];
 }
 
 /** GOOD import用の簡略キャラクターデータ（CharacterBuild.character）。find_character() の戻り値は CharacterFullData を参照 */

@@ -185,4 +185,5 @@ pub const BAIZHU: CharacterData = CharacterData {
         },
     },
     constellation_pattern: ConstellationPattern::C3BurstC5Skill,
+    passive_scalings: &[],
 };
