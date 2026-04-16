@@ -14,6 +14,7 @@ const SUCROSE_NORMAL_1: TalentScaling = TalentScaling {
         0.602352, 0.635816, 0.66928, 0.71111, 0.75294, 0.79477,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SUCROSE_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const SUCROSE_NORMAL_2: TalentScaling = TalentScaling {
         0.551088, 0.581704, 0.61232, 0.65059, 0.68886, 0.72713,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SUCROSE_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const SUCROSE_NORMAL_3: TalentScaling = TalentScaling {
         0.692064, 0.730512, 0.76896, 0.81702, 0.86508, 0.91314,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SUCROSE_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const SUCROSE_NORMAL_4: TalentScaling = TalentScaling {
         0.862517, 0.910434, 0.958352, 1.018249, 1.078146, 1.138043,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -60,6 +64,7 @@ const SUCROSE_CHARGED: TalentScaling = TalentScaling {
         2.28304, 2.4032, 2.5534, 2.7036, 2.8538,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -73,6 +78,7 @@ const SUCROSE_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SUCROSE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const SUCROSE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SUCROSE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const SUCROSE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Astable Anemohypostasis Creation - 6308 -- Anemo --
@@ -108,6 +116,7 @@ const SUCROSE_SKILL: TalentScaling = TalentScaling {
         4.488, 4.752, 5.016,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Forbidden Creation - Isomer 75 / Type II -- Anemo --
@@ -121,6 +130,7 @@ const SUCROSE_BURST_DOT: TalentScaling = TalentScaling {
         3.33, 3.515,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SUCROSE_BURST_ELEM: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const SUCROSE_BURST_ELEM: TalentScaling = TalentScaling {
         0.99, 1.045,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const SUCROSE: CharacterData = CharacterData {

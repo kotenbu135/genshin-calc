@@ -12,6 +12,7 @@ const BARBARA_NORMAL_1: TalentScaling = TalentScaling {
         0.7719, 0.8234, 0.8749, 0.9263,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BARBARA_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const BARBARA_NORMAL_2: TalentScaling = TalentScaling {
         0.7246, 0.7729, 0.8212, 0.8695,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BARBARA_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const BARBARA_NORMAL_3: TalentScaling = TalentScaling {
         0.8372, 0.8930, 0.9488, 1.0047,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BARBARA_NORMAL_4: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const BARBARA_NORMAL_4: TalentScaling = TalentScaling {
         1.1261, 1.2012, 1.2762, 1.3513,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Hydro (Catalyst) --
@@ -58,6 +62,7 @@ const BARBARA_CHARGED: TalentScaling = TalentScaling {
         3.3909, 3.6170, 3.8430, 4.0690,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Hydro (Catalyst) --
@@ -71,6 +76,7 @@ const BARBARA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BARBARA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const BARBARA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BARBARA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const BARBARA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 公演、開始♪ (Let the Show Begin♪) -- Hydro --
@@ -108,6 +116,7 @@ const BARBARA_SKILL_DROPLET: TalentScaling = TalentScaling {
         1.1680, 1.2410, 1.3140, 1.3870,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: シャイニングミラクル♪ (Shining Miracle♪) -- Hydro --
@@ -123,6 +132,7 @@ const BARBARA_BURST_HEAL: TalentScaling = TalentScaling {
         0.3520, 0.3740, 0.3960, 0.4180,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const BARBARA: CharacterData = CharacterData {

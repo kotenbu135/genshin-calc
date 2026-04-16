@@ -14,6 +14,7 @@ const VENTI_NORMAL_1: TalentScaling = TalentScaling {
         0.435487, 0.47381, 0.512133, 0.550456, 0.592263,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const VENTI_NORMAL_2: TalentScaling = TalentScaling {
         0.94815, 1.031587, 1.115024, 1.198462, 1.289484,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const VENTI_NORMAL_3: TalentScaling = TalentScaling {
         1.119037, 1.217513, 1.315988, 1.414463, 1.521891,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const VENTI_NORMAL_4: TalentScaling = TalentScaling {
         0.556762, 0.605758, 0.654753, 0.703748, 0.757197,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const VENTI_NORMAL_5: TalentScaling = TalentScaling {
         1.082288, 1.177529, 1.27277, 1.368011, 1.471911,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_NORMAL_6: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const VENTI_NORMAL_6: TalentScaling = TalentScaling {
         1.64934, 1.782742, 1.916145, 2.061675,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Anemo (charged) --
@@ -82,6 +88,7 @@ const VENTI_AIMED: TalentScaling = TalentScaling {
         1.019592, 1.102059, 1.184526, 1.27449,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_AIMED_FULL: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const VENTI_AIMED_FULL: TalentScaling = TalentScaling {
         2.69824, 2.86688, 3.03552,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -106,6 +114,7 @@ const VENTI_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const VENTI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const VENTI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Skyward Sonnet -- Anemo --
@@ -141,6 +152,7 @@ const VENTI_SKILL_PRESS: TalentScaling = TalentScaling {
         6.21, 6.555,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -151,6 +163,7 @@ const VENTI_SKILL_HOLD: TalentScaling = TalentScaling {
         3.8, 4.085, 4.37, 4.75, 5.035, 5.32, 5.7, 6.08, 6.46, 6.84, 7.22, 7.6, 8.075, 8.55, 9.025,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Wind's Grand Ode -- Anemo --
@@ -164,6 +177,7 @@ const VENTI_BURST_DOT: TalentScaling = TalentScaling {
         0.799, 0.846, 0.893,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VENTI_BURST_ELEM: TalentScaling = TalentScaling {
@@ -175,6 +189,7 @@ const VENTI_BURST_ELEM: TalentScaling = TalentScaling {
         0.3995, 0.423, 0.4465,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const VENTI: CharacterData = CharacterData {

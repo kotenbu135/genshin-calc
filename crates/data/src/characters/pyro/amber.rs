@@ -16,6 +16,7 @@ const AMBER_NORMAL_1: TalentScaling = TalentScaling {
         0.8148, 0.8652, 0.9156, 0.9660,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const AMBER_NORMAL_2: TalentScaling = TalentScaling {
         0.8148, 0.8652, 0.9156, 0.9660,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const AMBER_NORMAL_3: TalentScaling = TalentScaling {
         1.0476, 1.1124, 1.1772, 1.2420,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const AMBER_NORMAL_4: TalentScaling = TalentScaling {
         1.0670, 1.1330, 1.1990, 1.2650,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_NORMAL_5: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const AMBER_NORMAL_5: TalentScaling = TalentScaling {
         1.3386, 1.4214, 1.5042, 1.5870,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Pyro (charged) --
@@ -73,6 +78,7 @@ const AMBER_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_AIMED_FULL: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const AMBER_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -97,6 +104,7 @@ const AMBER_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const AMBER_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const AMBER_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 爆弾人形 (Explosive Puppet) -- Pyro --
@@ -132,6 +142,7 @@ const AMBER_SKILL_EXPLOSION: TalentScaling = TalentScaling {
         2.4640, 2.6180, 2.7720, 2.9260,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 矢の雨 (Fiery Rain) -- Pyro --
@@ -145,6 +156,7 @@ const AMBER_BURST_WAVE: TalentScaling = TalentScaling {
         0.5616, 0.5967, 0.6318, 0.6669,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AMBER_BURST_TOTAL: TalentScaling = TalentScaling {
@@ -156,6 +168,7 @@ const AMBER_BURST_TOTAL: TalentScaling = TalentScaling {
         10.1088, 10.7406, 11.3724, 12.0042,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const AMBER: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const HEIZOU_NORMAL_1: TalentScaling = TalentScaling {
         0.674525, 0.711998, 0.749472, 0.796314, 0.843156, 0.889998,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const HEIZOU_NORMAL_2: TalentScaling = TalentScaling {
         0.663336, 0.700188, 0.73704, 0.783105, 0.82917, 0.875235,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const HEIZOU_NORMAL_3: TalentScaling = TalentScaling {
         0.97014, 1.0212, 1.085025, 1.14885, 1.212675,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_NORMAL_4A: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const HEIZOU_NORMAL_4A: TalentScaling = TalentScaling {
         0.266083, 0.280866, 0.295648, 0.314126, 0.332604, 0.351082,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_NORMAL_4B: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const HEIZOU_NORMAL_4B: TalentScaling = TalentScaling {
         0.292694, 0.308955, 0.325216, 0.345542, 0.365868, 0.386194,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_NORMAL_4C: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const HEIZOU_NORMAL_4C: TalentScaling = TalentScaling {
         0.345917, 0.365134, 0.384352, 0.408374, 0.432396, 0.456418,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_NORMAL_5: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const HEIZOU_NORMAL_5: TalentScaling = TalentScaling {
         1.106093, 1.167542, 1.228992, 1.305804, 1.382616, 1.459428,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -93,6 +100,7 @@ const HEIZOU_CHARGED: TalentScaling = TalentScaling {
         1.55125, 1.6425, 1.73375,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -106,6 +114,7 @@ const HEIZOU_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const HEIZOU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const HEIZOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Heartstopper Strike -- Anemo --
@@ -141,6 +152,7 @@ const HEIZOU_SKILL: TalentScaling = TalentScaling {
         4.32288, 4.5504, 4.8348, 5.1192, 5.4036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_SKILL_DECLENSION: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const HEIZOU_SKILL_DECLENSION: TalentScaling = TalentScaling {
         1.08072, 1.1376, 1.2087, 1.2798, 1.3509,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_SKILL_CONVICTION: TalentScaling = TalentScaling {
@@ -163,6 +176,7 @@ const HEIZOU_SKILL_CONVICTION: TalentScaling = TalentScaling {
         2.16144, 2.2752, 2.4174, 2.5596, 2.7018,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Windmuster Kick -- Anemo --
@@ -176,6 +190,7 @@ const HEIZOU_BURST_VACUUM: TalentScaling = TalentScaling {
         5.664384, 5.979072, 6.29376, 6.68712, 7.08048, 7.47384,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HEIZOU_BURST_IRIS: TalentScaling = TalentScaling {
@@ -187,6 +202,7 @@ const HEIZOU_BURST_IRIS: TalentScaling = TalentScaling {
         0.386208, 0.407664, 0.42912, 0.45594, 0.48276, 0.50958,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const HEIZOU: CharacterData = CharacterData {

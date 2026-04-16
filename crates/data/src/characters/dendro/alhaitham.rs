@@ -14,6 +14,7 @@ const ALHAITHAM_NA_HIT1: TalentScaling = TalentScaling {
         0.978996, 1.048102, 1.117207, 1.186313, 1.255418, 1.324524,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const ALHAITHAM_NA_HIT2: TalentScaling = TalentScaling {
         1.003187, 1.074, 1.144813, 1.215627, 1.28644, 1.357253,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const ALHAITHAM_NA_HIT3: TalentScaling = TalentScaling {
         0.675622, 0.723313, 0.771004, 0.818696, 0.866387, 0.914077,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const ALHAITHAM_NA_HIT4: TalentScaling = TalentScaling {
         1.319829, 1.412993, 1.506158, 1.599322, 1.692487, 1.785651,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_NA_HIT5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const ALHAITHAM_NA_HIT5: TalentScaling = TalentScaling {
         1.657517, 1.774518, 1.891519, 2.008521, 2.125522, 2.242523,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_CHARGED: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const ALHAITHAM_CHARGED: TalentScaling = TalentScaling {
         1.16935, 1.24645, 1.32355, 1.40065, 1.47775,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_PLUNGE: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const ALHAITHAM_PLUNGE: TalentScaling = TalentScaling {
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const ALHAITHAM_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -102,6 +110,7 @@ const ALHAITHAM_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Universality: An Elaboration on Form (ATK portion) ---
@@ -115,6 +124,7 @@ const ALHAITHAM_SKILL_THRUST: TalentScaling = TalentScaling {
         4.114, 4.356, 4.598,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Universality: An Elaboration on Form (1-Mirror Projection) ---
@@ -128,6 +138,7 @@ const ALHAITHAM_SKILL_PROJECTION_ATK: TalentScaling = TalentScaling {
         1.3440, 1.4280, 1.5120, 1.5960,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALHAITHAM_SKILL_PROJECTION_EM: TalentScaling = TalentScaling {
@@ -139,6 +150,7 @@ const ALHAITHAM_SKILL_PROJECTION_EM: TalentScaling = TalentScaling {
         2.6880, 2.8560, 3.0240, 3.1920,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Rush Attack EM portion ---
@@ -152,6 +164,7 @@ const ALHAITHAM_SKILL_THRUST_EM: TalentScaling = TalentScaling {
         3.0976, 3.2912, 3.4848, 3.6784,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Particular Field: Fetters of Phenomena (ATK portion) ---
@@ -165,6 +178,7 @@ const ALHAITHAM_BURST_HIT: TalentScaling = TalentScaling {
         2.584, 2.736, 2.888,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Particular Field: Fetters of Phenomena (EM portion) ---
@@ -178,6 +192,7 @@ const ALHAITHAM_BURST_HIT_EM: TalentScaling = TalentScaling {
         1.9456, 2.0672, 2.1888, 2.3104,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Alhaitham aggregation ---

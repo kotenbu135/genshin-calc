@@ -15,6 +15,7 @@ const IANSAN_NORMAL_1: TalentScaling = TalentScaling {
         1.0597, 1.1252, 1.1908, 1.2563,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IANSAN_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const IANSAN_NORMAL_2: TalentScaling = TalentScaling {
         0.9647, 1.0244, 1.0841, 1.1437,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IANSAN_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const IANSAN_NORMAL_3: TalentScaling = TalentScaling {
         1.4525, 1.5423, 1.6322, 1.7220,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -50,6 +53,7 @@ const IANSAN_CHARGED: TalentScaling = TalentScaling {
         2.2620, 2.4020, 2.5419, 2.6818,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IANSAN_SWIFT_STORMFLIGHT: TalentScaling = TalentScaling {
@@ -61,6 +65,7 @@ const IANSAN_SWIFT_STORMFLIGHT: TalentScaling = TalentScaling {
         1.8993, 2.0167, 2.1342, 2.2517,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -74,6 +79,7 @@ const IANSAN_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IANSAN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -85,6 +91,7 @@ const IANSAN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const IANSAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const IANSAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 雷奔撃 (Thunderbolt Rush) -- Electro --
@@ -109,6 +117,7 @@ const IANSAN_SKILL: TalentScaling = TalentScaling {
         5.7280, 6.0860, 6.4440, 6.8020,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 力の三大原則 (The Three Principles of Power) -- Electro --
@@ -122,6 +131,7 @@ const IANSAN_BURST: TalentScaling = TalentScaling {
         8.6080, 9.1460, 9.6840, 10.2220,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const IANSAN: CharacterData = CharacterData {

@@ -15,6 +15,7 @@ const CYNO_NORMAL_1: TalentScaling = TalentScaling {
         1.1114, 1.1803, 1.2491, 1.3180,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const CYNO_NORMAL_2: TalentScaling = TalentScaling {
         1.0810, 1.1479, 1.2147, 1.2816,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const CYNO_NORMAL_3: TalentScaling = TalentScaling {
         1.3222, 1.4040, 1.4858, 1.5675,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const CYNO_NORMAL_4: TalentScaling = TalentScaling {
         1.7120, 1.8180, 1.9239, 2.0299,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -61,6 +65,7 @@ const CYNO_CHARGED: TalentScaling = TalentScaling {
         2.7606, 2.9314, 3.1021, 3.2729,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -74,6 +79,7 @@ const CYNO_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -85,6 +91,7 @@ const CYNO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const CYNO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 秘儀・律淵の渡し (Secret Rite: Chasmic Soulfarer) -- Electro --
@@ -109,6 +117,7 @@ const CYNO_SKILL: TalentScaling = TalentScaling {
         2.6080, 2.7710, 2.9340, 3.0970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_SKILL_MORTUARY: TalentScaling = TalentScaling {
@@ -120,6 +129,7 @@ const CYNO_SKILL_MORTUARY: TalentScaling = TalentScaling {
         3.1360, 3.3320, 3.5280, 3.7240,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 聖儀・狼駆 (Sacred Rite: Wolf's Swiftness) -- Electro --
@@ -134,6 +144,7 @@ const CYNO_BURST_NORMAL_1: TalentScaling = TalentScaling {
         1.7664, 1.8758, 1.9852, 2.0939,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_BURST_NORMAL_2: TalentScaling = TalentScaling {
@@ -145,6 +156,7 @@ const CYNO_BURST_NORMAL_2: TalentScaling = TalentScaling {
         1.8601, 1.9752, 2.0904, 2.2055,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_BURST_NORMAL_3: TalentScaling = TalentScaling {
@@ -156,6 +168,7 @@ const CYNO_BURST_NORMAL_3: TalentScaling = TalentScaling {
         2.3600, 2.5060, 2.6520, 2.7980,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_BURST_NORMAL_4: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const CYNO_BURST_NORMAL_4: TalentScaling = TalentScaling {
         2.3324, 2.4766, 2.6208, 2.7650,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_BURST_NORMAL_5: TalentScaling = TalentScaling {
@@ -178,6 +192,7 @@ const CYNO_BURST_NORMAL_5: TalentScaling = TalentScaling {
         2.9516, 3.1347, 3.3165, 3.4990,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CYNO_BURST_CHARGED: TalentScaling = TalentScaling {
@@ -189,6 +204,7 @@ const CYNO_BURST_CHARGED: TalentScaling = TalentScaling {
         2.2794, 2.4206, 2.5618, 2.7030,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CYNO: CharacterData = CharacterData {

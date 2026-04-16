@@ -16,6 +16,7 @@ const CHIORI_NORMAL_1: TalentScaling = TalentScaling {
         1.1145, 1.1835, 1.2524, 1.3214,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const CHIORI_NORMAL_2: TalentScaling = TalentScaling {
         1.0567, 1.1220, 1.1873, 1.2525,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_NORMAL_3_1: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const CHIORI_NORMAL_3_1: TalentScaling = TalentScaling {
         0.6861, 0.7286, 0.7710, 0.8135,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_NORMAL_3_2: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const CHIORI_NORMAL_3_2: TalentScaling = TalentScaling {
         0.6861, 0.7286, 0.7710, 0.8135,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_NORMAL_4: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const CHIORI_NORMAL_4: TalentScaling = TalentScaling {
         1.6944, 1.7991, 1.9037, 2.0083,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -73,6 +78,7 @@ const CHIORI_CHARGED_1: TalentScaling = TalentScaling {
         1.2251, 1.3009, 1.3767, 1.4525,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_CHARGED_2: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const CHIORI_CHARGED_2: TalentScaling = TalentScaling {
         1.2251, 1.3009, 1.3767, 1.4525,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -97,6 +104,7 @@ const CHIORI_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const CHIORI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8840, 3.0624, 3.2409, 3.4193,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const CHIORI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6021, 3.8249, 4.0478, 4.2706,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 羽袖キ法・糸結 (Fluttering Hasode) -- Geo --
@@ -132,6 +142,7 @@ const CHIORI_SKILL_TAMOTO: TalentScaling = TalentScaling {
         1.6416, 1.7442, 1.8468, 1.9494,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_SKILL_TAMOTO_DEF: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const CHIORI_SKILL_TAMOTO_DEF: TalentScaling = TalentScaling {
         2.0520, 2.1803, 2.3085, 2.4368,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_SKILL_TURRET: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const CHIORI_SKILL_TURRET: TalentScaling = TalentScaling {
         2.9856, 3.1722, 3.3588, 3.5454,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_SKILL_UPWARD_SWEEP: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const CHIORI_SKILL_UPWARD_SWEEP: TalentScaling = TalentScaling {
         2.9856, 3.1722, 3.3588, 3.5454,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_SKILL_UPWARD_SWEEP_DEF: TalentScaling = TalentScaling {
@@ -176,6 +190,7 @@ const CHIORI_SKILL_UPWARD_SWEEP_DEF: TalentScaling = TalentScaling {
         3.7320, 3.9653, 4.1985, 4.4318,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 二刀キ法・緋反 (Hiyoku: Twin Blades) -- Geo --
@@ -189,6 +204,7 @@ const CHIORI_BURST: TalentScaling = TalentScaling {
         5.1264, 5.4468, 5.7672, 6.0876,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CHIORI_BURST_DEF: TalentScaling = TalentScaling {
@@ -200,6 +216,7 @@ const CHIORI_BURST_DEF: TalentScaling = TalentScaling {
         6.4080, 6.8085, 7.2090, 7.6095,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CHIORI: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const BAIZHU_NA_HIT1: TalentScaling = TalentScaling {
         0.672667, 0.710038, 0.747408, 0.794121, 0.840834, 0.887547,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BAIZHU_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const BAIZHU_NA_HIT2: TalentScaling = TalentScaling {
         0.655646, 0.692071, 0.728496, 0.774027, 0.819558, 0.865089,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BAIZHU_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const BAIZHU_NA_HIT3: TalentScaling = TalentScaling {
         0.405749, 0.42829, 0.450832, 0.479009, 0.507186, 0.535363,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BAIZHU_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const BAIZHU_NA_HIT4: TalentScaling = TalentScaling {
         0.974477, 1.028614, 1.082752, 1.150424, 1.218096, 1.285768,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BAIZHU_CHARGED: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const BAIZHU_CHARGED: TalentScaling = TalentScaling {
         2.29976, 2.4208, 2.5721, 2.7234, 2.8747,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BAIZHU_PLUNGE: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const BAIZHU_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BAIZHU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const BAIZHU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BAIZHU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const BAIZHU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Universal Diagnosis ---
@@ -104,6 +112,7 @@ const BAIZHU_SKILL_DMG: TalentScaling = TalentScaling {
         1.683, 1.782, 1.881,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Holistic Revivification ---
@@ -117,6 +126,7 @@ const BAIZHU_BURST_SPIRIT: TalentScaling = TalentScaling {
         1.747152, 1.844216, 1.94128, 2.06261, 2.18394, 2.30527,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Baizhu aggregation ---

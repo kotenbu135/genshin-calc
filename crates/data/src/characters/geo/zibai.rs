@@ -1,5 +1,5 @@
 use crate::types::*;
-use genshin_calc_core::{Element, ScalingStat};
+use genshin_calc_core::{Element, Reaction, ScalingStat};
 
 // =============================================================================
 // Zibai — 5★ Geo Sword (Liyue)
@@ -20,6 +20,7 @@ const ZIBAI_NA_HIT1: TalentScaling = TalentScaling {
         1.1404, 1.2110, 1.2815, 1.3520,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_NA_HIT2: TalentScaling = TalentScaling {
@@ -31,6 +32,7 @@ const ZIBAI_NA_HIT2: TalentScaling = TalentScaling {
         1.0501, 1.1151, 1.1801, 1.2450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_NA_HIT3_1: TalentScaling = TalentScaling {
@@ -42,6 +44,7 @@ const ZIBAI_NA_HIT3_1: TalentScaling = TalentScaling {
         0.6968, 0.7399, 0.7830, 0.8261,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_NA_HIT3_2: TalentScaling = TalentScaling {
@@ -53,6 +56,7 @@ const ZIBAI_NA_HIT3_2: TalentScaling = TalentScaling {
         0.6968, 0.7399, 0.7830, 0.8261,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_NA_HIT4: TalentScaling = TalentScaling {
@@ -64,6 +68,7 @@ const ZIBAI_NA_HIT4: TalentScaling = TalentScaling {
         1.7572, 1.8659, 1.9746, 2.0832,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Charged Attack --- ATK, Physical ---
@@ -77,6 +82,7 @@ const ZIBAI_CHARGED_1: TalentScaling = TalentScaling {
         1.6616, 1.7644, 1.8672, 1.9700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_CHARGED_2: TalentScaling = TalentScaling {
@@ -88,6 +94,7 @@ const ZIBAI_CHARGED_2: TalentScaling = TalentScaling {
         1.6616, 1.7644, 1.8672, 1.9700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Plunging Attack --- ATK, Physical ---
@@ -101,6 +108,7 @@ const ZIBAI_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -112,6 +120,7 @@ const ZIBAI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -123,6 +132,7 @@ const ZIBAI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Heaven and Earth Made Manifest --- DEF, Geo ---
@@ -137,6 +147,7 @@ const ZIBAI_SKILL_LPS_HIT1: TalentScaling = TalentScaling {
         1.1316, 1.2023, 1.2730, 1.3438,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_SKILL_LPS_HIT2: TalentScaling = TalentScaling {
@@ -148,6 +159,7 @@ const ZIBAI_SKILL_LPS_HIT2: TalentScaling = TalentScaling {
         1.0420, 1.1071, 1.1723, 1.2374,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_SKILL_LPS_HIT3_1: TalentScaling = TalentScaling {
@@ -159,6 +171,7 @@ const ZIBAI_SKILL_LPS_HIT3_1: TalentScaling = TalentScaling {
         0.6914, 0.7346, 0.7778, 0.8210,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_SKILL_LPS_HIT3_2: TalentScaling = TalentScaling {
@@ -170,6 +183,7 @@ const ZIBAI_SKILL_LPS_HIT3_2: TalentScaling = TalentScaling {
         0.6914, 0.7346, 0.7778, 0.8210,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_SKILL_LPS_HIT4: TalentScaling = TalentScaling {
@@ -181,6 +195,7 @@ const ZIBAI_SKILL_LPS_HIT4: TalentScaling = TalentScaling {
         1.7436, 1.8525, 1.9615, 2.0705,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_SKILL_LPS_HIT4_ADDITIONAL: TalentScaling = TalentScaling {
@@ -192,6 +207,7 @@ const ZIBAI_SKILL_LPS_HIT4_ADDITIONAL: TalentScaling = TalentScaling {
         0.5891, 0.6259, 0.6628, 0.6996,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarCrystallize),
 };
 
 const ZIBAI_SKILL_LPS_CHARGED_1: TalentScaling = TalentScaling {
@@ -203,6 +219,7 @@ const ZIBAI_SKILL_LPS_CHARGED_1: TalentScaling = TalentScaling {
         1.3190, 1.4014, 1.4839, 1.5663,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_SKILL_LPS_CHARGED_2: TalentScaling = TalentScaling {
@@ -214,6 +231,7 @@ const ZIBAI_SKILL_LPS_CHARGED_2: TalentScaling = TalentScaling {
         1.3190, 1.4014, 1.4839, 1.5663,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // Spirit Steed's Stride
@@ -226,6 +244,7 @@ const ZIBAI_SKILL_STRIDE_HIT1: TalentScaling = TalentScaling {
         3.4506, 3.6662, 3.8819, 4.0975,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_SKILL_STRIDE_HIT2: TalentScaling = TalentScaling {
@@ -237,6 +256,7 @@ const ZIBAI_SKILL_STRIDE_HIT2: TalentScaling = TalentScaling {
         2.8194, 2.9956, 3.1718, 3.3480,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarCrystallize),
 };
 
 // --- Elemental Burst: Tri-Sphere Eminence --- DEF, Geo ---
@@ -250,6 +270,7 @@ const ZIBAI_BURST_HIT1: TalentScaling = TalentScaling {
         2.5392, 2.6979, 2.8566, 3.0153,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZIBAI_BURST_HIT2: TalentScaling = TalentScaling {
@@ -261,6 +282,7 @@ const ZIBAI_BURST_HIT2: TalentScaling = TalentScaling {
         3.5549, 3.7771, 3.9992, 4.2214,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Character Data --

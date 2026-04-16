@@ -12,6 +12,7 @@ const AINO_NORMAL_1: TalentScaling = TalentScaling {
         1.5001, 1.5929, 1.6857, 1.7785,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AINO_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const AINO_NORMAL_2: TalentScaling = TalentScaling {
         1.4932, 1.5855, 1.6779, 1.7702,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AINO_NORMAL_3_1: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const AINO_NORMAL_3_1: TalentScaling = TalentScaling {
         1.1102, 1.1789, 1.2476, 1.3163,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AINO_NORMAL_3_2: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const AINO_NORMAL_3_2: TalentScaling = TalentScaling {
         1.1102, 1.1789, 1.2476, 1.3163,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack --
@@ -58,6 +62,7 @@ const AINO_CHARGED_LOOP: TalentScaling = TalentScaling {
         1.4104, 1.4976, 1.5849, 1.6721,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AINO_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const AINO_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.5511, 2.7089, 2.8667, 3.0245,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack --
@@ -82,6 +88,7 @@ const AINO_PLUNGE: TalentScaling = TalentScaling {
         1.6823, 1.7864, 1.8904, 1.9944,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AINO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const AINO_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5726, 3.7807, 3.9888,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AINO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const AINO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2029, 4.4631, 4.7232, 4.9834,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill -- Hydro --
@@ -117,6 +126,7 @@ const AINO_SKILL_STAGE_1: TalentScaling = TalentScaling {
         1.3120, 1.3940, 1.4760, 1.5580,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AINO_SKILL_STAGE_2: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const AINO_SKILL_STAGE_2: TalentScaling = TalentScaling {
         3.7760, 4.0120, 4.2480, 4.4840,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst -- Hydro --
@@ -141,6 +152,7 @@ const AINO_BURST: TalentScaling = TalentScaling {
         0.4022, 0.4274, 0.4525, 0.4777,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const AINO: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const LAN_YAN_NORMAL_1: TalentScaling = TalentScaling {
         0.78736, 0.8288, 0.8806, 0.9324, 0.9842,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAN_YAN_NORMAL_2A: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const LAN_YAN_NORMAL_2A: TalentScaling = TalentScaling {
         0.367416, 0.387828, 0.40824, 0.433755, 0.45927, 0.484785,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAN_YAN_NORMAL_2B: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const LAN_YAN_NORMAL_2B: TalentScaling = TalentScaling {
         0.449064, 0.474012, 0.49896, 0.530145, 0.56133, 0.592515,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAN_YAN_NORMAL_3: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const LAN_YAN_NORMAL_3: TalentScaling = TalentScaling {
         0.51148, 0.5384, 0.57205, 0.6057, 0.63935,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAN_YAN_NORMAL_4: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const LAN_YAN_NORMAL_4: TalentScaling = TalentScaling {
         1.22664, 1.2912, 1.3719, 1.4526, 1.5333,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -71,6 +76,7 @@ const LAN_YAN_CHARGED: TalentScaling = TalentScaling {
         0.71896, 0.7568, 0.8041, 0.8514, 0.8987,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -84,6 +90,7 @@ const LAN_YAN_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAN_YAN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const LAN_YAN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LAN_YAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const LAN_YAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Swallow-Wisp Pinion Dance -- Anemo --
@@ -119,6 +128,7 @@ const LAN_YAN_SKILL: TalentScaling = TalentScaling {
         1.732608, 1.828864, 1.92512, 2.04544, 2.16576, 2.28608,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Lustrous Moonrise -- Anemo --
@@ -132,6 +142,7 @@ const LAN_YAN_BURST: TalentScaling = TalentScaling {
         4.339152, 4.580216, 4.82128, 5.12261, 5.42394, 5.72527,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const LAN_YAN: CharacterData = CharacterData {

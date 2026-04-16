@@ -16,6 +16,7 @@ const NAVIA_NORMAL_1: TalentScaling = TalentScaling {
         2.1108, 2.2418, 2.3729, 2.5039,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const NAVIA_NORMAL_2: TalentScaling = TalentScaling {
         1.9527, 2.0738, 2.1950, 2.3161,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_NORMAL_3_1: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const NAVIA_NORMAL_3_1: TalentScaling = TalentScaling {
         0.7870, 0.8356, 0.8843, 0.9330,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_NORMAL_3_2: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const NAVIA_NORMAL_3_2: TalentScaling = TalentScaling {
         0.7870, 0.8356, 0.8843, 0.9330,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_NORMAL_3_3: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const NAVIA_NORMAL_3_3: TalentScaling = TalentScaling {
         0.7870, 0.8356, 0.8843, 0.9330,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_NORMAL_4: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const NAVIA_NORMAL_4: TalentScaling = TalentScaling {
         3.0083, 3.1945, 3.3806, 3.5668,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -84,6 +90,7 @@ const NAVIA_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.4107, 1.4981, 1.5854, 1.6727,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const NAVIA_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.5519, 2.7099, 2.8679, 3.0259,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -108,6 +116,7 @@ const NAVIA_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const NAVIA_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const NAVIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2024, 4.4625, 4.7225, 4.9826,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 大キラインの式典装弾 (Ceremonial Crystalshot) -- Geo --
@@ -143,6 +154,7 @@ const NAVIA_SKILL_DAMAGE: TalentScaling = TalentScaling {
         7.8960, 8.3895, 8.8830, 9.3765,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_SKILL_CRYSTAL_SHRAPNEL: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const NAVIA_SKILL_CRYSTAL_SHRAPNEL: TalentScaling = TalentScaling {
         0.7200, 0.7650, 0.8100, 0.8550,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 裁判のキ光弾 (As the Sunlit Sky's Singing Salute) -- Geo --
@@ -167,6 +180,7 @@ const NAVIA_BURST_DAMAGE: TalentScaling = TalentScaling {
         1.5048, 1.5989, 1.6929, 1.7870,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAVIA_BURST_CANNON: TalentScaling = TalentScaling {
@@ -178,6 +192,7 @@ const NAVIA_BURST_CANNON: TalentScaling = TalentScaling {
         0.8616, 0.9155, 0.9693, 1.0232,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const NAVIA: CharacterData = CharacterData {

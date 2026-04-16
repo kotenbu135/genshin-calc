@@ -14,6 +14,7 @@ const NAHIDA_NA_HIT1: TalentScaling = TalentScaling {
         0.725486, 0.765791, 0.806096, 0.856477, 0.906858, 0.957239,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const NAHIDA_NA_HIT2: TalentScaling = TalentScaling {
         0.665539, 0.702514, 0.739488, 0.785706, 0.831924, 0.878142,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const NAHIDA_NA_HIT3: TalentScaling = TalentScaling {
         0.825739, 0.871614, 0.917488, 0.974831, 1.032174, 1.089517,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const NAHIDA_NA_HIT4: TalentScaling = TalentScaling {
         1.051315, 1.109722, 1.168128, 1.241136, 1.314144, 1.387152,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_CHARGED: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const NAHIDA_CHARGED: TalentScaling = TalentScaling {
         2.6400, 2.8050, 2.9700, 3.1350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_PLUNGE: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const NAHIDA_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const NAHIDA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const NAHIDA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: All Schemes to Know ---
@@ -104,6 +112,7 @@ const NAHIDA_SKILL_PRESS: TalentScaling = TalentScaling {
         1.9680, 2.0910, 2.2140, 2.3370,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const NAHIDA_SKILL_HOLD: TalentScaling = TalentScaling {
         2.6080, 2.7710, 2.9340, 3.0970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Tri-Karma Purification (ATK + EM dual scaling) ---
@@ -128,6 +138,7 @@ const NAHIDA_SKILL_TRI_KARMA_ATK: TalentScaling = TalentScaling {
         2.0640, 2.1930, 2.3220, 2.4510,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NAHIDA_SKILL_TRI_KARMA_EM: TalentScaling = TalentScaling {
@@ -139,6 +150,7 @@ const NAHIDA_SKILL_TRI_KARMA_EM: TalentScaling = TalentScaling {
         4.1280, 4.3860, 4.6440, 4.9020,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Illusory Heart ---

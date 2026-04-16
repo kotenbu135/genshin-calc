@@ -16,6 +16,7 @@ const NINGGUANG_NORMAL: TalentScaling = TalentScaling {
         0.5712, 0.6094, 0.6475, 0.6857,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Geo (Catalyst) --
@@ -29,6 +30,7 @@ const NINGGUANG_CHARGED: TalentScaling = TalentScaling {
         3.5500, 3.7866, 4.0233, 4.2600,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NINGGUANG_CHARGED_STAR_JADE: TalentScaling = TalentScaling {
@@ -40,6 +42,7 @@ const NINGGUANG_CHARGED_STAR_JADE: TalentScaling = TalentScaling {
         1.0118, 1.0793, 1.1468, 1.2143,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Geo (Catalyst) --
@@ -53,6 +56,7 @@ const NINGGUANG_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NINGGUANG_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -64,6 +68,7 @@ const NINGGUANG_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NINGGUANG_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -75,6 +80,7 @@ const NINGGUANG_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 璇璣キ屏 (Jade Screen) -- Geo --
@@ -88,6 +94,7 @@ const NINGGUANG_SKILL: TalentScaling = TalentScaling {
         4.6080, 4.8960, 5.1840, 5.4720,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 天キ権キ典 (Starshatter) -- Geo --
@@ -101,6 +108,7 @@ const NINGGUANG_BURST: TalentScaling = TalentScaling {
         1.7392, 1.8479, 1.9566, 2.0653,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const NINGGUANG: CharacterData = CharacterData {

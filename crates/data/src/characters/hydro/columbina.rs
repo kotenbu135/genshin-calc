@@ -1,5 +1,5 @@
 use crate::types::*;
-use genshin_calc_core::{Element, ScalingStat};
+use genshin_calc_core::{Element, Reaction, ScalingStat};
 
 // -- Normal Attack: Moondew Cascade -- All Hydro (Catalyst) --
 
@@ -12,6 +12,7 @@ const COLUMBINA_NORMAL_1: TalentScaling = TalentScaling {
         0.9358, 0.9943, 1.0528, 1.1113,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const COLUMBINA_NORMAL_2: TalentScaling = TalentScaling {
         0.7325, 0.7783, 0.8241, 0.8699,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const COLUMBINA_NORMAL_3: TalentScaling = TalentScaling {
         1.1697, 1.2428, 1.3159, 1.3890,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_CHARGED: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const COLUMBINA_CHARGED: TalentScaling = TalentScaling {
         2.3216, 2.4667, 2.6118, 2.7569,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_MOONDEW_CLEANSE: TalentScaling = TalentScaling {
@@ -56,6 +60,7 @@ const COLUMBINA_MOONDEW_CLEANSE: TalentScaling = TalentScaling {
         0.0302, 0.0321, 0.0340, 0.0359,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarBloom),
 };
 
 // -- Plunging Attack -- Hydro (Catalyst) --
@@ -69,6 +74,7 @@ const COLUMBINA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const COLUMBINA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const COLUMBINA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Eternal Tides -- Hydro --
@@ -104,6 +112,7 @@ const COLUMBINA_SKILL_DMG: TalentScaling = TalentScaling {
         0.3344, 0.3553, 0.3762, 0.3971,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_SKILL_RIPPLE: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const COLUMBINA_SKILL_RIPPLE: TalentScaling = TalentScaling {
         0.1872, 0.1989, 0.2106, 0.2223,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLUMBINA_SKILL_LUNAR_CHARGED: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const COLUMBINA_SKILL_LUNAR_CHARGED: TalentScaling = TalentScaling {
         0.0941, 0.1000, 0.1058, 0.1117,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarElectroCharged),
 };
 
 const COLUMBINA_SKILL_LUNAR_BLOOM: TalentScaling = TalentScaling {
@@ -137,6 +148,7 @@ const COLUMBINA_SKILL_LUNAR_BLOOM: TalentScaling = TalentScaling {
         0.0282, 0.0299, 0.0317, 0.0334,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarBloom),
 };
 
 const COLUMBINA_SKILL_LUNAR_CRYSTALLIZE: TalentScaling = TalentScaling {
@@ -148,6 +160,7 @@ const COLUMBINA_SKILL_LUNAR_CRYSTALLIZE: TalentScaling = TalentScaling {
         0.1765, 0.1875, 0.1985, 0.2096,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::DirectLunar(Reaction::LunarCrystallize),
 };
 
 // -- Elemental Burst: Moonlit Melancholy -- Hydro --
@@ -161,6 +174,7 @@ const COLUMBINA_BURST_DMG: TalentScaling = TalentScaling {
         0.6448, 0.6851, 0.7254, 0.7657,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const COLUMBINA: CharacterData = CharacterData {

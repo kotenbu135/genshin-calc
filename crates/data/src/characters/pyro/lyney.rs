@@ -16,6 +16,7 @@ const LYNEY_NORMAL_1: TalentScaling = TalentScaling {
         0.8749, 0.9291, 0.9832, 1.0373,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const LYNEY_NORMAL_2: TalentScaling = TalentScaling {
         0.8575, 0.9105, 0.9636, 1.0166,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_NORMAL_3A: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const LYNEY_NORMAL_3A: TalentScaling = TalentScaling {
         0.6150, 0.6530, 0.6911, 0.7291,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_NORMAL_3B: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const LYNEY_NORMAL_3B: TalentScaling = TalentScaling {
         0.6150, 0.6530, 0.6911, 0.7291,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_NORMAL_4: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const LYNEY_NORMAL_4: TalentScaling = TalentScaling {
         1.2843, 1.3637, 1.4432, 1.5226,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Pyro (charged) --
@@ -73,6 +78,7 @@ const LYNEY_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_AIMED_CHARGE1: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const LYNEY_AIMED_CHARGE1: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_AIMED_PROP: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const LYNEY_AIMED_PROP: TalentScaling = TalentScaling {
         3.4560, 3.6720, 3.8880, 4.1040,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_AIMED_PYROTECHNIC: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const LYNEY_AIMED_PYROTECHNIC: TalentScaling = TalentScaling {
         4.2400, 4.5050, 4.7700, 5.0350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -119,6 +128,7 @@ const LYNEY_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const LYNEY_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const LYNEY_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 眩惑マジック (Bewildering Lights) -- Pyro --
@@ -154,6 +166,7 @@ const LYNEY_SKILL: TalentScaling = TalentScaling {
         3.3440, 3.5530, 3.7620, 3.9710,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_SKILL_HAT: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const LYNEY_SKILL_HAT: TalentScaling = TalentScaling {
         1.0640, 1.1305, 1.1970, 1.2635,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 大魔術・ミラクルパレード (Wondrous Trick: Miracle Parade) -- Pyro --
@@ -178,6 +192,7 @@ const LYNEY_BURST: TalentScaling = TalentScaling {
         3.0800, 3.2725, 3.4650, 3.6575,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNEY_BURST_EXPLOSION: TalentScaling = TalentScaling {
@@ -189,6 +204,7 @@ const LYNEY_BURST_EXPLOSION: TalentScaling = TalentScaling {
         8.2800, 8.7975, 9.3150, 9.8325,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const LYNEY: CharacterData = CharacterData {

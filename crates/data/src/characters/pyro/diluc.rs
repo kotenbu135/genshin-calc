@@ -10,6 +10,7 @@ const DILUC_NORMAL_1: TalentScaling = TalentScaling {
         2.0852, 2.2538, 2.4225, 2.6065,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_NORMAL_2: TalentScaling = TalentScaling {
@@ -21,6 +22,7 @@ const DILUC_NORMAL_2: TalentScaling = TalentScaling {
         2.0372, 2.2020, 2.3667, 2.5465,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_NORMAL_3: TalentScaling = TalentScaling {
@@ -32,6 +34,7 @@ const DILUC_NORMAL_3: TalentScaling = TalentScaling {
         2.2971, 2.4829, 2.6687, 2.8714,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_NORMAL_4: TalentScaling = TalentScaling {
@@ -43,6 +46,7 @@ const DILUC_NORMAL_4: TalentScaling = TalentScaling {
         3.1148, 3.3667, 3.6186, 3.8934,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -56,6 +60,7 @@ const DILUC_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.5994, 1.7287, 1.8581, 1.9992,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const DILUC_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.8988, 3.1333, 3.3678, 3.6236,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -80,6 +86,7 @@ const DILUC_PLUNGE: TalentScaling = TalentScaling {
         2.0163, 2.1405, 2.2646, 2.3888,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const DILUC_PLUNGE_LOW: TalentScaling = TalentScaling {
         4.0313, 4.2795, 4.5277, 4.7759,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -102,6 +110,7 @@ const DILUC_PLUNGE_HIGH: TalentScaling = TalentScaling {
         5.0363, 5.3465, 5.6567, 5.9669,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 逆焔の刃 (Searing Onslaught) -- All Pyro --
@@ -115,6 +124,7 @@ const DILUC_SKILL_1: TalentScaling = TalentScaling {
         1.8880, 2.0060, 2.1240, 2.2420,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_SKILL_2: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const DILUC_SKILL_2: TalentScaling = TalentScaling {
         1.9520, 2.0740, 2.1960, 2.3180,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_SKILL_3: TalentScaling = TalentScaling {
@@ -137,6 +148,7 @@ const DILUC_SKILL_3: TalentScaling = TalentScaling {
         2.5760, 2.7370, 2.8980, 3.0590,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 黎明 (Dawn) -- All Pyro --
@@ -150,6 +162,7 @@ const DILUC_BURST_SLASH: TalentScaling = TalentScaling {
         4.0800, 4.3350, 4.5900, 4.8450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_BURST_DOT: TalentScaling = TalentScaling {
@@ -161,6 +174,7 @@ const DILUC_BURST_DOT: TalentScaling = TalentScaling {
         1.2000, 1.2750, 1.3500, 1.4250,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const DILUC_BURST_EXPLOSION: TalentScaling = TalentScaling {
@@ -172,6 +186,7 @@ const DILUC_BURST_EXPLOSION: TalentScaling = TalentScaling {
         4.0800, 4.3350, 4.5900, 4.8450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Character Data --

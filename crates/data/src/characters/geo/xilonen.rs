@@ -16,6 +16,7 @@ const XILONEN_NORMAL_1: TalentScaling = TalentScaling {
         1.1691, 1.2416, 1.3142, 1.3867,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_NORMAL_2_1: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const XILONEN_NORMAL_2_1: TalentScaling = TalentScaling {
         0.6175, 0.6557, 0.6939, 0.7321,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_NORMAL_2_2: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const XILONEN_NORMAL_2_2: TalentScaling = TalentScaling {
         0.6175, 0.6557, 0.6939, 0.7321,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_NORMAL_3: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const XILONEN_NORMAL_3: TalentScaling = TalentScaling {
         1.6459, 1.7477, 1.8495, 1.9513,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Nightsoul Normal Attack -- Geo --
@@ -62,6 +66,7 @@ const XILONEN_BLADE_ROLLER_1: TalentScaling = TalentScaling {
         1.2638, 1.3419, 1.4201, 1.4983,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_BLADE_ROLLER_2: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const XILONEN_BLADE_ROLLER_2: TalentScaling = TalentScaling {
         1.2418, 1.3186, 1.3954, 1.4722,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_BLADE_ROLLER_3: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const XILONEN_BLADE_ROLLER_3: TalentScaling = TalentScaling {
         1.4847, 1.5765, 1.6684, 1.7602,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_BLADE_ROLLER_4: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const XILONEN_BLADE_ROLLER_4: TalentScaling = TalentScaling {
         1.9406, 2.0607, 2.1807, 2.3007,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -108,6 +116,7 @@ const XILONEN_CHARGED: TalentScaling = TalentScaling {
         2.0603, 2.1877, 2.3152, 2.4426,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -121,6 +130,7 @@ const XILONEN_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const XILONEN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8840, 3.0624, 3.2409, 3.4193,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const XILONEN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6021, 3.8249, 4.0478, 4.2706,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: イキシュトリの音色 (Yohual's Scratch) -- Geo --
@@ -156,6 +168,7 @@ const XILONEN_SKILL_RUSH: TalentScaling = TalentScaling {
         3.5840, 3.8080, 4.0320, 4.2560,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: オセロトルの音響 (Ocelotlicue Point!) -- Geo --
@@ -169,6 +182,7 @@ const XILONEN_BURST_DAMAGE: TalentScaling = TalentScaling {
         5.6264, 5.9780, 6.3297, 6.6814,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_BURST_FOLLOW_UP: TalentScaling = TalentScaling {
@@ -180,6 +194,7 @@ const XILONEN_BURST_FOLLOW_UP: TalentScaling = TalentScaling {
         5.6264, 5.9780, 6.3297, 6.6814,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XILONEN_BURST_HEAL: TalentScaling = TalentScaling {
@@ -191,6 +206,7 @@ const XILONEN_BURST_HEAL: TalentScaling = TalentScaling {
         2.0800, 2.2100, 2.3400, 2.4700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const XILONEN: CharacterData = CharacterData {

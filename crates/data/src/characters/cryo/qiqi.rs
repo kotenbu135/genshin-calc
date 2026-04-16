@@ -14,6 +14,7 @@ const QIQI_NORMAL_1: TalentScaling = TalentScaling {
         0.8517, 0.9043, 0.9570, 1.0097,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const QIQI_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const QIQI_NORMAL_2: TalentScaling = TalentScaling {
         0.8769, 0.9311, 0.9854, 1.0396,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const QIQI_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const QIQI_NORMAL_3: TalentScaling = TalentScaling {
         0.5451, 0.5789, 0.6126, 0.6463,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const QIQI_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const QIQI_NORMAL_4: TalentScaling = TalentScaling {
         0.5568, 0.5912, 0.6257, 0.6601,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const QIQI_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const QIQI_NORMAL_5: TalentScaling = TalentScaling {
         1.4220, 1.5099, 1.5979, 1.6859,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -71,6 +76,7 @@ const QIQI_CHARGED: TalentScaling = TalentScaling {
         1.4511, 1.5409, 1.6306, 1.7204,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const QIQI_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const QIQI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const QIQI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const QIQI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const QIQI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Adeptus Art: Herald of Frost -- Cryo --
@@ -119,6 +128,7 @@ const QIQI_SKILL: TalentScaling = TalentScaling {
         1.9200, 2.0400, 2.1600, 2.2800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const QIQI_SKILL_HERALD: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const QIQI_SKILL_HERALD: TalentScaling = TalentScaling {
         0.7200, 0.7650, 0.8100, 0.8550,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Adeptus Art: Preserver of Fortune -- Cryo --
@@ -143,6 +154,7 @@ const QIQI_BURST: TalentScaling = TalentScaling {
         5.6960, 6.0520, 6.4080, 6.7640,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const QIQI: CharacterData = CharacterData {

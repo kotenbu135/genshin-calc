@@ -16,6 +16,7 @@ const ARLECCHINO_NORMAL_1: TalentScaling = TalentScaling {
         1.0715, 1.1378, 1.2041, 1.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const ARLECCHINO_NORMAL_2: TalentScaling = TalentScaling {
         1.1754, 1.2481, 1.3208, 1.3935,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const ARLECCHINO_NORMAL_3: TalentScaling = TalentScaling {
         1.4750, 1.5662, 1.6575, 1.7487,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const ARLECCHINO_NORMAL_4: TalentScaling = TalentScaling {
         0.8379, 0.8898, 0.9416, 0.9934,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_NORMAL_5: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const ARLECCHINO_NORMAL_5: TalentScaling = TalentScaling {
         1.5787, 1.6763, 1.7740, 1.8716,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_NORMAL_6: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const ARLECCHINO_NORMAL_6: TalentScaling = TalentScaling {
         1.9260, 2.0451, 2.1642, 2.2834,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -84,6 +90,7 @@ const ARLECCHINO_CHARGED: TalentScaling = TalentScaling {
         2.0486, 2.1754, 2.3021, 2.4288,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -97,6 +104,7 @@ const ARLECCHINO_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const ARLECCHINO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const ARLECCHINO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 万象灰燼 (All Is Ash) -- Pyro --
@@ -132,6 +142,7 @@ const ARLECCHINO_SKILL_SPIKE: TalentScaling = TalentScaling {
         0.2968, 0.3154, 0.3339, 0.3525,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_SKILL_CLEAVE: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const ARLECCHINO_SKILL_CLEAVE: TalentScaling = TalentScaling {
         2.6712, 2.8382, 3.0051, 3.1721,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ARLECCHINO_SKILL_DIRECTIVE: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const ARLECCHINO_SKILL_DIRECTIVE: TalentScaling = TalentScaling {
         0.6360, 0.6758, 0.7155, 0.7553,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 厄月昇り (Balemoon Rising) -- Pyro --
@@ -167,6 +180,7 @@ const ARLECCHINO_BURST: TalentScaling = TalentScaling {
         7.4080, 7.8710, 8.3340, 8.7970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ARLECCHINO: CharacterData = CharacterData {

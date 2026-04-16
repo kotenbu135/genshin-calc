@@ -15,6 +15,7 @@ const CLORINDE_NORMAL_1: TalentScaling = TalentScaling {
         1.2195, 1.2949, 1.3704, 1.4458,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const CLORINDE_NORMAL_2: TalentScaling = TalentScaling {
         1.1646, 1.2367, 1.3087, 1.3808,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_NORMAL_3A: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const CLORINDE_NORMAL_3A: TalentScaling = TalentScaling {
         0.7712, 0.8189, 0.8666, 0.9143,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_NORMAL_3B: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const CLORINDE_NORMAL_3B: TalentScaling = TalentScaling {
         0.7712, 0.8189, 0.8666, 0.9143,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_NORMAL_4A: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const CLORINDE_NORMAL_4A: TalentScaling = TalentScaling {
         0.5219, 0.5541, 0.5864, 0.6187,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_NORMAL_4B: TalentScaling = TalentScaling {
@@ -70,6 +75,7 @@ const CLORINDE_NORMAL_4B: TalentScaling = TalentScaling {
         0.5219, 0.5541, 0.5864, 0.6187,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_NORMAL_4C: TalentScaling = TalentScaling {
@@ -81,6 +87,7 @@ const CLORINDE_NORMAL_4C: TalentScaling = TalentScaling {
         0.5219, 0.5541, 0.5864, 0.6187,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_NORMAL_5: TalentScaling = TalentScaling {
@@ -92,6 +99,7 @@ const CLORINDE_NORMAL_5: TalentScaling = TalentScaling {
         2.0305, 2.1561, 2.2817, 2.4072,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -105,6 +113,7 @@ const CLORINDE_CHARGED: TalentScaling = TalentScaling {
         2.8906, 3.0694, 3.2482, 3.4270,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -118,6 +127,7 @@ const CLORINDE_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -129,6 +139,7 @@ const CLORINDE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -140,6 +151,7 @@ const CLORINDE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 狩人の眼光 (Hunter's Vigil) -- Electro --
@@ -153,6 +165,7 @@ const CLORINDE_SKILL_SWIFT_HUNT: TalentScaling = TalentScaling {
         0.6037, 0.6411, 0.6784, 0.7158,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_SKILL_SWIFT_HUNT_PIERCE: TalentScaling = TalentScaling {
@@ -164,6 +177,7 @@ const CLORINDE_SKILL_SWIFT_HUNT_PIERCE: TalentScaling = TalentScaling {
         0.8749, 0.9291, 0.9832, 1.0373,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_SKILL_IMPALE: TalentScaling = TalentScaling {
@@ -175,6 +189,7 @@ const CLORINDE_SKILL_IMPALE: TalentScaling = TalentScaling {
         0.9917, 1.0531, 1.1144, 1.1758,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CLORINDE_SKILL_SURGING_BLADE: TalentScaling = TalentScaling {
@@ -186,6 +201,7 @@ const CLORINDE_SKILL_SURGING_BLADE: TalentScaling = TalentScaling {
         0.8640, 0.9180, 0.9720, 1.0260,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 残光の晩番 (Last Lightfall) -- Electro --
@@ -199,6 +215,7 @@ const CLORINDE_BURST: TalentScaling = TalentScaling {
         2.5376, 2.6962, 2.8548, 3.0134,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CLORINDE: CharacterData = CharacterData {

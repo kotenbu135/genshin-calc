@@ -14,6 +14,7 @@ const SAYU_NORMAL_1: TalentScaling = TalentScaling {
         1.815156, 1.950984, 2.09916,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const SAYU_NORMAL_2: TalentScaling = TalentScaling {
         1.659336, 1.793547, 1.927758, 2.07417,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const SAYU_NORMAL_3: TalentScaling = TalentScaling {
         0.927937, 1.009596, 1.091255, 1.172913, 1.261995,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const SAYU_NORMAL_4: TalentScaling = TalentScaling {
         2.096588, 2.281087, 2.465587, 2.650087, 2.851359,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -60,6 +64,7 @@ const SAYU_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.236364, 1.336364, 1.453964, 1.571564, 1.689164, 1.817455,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const SAYU_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.416313, 2.628948, 2.841584, 3.054219, 3.286185,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const SAYU_PLUNGE: TalentScaling = TalentScaling {
         1.47441, 1.578486, 1.682562, 1.786638, 1.890714, 1.99479,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const SAYU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.948195, 3.156303, 3.364411, 3.572519, 3.780627, 3.988735,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const SAYU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.682455, 3.942393, 4.202331, 4.462269, 4.722207, 4.982145,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Yoohoo Art: Fuuin Dash -- Anemo --
@@ -119,6 +128,7 @@ const SAYU_SKILL_WINDWHEEL: TalentScaling = TalentScaling {
         0.81, 0.855,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_SKILL_WINDWHEEL_ELEM: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const SAYU_SKILL_WINDWHEEL_ELEM: TalentScaling = TalentScaling {
         0.357, 0.378, 0.399,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_SKILL_KICK_PRESS: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const SAYU_SKILL_KICK_PRESS: TalentScaling = TalentScaling {
         3.366, 3.564, 3.762,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_SKILL_KICK_HOLD: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const SAYU_SKILL_KICK_HOLD: TalentScaling = TalentScaling {
         4.624, 4.896, 5.168,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_SKILL_KICK_ELEM: TalentScaling = TalentScaling {
@@ -163,6 +176,7 @@ const SAYU_SKILL_KICK_ELEM: TalentScaling = TalentScaling {
         1.44704, 1.5232, 1.6184, 1.7136, 1.8088,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Yoohoo Art: Mujina Flurry -- Anemo --
@@ -176,6 +190,7 @@ const SAYU_BURST_ACTIVATION: TalentScaling = TalentScaling {
         2.482, 2.628, 2.774,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SAYU_BURST_DARUMA: TalentScaling = TalentScaling {
@@ -187,6 +202,7 @@ const SAYU_BURST_DARUMA: TalentScaling = TalentScaling {
         1.17, 1.235,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const SAYU: CharacterData = CharacterData {

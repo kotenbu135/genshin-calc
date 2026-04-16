@@ -14,6 +14,7 @@ const AYAKA_NORMAL_1: TalentScaling = TalentScaling {
         1.0319, 1.0960, 1.1600, 1.2240,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYAKA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const AYAKA_NORMAL_2: TalentScaling = TalentScaling {
         1.0981, 1.1660, 1.2340, 1.3019,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYAKA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const AYAKA_NORMAL_3: TalentScaling = TalentScaling {
         1.4136, 1.5014, 1.5892, 1.6770,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYAKA_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const AYAKA_NORMAL_4: TalentScaling = TalentScaling {
         0.5103, 0.5419, 0.5736, 0.6052,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYAKA_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const AYAKA_NORMAL_5: TalentScaling = TalentScaling {
         1.7642, 1.8735, 1.9828, 2.0921,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -71,6 +76,7 @@ const AYAKA_CHARGED: TalentScaling = TalentScaling {
         1.2437, 1.3208, 1.3979, 1.4750,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const AYAKA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYAKA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const AYAKA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8840, 3.0624, 3.2409, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYAKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const AYAKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Kamisato Art: Hyouka -- Cryo --
@@ -119,6 +128,7 @@ const AYAKA_SKILL: TalentScaling = TalentScaling {
         4.7840, 5.0830, 5.3820, 5.6810,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Kamisato Art: Soumetsu -- Cryo --
@@ -132,6 +142,7 @@ const AYAKA_BURST_CUTTING: TalentScaling = TalentScaling {
         2.2459, 2.3863, 2.5267, 2.6671,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const AYAKA_BURST_BLOOM: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const AYAKA_BURST_BLOOM: TalentScaling = TalentScaling {
         3.3689, 3.5794, 3.7900, 4.0006,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const AYAKA: CharacterData = CharacterData {

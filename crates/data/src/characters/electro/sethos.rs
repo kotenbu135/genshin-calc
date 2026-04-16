@@ -15,6 +15,7 @@ const SETHOS_NORMAL_1: TalentScaling = TalentScaling {
         1.1871, 1.2605, 1.3338, 1.4072,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SETHOS_NORMAL_2A: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const SETHOS_NORMAL_2A: TalentScaling = TalentScaling {
         0.5369, 0.5700, 0.6031, 0.6362,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SETHOS_NORMAL_2B: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const SETHOS_NORMAL_2B: TalentScaling = TalentScaling {
         0.6005, 0.6376, 0.6748, 0.7119,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SETHOS_NORMAL_3: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const SETHOS_NORMAL_3: TalentScaling = TalentScaling {
         1.6692, 1.7724, 1.8756, 1.9788,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Electro (charged) --
@@ -61,6 +65,7 @@ const SETHOS_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SETHOS_AIMED_FULL: TalentScaling = TalentScaling {
@@ -72,6 +77,7 @@ const SETHOS_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SETHOS_SHADOWPIERCING: TalentScaling = TalentScaling {
@@ -83,6 +89,7 @@ const SETHOS_SHADOWPIERCING: TalentScaling = TalentScaling {
         2.8000, 2.9750, 3.1500, 3.3250,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -96,6 +103,7 @@ const SETHOS_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SETHOS_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const SETHOS_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SETHOS_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -118,6 +127,7 @@ const SETHOS_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 古式・甕の秘儀 (Ancient Rite: The Thundering Sands) -- Electro --
@@ -131,6 +141,7 @@ const SETHOS_SKILL: TalentScaling = TalentScaling {
         2.3120, 2.4565, 2.6010, 2.7455,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 秘儀・甕の夕暮れ (Secret Rite: Twilight Shadowpiercer) -- Electro --
@@ -144,6 +155,7 @@ const SETHOS_BURST: TalentScaling = TalentScaling {
         3.9232, 4.1684, 4.4136, 4.6588,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const SETHOS: CharacterData = CharacterData {

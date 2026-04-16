@@ -15,6 +15,7 @@ const KEQING_NORMAL_1: TalentScaling = TalentScaling {
         0.9254, 0.9826, 1.0399, 1.0971,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const KEQING_NORMAL_2: TalentScaling = TalentScaling {
         0.9254, 0.9826, 1.0399, 1.0971,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const KEQING_NORMAL_3: TalentScaling = TalentScaling {
         1.2281, 1.3040, 1.3799, 1.4558,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_NORMAL_4A: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const KEQING_NORMAL_4A: TalentScaling = TalentScaling {
         0.7101, 0.7541, 0.7980, 0.8420,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_NORMAL_4B: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const KEQING_NORMAL_4B: TalentScaling = TalentScaling {
         0.7760, 0.8240, 0.8720, 0.9200,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_NORMAL_5: TalentScaling = TalentScaling {
@@ -70,6 +75,7 @@ const KEQING_NORMAL_5: TalentScaling = TalentScaling {
         1.5106, 1.6039, 1.6972, 1.7905,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -83,6 +89,7 @@ const KEQING_CHARGED_1: TalentScaling = TalentScaling {
         1.7330, 1.8394, 1.9470, 2.0546,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_CHARGED_2: TalentScaling = TalentScaling {
@@ -94,6 +101,7 @@ const KEQING_CHARGED_2: TalentScaling = TalentScaling {
         1.9400, 2.0600, 2.1800, 2.3000,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -107,6 +115,7 @@ const KEQING_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -118,6 +127,7 @@ const KEQING_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -129,6 +139,7 @@ const KEQING_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 星辰帰位 (Stellar Restoration) -- Electro --
@@ -142,6 +153,7 @@ const KEQING_SKILL_STILETTO: TalentScaling = TalentScaling {
         1.0080, 1.0710, 1.1340, 1.1970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_SKILL_SLASH: TalentScaling = TalentScaling {
@@ -153,6 +165,7 @@ const KEQING_SKILL_SLASH: TalentScaling = TalentScaling {
         3.3600, 3.5700, 3.7800, 3.9900,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_SKILL_THUNDERCLAP: TalentScaling = TalentScaling {
@@ -164,6 +177,7 @@ const KEQING_SKILL_THUNDERCLAP: TalentScaling = TalentScaling {
         1.6800, 1.7850, 1.8900, 1.9950,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 天街巡遊 (Starward Sword) -- Electro --
@@ -177,6 +191,7 @@ const KEQING_BURST_SKILL: TalentScaling = TalentScaling {
         1.7600, 1.8700, 1.9800, 2.0900,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_BURST_CONSECUTIVE: TalentScaling = TalentScaling {
@@ -188,6 +203,7 @@ const KEQING_BURST_CONSECUTIVE: TalentScaling = TalentScaling {
         0.4800, 0.5100, 0.5400, 0.5700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KEQING_BURST_LAST: TalentScaling = TalentScaling {
@@ -199,6 +215,7 @@ const KEQING_BURST_LAST: TalentScaling = TalentScaling {
         3.7760, 4.0120, 4.2480, 4.4840,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KEQING: CharacterData = CharacterData {

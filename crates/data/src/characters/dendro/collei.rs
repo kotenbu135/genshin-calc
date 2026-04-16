@@ -14,6 +14,7 @@ const COLLEI_NA_HIT1: TalentScaling = TalentScaling {
         0.92274, 0.98358, 1.04442, 1.10526, 1.1661,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLLEI_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const COLLEI_NA_HIT2: TalentScaling = TalentScaling {
         0.96224, 1.02176, 1.08128, 1.1408,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLLEI_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const COLLEI_NA_HIT3: TalentScaling = TalentScaling {
         1.14478, 1.22026, 1.29574, 1.37122, 1.4467,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLLEI_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const COLLEI_NA_HIT4: TalentScaling = TalentScaling {
         1.43962, 1.53454, 1.62946, 1.72438, 1.8193,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Aimed Shot ---
@@ -60,6 +64,7 @@ const COLLEI_AIMED: TalentScaling = TalentScaling {
         1.0506, 1.1118, 1.173,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLLEI_AIMED_FULL: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const COLLEI_AIMED_FULL: TalentScaling = TalentScaling {
         2.79, 2.945,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Plunging Attack (physical) ---
@@ -84,6 +90,7 @@ const COLLEI_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLLEI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const COLLEI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLLEI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const COLLEI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Floral Brush ---
@@ -119,6 +128,7 @@ const COLLEI_SKILL_DMG: TalentScaling = TalentScaling {
         3.213, 3.402, 3.591,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Trump-Card Kitty ---
@@ -132,6 +142,7 @@ const COLLEI_BURST_EXPLOSION: TalentScaling = TalentScaling {
         3.632832, 3.834656, 4.03648, 4.28876, 4.54104, 4.79332,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const COLLEI_BURST_LEAP: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const COLLEI_BURST_LEAP: TalentScaling = TalentScaling {
         0.778464, 0.821712, 0.86496, 0.91902, 0.97308, 1.02714,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Collei aggregation ---

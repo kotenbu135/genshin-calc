@@ -14,6 +14,7 @@ const XIANYUN_NORMAL_1: TalentScaling = TalentScaling {
         0.806, 0.8564, 0.9068, 0.9572,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const XIANYUN_NORMAL_2: TalentScaling = TalentScaling {
         0.7771, 0.8257, 0.8742, 0.9228,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const XIANYUN_NORMAL_3: TalentScaling = TalentScaling {
         0.9776, 1.0386, 1.0997, 1.1608,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const XIANYUN_NORMAL_4: TalentScaling = TalentScaling {
         1.2983, 1.3795, 1.4606, 1.5418,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -60,6 +64,7 @@ const XIANYUN_CHARGED: TalentScaling = TalentScaling {
         2.4624, 2.6163, 2.7702, 2.9241,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -73,6 +78,7 @@ const XIANYUN_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const XIANYUN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const XIANYUN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: White Clouds at Dawn -- Anemo --
@@ -108,6 +116,7 @@ const XIANYUN_SKILL: TalentScaling = TalentScaling {
         0.527, 0.558, 0.589,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_SKILL_CLOUD_1: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const XIANYUN_SKILL_CLOUD_1: TalentScaling = TalentScaling {
         2.61, 2.755,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_SKILL_CLOUD_2: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const XIANYUN_SKILL_CLOUD_2: TalentScaling = TalentScaling {
         3.33, 3.515,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_SKILL_CLOUD_3: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const XIANYUN_SKILL_CLOUD_3: TalentScaling = TalentScaling {
         7.174, 7.596, 8.018,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Stars Gather at Dusk -- Anemo --
@@ -154,6 +166,7 @@ const XIANYUN_BURST: TalentScaling = TalentScaling {
         2.43, 2.565,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANYUN_BURST_STARWICKER: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const XIANYUN_BURST_STARWICKER: TalentScaling = TalentScaling {
         0.8330, 0.882, 0.931,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const XIANYUN: CharacterData = CharacterData {

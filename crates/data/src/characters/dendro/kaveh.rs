@@ -14,6 +14,7 @@ const KAVEH_NA_HIT1: TalentScaling = TalentScaling {
         1.505996, 1.612302, 1.718607, 1.824913, 1.931218, 2.037524,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const KAVEH_NA_HIT2: TalentScaling = TalentScaling {
         1.376575, 1.473745, 1.570915, 1.668085, 1.765255, 1.862425,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const KAVEH_NA_HIT3: TalentScaling = TalentScaling {
         1.665626, 1.7832, 1.900773, 2.018347, 2.13592, 2.253494,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const KAVEH_NA_HIT4: TalentScaling = TalentScaling {
         2.029885, 2.173171, 2.316457, 2.459743, 2.603029, 2.746315,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_CHARGED_SPINNING: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const KAVEH_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.12476, 1.19892, 1.27308, 1.34724, 1.4214,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const KAVEH_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.03476, 2.16892, 2.30308, 2.43724, 2.5714,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_PLUNGE: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const KAVEH_PLUNGE: TalentScaling = TalentScaling {
         1.47441, 1.578486, 1.682562, 1.786638, 1.890714, 1.99479,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const KAVEH_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.948195, 3.156303, 3.364411, 3.572519, 3.780627, 3.988735,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAVEH_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -102,6 +110,7 @@ const KAVEH_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.682455, 3.942393, 4.202331, 4.462269, 4.722207, 4.982145,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Artistic Ingenuity ---
@@ -115,6 +124,7 @@ const KAVEH_SKILL_DMG: TalentScaling = TalentScaling {
         4.59, 4.845,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Painted Dome ---
@@ -127,6 +137,7 @@ const KAVEH_BURST_DMG: TalentScaling = TalentScaling {
         1.6, 1.72, 1.84, 2.0, 2.12, 2.24, 2.4, 2.56, 2.72, 2.88, 3.04, 3.2, 3.4, 3.6, 3.8,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Kaveh aggregation ---

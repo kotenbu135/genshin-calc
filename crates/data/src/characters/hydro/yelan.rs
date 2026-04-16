@@ -12,6 +12,7 @@ const YELAN_NORMAL_1: TalentScaling = TalentScaling {
         0.9176, 0.9744, 1.0310, 1.0879,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const YELAN_NORMAL_2: TalentScaling = TalentScaling {
         0.8808, 0.9352, 0.9897, 1.0442,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const YELAN_NORMAL_3: TalentScaling = TalentScaling {
         1.1640, 1.2360, 1.3080, 1.3800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_NORMAL_4: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const YELAN_NORMAL_4: TalentScaling = TalentScaling {
         0.7333, 0.7787, 0.8240, 0.8694,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Bow (HP scaling for Breakthrough Barb) --
@@ -58,6 +62,7 @@ const YELAN_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_AIMED_FULL: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const YELAN_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_BREAKTHROUGH: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const YELAN_BREAKTHROUGH: TalentScaling = TalentScaling {
         0.2315, 0.2460, 0.2605, 0.2749,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -93,6 +100,7 @@ const YELAN_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const YELAN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const YELAN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 絡み合う命の糸 (Lingering Lifeline) -- Hydro (HP scaling) --
@@ -128,6 +138,7 @@ const YELAN_SKILL: TalentScaling = TalentScaling {
         0.4523, 0.4805, 0.5088, 0.5371,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 深謀玲瓏賽 (Depth-Clarion Dice) -- Hydro (HP scaling) --
@@ -141,6 +152,7 @@ const YELAN_BURST: TalentScaling = TalentScaling {
         0.1462, 0.1553, 0.1644, 0.1736,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YELAN_BURST_EXQUISITE_THROW: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const YELAN_BURST_EXQUISITE_THROW: TalentScaling = TalentScaling {
         0.0974, 0.1035, 0.1096, 0.1157,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const YELAN: CharacterData = CharacterData {

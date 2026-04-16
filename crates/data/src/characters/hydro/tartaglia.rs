@@ -12,6 +12,7 @@ const TARTAGLIA_NORMAL_1: TalentScaling = TalentScaling {
         0.9312, 0.9888, 1.0464, 1.1040,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const TARTAGLIA_NORMAL_2: TalentScaling = TalentScaling {
         1.0437, 1.1083, 1.1728, 1.2374,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const TARTAGLIA_NORMAL_3: TalentScaling = TalentScaling {
         1.2494, 1.3266, 1.4039, 1.4812,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_NORMAL_4: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const TARTAGLIA_NORMAL_4: TalentScaling = TalentScaling {
         1.2862, 1.3658, 1.4453, 1.5249,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_NORMAL_5: TalentScaling = TalentScaling {
@@ -56,6 +60,7 @@ const TARTAGLIA_NORMAL_5: TalentScaling = TalentScaling {
         1.3735, 1.4585, 1.5434, 1.6284,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_NORMAL_6: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const TARTAGLIA_NORMAL_6: TalentScaling = TalentScaling {
         1.6412, 1.7428, 1.8443, 1.9458,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Bow --
@@ -80,6 +86,7 @@ const TARTAGLIA_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_AIMED_FULL: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const TARTAGLIA_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -104,6 +112,7 @@ const TARTAGLIA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const TARTAGLIA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const TARTAGLIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 魔王の武装·荒波 (Foul Legacy: Raging Tide) -- Hydro (Melee stance) --
@@ -139,6 +150,7 @@ const TARTAGLIA_STANCE_CHANGE: TalentScaling = TalentScaling {
         1.4400, 1.5300, 1.6200, 1.7100,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_1: TalentScaling = TalentScaling {
@@ -150,6 +162,7 @@ const TARTAGLIA_MELEE_1: TalentScaling = TalentScaling {
         0.8769, 0.9311, 0.9854, 1.0396,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_2: TalentScaling = TalentScaling {
@@ -161,6 +174,7 @@ const TARTAGLIA_MELEE_2: TalentScaling = TalentScaling {
         0.9390, 0.9970, 1.0551, 1.1132,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_3: TalentScaling = TalentScaling {
@@ -172,6 +186,7 @@ const TARTAGLIA_MELEE_3: TalentScaling = TalentScaling {
         1.2707, 1.3493, 1.4279, 1.5065,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_4: TalentScaling = TalentScaling {
@@ -183,6 +198,7 @@ const TARTAGLIA_MELEE_4: TalentScaling = TalentScaling {
         1.3522, 1.4358, 1.5195, 1.6031,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_5: TalentScaling = TalentScaling {
@@ -194,6 +210,7 @@ const TARTAGLIA_MELEE_5: TalentScaling = TalentScaling {
         1.2474, 1.3246, 1.4017, 1.4789,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_6A: TalentScaling = TalentScaling {
@@ -205,6 +222,7 @@ const TARTAGLIA_MELEE_6A: TalentScaling = TalentScaling {
         0.7993, 0.8487, 0.8982, 0.9476,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_6B: TalentScaling = TalentScaling {
@@ -216,6 +234,7 @@ const TARTAGLIA_MELEE_6B: TalentScaling = TalentScaling {
         0.8497, 0.9023, 0.9548, 1.0074,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_CHARGED_1: TalentScaling = TalentScaling {
@@ -227,6 +246,7 @@ const TARTAGLIA_MELEE_CHARGED_1: TalentScaling = TalentScaling {
         1.3580, 1.4420, 1.5260, 1.6100,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_MELEE_CHARGED_2: TalentScaling = TalentScaling {
@@ -238,6 +258,7 @@ const TARTAGLIA_MELEE_CHARGED_2: TalentScaling = TalentScaling {
         1.6238, 1.7242, 1.8247, 1.9251,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_RIPTIDE_SLASH: TalentScaling = TalentScaling {
@@ -249,6 +270,7 @@ const TARTAGLIA_RIPTIDE_SLASH: TalentScaling = TalentScaling {
         1.3580, 1.4420, 1.5260, 1.6100,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 極悪技·尽滅閃 (Havoc: Obliteration) -- Hydro --
@@ -262,6 +284,7 @@ const TARTAGLIA_BURST_MELEE: TalentScaling = TalentScaling {
         9.2800, 9.8600, 10.4400, 11.0200,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_BURST_RANGED: TalentScaling = TalentScaling {
@@ -273,6 +296,7 @@ const TARTAGLIA_BURST_RANGED: TalentScaling = TalentScaling {
         7.5680, 8.0410, 8.5140, 8.9870,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const TARTAGLIA_BURST_RIPTIDE: TalentScaling = TalentScaling {
@@ -284,6 +308,7 @@ const TARTAGLIA_BURST_RIPTIDE: TalentScaling = TalentScaling {
         2.4000, 2.5500, 2.7000, 2.8500,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const TARTAGLIA: CharacterData = CharacterData {

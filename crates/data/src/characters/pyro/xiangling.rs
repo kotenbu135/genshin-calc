@@ -16,6 +16,7 @@ const XIANGLING_NORMAL_1: TalentScaling = TalentScaling {
         0.9776, 1.0567, 1.1358, 1.2220,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const XIANGLING_NORMAL_2: TalentScaling = TalentScaling {
         0.9796, 1.0588, 1.1381, 1.2245,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_NORMAL_3A: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const XIANGLING_NORMAL_3A: TalentScaling = TalentScaling {
         0.6058, 0.6548, 0.7037, 0.7572,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_NORMAL_3B: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const XIANGLING_NORMAL_3B: TalentScaling = TalentScaling {
         0.6058, 0.6548, 0.7037, 0.7572,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_NORMAL_4: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const XIANGLING_NORMAL_4: TalentScaling = TalentScaling {
         1.6513, 1.7849, 1.9185, 2.0642,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_NORMAL_5: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const XIANGLING_NORMAL_5: TalentScaling = TalentScaling {
         2.8289, 3.0567, 3.2865, 3.5361,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -84,6 +90,7 @@ const XIANGLING_CHARGED: TalentScaling = TalentScaling {
         2.7451, 2.9149, 3.0847, 3.2545,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -97,6 +104,7 @@ const XIANGLING_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const XIANGLING_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const XIANGLING_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: グゥオパァー出撃 (Guoba Attack) -- Pyro --
@@ -132,6 +142,7 @@ const XIANGLING_SKILL: TalentScaling = TalentScaling {
         2.2256, 2.3647, 2.5038, 2.6429,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 旋火輪 (Pyronado) -- Pyro --
@@ -145,6 +156,7 @@ const XIANGLING_BURST_1: TalentScaling = TalentScaling {
         1.4400, 1.5300, 1.6200, 1.7100,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_BURST_2: TalentScaling = TalentScaling {
@@ -156,6 +168,7 @@ const XIANGLING_BURST_2: TalentScaling = TalentScaling {
         1.7600, 1.8700, 1.9800, 2.0900,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_BURST_3: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const XIANGLING_BURST_3: TalentScaling = TalentScaling {
         2.1920, 2.3290, 2.4660, 2.6030,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XIANGLING_BURST_PYRONADO: TalentScaling = TalentScaling {
@@ -178,6 +192,7 @@ const XIANGLING_BURST_PYRONADO: TalentScaling = TalentScaling {
         2.2400, 2.3800, 2.5200, 2.6600,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const XIANGLING: CharacterData = CharacterData {

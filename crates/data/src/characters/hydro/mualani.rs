@@ -12,6 +12,7 @@ const MUALANI_NORMAL_1: TalentScaling = TalentScaling {
         1.0280, 1.0920, 1.1560, 1.2210,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MUALANI_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const MUALANI_NORMAL_2: TalentScaling = TalentScaling {
         0.8925, 0.9483, 1.0041, 1.0599,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MUALANI_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const MUALANI_NORMAL_3: TalentScaling = TalentScaling {
         1.4010, 1.4880, 1.5760, 1.6630,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Hydro (Catalyst) --
@@ -47,6 +50,7 @@ const MUALANI_CHARGED: TalentScaling = TalentScaling {
         2.8576, 3.0362, 3.2148, 3.3934,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Hydro (Catalyst) --
@@ -60,6 +64,7 @@ const MUALANI_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MUALANI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const MUALANI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MUALANI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const MUALANI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 鯊鯊衝浪 (Surfshark Wavebreaker) -- Hydro (HP scaling) --
@@ -95,6 +102,7 @@ const MUALANI_SKILL_BITE: TalentScaling = TalentScaling {
         0.1736, 0.1845, 0.1953, 0.2062,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MUALANI_SKILL_STACK: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const MUALANI_SKILL_STACK: TalentScaling = TalentScaling {
         0.0868, 0.0922, 0.0977, 0.1031,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MUALANI_SKILL_BIG_WAVE: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const MUALANI_SKILL_BIG_WAVE: TalentScaling = TalentScaling {
         0.4340, 0.4611, 0.4883, 0.5154,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 爆瀑飛弾 (Boomsharka-laka) -- Hydro (HP scaling) --
@@ -130,6 +140,7 @@ const MUALANI_BURST: TalentScaling = TalentScaling {
         1.1688, 1.2418, 1.3149, 1.3879,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const MUALANI: CharacterData = CharacterData {

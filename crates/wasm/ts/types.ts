@@ -212,6 +212,14 @@ export interface ImportWarning {
 
 // === Talent Types ===
 
+/**
+ * ダメージパイプラインの振り分け。
+ * `"Standard"` は `calculate_damage` 経由の通常天賦ダメージ。
+ * `{ DirectLunar: Reaction }` は `calculate_direct_lunar` 経由の月反応ダメージ
+ * （コロンビーナ・フリンス中盤/終盤・ラウマホールド2段・ジバイ月結晶等）。
+ */
+export type DamagePipeline = "Standard" | { DirectLunar: Reaction };
+
 /** 個別のスケーリング項目（1段ダメージ、重撃ダメージ等） */
 export interface TalentScaling {
   /** スケーリング名（例: "1段ダメージ"） */
@@ -222,6 +230,8 @@ export interface TalentScaling {
   damage_element: Element | null;
   /** 天賦Lv1-15の倍率値 */
   values: number[];
+  /** ダメージ計算のパイプライン。未指定なら `"Standard"` 相当で扱う。 */
+  damage_pipeline: DamagePipeline;
 }
 
 /**

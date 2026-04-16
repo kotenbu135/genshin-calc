@@ -14,6 +14,7 @@ const KAZUHA_NORMAL_1: TalentScaling = TalentScaling {
         0.961013, 1.045582, 1.130151, 1.21472, 1.306977,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const KAZUHA_NORMAL_2: TalentScaling = TalentScaling {
         0.966525, 1.051579, 1.136633, 1.221688, 1.314474,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_NORMAL_3A: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const KAZUHA_NORMAL_3A: TalentScaling = TalentScaling {
         0.64827, 0.69678, 0.7497,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_NORMAL_3B: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const KAZUHA_NORMAL_3B: TalentScaling = TalentScaling {
         0.777924, 0.836136, 0.89964,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_NORMAL_4: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const KAZUHA_NORMAL_4: TalentScaling = TalentScaling {
         1.297275, 1.411435, 1.525595, 1.639756, 1.764294,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_NORMAL_5: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const KAZUHA_NORMAL_5: TalentScaling = TalentScaling {
         0.542063, 0.589764, 0.637465, 0.685167, 0.737205,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -82,6 +88,7 @@ const KAZUHA_CHARGED_1: TalentScaling = TalentScaling {
         1.1613, 1.2495,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_CHARGED_2: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const KAZUHA_CHARGED_2: TalentScaling = TalentScaling {
         1.59495, 1.735306, 1.875661, 2.016017, 2.169132,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -106,6 +114,7 @@ const KAZUHA_PLUNGE: TalentScaling = TalentScaling {
         1.617638, 1.731825, 1.846011, 1.960197, 2.074383, 2.18857,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const KAZUHA_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.234591, 3.462915, 3.69124, 3.919564, 4.147888, 4.376212,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const KAZUHA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.040179, 4.325368, 4.610557, 4.895747, 5.180936, 5.466125,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Chihayaburu -- Anemo --
@@ -141,6 +152,7 @@ const KAZUHA_SKILL_PRESS: TalentScaling = TalentScaling {
         4.56,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const KAZUHA_SKILL_HOLD: TalentScaling = TalentScaling {
         5.542, 5.868, 6.194,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Kazuha Slash -- Anemo --
@@ -165,6 +178,7 @@ const KAZUHA_BURST_SLASH: TalentScaling = TalentScaling {
         5.576, 5.904, 6.232,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_BURST_DOT: TalentScaling = TalentScaling {
@@ -175,6 +189,7 @@ const KAZUHA_BURST_DOT: TalentScaling = TalentScaling {
         1.2, 1.29, 1.38, 1.5, 1.59, 1.68, 1.8, 1.92, 2.04, 2.16, 2.28, 2.4, 2.55, 2.7, 2.85,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KAZUHA_BURST_ELEM: TalentScaling = TalentScaling {
@@ -186,6 +201,7 @@ const KAZUHA_BURST_ELEM: TalentScaling = TalentScaling {
         0.81, 0.855,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KAZUHA: CharacterData = CharacterData {

@@ -14,6 +14,7 @@ const LYNETTE_NORMAL_1: TalentScaling = TalentScaling {
         0.851615, 0.911729, 0.971843, 1.031957, 1.092071, 1.152185,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const LYNETTE_NORMAL_2: TalentScaling = TalentScaling {
         0.743495, 0.795977, 0.848459, 0.900941, 0.953423, 1.005905,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_NORMAL_3A: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const LYNETTE_NORMAL_3A: TalentScaling = TalentScaling {
         0.58968, 0.62856, 0.66744, 0.70632, 0.7452,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_NORMAL_3B: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const LYNETTE_NORMAL_3B: TalentScaling = TalentScaling {
         0.426836, 0.456966, 0.487095, 0.517225, 0.547354, 0.577484,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_NORMAL_4: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const LYNETTE_NORMAL_4: TalentScaling = TalentScaling {
         1.248395, 1.336517, 1.424639, 1.512761, 1.600883, 1.689005,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -71,6 +76,7 @@ const LYNETTE_CHARGED_1: TalentScaling = TalentScaling {
         0.93548, 0.99716, 1.05884, 1.12052, 1.1822,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_CHARGED_2: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const LYNETTE_CHARGED_2: TalentScaling = TalentScaling {
         1.29948, 1.38516, 1.47084, 1.55652, 1.6422,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const LYNETTE_PLUNGE: TalentScaling = TalentScaling {
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const LYNETTE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const LYNETTE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Enigmatic Feint -- Anemo --
@@ -130,6 +140,7 @@ const LYNETTE_SKILL: TalentScaling = TalentScaling {
         6.03, 6.365,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_SKILL_SURGING: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const LYNETTE_SKILL_SURGING: TalentScaling = TalentScaling {
         0.663, 0.702, 0.741,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Magic Trick: Astonishing Shift -- Anemo --
@@ -154,6 +166,7 @@ const LYNETTE_BURST: TalentScaling = TalentScaling {
         1.768, 1.872, 1.976,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_BURST_BOX: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const LYNETTE_BURST_BOX: TalentScaling = TalentScaling {
         1.088, 1.152, 1.216,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LYNETTE_BURST_VIVID: TalentScaling = TalentScaling {
@@ -176,6 +190,7 @@ const LYNETTE_BURST_VIVID: TalentScaling = TalentScaling {
         0.969, 1.026, 1.083,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const LYNETTE: CharacterData = CharacterData {

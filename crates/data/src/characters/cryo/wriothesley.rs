@@ -14,6 +14,7 @@ const WRIOTHESLEY_NORMAL_1: TalentScaling = TalentScaling {
         1.2037, 1.2781, 1.3526, 1.4271,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WRIOTHESLEY_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const WRIOTHESLEY_NORMAL_2: TalentScaling = TalentScaling {
         1.1685, 1.2408, 1.3130, 1.3853,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WRIOTHESLEY_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const WRIOTHESLEY_NORMAL_3: TalentScaling = TalentScaling {
         1.5164, 1.6102, 1.7040, 1.7978,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WRIOTHESLEY_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const WRIOTHESLEY_NORMAL_4: TalentScaling = TalentScaling {
         0.8550, 0.9079, 0.9608, 1.0137,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WRIOTHESLEY_NORMAL_5: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const WRIOTHESLEY_NORMAL_5: TalentScaling = TalentScaling {
         2.0470, 2.1736, 2.3005, 2.4268,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack (Vaulting Fist) -- Cryo (Catalyst) --
@@ -71,6 +76,7 @@ const WRIOTHESLEY_CHARGED: TalentScaling = TalentScaling {
         3.0592, 3.2504, 3.4416, 3.6328,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Cryo (Catalyst) --
@@ -84,6 +90,7 @@ const WRIOTHESLEY_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WRIOTHESLEY_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const WRIOTHESLEY_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0391,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WRIOTHESLEY_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const WRIOTHESLEY_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Icefang Rush -- Cryo --
@@ -119,6 +128,7 @@ const WRIOTHESLEY_SKILL: TalentScaling = TalentScaling {
         1.7703, 1.8039, 1.8375, 1.8711,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Darkgold Wolfbite -- Cryo --
@@ -132,6 +142,7 @@ const WRIOTHESLEY_BURST: TalentScaling = TalentScaling {
         2.5440, 2.7030, 2.8620, 3.0210,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const WRIOTHESLEY_BURST_SURGING: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const WRIOTHESLEY_BURST_SURGING: TalentScaling = TalentScaling {
         0.8480, 0.9010, 0.9540, 1.0070,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const WRIOTHESLEY: CharacterData = CharacterData {

@@ -15,6 +15,7 @@ const INEFFA_NORMAL_1: TalentScaling = TalentScaling {
         0.7858, 0.8344, 0.8830, 0.9316,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const INEFFA_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const INEFFA_NORMAL_2: TalentScaling = TalentScaling {
         0.7720, 0.8197, 0.8675, 0.9152,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const INEFFA_NORMAL_3A: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const INEFFA_NORMAL_3A: TalentScaling = TalentScaling {
         0.5133, 0.5451, 0.5768, 0.6086,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const INEFFA_NORMAL_3B: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const INEFFA_NORMAL_3B: TalentScaling = TalentScaling {
         0.5133, 0.5451, 0.5768, 0.6086,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const INEFFA_NORMAL_4: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const INEFFA_NORMAL_4: TalentScaling = TalentScaling {
         1.2648, 1.3430, 1.4213, 1.4995,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -72,6 +77,7 @@ const INEFFA_CHARGED: TalentScaling = TalentScaling {
         2.1418, 2.2742, 2.4067, 2.5392,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -85,6 +91,7 @@ const INEFFA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const INEFFA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const INEFFA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const INEFFA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const INEFFA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 掃除モード・搬送周波数 (Cleaning Mode) -- Electro --
@@ -120,6 +129,7 @@ const INEFFA_SKILL: TalentScaling = TalentScaling {
         1.7280, 1.8360, 1.9440, 2.0520,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const INEFFA_SKILL_DISCHARGE: TalentScaling = TalentScaling {
@@ -131,6 +141,7 @@ const INEFFA_SKILL_DISCHARGE: TalentScaling = TalentScaling {
         1.9200, 2.0400, 2.1600, 2.2800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 最高指令・旋風絶滅 (Supreme Instruction) -- Electro --
@@ -144,6 +155,7 @@ const INEFFA_BURST: TalentScaling = TalentScaling {
         12.8592, 13.5360, 14.3820, 15.2280, 16.0740,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const INEFFA: CharacterData = CharacterData {

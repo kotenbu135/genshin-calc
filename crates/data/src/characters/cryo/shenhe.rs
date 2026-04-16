@@ -14,6 +14,7 @@ const SHENHE_NORMAL_1: TalentScaling = TalentScaling {
         0.9760, 1.0363, 1.0967, 1.1571,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const SHENHE_NORMAL_2: TalentScaling = TalentScaling {
         0.9080, 0.9642, 1.0204, 1.0766,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const SHENHE_NORMAL_3: TalentScaling = TalentScaling {
         1.2028, 1.2772, 1.3516, 1.4260,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_NORMAL_4A: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const SHENHE_NORMAL_4A: TalentScaling = TalentScaling {
         0.5938, 0.6306, 0.6674, 0.7042,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_NORMAL_4B: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const SHENHE_NORMAL_4B: TalentScaling = TalentScaling {
         0.5938, 0.6306, 0.6674, 0.7042,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_NORMAL_5: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const SHENHE_NORMAL_5: TalentScaling = TalentScaling {
         1.4806, 1.5724, 1.6642, 1.7560,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -82,6 +88,7 @@ const SHENHE_CHARGED: TalentScaling = TalentScaling {
         2.4970, 2.6517, 2.8063, 2.9609,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const SHENHE_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const SHENHE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const SHENHE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Spring Spirit Summoning -- Cryo --
@@ -130,6 +140,7 @@ const SHENHE_SKILL_PRESS: TalentScaling = TalentScaling {
         2.7840, 2.9580, 3.1320, 3.3060,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const SHENHE_SKILL_HOLD: TalentScaling = TalentScaling {
         3.7760, 4.0120, 4.2480, 4.4840,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Divine Maiden's Deliverance -- Cryo --
@@ -154,6 +166,7 @@ const SHENHE_BURST: TalentScaling = TalentScaling {
         2.0160, 2.1420, 2.2680, 2.3940,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const SHENHE_BURST_DOT: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const SHENHE_BURST_DOT: TalentScaling = TalentScaling {
         0.6624, 0.7038, 0.7452, 0.7866,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const SHENHE: CharacterData = CharacterData {

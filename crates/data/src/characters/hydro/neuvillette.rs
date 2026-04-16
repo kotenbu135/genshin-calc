@@ -12,6 +12,7 @@ const NEUVILLETTE_NORMAL_1: TalentScaling = TalentScaling {
         1.0915, 1.1598, 1.2280, 1.2962,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEUVILLETTE_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const NEUVILLETTE_NORMAL_2: TalentScaling = TalentScaling {
         0.9249, 0.9827, 1.0405, 1.0983,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEUVILLETTE_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const NEUVILLETTE_NORMAL_3: TalentScaling = TalentScaling {
         1.4468, 1.5372, 1.6276, 1.7180,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Hydro (Catalyst) --
@@ -47,6 +50,7 @@ const NEUVILLETTE_CHARGED: TalentScaling = TalentScaling {
         2.7360, 2.9070, 3.0780, 3.2490,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack: 衡平な裁量 (Equitable Judgment) -- Hydro (HP scaling) --
@@ -60,6 +64,7 @@ const NEUVILLETTE_CHARGED_JUDGMENT: TalentScaling = TalentScaling {
         0.1651, 0.1753, 0.1855, 0.1957,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Hydro (Catalyst) --
@@ -73,6 +78,7 @@ const NEUVILLETTE_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEUVILLETTE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const NEUVILLETTE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEUVILLETTE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const NEUVILLETTE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 遺したき裁き (O Tears, I Shall Repay) -- Hydro --
@@ -108,6 +116,7 @@ const NEUVILLETTE_SKILL: TalentScaling = TalentScaling {
         0.2573, 0.2734, 0.2894, 0.3055,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEUVILLETTE_SKILL_THORN: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const NEUVILLETTE_SKILL_THORN: TalentScaling = TalentScaling {
         0.4160, 0.4420, 0.4680, 0.4940,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 潮よ、我に懲罰を委ねよ (O Tides, I Have Returned) -- Hydro --
@@ -132,6 +142,7 @@ const NEUVILLETTE_BURST: TalentScaling = TalentScaling {
         0.4452, 0.4730, 0.5008, 0.5286,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const NEUVILLETTE_BURST_WATERFALL: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const NEUVILLETTE_BURST_WATERFALL: TalentScaling = TalentScaling {
         0.1821, 0.1935, 0.2049, 0.2163,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const NEUVILLETTE: CharacterData = CharacterData {

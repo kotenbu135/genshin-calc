@@ -14,6 +14,7 @@ const ROSARIA_NORMAL_1: TalentScaling = TalentScaling {
         1.1834, 1.2566, 1.3298, 1.4030,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const ROSARIA_NORMAL_2: TalentScaling = TalentScaling {
         1.1640, 1.2360, 1.3080, 1.3800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const ROSARIA_NORMAL_3: TalentScaling = TalentScaling {
         0.7178, 0.7622, 0.8066, 0.8510,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const ROSARIA_NORMAL_4: TalentScaling = TalentScaling {
         1.5714, 1.6686, 1.7658, 1.8630,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_NORMAL_5A: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const ROSARIA_NORMAL_5A: TalentScaling = TalentScaling {
         0.9390, 0.9970, 1.0551, 1.1132,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_NORMAL_5B: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const ROSARIA_NORMAL_5B: TalentScaling = TalentScaling {
         0.9700, 1.0300, 1.0900, 1.1500,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -82,6 +88,7 @@ const ROSARIA_CHARGED: TalentScaling = TalentScaling {
         3.0846, 3.2754, 3.4662, 3.6570,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -95,6 +102,7 @@ const ROSARIA_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const ROSARIA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const ROSARIA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Ravaging Confession -- Cryo --
@@ -130,6 +140,7 @@ const ROSARIA_SKILL_1: TalentScaling = TalentScaling {
         1.1680, 1.2410, 1.3140, 1.3870,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_SKILL_2: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const ROSARIA_SKILL_2: TalentScaling = TalentScaling {
         2.7200, 2.8900, 3.0600, 3.2300,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Rites of Termination -- Cryo --
@@ -154,6 +166,7 @@ const ROSARIA_BURST_1: TalentScaling = TalentScaling {
         2.0800, 2.2100, 2.3400, 2.4700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_BURST_2: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const ROSARIA_BURST_2: TalentScaling = TalentScaling {
         3.0400, 3.2300, 3.4200, 3.6100,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ROSARIA_BURST_DOT: TalentScaling = TalentScaling {
@@ -176,6 +190,7 @@ const ROSARIA_BURST_DOT: TalentScaling = TalentScaling {
         2.6400, 2.8050, 2.9700, 3.1350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ROSARIA: CharacterData = CharacterData {

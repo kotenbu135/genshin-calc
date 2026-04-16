@@ -16,6 +16,7 @@ const GAMING_NORMAL_1: TalentScaling = TalentScaling {
         1.8916, 2.0086, 2.1257, 2.2427,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GAMING_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const GAMING_NORMAL_2: TalentScaling = TalentScaling {
         1.7831, 1.8934, 2.0037, 2.1140,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GAMING_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const GAMING_NORMAL_3: TalentScaling = TalentScaling {
         2.4057, 2.5545, 2.7034, 2.8522,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GAMING_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const GAMING_NORMAL_4: TalentScaling = TalentScaling {
         2.8863, 3.0648, 3.2434, 3.4219,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -62,6 +66,7 @@ const GAMING_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.4104, 1.4976, 1.5849, 1.6721,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GAMING_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const GAMING_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.5511, 2.7089, 2.8667, 3.0245,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const GAMING_PLUNGE: TalentScaling = TalentScaling {
         1.4470, 1.5365, 1.6260, 1.7155,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GAMING_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const GAMING_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8934, 3.0724, 3.2513, 3.4303,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GAMING_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const GAMING_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6140, 3.8376, 4.0611, 4.2846,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 瑞獣登場 (Bestial Ascent) -- Pyro --
@@ -121,6 +130,7 @@ const GAMING_SKILL_PLUNGE: TalentScaling = TalentScaling {
         4.6080, 4.8960, 5.1840, 5.4720,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 瑞獣の金舞 (Suanni's Gilded Dance) -- Pyro --
@@ -134,6 +144,7 @@ const GAMING_BURST: TalentScaling = TalentScaling {
         7.4080, 7.8710, 8.3340, 8.7970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const GAMING: CharacterData = CharacterData {

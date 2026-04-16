@@ -14,6 +14,7 @@ const CITLALI_NORMAL_1: TalentScaling = TalentScaling {
         0.8681, 0.9224, 0.9767, 1.0309,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CITLALI_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const CITLALI_NORMAL_2: TalentScaling = TalentScaling {
         0.7763, 0.8248, 0.8733, 0.9218,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CITLALI_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const CITLALI_NORMAL_3: TalentScaling = TalentScaling {
         1.0754, 1.1426, 1.2099, 1.2771,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Cryo (Catalyst) --
@@ -49,6 +52,7 @@ const CITLALI_CHARGED: TalentScaling = TalentScaling {
         1.9840, 2.1080, 2.2320, 2.3560,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Cryo (Catalyst) --
@@ -62,6 +66,7 @@ const CITLALI_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CITLALI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const CITLALI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CITLALI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const CITLALI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Dawnfrost Darkstar -- Cryo --
@@ -97,6 +104,7 @@ const CITLALI_SKILL_TZITZIMITL: TalentScaling = TalentScaling {
         1.4592, 1.5504, 1.6416, 1.7328,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CITLALI_SKILL_STORM: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const CITLALI_SKILL_STORM: TalentScaling = TalentScaling {
         0.3405, 0.3618, 0.3830, 0.4043,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Edict of Entwined Splendor -- Cryo --
@@ -121,6 +130,7 @@ const CITLALI_BURST_ICE_STORM: TalentScaling = TalentScaling {
         10.7520, 11.4240, 12.0960, 12.7680,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CITLALI_BURST_SKULL: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const CITLALI_BURST_SKULL: TalentScaling = TalentScaling {
         2.6880, 2.8560, 3.0240, 3.1920,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CITLALI: CharacterData = CharacterData {

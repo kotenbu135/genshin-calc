@@ -16,6 +16,7 @@ const HU_TAO_NORMAL_1: TalentScaling = TalentScaling {
         0.9324, 0.9804, 1.0283, 1.0763,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const HU_TAO_NORMAL_2: TalentScaling = TalentScaling {
         0.9596, 1.0089, 1.0583, 1.1076,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const HU_TAO_NORMAL_3: TalentScaling = TalentScaling {
         1.2141, 1.2765, 1.3389, 1.4014,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const HU_TAO_NORMAL_4: TalentScaling = TalentScaling {
         1.3054, 1.3725, 1.4396, 1.5068,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_NORMAL_5A: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const HU_TAO_NORMAL_5A: TalentScaling = TalentScaling {
         0.6617, 0.6957, 0.7298, 0.7638,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_NORMAL_5B: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const HU_TAO_NORMAL_5B: TalentScaling = TalentScaling {
         0.7000, 0.7360, 0.7720, 0.8080,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_NORMAL_6: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const HU_TAO_NORMAL_6: TalentScaling = TalentScaling {
         1.7094, 1.7973, 1.8852, 1.9731,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -95,6 +102,7 @@ const HU_TAO_CHARGED: TalentScaling = TalentScaling {
         2.7038, 2.8428, 2.9819, 3.1209,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -108,6 +116,7 @@ const HU_TAO_PLUNGE: TalentScaling = TalentScaling {
         1.3010, 1.3679, 1.4348, 1.5017,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const HU_TAO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.6013, 2.7351, 2.8689, 3.0027,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const HU_TAO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2492, 3.4163, 3.5834, 3.7505,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 蝶導来世 (Guide to Afterlife) -- Pyro --
@@ -143,6 +154,7 @@ const HU_TAO_SKILL_BLOOD_BLOSSOM: TalentScaling = TalentScaling {
         1.2800, 1.3600, 1.4400, 1.5200,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 安神秘法 (Spirit Soother) -- Pyro --
@@ -156,6 +168,7 @@ const HU_TAO_BURST: TalentScaling = TalentScaling {
         5.4117, 5.6478, 5.8838, 6.1199,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const HU_TAO_BURST_LOW_HP: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const HU_TAO_BURST_LOW_HP: TalentScaling = TalentScaling {
         6.7646, 7.0597, 7.3548, 7.6499,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const HU_TAO: CharacterData = CharacterData {

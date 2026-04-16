@@ -12,6 +12,7 @@ const XINGQIU_NORMAL_1: TalentScaling = TalentScaling {
         1.0836, 1.1712, 1.2588, 1.3545,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const XINGQIU_NORMAL_2: TalentScaling = TalentScaling {
         1.1076, 1.1971, 1.2867, 1.3844,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_NORMAL_3A: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const XINGQIU_NORMAL_3A: TalentScaling = TalentScaling {
         0.6637, 0.7174, 0.7711, 0.8297,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_NORMAL_3B: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const XINGQIU_NORMAL_3B: TalentScaling = TalentScaling {
         0.6637, 0.7174, 0.7711, 0.8297,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_NORMAL_4: TalentScaling = TalentScaling {
@@ -56,6 +60,7 @@ const XINGQIU_NORMAL_4: TalentScaling = TalentScaling {
         1.3015, 1.4067, 1.5120, 1.6268,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_NORMAL_5A: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const XINGQIU_NORMAL_5A: TalentScaling = TalentScaling {
         0.8337, 0.9011, 0.9685, 1.0421,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_NORMAL_5B: TalentScaling = TalentScaling {
@@ -78,6 +84,7 @@ const XINGQIU_NORMAL_5B: TalentScaling = TalentScaling {
         0.8337, 0.9011, 0.9685, 1.0421,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical (Sword) --
@@ -91,6 +98,7 @@ const XINGQIU_CHARGED_1: TalentScaling = TalentScaling {
         1.0996, 1.1885, 1.2774, 1.3745,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_CHARGED_2: TalentScaling = TalentScaling {
@@ -102,6 +110,7 @@ const XINGQIU_CHARGED_2: TalentScaling = TalentScaling {
         1.3055, 1.4111, 1.5167, 1.6318,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical (Sword) --
@@ -115,6 +124,7 @@ const XINGQIU_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const XINGQIU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -137,6 +148,7 @@ const XINGQIU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 古華剣·画雨籠山 (Guhua Sword: Fatal Rainscreen) -- Hydro --
@@ -150,6 +162,7 @@ const XINGQIU_SKILL_1: TalentScaling = TalentScaling {
         3.3600, 3.5700, 3.7800, 3.9900,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const XINGQIU_SKILL_2: TalentScaling = TalentScaling {
@@ -161,6 +174,7 @@ const XINGQIU_SKILL_2: TalentScaling = TalentScaling {
         3.8240, 4.0630, 4.3020, 4.5410,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 古華剣·裁雨留虹 (Guhua Sword: Raincutter) -- Hydro --
@@ -174,6 +188,7 @@ const XINGQIU_BURST: TalentScaling = TalentScaling {
         1.0854, 1.1533, 1.2211, 1.2890,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const XINGQIU: CharacterData = CharacterData {

@@ -12,6 +12,7 @@ const VARKA_NORMAL_1: TalentScaling = TalentScaling {
         1.4766, 1.5680, 1.6593, 1.7507,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_2A: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const VARKA_NORMAL_2A: TalentScaling = TalentScaling {
         0.5411, 0.5746, 0.6081, 0.6416,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_2B: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const VARKA_NORMAL_2B: TalentScaling = TalentScaling {
         1.0050, 1.0671, 1.1293, 1.1915,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_3A: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const VARKA_NORMAL_3A: TalentScaling = TalentScaling {
         0.7317, 0.7770, 0.8222, 0.8675,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_3B: TalentScaling = TalentScaling {
@@ -56,6 +60,7 @@ const VARKA_NORMAL_3B: TalentScaling = TalentScaling {
         1.3589, 1.4429, 1.5270, 1.6110,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_4A: TalentScaling = TalentScaling {
@@ -67,6 +72,7 @@ const VARKA_NORMAL_4A: TalentScaling = TalentScaling {
         1.2504, 1.3278, 1.4051, 1.4825,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_4B: TalentScaling = TalentScaling {
@@ -78,6 +84,7 @@ const VARKA_NORMAL_4B: TalentScaling = TalentScaling {
         0.6733, 0.7150, 0.7566, 0.7983,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_5A: TalentScaling = TalentScaling {
@@ -89,6 +96,7 @@ const VARKA_NORMAL_5A: TalentScaling = TalentScaling {
         1.5734, 1.6708, 1.7681, 1.8654,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_NORMAL_5B: TalentScaling = TalentScaling {
@@ -100,6 +108,7 @@ const VARKA_NORMAL_5B: TalentScaling = TalentScaling {
         0.8472, 0.8996, 0.9520, 1.0044,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_CHARGED_A: TalentScaling = TalentScaling {
@@ -111,6 +120,7 @@ const VARKA_CHARGED_A: TalentScaling = TalentScaling {
         1.9319, 2.0513, 2.1708, 2.2903,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_CHARGED_B: TalentScaling = TalentScaling {
@@ -122,6 +132,7 @@ const VARKA_CHARGED_B: TalentScaling = TalentScaling {
         1.0402, 1.1046, 1.1689, 1.2333,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_PLUNGE: TalentScaling = TalentScaling {
@@ -133,6 +144,7 @@ const VARKA_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -144,6 +156,7 @@ const VARKA_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -155,6 +168,7 @@ const VARKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SKILL_TAP: TalentScaling = TalentScaling {
@@ -166,6 +180,7 @@ const VARKA_SKILL_TAP: TalentScaling = TalentScaling {
         5.916, 6.264, 6.612,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_1: TalentScaling = TalentScaling {
@@ -177,6 +192,7 @@ const VARKA_SD_1: TalentScaling = TalentScaling {
         1.8458, 1.9600, 2.0742, 2.1883,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_2A: TalentScaling = TalentScaling {
@@ -188,6 +204,7 @@ const VARKA_SD_2A: TalentScaling = TalentScaling {
         0.6764, 0.7183, 0.7601, 0.8019,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_2B: TalentScaling = TalentScaling {
@@ -199,6 +216,7 @@ const VARKA_SD_2B: TalentScaling = TalentScaling {
         1.2562, 1.3339, 1.4116, 1.4893,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_3A: TalentScaling = TalentScaling {
@@ -210,6 +228,7 @@ const VARKA_SD_3A: TalentScaling = TalentScaling {
         0.9146, 0.9712, 1.0278, 1.0844,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_3B: TalentScaling = TalentScaling {
@@ -221,6 +240,7 @@ const VARKA_SD_3B: TalentScaling = TalentScaling {
         1.6986, 1.8037, 1.9087, 2.0138,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_4A: TalentScaling = TalentScaling {
@@ -232,6 +252,7 @@ const VARKA_SD_4A: TalentScaling = TalentScaling {
         1.5630, 1.6597, 1.7564, 1.8531,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_4B: TalentScaling = TalentScaling {
@@ -243,6 +264,7 @@ const VARKA_SD_4B: TalentScaling = TalentScaling {
         0.8416, 0.8937, 0.9458, 0.9978,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_5A: TalentScaling = TalentScaling {
@@ -254,6 +276,7 @@ const VARKA_SD_5A: TalentScaling = TalentScaling {
         1.9668, 2.0884, 2.2101, 2.3318,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_5B: TalentScaling = TalentScaling {
@@ -265,6 +288,7 @@ const VARKA_SD_5B: TalentScaling = TalentScaling {
         1.0590, 1.1245, 1.1901, 1.2556,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_CHARGED_A: TalentScaling = TalentScaling {
@@ -276,6 +300,7 @@ const VARKA_SD_CHARGED_A: TalentScaling = TalentScaling {
         2.4148, 2.5642, 2.7136, 2.8629,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_SD_CHARGED_B: TalentScaling = TalentScaling {
@@ -287,6 +312,7 @@ const VARKA_SD_CHARGED_B: TalentScaling = TalentScaling {
         1.3003, 1.3807, 1.4611, 1.5416,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_FOUR_WINDS_A: TalentScaling = TalentScaling {
@@ -298,6 +324,7 @@ const VARKA_FOUR_WINDS_A: TalentScaling = TalentScaling {
         3.5152, 3.7349, 3.9546, 4.1743,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_FOUR_WINDS_B: TalentScaling = TalentScaling {
@@ -309,6 +336,7 @@ const VARKA_FOUR_WINDS_B: TalentScaling = TalentScaling {
         1.8928, 2.0111, 2.1294, 2.2477,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_AZURE_A: TalentScaling = TalentScaling {
@@ -320,6 +348,7 @@ const VARKA_AZURE_A: TalentScaling = TalentScaling {
         1.989, 2.106, 2.223,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_AZURE_B: TalentScaling = TalentScaling {
@@ -331,6 +360,7 @@ const VARKA_AZURE_B: TalentScaling = TalentScaling {
         1.071, 1.134, 1.197,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_BURST_1: TalentScaling = TalentScaling {
@@ -342,6 +372,7 @@ const VARKA_BURST_1: TalentScaling = TalentScaling {
         6.7392, 7.1604, 7.5816, 8.0028,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARKA_BURST_2: TalentScaling = TalentScaling {
@@ -353,6 +384,7 @@ const VARKA_BURST_2: TalentScaling = TalentScaling {
         3.6288, 3.8556, 4.0824, 4.3092,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const VARKA: CharacterData = CharacterData {

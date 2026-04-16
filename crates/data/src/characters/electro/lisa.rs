@@ -15,6 +15,7 @@ const LISA_NORMAL_1: TalentScaling = TalentScaling {
         0.8078, 0.8617, 0.9156, 0.9694,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const LISA_NORMAL_2: TalentScaling = TalentScaling {
         0.7328, 0.7816, 0.8305, 0.8793,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const LISA_NORMAL_3: TalentScaling = TalentScaling {
         0.8731, 0.9313, 0.9895, 1.0477,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const LISA_NORMAL_4: TalentScaling = TalentScaling {
         1.1212, 1.1959, 1.2707, 1.3454,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Electro --
@@ -61,6 +65,7 @@ const LISA_CHARGED: TalentScaling = TalentScaling {
         3.6132, 3.8541, 4.0950, 4.3359,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Electro (Catalyst) --
@@ -74,6 +79,7 @@ const LISA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -85,6 +91,7 @@ const LISA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -96,6 +103,7 @@ const LISA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 蒼雷 (Violet Arc) -- Electro --
@@ -109,6 +117,7 @@ const LISA_SKILL_PRESS: TalentScaling = TalentScaling {
         1.6000, 1.7000, 1.8000, 1.9000,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_SKILL_HOLD_0STACK: TalentScaling = TalentScaling {
@@ -120,6 +129,7 @@ const LISA_SKILL_HOLD_0STACK: TalentScaling = TalentScaling {
         6.4000, 6.8000, 7.2000, 7.6000,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_SKILL_HOLD_1STACK: TalentScaling = TalentScaling {
@@ -131,6 +141,7 @@ const LISA_SKILL_HOLD_1STACK: TalentScaling = TalentScaling {
         7.3600, 7.8200, 8.2800, 8.7400,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_SKILL_HOLD_2STACK: TalentScaling = TalentScaling {
@@ -142,6 +153,7 @@ const LISA_SKILL_HOLD_2STACK: TalentScaling = TalentScaling {
         8.4800, 9.0100, 9.5400, 10.0700,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const LISA_SKILL_HOLD_3STACK: TalentScaling = TalentScaling {
@@ -153,6 +165,7 @@ const LISA_SKILL_HOLD_3STACK: TalentScaling = TalentScaling {
         9.7440, 10.3530, 10.9620, 11.5710,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 薔薇の雷光 (Lightning Rose) -- Electro --
@@ -166,6 +179,7 @@ const LISA_BURST: TalentScaling = TalentScaling {
         0.7312, 0.7769, 0.8226, 0.8683,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const LISA: CharacterData = CharacterData {

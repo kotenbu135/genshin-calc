@@ -16,6 +16,7 @@ const YANFEI_NORMAL_1: TalentScaling = TalentScaling {
         1.1668, 1.2398, 1.3127, 1.3856,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const YANFEI_NORMAL_2: TalentScaling = TalentScaling {
         1.0425, 1.1077, 1.1728, 1.2380,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const YANFEI_NORMAL_3: TalentScaling = TalentScaling {
         1.5203, 1.6153, 1.7103, 1.8053,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Pyro (Catalyst, seal-dependent) --
@@ -51,6 +54,7 @@ const YANFEI_CHARGED_0: TalentScaling = TalentScaling {
         1.7528, 1.8293, 1.9058, 1.9822,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_CHARGED_1: TalentScaling = TalentScaling {
@@ -62,6 +66,7 @@ const YANFEI_CHARGED_1: TalentScaling = TalentScaling {
         2.0622, 2.1521, 2.2421, 2.3320,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_CHARGED_2: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const YANFEI_CHARGED_2: TalentScaling = TalentScaling {
         2.3715, 2.4749, 2.5784, 2.6818,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_CHARGED_3: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const YANFEI_CHARGED_3: TalentScaling = TalentScaling {
         2.6808, 2.7978, 2.9147, 3.0317,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_CHARGED_4: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const YANFEI_CHARGED_4: TalentScaling = TalentScaling {
         2.9901, 3.1206, 3.2510, 3.3815,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Pyro (Catalyst) --
@@ -108,6 +116,7 @@ const YANFEI_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const YANFEI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YANFEI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const YANFEI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 丹書契約 (Signed Edict) -- Pyro --
@@ -143,6 +154,7 @@ const YANFEI_SKILL: TalentScaling = TalentScaling {
         3.3920, 3.6040, 3.8160, 4.0280,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 契約成立 (Done Deal) -- Pyro --
@@ -156,6 +168,7 @@ const YANFEI_BURST: TalentScaling = TalentScaling {
         3.6480, 3.8760, 4.1040, 4.3320,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const YANFEI: CharacterData = CharacterData {

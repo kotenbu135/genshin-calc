@@ -14,6 +14,7 @@ const FREMINET_NORMAL_1: TalentScaling = TalentScaling {
         1.9002, 2.0178, 2.1353, 2.2529,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FREMINET_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const FREMINET_NORMAL_2: TalentScaling = TalentScaling {
         1.8199, 1.9325, 2.0450, 2.1576,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FREMINET_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const FREMINET_NORMAL_3: TalentScaling = TalentScaling {
         2.2988, 2.4410, 2.5831, 2.7253,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FREMINET_NORMAL_4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const FREMINET_NORMAL_4: TalentScaling = TalentScaling {
         2.7928, 2.9656, 3.1383, 3.3111,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -60,6 +64,7 @@ const FREMINET_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.4104, 1.4976, 1.5849, 1.6721,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FREMINET_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const FREMINET_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.5511, 2.7089, 2.8667, 3.0245,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -84,6 +90,7 @@ const FREMINET_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FREMINET_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -95,6 +102,7 @@ const FREMINET_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FREMINET_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -106,6 +114,7 @@ const FREMINET_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Pressurized Floe -- Cryo --
@@ -119,6 +128,7 @@ const FREMINET_SKILL_THRUST: TalentScaling = TalentScaling {
         1.6608, 1.7646, 1.8684, 1.9722,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FREMINET_SKILL_LEVEL4: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const FREMINET_SKILL_LEVEL4: TalentScaling = TalentScaling {
         4.8688, 5.1731, 5.4774, 5.7817,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Shadowhunter's Ambush -- Cryo --
@@ -143,6 +154,7 @@ const FREMINET_BURST: TalentScaling = TalentScaling {
         6.3680, 6.7660, 7.1640, 7.5620,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const FREMINET: CharacterData = CharacterData {

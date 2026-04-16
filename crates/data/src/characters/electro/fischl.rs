@@ -15,6 +15,7 @@ const FISCHL_NORMAL_1: TalentScaling = TalentScaling {
         0.9954, 1.0568, 1.1183, 1.1799,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const FISCHL_NORMAL_2: TalentScaling = TalentScaling {
         1.0550, 1.1206, 1.1862, 1.2514,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const FISCHL_NORMAL_3: TalentScaling = TalentScaling {
         1.3122, 1.3934, 1.4747, 1.5559,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const FISCHL_NORMAL_4: TalentScaling = TalentScaling {
         1.3024, 1.3831, 1.4639, 1.5446,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_NORMAL_5: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const FISCHL_NORMAL_5: TalentScaling = TalentScaling {
         1.6266, 1.7275, 1.8284, 1.9293,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Electro (charged) --
@@ -72,6 +77,7 @@ const FISCHL_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_AIMED_FULL: TalentScaling = TalentScaling {
@@ -83,6 +89,7 @@ const FISCHL_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -96,6 +103,7 @@ const FISCHL_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const FISCHL_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -118,6 +127,7 @@ const FISCHL_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 夜巡りの翼 (Nightrider) -- Electro --
@@ -131,6 +141,7 @@ const FISCHL_SKILL_OZ: TalentScaling = TalentScaling {
         1.7760, 1.8870, 1.9980, 2.1090,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const FISCHL_SKILL_SUMMON: TalentScaling = TalentScaling {
@@ -142,6 +153,7 @@ const FISCHL_SKILL_SUMMON: TalentScaling = TalentScaling {
         2.3088, 2.4531, 2.5974, 2.7417,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 夜の幻現 (Midnight Phantasmagoria) -- Electro --
@@ -155,6 +167,7 @@ const FISCHL_BURST: TalentScaling = TalentScaling {
         4.1600, 4.4200, 4.6800, 4.9400,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const FISCHL: CharacterData = CharacterData {

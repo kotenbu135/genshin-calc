@@ -16,6 +16,7 @@ const ALBEDO_NORMAL_1: TalentScaling = TalentScaling {
         0.8290, 0.8803, 0.9316, 0.9829,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const ALBEDO_NORMAL_2: TalentScaling = TalentScaling {
         0.8290, 0.8803, 0.9316, 0.9829,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const ALBEDO_NORMAL_3: TalentScaling = TalentScaling {
         1.0708, 1.1372, 1.2037, 1.2701,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const ALBEDO_NORMAL_4: TalentScaling = TalentScaling {
         1.1228, 1.1925, 1.2621, 1.3317,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_NORMAL_5: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const ALBEDO_NORMAL_5: TalentScaling = TalentScaling {
         1.4004, 1.4872, 1.5739, 1.6607,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -73,6 +78,7 @@ const ALBEDO_CHARGED_1: TalentScaling = TalentScaling {
         1.0670, 1.1330, 1.1990, 1.2650,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_CHARGED_2: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const ALBEDO_CHARGED_2: TalentScaling = TalentScaling {
         1.3580, 1.4420, 1.5260, 1.6100,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -97,6 +104,7 @@ const ALBEDO_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const ALBEDO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8840, 3.0624, 3.2409, 3.4193,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const ALBEDO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6021, 3.8249, 4.0478, 4.2706,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 創生術・擬似陽華 (Abiogenesis: Solar Isotoma) -- Geo, DEF scaling --
@@ -132,6 +142,7 @@ const ALBEDO_SKILL_DAMAGE: TalentScaling = TalentScaling {
         2.6080, 2.7710, 2.9340, 3.0970,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_SKILL_TRANSIENT_BLOSSOM: TalentScaling = TalentScaling {
@@ -143,6 +154,7 @@ const ALBEDO_SKILL_TRANSIENT_BLOSSOM: TalentScaling = TalentScaling {
         2.6720, 2.8390, 3.0060, 3.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 誕生式・大地の潮 (Rite of Progeniture: Tectonic Tide) -- Geo --
@@ -156,6 +168,7 @@ const ALBEDO_BURST_DAMAGE: TalentScaling = TalentScaling {
         7.3440, 7.8030, 8.2620, 8.7210,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ALBEDO_BURST_FATAL_BLOSSOM: TalentScaling = TalentScaling {
@@ -167,6 +180,7 @@ const ALBEDO_BURST_FATAL_BLOSSOM: TalentScaling = TalentScaling {
         1.4400, 1.5300, 1.6200, 1.7100,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ALBEDO: CharacterData = CharacterData {

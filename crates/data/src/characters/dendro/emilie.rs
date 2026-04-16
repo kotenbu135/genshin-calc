@@ -14,6 +14,7 @@ const EMILIE_NA_HIT1: TalentScaling = TalentScaling {
         0.959922, 1.027681, 1.09544, 1.1632, 1.230959, 1.298718,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_NA_HIT2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const EMILIE_NA_HIT2: TalentScaling = TalentScaling {
         0.887468, 0.950113, 1.012758, 1.075402, 1.138047, 1.200692,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_NA_HIT3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const EMILIE_NA_HIT3: TalentScaling = TalentScaling {
         1.172218, 1.254963, 1.337708, 1.420452, 1.503197, 1.585942,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_NA_HIT4: TalentScaling = TalentScaling {
@@ -47,6 +50,7 @@ const EMILIE_NA_HIT4: TalentScaling = TalentScaling {
         1.484593, 1.589388, 1.694183, 1.798977, 1.903772, 2.008567,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_CHARGED: TalentScaling = TalentScaling {
@@ -58,6 +62,7 @@ const EMILIE_CHARGED: TalentScaling = TalentScaling {
         1.93284, 2.06028, 2.18772, 2.31516, 2.4426,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_PLUNGE: TalentScaling = TalentScaling {
@@ -69,6 +74,7 @@ const EMILIE_PLUNGE: TalentScaling = TalentScaling {
         1.26378, 1.352988, 1.442196, 1.531404, 1.620612, 1.70982,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -80,6 +86,7 @@ const EMILIE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.527025, 2.705403, 2.883781, 3.062159, 3.240537, 3.418915,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -91,6 +98,7 @@ const EMILIE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.15639, 3.379194, 3.601998, 3.824802, 4.047606, 4.27041,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Skill: Fragrance Extraction ---
@@ -104,6 +112,7 @@ const EMILIE_SKILL_DMG: TalentScaling = TalentScaling {
         0.89452, 0.9416, 1.00045, 1.0593, 1.11815,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_SKILL_LV1: TalentScaling = TalentScaling {
@@ -115,6 +124,7 @@ const EMILIE_SKILL_LV1: TalentScaling = TalentScaling {
         0.8415, 0.891, 0.9405,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_SKILL_LV2: TalentScaling = TalentScaling {
@@ -126,6 +136,7 @@ const EMILIE_SKILL_LV2: TalentScaling = TalentScaling {
         1.89, 1.995,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const EMILIE_SKILL_THORN: TalentScaling = TalentScaling {
@@ -137,6 +148,7 @@ const EMILIE_SKILL_THORN: TalentScaling = TalentScaling {
         0.73188, 0.7704, 0.81855, 0.8667, 0.91485,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Elemental Burst: Aromatic Explication ---
@@ -150,6 +162,7 @@ const EMILIE_BURST_LV3: TalentScaling = TalentScaling {
         4.6155, 4.887, 5.1585,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // --- Emilie aggregation ---

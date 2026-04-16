@@ -16,6 +16,7 @@ const ZHONGLI_NORMAL_1: TalentScaling = TalentScaling {
         0.6943, 0.7373, 0.7804, 0.8234,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const ZHONGLI_NORMAL_2: TalentScaling = TalentScaling {
         0.7028, 0.7463, 0.7898, 0.8334,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const ZHONGLI_NORMAL_3: TalentScaling = TalentScaling {
         0.8703, 0.9242, 0.9780, 1.0319,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const ZHONGLI_NORMAL_4: TalentScaling = TalentScaling {
         0.9688, 1.0288, 1.0887, 1.1487,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_5_1: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const ZHONGLI_NORMAL_5_1: TalentScaling = TalentScaling {
         0.2425, 0.2575, 0.2725, 0.2875,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_5_2: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const ZHONGLI_NORMAL_5_2: TalentScaling = TalentScaling {
         0.2425, 0.2575, 0.2725, 0.2875,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_5_3: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const ZHONGLI_NORMAL_5_3: TalentScaling = TalentScaling {
         0.2425, 0.2575, 0.2725, 0.2875,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_5_4: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const ZHONGLI_NORMAL_5_4: TalentScaling = TalentScaling {
         0.2425, 0.2575, 0.2725, 0.2875,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_NORMAL_6: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const ZHONGLI_NORMAL_6: TalentScaling = TalentScaling {
         1.2292, 1.3050, 1.3808, 1.4567,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -117,6 +126,7 @@ const ZHONGLI_CHARGED: TalentScaling = TalentScaling {
         2.5055, 2.6608, 2.8161, 2.9714,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -130,6 +140,7 @@ const ZHONGLI_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const ZHONGLI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8840, 3.0624, 3.2409, 3.4193,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const ZHONGLI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6021, 3.8249, 4.0478, 4.2706,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 地心 (Dominus Lapidis) -- Geo, HP scaling --
@@ -165,6 +178,7 @@ const ZHONGLI_SKILL_STONE_STELE: TalentScaling = TalentScaling {
         0.3200, 0.3400, 0.3600, 0.3800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_SKILL_RESONANCE: TalentScaling = TalentScaling {
@@ -176,6 +190,7 @@ const ZHONGLI_SKILL_RESONANCE: TalentScaling = TalentScaling {
         0.6400, 0.6800, 0.7200, 0.7600,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const ZHONGLI_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -187,6 +202,7 @@ const ZHONGLI_SKILL_HOLD: TalentScaling = TalentScaling {
         1.6000, 1.7000, 1.8000, 1.9000,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 天星 (Planet Befall) -- Geo --
@@ -200,6 +216,7 @@ const ZHONGLI_BURST: TalentScaling = TalentScaling {
         10.2980, 10.8400, 11.3820, 11.9240,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const ZHONGLI: CharacterData = CharacterData {

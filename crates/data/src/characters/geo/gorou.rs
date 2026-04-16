@@ -16,6 +16,7 @@ const GOROU_NORMAL_1: TalentScaling = TalentScaling {
         0.8523, 0.9049, 0.9576, 1.0103,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GOROU_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const GOROU_NORMAL_2: TalentScaling = TalentScaling {
         0.8381, 0.8899, 0.9418, 0.9936,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GOROU_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const GOROU_NORMAL_3: TalentScaling = TalentScaling {
         1.1155, 1.1845, 1.2535, 1.3225,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GOROU_NORMAL_4: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const GOROU_NORMAL_4: TalentScaling = TalentScaling {
         1.3316, 1.4140, 1.4965, 1.5789,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Aimed Shot -- Geo (charged) --
@@ -62,6 +66,7 @@ const GOROU_AIMED: TalentScaling = TalentScaling {
         0.9894, 1.0506, 1.1118, 1.1730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GOROU_AIMED_FULL: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const GOROU_AIMED_FULL: TalentScaling = TalentScaling {
         2.4800, 2.6350, 2.7900, 2.9450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -86,6 +92,7 @@ const GOROU_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GOROU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const GOROU_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GOROU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const GOROU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 犬坂ケ方陣 (Inuzaka All-Round Defense) -- Geo --
@@ -121,6 +130,7 @@ const GOROU_SKILL_DAMAGE: TalentScaling = TalentScaling {
         2.1440, 2.2780, 2.4120, 2.5460,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 獣牙キ突撃 (Juuga: Forward Unto Victory) -- Geo --
@@ -134,6 +144,7 @@ const GOROU_BURST_DAMAGE: TalentScaling = TalentScaling {
         1.9645, 2.0873, 2.2101, 2.3329,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const GOROU_BURST_CRYSTAL: TalentScaling = TalentScaling {
@@ -145,6 +156,7 @@ const GOROU_BURST_CRYSTAL: TalentScaling = TalentScaling {
         1.2264, 1.3031, 1.3797, 1.4563,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const GOROU: CharacterData = CharacterData {

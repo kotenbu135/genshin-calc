@@ -12,6 +12,7 @@ const MONA_NORMAL_1: TalentScaling = TalentScaling {
         0.7520, 0.7990, 0.8460, 0.8930,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MONA_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const MONA_NORMAL_2: TalentScaling = TalentScaling {
         0.7200, 0.7650, 0.8100, 0.8550,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MONA_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const MONA_NORMAL_3: TalentScaling = TalentScaling {
         0.8960, 0.9520, 1.0080, 1.0640,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MONA_NORMAL_4: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const MONA_NORMAL_4: TalentScaling = TalentScaling {
         1.1232, 1.1934, 1.2636, 1.3338,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Hydro (Catalyst) --
@@ -58,6 +62,7 @@ const MONA_CHARGED: TalentScaling = TalentScaling {
         3.0543, 3.2579, 3.4615, 3.6651,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Hydro (Catalyst) --
@@ -71,6 +76,7 @@ const MONA_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MONA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const MONA_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MONA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const MONA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 水中幻願 (Reflection of Doom) -- Hydro --
@@ -106,6 +114,7 @@ const MONA_SKILL_DOT: TalentScaling = TalentScaling {
         0.6400, 0.6800, 0.7200, 0.7600,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MONA_SKILL_EXPLOSION: TalentScaling = TalentScaling {
@@ -117,6 +126,7 @@ const MONA_SKILL_EXPLOSION: TalentScaling = TalentScaling {
         2.6560, 2.8220, 2.9880, 3.1540,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 星命定軌 (Stellaris Phantasm) -- Hydro --
@@ -130,6 +140,7 @@ const MONA_BURST_BUBBLE: TalentScaling = TalentScaling {
         8.8480, 9.4010, 9.9540, 10.5070,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const MONA: CharacterData = CharacterData {

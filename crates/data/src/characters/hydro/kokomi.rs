@@ -12,6 +12,7 @@ const KOKOMI_NORMAL_1: TalentScaling = TalentScaling {
         1.3675, 1.4530, 1.5385, 1.6239,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KOKOMI_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const KOKOMI_NORMAL_2: TalentScaling = TalentScaling {
         1.2308, 1.3077, 1.3846, 1.4615,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KOKOMI_NORMAL_3: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const KOKOMI_NORMAL_3: TalentScaling = TalentScaling {
         1.8861, 2.0040, 2.1219, 2.2398,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Hydro (Catalyst) --
@@ -47,6 +50,7 @@ const KOKOMI_CHARGED: TalentScaling = TalentScaling {
         2.9664, 3.1518, 3.3372, 3.5226,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Hydro (Catalyst) --
@@ -60,6 +64,7 @@ const KOKOMI_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KOKOMI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const KOKOMI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KOKOMI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const KOKOMI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 海月の誓い (Kurage's Oath) -- Hydro --
@@ -95,6 +102,7 @@ const KOKOMI_SKILL_WAVE: TalentScaling = TalentScaling {
         2.1838, 2.3203, 2.4568, 2.5933,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 海人の羽衣 (Nereid's Ascension) -- Hydro --
@@ -108,6 +116,7 @@ const KOKOMI_BURST: TalentScaling = TalentScaling {
         0.19790, 0.20832, 0.22134, 0.23436, 0.24738,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KOKOMI_BURST_NORMAL_BONUS: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const KOKOMI_BURST_NORMAL_BONUS: TalentScaling = TalentScaling {
         0.09196, 0.0968, 0.10285, 0.10890, 0.11495,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KOKOMI_BURST_CHARGED_BONUS: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const KOKOMI_BURST_CHARGED_BONUS: TalentScaling = TalentScaling {
         0.12874, 0.13552, 0.14399, 0.15246, 0.16093,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const KOKOMI_BURST_JELLYFISH_BONUS: TalentScaling = TalentScaling {
@@ -141,6 +152,7 @@ const KOKOMI_BURST_JELLYFISH_BONUS: TalentScaling = TalentScaling {
         0.13483, 0.14193, 0.15080, 0.15967, 0.16854,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const KOKOMI: CharacterData = CharacterData {

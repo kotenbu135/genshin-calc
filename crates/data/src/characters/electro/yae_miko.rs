@@ -15,6 +15,7 @@ const YAE_MIKO_NORMAL_1: TalentScaling = TalentScaling {
         0.7932, 0.8427, 0.8923, 0.9419,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const YAE_MIKO_NORMAL_2: TalentScaling = TalentScaling {
         0.7704, 0.8185, 0.8667, 0.9148,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const YAE_MIKO_NORMAL_3: TalentScaling = TalentScaling {
         1.1378, 1.2089, 1.2800, 1.3511,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Electro --
@@ -50,6 +53,7 @@ const YAE_MIKO_CHARGED: TalentScaling = TalentScaling {
         2.8579, 3.0365, 3.2151, 3.3938,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Electro (Catalyst) --
@@ -63,6 +67,7 @@ const YAE_MIKO_PLUNGE: TalentScaling = TalentScaling {
         1.2820, 1.3612, 1.4405, 1.5198,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -74,6 +79,7 @@ const YAE_MIKO_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.5634, 2.7219, 2.8805, 3.0390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -85,6 +91,7 @@ const YAE_MIKO_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.2018, 3.3998, 3.5979, 3.7959,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 野干役呪・殺生桜 (Yakan Evocation: Sesshou Sakura) -- Electro --
@@ -98,6 +105,7 @@ const YAE_MIKO_SKILL_LV1: TalentScaling = TalentScaling {
         1.2134, 1.2893, 1.3651, 1.4410,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_SKILL_LV2: TalentScaling = TalentScaling {
@@ -109,6 +117,7 @@ const YAE_MIKO_SKILL_LV2: TalentScaling = TalentScaling {
         1.5168, 1.6116, 1.7064, 1.8012,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_SKILL_LV3: TalentScaling = TalentScaling {
@@ -120,6 +129,7 @@ const YAE_MIKO_SKILL_LV3: TalentScaling = TalentScaling {
         1.8960, 2.0145, 2.1330, 2.2515,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_SKILL_LV4: TalentScaling = TalentScaling {
@@ -131,6 +141,7 @@ const YAE_MIKO_SKILL_LV4: TalentScaling = TalentScaling {
         2.3700, 2.5181, 2.6663, 2.8144,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 大密法・天狐顕真 (Great Secret Art: Tenko Kenshin) -- Electro --
@@ -144,6 +155,7 @@ const YAE_MIKO_BURST_SKILL: TalentScaling = TalentScaling {
         5.2000, 5.5250, 5.8500, 6.1750,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YAE_MIKO_BURST_TENKO: TalentScaling = TalentScaling {
@@ -155,6 +167,7 @@ const YAE_MIKO_BURST_TENKO: TalentScaling = TalentScaling {
         6.6763, 7.0936, 7.5109, 7.9281,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const YAE_MIKO: CharacterData = CharacterData {

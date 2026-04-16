@@ -12,6 +12,7 @@ const CANDACE_NORMAL_1: TalentScaling = TalentScaling {
         1.3720, 1.4560, 1.5410, 1.6260,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_NORMAL_2: TalentScaling = TalentScaling {
@@ -23,6 +24,7 @@ const CANDACE_NORMAL_2: TalentScaling = TalentScaling {
         1.3790, 1.4650, 1.5500, 1.6350,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_NORMAL_3A: TalentScaling = TalentScaling {
@@ -34,6 +36,7 @@ const CANDACE_NORMAL_3A: TalentScaling = TalentScaling {
         0.8010, 0.8500, 0.9000, 0.9490,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_NORMAL_3B: TalentScaling = TalentScaling {
@@ -45,6 +48,7 @@ const CANDACE_NORMAL_3B: TalentScaling = TalentScaling {
         0.9780, 1.0390, 1.0990, 1.1600,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_NORMAL_4: TalentScaling = TalentScaling {
@@ -56,6 +60,7 @@ const CANDACE_NORMAL_4: TalentScaling = TalentScaling {
         2.1420, 2.2740, 2.4070, 2.5390,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -69,6 +74,7 @@ const CANDACE_CHARGED: TalentScaling = TalentScaling {
         2.8010, 2.9750, 3.1480, 3.3210,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -82,6 +88,7 @@ const CANDACE_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -93,6 +100,7 @@ const CANDACE_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8838, 3.0622, 3.2405, 3.4189,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -104,6 +112,7 @@ const CANDACE_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6020, 3.8248, 4.0476, 4.2704,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 聖儀·蒼鷺による庇護 (Sacred Rite: Heron's Sanctum) -- Hydro --
@@ -117,6 +126,7 @@ const CANDACE_SKILL_PRESS: TalentScaling = TalentScaling {
         0.2400, 0.2550, 0.2700, 0.2850,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_SKILL_HOLD: TalentScaling = TalentScaling {
@@ -128,6 +138,7 @@ const CANDACE_SKILL_HOLD: TalentScaling = TalentScaling {
         0.3808, 0.4046, 0.4284, 0.4522,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 聖儀·灰鴒の呼び潮 (Sacred Rite: Wagtail's Tide) -- Hydro --
@@ -141,6 +152,7 @@ const CANDACE_BURST: TalentScaling = TalentScaling {
         0.1322, 0.1405, 0.1487, 0.1570,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const CANDACE_BURST_WAVE: TalentScaling = TalentScaling {
@@ -152,6 +164,7 @@ const CANDACE_BURST_WAVE: TalentScaling = TalentScaling {
         0.1322, 0.1405, 0.1487, 0.1570,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const CANDACE: CharacterData = CharacterData {

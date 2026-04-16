@@ -14,6 +14,7 @@ const MIZUKI_NORMAL_1: TalentScaling = TalentScaling {
         0.940982, 0.993259, 1.045536, 1.110882, 1.176228, 1.241574,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIZUKI_NORMAL_2: TalentScaling = TalentScaling {
@@ -25,6 +26,7 @@ const MIZUKI_NORMAL_2: TalentScaling = TalentScaling {
         0.844459, 0.891374, 0.938288, 0.996931, 1.055574, 1.114217,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIZUKI_NORMAL_3: TalentScaling = TalentScaling {
@@ -36,6 +38,7 @@ const MIZUKI_NORMAL_3: TalentScaling = TalentScaling {
         1.284638, 1.356007, 1.427376, 1.516587, 1.605798, 1.695009,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Anemo (Catalyst) --
@@ -49,6 +52,7 @@ const MIZUKI_CHARGED: TalentScaling = TalentScaling {
         3.0875,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Anemo (Catalyst) --
@@ -62,6 +66,7 @@ const MIZUKI_PLUNGE: TalentScaling = TalentScaling {
         1.12336, 1.202656, 1.281952, 1.361248, 1.440544, 1.51984,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIZUKI_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const MIZUKI_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.246244, 2.404802, 2.563361, 2.721919, 2.880478, 3.039036,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIZUKI_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -84,6 +90,7 @@ const MIZUKI_PLUNGE_HIGH: TalentScaling = TalentScaling {
         2.80568, 3.003728, 3.201776, 3.399824, 3.597872, 3.79592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: Aisa Utamakura Pilgrimage -- Anemo --
@@ -97,6 +104,7 @@ const MIZUKI_SKILL: TalentScaling = TalentScaling {
         1.039392, 1.097136, 1.15488, 1.22706, 1.29924, 1.37142,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIZUKI_SKILL_CONTINUOUS: TalentScaling = TalentScaling {
@@ -108,6 +116,7 @@ const MIZUKI_SKILL_CONTINUOUS: TalentScaling = TalentScaling {
         0.808416, 0.853328, 0.89824, 0.95438, 1.01052, 1.06666,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: Anraku Secret Spring Therapy -- Anemo --
@@ -121,6 +130,7 @@ const MIZUKI_BURST: TalentScaling = TalentScaling {
         1.78752, 1.8816, 1.9992, 2.1168, 2.2344,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MIZUKI_BURST_SHOCKWAVE: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const MIZUKI_BURST_SHOCKWAVE: TalentScaling = TalentScaling {
         1.34064, 1.4112, 1.4994, 1.5876, 1.6758,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const MIZUKI: CharacterData = CharacterData {

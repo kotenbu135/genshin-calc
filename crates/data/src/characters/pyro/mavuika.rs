@@ -16,6 +16,7 @@ const MAVUIKA_NORMAL_1: TalentScaling = TalentScaling {
         1.8054, 1.9171, 2.0288, 2.1405,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_NORMAL_2A: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const MAVUIKA_NORMAL_2A: TalentScaling = TalentScaling {
         0.8229, 0.8738, 0.9247, 0.9756,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_NORMAL_2B: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const MAVUIKA_NORMAL_2B: TalentScaling = TalentScaling {
         0.8229, 0.8738, 0.9247, 0.9756,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_NORMAL_3A: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const MAVUIKA_NORMAL_3A: TalentScaling = TalentScaling {
         0.7495, 0.7958, 0.8422, 0.8885,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_NORMAL_3B: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const MAVUIKA_NORMAL_3B: TalentScaling = TalentScaling {
         0.7495, 0.7958, 0.8422, 0.8885,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_NORMAL_3C: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const MAVUIKA_NORMAL_3C: TalentScaling = TalentScaling {
         0.7495, 0.7958, 0.8422, 0.8885,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_NORMAL_4: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const MAVUIKA_NORMAL_4: TalentScaling = TalentScaling {
         2.6211, 2.7832, 2.9454, 3.1075,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -95,6 +102,7 @@ const MAVUIKA_CHARGED: TalentScaling = TalentScaling {
         4.3728, 4.6432, 4.9137, 5.1842,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -108,6 +116,7 @@ const MAVUIKA_PLUNGE: TalentScaling = TalentScaling {
         1.6826, 1.7866, 1.8907, 1.9948,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const MAVUIKA_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const MAVUIKA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: その名の瞬間 (The Named Moment) -- Pyro --
@@ -143,6 +154,7 @@ const MAVUIKA_SKILL: TalentScaling = TalentScaling {
         1.4880, 1.5810, 1.6740, 1.7670,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_RING: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const MAVUIKA_SKILL_RING: TalentScaling = TalentScaling {
         2.5600, 2.7200, 2.8800, 3.0400,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_N1: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_N1: TalentScaling = TalentScaling {
         1.2918, 1.3717, 1.4516, 1.5315,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_N2: TalentScaling = TalentScaling {
@@ -176,6 +190,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_N2: TalentScaling = TalentScaling {
         1.3339, 1.4164, 1.4989, 1.5815,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_N3: TalentScaling = TalentScaling {
@@ -187,6 +202,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_N3: TalentScaling = TalentScaling {
         1.5788, 1.6764, 1.7741, 1.8717,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_N4: TalentScaling = TalentScaling {
@@ -198,6 +214,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_N4: TalentScaling = TalentScaling {
         1.5724, 1.6697, 1.7669, 1.8642,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_N5: TalentScaling = TalentScaling {
@@ -209,6 +226,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_N5: TalentScaling = TalentScaling {
         2.0529, 2.1799, 2.3068, 2.4338,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_SPRINT: TalentScaling = TalentScaling {
@@ -220,6 +238,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_SPRINT: TalentScaling = TalentScaling {
         1.8236, 1.9364, 2.0492, 2.1620,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_CYCLIC: TalentScaling = TalentScaling {
@@ -231,6 +250,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_CYCLIC: TalentScaling = TalentScaling {
         2.2310, 2.3690, 2.5070, 2.6450,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -242,6 +262,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_CHARGED_FINAL: TalentScaling = TalentScaling {
         3.1040, 3.2960, 3.4880, 3.6800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const MAVUIKA_SKILL_FLAMESTRIDER_PLUNGE: TalentScaling = TalentScaling {
@@ -253,6 +274,7 @@ const MAVUIKA_SKILL_FLAMESTRIDER_PLUNGE: TalentScaling = TalentScaling {
         3.6084, 3.8316, 4.0548, 4.2780,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 焼天の時 (Hour of Burning Skies) -- Pyro --
@@ -275,6 +297,7 @@ const MAVUIKA_BURST: TalentScaling = TalentScaling {
         8.8960, 9.4520, 10.0080, 10.5640,
     ],
     dynamic_bonus: Some(&MAVUIKA_BURST_FIGHTING_SPIRIT),
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const MAVUIKA: CharacterData = CharacterData {

@@ -15,6 +15,7 @@ const BEIDOU_NORMAL_1: TalentScaling = TalentScaling {
         1.6533, 1.7871, 1.9208, 2.0667,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_NORMAL_2: TalentScaling = TalentScaling {
@@ -26,6 +27,7 @@ const BEIDOU_NORMAL_2: TalentScaling = TalentScaling {
         1.6473, 1.7806, 1.9138, 2.0592,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_NORMAL_3: TalentScaling = TalentScaling {
@@ -37,6 +39,7 @@ const BEIDOU_NORMAL_3: TalentScaling = TalentScaling {
         2.0532, 2.2192, 2.3853, 2.5665,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_NORMAL_4: TalentScaling = TalentScaling {
@@ -48,6 +51,7 @@ const BEIDOU_NORMAL_4: TalentScaling = TalentScaling {
         2.0112, 2.1739, 2.3365, 2.5140,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_NORMAL_5: TalentScaling = TalentScaling {
@@ -59,6 +63,7 @@ const BEIDOU_NORMAL_5: TalentScaling = TalentScaling {
         2.6070, 2.8178, 3.0287, 3.2587,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -72,6 +77,7 @@ const BEIDOU_CHARGED_SPINNING: TalentScaling = TalentScaling {
         1.2688, 1.3473, 1.4258, 1.5043,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_CHARGED_FINAL: TalentScaling = TalentScaling {
@@ -83,6 +89,7 @@ const BEIDOU_CHARGED_FINAL: TalentScaling = TalentScaling {
         2.2972, 2.4394, 2.5816, 2.7238,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -96,6 +103,7 @@ const BEIDOU_PLUNGE: TalentScaling = TalentScaling {
         1.6827, 1.7869, 1.8910, 1.9952,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -107,6 +115,7 @@ const BEIDOU_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -118,6 +127,7 @@ const BEIDOU_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 捉浪 (Tidecaller) -- Electro --
@@ -131,6 +141,7 @@ const BEIDOU_SKILL_BASE: TalentScaling = TalentScaling {
         2.4320, 2.5840, 2.7360, 2.8880,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_SKILL_HIT_BONUS: TalentScaling = TalentScaling {
@@ -142,6 +153,7 @@ const BEIDOU_SKILL_HIT_BONUS: TalentScaling = TalentScaling {
         3.2000, 3.4000, 3.6000, 3.8000,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 斫雷 (Stormbreaker) -- Electro --
@@ -155,6 +167,7 @@ const BEIDOU_BURST_SKILL: TalentScaling = TalentScaling {
         2.4320, 2.5840, 2.7360, 2.8880,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const BEIDOU_BURST_LIGHTNING: TalentScaling = TalentScaling {
@@ -166,6 +179,7 @@ const BEIDOU_BURST_LIGHTNING: TalentScaling = TalentScaling {
         1.9200, 2.0400, 2.1600, 2.2800,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const BEIDOU: CharacterData = CharacterData {

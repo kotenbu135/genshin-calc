@@ -16,6 +16,7 @@ const VARESA_NORMAL_1: TalentScaling = TalentScaling {
         0.9360, 0.9940, 1.0530, 1.1110,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const VARESA_NORMAL_2: TalentScaling = TalentScaling {
         0.8010, 0.8510, 0.9010, 0.9510,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_NORMAL_3: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const VARESA_NORMAL_3: TalentScaling = TalentScaling {
         1.1260, 1.1970, 1.2670, 1.3370,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Fiery Passion State --
@@ -51,6 +54,7 @@ const VARESA_PASSION_NORMAL_1: TalentScaling = TalentScaling {
         1.0880, 1.1560, 1.2240, 1.2920,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_PASSION_NORMAL_2: TalentScaling = TalentScaling {
@@ -62,6 +66,7 @@ const VARESA_PASSION_NORMAL_2: TalentScaling = TalentScaling {
         1.0410, 1.1060, 1.1710, 1.2360,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_PASSION_NORMAL_3: TalentScaling = TalentScaling {
@@ -73,6 +78,7 @@ const VARESA_PASSION_NORMAL_3: TalentScaling = TalentScaling {
         1.4720, 1.5640, 1.6560, 1.7480,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Electro --
@@ -86,6 +92,7 @@ const VARESA_CHARGED: TalentScaling = TalentScaling {
         1.7860, 1.8970, 2.0090, 2.1200,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_PASSION_CHARGED: TalentScaling = TalentScaling {
@@ -97,6 +104,7 @@ const VARESA_PASSION_CHARGED: TalentScaling = TalentScaling {
         1.8528, 1.9686, 2.0844, 2.2002,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Electro (Catalyst) --
@@ -110,6 +118,7 @@ const VARESA_PLUNGE: TalentScaling = TalentScaling {
         1.6827, 1.7869, 1.8910, 1.9952,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -121,6 +130,7 @@ const VARESA_PLUNGE_LOW: TalentScaling = TalentScaling {
         3.3644, 3.5725, 3.7806, 3.9887,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -132,6 +142,7 @@ const VARESA_PLUNGE_HIGH: TalentScaling = TalentScaling {
         4.2023, 4.4623, 4.7222, 4.9821,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // Fiery Passion plunge variants (higher damage)
@@ -144,6 +155,7 @@ const VARESA_PASSION_PLUNGE_LOW: TalentScaling = TalentScaling {
         5.0470, 5.3590, 5.6710, 5.9830,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_PASSION_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -155,6 +167,7 @@ const VARESA_PASSION_PLUNGE_HIGH: TalentScaling = TalentScaling {
         6.3030, 6.6930, 7.0830, 7.4730,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 夜虹乗り (Riding the Night-Rainbow) -- Electro --
@@ -168,6 +181,7 @@ const VARESA_SKILL_RUSH: TalentScaling = TalentScaling {
         1.4900, 1.5830, 1.6760, 1.7690,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_SKILL_PASSION_RUSH: TalentScaling = TalentScaling {
@@ -179,6 +193,7 @@ const VARESA_SKILL_PASSION_RUSH: TalentScaling = TalentScaling {
         2.1280, 2.2610, 2.3940, 2.5270,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: ガーディアンベント! (Guardian Vent!) -- Electro --
@@ -192,6 +207,7 @@ const VARESA_BURST_KICK: TalentScaling = TalentScaling {
         6.9024, 7.3338, 7.7652, 8.1966,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_BURST_PASSION_KICK: TalentScaling = TalentScaling {
@@ -203,6 +219,7 @@ const VARESA_BURST_PASSION_KICK: TalentScaling = TalentScaling {
         11.5040, 12.2230, 12.9420, 13.6610,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const VARESA_BURST_VOLCANO: TalentScaling = TalentScaling {
@@ -214,6 +231,7 @@ const VARESA_BURST_VOLCANO: TalentScaling = TalentScaling {
         8.0530, 8.5560, 9.0590, 9.5630,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const VARESA: CharacterData = CharacterData {

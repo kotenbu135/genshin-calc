@@ -16,6 +16,7 @@ const YUN_JIN_NORMAL_1: TalentScaling = TalentScaling {
         0.9138, 0.9703, 1.0269, 1.0834,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_NORMAL_2: TalentScaling = TalentScaling {
@@ -27,6 +28,7 @@ const YUN_JIN_NORMAL_2: TalentScaling = TalentScaling {
         0.9079, 0.9641, 1.0202, 1.0764,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_NORMAL_3_1: TalentScaling = TalentScaling {
@@ -38,6 +40,7 @@ const YUN_JIN_NORMAL_3_1: TalentScaling = TalentScaling {
         0.5181, 0.5501, 0.5821, 0.6141,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_NORMAL_3_2: TalentScaling = TalentScaling {
@@ -49,6 +52,7 @@ const YUN_JIN_NORMAL_3_2: TalentScaling = TalentScaling {
         0.6213, 0.6597, 0.6981, 0.7365,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_NORMAL_4_1: TalentScaling = TalentScaling {
@@ -60,6 +64,7 @@ const YUN_JIN_NORMAL_4_1: TalentScaling = TalentScaling {
         0.5413, 0.5748, 0.6082, 0.6417,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_NORMAL_4_2: TalentScaling = TalentScaling {
@@ -71,6 +76,7 @@ const YUN_JIN_NORMAL_4_2: TalentScaling = TalentScaling {
         0.6499, 0.6901, 0.7303, 0.7705,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_NORMAL_5: TalentScaling = TalentScaling {
@@ -82,6 +88,7 @@ const YUN_JIN_NORMAL_5: TalentScaling = TalentScaling {
         1.5200, 1.6144, 1.7087, 1.8031,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Charged Attack -- Physical --
@@ -95,6 +102,7 @@ const YUN_JIN_CHARGED: TalentScaling = TalentScaling {
         2.8289, 3.0577, 3.2865, 3.5361,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Plunging Attack -- Physical --
@@ -108,6 +116,7 @@ const YUN_JIN_PLUNGE: TalentScaling = TalentScaling {
         1.4422, 1.5314, 1.6206, 1.7098,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_PLUNGE_LOW: TalentScaling = TalentScaling {
@@ -119,6 +128,7 @@ const YUN_JIN_PLUNGE_LOW: TalentScaling = TalentScaling {
         2.8840, 3.0624, 3.2409, 3.4193,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_PLUNGE_HIGH: TalentScaling = TalentScaling {
@@ -130,6 +140,7 @@ const YUN_JIN_PLUNGE_HIGH: TalentScaling = TalentScaling {
         3.6021, 3.8249, 4.0478, 4.2706,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Skill: 旋雲キ開相 (Opening Flourish) -- Geo, DEF scaling --
@@ -143,6 +154,7 @@ const YUN_JIN_SKILL_PRESS: TalentScaling = TalentScaling {
         2.9824, 3.1688, 3.3552, 3.5416,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_SKILL_CHARGE_1: TalentScaling = TalentScaling {
@@ -154,6 +166,7 @@ const YUN_JIN_SKILL_CHARGE_1: TalentScaling = TalentScaling {
         5.2160, 5.5420, 5.8680, 6.1940,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_SKILL_CHARGE_2: TalentScaling = TalentScaling {
@@ -165,6 +178,7 @@ const YUN_JIN_SKILL_CHARGE_2: TalentScaling = TalentScaling {
         7.4496, 7.9152, 8.3808, 8.8464,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 // -- Elemental Burst: 破嶂キ旌儀 (Cliffbreaker's Banner) -- Geo, DEF scaling --
@@ -178,6 +192,7 @@ const YUN_JIN_BURST_DAMAGE: TalentScaling = TalentScaling {
         4.8800, 5.1850, 5.4900, 5.7950,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 const YUN_JIN_BURST_DMG_BONUS: TalentScaling = TalentScaling {
@@ -189,6 +204,7 @@ const YUN_JIN_BURST_DMG_BONUS: TalentScaling = TalentScaling {
         0.6432, 0.6834, 0.7236, 0.7638,
     ],
     dynamic_bonus: None,
+    damage_pipeline: DamagePipeline::Standard,
 };
 
 pub const YUN_JIN: CharacterData = CharacterData {
