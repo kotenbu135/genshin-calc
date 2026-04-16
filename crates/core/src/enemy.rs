@@ -40,15 +40,11 @@ pub fn apply_enemy_debuffs(
 
     for buff in buffs {
         match buff.stat {
-            BuffableStat::ElementalResReduction(e) => {
-                if element == Some(e) {
-                    res_reduction += buff.value;
-                }
+            BuffableStat::ElementalResReduction(e) if element == Some(e) => {
+                res_reduction += buff.value;
             }
-            BuffableStat::PhysicalResReduction => {
-                if element.is_none() {
-                    res_reduction += buff.value;
-                }
+            BuffableStat::PhysicalResReduction if element.is_none() => {
+                res_reduction += buff.value;
             }
             BuffableStat::DefReduction => {
                 def_reduction_add += buff.value;
