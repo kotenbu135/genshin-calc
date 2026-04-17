@@ -421,6 +421,8 @@ fn dedup_by_origin(buffs: &mut Vec<ResolvedBuff>) {
 ///     buffs_provided: vec![],
 ///     is_moonsign: false,
 ///     can_nightsoul: false,
+///     moonsign_benediction: None,
+///     moonsign_talent_enhancements: &[],
 /// };
 /// let result = resolve_team_stats(&[member], 0, &[]).unwrap();
 /// assert!(result.final_stats.atk > 0.0);
