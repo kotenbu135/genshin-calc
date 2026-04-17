@@ -21,6 +21,20 @@
 - チームエネルギー合計系武器（AKUOUMARU/WAVEBREAKERS_FIN/MOUUNS_MOON）はToggle使用（StatScalingは単一キャラのstat参照のみ）
 - `team_builder.rs`注意: `Both(auto, manual)`はauto_valをeval_manualのbase_valueとして渡す。Toggle→auto_val返却、Stacks→auto_val×n
 
+## Moonsign Effect Routing Policy (#144)
+月兆キャラの効果は2系統あるが、**1効果につき1箇所のみ**に登録すること。両方に書くと #143 の moonsign enhancement pipeline によって二重加算される。
+
+- **Moonsign level gated** (Nascent/Ascendant Gleam 条件付き) → `moonsign_chars.rs::*_TALENT_ENHANCEMENTS`
+  - 例: Flins A1 "Symphony of Winter" (Ascendant Gleam で +20%), Aino C6 (Nascent +15% / Ascendant +35%), Lauma A1 crit grants, Nefer A1 EM+100
+  - `resolve_team_stats` がチームレベル判定後に自動配線 (`StatBuff` → `applied_buffs`, `ReactionDmgBonus` → `damage_context.reaction_dmg_bonuses`)
+  - `GrantReactionCrit` のみ `apply_moonsign_enhancements` 経由で lunar pipeline に手動適用必要
+  - reaction 複数対象の場合は個別エントリに展開すること (`ReactionDmgBonus` が単一 reaction のみ受け付けるため)
+- **Level gate 無依存** (凸・天賦レベルのみ条件) → `talent_buffs/<element>.rs::TalentBuffDef`
+  - 例: Flins C6 self/team (C6 単独条件), Columbina C4/C6, Nefer C6 lunar bloom +15%
+  - reaction 単一ターゲティングには `BuffableStat::ReactionDmgBonus(reaction)` を使用 (`TransformativeBonus` は全変化反応に波及するため対象外)
+
+新規月兆効果追加時は上記 routing decision を PR description に明記すること。
+
 ## Critical Change Warning
 - `DamageInput`/`LunarInput`/`TeamMember`変更時は全構築箇所（テスト・docコメント・README・examples含む）を一括修正すること（コンパイル不能防止）
 - `TalentBuffDef.name`変更時は全`.activate()`呼び出し箇所をGrepで検索・一括更新すること（テスト内の`.activate("旧名")`が残ると実行時に無視される）

@@ -52,40 +52,35 @@ fn test_ororon_total_buff_count() {
     );
 }
 
-// ===== Issue #107: Flins A1 "Symphony of Winter" Lunar-Charged DMG +20% =====
+// ===== Issue #107 / #144: Flins A1 "Symphony of Winter" Lunar-Charged DMG +20% =====
+// Canonical location moved to moonsign_chars.rs::FLINS_TALENT_ENHANCEMENTS (Issue
+// #144). The talent_buffs/electro.rs duplicate was removed to avoid double-count
+// after the moonsign enhancement pipeline (Issue #143) started auto-applying
+// moonsign-level-gated effects.
 
-/// Flins A1 should grant Lunar-Charged DMG +20% (TransformativeBonus, OnlySelf, Toggle)
+/// Flins A1 must live in moonsign_chars.rs and NOT in talent_buffs/.
 #[test]
-fn test_flins_a1_symphony_of_winter_lunar_charged_dmg() {
+fn test_flins_a1_is_not_in_talent_buffs() {
     let buffs = find_talent_buffs("flins").expect("flins buffs not found");
     let a1_buff = buffs
         .iter()
-        .find(|b| b.source == TalentBuffSource::AscensionPassive(1))
-        .expect("Flins A1 buff not found");
-    assert_eq!(
-        a1_buff.stat,
-        BuffableStat::TransformativeBonus,
-        "Flins A1 should use TransformativeBonus for Lunar-Charged DMG"
-    );
+        .find(|b| b.source == TalentBuffSource::AscensionPassive(1));
     assert!(
-        (a1_buff.base_value - 0.20).abs() < EPS,
-        "Flins A1 should be +20%"
-    );
-    assert_eq!(a1_buff.target, BuffTarget::OnlySelf);
-    assert_eq!(
-        a1_buff.activation,
-        Some(Activation::Manual(ManualCondition::Toggle))
+        a1_buff.is_none(),
+        "Flins A1 is moonsign-level-gated and must live in \
+         moonsign_chars.rs::FLINS_TALENT_ENHANCEMENTS, not talent_buffs/"
     );
 }
 
-/// Flins should now have 7 buffs (A1 new, A4, C4 ATK, C4 A4 enhance, C2 res, C6 self, C6 team)
+/// Flins should have 6 talent_buffs entries after A1 was moved out:
+/// A4, C4 ATK, C4 A4 enhance, C2 res, C6 self, C6 team.
 #[test]
 fn test_flins_total_buff_count() {
     let buffs = find_talent_buffs("flins").expect("flins buffs not found");
     assert_eq!(
         buffs.len(),
-        7,
-        "Flins should have 7 buffs (A1 + existing 6)"
+        6,
+        "Flins should have 6 talent_buffs (A1 moved to moonsign_chars.rs)"
     );
 }
 
