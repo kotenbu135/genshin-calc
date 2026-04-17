@@ -134,10 +134,11 @@ pub use lunar::{
     DirectLunarInput, LunarInput, LunarResult, calculate_direct_lunar, calculate_lunar,
 };
 pub use moonsign::{
-    LunarContribution, MoonsignBenediction, MoonsignContext, MoonsignLevel, MoonsignTalentEffect,
-    MoonsignTalentEnhancement, NonMoonsignLunarBuff, apply_moonsign_enhancements,
-    calculate_lunar_team, calculate_non_moonsign_bonus, determine_moonsign_level,
-    non_moonsign_scaling, resolve_moonsign_context, select_non_moonsign_buff,
+    LunarContribution, MoonsignBenediction, MoonsignBenedictionSpec, MoonsignContext,
+    MoonsignLevel, MoonsignTalentEffect, MoonsignTalentEnhancement, NonMoonsignLunarBuff,
+    apply_moonsign_enhancements, calculate_lunar_team, calculate_non_moonsign_bonus,
+    determine_moonsign_level, non_moonsign_scaling, resolve_moonsign_context,
+    select_non_moonsign_buff,
 };
 pub use reaction::{Reaction, ReactionCategory, determine_reaction};
 pub use resonance::{

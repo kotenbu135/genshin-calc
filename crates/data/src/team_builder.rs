@@ -224,6 +224,15 @@ impl TeamMemberBuilder {
             buffs_provided: buffs,
             is_moonsign: is_moonsign_character(self.character.id),
             can_nightsoul: is_nightsoul_character(self.character.id),
+            moonsign_benediction: crate::moonsign_chars::find_moonsign_benediction(
+                self.character.id,
+            )
+            .map(|def| genshin_calc_core::MoonsignBenedictionSpec {
+                enabled_reactions: def.enabled_reactions.to_vec(),
+                scaling_stat: def.scaling_stat,
+                rate: def.rate,
+                max_bonus: def.max_bonus,
+            }),
         }
     }
 

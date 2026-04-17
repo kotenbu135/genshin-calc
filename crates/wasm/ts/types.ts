@@ -166,6 +166,13 @@ export interface ResolvedBuff {
   target: BuffTarget;
 }
 
+export interface MoonsignBenedictionSpec {
+  enabled_reactions: Reaction[];
+  scaling_stat: ScalingStat | null;
+  rate: number;
+  max_bonus: number;
+}
+
 export interface TeamMember {
   element: Element;
   weapon_type: WeaponType;
@@ -173,6 +180,24 @@ export interface TeamMember {
   buffs_provided: ResolvedBuff[];
   is_moonsign: boolean;
   can_nightsoul: boolean;
+  moonsign_benediction?: MoonsignBenedictionSpec | null;
+}
+
+export type MoonsignLevel = "None" | "NascentGleam" | "AscendantGleam";
+
+/**
+ * Team-level Moonsign context, exposed via `resolve_team_stats` / `TeamResolveResult`.
+ * Use `base_dmg_bonus_by_reaction` to obtain the per-reaction Base DMG Bonus
+ * that must be passed to `LunarInput.base_dmg_bonus` / `DirectLunarInput.base_dmg_bonus`.
+ * Use `non_moonsign_lunar_bonus` as `reaction_bonus` for non-moonsign members at AscendantGleam.
+ */
+export interface MoonsignContext {
+  level: MoonsignLevel;
+  base_dmg_bonus_by_reaction: Array<[Reaction, number]>;
+  non_moonsign_lunar_bonus: number;
+  // talent_enhancements contains `&'static str` fields (Rust-only); serialized
+  // form is available but not deserializable.
+  talent_enhancements: unknown[];
 }
 
 // === GOOD Import Types ===
@@ -379,4 +404,20 @@ export interface WeaponData {
 export interface ArtifactSetData {
   id: string;
   name: string;
+}
+
+
+/**
+ * Return type of `resolve_team_stats`. Includes the team-level Moonsign context
+ * (Issue #142) so JS/TS consumers can obtain `base_dmg_bonus_by_reaction` to
+ * feed into `LunarInput.base_dmg_bonus` / `DirectLunarInput.base_dmg_bonus`.
+ */
+export interface TeamResolveResult {
+  base_stats: Stats;
+  applied_buffs: ResolvedBuff[];
+  resonances: string[];
+  final_stats: Stats;
+  damage_context: unknown;
+  enemy_debuffs: unknown;
+  moonsign_context: MoonsignContext;
 }

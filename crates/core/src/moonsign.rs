@@ -28,6 +28,41 @@ pub struct MoonsignBenediction {
     pub enabled_reactions: Vec<Reaction>,
 }
 
+/// Scaling specification for a Moonsign Benediction passive, attached to a
+/// [`crate::TeamMember`]. The final `base_dmg_bonus` is derived from the
+/// member's own stats at team resolution time.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MoonsignBenedictionSpec {
+    /// Lunar reaction types this character enables.
+    pub enabled_reactions: Vec<Reaction>,
+    /// Stat used for bonus scaling. `None` = no personal scaling (e.g. Aino).
+    pub scaling_stat: Option<ScalingStat>,
+    /// Rate per 1 unit of stat.
+    pub rate: f64,
+    /// Maximum bonus value (cap, decimal form).
+    pub max_bonus: f64,
+}
+
+impl MoonsignBenedictionSpec {
+    /// Resolve the spec against a member's stats into a [`MoonsignBenediction`].
+    #[must_use]
+    pub fn resolve(&self, stats: &crate::stats::Stats) -> MoonsignBenediction {
+        let bonus = match self.scaling_stat {
+            Some(ScalingStat::Atk) | Some(ScalingStat::TotalAtk) => {
+                (self.rate * stats.atk).min(self.max_bonus)
+            }
+            Some(ScalingStat::Hp) => (self.rate * stats.hp).min(self.max_bonus),
+            Some(ScalingStat::Def) => (self.rate * stats.def).min(self.max_bonus),
+            Some(ScalingStat::Em) => (self.rate * stats.elemental_mastery).min(self.max_bonus),
+            Some(ScalingStat::CritRate) | None => 0.0,
+        };
+        MoonsignBenediction {
+            base_dmg_bonus: bonus,
+            enabled_reactions: self.enabled_reactions.clone(),
+        }
+    }
+}
+
 /// Moonsign-level dependent talent enhancement.
 ///
 /// Note: only `Serialize` is derived (not `Deserialize`) because `&'static str`

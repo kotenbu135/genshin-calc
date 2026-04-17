@@ -1354,6 +1354,7 @@ fn cross_team_bennett_buff_consistency() {
         buffs_provided: vec![],
         is_moonsign: false,
         can_nightsoul: false,
+        moonsign_benediction: None,
     };
 
     let dps2 = TeamMember {
@@ -1371,6 +1372,7 @@ fn cross_team_bennett_buff_consistency() {
         buffs_provided: vec![],
         is_moonsign: false,
         can_nightsoul: false,
+        moonsign_benediction: None,
     };
 
     let team1 = [bennett.clone(), dps1];
