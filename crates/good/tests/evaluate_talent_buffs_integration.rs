@@ -75,6 +75,7 @@ fn test_pipeline_build_member_stats_to_resolve_team() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
 
     let result = genshin_calc_core::resolve_team_stats(&[member], 0, &[]);

@@ -31,6 +31,7 @@ fn test_team_resolve_result_has_moonsign_context_field() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
     let result = resolve_team_stats(&[member], 0, &[]).unwrap();
     assert_eq!(result.moonsign_context.level, MoonsignLevel::None);
@@ -58,6 +59,7 @@ fn test_ineffa_solo_exposes_lunar_ec_base_dmg_bonus() {
             rate: 0.00007,
             max_bonus: 0.14,
         }),
+        moonsign_talent_enhancements: &[],
     };
     let result = resolve_team_stats(&[member], 0, &[]).unwrap();
     assert_eq!(result.moonsign_context.level, MoonsignLevel::NascentGleam);
@@ -84,6 +86,7 @@ fn test_two_moonsign_team_ascendant_gleam() {
             rate: 0.00007,
             max_bonus: 0.14,
         }),
+        moonsign_talent_enhancements: &[],
     };
     let columbina = TeamMember {
         element: Element::Hydro,
@@ -105,6 +108,7 @@ fn test_two_moonsign_team_ascendant_gleam() {
             rate: 0.000002,
             max_bonus: 0.07,
         }),
+        moonsign_talent_enhancements: &[],
     };
     let result = resolve_team_stats(&[ineffa, columbina], 0, &[]).unwrap();
     assert_eq!(result.moonsign_context.level, MoonsignLevel::AscendantGleam);
@@ -136,6 +140,7 @@ fn test_non_moonsign_lunar_bonus_computed_for_non_moonsign_members() {
             rate: 0.00007,
             max_bonus: 0.14,
         }),
+        moonsign_talent_enhancements: &[],
     };
     let columbina = TeamMember {
         element: Element::Hydro,
@@ -150,6 +155,7 @@ fn test_non_moonsign_lunar_bonus_computed_for_non_moonsign_members() {
             rate: 0.000002,
             max_bonus: 0.07,
         }),
+        moonsign_talent_enhancements: &[],
     };
     let pyro_dps = TeamMember {
         element: Element::Pyro,
@@ -159,6 +165,7 @@ fn test_non_moonsign_lunar_bonus_computed_for_non_moonsign_members() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
     let result = resolve_team_stats(&[ineffa, columbina, pyro_dps], 0, &[]).unwrap();
     assert!(
@@ -184,6 +191,7 @@ fn test_non_moonsign_lunar_bonus_zero_at_nascent_gleam() {
             rate: 0.00007,
             max_bonus: 0.14,
         }),
+        moonsign_talent_enhancements: &[],
     };
     let pyro_dps = TeamMember {
         element: Element::Pyro,
@@ -193,6 +201,7 @@ fn test_non_moonsign_lunar_bonus_zero_at_nascent_gleam() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
     let result = resolve_team_stats(&[ineffa, pyro_dps], 0, &[]).unwrap();
     assert!((result.moonsign_context.non_moonsign_lunar_bonus - 0.0).abs() < EPSILON);

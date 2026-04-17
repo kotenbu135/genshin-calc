@@ -285,7 +285,9 @@ pub fn apply_moonsign_enhancements(
                 }
             }
             MoonsignTalentEffect::StatBuff { .. } => {
-                // StatBuff is applied at the stat-profile level, not directly to LunarInput
+                // StatBuff is routed through `resolve_team_stats` into
+                // `applied_buffs` / `final_stats` (Issue #143), not through
+                // this per-lunar-input helper.
             }
         }
     }

@@ -4,7 +4,8 @@ use crate::buff_types::BuffableStat;
 use crate::enemy::{EnemyDebuffs, collect_enemy_debuffs};
 use crate::error::CalcError;
 use crate::moonsign::{
-    MoonsignBenediction, MoonsignContext, non_moonsign_scaling, resolve_moonsign_context,
+    MoonsignBenediction, MoonsignContext, MoonsignLevel, MoonsignTalentEffect,
+    MoonsignTalentEnhancement, non_moonsign_scaling, resolve_moonsign_context,
 };
 use crate::reaction::{Reaction, ReactionCategory};
 use crate::resonance::{
@@ -61,6 +62,22 @@ pub struct TeamMember {
     /// Used by `resolve_team_stats` to build [`crate::MoonsignContext`].
     #[serde(default)]
     pub moonsign_benediction: Option<crate::moonsign::MoonsignBenedictionSpec>,
+    /// All Moonsign talent enhancements this character may contribute, including
+    /// every `required_level`. `resolve_team_stats` filters by the resolved team
+    /// level and routes `StatBuff` / `ReactionDmgBonus` effects into
+    /// `applied_buffs` / `damage_context` automatically. `GrantReactionCrit`
+    /// effects remain in `moonsign_context.talent_enhancements` and must be
+    /// applied at the lunar pipeline via `apply_moonsign_enhancements`.
+    #[serde(
+        skip_serializing,
+        skip_deserializing,
+        default = "empty_moonsign_enhancements"
+    )]
+    pub moonsign_talent_enhancements: &'static [crate::moonsign::MoonsignTalentEnhancement],
+}
+
+fn empty_moonsign_enhancements() -> &'static [crate::moonsign::MoonsignTalentEnhancement] {
+    &[]
 }
 
 /// Aggregated attack-type-specific DMG bonuses, flat DMG, and reaction bonuses
@@ -404,6 +421,8 @@ fn dedup_by_origin(buffs: &mut Vec<ResolvedBuff>) {
 ///     buffs_provided: vec![],
 ///     is_moonsign: false,
 ///     can_nightsoul: false,
+///     moonsign_benediction: None,
+///     moonsign_talent_enhancements: &[],
 /// };
 /// let result = resolve_team_stats(&[member], 0, &[]).unwrap();
 /// assert!(result.final_stats.atk > 0.0);
@@ -455,7 +474,113 @@ fn build_moonsign_context(team: &[TeamMember]) -> MoonsignContext {
         0.0
     };
 
-    resolve_moonsign_context(moonsign_count, &benedictions, non_moonsign_bonus, vec![])
+    let active_enhancements = collect_active_enhancements(team, moonsign_count);
+    resolve_moonsign_context(
+        moonsign_count,
+        &benedictions,
+        non_moonsign_bonus,
+        active_enhancements,
+    )
+}
+
+/// Filter each member's `moonsign_talent_enhancements` by the resolved team
+/// moonsign level and return the flat list of enhancements that are active.
+fn collect_active_enhancements(
+    team: &[TeamMember],
+    moonsign_count: usize,
+) -> Vec<MoonsignTalentEnhancement> {
+    let level = crate::moonsign::determine_moonsign_level(moonsign_count);
+    team.iter()
+        .flat_map(|m| m.moonsign_talent_enhancements.iter())
+        .filter(|e| enhancement_is_active(e.required_level, level))
+        .cloned()
+        .collect()
+}
+
+fn enhancement_is_active(required: MoonsignLevel, current: MoonsignLevel) -> bool {
+    matches!(
+        (required, current),
+        (MoonsignLevel::None, _)
+            | (
+                MoonsignLevel::NascentGleam,
+                MoonsignLevel::NascentGleam | MoonsignLevel::AscendantGleam,
+            )
+            | (MoonsignLevel::AscendantGleam, MoonsignLevel::AscendantGleam)
+    )
+}
+
+/// Convert Moonsign talent enhancements with `StatBuff` / `ReactionDmgBonus`
+/// effects into `ResolvedBuff`s so they flow through the normal team buff
+/// resolution (applied_buffs + final_stats + damage_context).
+///
+/// Each enhancement is attributed to a specific member via
+/// `moonsign_talent_enhancements`, which determines the buff `target` scope
+/// (OnlySelf / Team / TeamExcludeSelf) — the buff is only included in
+/// `applied_buffs` for the target member if the scope matches.
+fn enhancement_buffs_for_target(
+    team: &[TeamMember],
+    target_index: usize,
+    level: MoonsignLevel,
+) -> Vec<ResolvedBuff> {
+    let mut out = Vec::new();
+    for (idx, member) in team.iter().enumerate() {
+        for ench in member.moonsign_talent_enhancements {
+            if !enhancement_is_active(ench.required_level, level) {
+                continue;
+            }
+            match &ench.effect {
+                MoonsignTalentEffect::StatBuff {
+                    stat,
+                    value,
+                    target,
+                } => {
+                    if !target_receives(*target, idx, target_index) {
+                        continue;
+                    }
+                    out.push(ResolvedBuff {
+                        source: format!("Moonsign: {} — {}", ench.character_name, ench.description),
+                        stat: *stat,
+                        value: *value,
+                        target: *target,
+                        origin: Some(format!(
+                            "moonsign:{}:{:?}",
+                            ench.character_name, ench.required_level
+                        )),
+                    });
+                }
+                MoonsignTalentEffect::ReactionDmgBonus { reaction, bonus } => {
+                    // ReactionDmgBonus enhancements are treated as Team by
+                    // default because their game semantics typically benefit
+                    // every reaction triggerer. Future extension: add explicit
+                    // target field to the variant if any effect is self-only.
+                    out.push(ResolvedBuff {
+                        source: format!("Moonsign: {} — {}", ench.character_name, ench.description),
+                        stat: BuffableStat::ReactionDmgBonus(*reaction),
+                        value: *bonus,
+                        target: BuffTarget::Team,
+                        origin: Some(format!(
+                            "moonsign:{}:{:?}",
+                            ench.character_name, ench.required_level
+                        )),
+                    });
+                }
+                MoonsignTalentEffect::GrantReactionCrit { .. } => {
+                    // Intentionally left out — crit grants apply at the lunar
+                    // pipeline via apply_moonsign_enhancements and have no
+                    // BuffableStat equivalent.
+                }
+            }
+        }
+    }
+    out
+}
+
+fn target_receives(target: BuffTarget, provider_idx: usize, target_idx: usize) -> bool {
+    match target {
+        BuffTarget::Team => true,
+        BuffTarget::OnlySelf => provider_idx == target_idx,
+        BuffTarget::TeamExcludeSelf => provider_idx != target_idx,
+    }
 }
 
 /// Resolves team buffs with detailed breakdown.
@@ -476,7 +601,15 @@ pub fn resolve_team_stats_detailed(
     let base_profile = &team[target_index].stats;
     let base_stats = combine_stats(base_profile)?;
 
-    let applied_buffs = collect_buffs(team, target_index, resonance_activations);
+    let moonsign_count = team.iter().filter(|m| m.is_moonsign).count();
+    let moonsign_level = crate::moonsign::determine_moonsign_level(moonsign_count);
+
+    let mut applied_buffs = collect_buffs(team, target_index, resonance_activations);
+    applied_buffs.extend(enhancement_buffs_for_target(
+        team,
+        target_index,
+        moonsign_level,
+    ));
     let buffed_profile = apply_buffs_to_profile(base_profile, &applied_buffs);
     let final_stats = combine_stats(&buffed_profile)?;
 
@@ -521,6 +654,7 @@ mod tests {
             is_moonsign: false,
             can_nightsoul: false,
             moonsign_benediction: None,
+            moonsign_talent_enhancements: &[],
         }
     }
 

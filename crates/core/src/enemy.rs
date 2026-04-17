@@ -745,6 +745,7 @@ mod tests {
             is_moonsign: false,
             can_nightsoul: false,
             moonsign_benediction: None,
+            moonsign_talent_enhancements: &[],
         };
 
         let support = TeamMember {
@@ -788,6 +789,7 @@ mod tests {
             is_moonsign: false,
             can_nightsoul: false,
             moonsign_benediction: None,
+            moonsign_talent_enhancements: &[],
         };
 
         let team = vec![dps, support];

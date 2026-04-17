@@ -33,6 +33,7 @@ fn test_bennett_kazuha_team_damage() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
 
     let team = [bennett, dps];
