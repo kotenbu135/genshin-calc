@@ -26,6 +26,7 @@ fn dummy_member(element: Element, base_def: f64) -> TeamMember {
         buffs_provided: vec![],
         is_moonsign: false,
         can_nightsoul: false,
+        moonsign_benediction: None,
     }
 }
 

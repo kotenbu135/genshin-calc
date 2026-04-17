@@ -3,6 +3,9 @@ use serde::{Deserialize, Serialize};
 use crate::buff_types::BuffableStat;
 use crate::enemy::{EnemyDebuffs, collect_enemy_debuffs};
 use crate::error::CalcError;
+use crate::moonsign::{
+    MoonsignBenediction, MoonsignContext, non_moonsign_scaling, resolve_moonsign_context,
+};
 use crate::reaction::{Reaction, ReactionCategory};
 use crate::resonance::{
     ElementalResonance, determine_resonances, resonance_buffs, resonance_conditional_buffs,
@@ -54,6 +57,10 @@ pub struct TeamMember {
     pub is_moonsign: bool,
     /// Whether this character can use Nightsoul's Blessing (夜魂の加護).
     pub can_nightsoul: bool,
+    /// Moonsign Benediction passive spec, if the character has one.
+    /// Used by `resolve_team_stats` to build [`crate::MoonsignContext`].
+    #[serde(default)]
+    pub moonsign_benediction: Option<crate::moonsign::MoonsignBenedictionSpec>,
 }
 
 /// Aggregated attack-type-specific DMG bonuses, flat DMG, and reaction bonuses
@@ -147,7 +154,10 @@ impl DamageContext {
 }
 
 /// Detailed result of team buff resolution.
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+///
+/// Only `Serialize` is derived because [`MoonsignContext::talent_enhancements`]
+/// contains `&'static str` fields (Deserialize not supported).
+#[derive(Debug, Clone, PartialEq, serde::Serialize)]
 pub struct TeamResolveResult {
     /// Stats before team buffs.
     pub base_stats: Stats,
@@ -161,6 +171,9 @@ pub struct TeamResolveResult {
     pub damage_context: DamageContext,
     /// Enemy resistance and DEF reduction from team debuffs.
     pub enemy_debuffs: EnemyDebuffs,
+    /// Team-level Moonsign context (level, per-reaction base DMG bonus,
+    /// non-moonsign lunar bonus, talent enhancements).
+    pub moonsign_context: crate::moonsign::MoonsignContext,
 }
 
 /// Returns true if the buff is unconditional (can be applied to StatProfile directly).
@@ -403,6 +416,48 @@ pub fn resolve_team_stats(
     resolve_team_stats_detailed(team, target_index, resonance_activations)
 }
 
+/// Build a [`MoonsignContext`] from a team by resolving each member's
+/// `moonsign_benediction` spec against their own base stats, counting moonsign
+/// members for the level, and computing the non-moonsign lunar bonus cap from
+/// the strongest non-moonsign member.
+fn build_moonsign_context(team: &[TeamMember]) -> MoonsignContext {
+    let moonsign_count = team.iter().filter(|m| m.is_moonsign).count();
+
+    let benedictions: Vec<MoonsignBenediction> = team
+        .iter()
+        .filter_map(|m| {
+            m.moonsign_benediction.as_ref().map(|spec| {
+                let stats = combine_stats(&m.stats).unwrap_or_default();
+                spec.resolve(&stats)
+            })
+        })
+        .collect();
+
+    let non_moonsign_bonus = if moonsign_count >= 2 {
+        team.iter()
+            .filter(|m| !m.is_moonsign)
+            .map(|m| {
+                let stats = combine_stats(&m.stats).unwrap_or_default();
+                let buff = non_moonsign_scaling(m.element);
+                let stat_value = match buff.scaling_stat {
+                    crate::types::ScalingStat::Atk | crate::types::ScalingStat::TotalAtk => {
+                        stats.atk
+                    }
+                    crate::types::ScalingStat::Hp => stats.hp,
+                    crate::types::ScalingStat::Def => stats.def,
+                    crate::types::ScalingStat::Em => stats.elemental_mastery,
+                    crate::types::ScalingStat::CritRate => 0.0,
+                };
+                (buff.rate * stat_value).min(buff.max_bonus)
+            })
+            .fold(0.0_f64, f64::max)
+    } else {
+        0.0
+    };
+
+    resolve_moonsign_context(moonsign_count, &benedictions, non_moonsign_bonus, vec![])
+}
+
 /// Resolves team buffs with detailed breakdown.
 ///
 /// `applied_buffs` contains all buffs including conditional ones.
@@ -430,6 +485,7 @@ pub fn resolve_team_stats_detailed(
 
     let damage_context = DamageContext::from_buffs(&applied_buffs);
     let enemy_debuffs = collect_enemy_debuffs(&applied_buffs);
+    let moonsign_context = build_moonsign_context(team);
 
     Ok(TeamResolveResult {
         base_stats,
@@ -437,6 +493,7 @@ pub fn resolve_team_stats_detailed(
         resonances,
         final_stats,
         damage_context,
+        moonsign_context,
         enemy_debuffs,
     })
 }
@@ -463,6 +520,7 @@ mod tests {
             buffs_provided: vec![],
             is_moonsign: false,
             can_nightsoul: false,
+            moonsign_benediction: None,
         }
     }
 
