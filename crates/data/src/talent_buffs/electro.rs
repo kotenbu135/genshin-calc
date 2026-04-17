@@ -90,28 +90,14 @@ static LISA_BUFFS: &[TalentBuffDef] = &[TalentBuffDef {
 }];
 
 // ===== Flins =====
-// A1 passive "Symphony of Winter": Lunar-Charged DMG +20% (self, Toggle)
+// A1 "Symphony of Winter" (Lunar-Charged DMG +20% at Ascendant Gleam): moved
+// to moonsign_chars.rs::FLINS_TALENT_ENHANCEMENTS (Issue #144) — it is a
+// Moonsign-level-gated effect, routed via the moonsign enhancement pipeline.
 // A4 passive "Whispering Flame": EM += total ATK × 0.08, capped at 160
 // C4 "Night on Bald Mountain": ATK +20%
 // C2: Opponents' Electro RES -25% during Ascendant Gleam Moonsign
 // C6: Flins's Lunar-Charged DMG +35%, Party Lunar-Charged DMG +10% during Moonsign
 static FLINS_BUFFS: &[TalentBuffDef] = &[
-    TalentBuffDef {
-        name: "Symphony of Winter",
-        description: desc!(
-            "A1: Lunar-Charged reactions triggered by Flins deal an additional 20% DMG"
-        ),
-        stat: BuffableStat::TransformativeBonus,
-        base_value: 0.20,
-        scales_with_talent: false,
-        talent_scaling: None,
-        scales_on: None,
-        target: BuffTarget::OnlySelf,
-        source: TalentBuffSource::AscensionPassive(1),
-        min_constellation: 0,
-        cap: None,
-        activation: Some(Activation::Manual(ManualCondition::Toggle)),
-    },
     TalentBuffDef {
         name: "Whispering Flame EM Bonus",
         description: desc!("A4: Flins gains EM equal to 8% of her total ATK (max 160)"),
