@@ -34,6 +34,8 @@
 //!     buffs_provided: vec![],
 //!     is_moonsign: false,
 //!     can_nightsoul: false,
+//!     moonsign_benediction: None,
+//!     moonsign_talent_enhancements: &[],
 //! };
 //! let support = TeamMember {
 //!     element: Element::Pyro,
@@ -52,6 +54,8 @@
 //!     }],
 //!     is_moonsign: false,
 //!     can_nightsoul: false,
+//!     moonsign_benediction: None,
+//!     moonsign_talent_enhancements: &[],
 //! };
 //! let result = resolve_team_stats(&[dps, support], 0, &[]).unwrap();
 //! assert!(result.final_stats.atk > 900.0); // DPS gets Bennett's ATK buff

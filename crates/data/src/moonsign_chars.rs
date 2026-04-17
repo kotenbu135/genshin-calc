@@ -177,26 +177,103 @@ pub const NEFER_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[MoonsignTa
 }];
 
 /// Talent enhancements for Aino.
-/// C6 reaction DMG bonus varies by Moonsign level: Lv1=+15%, Lv2=+35%.
+/// C6: For 15s after Burst, DMG from nearby active characters' Electro-Charged,
+/// Bloom, Lunar-Charged, Lunar-Bloom, and Lunar-Crystallize reactions is
+/// increased. Nascent Gleam grants +15%, Ascendant Gleam adds another +20%
+/// (total +35%).
+///
+/// Implementation note: each `ReactionDmgBonus` variant targets a single
+/// reaction, so the 5 affected reactions expand into 5 entries per level.
 pub const AINO_TALENT_ENHANCEMENTS: &[MoonsignTalentEnhancement] = &[
+    // Nascent Gleam: +15% to each of the 5 reactions.
     MoonsignTalentEnhancement {
         character_name: "Aino",
         required_level: MoonsignLevel::NascentGleam,
-        description: desc!("C6: At Nascent Gleam+, reaction DMG +15% for 15s after Burst"),
-        effect: MoonsignTalentEffect::StatBuff {
-            stat: BuffableStat::TransformativeBonus,
-            value: 0.15,
-            target: BuffTarget::Team,
+        description: desc!("C6: Electro-Charged +15% for 15s after Burst (Nascent Gleam+)"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::ElectroCharged,
+            bonus: 0.15,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::NascentGleam,
+        description: desc!("C6: Bloom +15% for 15s after Burst (Nascent Gleam+)"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::Bloom,
+            bonus: 0.15,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::NascentGleam,
+        description: desc!("C6: Lunar-Charged +15% for 15s after Burst (Nascent Gleam+)"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::LunarElectroCharged,
+            bonus: 0.15,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::NascentGleam,
+        description: desc!("C6: Lunar-Bloom +15% for 15s after Burst (Nascent Gleam+)"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::LunarBloom,
+            bonus: 0.15,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::NascentGleam,
+        description: desc!("C6: Lunar-Crystallize +15% for 15s after Burst (Nascent Gleam+)"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::LunarCrystallize,
+            bonus: 0.15,
+        },
+    },
+    // Ascendant Gleam: additional +20% on each of the same 5 reactions.
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::AscendantGleam,
+        description: desc!("C6: Electro-Charged additional +20% at Ascendant Gleam"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::ElectroCharged,
+            bonus: 0.20,
         },
     },
     MoonsignTalentEnhancement {
         character_name: "Aino",
         required_level: MoonsignLevel::AscendantGleam,
-        description: desc!(
-            "C6: At Ascendant Gleam, reaction DMG bonus increases by +20% (total +35%)"
-        ),
+        description: desc!("C6: Bloom additional +20% at Ascendant Gleam"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::Bloom,
+            bonus: 0.20,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::AscendantGleam,
+        description: desc!("C6: Lunar-Charged additional +20% at Ascendant Gleam"),
         effect: MoonsignTalentEffect::ReactionDmgBonus {
             reaction: Reaction::LunarElectroCharged,
+            bonus: 0.20,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::AscendantGleam,
+        description: desc!("C6: Lunar-Bloom additional +20% at Ascendant Gleam"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::LunarBloom,
+            bonus: 0.20,
+        },
+    },
+    MoonsignTalentEnhancement {
+        character_name: "Aino",
+        required_level: MoonsignLevel::AscendantGleam,
+        description: desc!("C6: Lunar-Crystallize additional +20% at Ascendant Gleam"),
+        effect: MoonsignTalentEffect::ReactionDmgBonus {
+            reaction: Reaction::LunarCrystallize,
             bonus: 0.20,
         },
     },
@@ -224,19 +301,27 @@ pub fn calculate_benediction_bonus(def: &MoonsignBenedictionDef, stat_value: f64
     (def.rate * stat_value).min(def.max_bonus)
 }
 
+/// Return the raw (unfiltered) moonsign talent enhancements for a character.
+/// Used by `TeamMemberBuilder` to populate `TeamMember::moonsign_talent_enhancements`;
+/// the level filter is applied at team resolution time.
+#[must_use]
+pub fn all_moonsign_talent_enhancements(id: &str) -> &'static [MoonsignTalentEnhancement] {
+    match id {
+        "lauma" => LAUMA_TALENT_ENHANCEMENTS,
+        "flins" => FLINS_TALENT_ENHANCEMENTS,
+        "nefer" => NEFER_TALENT_ENHANCEMENTS,
+        "aino" => AINO_TALENT_ENHANCEMENTS,
+        _ => &[],
+    }
+}
+
 /// Get talent enhancements for a character, filtered by moonsign level.
 #[must_use]
 pub fn find_moonsign_talent_enhancements(
     id: &str,
     level: MoonsignLevel,
 ) -> Vec<&'static MoonsignTalentEnhancement> {
-    let enhancements: &[MoonsignTalentEnhancement] = match id {
-        "lauma" => LAUMA_TALENT_ENHANCEMENTS,
-        "flins" => FLINS_TALENT_ENHANCEMENTS,
-        "nefer" => NEFER_TALENT_ENHANCEMENTS,
-        "aino" => AINO_TALENT_ENHANCEMENTS,
-        _ => &[],
-    };
+    let enhancements: &[MoonsignTalentEnhancement] = all_moonsign_talent_enhancements(id);
     enhancements
         .iter()
         .filter(|e| {
@@ -333,16 +418,22 @@ mod tests {
     #[test]
     fn test_aino_talent_enhancements_at_ascendant_gleam() {
         let enhancements = find_moonsign_talent_enhancements("aino", MoonsignLevel::AscendantGleam);
-        // NascentGleam (+15%) + AscendantGleam (+20%) = 2 enhancements
-        assert_eq!(enhancements.len(), 2);
+        // 5 Nascent (+15% each) + 5 Ascendant (+20% each) = 10 enhancements
+        // covering ElectroCharged / Bloom / LunarElectroCharged / LunarBloom /
+        // LunarCrystallize per B3 fix.
+        assert_eq!(enhancements.len(), 10);
     }
 
     #[test]
     fn test_aino_talent_enhancements_at_nascent_gleam() {
         let enhancements = find_moonsign_talent_enhancements("aino", MoonsignLevel::NascentGleam);
-        // C6 base +15% activates at NascentGleam
-        assert_eq!(enhancements.len(), 1);
-        assert_eq!(enhancements[0].required_level, MoonsignLevel::NascentGleam);
+        // 5 NascentGleam entries for the 5 affected reactions.
+        assert_eq!(enhancements.len(), 5);
+        assert!(
+            enhancements
+                .iter()
+                .all(|e| e.required_level == MoonsignLevel::NascentGleam)
+        );
     }
 
     #[test]
