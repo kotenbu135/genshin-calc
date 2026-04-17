@@ -233,6 +233,9 @@ impl TeamMemberBuilder {
                 rate: def.rate,
                 max_bonus: def.max_bonus,
             }),
+            moonsign_talent_enhancements: crate::moonsign_chars::all_moonsign_talent_enhancements(
+                self.character.id,
+            ),
         }
     }
 

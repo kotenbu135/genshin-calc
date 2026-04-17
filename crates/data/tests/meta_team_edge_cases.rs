@@ -62,6 +62,7 @@ fn edge_res_shred_stacking() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
 
     let team = [dps, kazuha, zhongli];
@@ -379,6 +380,7 @@ fn edge_furina_fanfare_scaling() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
 
     let team_no_stacks = [furina, dps.clone()];
@@ -748,6 +750,7 @@ fn edge_bennett_c6_pyro_dmg() {
         is_moonsign: false,
         can_nightsoul: false,
         moonsign_benediction: None,
+        moonsign_talent_enhancements: &[],
     };
 
     let team = [bennett_c6, dps];
